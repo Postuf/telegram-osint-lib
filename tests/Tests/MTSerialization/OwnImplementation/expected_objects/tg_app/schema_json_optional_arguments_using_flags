@@ -1,0 +1,9 @@
+{
+    "_": "inputMediaPhoto_TestEdition",
+    "flags": 13,
+    "some_optional_int_1": 666,
+    "some_optional_long": 777,
+    "some_int": 888,
+    "some_optional_int_2": null,
+    "some_optional_true": true
+}

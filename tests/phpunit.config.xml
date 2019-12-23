@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phpunit bootstrap="TestClassLoader.php">
+  <filter>
+    <whitelist processUncoveredFilesFromWhitelist="true">
+      <directory suffix=".php">../src</directory>
+    </whitelist>
+  </filter>
+</phpunit>

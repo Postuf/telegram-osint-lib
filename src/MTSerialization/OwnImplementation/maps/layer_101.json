@@ -1,0 +1,38 @@
+{
+    "constructors": [
+        {
+            "id": "-17968211",
+            "predicate": "contacts.myLinkEmpty",
+            "params": []
+        },
+        {
+            "id": "1599050311",
+            "predicate": "contacts.myLinkUnKnown",
+            "params": []
+        },
+        {
+            "id": "-721239344",
+            "predicate": "contacts.myLinkContact",
+            "params": []
+        },
+        {
+            "id": "986597452",
+            "predicate": "contactsLink",
+            "params": [
+                {
+                    "name": "foreign_link",
+                    "type": "ForeignLink"
+                },
+                {
+                    "name": "my_link",
+                    "type": "ForeignLink"
+                },
+                {
+                    "name": "user",
+                    "type": "User"
+                }
+            ]
+        }
+    ],
+    "methods": []
+}

@@ -1,0 +1,25 @@
+{
+    "_": "updateShort",
+    "update": {
+        "_": "updateUserPhoto",
+        "user_id": 152318699,
+        "photo": {
+            "_": "userProfilePhotos",
+            "small": {
+                "_": "fileLocation",
+                "dc_id": 4,
+                "volume_id": 446629238,
+                "local_id": 77293,
+                "secret": -3715976868399447060
+            },
+            "large": {
+                "_": "fileLocation",
+                "dc_id": 4,
+                "volume_id": 446629238,
+                "local_id": 77295,
+                "secret": 5876434703376149130
+            }
+        }
+    },
+    "date": 1530963664
+}

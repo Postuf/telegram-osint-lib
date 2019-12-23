@@ -1,0 +1,25 @@
+{
+    "_": "auth.sentCode",
+    "flags": 14,
+    "type": {
+        "_": "auth.sentCodeTypeSms",
+        "length": 5
+    },
+    "phone_code_hash": "4de846bee2d192b0de",
+    "next_type": {
+        "_": "auth.codeTypeCall"
+    },
+    "timeout": 120,
+    "terms_of_service": {
+        "_": "help.termsOfService",
+        "flags": 0,
+        "popup": false,
+        "id": {
+            "_": "dataJSON",
+            "data": "{\"country\":\"RU\",\"min_age\":false,\"terms_key\":\"TERMS_OF_SERVICE\",\"terms_lang\":\"en\",\"terms_version\":1,\"terms_hash\":\"7dca806cb8d387c07c778ce9ef6aac04\"}"
+        },
+        "text": "By signing up for Telegram, you agree not to:\n\n- Use our service to send spam or scam users.\n- Promote violence on publicly viewable Telegram bots, groups or channels.\n- Post pornographic content on publicly viewable Telegram bots, groups or channels.\n\nWe reserve the right to update these Terms of Service later.",
+        "entities": [],
+        "min_age_confirm": null
+    }
+}

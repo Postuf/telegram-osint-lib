@@ -1,0 +1,193 @@
+{
+    "_": "help.Config",
+    "bit_mask": "1111100000100",
+    "date": 1531569651,
+    "expires": 1531572738,
+    "test_mode": {
+        "_": "boolFalse"
+    },
+    "this_dc": 4,
+    "dc_option": [
+        {
+            "_": "help.dcOption",
+            "bit_mask": "0",
+            "id": 1,
+            "ip_address": "149.154.175.50",
+            "port": 443,
+            "secret": null
+        },
+        {
+            "_": "help.dcOption",
+            "bit_mask": "10000",
+            "id": 1,
+            "ip_address": "149.154.175.50",
+            "port": 443,
+            "secret": null
+        },
+        {
+            "_": "help.dcOption",
+            "bit_mask": "1",
+            "id": 1,
+            "ip_address": "2001:0b28:f23d:f001:0000:0000:0000:000a",
+            "port": 443,
+            "secret": null
+        },
+        {
+            "_": "help.dcOption",
+            "bit_mask": "0",
+            "id": 2,
+            "ip_address": "149.154.167.50",
+            "port": 443,
+            "secret": null
+        },
+        {
+            "_": "help.dcOption",
+            "bit_mask": "0",
+            "id": 2,
+            "ip_address": "149.154.167.51",
+            "port": 443,
+            "secret": null
+        },
+        {
+            "_": "help.dcOption",
+            "bit_mask": "10000",
+            "id": 2,
+            "ip_address": "149.154.167.51",
+            "port": 443,
+            "secret": null
+        },
+        {
+            "_": "help.dcOption",
+            "bit_mask": "1",
+            "id": 2,
+            "ip_address": "2001:067c:04e8:f002:0000:0000:0000:000a",
+            "port": 443,
+            "secret": null
+        },
+        {
+            "_": "help.dcOption",
+            "bit_mask": "0",
+            "id": 3,
+            "ip_address": "149.154.175.100",
+            "port": 443,
+            "secret": null
+        },
+        {
+            "_": "help.dcOption",
+            "bit_mask": "10000",
+            "id": 3,
+            "ip_address": "149.154.175.100",
+            "port": 443,
+            "secret": null
+        },
+        {
+            "_": "help.dcOption",
+            "bit_mask": "1",
+            "id": 3,
+            "ip_address": "2001:0b28:f23d:f003:0000:0000:0000:000a",
+            "port": 443,
+            "secret": null
+        },
+        {
+            "_": "help.dcOption",
+            "bit_mask": "0",
+            "id": 4,
+            "ip_address": "149.154.167.92",
+            "port": 443,
+            "secret": null
+        },
+        {
+            "_": "help.dcOption",
+            "bit_mask": "10000",
+            "id": 4,
+            "ip_address": "149.154.167.91",
+            "port": 443,
+            "secret": null
+        },
+        {
+            "_": "help.dcOption",
+            "bit_mask": "1",
+            "id": 4,
+            "ip_address": "2001:067c:04e8:f004:0000:0000:0000:000a",
+            "port": 443,
+            "secret": null
+        },
+        {
+            "_": "help.dcOption",
+            "bit_mask": "10",
+            "id": 4,
+            "ip_address": "149.154.166.120",
+            "port": 443,
+            "secret": null
+        },
+        {
+            "_": "help.dcOption",
+            "bit_mask": "11",
+            "id": 4,
+            "ip_address": "2001:067c:04e8:f004:0000:0000:0000:000b",
+            "port": 443,
+            "secret": null
+        },
+        {
+            "_": "help.dcOption",
+            "bit_mask": "1",
+            "id": 5,
+            "ip_address": "2001:0b28:f23f:f005:0000:0000:0000:000a",
+            "port": 443,
+            "secret": null
+        },
+        {
+            "_": "help.dcOption",
+            "bit_mask": "10000",
+            "id": 5,
+            "ip_address": "91.108.56.130",
+            "port": 443,
+            "secret": null
+        },
+        {
+            "_": "help.dcOption",
+            "bit_mask": "0",
+            "id": 5,
+            "ip_address": "91.108.56.127",
+            "port": 443,
+            "secret": null
+        }
+    ],
+    "dc_txt_domain_name": "apv2.stel.com",
+    "chat_size_max": 200,
+    "megagroup_size_max": 100000,
+    "forwarded_count_max": 100,
+    "online_update_period_ms": 120000,
+    "offline_blur_timeout_ms": 5000,
+    "offline_idle_timeout_ms": 30000,
+    "online_cloud_timeout_ms": 300000,
+    "notify_cloud_delay_ms": 30000,
+    "notify_default_delay_ms": 1500,
+    "push_chat_period_ms": 60000,
+    "push_chat_limit": 2,
+    "saved_gifs_limit": 200,
+    "edit_time_limit": 172800,
+    "revoke_time_limit": 172800,
+    "revoke_pm_time_limit": 172800,
+    "rating_e_decay": 2419200,
+    "stickers_recent_limit": 200,
+    "stickers_faved_limit": 5,
+    "channels_read_media_period": 604800,
+    "tmp_sessions": null,
+    "pinned_dialogs_count_max": 5,
+    "call_receive_timeout_ms": 20000,
+    "call_ring_timeout_ms": 90000,
+    "call_connect_timeout_ms": 30000,
+    "call_packet_timeout_ms": 10000,
+    "me_url_prefix": "https:\/\/t.me\/",
+    "autoupdate_url_prefix": null,
+    "gif_search_username": "gif",
+    "venue_search_username": "foursquare",
+    "img_search_username": "bing",
+    "static_maps_provider": "google:AIzaSyB0y3zA4LbA04ZPaHKsr_Xt5ZQWbMftj8I+mtignore",
+    "caption_length_max": 200,
+    "message_length_max": 4096,
+    "webfile_dc_id": 4,
+    "suggested_lang_code": "ru",
+    "lang_pack_version": 76
+}

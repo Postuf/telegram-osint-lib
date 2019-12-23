@@ -1,0 +1,44 @@
+{
+    "_": "rpc_result",
+    "req_msg_id": 6550954788700327328,
+    "result": {
+        "_": "contacts.importedContacts",
+        "imported": [
+            {
+                "_": "importedContact",
+                "user_id": 162782547,
+                "client_id": 1
+            }
+        ],
+        "users": [
+            {
+                "_": "userContact",
+                "id": 162782547,
+                "first_name": "",
+                "last_name": "",
+                "access_hash": -7228335473907974088,
+                "phone": "79255677627",
+                "photo": {
+                    "_": "userProfilePhotos",
+                    "small": {
+                        "_": "fileLocation",
+                        "dc_id": 2,
+                        "volume_id": 245006913,
+                        "local_id": 37570,
+                        "secret": -2725963226938452134
+                    },
+                    "large": {
+                        "_": "fileLocation",
+                        "dc_id": 2,
+                        "volume_id": 245006913,
+                        "local_id": 37572,
+                        "secret": -5784905320335663072
+                    }
+                },
+                "status": {
+                    "_": "userStatusEmpty"
+                }
+            }
+        ]
+    }
+}

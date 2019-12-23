@@ -1,0 +1,39 @@
+{
+    "_": "updates",
+    "updates": [
+        {
+            "_": "contacts.updateContactLink",
+            "user_id": 399574953,
+            "my_link": {
+                "_": "contacts.myLinkContact"
+            },
+            "foreign_link": {
+                "_": "contacts.myLinkUnKnown"
+            }
+        }
+    ],
+    "users": [
+        {
+            "_": "user",
+            "flags": 2143,
+            "id": 399574953,
+            "access_hash": -2038093646811617831,
+            "first_name": "name_6594301811",
+            "last_name": "l_8424348b55",
+            "username": "Ekneng",
+            "phone": "6594301811",
+            "photo": null,
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1531134744
+            },
+            "bot_info_version": null,
+            "restriction_reason": null,
+            "bot_inline_placeholder": null,
+            "lang_code": null
+        }
+    ],
+    "chats": [],
+    "date": 1531139012,
+    "seq": 5
+}

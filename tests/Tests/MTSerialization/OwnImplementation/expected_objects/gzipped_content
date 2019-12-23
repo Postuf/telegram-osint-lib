@@ -1,0 +1,79 @@
+{
+    "_": "rpc_result",
+    "req_msg_id": 6551739174283496836,
+    "result": {
+        "_": "contacts.importedContacts",
+        "imported": [
+            {
+                "_": "importedContact",
+                "user_id": 167933533,
+                "client_id": 1
+            },
+            {
+                "_": "importedContact",
+                "user_id": 581320959,
+                "client_id": 1
+            }
+        ],
+        "users": [
+            {
+                "_": "userContact",
+                "id": 167933533,
+                "first_name": "",
+                "last_name": "",
+                "access_hash": 2188768726030096890,
+                "phone": "79269873316",
+                "photo": {
+                    "_": "userProfilePhotos",
+                    "small": {
+                        "_": "fileLocation",
+                        "dc_id": 2,
+                        "volume_id": 713234168,
+                        "local_id": 68852,
+                        "secret": 2758988933971117405
+                    },
+                    "large": {
+                        "_": "fileLocation",
+                        "dc_id": 2,
+                        "volume_id": 713234168,
+                        "local_id": 68854,
+                        "secret": -7206781020958272560
+                    }
+                },
+                "status": {
+                    "_": "userStatusOffline",
+                    "was_online": 1525443658
+                }
+            },
+            {
+                "_": "userContact",
+                "id": 581320959,
+                "first_name": "",
+                "last_name": "",
+                "access_hash": -244084664757971298,
+                "phone": "79256801535",
+                "photo": {
+                    "_": "userProfilePhotos",
+                    "small": {
+                        "_": "fileLocation",
+                        "dc_id": 2,
+                        "volume_id": 246225815,
+                        "local_id": 39195,
+                        "secret": 9108374241179711981
+                    },
+                    "large": {
+                        "_": "fileLocation",
+                        "dc_id": 2,
+                        "volume_id": 246225815,
+                        "local_id": 39197,
+                        "secret": 2137751332249355657
+                    }
+                },
+                "status": {
+                    "_": "userStatusOffline",
+                    "was_online": 1524472857
+                }
+            }
+        ]
+    }
+}

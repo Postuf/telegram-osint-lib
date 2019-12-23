@@ -1,0 +1,151 @@
+[
+
+    {
+        "brand": "samsung",
+        "sdks": [21,22,23,24,25,26,27],
+        "model": "GT-N8020"
+    },
+    {
+        "brand": "samsung",
+        "sdks": [21,22,23,24,25,26,27],
+        "model": "GT-N8000"
+    },
+
+
+    {
+        "brand": "samsung",
+        "sdks": [26,27],
+        "model": "SM-G9500"
+    },
+    {
+        "brand": "samsung",
+        "sdks": [26,27],
+        "model": "SM-G950A"
+    },
+    {
+        "brand": "samsung",
+        "sdks": [26,27],
+        "model": "SM-G950F"
+    },
+    {
+        "brand": "samsung",
+        "sdks": [26,27],
+        "model": "SM-G950FD"
+    },
+    {
+        "brand": "samsung",
+        "sdks": [26,27],
+        "model": "SM-G950N"
+    },
+    {
+        "brand": "samsung",
+        "sdks": [26,27],
+        "model": "SM-G950W"
+    },
+    {
+        "brand": "samsung",
+        "sdks": [26,27],
+        "model": "SM-G950U"
+    },
+
+
+    {
+        "brand": "samsung",
+        "sdks": [27],
+        "model": "SM-G960F"
+    },
+    {
+        "brand": "samsung",
+        "sdks": [27],
+        "model": "SM-G960N"
+    },
+    {
+        "brand": "samsung",
+        "sdks": [27],
+        "model": "SM-G9600"
+    },
+    {
+        "brand": "samsung",
+        "sdks": [27],
+        "model": "SM-G960W"
+    },
+    {
+        "brand": "samsung",
+        "sdks": [27],
+        "model": "SM-G960U"
+    },
+    {
+        "brand": "samsung",
+        "sdks": [27],
+        "model": "SM-G960U1"
+    },
+
+
+    {
+        "brand": "huawei",
+        "sdks": [27],
+        "model": "STF-AL00"
+    },
+    {
+        "brand": "huawei",
+        "sdks": [27],
+        "model": "STF-AL10"
+    },
+    {
+        "brand": "huawei",
+        "sdks": [27],
+        "model": "STF-L09"
+    },
+    {
+        "brand": "huawei",
+        "sdks": [27],
+        "model": "STF-TL10"
+    },
+    {
+        "brand": "huawei",
+        "sdks": [27],
+        "model": "ALP-AL00"
+    },
+    {
+        "brand": "huawei",
+        "sdks": [27],
+        "model": "ALP-L09"
+    },
+    {
+        "brand": "huawei",
+        "sdks": [27],
+        "model": "ALP-L29"
+    },
+    {
+        "brand": "huawei",
+        "sdks": [27],
+        "model": "ALP-TL00"
+    },
+    {
+        "brand": "huawei",
+        "sdks": [27],
+        "model": "BLA-A09"
+    },
+    {
+        "brand": "huawei",
+        "sdks": [27],
+        "model": "BLA-AL00"
+    },
+    {
+        "brand": "huawei",
+        "sdks": [27],
+        "model": "BLA-L09"
+    },
+    {
+        "brand": "huawei",
+        "sdks": [27],
+        "model": "BLA-L29"
+    },
+
+
+    {
+        "brand": "HTC",
+        "sdks": [27],
+        "model": "M10"
+    }
+]

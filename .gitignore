@@ -1,0 +1,7 @@
+.idea
+*.phar
+composer.lock
+*.cache
+vendor
+.DS_Store
+docs

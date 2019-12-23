@@ -1,0 +1,17 @@
+{
+    "_": "msg_container",
+    "declared_count": 2,
+    "messages": [
+        {
+            "_": "new_session_created",
+            "first_msg_id": 6550936814262358764,
+            "unique_id": 5587525975914429231,
+            "server_salt": 7560268910216614015
+        },
+        {
+            "_": "pong",
+            "msg_id": 6550936814262358764,
+            "ping_id": -4257603469128019941
+        }
+    ]
+}

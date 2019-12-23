@@ -1,0 +1,154 @@
+{
+    "constructors": [
+        {
+            "id": "-218397927",
+            "predicate": "userContact",
+            "params": [
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "first_name",
+                    "type": "string"
+                },
+                {
+                    "name": "last_name",
+                    "type": "string"
+                },
+                {
+                    "name": "access_hash",
+                    "type": "long"
+                },
+                {
+                    "name": "phone",
+                    "type": "string"
+                },
+                {
+                    "name": "photo",
+                    "type": "UserProfilePhoto"
+                },
+                {
+                    "name": "status",
+                    "type": "UserStatus"
+                }
+            ],
+            "type": "User"
+        },
+        {
+            "id": "585682608",
+            "predicate": "userContact",
+            "params": [
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "first_name",
+                    "type": "string"
+                },
+                {
+                    "name": "last_name",
+                    "type": "string"
+                },
+                {
+                    "name": "access_hash",
+                    "type": "long"
+                },
+                {
+                    "name": "phone",
+                    "type": "string"
+                },
+                {
+                    "name": "photo",
+                    "type": "UserProfilePhoto"
+                },
+                {
+                    "name": "status",
+                    "type": "UserStatus"
+                }
+            ]
+        },
+        {
+            "id": "-1727196013",
+            "predicate": "userProfilePhotos",
+            "params": [
+                {
+                    "name": "small",
+                    "type": "fileLocation"
+                },
+                {
+                    "name": "large",
+                    "type": "fileLocation"
+                }
+            ],
+            "type": "UserProfilePhoto"
+        },
+        {
+            "id": "1377093789",
+            "predicate": "userForeign",
+            "params": [
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "first_name",
+                    "type": "string"
+                },
+                {
+                    "name": "last_name",
+                    "type": "string"
+                },
+                {
+                    "name": "access_hash",
+                    "type": "long"
+                },
+                {
+                    "name": "photo",
+                    "type": "UserProfilePhoto"
+                },
+                {
+                    "name": "status",
+                    "type": "UserStatus"
+                }
+            ],
+            "type": "User"
+        },
+        {
+            "id": "1912944108",
+            "predicate": "userSelf",
+            "params": [
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "first_name",
+                    "type": "string"
+                },
+                {
+                    "name": "last_name",
+                    "type": "string"
+                },
+                {
+                    "name": "phone",
+                    "type": "string"
+                },
+                {
+                    "name": "photo",
+                    "type": "userProfilePhotoEmpty"
+                },
+                {
+                    "name": "status",
+                    "type": "userStatusEmpty"
+                },
+                {
+                    "name": "inactive",
+                    "type": "Bool"
+                }
+            ]
+        }
+    ],
+    "methods": []
+}

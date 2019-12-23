@@ -1,0 +1,21 @@
+{
+    "name": "postuf-team/telegram-api-lib",
+    "require": {
+        "phpseclib/phpseclib": "^2.0",
+        "phpunit/phpunit": "^8.5",
+        "ext-dom": "*",
+        "ext-gmp": "*",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "ext-sockets": "*",
+        "ext-xml": "*",
+        "ext-zlib": "*",
+        "yidas/yii2-bower-asset": "2.0.13.1",
+        "yiisoft/yii2-apidoc": "^2.0"
+    },
+    "autoload": {
+        "files": ["ClassLoader.php"]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

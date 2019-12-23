@@ -1,0 +1,189 @@
+{
+    "_": "msg_container",
+    "declared_count": 3,
+    "messages": [
+        {
+            "_": "pong",
+            "msg_id": 6605836288831876008,
+            "ping_id": -2706166132669450443
+        },
+        {
+            "_": "updates",
+            "updates": [
+                {
+                    "_": "updateNewChannelMessage",
+                    "message": {
+                        "_": "messageService",
+                        "flags": 256,
+                        "out": false,
+                        "mentioned": false,
+                        "media_unread": false,
+                        "silent": false,
+                        "post": false,
+                        "legacy": false,
+                        "id": 4073,
+                        "from_id": 676188259,
+                        "to_id": {
+                            "_": "peerChannel",
+                            "channel_id": 1145900615
+                        },
+                        "reply_to_msg_id": null,
+                        "date": 1538041066,
+                        "action": {
+                            "_": "messageActionChatAddUser",
+                            "users": [
+                                676188259
+                            ]
+                        }
+                    },
+                    "pts": 4782,
+                    "pts_count": 1
+                }
+            ],
+            "users": [
+                {
+                    "_": "user",
+                    "flags": 1048642,
+                    "id": 676188259,
+                    "access_hash": null,
+                    "first_name": "Penansa",
+                    "last_name": null,
+                    "username": null,
+                    "phone": null,
+                    "photo": null,
+                    "status": {
+                        "_": "userStatusRecently"
+                    },
+                    "bot_info_version": null,
+                    "restriction_reason": null,
+                    "bot_inline_placeholder": null,
+                    "lang_code": null
+                }
+            ],
+            "chats": [
+                {
+                    "_": "channel",
+                    "flags": 5440,
+                    "id": 1145900615,
+                    "access_hash": null,
+                    "title": "Wendy Chat",
+                    "username": "WendyChat",
+                    "photo": {
+                        "_": "chatPhoto",
+                        "photo_small": {
+                            "_": "fileLocation",
+                            "dc_id": 2,
+                            "volume_id": 246108664,
+                            "local_id": 387983,
+                            "secret": 7432673190029175452
+                        },
+                        "photo_big": {
+                            "_": "fileLocation",
+                            "dc_id": 2,
+                            "volume_id": 246108664,
+                            "local_id": 387985,
+                            "secret": -829421416333396385
+                        }
+                    },
+                    "date": 1536876327,
+                    "version": 0,
+                    "restriction_reason": null,
+                    "admin_rights": null,
+                    "banned_rights": null,
+                    "participants_count": null
+                }
+            ],
+            "date": 1538041066,
+            "seq": 0
+        },
+        {
+            "_": "updates",
+            "updates": [
+                {
+                    "_": "updateNewChannelMessage",
+                    "message": {
+                        "_": "messageService",
+                        "flags": 256,
+                        "out": false,
+                        "mentioned": false,
+                        "media_unread": false,
+                        "silent": false,
+                        "post": false,
+                        "legacy": false,
+                        "id": 4074,
+                        "from_id": 619302827,
+                        "to_id": {
+                            "_": "peerChannel",
+                            "channel_id": 1145900615
+                        },
+                        "reply_to_msg_id": null,
+                        "date": 1538041104,
+                        "action": {
+                            "_": "messageActionChatAddUser",
+                            "users": [
+                                619302827
+                            ]
+                        }
+                    },
+                    "pts": 4783,
+                    "pts_count": 1
+                }
+            ],
+            "users": [
+                {
+                    "_": "user",
+                    "flags": 1048642,
+                    "id": 619302827,
+                    "access_hash": null,
+                    "first_name": "Raynar",
+                    "last_name": null,
+                    "username": null,
+                    "phone": null,
+                    "photo": null,
+                    "status": {
+                        "_": "userStatusRecently"
+                    },
+                    "bot_info_version": null,
+                    "restriction_reason": null,
+                    "bot_inline_placeholder": null,
+                    "lang_code": null
+                }
+            ],
+            "chats": [
+                {
+                    "_": "channel",
+                    "flags": 5440,
+                    "id": 1145900615,
+                    "access_hash": null,
+                    "title": "Wendy Chat",
+                    "username": "WendyChat",
+                    "photo": {
+                        "_": "chatPhoto",
+                        "photo_small": {
+                            "_": "fileLocation",
+                            "dc_id": 2,
+                            "volume_id": 246108664,
+                            "local_id": 387983,
+                            "secret": 7432673190029175452
+                        },
+                        "photo_big": {
+                            "_": "fileLocation",
+                            "dc_id": 2,
+                            "volume_id": 246108664,
+                            "local_id": 387985,
+                            "secret": -829421416333396385
+                        }
+                    },
+                    "date": 1536876327,
+                    "version": 0,
+                    "restriction_reason": null,
+                    "admin_rights": null,
+                    "banned_rights": null,
+                    "participants_count": null
+                }
+            ],
+            "date": 1538041104,
+            "seq": 0
+        }
+    ]
+}

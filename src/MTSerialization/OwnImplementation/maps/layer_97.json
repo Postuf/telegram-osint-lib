@@ -1,0 +1,61 @@
+{
+    "constructors": [
+        {
+            "id": "152900075",
+            "predicate": "fileLocation",
+            "params": [
+                {
+                    "name": "dc_id",
+                    "type": "int"
+                },
+                {
+                    "name": "volume_id",
+                    "type": "long"
+                },
+                {
+                    "name": "local_id",
+                    "type": "int"
+                },
+                {
+                    "name": "secret",
+                    "type": "long"
+                },
+                {
+                    "name": "file_reference",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "id": "-1673036328",
+            "predicate": "Photo",
+            "params": [
+                {
+                    "name": "flags",
+                    "type": "int"
+                },
+                {
+                    "name": "id",
+                    "type": "long"
+                },
+                {
+                    "name": "access_hash",
+                    "type": "long"
+                },
+                {
+                    "name": "file_reference",
+                    "type": "string"
+                },
+                {
+                    "name": "date",
+                    "type": "int"
+                },
+                {
+                    "name": "sizes",
+                    "type": "Vector<?>"
+                }
+            ]
+        }
+    ],
+    "methods": []
+}

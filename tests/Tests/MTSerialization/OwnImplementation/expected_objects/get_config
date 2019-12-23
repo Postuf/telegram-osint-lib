@@ -1,0 +1,50 @@
+{
+    "_": "rpc_result",
+    "req_msg_id": 6551714400911886984,
+    "result": {
+        "_": "config",
+        "date": 1525439880,
+        "test_mode": {
+            "_": "boolFalse"
+        },
+        "this_dc": 2,
+        "dc_options": [
+            {
+                "_": "dcOption",
+                "id": 1,
+                "hostname": "",
+                "ip_address": "149.154.175.50",
+                "port": 443
+            },
+            {
+                "_": "dcOption",
+                "id": 2,
+                "hostname": "",
+                "ip_address": "149.154.167.50",
+                "port": 443
+            },
+            {
+                "_": "dcOption",
+                "id": 3,
+                "hostname": "",
+                "ip_address": "149.154.175.100",
+                "port": 443
+            },
+            {
+                "_": "dcOption",
+                "id": 4,
+                "hostname": "",
+                "ip_address": "149.154.167.92",
+                "port": 443
+            },
+            {
+                "_": "dcOption",
+                "id": 5,
+                "hostname": "",
+                "ip_address": "91.108.56.159",
+                "port": 443
+            }
+        ],
+        "chat_size_max": 200
+    }
+}

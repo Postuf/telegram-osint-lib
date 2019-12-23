@@ -1,0 +1,189 @@
+<?php
+
+namespace Tests\Tests\TLMessage\TLMessage\ClientMessages;
+
+use PHPUnit\Framework\TestCase;
+use TLMessage\TLMessage\ClientMessages\Shared\client_dh_inner_data;
+use TLMessage\TLMessage\ClientMessages\Shared\delete_contacts;
+use TLMessage\TLMessage\ClientMessages\Shared\export_authorization;
+use TLMessage\TLMessage\ClientMessages\Shared\get_config;
+use TLMessage\TLMessage\ClientMessages\Shared\get_file;
+use TLMessage\TLMessage\ClientMessages\Shared\get_statuses;
+use TLMessage\TLMessage\ClientMessages\Shared\import_authorization;
+use TLMessage\TLMessage\ClientMessages\Shared\input_file_location;
+use TLMessage\TLMessage\ClientMessages\Shared\msgs_ack;
+use TLMessage\TLMessage\ClientMessages\Shared\p_q_inner_data;
+use TLMessage\TLMessage\ClientMessages\Shared\ping;
+use TLMessage\TLMessage\ClientMessages\Shared\req_dh_params;
+use TLMessage\TLMessage\ClientMessages\Shared\req_pq_multi;
+use TLMessage\TLMessage\ClientMessages\Shared\set_client_dh_params;
+use TLMessage\TLMessage\ClientMessages\Shared\sign_in;
+use TLMessage\TLMessage\ClientMessages\Shared\sign_up;
+use TLMessage\TLMessage\ClientMessages\Shared\update_status;
+
+class SharedSerializationTest extends TestCase
+{
+
+    public function test_client_dh_inner_data_serialization()
+    {
+        $this->assertEquals(
+            (new client_dh_inner_data('AAAAAAAA', 'BBBBBBBB', 0, 'euighpsdfuhgpeirtheihepeirterptuheprut'))->toBinary(),
+            hex2bin('54b6436641414141414141414242424242424242000000000000000026657569676870736466756867706569727468656968657065697274657270747568657072757400')
+        );
+    }
+
+
+    public function test_delete_contacts_serialization()
+    {
+        $delContacts = new delete_contacts();
+        $delContacts->addToDelete(34576439852, 34534);
+        $delContacts->addToDelete(94365239753, 89734);
+        $delContacts->addToDelete(63532984728, 78632);
+
+        $this->assertEquals(
+            $delContacts->toBinary(),
+            hex2bin('000e6a0915c4b51c03000000162829d8e68600002c9aea0c08000000162829d8865e0100c9499bf815000000162829d8283301009869dcca0e000000')
+        );
+    }
+
+
+    public function test_export_authorization_serialization()
+    {
+        $this->assertEquals(
+            (new export_authorization(4))->toBinary(),
+            hex2bin('cdffbfe504000000')
+        );
+    }
+
+
+    public function test_get_config_serialization()
+    {
+        $this->assertEquals(
+            (new get_config())->toBinary(),
+            hex2bin('6b18f9c4')
+        );
+    }
+
+
+    public function test_get_file_serialization()
+    {
+        $this->assertEquals(
+            (new get_file(new input_file_location(23423423,23534534,345345345, ''), 5096, 4096))->toBinary(),
+            hex2bin('fc9a5ab101000000e1abdadfbf69650100000000c61b6701418d95140000000000000000e813000000100000')
+        );
+    }
+
+
+    public function test_get_statuses_serialization()
+    {
+        $this->assertEquals(
+            bin2hex((new get_statuses())->toBinary()),
+            'ee53a3c4'
+        );
+    }
+
+
+    public function test_import_authorization_serialization()
+    {
+        $this->assertEquals(
+            (new import_authorization(44234234, 'rewrwerewrrwerq34231'))->toBinary(),
+            hex2bin('1396efe3faf5a202147265777277657265777272776572713334323331000000')
+        );
+    }
+
+
+    public function test_input_file_location_serialization()
+    {
+        $this->assertEquals(
+            (new input_file_location(4353452345,34532453245,3453453245, ''))->toBinary(),
+            hex2bin('e1abdadf39697c03010000007d6b4b0abd83d7cd0000000000000000')
+        );
+    }
+
+
+    public function test_msgs_ack_serialization()
+    {
+        $this->assertEquals(
+            (new msgs_ack([325134,43532,5345,34,524,53,4532453245,3245,23]))->toBinary(),
+            hex2bin('59b4d66215c4b51c090000000ef60400000000000caa000000000000e11400000000000022000000000000000c0200000000000035000000000000007dbf270e01000000ad0c0000000000001700000000000000')
+        );
+    }
+
+
+    public function test_p_q_inner_data_serialization()
+    {
+        $this->assertEquals(
+            (new p_q_inner_data('1550767997241791113',1033421369,'1500615377','ergrterte45543645','5424yrthfdgyt56udfd', '34543twgfd'))->toBinary(),
+            hex2bin('ec5ac9830815856f46f4a41289000000043d98c23900000004597192d100000065726772746572746534353534333634353534323479727468666467797435367564666433343534337477676664')
+        );
+    }
+
+
+    public function test_ping_serialization()
+    {
+        $this->assertEquals(
+            bin2hex((new ping('AAAAAAAA'))->toBinary()),
+            'ec77be7a4141414141414141'
+        );
+    }
+
+
+    public function test_req_dh_params_serialization()
+    {
+        $this->assertEquals(
+            (new req_dh_params('wqerwer23rfds', '5trwsdfr34tgw', 2342134, 345324, 34534253, '34523453532dfg'))->toBinary(),
+            hex2bin('bee412d77771657277657232337266647335747277736466723334746777040023bcf600000004000544ec0000006df30e02000000000e333435323334353335333264666700')
+        );
+    }
+
+
+    public function test_req_pq_multi_serialization()
+    {
+        $this->assertEquals(
+            bin2hex((new req_pq_multi('4578twgsrhuflyt84'))->toBinary()),
+            'f18e7ebe3435373874776773726875666c79743834'
+        );
+    }
+
+
+    public function test_set_client_dh_params_serialization()
+    {
+        $this->assertEquals(
+            bin2hex((new set_client_dh_params('85twghso;fihgdh',' o827gwtsfhdug8owe','237twgshfdghoegre'))->toBinary()),
+            '1f5f04f5383574776768736f3b666968676468206f383237677774736668647567386f7765113233377477677368666467686f656772650000'
+        );
+    }
+
+
+    public function test_sign_in_serialization()
+    {
+        $this->assertEquals(
+            bin2hex((new sign_in('938432905', '234795tyhspughrew', '34534'))->toBinary()),
+            '8115d5bc09393338343332393035000011323334373935747968737075676872657700000533343533340000'
+        );
+    }
+
+
+    public function test_sign_up_serialization()
+    {
+        $this->assertEquals(
+            bin2hex((new sign_up('938432905', '234795tyhspughrew', '34534', 'ertret'))->toBinary()),
+            '27e4ee80093933383433323930350000113233343739357479687370756768726577000005333435333400000665727472657400'
+        );
+    }
+
+
+    public function test_update_status_serialization()
+    {
+        $this->assertEquals(
+            bin2hex((new update_status(true))->toBinary()),
+            '2c562866379779bc'
+        );
+
+        $this->assertEquals(
+            bin2hex((new update_status(false))->toBinary()),
+            '2c562866b5757299'
+        );
+    }
+
+}

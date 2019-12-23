@@ -1,0 +1,117 @@
+{
+    "constructors": [
+        {
+            "id": "773059779",
+            "predicate": "user",
+            "params": [
+                {
+                    "name": "flags",
+                    "type": "int"
+                },
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "access_hash",
+                    "type": "flags.0?long"
+                },
+                {
+                    "name": "first_name",
+                    "type": "flags.1?string"
+                },
+                {
+                    "name": "last_name",
+                    "type": "flags.2?string"
+                },
+                {
+                    "name": "username",
+                    "type": "flags.3?string"
+                },
+                {
+                    "name": "phone",
+                    "type": "flags.4?string"
+                },
+                {
+                    "name": "photo",
+                    "type": "flags.5?UserProfilePhoto"
+                },
+                {
+                    "name": "status",
+                    "type": "flags.6?UserStatus"
+                },
+                {
+                    "name": "bot_info_version",
+                    "type": "flags.14?int"
+                },
+                {
+                    "name": "restriction_reason",
+                    "type": "flags.18?string"
+                },
+                {
+                    "name": "bot_inline_placeholder",
+                    "type": "flags.19?string"
+                },
+                {
+                    "name": "lang_code",
+                    "type": "flags.22?string"
+                }
+            ]
+        },
+        {
+            "id": "1157215293",
+            "predicate": "Message",
+            "params": [
+                {
+                    "name": "flags",
+                    "type": "int"
+                },
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "from_id",
+                    "type": "flags.8?int"
+                },
+                {
+                    "name": "to_id",
+                    "type": "Peer"
+                },
+                {
+                    "name": "fwd_from",
+                    "type": "flags.2?MessageFwdHeader"
+                },
+                {
+                    "name": "via_bot_id",
+                    "type": "flags.11?int"
+                },
+                {
+                    "name": "reply_to_msg_id",
+                    "type": "flags.3?int"
+                },
+                {
+                    "name": "date",
+                    "type": "int"
+                },
+                {
+                    "name": "message",
+                    "type": "string"
+                },
+                {
+                    "name": "media",
+                    "type": "flags.10?MessageMedia"
+                },
+                {
+                    "name": "reply_markup",
+                    "type": "flags.6?ReplyMarkup"
+                },
+                {
+                    "name": "entities",
+                    "type": "Vector<MessageEntity>"
+                }
+            ]
+        }
+    ],
+    "methods": []
+}

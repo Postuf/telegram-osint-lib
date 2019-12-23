@@ -1,0 +1,101 @@
+{
+    "constructors": [
+        {
+            "id": "-930515796",
+            "predicate": "channel",
+            "params": [
+                {
+                    "name": "flags",
+                    "type": "int"
+                },
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "access_hash",
+                    "type": "flags.13?long"
+                },
+                {
+                    "name": "title",
+                    "type": "string"
+                },
+                {
+                    "name": "username",
+                    "type": "flags.6?string"
+                },
+                {
+                    "name": "photo",
+                    "type": "ChatPhoto"
+                },
+                {
+                    "name": "date",
+                    "type": "int"
+                },
+                {
+                    "name": "version",
+                    "type": "int"
+                },
+                {
+                    "name": "restriction_reason",
+                    "type": "flags.9?string"
+                },
+                {
+                    "name": "admin_rights",
+                    "type": "flags.14?string"
+                },
+                {
+                    "name": "banned_rights",
+                    "type": "flags.15?string"
+                },
+                {
+                    "name": "participants_count",
+                    "type": "flags.17?string"
+                }
+            ]
+        },
+        {
+            "id": "1498631756",
+            "predicate": "Document",
+            "params": [
+                {
+                    "name": "id",
+                    "type": "long"
+                },
+                {
+                    "name": "access_hash",
+                    "type": "long"
+                },
+                {
+                    "name": "file_reference",
+                    "type": "string"
+                },
+                {
+                    "name": "date",
+                    "type": "int"
+                },
+                {
+                    "name": "mime_type",
+                    "type": "string"
+                },
+                {
+                    "name": "size",
+                    "type": "int"
+                },
+                {
+                    "name": "thumb",
+                    "type": "TLRPC.PhotoSize"
+                },
+                {
+                    "name": "dc_id",
+                    "type": "int"
+                },
+                {
+                    "name": "attributes",
+                    "type": "DocAttr"
+                }
+            ]
+        }
+    ],
+    "methods": []
+}

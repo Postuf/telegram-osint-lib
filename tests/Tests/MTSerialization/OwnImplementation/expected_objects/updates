@@ -1,0 +1,52 @@
+{
+    "_": "updates",
+    "updates": [
+        {
+            "_": "updateContactLink",
+            "user_id": 187706841,
+            "my_link": {
+                "_": "contacts.myLinkEmpty"
+            },
+            "foreign_link": {
+                "_": "contacts.foreignLinkRequested",
+                "has_phone": {
+                    "_": "boolTrue"
+                }
+            }
+        }
+    ],
+    "users": [
+        {
+            "_": "userContact",
+            "id": 187706841,
+            "first_name": "As",
+            "last_name": "Encrypt3d",
+            "access_hash": -1142603304336615838,
+            "phone": "79169904863",
+            "photo": {
+                "_": "userProfilePhotos",
+                "small": {
+                    "_": "fileLocation",
+                    "dc_id": 2,
+                    "volume_id": 225517222,
+                    "local_id": 141372,
+                    "secret": 4952891847968332097
+                },
+                "large": {
+                    "_": "fileLocation",
+                    "dc_id": 2,
+                    "volume_id": 225517222,
+                    "local_id": 141374,
+                    "secret": -5785720690880313215
+                }
+            },
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1530710990
+            }
+        }
+    ],
+    "chats": [],
+    "date": 1530714597,
+    "seq": 34
+}

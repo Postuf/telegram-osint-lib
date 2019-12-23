@@ -1,0 +1,18 @@
+{
+    "_": "msg_container",
+    "declared_count": 2,
+    "messages": [
+        {
+            "_": "new_session_created",
+            "first_msg_id": 6551696293327591820,
+            "unique_id": 6881589394988089374,
+            "server_salt": -4558766136326250633
+        },
+        {
+            "_": "msgs_ack",
+            "msg_ids": [
+                6551696293327591820
+            ]
+        }
+    ]
+}

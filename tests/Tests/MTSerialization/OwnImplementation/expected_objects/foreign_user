@@ -1,0 +1,644 @@
+{
+    "_": "updates",
+    "updates": [
+        {
+            "_": "updateContactLink",
+            "user_id": 133090646,
+            "my_link": {
+                "_": "contacts.myLinkEmpty"
+            },
+            "foreign_link": {
+                "_": "contacts.foreignLinkUnknown"
+            }
+        },
+        {
+            "_": "updateContactLink",
+            "user_id": 146052562,
+            "my_link": {
+                "_": "contacts.myLinkEmpty"
+            },
+            "foreign_link": {
+                "_": "contacts.foreignLinkUnknown"
+            }
+        },
+        {
+            "_": "updateContactLink",
+            "user_id": 167933533,
+            "my_link": {
+                "_": "contacts.myLinkEmpty"
+            },
+            "foreign_link": {
+                "_": "contacts.foreignLinkUnknown"
+            }
+        },
+        {
+            "_": "updateContactLink",
+            "user_id": 187706841,
+            "my_link": {
+                "_": "contacts.myLinkEmpty"
+            },
+            "foreign_link": {
+                "_": "contacts.foreignLinkUnknown"
+            }
+        },
+        {
+            "_": "updateContactLink",
+            "user_id": 190838500,
+            "my_link": {
+                "_": "contacts.myLinkEmpty"
+            },
+            "foreign_link": {
+                "_": "contacts.foreignLinkUnknown"
+            }
+        },
+        {
+            "_": "updateContactLink",
+            "user_id": 258123923,
+            "my_link": {
+                "_": "contacts.myLinkEmpty"
+            },
+            "foreign_link": {
+                "_": "contacts.foreignLinkUnknown"
+            }
+        },
+        {
+            "_": "updateContactLink",
+            "user_id": 300440549,
+            "my_link": {
+                "_": "contacts.myLinkEmpty"
+            },
+            "foreign_link": {
+                "_": "contacts.foreignLinkUnknown"
+            }
+        },
+        {
+            "_": "updateContactLink",
+            "user_id": 307857574,
+            "my_link": {
+                "_": "contacts.myLinkEmpty"
+            },
+            "foreign_link": {
+                "_": "contacts.foreignLinkUnknown"
+            }
+        },
+        {
+            "_": "updateContactLink",
+            "user_id": 336643187,
+            "my_link": {
+                "_": "contacts.myLinkEmpty"
+            },
+            "foreign_link": {
+                "_": "contacts.foreignLinkUnknown"
+            }
+        },
+        {
+            "_": "updateContactLink",
+            "user_id": 412742736,
+            "my_link": {
+                "_": "contacts.myLinkEmpty"
+            },
+            "foreign_link": {
+                "_": "contacts.foreignLinkUnknown"
+            }
+        },
+        {
+            "_": "updateContactLink",
+            "user_id": 429279958,
+            "my_link": {
+                "_": "contacts.myLinkEmpty"
+            },
+            "foreign_link": {
+                "_": "contacts.foreignLinkUnknown"
+            }
+        },
+        {
+            "_": "updateContactLink",
+            "user_id": 448512172,
+            "my_link": {
+                "_": "contacts.myLinkEmpty"
+            },
+            "foreign_link": {
+                "_": "contacts.foreignLinkUnknown"
+            }
+        },
+        {
+            "_": "updateContactLink",
+            "user_id": 484158901,
+            "my_link": {
+                "_": "contacts.myLinkEmpty"
+            },
+            "foreign_link": {
+                "_": "contacts.foreignLinkUnknown"
+            }
+        },
+        {
+            "_": "updateContactLink",
+            "user_id": 493047488,
+            "my_link": {
+                "_": "contacts.myLinkEmpty"
+            },
+            "foreign_link": {
+                "_": "contacts.foreignLinkUnknown"
+            }
+        },
+        {
+            "_": "updateContactLink",
+            "user_id": 497276091,
+            "my_link": {
+                "_": "contacts.myLinkEmpty"
+            },
+            "foreign_link": {
+                "_": "contacts.foreignLinkUnknown"
+            }
+        },
+        {
+            "_": "updateContactLink",
+            "user_id": 506522468,
+            "my_link": {
+                "_": "contacts.myLinkEmpty"
+            },
+            "foreign_link": {
+                "_": "contacts.foreignLinkUnknown"
+            }
+        },
+        {
+            "_": "updateContactLink",
+            "user_id": 543459045,
+            "my_link": {
+                "_": "contacts.myLinkEmpty"
+            },
+            "foreign_link": {
+                "_": "contacts.foreignLinkUnknown"
+            }
+        },
+        {
+            "_": "updateContactLink",
+            "user_id": 581320959,
+            "my_link": {
+                "_": "contacts.myLinkEmpty"
+            },
+            "foreign_link": {
+                "_": "contacts.foreignLinkUnknown"
+            }
+        },
+        {
+            "_": "updateContactLink",
+            "user_id": 583612658,
+            "my_link": {
+                "_": "contacts.myLinkEmpty"
+            },
+            "foreign_link": {
+                "_": "contacts.foreignLinkUnknown"
+            }
+        }
+    ],
+    "users": [
+        {
+            "_": "userForeign",
+            "id": 133090646,
+            "first_name": "Josaine",
+            "last_name": "Quaresma",
+            "access_hash": -281962407813275508,
+            "photo": {
+                "_": "userProfilePhotos",
+                "small": {
+                    "_": "fileLocation",
+                    "dc_id": 1,
+                    "volume_id": 803716385,
+                    "local_id": 68099,
+                    "secret": -4754841058138479564
+                },
+                "large": {
+                    "_": "fileLocation",
+                    "dc_id": 1,
+                    "volume_id": 803716385,
+                    "local_id": 68101,
+                    "secret": -8870368719080964119
+                }
+            },
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1508647909
+            }
+        },
+        {
+            "_": "userContact",
+            "id": 146052562,
+            "first_name": "",
+            "last_name": "",
+            "access_hash": 3709874894621685691,
+            "phone": "966500285955",
+            "photo": {
+                "_": "userProfilePhotos",
+                "small": {
+                    "_": "fileLocation",
+                    "dc_id": 4,
+                    "volume_id": 430527061,
+                    "local_id": 242311,
+                    "secret": -6295294842947780421
+                },
+                "large": {
+                    "_": "fileLocation",
+                    "dc_id": 4,
+                    "volume_id": 430527061,
+                    "local_id": 242313,
+                    "secret": 7477457528280311114
+                }
+            },
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1525299550
+            }
+        },
+        {
+            "_": "userForeign",
+            "id": 167933533,
+            "first_name": "Ilja",
+            "last_name": "Shaposhnikov",
+            "access_hash": -1793424349275254126,
+            "photo": {
+                "_": "userProfilePhotos",
+                "small": {
+                    "_": "fileLocation",
+                    "dc_id": 2,
+                    "volume_id": 713234168,
+                    "local_id": 68852,
+                    "secret": 2758988933971117405
+                },
+                "large": {
+                    "_": "fileLocation",
+                    "dc_id": 2,
+                    "volume_id": 713234168,
+                    "local_id": 68854,
+                    "secret": -7206781020958272560
+                }
+            },
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1525526838
+            }
+        },
+        {
+            "_": "userForeign",
+            "id": 187706841,
+            "first_name": "As",
+            "last_name": "Encrypt3d",
+            "access_hash": -336604542049677193,
+            "photo": {
+                "_": "userProfilePhotos",
+                "small": {
+                    "_": "fileLocation",
+                    "dc_id": 2,
+                    "volume_id": 225517222,
+                    "local_id": 141372,
+                    "secret": 4952891847968332097
+                },
+                "large": {
+                    "_": "fileLocation",
+                    "dc_id": 2,
+                    "volume_id": 225517222,
+                    "local_id": 141374,
+                    "secret": -5785720690880313215
+                }
+            },
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1525535326
+            }
+        },
+        {
+            "_": "userContact",
+            "id": 190838500,
+            "first_name": "",
+            "last_name": "",
+            "access_hash": -2891156667405455284,
+            "phone": "5511975001030",
+            "photo": {
+                "_": "userProfilePhotoEmpty"
+            },
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1495993122
+            }
+        },
+        {
+            "_": "userContact",
+            "id": 258123923,
+            "first_name": "",
+            "last_name": "",
+            "access_hash": -197075371253416644,
+            "phone": "393274249237",
+            "photo": {
+                "_": "userProfilePhotoEmpty"
+            },
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1525452585
+            }
+        },
+        {
+            "_": "userForeign",
+            "id": 300440549,
+            "first_name": "\u042d\u043b\u0438\u043d\u0430",
+            "last_name": "\u041a\u043e\u0440\u044e\u043a\u0438\u043d\u0430",
+            "access_hash": 6672128188199634328,
+            "photo": {
+                "_": "userProfilePhotos",
+                "small": {
+                    "_": "fileLocation",
+                    "dc_id": 2,
+                    "volume_id": 223033536,
+                    "local_id": 1145489,
+                    "secret": -1135161863790876454
+                },
+                "large": {
+                    "_": "fileLocation",
+                    "dc_id": 2,
+                    "volume_id": 223033536,
+                    "local_id": 1145491,
+                    "secret": -6098820258925284196
+                }
+            },
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1525535641
+            }
+        },
+        {
+            "_": "userContact",
+            "id": 307857574,
+            "first_name": "",
+            "last_name": "",
+            "access_hash": -8173494166746965789,
+            "phone": "966580990257",
+            "photo": {
+                "_": "userProfilePhotos",
+                "small": {
+                    "_": "fileLocation",
+                    "dc_id": 4,
+                    "volume_id": 435809524,
+                    "local_id": 219485,
+                    "secret": -2068271209075381306
+                },
+                "large": {
+                    "_": "fileLocation",
+                    "dc_id": 4,
+                    "volume_id": 435809524,
+                    "local_id": 219487,
+                    "secret": -8828207187838775114
+                }
+            },
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1525517488
+            }
+        },
+        {
+            "_": "userContact",
+            "id": 336643187,
+            "first_name": "",
+            "last_name": "",
+            "access_hash": 9034090341355905822,
+            "phone": "491776961972",
+            "photo": {
+                "_": "userProfilePhotos",
+                "small": {
+                    "_": "fileLocation",
+                    "dc_id": 2,
+                    "volume_id": 246227544,
+                    "local_id": 64228,
+                    "secret": -6063352109703134161
+                },
+                "large": {
+                    "_": "fileLocation",
+                    "dc_id": 2,
+                    "volume_id": 246227544,
+                    "local_id": 64230,
+                    "secret": -5209342683689533510
+                }
+            },
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1525439654
+            }
+        },
+        {
+            "_": "userContact",
+            "id": 412742736,
+            "first_name": "",
+            "last_name": "",
+            "access_hash": 7700679539020259977,
+            "phone": "393207271789",
+            "photo": {
+                "_": "userProfilePhotoEmpty"
+            },
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1519284153
+            }
+        },
+        {
+            "_": "userContact",
+            "id": 429279958,
+            "first_name": "",
+            "last_name": "",
+            "access_hash": 8620527086488934538,
+            "phone": "251919405022",
+            "photo": {
+                "_": "userProfilePhotos",
+                "small": {
+                    "_": "fileLocation",
+                    "dc_id": 4,
+                    "volume_id": 445729826,
+                    "local_id": 132923,
+                    "secret": -819429616673031223
+                },
+                "large": {
+                    "_": "fileLocation",
+                    "dc_id": 4,
+                    "volume_id": 445729826,
+                    "local_id": 132925,
+                    "secret": -6735021467891163482
+                }
+            },
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1525438269
+            }
+        },
+        {
+            "_": "userContact",
+            "id": 448512172,
+            "first_name": "",
+            "last_name": "",
+            "access_hash": 7802795795758985523,
+            "phone": "919493976424",
+            "photo": {
+                "_": "userProfilePhotoEmpty"
+            },
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1505274988
+            }
+        },
+        {
+            "_": "userForeign",
+            "id": 484158901,
+            "first_name": "Diego",
+            "last_name": "",
+            "access_hash": 811769673514439236,
+            "photo": {
+                "_": "userProfilePhotos",
+                "small": {
+                    "_": "fileLocation",
+                    "dc_id": 4,
+                    "volume_id": 445203652,
+                    "local_id": 112637,
+                    "secret": -4946028166977996360
+                },
+                "large": {
+                    "_": "fileLocation",
+                    "dc_id": 4,
+                    "volume_id": 445203652,
+                    "local_id": 112639,
+                    "secret": -8475420976763991661
+                }
+            },
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1525531211
+            }
+        },
+        {
+            "_": "userContact",
+            "id": 493047488,
+            "first_name": "",
+            "last_name": "",
+            "access_hash": 5273338295621337976,
+            "phone": "971504225668",
+            "photo": {
+                "_": "userProfilePhotoEmpty"
+            },
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1522348085
+            }
+        },
+        {
+            "_": "userForeign",
+            "id": 497276091,
+            "first_name": "Basssim",
+            "last_name": "Aljobri",
+            "access_hash": 8325236215085061328,
+            "photo": {
+                "_": "userProfilePhotos",
+                "small": {
+                    "_": "fileLocation",
+                    "dc_id": 4,
+                    "volume_id": 445516556,
+                    "local_id": 39770,
+                    "secret": 3580011332392477396
+                },
+                "large": {
+                    "_": "fileLocation",
+                    "dc_id": 4,
+                    "volume_id": 445516556,
+                    "local_id": 39772,
+                    "secret": 8123597627937760625
+                }
+            },
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1524437657
+            }
+        },
+        {
+            "_": "userForeign",
+            "id": 506522468,
+            "first_name": "Qwerty",
+            "last_name": "Ness",
+            "access_hash": 378699890925352124,
+            "photo": {
+                "_": "userProfilePhotoEmpty"
+            },
+            "status": {
+                "_": "userStatusEmpty"
+            }
+        },
+        {
+            "_": "userForeign",
+            "id": 543459045,
+            "first_name": "Jay",
+            "last_name": "Jai",
+            "access_hash": 3941888252826074929,
+            "photo": {
+                "_": "userProfilePhotoEmpty"
+            },
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1525531328
+            }
+        },
+        {
+            "_": "userContact",
+            "id": 581320959,
+            "first_name": "",
+            "last_name": "",
+            "access_hash": -4940754106373755909,
+            "phone": "79256801535",
+            "photo": {
+                "_": "userProfilePhotos",
+                "small": {
+                    "_": "fileLocation",
+                    "dc_id": 2,
+                    "volume_id": 246225815,
+                    "local_id": 39195,
+                    "secret": 9108374241179711981
+                },
+                "large": {
+                    "_": "fileLocation",
+                    "dc_id": 2,
+                    "volume_id": 246225815,
+                    "local_id": 39197,
+                    "secret": 2137751332249355657
+                }
+            },
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1524472857
+            }
+        },
+        {
+            "_": "userContact",
+            "id": 583612658,
+            "first_name": "",
+            "last_name": "",
+            "access_hash": -8961277681074142001,
+            "phone": "989387980042",
+            "photo": {
+                "_": "userProfilePhotos",
+                "small": {
+                    "_": "fileLocation",
+                    "dc_id": 4,
+                    "volume_id": 445517698,
+                    "local_id": 324734,
+                    "secret": 3997371871889575836
+                },
+                "large": {
+                    "_": "fileLocation",
+                    "dc_id": 4,
+                    "volume_id": 445517698,
+                    "local_id": 324736,
+                    "secret": 7198106903564272975
+                }
+            },
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1525534593
+            }
+        }
+    ],
+    "chats": [],
+    "date": 1525535706,
+    "seq": 310
+}

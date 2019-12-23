@@ -1,0 +1,11 @@
+{
+    "_": "updateShort",
+    "update": {
+        "_": "updateUserPhoto",
+        "user_id": 202842561,
+        "photo": {
+            "_": "userProfilePhotoEmpty"
+        }
+    },
+    "date": 1531156667
+}
