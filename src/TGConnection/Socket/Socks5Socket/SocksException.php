@@ -1,5 +1,7 @@
 <?php
+namespace TGConnection\Socket\Socks5Socket;
 
+use Exception;
 
 class SocksException extends Exception
 {

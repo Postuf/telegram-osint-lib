@@ -1,4 +1,5 @@
 <?php
+namespace TGConnection\Socket\Socks5Socket;
 
 /**
  * Manage native socket as socks5-connected socket.
