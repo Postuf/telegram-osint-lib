@@ -5,19 +5,18 @@ use Tools\Proxy;
 
 require_once __DIR__ . '/../ClassLoader.php';
 
-echo "Номер: ";
+echo "Number: ";
 $phone = fgets(STDIN);
 
-// разрешено использовать только европейские прокси и
-// прокси стран ближнего СНГ - это обусловлено спецификой взаимодействия с датацентрами Telegram
+// Only Europe/CIS IP/proxy allowed, Telegram DC requires that.
 /** @noinspection PhpUnhandledExceptionInspection */
-$proxy = new Proxy(file_get_contents(__DIR__.'/reg_proxy.txt'));
+// $proxy = new Proxy(file_get_contents(__DIR__.'/reg_proxy.txt'));
 
-$reg = new AccountRegistrar();
+$reg = new AccountRegistrar(/* $proxy */);
 /** @noinspection PhpUnhandledExceptionInspection */
 $reg->requestCodeForPhone($phone);
 
-echo "SMS код: ";
+echo "SMS code: ";
 $code = fgets(STDIN);
 
 /** @noinspection PhpUnhandledExceptionInspection */

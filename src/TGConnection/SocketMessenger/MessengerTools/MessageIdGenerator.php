@@ -19,14 +19,14 @@ class MessageIdGenerator
     {
         [$msec,$sec] = explode(" ",microtime());
 
-        $msec *= pow(10,6);// микросекунды переводим в целое число
-        $msec = $msec<<2;// умножаем на 4 (чтобы был кратен 4)
+        $msec *= pow(10,6);// microseconds to whole number
+        $msec = $msec<<2;// multiply by 4
 
-        $msgId = ($sec<<32)|$msec; // накладываем микросекунды на время * 2^32
+        $msgId = ($sec<<32)|$msec; // apply bitwise OR to microseconds and sec * 2^32
 
-        // сравниваем созданный идентификатор сообщения с уже использованным
-        if ($msgId <= $this->msgId) { // если созданый id меньше
-            $msgId = $this->msgId + 4; // то перезаписываем его
+        // compare with existing id
+        if ($msgId <= $this->msgId) { // if new id is less or equal
+            $msgId = $this->msgId + 4; // then increase it
         }
 
         return $msgId;

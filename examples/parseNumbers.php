@@ -6,8 +6,8 @@ use Logger\Logger;
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/MyTgClientDebug.php';
 
-// в этом примере мы получаем список контактов пользователя и онлайн статусы контактов
-// аватары контактов сохраняются в текущую директорию
+// here we get contact list and get contact online status
+// avatars are saved to current directory
 
 if (!isset($argv[1])) {
     echo "please specify numbers (comma-separated): 79061231231,79061231232\n";
