@@ -21,12 +21,14 @@ Our goal is to make a library that implements some real-life OSINT usage scenari
 * Composer
   * phpseclib
 
-## Howto
+## Quickstart
 
 To get started, go to `examples` dir.
 First of all, you need auth keys generated, run `php registration.php` to get those.
 Some examples require two accounts to run, save those keys to `first.authkey` and `second.authkey`, respectively.
 Now you are all set, you can run any of them, for example, `php parseGroupMembers.php`, and check the output.
+
+Verbose logging (all messages sent/received) is enabled by default, add `--info` to arguments to suppress it.
 
 # Limitations
 

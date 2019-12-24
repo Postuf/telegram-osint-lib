@@ -6,6 +6,7 @@ class LibConfig
     /* ================================================================ Debug output */
 
     const LOGGER_ENABLED = true;
+    const LOG_LEVEL = 'debug'; // supported: info, debug
 
     /* ================================================================ Socks proxy params  */
 
