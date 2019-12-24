@@ -5,11 +5,11 @@ namespace TGConnection\Socket;
 
 use Exception\TGException;
 use LibConfig;
-use Socks5Socket;
-use SocksException;
-use SocksProxy;
-use SocksProxyForProxy;
 use TGConnection\DataCentre;
+use TGConnection\Socket\Socks5Socket\Socks5Socket;
+use TGConnection\Socket\Socks5Socket\SocksException;
+use TGConnection\Socket\Socks5Socket\SocksProxy;
+use TGConnection\Socket\Socks5Socket\SocksProxyForProxy;
 use Tools\Proxy;
 
 

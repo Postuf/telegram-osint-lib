@@ -1,5 +1,5 @@
 <?php
-
+namespace TGConnection\Socket\Socks5Socket;
 
 use Tools\Proxy;
 
