@@ -261,7 +261,7 @@ class EncryptedSocketMessenger implements SocketMessenger
      */
     private function decodeDecryptedPayloadHeaders(string $decryptedPayload)
     {
-        // эту соль мы не используем, а запрашиваем каждый раз новую
+        // we do not use this salt, we request new one every time
         // $server_salt = substr($decryptedPayload, 0, 8);
         $session_id = substr($decryptedPayload, 8, 8);
         if(strcmp($session_id, $this->sessionId) != 0)
@@ -566,14 +566,14 @@ class EncryptedSocketMessenger implements SocketMessenger
 
 
 
-    //генерирует счетчик сообщения свызаный с контекстом(для записи)
-    private function generate_msg_seqno($content_related){
-        $in = $content_related ? 1 : 0;//связан с контекстом
-        //удвоеное значение(+1 если связан с контекстом)
+    // generates context-bound sequence number
+    private function generate_msg_seqno($context_related){
+        $in = $context_related ? 1 : 0;
+        //multiply by two and add one, if context-related
         $value = ($this->msg_seqno * 2) + $in;
-        //увеличивть ли счетчик $this->seq_no если связан с контекстом
+        //increase current $this->seq_no if context related
         $this->msg_seqno += $in;
-        return $value;//вернем удвоеное занчение
+        return $value;//return multiplied value
     }
 
 

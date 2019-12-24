@@ -9,7 +9,10 @@ use Logger\Logger;
 use MTSerialization\AnonymousMessage;
 
 /**
- * Пример выгрузки участников группы
+ * Listing group members
+ *
+ * This example requires info user (second authkey)
+ * to be member of one or several groups, otherwise it is useless.
  */
 class GroupMembersClient extends MyTgClientDebug {
     public function __construct()

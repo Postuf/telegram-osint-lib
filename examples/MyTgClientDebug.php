@@ -15,9 +15,9 @@ use Logger\Logger;
 use Tools\Proxy;
 
 /**
- * Базовый класс клиента
- * Устанавливает подключение с двух аккаунтов (infoClient, monitoringClient)
- * Для корректной работы заполните файлы: first.authkey, second.authkey
+ * Client base class
+ * Uses two telegra, connections (infoClient, monitoringClient)
+ * Requires files: first.authkey, second.authkey
  */
 class MyTgClientDebug
     implements StatusWatcherCallbacks, ClientDebugLogger
@@ -52,20 +52,20 @@ class MyTgClientDebug
     public function __construct()
     {
         /**
-         * Установка своего отладочного логгера TL-нод
+         * Set TL-node logger
          */
         Logger::setupLogger($this);
 
         /**
-         * (!) Authkey для разных клиентов могут быть одинаковыми(StatusClient и InfoClient), но этого НЕ рекомендуется делать,
-         * т.к Telegram-сервер будет слать ноды в первое попавшееся соединение, что может привести к
-         * потере ожидаемых нод на конкретном клиенте.
+         * (!) Authkeys can be the same (StatusClient и InfoClient), but it is NOT recommended,
+         * due to Telegram-сервер sending nodes to different clients,leading to
+	 * data losses on clients.
          */
         $this->authKeyForFirstClient = trim(file_get_contents(__DIR__ . '/first.authkey'));
         $this->authKeyForSecondClient = trim(file_get_contents(__DIR__ . '/second.authkey'));
 
         /*
-         * Инициализация клиентов
+         * Clients init
          */
         $this->monitoringClient = new StatusWatcherClient($this);
         $this->infoClient = new InfoClient();
@@ -284,7 +284,7 @@ class MyTgClientDebug
     }
 
     /**
-     * Получить сообщения и завершить работу клиента
+     * Fetch messages and terminate client
      * @throws TGException
      */
     public function pollAndTerminate(): void
@@ -306,7 +306,7 @@ class MyTgClientDebug
     }
 
     /**
-     * Подключиться info-аккаунтом к серверу Telegram
+     * Connect to telegram with info (second) account
      * @throws TGException
      */
     public function infoLogin(): void
