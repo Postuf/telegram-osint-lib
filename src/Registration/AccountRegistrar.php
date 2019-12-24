@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Registration;
 
 
-use Client\AuthKey\AuthKey;
 use Exception\TGException;
 use Tools\Proxy;
 
@@ -26,28 +25,33 @@ class AccountRegistrar implements RegisterInterface
         $this->reg = new RegistrationFromTgApp($proxy, $accountInfo);
     }
 
+    public function pollMessages() {
+        $this->reg->pollMessages();
+    }
 
     /**
-     * @var $phoneNumber string
+     *
+     * @param string $phoneNumber
+     * @param callable $cb
      * @throws TGException
      */
-    public function requestCodeForPhone(string $phoneNumber): void
+    public function requestCodeForPhone(string $phoneNumber, callable $cb): void
     {
         $phoneNumber = trim($phoneNumber);
-        $this->reg->requestCodeForPhone($phoneNumber);
+        $this->reg->requestCodeForPhone($phoneNumber, $cb);
     }
 
 
     /**
      * @param string $smsCode
-     * @return AuthKey
+     * @param callable $cb
      *
      * @throws TGException
      */
-    public function confirmPhoneWithSmsCode(string $smsCode): AuthKey
+    public function confirmPhoneWithSmsCode(string $smsCode, callable $cb): void
     {
         $smsCode = trim($smsCode);
-        return $this->reg->confirmPhoneWithSmsCode($smsCode);
+        $this->reg->confirmPhoneWithSmsCode($smsCode, $cb);
     }
 
 }

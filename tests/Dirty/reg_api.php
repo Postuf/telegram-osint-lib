@@ -1,5 +1,6 @@
 <?php
 
+use Client\AuthKey\AuthKey;
 use Registration\RegistrationFromApi;
 
 require_once __DIR__ . '/../../ClassLoader.php';
@@ -9,11 +10,11 @@ $phone = fgets(STDIN);
 
 $reg = new RegistrationFromApi();
 /** @noinspection PhpUnhandledExceptionInspection */
-$reg->requestCodeForPhone($phone);
+$reg->requestCodeForPhone($phone, function() use($reg) {
+    echo "SMS code: ";
+    $code = fgets(STDIN);
 
-echo "SMS код: ";
-$code = fgets(STDIN);
-
-/** @noinspection PhpUnhandledExceptionInspection */
-$authKey = $reg->confirmPhoneWithSmsCode($code);
-echo "AuthKey: ".$authKey->getSerializedAuthKey()."\n";
+    $reg->confirmPhoneWithSmsCode($code, function (AuthKey $authKey) {
+        echo "AuthKey: ".$authKey->getSerializedAuthKey()."\n";
+    });
+});

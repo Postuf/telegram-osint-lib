@@ -43,7 +43,6 @@ use TLMessage\TLMessage\ClientMessages\TgApp\send_sms_code;
 use TLMessage\TLMessage\ServerMessages\AuthorizationContactUser;
 use TLMessage\TLMessage\ServerMessages\DcConfigApp;
 use TLMessage\TLMessage\ServerMessages\Languages;
-use TLMessage\TLMessage\ServerMessages\Rpc\RpcError;
 use TLMessage\TLMessage\ServerMessages\SentCodeApp;
 use Tools\Phone;
 use Tools\Proxy;
@@ -95,56 +94,64 @@ class RegistrationFromTgApp
 
 
     /**
-     * @var $phoneNumber string
+     * @param string $phoneNumber
+     * @param callable $cb
      * @throws TGException
      */
-    public function requestCodeForPhone(string $phoneNumber): void
+    public function requestCodeForPhone(string $phoneNumber, callable $cb): void
     {
         $phoneNumber = trim($phoneNumber);
 
         $this->phone = $phoneNumber;
-        $this->blankAuthKey = $this->requestBlankAuthKey();
+        $this->requestBlankAuthKey(function (AuthKey $authKey) use($phoneNumber, $cb) {
+            $this->blankAuthKey = $authKey;
 
-        $this->initSocketMessenger();
-        $this->initSocketAsOfficialApp();
+            $this->initSocketMessenger();
+            $this->initSocketAsOfficialApp(function () use($phoneNumber, $cb) {
+                $request = new send_sms_code($phoneNumber);
+                $this->socketMessenger->getResponseAsync($request, function (AnonymousMessage $smsSentResponse) use($cb) {
+                    $smsSentResponseObj = new SentCodeApp($smsSentResponse);
 
-        $request = new send_sms_code($phoneNumber);
-        $smsSentResponse = $this->socketMessenger->getResponse($request);
-        $smsSentResponseObj = new SentCodeApp($smsSentResponse);
+                    if(!$smsSentResponseObj->isSentCodeTypeSms())
+                        throw new TGException(TGException::ERR_REG_USER_ALREADY_EXISTS, $smsSentResponse);
 
-        if(!$smsSentResponseObj->isSentCodeTypeSms())
-            throw new TGException(TGException::ERR_REG_USER_ALREADY_EXISTS, $smsSentResponse);
+                    $this->phoneHash = $smsSentResponseObj->getPhoneCodeHash();
+                    $this->isSmsRequested = true;
+                    $cb();
+                });
 
-        $this->phoneHash = $smsSentResponseObj->getPhoneCodeHash();
-        $this->isSmsRequested = true;
+            });
+        });
     }
 
 
     /**
      * pre-actions
-     * @throws TGException
+     * @param callable $cb
      */
-    private function initSocketAsOfficialApp(): void
+    private function initSocketAsOfficialApp(callable $cb): void
     {
         // config
         $getConfig = new get_config();
         $initConnection = new init_connection($this->accountInfo, $getConfig);
         $invokeWithLayer = new invoke_with_layer(LibConfig::APP_DEFAULT_TL_LAYER_VERSION, $initConnection);
 
-        $configRequest = $this->socketMessenger->getResponse($invokeWithLayer);
-        new DcConfigApp($configRequest);
+        $this->socketMessenger->getResponseAsync($invokeWithLayer, function (AnonymousMessage $configRequest) use($cb) {
+            new DcConfigApp($configRequest);
 
-        // possible languages
-        $getLanguages = new get_languages();
-        $languages = $this->socketMessenger->getResponse($getLanguages);
-        $languagesResponse = new Languages($languages);
+            // possible languages
+            $getLanguages = new get_languages();
+            $this->socketMessenger->getResponseAsync($getLanguages, function (AnonymousMessage $languages) use($cb) {
+                $languagesResponse = new Languages($languages);
 
-        if($languagesResponse->getCount() < 5)
-            throw new TGException(TGException::ERR_REG_NOT_OFFICIAL_USER);
+                if($languagesResponse->getCount() < 5)
+                    throw new TGException(TGException::ERR_REG_NOT_OFFICIAL_USER);
 
-        // get language strings
-        $getLangPack = new get_langpack($this->accountInfo->getAppLang());
-        $this->socketMessenger->getResponse($getLangPack);
+                // get language strings
+                $getLangPack = new get_langpack($this->accountInfo->getAppLang());
+                $this->socketMessenger->getResponseAsync($getLangPack, $cb);
+            });
+        });
     }
 
 
@@ -162,80 +169,77 @@ class RegistrationFromTgApp
 
 
     /**
-     * @return AuthKey
+     * @param callable $cb
      * @throws TGException
      */
-    private function requestBlankAuthKey(): AuthKey
+    private function requestBlankAuthKey(callable $cb): void
     {
         $dc = DataCentre::getDefault();
-        return (new AppAuthorization($dc))->createAuthKey();
+        (new AppAuthorization($dc))->createAuthKey($cb);
     }
 
 
     /**
-     * @var $smsCode string
-     * @return AuthKey
+     *
+     * @param string $smsCode
+     * @param callable $cb
      * @throws TGException
      */
-    public function confirmPhoneWithSmsCode(string $smsCode): AuthKey
+    public function confirmPhoneWithSmsCode(string $smsCode, callable $cb): void
     {
         $smsCode = trim($smsCode);
 
         if(!$this->isSmsRequested)
             throw new TGException(TGException::ERR_REG_REQUEST_SMS_CODE_FIRST);
 
-        //if(!$this->signInFailed($smsCode))
-        //    throw new TGException(TGException::ERR_REG_USER_ALREADY_EXISTS);
+        $this->signInFailed($smsCode, function() use($cb) {
+            sleep(5);
+            $this->signUp(function () use($cb) {
+                $this->performLoginWorkFlow(function () use($cb) {
+                    $this->socketMessenger->terminate();
 
-        $this->signInFailed($smsCode);
-        sleep(5);
-        $this->signUp();
-        $this->performLoginWorkFlow();
-        $this->socketMessenger->terminate();
+                    $authInfo = (new AuthInfo())
+                        ->setPhone($this->phone)
+                        ->setAccountInfo($this->accountInfo);
 
-        $authInfo = (new AuthInfo())
-            ->setPhone($this->phone)
-            ->setAccountInfo($this->accountInfo);
-
-        return AuthKeyCreator::attachAuthInfo($this->blankAuthKey, $authInfo);
+                    $cb(AuthKeyCreator::attachAuthInfo($this->blankAuthKey, $authInfo));
+                });
+            });
+        });
     }
 
 
     /**
      * post-actions
+     * @param callable $cb
      */
-    private function performLoginWorkFlow(): void
+    private function performLoginWorkFlow(callable $cb): void
     {
-        $this->socketMessenger->getResponse(new get_config());
-        $this->socketMessenger->getResponse(new update_status(true));
-        //$this->socketMessenger->getResponse(new get_languages());
-        //$this->socketMessenger->getResponse(new get_langpack($this->accountInfo->getAppLang()));
-        $this->socketMessenger->getResponse(new get_terms_of_service_update());
-
-        $this->socketMessenger->getResponse(new get_notify_settings(new input_notify_chats()));
-        $this->socketMessenger->getResponse(new get_notify_settings(new input_notify_users()));
-        $this->socketMessenger->getResponse(new get_invite_text());
-        $this->socketMessenger->getResponse(new get_pinned_dialogs());
-        //$this->socketMessenger->getResponse(new get_languages());
-        //$this->socketMessenger->getResponse(new register_device_push_java());
-        $this->socketMessenger->getResponse(new get_state());
-        $this->socketMessenger->getResponse(new get_blocked_contacts());
-        $this->socketMessenger->getResponse(new get_contacts());
-        $this->socketMessenger->getResponse(new get_dialogs());
-        $this->socketMessenger->getResponse(new get_faved_stickers());
-        $this->socketMessenger->getResponse(new get_featured_stickers());
-        $this->socketMessenger->getResponse(new get_top_peers());
-        $this->socketMessenger->getResponse(new get_statuses());
-        //$this->socketMessenger->getResponse(new register_device_push());
+        $this->socketMessenger->getResponseConsecutive([
+            new get_config(),
+            new update_status(true),
+            new get_terms_of_service_update(),
+            new get_notify_settings(new input_notify_chats()),
+            new get_notify_settings(new input_notify_users()),
+            new get_invite_text(),
+            new get_pinned_dialogs(),
+            new get_state(),
+            new get_blocked_contacts(),
+            new get_contacts(),
+            new get_dialogs(),
+            new get_faved_stickers(),
+            new get_featured_stickers(),
+            new get_top_peers(),
+            new get_statuses()
+        ], $cb);
     }
 
 
     /**
      * @param string $smsCode
-     * @return bool
-     * @throws TGException
+     * @param callable $cb
      */
-    private function signInFailed(string $smsCode): bool
+    private function signInFailed(string $smsCode, callable $cb): void
     {
         $signInMessage = new sign_in(
             $this->phone,
@@ -243,17 +247,17 @@ class RegistrationFromTgApp
             trim($smsCode)
         );
 
-        $response = $this->socketMessenger->getResponse($signInMessage);
-        return
-            RpcError::isIt($response) &&
-            (new RpcError($response))->isPhoneNumberUnoccupied();
+        $this->socketMessenger->getResponseAsync($signInMessage, $cb);
+        //return
+        //    RpcError::isIt($response) &&
+        //    (new RpcError($response))->isPhoneNumberUnoccupied();
     }
 
 
     /**
-     * @throws TGException
+     * @param callable $cb
      */
-    private function signUp(): void
+    private function signUp(callable $cb): void
     {
         $signUpMessage = new sign_up(
             $this->phone,
@@ -262,9 +266,11 @@ class RegistrationFromTgApp
             $this->accountInfo->getLastName()
         );
 
-        $response = $this->socketMessenger->getResponse($signUpMessage);
-        $response = new AuthorizationContactUser($response);
-        $this->checkSigningResponse($response);
+        $this->socketMessenger->getResponseAsync($signUpMessage, function (AnonymousMessage $response) use($cb) {
+            $authResponse = new AuthorizationContactUser($response);
+            $this->checkSigningResponse($authResponse);
+            $cb($authResponse);
+        });
     }
 
 
@@ -285,5 +291,12 @@ class RegistrationFromTgApp
     public function onMessage(AnonymousMessage $message)
     {
 
+    }
+
+    public function pollMessages()
+    {
+        while(true) {
+            $this->socketMessenger->readMessage();
+        }
     }
 }

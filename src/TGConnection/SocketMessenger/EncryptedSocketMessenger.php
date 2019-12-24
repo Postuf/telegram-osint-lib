@@ -9,6 +9,7 @@ use Client\AuthKey\AuthKey;
 use Exception\TGException;
 use LibConfig;
 use Logger\Logger;
+use LogicException;
 use MTSerialization\AnonymousMessage;
 use MTSerialization\MTDeserializer;
 use MTSerialization\OwnImplementation\OwnDeserializer;
@@ -191,7 +192,7 @@ class EncryptedSocketMessenger implements SocketMessenger
      * @return AnonymousMessage
      * @throws TGException
      */
-    public function getResponse(TLClientMessage $message, $timeoutMs = LibConfig::CONN_SOCKET_TIMEOUT_WAIT_RESPONSE_MS)
+    private function getResponse(TLClientMessage $message, $timeoutMs = LibConfig::CONN_SOCKET_TIMEOUT_WAIT_RESPONSE_MS)
     {
         $messageId = $this->msgIdGenerator->generateNext();
         $this->writeIdentifiedMessage($message, $messageId);
@@ -291,7 +292,7 @@ class EncryptedSocketMessenger implements SocketMessenger
 
 
     /**
-     * @var $payload string
+     * @param string $payload
      * @return AnonymousMessage
      * @throws TGException
      */
@@ -594,4 +595,22 @@ class EncryptedSocketMessenger implements SocketMessenger
         $this->socket->terminate();
     }
 
+    /**
+     * @param TLClientMessage[] $messages
+     * @param callable $onLastResponse
+     */
+    public function getResponseConsecutive(array $messages, callable $onLastResponse)
+    {
+        $messages = array_reverse($messages);
+        if (!$messages) {
+            throw new LogicException('empty messages');
+        }
+        $newFunc = $onLastResponse;
+        foreach ($messages as $message) {
+            $newFunc = function() use ($message, $newFunc) {
+                $this->getResponseAsync($message, $newFunc);
+            };
+        }
+        $newFunc();
+    }
 }

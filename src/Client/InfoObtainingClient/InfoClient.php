@@ -341,36 +341,38 @@ class InfoClient implements InfoObtainingClient
                     // create authKey in foreign dc
                     $dc = new DataCentre($dc->getIp(), $dc->getId(), $dc->getPort());
                     $auth = new AppAuthorization($dc);
-                    $authKey = $auth->createAuthKey();
+                    $auth->createAuthKey(function ($authKey) use($onPictureLoaded, $dc, $location) {
 
-                    // login in foreign dc
-                    $clientKey = count($this->otherDcClients);
-                    $this->otherDcClients[$clientKey] = new BasicClientImpl();
-                    $this->otherDcClients[$clientKey]->login($authKey);
+                        // login in foreign dc
+                        $clientKey = count($this->otherDcClients);
+                        $this->otherDcClients[$clientKey] = new BasicClientImpl();
+                        $this->otherDcClients[$clientKey]->login($authKey);
 
-                    // export current authorization to foreign dc
-                    $exportAuthRequest = new export_authorization($dc->getDcId());
-                    $this->basicClient->getConnection()->getResponseAsync($exportAuthRequest, function (AnonymousMessage $message) use ($clientKey, $location, $onPictureLoaded) {
-                        $exportedAuthResponse = new ExportedAuthorization($message);
+                        // export current authorization to foreign dc
+                        $exportAuthRequest = new export_authorization($dc->getDcId());
+                        $this->basicClient->getConnection()->getResponseAsync($exportAuthRequest, function (AnonymousMessage $message) use ($clientKey, $location, $onPictureLoaded) {
+                            $exportedAuthResponse = new ExportedAuthorization($message);
 
-                        // import authorization on foreign dc
-                        $importAuthRequest = new import_authorization(
-                            $exportedAuthResponse->getUserId(),
-                            $exportedAuthResponse->getTransferKey()
-                        );
-                        $this->otherDcClients[$clientKey]->getConnection()->getResponseAsync($importAuthRequest, function (AnonymousMessage $message) use ($exportedAuthResponse, $clientKey, $location, $onPictureLoaded) {
-                            $authorization = new AuthorizationSelfUser($message);
-                            if($authorization->getUser()->getUserId() != $exportedAuthResponse->getUserId())
-                                throw new TGException(TGException::ERR_AUTH_EXPORT_FAILED);
+                            // import authorization on foreign dc
+                            $importAuthRequest = new import_authorization(
+                                $exportedAuthResponse->getUserId(),
+                                $exportedAuthResponse->getTransferKey()
+                            );
+                            $this->otherDcClients[$clientKey]->getConnection()->getResponseAsync($importAuthRequest, function (AnonymousMessage $message) use ($exportedAuthResponse, $clientKey, $location, $onPictureLoaded) {
+                                $authorization = new AuthorizationSelfUser($message);
+                                if($authorization->getUser()->getUserId() != $exportedAuthResponse->getUserId())
+                                    throw new TGException(TGException::ERR_AUTH_EXPORT_FAILED);
 
-                            // make foreign dc current and get the picture
-                            $this->readPictureFromCurrentDC($this->otherDcClients[$clientKey]->getConnection(), $location, function ($picture) use ($clientKey, $onPictureLoaded) {
-                                $this->otherDcClients[$clientKey]->terminate();
-                                unset($this->otherDcClients[$clientKey]);
-                                $onPictureLoaded($picture);
+                                // make foreign dc current and get the picture
+                                $this->readPictureFromCurrentDC($this->otherDcClients[$clientKey]->getConnection(), $location, function ($picture) use ($clientKey, $onPictureLoaded) {
+                                    $this->otherDcClients[$clientKey]->terminate();
+                                    unset($this->otherDcClients[$clientKey]);
+                                    $onPictureLoaded($picture);
+                                });
+
                             });
-
                         });
+
                     });
 
                     break;

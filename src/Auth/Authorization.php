@@ -8,8 +8,8 @@ interface Authorization
 {
 
     /**
-     * @return AuthKey
+     * @param callable $cb function(AuthKey $authKey)
      */
-    public function createAuthKey();
+    public function createAuthKey(callable $cb);
 
 }

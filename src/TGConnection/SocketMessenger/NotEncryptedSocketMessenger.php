@@ -6,6 +6,7 @@ namespace TGConnection\SocketMessenger;
 use Exception\TGException;
 use LibConfig;
 use Logger\Logger;
+use LogicException;
 use MTSerialization\AnonymousMessage;
 use MTSerialization\MTDeserializer;
 use MTSerialization\OwnImplementation\OwnDeserializer;
@@ -136,33 +137,6 @@ class NotEncryptedSocketMessenger implements SocketMessenger
 
 
     /**
-     * @param TLClientMessage $message
-     * @param int $timeoutMs
-     * @return AnonymousMessage
-     * @throws TGException
-     */
-    public function getResponse(TLClientMessage $message, $timeoutMs = LibConfig::CONN_SOCKET_TIMEOUT_WAIT_RESPONSE_MS)
-    {
-        $this->writeMessage($message);
-        $startTimeMs = microtime(true) * 1000;
-
-        while(true){
-            $response = $this->readMessage();
-            if($response)
-                return $response;
-
-            $currentTimeMs = microtime(true) * 1000;
-            if(($currentTimeMs - $startTimeMs) > $timeoutMs)
-                break;
-
-            usleep(LibConfig::CONN_SOCKET_RESPONSE_DELAY_MICROS);
-        }
-
-        throw new TGException(TGException::ERR_MSG_RESPONSE_TIMEOUT);
-    }
-
-
-    /**
      * @return DataCentre
      */
     public function getDCInfo()
@@ -176,9 +150,36 @@ class NotEncryptedSocketMessenger implements SocketMessenger
         $this->socket->terminate();
     }
 
-
-    public function getResponseAsync(TLClientMessage $message, callable $onAsyncResponse)
+    /**
+     * @param TLClientMessage $message
+     * @param callable $cb
+     * @throws TGException
+     */
+    public function getResponseAsync(TLClientMessage $message, callable $cb)
     {
+        // Dummy impl
+        $this->writeMessage($message);
+        $startTimeMs = microtime(true) * 1000;
 
+        while(true){
+            $response = $this->readMessage();
+            if($response) {
+                $cb($response);
+                return;
+            }
+
+            $currentTimeMs = microtime(true) * 1000;
+            if(($currentTimeMs - $startTimeMs) > LibConfig::CONN_SOCKET_TIMEOUT_WAIT_RESPONSE_MS)
+                break;
+
+            usleep(LibConfig::CONN_SOCKET_RESPONSE_DELAY_MICROS);
+        }
+
+        throw new TGException(TGException::ERR_MSG_RESPONSE_TIMEOUT);
+    }
+
+    public function getResponseConsecutive(array $messages, callable $onLastResponse)
+    {
+        throw new LogicException('not implemented ' . __METHOD__);
     }
 }

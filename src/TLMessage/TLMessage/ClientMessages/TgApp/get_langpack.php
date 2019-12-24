@@ -22,7 +22,7 @@ class get_langpack implements TLClientMessage
 
 
     /**
-     * @var $langCode string
+     * @param string $langCode
      */
     public function __construct(string $langCode)
     {
