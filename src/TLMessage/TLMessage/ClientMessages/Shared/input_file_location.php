@@ -32,11 +32,10 @@ class input_file_location implements TLClientMessage
 
 
     /**
-     * @var $volumeId int
-     * @var $localId int
-     * @var $secret int
-     * @var $offset int
-     * @var $limit int
+     * @param int $volumeId
+     * @param int $localId
+     * @param int $secret
+     * @param string $reference
      */
     public function __construct($volumeId, $localId, $secret, $reference)
     {

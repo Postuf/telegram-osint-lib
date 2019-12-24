@@ -19,7 +19,7 @@ class send_sms_code implements TLClientMessage
 
 
     /**
-     * @var $phone string
+     * @param string $phone
      */
     public function __construct(string $phone)
     {

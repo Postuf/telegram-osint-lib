@@ -2,6 +2,7 @@
 
 
 use Auth\Protocol\AppAuthorization;
+use Client\AuthKey\AuthKey;
 use Client\AuthKey\AuthKeyCreator;
 use Client\AuthKey\Versions\AuthKey_v2;
 use Client\BasicClient\BasicClientImpl;
@@ -21,34 +22,30 @@ class AuthKeyCreateTest extends TestCase implements MessageListener
 
     public function test_generate_auth_key()
     {
-        \Logger\Logger::setupLogger($this->createMock(\Logger\ClientDebugLogger::class));
+        Logger::setupLogger($this->createMock(ClientDebugLogger::class));
 
         $dc = DataCentre::getDefault();
         /** @noinspection PhpUnhandledExceptionInspection */
         $auth = new AppAuthorization($dc);
         /** @noinspection PhpUnhandledExceptionInspection */
-        $key = $auth->createAuthKey();
+        $auth->createAuthKey(function (AuthKey $key) {
+            $serializedKey = $key->getSerializedAuthKey();
+            $authKey = AuthKeyCreator::createFromString($serializedKey);
 
-        $serializedKey = $key->getSerializedAuthKey();
-        /** @noinspection PhpUnhandledExceptionInspection */
-        $authKey = AuthKeyCreator::createFromString($serializedKey);
+            // check if key in good format
+            $this->assertTrue($authKey instanceof AuthKey_v2);
 
-        // check if key in good format
-        $this->assertTrue($authKey instanceof AuthKey_v2);
+            $client = new BasicClientImpl();
+            $client->setMessageListener($this);
+            $client->login($key);
 
-        $client = new BasicClientImpl();
-        /** @noinspection PhpUnhandledExceptionInspection */
-        $client->setMessageListener($this);
-        /** @noinspection PhpUnhandledExceptionInspection */
-        $client->login($key);
+            while(!$client->pollMessage()){
+                true;
+            }
 
-        /** @noinspection PhpUnhandledExceptionInspection */
-        while(!$client->pollMessage()){
-            true;
-        }
-
-        // check if key login-able
-        $this->assertTrue($this->session_created);
+            // check if key login-able
+            $this->assertTrue($this->session_created);
+        });
     }
 
 

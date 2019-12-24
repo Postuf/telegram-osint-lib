@@ -29,7 +29,7 @@ class init_connection implements TLClientMessage
     /**
      *
      * @param AccountInfo $authInfo
-     * @var $query TLClientMessage
+     * @param TLClientMessage|null $query
      */
     public function __construct(AccountInfo $authInfo, TLClientMessage $query = null)
     {

@@ -53,7 +53,7 @@ class StatusWatcherClient
 
     /**
      * @throws TGException
-     * @var $callbacks StatusWatcherCallbacks
+     * @param StatusWatcherCallbacks $callbacks
      */
     public function __construct(StatusWatcherCallbacks $callbacks)
     {

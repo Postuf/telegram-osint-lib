@@ -3,20 +3,21 @@ declare(strict_types=1);
 
 namespace Registration;
 
-use Client\AuthKey\AuthKey;
-
 interface RegisterInterface
 {
 
     /**
-     * @var $phoneNumber string
+     *
+     * @param string $phoneNumber
+     * @param callable $cb
      */
-    public function requestCodeForPhone(string $phoneNumber): void;
+    public function requestCodeForPhone(string $phoneNumber, callable $cb): void;
 
     /**
-     * @var $smsCode string
-     * @return AuthKey
+     * @param string $smsCode
+     * @param callable $cb function(AuthKey $authKey)
      */
-    public function confirmPhoneWithSmsCode(string $smsCode): AuthKey;
+    public function confirmPhoneWithSmsCode(string $smsCode, callable $cb): void;
 
+    public function pollMessages();
 }
