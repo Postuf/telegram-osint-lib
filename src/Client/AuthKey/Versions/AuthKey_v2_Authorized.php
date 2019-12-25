@@ -13,6 +13,7 @@ use Throwable;
 
 /**
  * <phone>:serialized(AuthInfo):serialized(authKey_v2)
+ * @see AuthKey_v2
  */
 class AuthKey_v2_Authorized implements AuthorizedAuthKey
 {
