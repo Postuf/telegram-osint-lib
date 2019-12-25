@@ -9,7 +9,6 @@ use Client\AuthKey\Versions\AuthKey_v1_Simple;
 use Client\AuthKey\Versions\AuthKey_v2;
 use Client\AuthKey\Versions\AuthKey_v2_Authorized;
 use Client\AuthKey\Versions\AuthKey_v2_Phone;
-use Client\AuthKey\Versions\AuthKey_v2_Proxy_Authorized;
 use Exception\TGException;
 use TGConnection\DataCentre;
 
@@ -27,9 +26,6 @@ class AuthKeyCreator
      */
     public static function createFromString(string $serializedAuthKey)
     {
-        if(self::is_AuthKey_v2_Proxy_Authorized($serializedAuthKey))
-            return new AuthKey_v2_Authorized($serializedAuthKey);
-
         if(self::is_AuthKey_v2_Authorized($serializedAuthKey))
             return new AuthKey_v2_Authorized($serializedAuthKey);
 
@@ -89,16 +85,6 @@ class AuthKeyCreator
     {
         try{
             new AuthKey_v2_Authorized($serialized);
-            return true;
-        }catch (TGException $exception){
-            return false;
-        }
-    }
-
-    private static function is_AuthKey_v2_Proxy_Authorized(string $serialized)
-    {
-        try{
-            new AuthKey_v2_Proxy_Authorized($serialized);
             return true;
         }catch (TGException $exception){
             return false;

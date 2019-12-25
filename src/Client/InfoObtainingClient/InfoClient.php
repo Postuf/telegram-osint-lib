@@ -6,7 +6,6 @@ namespace Client\InfoObtainingClient;
 
 use Auth\Protocol\AppAuthorization;
 use Client\AuthKey\AuthKey;
-use Client\AuthKey\Versions\AuthKey_v2_Proxy_Authorized;
 use Client\BasicClient\BasicClient;
 use Client\BasicClient\BasicClientImpl;
 use Client\InfoObtainingClient;
@@ -76,9 +75,6 @@ class InfoClient implements InfoObtainingClient
      */
     public function login(AuthKey $authKey, Proxy $proxy = null)
     {
-        if (!$proxy && $authKey instanceof AuthKey_v2_Proxy_Authorized) {
-            $proxy = $authKey->getProxy();
-        }
         $this->basicClient->login($authKey, $proxy);
     }
 
