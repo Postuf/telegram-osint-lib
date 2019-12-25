@@ -11,6 +11,7 @@ use Client\AuthKey\AuthKeyCreator;
 use Exception\TGException;
 use LibConfig;
 use MTSerialization\AnonymousMessage;
+use SocksProxyAsync\Proxy;
 use TGConnection\DataCentre;
 use TGConnection\Socket\ProxySocket;
 use TGConnection\Socket\TcpSocket;
@@ -45,7 +46,6 @@ use TLMessage\TLMessage\ServerMessages\DcConfigApp;
 use TLMessage\TLMessage\ServerMessages\Languages;
 use TLMessage\TLMessage\ServerMessages\SentCodeApp;
 use Tools\Phone;
-use Tools\Proxy;
 
 
 class RegistrationFromTgApp
