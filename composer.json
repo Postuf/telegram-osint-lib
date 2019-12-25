@@ -1,5 +1,7 @@
 {
-    "name": "postuf-team/telegram-api-lib",
+    "name": "postuf/telegram-api-lib",
+    "description": "Telegram scenario-based API aimed at OSINT",
+    "homepage": "https://github.com/Postuf/telegram-osint-lib",
     "require": {
         "phpseclib/phpseclib": "^2.0",
         "phpunit/phpunit": "^8.5",
