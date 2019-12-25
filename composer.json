@@ -1,5 +1,8 @@
 {
-    "name": "postuf-team/telegram-api-lib",
+    "name": "postuf/telegram-api-lib",
+    "description": "Telegram scenario-based API aimed at OSINT",
+    "homepage": "https://github.com/Postuf/telegram-osint-lib",
+    "type": "library",
     "require": {
         "phpseclib/phpseclib": "^2.0",
         "phpunit/phpunit": "^8.5",
@@ -11,7 +14,8 @@
         "ext-xml": "*",
         "ext-zlib": "*",
         "yidas/yii2-bower-asset": "2.0.13.1",
-        "yiisoft/yii2-apidoc": "^2.0"
+        "yiisoft/yii2-apidoc": "^2.0",
+        "postuf/socks-proxy-async": "dev-master"
     },
     "autoload": {
         "files": ["ClassLoader.php"]

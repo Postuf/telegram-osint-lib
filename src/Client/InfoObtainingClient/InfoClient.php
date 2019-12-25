@@ -16,6 +16,7 @@ use Client\InfoObtainingClient\Models\UserStatusModel;
 use Client\StatusWatcherClient\ContactsKeeper;
 use Exception\TGException;
 use MTSerialization\AnonymousMessage;
+use SocksProxyAsync\Proxy;
 use TGConnection\DataCentre;
 use TGConnection\SocketMessenger\SocketMessenger;
 use TLMessage\TLMessage\ClientMessages\Api\get_full_chat;
@@ -39,7 +40,6 @@ use TLMessage\TLMessage\ServerMessages\ExportedAuthorization;
 use TLMessage\TLMessage\ServerMessages\UploadedFile;
 use TLMessage\TLMessage\ServerMessages\UserFull;
 use TLMessage\TLMessage\TLClientMessage;
-use Tools\Proxy;
 
 
 class InfoClient implements InfoObtainingClient

@@ -13,11 +13,11 @@ use Client\StatusWatcherClient\Models\ImportResult;
 use Client\StatusWatcherClient\Models\User;
 use Exception\TGException;
 use MTSerialization\AnonymousMessage;
+use SocksProxyAsync\Proxy;
 use TGConnection\SocketMessenger\MessageListener;
 use TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 use TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
 use Tools\Phone;
-use Tools\Proxy;
 
 
 class StatusWatcherClient

@@ -12,11 +12,11 @@ use Client\StatusWatcherClient\StatusWatcherClient;
 use Exception\TGException;
 use Logger\ClientDebugLogger;
 use Logger\Logger;
-use Tools\Proxy;
+use SocksProxyAsync\Proxy;
 
 /**
  * Client base class
- * Uses two telegra, connections (infoClient, monitoringClient)
+ * Uses two telegram, connections (infoClient, monitoringClient)
  * Requires files: first.authkey, second.authkey
  */
 class MyTgClientDebug
@@ -46,10 +46,10 @@ class MyTgClientDebug
 
 
     /**
-     * MyTgClientDebug constructor.
+     * @param Proxy|null $proxy
      * @throws TGException
      */
-    public function __construct()
+    public function __construct(?Proxy $proxy = null)
     {
         /**
          * Set TL-node logger
@@ -69,6 +69,7 @@ class MyTgClientDebug
          */
         $this->monitoringClient = new StatusWatcherClient($this);
         $this->infoClient = new InfoClient();
+        $this->proxy = $proxy;
     }
 
 

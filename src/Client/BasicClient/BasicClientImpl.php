@@ -7,6 +7,7 @@ use Client\AuthKey\AuthKey;
 use Exception\TGException;
 use LibConfig;
 use MTSerialization\AnonymousMessage;
+use SocksProxyAsync\Proxy;
 use TGConnection\DataCentre;
 use TGConnection\Socket\ProxySocket;
 use TGConnection\Socket\Socket;
@@ -16,7 +17,6 @@ use TGConnection\SocketMessenger\MessageListener;
 use TGConnection\SocketMessenger\SocketMessenger;
 use TLMessage\TLMessage\ClientMessages\Shared\update_status;
 use TLMessage\TLMessage\ClientMessages\TgApp\ping_delay_disconnect;
-use Tools\Proxy;
 
 
 class BasicClientImpl
@@ -75,11 +75,11 @@ class BasicClientImpl
 
     /**
      * @param AuthKey $authKey
-     * @param Proxy $proxy
+     * @param Proxy|null $proxy
      * @return void
      * @throws TGException
      */
-    public function login(AuthKey $authKey, Proxy $proxy = null)
+    public function login(AuthKey $authKey, ?Proxy $proxy = null)
     {
         if($this->isLoggedIn())
             throw new TGException(TGException::ERR_CLIENT_ALREADY_LOGGED_IN);
@@ -87,6 +87,7 @@ class BasicClientImpl
         $dc = $authKey->getAttachedDC();
         $socket = $this->pickSocket($dc, $proxy);
 
+        /** @noinspection PhpParamsInspection */
         $this->connection = new EncryptedSocketMessenger($socket, $authKey, $this);
         $this->isLoggedIn = true;
     }
