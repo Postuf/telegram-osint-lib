@@ -1,21 +1,21 @@
 <?php
 
+
 namespace Client\AuthKey\Versions;
 
 
 use Client\AuthKey\AuthInfo;
-use Client\AuthKey\AuthorizedAuthKey;
+use Client\AuthKey\AuthKey;
 use Exception\TGException;
 use Registration\AccountInfo;
-use TGConnection\DataCentre;
+use SocksProxyAsync\Proxy;
 use Throwable;
 
-
 /**
- * <phone>:serialized(AuthInfo):serialized(authKey_v2)
+ * <phone>:serialized(AuthInfo):base64_encode(proxy):serialized(authKey_v2)
  * @see AuthKey_v2
  */
-class AuthKey_v2_Authorized implements AuthorizedAuthKey
+class AuthKey_v2_Proxy_Authorized implements AuthKey
 {
 
     /**
@@ -30,6 +30,9 @@ class AuthKey_v2_Authorized implements AuthorizedAuthKey
      * @var AccountInfo
      */
     private $account;
+
+    /** @var Proxy */
+    private $proxy;
     /**
      * @var AuthKey_v2
      */
@@ -44,13 +47,15 @@ class AuthKey_v2_Authorized implements AuthorizedAuthKey
     {
         try{
             $parts = explode(':', $serializedAuthKey);
-            if(count($parts) < 3)
+            if(count($parts) < 4)
                 throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
 
             $this->serialized = $serializedAuthKey;
             $this->phone = $parts[0];
             $this->account = AccountInfo::deserializeFromJson(@hex2bin($parts[1]));
-            $this->innerAuthKey = new AuthKey_v2(implode(':', array_slice($parts, 2)));
+            $proxyStr = base64_decode($parts[2]);
+            $this->proxy = new Proxy($proxyStr);
+            $this->innerAuthKey = new AuthKey_v2(implode(':', array_slice($parts, 3)));
 
         } catch (TGException $tge){
             throw $tge;
@@ -59,65 +64,52 @@ class AuthKey_v2_Authorized implements AuthorizedAuthKey
         }
     }
 
-
     /**
      * @param AuthKey_v2 $authKey
      * @param AuthInfo $authInfo
-     * @return AuthKey_v2_Authorized
+     * @param Proxy $proxy
+     * @return AuthKey_v2_Proxy_Authorized
      * @throws TGException
      */
-    public static function serialize(AuthKey_v2 $authKey, AuthInfo $authInfo)
+    public static function serialize(AuthKey_v2 $authKey, AuthInfo $authInfo, Proxy $proxy)
     {
-        $serialized =
-            trim($authInfo->getPhone()) . ':' .
-            bin2hex($authInfo->getAccount()->serializeToJson()) . ':' .
-            $authKey->getSerializedAuthKey();
+        $serialized = implode(':', [
+            trim($authInfo->getPhone()),
+            bin2hex($authInfo->getAccount()->serializeToJson()),
+            base64_encode($proxy->getServer() . ':' . $proxy->getPort()),
+            $authKey->getSerializedAuthKey()
+        ]);
 
-        return new AuthKey_v2_Authorized($serialized);
+        return new AuthKey_v2_Proxy_Authorized($serialized);
     }
 
 
     /**
-     * @return string
-     */
-    public function getSerializedAuthKey()
-    {
-        return $this->serialized;
-    }
-
-
-    /**
-     * @return string
+     * @inheritDoc
      */
     public function getRawAuthKey()
     {
         return $this->innerAuthKey->getRawAuthKey();
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function getSerializedAuthKey()
+    {
+        return $this->serialized;
+    }
 
     /**
-     * @return DataCentre
+     * @inheritDoc
      */
     public function getAttachedDC()
     {
         return $this->innerAuthKey->getAttachedDC();
     }
 
-
-    /**
-     * @return string
-     */
-    public function getPhone()
+    public function getProxy(): Proxy
     {
-        return $this->phone;
-    }
-
-
-    /**
-     * @return AccountInfo
-     */
-    public function getAccountInfo()
-    {
-        return $this->account;
+        return $this->proxy;
     }
 }

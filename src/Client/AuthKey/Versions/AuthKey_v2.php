@@ -11,7 +11,7 @@ use Throwable;
 
 
 /**
- * <phone>:base64(<authKey>):hex(json(<meta_info>))
+ * base64(<authKey>):hex(json(<meta_info>))
  */
 class AuthKey_v2 implements AuthKey
 {
