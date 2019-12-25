@@ -11,7 +11,8 @@
         "ext-xml": "*",
         "ext-zlib": "*",
         "yidas/yii2-bower-asset": "2.0.13.1",
-        "yiisoft/yii2-apidoc": "^2.0"
+        "yiisoft/yii2-apidoc": "^2.0",
+        "postuf/socks-proxy-async": "dev-master"
     },
     "autoload": {
         "files": ["ClassLoader.php"]
