@@ -33,11 +33,14 @@ class Proxy
             $parts = explode('|', $serverAndPort);
             $serverAndPort = $parts[0];
             $auth = explode(':', $parts[1]);
+            if (count($auth) !== 2) {
+                throw new TGException(TGException::ERR_PROXY_BAD_FORMAT);
+            }
             $this->setLoginPassword($auth[0], $auth[1]);
         }
         $proxyPath = explode(':', $serverAndPort);
         if(sizeof($proxyPath) != 2)
-            throw new TgException(TgException::ERR_PROXY_BAD_FORMAT);
+            throw new TGException(TGException::ERR_PROXY_BAD_FORMAT);
         $this->server = trim($proxyPath[0]);
         $this->port = trim($proxyPath[1]);
 
