@@ -5,12 +5,10 @@ namespace TGConnection\Socket;
 
 use Exception\TGException;
 use LibConfig;
+use SocksProxyAsync\Proxy;
+use SocksProxyAsync\Socks5Socket;
+use SocksProxyAsync\SocksException;
 use TGConnection\DataCentre;
-use TGConnection\Socket\Socks5Socket\Socks5Socket;
-use TGConnection\Socket\Socks5Socket\SocksException;
-use TGConnection\Socket\Socks5Socket\SocksProxy;
-use TGConnection\Socket\Socks5Socket\SocksProxyForProxy;
-use Tools\Proxy;
 
 
 class ProxySocket implements Socket
@@ -44,25 +42,24 @@ class ProxySocket implements Socket
         if(!in_array($proxy->getType(), [Proxy::TYPE_SOCKS5]))
             throw new TGException(TGException::ERR_PROXY_WRONG_PROXY_TYPE);
 
-        $this->requireDependencies();
-
         $this->dc = $dc;
         $this->proxy = $proxy;
-        $this->socksSocket = new Socks5Socket($this->createSocksProxy(), LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC);
+        $this->socksSocket = new Socks5Socket($this->proxy, LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC);
 
         try {
             $this->socksSocket = $this->socksSocket->createConnected($this->dc->getDcIp(), $this->dc->getDcPort());
             socket_set_nonblock($this->socksSocket);
         } catch (SocksException $e) {
-            $this->wrapSocksException($e);
+            $this->wrapSocksLibException($e);
         }
     }
+
 
     /**
      * @param SocksException $e
      * @throws TGException
      */
-    private function wrapSocksException(SocksException $e)
+    private function wrapSocksLibException(SocksException $e)
     {
         switch ($e->getCode()) {
             case SocksException::UNREACHABLE_PROXY:
@@ -79,24 +76,6 @@ class ProxySocket implements Socket
                 throw new TGException(TGException::ERR_PROXY_CONNECTION_NOT_ESTABLISHED);
         }
     }
-
-
-    private function requireDependencies()
-    {
-        require_once __DIR__ . "/Socks5Socket/SocksProxy.php";
-        require_once __DIR__ . "/Socks5Socket/Socks5Socket.php";
-        require_once __DIR__ . "/Socks5Socket/SocksException.php";
-    }
-
-    /**
-     * @return SocksProxy
-     */
-    private function createSocksProxy()
-    {
-        $proxy = $this->proxy;
-        return new SocksProxyForProxy($proxy);
-    }
-
     public function __destruct()
     {
         $this->terminate();

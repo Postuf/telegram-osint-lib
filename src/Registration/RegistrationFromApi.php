@@ -10,6 +10,7 @@ use Client\AuthKey\AuthKeyCreator;
 use Exception\TGException;
 use Logger\Logger;
 use MTSerialization\AnonymousMessage;
+use SocksProxyAsync\Proxy;
 use TGConnection\DataCentre;
 use TGConnection\Socket\ProxySocket;
 use TGConnection\Socket\TcpSocket;
@@ -22,7 +23,6 @@ use TLMessage\TLMessage\ClientMessages\Shared\sign_up;
 use TLMessage\TLMessage\ServerMessages\AuthorizationSelfUser;
 use TLMessage\TLMessage\ServerMessages\SentCodeApi;
 use Tools\Phone;
-use Tools\Proxy;
 
 
 class RegistrationFromApi

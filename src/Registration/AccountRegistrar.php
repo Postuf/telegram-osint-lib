@@ -5,7 +5,7 @@ namespace Registration;
 
 
 use Exception\TGException;
-use Tools\Proxy;
+use SocksProxyAsync\Proxy;
 
 class AccountRegistrar implements RegisterInterface
 {

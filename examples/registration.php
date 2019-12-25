@@ -2,7 +2,6 @@
 
 use Client\AuthKey\AuthKey;
 use Registration\AccountRegistrar;
-use Tools\Proxy;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
