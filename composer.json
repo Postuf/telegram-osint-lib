@@ -1,5 +1,6 @@
 {
     "name": "postuf-team/telegram-api-lib",
+    "type": "library",
     "require": {
         "phpseclib/phpseclib": "^2.0",
         "phpunit/phpunit": "^8.5",
