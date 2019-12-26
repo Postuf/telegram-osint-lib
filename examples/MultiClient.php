@@ -46,11 +46,11 @@ class MultiClient
         foreach ($this->clients as $k => $client) {
             try {
                 $authKey = $this->authKeys[$k];
-                $client->login($authKey, $proxy, function() use($authKey) {
+                $client->login($authKey, $proxy, function () use ($authKey) {
                     $parts = explode(':', $authKey->getSerializedAuthKey());
                     $phone = $parts[0];
-                    Logger::log(__CLASS__, $phone . ' connected');
-                    ++$this->connectedCount;
+                    Logger::log(__CLASS__, $phone.' connected');
+                    $this->connectedCount++;
                     if ($this->connectedCount == count($this->clients)) {
                         $timeDiff = microtime(true) - $this->startTime;
                         $timeDiffStr = number_format($timeDiff, 3);

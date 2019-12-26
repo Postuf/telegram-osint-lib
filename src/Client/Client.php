@@ -9,8 +9,8 @@ use SocksProxyAsync\Proxy;
 interface Client
 {
     /**
-     * @param AuthKey $authKey
-     * @param Proxy $proxy
+     * @param AuthKey       $authKey
+     * @param Proxy         $proxy
      * @param callable|null $cb
      *
      * @return void

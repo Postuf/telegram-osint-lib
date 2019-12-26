@@ -35,9 +35,10 @@ class ProxySocket implements Socket
     private $cbOnConnected = null;
 
     /**
-     * @param Proxy      $proxy
-     * @param DataCentre $dc
+     * @param Proxy         $proxy
+     * @param DataCentre    $dc
      * @param callable|null $cb
+     *
      * @throws TGException
      */
     public function __construct(Proxy $proxy, DataCentre $dc, callable $cb = null)
@@ -54,14 +55,16 @@ class ProxySocket implements Socket
                 $this->dc->getDcPort(),
                 LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC
             );
-            $this->cbOnConnected = function() use ($cb) {
+            $this->cbOnConnected = function () use ($cb) {
                 $this->socksSocket = $this->socketObject->getSocksSocket();
                 $cb();
             };
+
             return;
         }
 
         $this->socketObject = new Socks5Socket($this->proxy, LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC);
+
         try {
             $this->socksSocket = $this->socketObject->createConnected($this->dc->getDcIp(), $this->dc->getDcPort());
             socket_set_nonblock($this->socksSocket);
