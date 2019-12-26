@@ -1,24 +1,22 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Registration;
-
 
 use Exception\TGException;
 use SocksProxyAsync\Proxy;
 
 class AccountRegistrar implements RegisterInterface
 {
-
     /**
      * @var RegisterInterface
      */
     private $reg;
 
-
     /**
      * @param AccountInfo|null $accountInfo
-     * @param Proxy|null $proxy
+     * @param Proxy|null       $proxy
      */
     public function __construct(Proxy $proxy = null, AccountInfo $accountInfo = null)
     {
@@ -30,9 +28,9 @@ class AccountRegistrar implements RegisterInterface
     }
 
     /**
-     *
-     * @param string $phoneNumber
+     * @param string   $phoneNumber
      * @param callable $cb
+     *
      * @throws TGException
      */
     public function requestCodeForPhone(string $phoneNumber, callable $cb): void
@@ -41,9 +39,8 @@ class AccountRegistrar implements RegisterInterface
         $this->reg->requestCodeForPhone($phoneNumber, $cb);
     }
 
-
     /**
-     * @param string $smsCode
+     * @param string   $smsCode
      * @param callable $cb
      *
      * @throws TGException
@@ -53,5 +50,4 @@ class AccountRegistrar implements RegisterInterface
         $smsCode = trim($smsCode);
         $this->reg->confirmPhoneWithSmsCode($smsCode, $cb);
     }
-
 }

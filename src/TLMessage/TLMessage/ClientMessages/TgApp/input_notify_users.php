@@ -8,7 +8,6 @@ use TLMessage\TLMessage\TLClientMessage;
 /** @see https://core.telegram.org/constructor/inputNotifyUsers */
 class input_notify_users implements TLClientMessage
 {
-
     const CONSTRUCTOR = 423314455; // 0x193B4417
 
     /**
@@ -19,7 +18,6 @@ class input_notify_users implements TLClientMessage
         return 'input_notify_users';
     }
 
-
     /**
      * @return string
      */
@@ -27,5 +25,4 @@ class input_notify_users implements TLClientMessage
     {
         return Packer::packConstructor(self::CONSTRUCTOR);
     }
-
 }

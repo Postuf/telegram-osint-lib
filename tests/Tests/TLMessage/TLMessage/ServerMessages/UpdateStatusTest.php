@@ -8,21 +8,20 @@ use TLMessage\TLMessage\ServerMessages\Update\UpdateUserStatus;
 
 class UpdateStatusTest extends TestCase
 {
-
     public function test_update_status_online()
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         $update = new AnonymousMessageMock([
-            '_' => 'updateShort',
+            '_'      => 'updateShort',
             'update' => [
-                '_' => 'updateUserStatus',
+                '_'       => 'updateUserStatus',
                 'user_id' => 5001011,
-                'status' => [
-                    '_' => 'userStatusOnline',
-                    'expires' => 378256982
-                ]
+                'status'  => [
+                    '_'       => 'userStatusOnline',
+                    'expires' => 378256982,
+                ],
             ],
-            'date' => 1533376561
+            'date' => 1533376561,
         ]);
 
         /** @noinspection PhpUnhandledExceptionInspection */
@@ -39,21 +38,20 @@ class UpdateStatusTest extends TestCase
 
     }
 
-
     public function test_update_status_offline()
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         $update = new AnonymousMessageMock([
-            '_' => 'updateShort',
+            '_'      => 'updateShort',
             'update' => [
-                '_' => 'updateUserStatus',
+                '_'       => 'updateUserStatus',
                 'user_id' => 987436509243,
-                'status' => [
-                    '_' => 'userStatusOffline',
-                    'was_online' => 784358232
-                ]
+                'status'  => [
+                    '_'          => 'userStatusOffline',
+                    'was_online' => 784358232,
+                ],
             ],
-            'date' => 1533376561
+            'date' => 1533376561,
         ]);
 
         /** @noinspection PhpUnhandledExceptionInspection */
@@ -69,20 +67,19 @@ class UpdateStatusTest extends TestCase
         $this->assertEquals($updateUserStatus->getStatus()->getWasOnline(), 784358232);
     }
 
-
     public function test_update_status_hidden()
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         $update = new AnonymousMessageMock([
-            '_' => 'updateShort',
+            '_'      => 'updateShort',
             'update' => [
-                '_' => 'updateUserStatus',
+                '_'       => 'updateUserStatus',
                 'user_id' => 50000300,
-                'status' => [
-                    '_' => 'userStatusEmpty'
-                ]
+                'status'  => [
+                    '_' => 'userStatusEmpty',
+                ],
             ],
-            'date' => 1533376561
+            'date' => 1533376561,
         ]);
 
         /** @noinspection PhpUnhandledExceptionInspection */

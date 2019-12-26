@@ -1,25 +1,21 @@
 <?php
 
-
 namespace TLMessage\TLMessage\ServerMessages;
-
 
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class AuthorizationSelfUser extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
         return self::checkType($tlMessage, 'auth.authorization');
     }
-
 
     /**
      * @return UserSelf
@@ -27,8 +23,7 @@ class AuthorizationSelfUser extends TLServerMessage
     public function getUser()
     {
         $self = $this->getTlMessage()->getNode('user');
+
         return new UserSelf($self);
     }
-
-
 }

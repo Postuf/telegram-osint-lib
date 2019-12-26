@@ -1,33 +1,30 @@
 <?php
 
-
 namespace Auth\Factorization;
-
 
 use Exception\TGException;
 use GMP;
 
-
 class GmpFactorizer implements Factorizer
 {
-
     /**
      * @param int $bigNumber
-     * @return PQ
+     *
      * @throws TGException
+     *
+     * @return PQ
      */
     public function factorize($bigNumber)
     {
         if(!extension_loaded('gmp'))
             throw new TGException(TGException::ERR_ASSERT_EXTENSION_MISSING, 'gmp');
-
         $gmp_p = $this->gmp_pollard_rho($bigNumber);
         $p = gmp_strval($gmp_p);
         $gmp_q = gmp_div_qr(gmp_init($bigNumber), gmp_init($p));
         $q = gmp_strval($gmp_q[0]);
         $r = gmp_strval($gmp_q[1]);
 
-        if((int)$r != 0)
+        if((int) $r != 0)
             throw new TGException(TGException::ERR_AUTH_GMP_FACTOR_WRONG_RESULT);
 
         return new PQ($p, $q);
@@ -35,6 +32,7 @@ class GmpFactorizer implements Factorizer
 
     /**
      * @param int $number
+     *
      * @return GMP
      */
     private function gmp_pollard_rho($number) {
@@ -61,5 +59,4 @@ class GmpFactorizer implements Factorizer
 
         return $g;
     }
-
 }

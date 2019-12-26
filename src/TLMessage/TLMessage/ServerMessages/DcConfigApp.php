@@ -2,23 +2,20 @@
 
 namespace TLMessage\TLMessage\ServerMessages;
 
-
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class DcConfigApp extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
         return self::checkType($tlMessage, 'config');
     }
-
 
     /**
      * @return DcOption[]
@@ -36,16 +33,12 @@ class DcConfigApp extends TLServerMessage
         return $dcObjects;
     }
 
-
     /**
      * @return int
      * @noinspection PhpUnused
      */
     public function getLangPackVersion()
     {
-        return (int)$this->getTlMessage()->getValue('lang_pack_version');
+        return (int) $this->getTlMessage()->getValue('lang_pack_version');
     }
-
-
-
 }

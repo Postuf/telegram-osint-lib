@@ -10,7 +10,6 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class set_client_dh_params implements TLClientMessage
 {
-
     const CONSTRUCTOR = 0xF5045F1F;
 
     /**
@@ -26,9 +25,9 @@ class set_client_dh_params implements TLClientMessage
      */
     private $encryptedData;
 
-
     /**
      * set_client_dh_params constructor.
+     *
      * @param string $oldClientNonce
      * @param string $serverNonce
      * @param string $encryptedData
@@ -59,5 +58,4 @@ class set_client_dh_params implements TLClientMessage
             Packer::packBytes($this->serverNonce).
             Packer::packString($this->encryptedData);
     }
-
 }

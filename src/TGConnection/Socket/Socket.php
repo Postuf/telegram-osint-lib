@@ -2,14 +2,13 @@
 
 namespace TGConnection\Socket;
 
-
 use TGConnection\DataCentre;
-
 
 interface Socket
 {
     /**
      * @param int $length
+     *
      * @return string
      */
     public function readBinary(int $length);
@@ -21,6 +20,7 @@ interface Socket
 
     /**
      * @param string $payload
+     *
      * @return int
      */
     public function writeBinary(string $payload);

@@ -2,16 +2,13 @@
 
 namespace Registration;
 
-
 use Exception\TGException;
 use LibConfig;
 use Registration\DeviceGenerator\DeviceResource;
 use Registration\NameGenerator\NameResource;
 
-
 class AccountInfo
 {
-
     private $device;
     private $androidSdkVersion;
 
@@ -25,19 +22,17 @@ class AccountInfo
     private $appVersionCode;
     private $layerVersion;
 
-
     private function __construct()
     {
-        return;
-    }
 
+    }
 
     /**
      * @return AccountInfo
      */
     public static function generate()
     {
-        $acc = new AccountInfo();
+        $acc = new self();
 
         $device = new DeviceResource();
         $acc->device = $device->getDeviceString();
@@ -58,7 +53,6 @@ class AccountInfo
         return $acc;
     }
 
-
     /**
      * @return string
      */
@@ -78,11 +72,12 @@ class AccountInfo
         return json_encode($bundle);
     }
 
-
     /**
      * @param string $serialized
-     * @return AccountInfo
+     *
      * @throws TGException
+     *
+     * @return AccountInfo
      */
     public static function deserializeFromJson(string $serialized)
     {
@@ -90,8 +85,7 @@ class AccountInfo
 
         if(!$bundle)
             throw new TGException(TGException::ERR_AUTH_KEY_BAD_ACCOUNT_INFO);
-
-        $accountInfo = new AccountInfo();
+        $accountInfo = new self();
         $accountInfo->device = $bundle['device'];
         $accountInfo->androidSdkVersion = $bundle['androidSdkVersion'];
         $accountInfo->firstName = $bundle['firstName'];
@@ -104,7 +98,6 @@ class AccountInfo
 
         return $accountInfo;
     }
-
 
     /**
      * @return mixed
@@ -178,7 +171,6 @@ class AccountInfo
         return $this->layerVersion;
     }
 
-
     /**
      * @param mixed $firstName
      */
@@ -187,7 +179,6 @@ class AccountInfo
         $this->firstName = $firstName;
     }
 
-
     /**
      * @param mixed $lastName
      */
@@ -195,8 +186,4 @@ class AccountInfo
     {
         $this->lastName = $lastName;
     }
-
-
-
-
 }

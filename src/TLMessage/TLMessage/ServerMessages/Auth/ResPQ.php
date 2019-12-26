@@ -2,23 +2,20 @@
 
 namespace TLMessage\TLMessage\ServerMessages\Auth;
 
-
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class ResPQ extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
         return self::checkType($tlMessage, 'resPQ');
     }
-
 
     /**
      * @return string
@@ -28,7 +25,6 @@ class ResPQ extends TLServerMessage
         return $this->getTlMessage()->getValue('nonce');
     }
 
-
     /**
      * @return string
      */
@@ -37,7 +33,6 @@ class ResPQ extends TLServerMessage
         return $this->getTlMessage()->getValue('server_nonce');
     }
 
-
     /**
      * @return int
      * @noinspection PhpUnused
@@ -45,9 +40,9 @@ class ResPQ extends TLServerMessage
     public function getPQ()
     {
         $pqBin = $this->getTlMessage()->getValue('pq');
+
         return unpack('J', $pqBin)[1];
     }
-
 
     /**
      * @return array
@@ -56,6 +51,4 @@ class ResPQ extends TLServerMessage
     {
         return $this->getTlMessage()->getValue('server_public_key_fingerprints');
     }
-
-
 }

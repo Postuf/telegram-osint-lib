@@ -2,14 +2,11 @@
 
 namespace Client\StatusWatcherClient;
 
-
 use Client\StatusWatcherClient\Models\HiddenStatus;
 use TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
 
-
 interface StatusWatcherCallbacksMiddleware
 {
-
     /**
      * @param int $userId
      * @param int $expires
@@ -23,7 +20,7 @@ interface StatusWatcherCallbacksMiddleware
     public function onUserOffline(int $userId, int $wasOnline);
 
     /**
-     * @param int $userId
+     * @param int          $userId
      * @param HiddenStatus $hiddenStatusState
      */
     public function onUserHidStatus(int $userId, HiddenStatus $hiddenStatusState);
@@ -32,5 +29,4 @@ interface StatusWatcherCallbacksMiddleware
      * @param ImportedContacts $contactsObject
      */
     public function onContactsImported(ImportedContacts $contactsObject);
-
 }

@@ -2,7 +2,6 @@
 
 class LibConfig
 {
-
     /* ================================================================ Debug output */
 
     const LOGGER_ENABLED = true;
@@ -33,7 +32,7 @@ class LibConfig
     /* ================================================================ Api keys */
 
     // Official App
-    const APP_API_HASH = "eb06d4abfb49dc3eeb1aeb98ae0f581e";
+    const APP_API_HASH = 'eb06d4abfb49dc3eeb1aeb98ae0f581e';
     const APP_API_ID = 6;
 
     //  Any Custom App

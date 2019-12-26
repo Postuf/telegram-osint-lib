@@ -9,7 +9,6 @@ use TLMessage\TLMessage\Packer;
  */
 class input_peer_photofilelocation extends input_peer
 {
-
     const CONSTRUCTOR = 668375447; // 0x27D69997
 
     /**
@@ -31,9 +30,9 @@ class input_peer_photofilelocation extends input_peer
 
     /**
      * @param input_peer $location
-     * @param int $volumeId
-     * @param int $localId
-     * @param int $bigPhoto
+     * @param int        $volumeId
+     * @param int        $localId
+     * @param int        $bigPhoto
      */
     public function __construct(input_peer $location, int $volumeId, int $localId, int $bigPhoto)
     {
@@ -43,7 +42,6 @@ class input_peer_photofilelocation extends input_peer
         $this->bigPhoto = $bigPhoto;
     }
 
-
     /**
      * @return string
      */
@@ -51,7 +49,6 @@ class input_peer_photofilelocation extends input_peer
     {
         return 'input_peer_user';
     }
-
 
     /**
      * @return string
@@ -67,5 +64,4 @@ class input_peer_photofilelocation extends input_peer
             Packer::packLong($this->volumeId).
             Packer::packInt($this->localId);
     }
-
 }

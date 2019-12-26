@@ -2,7 +2,6 @@
 
 namespace Client\BasicClient;
 
-
 use Client\AuthKey\AuthKey;
 use Exception\TGException;
 use LibConfig;
@@ -20,18 +19,16 @@ use TGConnection\SocketMessenger\SocketMessenger;
 use TLMessage\TLMessage\ClientMessages\Shared\update_status;
 use TLMessage\TLMessage\ClientMessages\TgApp\ping_delay_disconnect;
 
-
-class BasicClientImpl
-    implements BasicClient, MessageListener
+class BasicClientImpl implements BasicClient, MessageListener
 {
-    private const ONLINE_STATUS_UPDATE_TIME_SEC = 4*60 - 10;
+    private const ONLINE_STATUS_UPDATE_TIME_SEC = 4 * 60 - 10;
 
     /**
      * @var SocketMessenger
      */
     private $connection;
     /**
-     * @var boolean
+     * @var bool
      */
     private $isLoggedIn;
     /**
@@ -63,7 +60,6 @@ class BasicClientImpl
         $this->isLoggedIn = false;
     }
 
-
     /**
      * @throws TGException
      */
@@ -77,13 +73,15 @@ class BasicClientImpl
         }
     }
 
-
     /**
-     * @param AuthKey $authKey
+     * @param AuthKey    $authKey
      * @param Proxy|null $proxy
      * @param callable|null $cb
      * @return void
+     *
      * @throws TGException
+     *
+     * @return void
      */
     public function login(AuthKey $authKey, ?Proxy $proxy = null, callable $cb = null)
     {
@@ -99,19 +97,18 @@ class BasicClientImpl
         $this->isLoggedIn = true;
     }
 
-
     /**
-     * @return boolean
+     * @return bool
      */
     public function isLoggedIn()
     {
         return $this->isLoggedIn;
     }
 
-
     /**
-     * @return void
      * @throws TGException
+     *
+     * @return void
      */
     public function throwIfNotLoggedIn()
     {
@@ -119,13 +116,14 @@ class BasicClientImpl
             throw new TGException(TGException::ERR_CLIENT_NOT_LOGGED_IN);
     }
 
-
     /**
      * @param DataCentre $dc
      * @param Proxy|null $proxy
      * @param callable|null $cb
      * @return Socket
      * @throws TGException
+     *
+     * @return Socket
      */
     private function pickSocket(DataCentre $dc, Proxy $proxy = null, callable $cb = null)
     {
@@ -137,7 +135,6 @@ class BasicClientImpl
         return new TcpSocket($dc);
     }
 
-
     /**
      * @return SocketMessenger
      */
@@ -146,9 +143,9 @@ class BasicClientImpl
         return $this->connection;
     }
 
-
     /**
      * @return boolean
+     *
      * @throws TGException
      * @throws SocksException
      */
@@ -161,12 +158,11 @@ class BasicClientImpl
         $this->checkConnectionAlive();
         $this->pingIfNeeded();
         $this->setOnlineStatusIfExpired();
+
         return $this->getConnection()->readMessage() != null;
     }
 
-
     /**
-     *
      * @param AnonymousMessage $message
      */
     public function onMessage(AnonymousMessage $message)
@@ -199,7 +195,6 @@ class BasicClientImpl
             throw new TGException(TGException::ERR_CONNECTION_SHUTDOWN, $this->getUserId());
     }
 
-
     /**
      * @throws TGException
      */
@@ -216,7 +211,6 @@ class BasicClientImpl
         }
     }
 
-
     private function setOnlineStatusIfExpired()
     {
         $elapsedTimeSinceLastUpdate = time() - $this->lastStatusOnlineSet;
@@ -226,11 +220,12 @@ class BasicClientImpl
         }
     }
 
-
     /**
      * @param MessageListener $messageCallback
-     * @return void
+     *
      * @throws TGException
+     *
+     * @return void
      */
     public function setMessageListener(MessageListener $messageCallback)
     {
@@ -240,7 +235,6 @@ class BasicClientImpl
         $this->messageHandler = $messageCallback;
     }
 
-
     public function terminate()
     {
         if($this->getConnection()) {
@@ -248,5 +242,4 @@ class BasicClientImpl
             $this->getConnection()->terminate();
         }
     }
-
 }

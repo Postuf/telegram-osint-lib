@@ -2,17 +2,15 @@
 
 namespace TLMessage\TLMessage\ServerMessages\Update;
 
-
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class UpdateShort extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
@@ -26,6 +24,4 @@ class UpdateShort extends TLServerMessage
     {
         return $this->getTlMessage()->getNode('update');
     }
-
-
 }

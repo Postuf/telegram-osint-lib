@@ -10,9 +10,7 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class sign_up implements TLClientMessage
 {
-
     const CONSTRUCTOR = -2131827673; // 0x80EEE427
-
 
     /**
      * @var string
@@ -31,9 +29,9 @@ class sign_up implements TLClientMessage
      */
     private $lastName;
 
-
     /**
      * sign_up constructor.
+     *
      * @param string $phone
      * @param string $phoneHash
      * @param string $firstName
@@ -47,7 +45,6 @@ class sign_up implements TLClientMessage
         $this->lastName = $lastName;
     }
 
-
     /**
      * @return string
      */
@@ -55,7 +52,6 @@ class sign_up implements TLClientMessage
     {
         return 'sign_up';
     }
-
 
     /**
      * @return string
@@ -69,5 +65,4 @@ class sign_up implements TLClientMessage
             Packer::packString($this->firstName).
             Packer::packString($this->lastName);
     }
-
 }

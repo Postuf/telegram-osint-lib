@@ -2,24 +2,20 @@
 
 namespace TLMessage\TLMessage\ServerMessages\Auth;
 
-
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class DHReq extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
         return self::checkType($tlMessage, 'server_DH_params_ok');
     }
-
-
 
     /**
      * @return string
@@ -29,7 +25,6 @@ class DHReq extends TLServerMessage
         return $this->getTlMessage()->getValue('nonce');
     }
 
-
     /**
      * @return string
      */
@@ -38,7 +33,6 @@ class DHReq extends TLServerMessage
         return $this->getTlMessage()->getValue('server_nonce');
     }
 
-
     /**
      * @return int
      */
@@ -46,6 +40,4 @@ class DHReq extends TLServerMessage
     {
         return $this->getTlMessage()->getValue('encrypted_answer');
     }
-
-
 }

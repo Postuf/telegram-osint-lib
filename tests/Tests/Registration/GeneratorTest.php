@@ -8,7 +8,6 @@ use Registration\NameGenerator\NameResource;
 
 class GeneratorTest extends TestCase
 {
-
     public function test_human_name_generation()
     {
         $generator = new NameResource();
@@ -16,12 +15,10 @@ class GeneratorTest extends TestCase
         $this->assertTrue(strlen($generator->getLastName()) > 0);
     }
 
-
     public function test_device_generation()
     {
         $generator = new DeviceResource();
-        $this->assertTrue(strpos($generator->getSdkString(), "SDK") === 0);
+        $this->assertTrue(strpos($generator->getSdkString(), 'SDK') === 0);
         $this->assertTrue(strlen($generator->getDeviceString()) > 0);
     }
-
 }

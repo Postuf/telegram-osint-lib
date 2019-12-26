@@ -2,11 +2,9 @@
 
 namespace Client\AuthKey\Versions;
 
-
 use Client\AuthKey\AuthKey;
 use Exception\TGException;
 use TGConnection\DataCentre;
-
 
 /**
  * base64(authKey)
@@ -16,9 +14,9 @@ class AuthKey_v0_RawB64 implements AuthKey
     /** @var string */
     private $serializedAuthKey;
 
-
     /**
      * @param string $serializedAuthKey
+     *
      * @throws TGException
      */
     public function __construct($serializedAuthKey)
@@ -27,20 +25,21 @@ class AuthKey_v0_RawB64 implements AuthKey
         $this->serializedAuthKey = $serializedAuthKey;
     }
 
-
     /**
      * @param string $authKey
-     * @return AuthKey
+     *
      * @throws TGException
+     *
+     * @return AuthKey
      */
     public static function serialize(string $authKey)
     {
-        return new AuthKey_v0_RawB64(base64_encode($authKey));
+        return new self(base64_encode($authKey));
     }
-
 
     /**
      * @param string $serializedAuthKey
+     *
      * @throws TGException
      */
     private function checkSerializedAuthKey($serializedAuthKey)
@@ -50,7 +49,6 @@ class AuthKey_v0_RawB64 implements AuthKey
         if(strlen(base64_decode($serializedAuthKey)) != 256)
             throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
     }
-
 
     /**
      * @return string
@@ -67,7 +65,6 @@ class AuthKey_v0_RawB64 implements AuthKey
     {
         return $this->serializedAuthKey;
     }
-
 
     /**
      * @return DataCentre

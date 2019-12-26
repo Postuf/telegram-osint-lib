@@ -2,10 +2,8 @@
 
 namespace TLMessage\TLMessage;
 
-
 interface TLClientMessage
 {
-
     /**
      * @return string
      */
@@ -15,5 +13,4 @@ interface TLClientMessage
      * @return string
      */
     public function toBinary();
-
 }

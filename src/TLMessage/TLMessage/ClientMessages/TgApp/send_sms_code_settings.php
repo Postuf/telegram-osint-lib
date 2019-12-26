@@ -10,9 +10,7 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class send_sms_code_settings implements TLClientMessage
 {
-
     const CONSTRUCTOR = -557924733; // 0xDEBEBE83
-
 
     /**
      * @return string
@@ -21,7 +19,6 @@ class send_sms_code_settings implements TLClientMessage
     {
         return 'send_code_settings';
     }
-
 
     /**
      * @return string
@@ -34,5 +31,4 @@ class send_sms_code_settings implements TLClientMessage
             Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packInt($bitMask);
     }
-
 }

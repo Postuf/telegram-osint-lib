@@ -4,7 +4,7 @@ use Client\AuthKey\Versions\AuthKey_v1_Simple;
 use Client\StatusWatcherClient\StatusWatcherClient;
 use Tests\Tests\Client\StatusWatcherClient\StatusWatcherClientTestCallbacks;
 
-require_once __DIR__ . '/../../ClassLoader.php';
+require_once __DIR__.'/../../ClassLoader.php';
 
 /** @noinspection PhpUnhandledExceptionInspection */
 $client = new StatusWatcherClient(new StatusWatcherClientTestCallbacks());
@@ -12,7 +12,6 @@ $stringKey = 'TzB2PHswBzARAVmMvhw0PmexA6amKbkhvGXgUIQCc7Kf2QUDbd5rX1nIUKQfd/CTty
 /** @noinspection PhpUnhandledExceptionInspection */
 $authkey = new AuthKey_v1_Simple($stringKey);
 $client->login($authkey);
-
 
 //$client->sendMessage(new get_config());
 //$client->sendMessage(new get_statuses());

@@ -2,11 +2,9 @@
 
 namespace Tests\Tests\Client\StatusWatcherClient;
 
-
 use Exception\TGException;
 use MTSerialization\AnonymousMessage;
 use MTSerialization\OwnImplementation\OwnAnonymousMessage;
-
 
 class AnonymousMessageMock implements AnonymousMessage
 {
@@ -15,9 +13,9 @@ class AnonymousMessageMock implements AnonymousMessage
      */
     private $impl;
 
-
     /**
      * @param array $message
+     *
      * @throws TGException
      */
     public function __construct(array $message)
@@ -25,13 +23,14 @@ class AnonymousMessageMock implements AnonymousMessage
         $this->impl = new OwnAnonymousMessage($message);
     }
 
-
     /**
      * Return named node from current object
      *
      * @param string $name
-     * @return AnonymousMessage
+     *
      * @throws TGException
+     *
+     * @return AnonymousMessage
      */
     public function getNode(string $name)
     {
@@ -42,8 +41,10 @@ class AnonymousMessageMock implements AnonymousMessage
      * Return array of nodes under the $name from current object
      *
      * @param string $name
-     * @return AnonymousMessage[]
+     *
      * @throws TGException
+     *
+     * @return AnonymousMessage[]
      */
     public function getNodes(string $name)
     {
@@ -64,8 +65,10 @@ class AnonymousMessageMock implements AnonymousMessage
      * Get value of named field from current object
      *
      * @param string $name
-     * @return int|string|array
+     *
      * @throws TGException
+     *
+     * @return int|string|array
      */
     public function getValue(string $name)
     {
@@ -88,139 +91,142 @@ class AnonymousMessageMock implements AnonymousMessage
         return $this->impl->getDebugPrintable();
     }
 
-
     /**
      * @param int $userId
      * @param int $expires
-     * @return AnonymousMessage
      *
      * @throws TGException
+     *
+     * @return AnonymousMessage
      */
     public static function getUserOnline(int $userId, int $expires = 0)
     {
-        return new AnonymousMessageMock([
-            '_' => 'updateShort',
+        return new self([
+            '_'      => 'updateShort',
             'update' => [
-                '_' => 'updateUserStatus',
+                '_'       => 'updateUserStatus',
                 'user_id' => $userId,
-                'status' => [
-                    '_' => 'userStatusOnline',
-                    'expires' => $expires
-                ]
+                'status'  => [
+                    '_'       => 'userStatusOnline',
+                    'expires' => $expires,
+                ],
             ],
-            'date' => 1533376561
+            'date' => 1533376561,
         ]);
     }
 
-
     /**
      * @param int $userId
-     * @return AnonymousMessage
+     *
      * @throws TGException
+     *
+     * @return AnonymousMessage
      */
     public static function getUserOffline(int $userId)
     {
-        return new AnonymousMessageMock([
-            '_' => 'updateShort',
+        return new self([
+            '_'      => 'updateShort',
             'update' => [
-                '_' => 'updateUserStatus',
+                '_'       => 'updateUserStatus',
                 'user_id' => $userId,
-                'status' => [
-                    '_' => 'userStatusOffline',
-                    'was_online' => 1533376861
-                ]
+                'status'  => [
+                    '_'          => 'userStatusOffline',
+                    'was_online' => 1533376861,
+                ],
             ],
-            'date' => 1533376561
+            'date' => 1533376561,
         ]);
     }
 
-
     /**
      * @param int $userId
-     * @return AnonymousMessage
+     *
      * @throws TGException
+     *
+     * @return AnonymousMessage
      */
     public static function getUserEmpty(int $userId)
     {
-        return new AnonymousMessageMock([
-            '_' => 'updateShort',
+        return new self([
+            '_'      => 'updateShort',
             'update' => [
-                '_' => 'updateUserStatus',
+                '_'       => 'updateUserStatus',
                 'user_id' => $userId,
-                'status' => [
-                    '_' => 'userStatusEmpty'
-                ]
+                'status'  => [
+                    '_' => 'userStatusEmpty',
+                ],
             ],
-            'date' => 1533376561
+            'date' => 1533376561,
         ]);
     }
-
 
     /**
      * @param int $userId
-     * @return AnonymousMessage
+     *
      * @throws TGException
+     *
+     * @return AnonymousMessage
      */
     public static function getUserRecently(int $userId)
     {
-        return new AnonymousMessageMock([
-            '_' => 'updateShort',
+        return new self([
+            '_'      => 'updateShort',
             'update' => [
-                '_' => 'updateUserStatus',
+                '_'       => 'updateUserStatus',
                 'user_id' => $userId,
-                'status' => [
-                    '_' => 'userStatusRecently'
-                ]
+                'status'  => [
+                    '_' => 'userStatusRecently',
+                ],
             ],
-            'date' => 1533376561
+            'date' => 1533376561,
         ]);
     }
 
-
     /**
-     * @param int $id
+     * @param int    $id
      * @param string $phone
-     * @return AnonymousMessage
+     *
      * @throws TGException
+     *
+     * @return AnonymousMessage
      */
     public static function getContact(int $id, string $phone)
     {
-        return new AnonymousMessageMock([
-            '_' => 'user',
-            'id' => $id,
-            'access_hash' => 2811936216873835544,
-            'first_name' => 'name_89169904863',
+        return new self([
+            '_'                         => 'user',
+            'id'                        => $id,
+            'access_hash'               => 2811936216873835544,
+            'first_name'                => 'name_89169904863',
                             'last_name' => 'l_f4d6bed238',
-                            'username' => 'AseN_17',
-                            'phone' => $phone,
-                            'photo' => [
-                                    '_' => 'userProfilePhoto',
-                                    'photo_id' => 806194743786710955,
+                            'username'  => 'AseN_17',
+                            'phone'     => $phone,
+                            'photo'     => [
+                                    '_'           => 'userProfilePhoto',
+                                    'photo_id'    => 806194743786710955,
                                     'photo_small' => [
-                                            '_' => 'fileLocation',
-                                            'dc_id' => 2,
+                                            '_'         => 'fileLocation',
+                                            'dc_id'     => 2,
                                             'volume_id' => 225517222,
-                                            'local_id' => 141372,
-                                            'secret' => 4952891847968332097
+                                            'local_id'  => 141372,
+                                            'secret'    => 4952891847968332097,
                                         ],
 
                                     'photo_big' => [
-                                            '_' => 'fileLocation',
-                                            'dc_id' => 2,
+                                            '_'         => 'fileLocation',
+                                            'dc_id'     => 2,
                                             'volume_id' => 225517222,
-                                            'local_id' => 141374,
-                                            'secret' => -5785720690880313215
+                                            'local_id'  => 141374,
+                                            'secret'    => -5785720690880313215,
                                         ],
 
                                 ],
 
                             'status' => [
-                                    '_' => 'userStatusOnline',
-                                    'expires' => 1533377307
-                                ]
+                                    '_'       => 'userStatusOnline',
+                                    'expires' => 1533377307,
+                                ],
                         ]);
     }
-
 
     public static function getImportedContact($userId, $userPhone, $status)
     {
@@ -229,36 +235,36 @@ class AnonymousMessageMock implements AnonymousMessage
         switch ($status){
             case 'offline':
                 $statusObj = [
-                    '_' => 'userStatusOffline',
-                    'was_online' => 1533638872
+                    '_'          => 'userStatusOffline',
+                    'was_online' => 1533638872,
                 ];
                 break;
             case 'online':
                 $statusObj = [
-                    '_' => 'userStatusOnline',
-                    'expires' => 1533638872
+                    '_'       => 'userStatusOnline',
+                    'expires' => 1533638872,
                 ];
                 break;
             case 'empty':
                 $statusObj = [
-                    '_' => 'userStatusEmpty'
+                    '_' => 'userStatusEmpty',
                 ];
                 break;
             case 'recently':
                 $statusObj = [
-                    '_' => 'userStatusRecently'
+                    '_' => 'userStatusRecently',
                 ];
                 break;
         }
 
-        /** @noinspection PhpUnhandledExceptionInspection */
-        return new AnonymousMessageMock([
-            '_' => 'contacts.importedContacts',
+        /* @noinspection PhpUnhandledExceptionInspection */
+        return new self([
+            '_'        => 'contacts.importedContacts',
             'imported' => [
                 '0' => [
-                    'user_id' => $userId,
-                    'client_id' => 8
-                ]
+                    'user_id'   => $userId,
+                    'client_id' => 8,
+                ],
             ],
 
             'popular_invites' => [
@@ -269,39 +275,38 @@ class AnonymousMessageMock implements AnonymousMessage
 
             'users' => [
                 '0' => [
-                    '_' => 'user',
-                    'bit_mask' => 100001111111,
-                    'id' => $userId,
+                    '_'           => 'user',
+                    'bit_mask'    => 100001111111,
+                    'id'          => $userId,
                     'access_hash' => 2811936216873835544,
-                    'first_name' => 'name_89169904863',
-                    'last_name' => 'l_1abe970cb9',
-                    'username' => 'AseN_17',
-                    'phone' => $userPhone,
-                    'photo' => [
-                        '_' => 'userProfilePhoto',
-                        'photo_id' => 806194743786710955,
+                    'first_name'  => 'name_89169904863',
+                    'last_name'   => 'l_1abe970cb9',
+                    'username'    => 'AseN_17',
+                    'phone'       => $userPhone,
+                    'photo'       => [
+                        '_'           => 'userProfilePhoto',
+                        'photo_id'    => 806194743786710955,
                         'photo_small' => [
-                            '_' => 'fileLocation',
-                            'dc_id' => 2,
+                            '_'         => 'fileLocation',
+                            'dc_id'     => 2,
                             'volume_id' => 225517222,
-                            'local_id' => 141372,
-                            'secret' => 4952891847968332097
+                            'local_id'  => 141372,
+                            'secret'    => 4952891847968332097,
                         ],
 
                         'photo_big' => [
-                            '_' => 'fileLocation',
-                            'dc_id' => 2,
+                            '_'         => 'fileLocation',
+                            'dc_id'     => 2,
                             'volume_id' => 225517222,
-                            'local_id' => 141374,
-                            'secret' => -5785720690880313215
+                            'local_id'  => 141374,
+                            'secret'    => -5785720690880313215,
                         ],
 
                     ],
 
-                    'status' => $statusObj
-                ]
-            ]
+                    'status' => $statusObj,
+                ],
+            ],
         ]);
     }
-
 }

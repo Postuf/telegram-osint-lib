@@ -7,9 +7,7 @@ use TLMessage\TLMessage\TLClientMessage;
 
 class req_dh_params implements TLClientMessage
 {
-
     const CONSTRUCTOR = 0xD712E4BE;
-
 
     /**
      * @var int
@@ -36,14 +34,14 @@ class req_dh_params implements TLClientMessage
      */
     private $encryptedData;
 
-
     /**
      * req_dh_params constructor.
+     *
      * @param string $oldClientNonce
      * @param string $serverNonce
-     * @param int $p
-     * @param int $q
-     * @param int $serverCertFingerPrint
+     * @param int    $p
+     * @param int    $q
+     * @param int    $serverCertFingerPrint
      * @param string $encryptedData
      */
     public function __construct(string $oldClientNonce, string $serverNonce, int $p, int $q, int $serverCertFingerPrint, string $encryptedData)
@@ -78,5 +76,4 @@ class req_dh_params implements TLClientMessage
             Packer::packLong($this->serverCertFingerPrint).
             Packer::packString($this->encryptedData);
     }
-
 }

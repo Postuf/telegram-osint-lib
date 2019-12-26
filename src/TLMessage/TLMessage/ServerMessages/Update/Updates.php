@@ -2,18 +2,16 @@
 
 namespace TLMessage\TLMessage\ServerMessages\Update;
 
-
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class Updates extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
@@ -32,5 +30,4 @@ class Updates extends TLServerMessage
 
         return $userObjects;
     }
-
 }

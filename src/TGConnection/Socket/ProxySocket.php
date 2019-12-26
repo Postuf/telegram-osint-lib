@@ -1,6 +1,5 @@
 <?php
 
-
 namespace TGConnection\Socket;
 
 use Exception\TGException;
@@ -10,11 +9,11 @@ use SocksProxyAsync\Socks5Socket;
 use SocksProxyAsync\SocksException;
 use TGConnection\DataCentre;
 
-
 class ProxySocket implements Socket
 {
     /**
      * Native socket
+     *
      * @var resource
      */
     private $socksSocket = null;
@@ -36,7 +35,7 @@ class ProxySocket implements Socket
     private $cbOnConnected = null;
 
     /**
-     * @param Proxy $proxy
+     * @param Proxy      $proxy
      * @param DataCentre $dc
      * @param callable|null $cb
      * @throws TGException
@@ -45,7 +44,6 @@ class ProxySocket implements Socket
     {
         if(!in_array($proxy->getType(), [Proxy::TYPE_SOCKS5]))
             throw new TGException(TGException::ERR_PROXY_WRONG_PROXY_TYPE);
-
         $this->dc = $dc;
         $this->proxy = $proxy;
 
@@ -87,6 +85,7 @@ class ProxySocket implements Socket
 
     /**
      * @param SocksException $e
+     *
      * @throws TGException
      */
     private function wrapSocksLibException(SocksException $e)
@@ -106,6 +105,7 @@ class ProxySocket implements Socket
                 throw new TGException(TGException::ERR_PROXY_CONNECTION_NOT_ESTABLISHED);
         }
     }
+
     public function __destruct()
     {
         $this->terminate();
@@ -113,8 +113,10 @@ class ProxySocket implements Socket
 
     /**
      * @param int $length
-     * @return string
+     *
      * @throws TGException
+     *
+     * @return string
      */
     public function readBinary(int $length)
     {
@@ -126,8 +128,10 @@ class ProxySocket implements Socket
 
     /**
      * @param string $payload
-     * @return int
+     *
      * @throws TGException
+     *
+     * @return int
      */
     public function writeBinary(string $payload)
     {

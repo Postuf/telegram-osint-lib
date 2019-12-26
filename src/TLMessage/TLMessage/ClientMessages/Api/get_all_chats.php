@@ -1,14 +1,13 @@
 <?php
 
-
 namespace TLMessage\TLMessage\ClientMessages\Api;
-
 
 use TLMessage\TLMessage\Packer;
 use TLMessage\TLMessage\TLClientMessage;
 
 /**
  * Class get_all_chats
+ *
  * @see https://core.telegram.org/method/messages.getAllChats
  */
 class get_all_chats implements TLClientMessage
@@ -27,7 +26,7 @@ class get_all_chats implements TLClientMessage
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -45,7 +44,7 @@ class get_all_chats implements TLClientMessage
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function toBinary()
     {

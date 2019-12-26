@@ -12,9 +12,7 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class init_connection implements TLClientMessage
 {
-
     const CONSTRUCTOR = 2018609336; // 0x785188B8
-
 
     /**
      * @var AccountInfo
@@ -25,10 +23,8 @@ class init_connection implements TLClientMessage
      */
     private $query;
 
-
     /**
-     *
-     * @param AccountInfo $authInfo
+     * @param AccountInfo          $authInfo
      * @param TLClientMessage|null $query
      */
     public function __construct(AccountInfo $authInfo, TLClientMessage $query = null)
@@ -37,7 +33,6 @@ class init_connection implements TLClientMessage
         $this->query = $query;
     }
 
-
     /**
      * @return string
      */
@@ -45,7 +40,6 @@ class init_connection implements TLClientMessage
     {
         return 'init_connection';
     }
-
 
     /**
      * @return string
@@ -66,5 +60,4 @@ class init_connection implements TLClientMessage
             Packer::packString($this->account->getAppLang()).
             Packer::packBytes($this->query->toBinary());
     }
-
 }

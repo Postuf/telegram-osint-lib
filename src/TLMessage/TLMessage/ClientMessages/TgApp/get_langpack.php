@@ -11,15 +11,12 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class get_langpack implements TLClientMessage
 {
-
     const CONSTRUCTOR = -1699363442; // 0x9AB5C58E
-
 
     /**
      * @var string
      */
     private $langCode;
-
 
     /**
      * @param string $langCode
@@ -29,7 +26,6 @@ class get_langpack implements TLClientMessage
         $this->langCode = $langCode;
     }
 
-
     /**
      * @return string
      */
@@ -37,7 +33,6 @@ class get_langpack implements TLClientMessage
     {
         return 'get_langpack';
     }
-
 
     /**
      * @return string
@@ -48,5 +43,4 @@ class get_langpack implements TLClientMessage
             Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packString($this->langCode);
     }
-
 }

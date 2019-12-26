@@ -2,10 +2,8 @@
 
 namespace Client\StatusWatcherClient\Models;
 
-
 class HiddenStatus
 {
-
     const HIDDEN_EMPTY = 'empty';
     const HIDDEN_SEEN_RECENTLY = 'recently';
     const HIDDEN_SEEN_LAST_WEEK = 'last_week';
@@ -17,7 +15,6 @@ class HiddenStatus
      */
     private $statusCode;
 
-
     /**
      * @param string $statusCode
      */
@@ -26,7 +23,6 @@ class HiddenStatus
         $this->statusCode = $statusCode;
     }
 
-
     /**
      * @return string
      */
@@ -34,6 +30,4 @@ class HiddenStatus
     {
         return $this->statusCode;
     }
-
-
 }

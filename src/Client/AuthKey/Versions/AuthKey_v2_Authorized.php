@@ -2,7 +2,6 @@
 
 namespace Client\AuthKey\Versions;
 
-
 use Client\AuthKey\AuthInfo;
 use Client\AuthKey\AuthorizedAuthKey;
 use Exception\TGException;
@@ -10,14 +9,13 @@ use Registration\AccountInfo;
 use TGConnection\DataCentre;
 use Throwable;
 
-
 /**
  * <phone>:serialized(AuthInfo):serialized(authKey_v2)
+ *
  * @see AuthKey_v2
  */
 class AuthKey_v2_Authorized implements AuthorizedAuthKey
 {
-
     /**
      * @var string
      */
@@ -35,9 +33,9 @@ class AuthKey_v2_Authorized implements AuthorizedAuthKey
      */
     private $innerAuthKey;
 
-
     /**
      * @param string $serializedAuthKey
+     *
      * @throws TGException
      */
     public function __construct(string $serializedAuthKey)
@@ -46,7 +44,6 @@ class AuthKey_v2_Authorized implements AuthorizedAuthKey
             $parts = explode(':', $serializedAuthKey);
             if(count($parts) < 3)
                 throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
-
             $this->serialized = $serializedAuthKey;
             $this->phone = $parts[0];
             $this->account = AccountInfo::deserializeFromJson(@hex2bin($parts[1]));
@@ -59,23 +56,23 @@ class AuthKey_v2_Authorized implements AuthorizedAuthKey
         }
     }
 
-
     /**
      * @param AuthKey_v2 $authKey
-     * @param AuthInfo $authInfo
-     * @return AuthKey_v2_Authorized
+     * @param AuthInfo   $authInfo
+     *
      * @throws TGException
+     *
+     * @return AuthKey_v2_Authorized
      */
     public static function serialize(AuthKey_v2 $authKey, AuthInfo $authInfo)
     {
         $serialized =
-            trim($authInfo->getPhone()) . ':' .
-            bin2hex($authInfo->getAccount()->serializeToJson()) . ':' .
+            trim($authInfo->getPhone()).':'.
+            bin2hex($authInfo->getAccount()->serializeToJson()).':'.
             $authKey->getSerializedAuthKey();
 
-        return new AuthKey_v2_Authorized($serialized);
+        return new self($serialized);
     }
-
 
     /**
      * @return string
@@ -85,7 +82,6 @@ class AuthKey_v2_Authorized implements AuthorizedAuthKey
         return $this->serialized;
     }
 
-
     /**
      * @return string
      */
@@ -93,7 +89,6 @@ class AuthKey_v2_Authorized implements AuthorizedAuthKey
     {
         return $this->innerAuthKey->getRawAuthKey();
     }
-
 
     /**
      * @return DataCentre
@@ -103,7 +98,6 @@ class AuthKey_v2_Authorized implements AuthorizedAuthKey
         return $this->innerAuthKey->getAttachedDC();
     }
 
-
     /**
      * @return string
      */
@@ -111,7 +105,6 @@ class AuthKey_v2_Authorized implements AuthorizedAuthKey
     {
         return $this->phone;
     }
-
 
     /**
      * @return AccountInfo

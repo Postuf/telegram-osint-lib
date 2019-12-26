@@ -2,25 +2,22 @@
 
 namespace TLMessage\TLMessage\ServerMessages;
 
-
 use Exception\TGException;
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\ServerMessages\Custom\UserStatus;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class UserSelf extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
         return self::checkType($tlMessage, 'userSelf');
     }
-
 
     /**
      * @return UserStatus|null
@@ -32,9 +29,9 @@ class UserSelf extends TLServerMessage
         } catch (TGException $e){
             return null;
         }
+
         return new UserStatus($status);
     }
-
 
     /**
      * @return UserProfilePhoto|null
@@ -43,13 +40,13 @@ class UserSelf extends TLServerMessage
     {
         try {
             $photo = $this->getTlMessage()->getNode('photo');
+
             return new UserProfilePhoto($photo);
         }catch (TGException $e){
             return null;
         }
 
     }
-
 
     /**
      * @return int
@@ -59,7 +56,6 @@ class UserSelf extends TLServerMessage
         return $this->getTlMessage()->getValue('id');
     }
 
-
     /**
      * @return string
      */
@@ -67,6 +63,4 @@ class UserSelf extends TLServerMessage
     {
         return $this->getTlMessage()->getValue('phone');
     }
-
-
 }

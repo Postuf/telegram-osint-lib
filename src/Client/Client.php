@@ -8,11 +8,11 @@ use SocksProxyAsync\Proxy;
 
 interface Client
 {
-
     /**
      * @param AuthKey $authKey
      * @param Proxy $proxy
      * @param callable|null $cb
+     *
      * @return void
      */
     public function login(AuthKey $authKey, Proxy $proxy = null, callable $cb = null);
@@ -23,15 +23,14 @@ interface Client
     public function terminate();
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isLoggedIn();
 
     /**
-     * @return boolean
      * @throws TGException
+     *
+     * @return bool
      */
     public function pollMessage();
-
-
 }

@@ -1,20 +1,15 @@
 <?php
 
-
 namespace MTSerialization\OwnImplementation;
-
 
 use Exception\TGException;
 
-
 class ByteStream
 {
-
     /** @var string */
     private $stream;
     /** @var int */
     private $pointer = 0;
-
 
     /**
      * @param string $binaryData
@@ -25,11 +20,12 @@ class ByteStream
         $this->pointer = 0;
     }
 
-
     /**
      * @param int $length
-     * @return false|string
+     *
      * @throws TGException
+     *
+     * @return false|string
      */
     public function read($length)
     {
@@ -37,22 +33,18 @@ class ByteStream
 
         if(strlen($data) != $length)
             throw new TGException(TGException::ERR_DESERIALIZER_BROKEN_BINARY_READ);
-
         $this->pointer += $length;
+
         return $data;
     }
-
 
     public function isEmpty(): bool
     {
         return $this->pointer == strlen($this->stream);
     }
 
-
     public function __toString()
     {
         return substr($this->stream, $this->pointer);
     }
-
-
 }

@@ -23,9 +23,9 @@ class TcpSocket implements Socket
      */
     private $isTerminated = false;
 
-
     /**
      * @param DataCentre $dc
+     *
      * @throws TGException
      */
     public function __construct(DataCentre $dc)
@@ -35,34 +35,33 @@ class TcpSocket implements Socket
         $this->socket = $this->getSocketResource($dc->getDcIp(), $dc->getDcPort());
         if(!$this->socket)
             throw new TGException(TGException::ERR_CANT_CONNECT);
-
-        stream_set_blocking($this->socket, FALSE);
+        stream_set_blocking($this->socket, false);
     }
-
 
     public function __destruct()
     {
         $this->terminate();
     }
 
-
     /**
      * @param string $ip
-     * @param int $port
+     * @param int    $port
+     *
      * @return resource
      */
     protected function getSocketResource($ip, $port)
     {
-        return @stream_socket_client('tcp://'.$ip.':'.$port,$errno,$errStr);
+        return @stream_socket_client('tcp://'.$ip.':'.$port, $errno, $errStr);
     }
-
 
     /**
      * Persistent read
      *
      * @param int $length
-     * @return string
+     *
      * @throws TGException
+     *
+     * @return string
      */
     public function readBinary(int $length)
     {
@@ -72,11 +71,12 @@ class TcpSocket implements Socket
         return @fread($this->socket, $length);
     }
 
-
     /**
      * @param string $payload
-     * @return int
+     *
      * @throws TGException
+     *
+     * @return int
      */
     public function writeBinary(string $payload)
     {
@@ -86,7 +86,6 @@ class TcpSocket implements Socket
         return @fwrite($this->socket, $payload);
     }
 
-
     /**
      * @return DataCentre
      */
@@ -94,7 +93,6 @@ class TcpSocket implements Socket
     {
         return $this->dc;
     }
-
 
     public function terminate()
     {

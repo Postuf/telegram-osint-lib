@@ -2,23 +2,20 @@
 
 namespace TLMessage\TLMessage\ServerMessages\Auth;
 
-
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class DHServerInnerData extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
         return self::checkType($tlMessage, 'server_DH_inner_data');
     }
-
 
     /**
      * @return string
@@ -26,9 +23,9 @@ class DHServerInnerData extends TLServerMessage
     public function getG()
     {
         $g = $this->getTlMessage()->getValue('g');
+
         return strrev(pack('I', $g));
     }
-
 
     /**
      * @return string
@@ -39,7 +36,6 @@ class DHServerInnerData extends TLServerMessage
         return $this->getTlMessage()->getValue('dh_prime');
     }
 
-
     /**
      * @return int
      */
@@ -47,6 +43,4 @@ class DHServerInnerData extends TLServerMessage
     {
         return $this->getTlMessage()->getValue('g_a');
     }
-
-
 }

@@ -2,7 +2,6 @@
 
 namespace Client;
 
-
 use MTSerialization\AnonymousMessage;
 
 interface Analyzer

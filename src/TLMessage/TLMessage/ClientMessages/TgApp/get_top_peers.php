@@ -10,9 +10,7 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class get_top_peers implements TLClientMessage
 {
-
     const CONSTRUCTOR = -728224331; // 0xD4982DB5
-
 
     /**
      * @return string
@@ -21,7 +19,6 @@ class get_top_peers implements TLClientMessage
     {
         return 'get_top_peers';
     }
-
 
     /**
      * @return string
@@ -35,5 +32,4 @@ class get_top_peers implements TLClientMessage
             Packer::packInt(20).
             Packer::packInt(0);
     }
-
 }

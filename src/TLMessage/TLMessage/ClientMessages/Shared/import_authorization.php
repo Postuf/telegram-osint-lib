@@ -10,9 +10,7 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class import_authorization implements TLClientMessage
 {
-
     const CONSTRUCTOR = -470837741; // 0xE3EF9613
-
 
     /**
      * @var int
@@ -23,10 +21,10 @@ class import_authorization implements TLClientMessage
      */
     private $keyBytes;
 
-
     /**
      * import_authorization constructor.
-     * @param int $userId
+     *
+     * @param int    $userId
      * @param string $keyBytes
      */
     public function __construct(int $userId, string $keyBytes)
@@ -35,7 +33,6 @@ class import_authorization implements TLClientMessage
         $this->keyBytes = $keyBytes;
     }
 
-
     /**
      * @return string
      */
@@ -43,7 +40,6 @@ class import_authorization implements TLClientMessage
     {
         return 'import_authorization';
     }
-
 
     /**
      * @return string
@@ -55,5 +51,4 @@ class import_authorization implements TLClientMessage
             Packer::packInt($this->userId).
             Packer::packString($this->keyBytes);
     }
-
 }

@@ -10,9 +10,7 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class get_pinned_dialogs implements TLClientMessage
 {
-
     const CONSTRUCTOR = -692498958; // 0xD6B94DF2
-
 
     /**
      * @return string
@@ -21,7 +19,6 @@ class get_pinned_dialogs implements TLClientMessage
     {
         return 'get_pinned_dialogs';
     }
-
 
     /**
      * @return string
@@ -32,5 +29,4 @@ class get_pinned_dialogs implements TLClientMessage
             Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packInt(0);
     }
-
 }

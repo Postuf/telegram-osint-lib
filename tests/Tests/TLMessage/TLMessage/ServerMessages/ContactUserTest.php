@@ -8,125 +8,121 @@ use TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 
 class ContactUserTest extends TestCase
 {
-
     private function getObjectOnLine()
     {
-        /** @noinspection PhpUnhandledExceptionInspection */
+        /* @noinspection PhpUnhandledExceptionInspection */
         return new AnonymousMessageMock([
-            '_' => 'user',
-            'id' => 438562352,
+            '_'           => 'user',
+            'id'          => 438562352,
             'access_hash' => 2811936216873835544,
-            'first_name' => 'name_89169904863',
-            'last_name' => 'l_f4d6bed238',
-            'username' => 'AseN_17',
-            'phone' => 79169904855,
-            'photo' => [
-                '_' => 'userProfilePhoto',
-                'photo_id' => 806194743786710955,
+            'first_name'  => 'name_89169904863',
+            'last_name'   => 'l_f4d6bed238',
+            'username'    => 'AseN_17',
+            'phone'       => 79169904855,
+            'photo'       => [
+                '_'           => 'userProfilePhoto',
+                'photo_id'    => 806194743786710955,
                 'photo_small' => [
-                    '_' => 'fileLocation',
-                    'dc_id' => 2,
+                    '_'         => 'fileLocation',
+                    'dc_id'     => 2,
                     'volume_id' => 225517222,
-                    'local_id' => 141372,
-                    'secret' => 4952891847968332097
+                    'local_id'  => 141372,
+                    'secret'    => 4952891847968332097,
                 ],
 
                 'photo_big' => [
-                    '_' => 'fileLocation',
-                    'dc_id' => 2,
+                    '_'         => 'fileLocation',
+                    'dc_id'     => 2,
                     'volume_id' => 225517222,
-                    'local_id' => 141374,
-                    'secret' => -5785720690880313215
+                    'local_id'  => 141374,
+                    'secret'    => -5785720690880313215,
                 ],
 
             ],
 
             'status' => [
-                '_' => 'userStatusOnline',
-                'expires' => 1533377307
-            ]
+                '_'       => 'userStatusOnline',
+                'expires' => 1533377307,
+            ],
         ]);
     }
-
 
     private function getObjectOffLine()
     {
-        /** @noinspection PhpUnhandledExceptionInspection */
+        /* @noinspection PhpUnhandledExceptionInspection */
         return new AnonymousMessageMock([
-            '_' => 'user',
-            'id' => 438562352,
+            '_'           => 'user',
+            'id'          => 438562352,
             'access_hash' => 2811936216873835544,
-            'first_name' => 'name_89169904863',
-            'last_name' => 'l_f4d6bed238',
-            'username' => 'AseN_17',
-            'phone' => 79169904855,
-            'photo' => [
-                '_' => 'userProfilePhoto',
-                'photo_id' => 806194743786710955,
+            'first_name'  => 'name_89169904863',
+            'last_name'   => 'l_f4d6bed238',
+            'username'    => 'AseN_17',
+            'phone'       => 79169904855,
+            'photo'       => [
+                '_'           => 'userProfilePhoto',
+                'photo_id'    => 806194743786710955,
                 'photo_small' => [
-                    '_' => 'fileLocation',
-                    'dc_id' => 2,
+                    '_'         => 'fileLocation',
+                    'dc_id'     => 2,
                     'volume_id' => 225517222,
-                    'local_id' => 141372,
-                    'secret' => 4952891847968332097
+                    'local_id'  => 141372,
+                    'secret'    => 4952891847968332097,
                 ],
 
                 'photo_big' => [
-                    '_' => 'fileLocation',
-                    'dc_id' => 2,
+                    '_'         => 'fileLocation',
+                    'dc_id'     => 2,
                     'volume_id' => 225517222,
-                    'local_id' => 141374,
-                    'secret' => -5785720690880313215
+                    'local_id'  => 141374,
+                    'secret'    => -5785720690880313215,
                 ],
 
             ],
 
             'status' => [
-                '_' => 'userStatusOffline',
-                'was_online' => 1533377309
-            ]
+                '_'          => 'userStatusOffline',
+                'was_online' => 1533377309,
+            ],
         ]);
     }
-
 
     private function getObjectHidden()
     {
-        /** @noinspection PhpUnhandledExceptionInspection */
+        /* @noinspection PhpUnhandledExceptionInspection */
         return new AnonymousMessageMock([
-            '_' => 'user',
-            'id' => 438562352,
+            '_'           => 'user',
+            'id'          => 438562352,
             'access_hash' => 2811936216873835544,
-            'first_name' => 'name_89169904863',
-            'last_name' => 'l_f4d6bed238',
-            'username' => 'AseN_17',
-            'phone' => 79169904855,
-            'photo' => [
-                '_' => 'userProfilePhoto',
-                'photo_id' => 806194743786710955,
+            'first_name'  => 'name_89169904863',
+            'last_name'   => 'l_f4d6bed238',
+            'username'    => 'AseN_17',
+            'phone'       => 79169904855,
+            'photo'       => [
+                '_'           => 'userProfilePhoto',
+                'photo_id'    => 806194743786710955,
                 'photo_small' => [
-                    '_' => 'fileLocation',
-                    'dc_id' => 2,
+                    '_'         => 'fileLocation',
+                    'dc_id'     => 2,
                     'volume_id' => 225517222,
-                    'local_id' => 141372,
-                    'secret' => 4952891847968332097
+                    'local_id'  => 141372,
+                    'secret'    => 4952891847968332097,
                 ],
 
                 'photo_big' => [
-                    '_' => 'fileLocation',
-                    'dc_id' => 2,
+                    '_'         => 'fileLocation',
+                    'dc_id'     => 2,
                     'volume_id' => 225517222,
-                    'local_id' => 141374,
-                    'secret' => -5785720690880313215
+                    'local_id'  => 141374,
+                    'secret'    => -5785720690880313215,
                 ],
 
             ],
 
             'status' => [
-                '_' => 'userStatusEmpty'
-            ]
+                '_' => 'userStatusEmpty',
+            ],
         ]);
     }
-
 
     /**
      * @throws TGException
@@ -143,7 +139,6 @@ class ContactUserTest extends TestCase
 
     }
 
-
     public function test_user_online()
     {
         $asAnonymous = $this->getObjectOnLine();
@@ -156,7 +151,6 @@ class ContactUserTest extends TestCase
         $this->assertEquals($userContact->getStatus()->getExpires(), 1533377307);
 
     }
-
 
     public function test_user_offline()
     {
@@ -171,7 +165,6 @@ class ContactUserTest extends TestCase
 
     }
 
-
     public function test_user_empty()
     {
         $asAnonymous = $this->getObjectHidden();
@@ -183,5 +176,4 @@ class ContactUserTest extends TestCase
         $this->assertTrue($userContact->getStatus()->isHidden());
 
     }
-
 }

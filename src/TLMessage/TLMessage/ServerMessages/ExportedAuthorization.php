@@ -2,23 +2,20 @@
 
 namespace TLMessage\TLMessage\ServerMessages;
 
-
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class ExportedAuthorization extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
         return self::checkType($tlMessage, 'auth.exportedAuthorization');
     }
-
 
     /**
      * @return int
@@ -28,7 +25,6 @@ class ExportedAuthorization extends TLServerMessage
         return $this->getTlMessage()->getValue('id');
     }
 
-
     /**
      * @return string
      */
@@ -36,6 +32,4 @@ class ExportedAuthorization extends TLServerMessage
     {
         return $this->getTlMessage()->getValue('bytes');
     }
-
-
 }

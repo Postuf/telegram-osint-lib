@@ -1,34 +1,29 @@
 <?php
 
-
 namespace TLMessage\TLMessage\ServerMessages;
-
 
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class SentCodeApp extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
         return self::checkType($tlMessage, 'auth.sentCode');
     }
 
-
     /**
-     * @return boolean
+     * @return bool
      */
     public function isSentCodeTypeSms()
     {
         return $this->getTlMessage()->getNode('type')->getType() == 'auth.sentCodeTypeSms';
     }
-
 
     /**
      * @return string
@@ -37,5 +32,4 @@ class SentCodeApp extends TLServerMessage
     {
         return $this->getTlMessage()->getValue('phone_code_hash');
     }
-
 }

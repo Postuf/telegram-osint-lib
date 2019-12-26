@@ -5,11 +5,9 @@ use PHPUnit\Framework\TestCase;
 
 class FactorizationTest extends TestCase
 {
-
     const PRIME = 1550767997241791113;
     const P = 1033421369;
     const Q = 1500615377;
-
 
     public function test_gmp_factorizer()
     {

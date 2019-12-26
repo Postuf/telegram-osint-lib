@@ -10,9 +10,7 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class get_file implements TLClientMessage
 {
-
     const CONSTRUCTOR = -1319462148; // 0xB15A9AFC
-
 
     /**
      * @var TLClientMessage
@@ -27,11 +25,10 @@ class get_file implements TLClientMessage
      */
     private $limit;
 
-
     /**
      * @param TLClientMessage $fileLocation
-     * @param int $offset
-     * @param int $limit
+     * @param int             $offset
+     * @param int             $limit
      */
     public function __construct(TLClientMessage $fileLocation, $offset, $limit)
     {
@@ -41,7 +38,6 @@ class get_file implements TLClientMessage
 
     }
 
-
     /**
      * @return string
      */
@@ -49,7 +45,6 @@ class get_file implements TLClientMessage
     {
         return 'get_file';
     }
-
 
     /**
      * @return string
@@ -63,5 +58,4 @@ class get_file implements TLClientMessage
             Packer::packInt($this->offset).
             Packer::packInt($this->limit);
     }
-
 }

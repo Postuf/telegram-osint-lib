@@ -10,9 +10,7 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class get_blocked_contacts implements TLClientMessage
 {
-
     const CONSTRUCTOR = -176409329; // 0xF57C350F
-
 
     /**
      * @return string
@@ -21,7 +19,6 @@ class get_blocked_contacts implements TLClientMessage
     {
         return 'get_blocked_contacts';
     }
-
 
     /**
      * @return string
@@ -33,5 +30,4 @@ class get_blocked_contacts implements TLClientMessage
             Packer::packInt(0).
             Packer::packInt(200);
     }
-
 }

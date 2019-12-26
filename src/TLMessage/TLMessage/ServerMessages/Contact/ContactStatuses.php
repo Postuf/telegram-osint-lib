@@ -1,25 +1,24 @@
-<?php /** @noinspection PhpUnused */
+<?php
+
+/** @noinspection PhpUnused */
 
 namespace TLMessage\TLMessage\ServerMessages\Contact;
-
 
 use Exception\TGException;
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class ContactStatuses extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
         return self::checkType($tlMessage, 'vector');
     }
-
 
     /**
      * @return ContactStatus[]
@@ -40,6 +39,4 @@ class ContactStatuses extends TLServerMessage
 
         return $statuses;
     }
-
-
 }
