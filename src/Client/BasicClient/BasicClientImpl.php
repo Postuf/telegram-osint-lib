@@ -48,7 +48,8 @@ class BasicClientImpl
      * @var MessageListener
      */
     private $messageHandler;
-
+    /** @var AuthKey|null */
+    private $authKey;
 
     public function __construct()
     {
@@ -82,13 +83,14 @@ class BasicClientImpl
     public function login(AuthKey $authKey, ?Proxy $proxy = null)
     {
         if($this->isLoggedIn())
-            throw new TGException(TGException::ERR_CLIENT_ALREADY_LOGGED_IN);
+            throw new TGException(TGException::ERR_CLIENT_ALREADY_LOGGED_IN, $this->getUserId());
 
         $dc = $authKey->getAttachedDC();
         $socket = $this->pickSocket($dc, $proxy);
 
         /** @noinspection PhpParamsInspection */
         $this->connection = new EncryptedSocketMessenger($socket, $authKey, $this);
+        $this->authKey = $authKey;
         $this->isLoggedIn = true;
     }
 
@@ -163,6 +165,13 @@ class BasicClientImpl
             $this->messageHandler->onMessage($message);
     }
 
+    private function getUserId() {
+        if (!$this->authKey) {
+            $parts = explode(':', $this->authKey->getSerializedAuthKey());
+            return $parts[0];
+        }
+        return '';
+    }
 
     /**
      * @throws TGException
@@ -176,7 +185,7 @@ class BasicClientImpl
         $allowedIdleTimeSec = 5;
 
         if($elapsedSinceLastMessage >= LibConfig::CONN_PING_INTERVAL_SEC + $allowedIdleTimeSec)
-            throw new TGException(TGException::ERR_CONNECTION_SHUTDOWN);
+            throw new TGException(TGException::ERR_CONNECTION_SHUTDOWN, $this->getUserId());
     }
 
 
@@ -189,7 +198,7 @@ class BasicClientImpl
         if($elapsedSinceLastPing >= LibConfig::CONN_PING_INTERVAL_SEC){
 
             if(ping_delay_disconnect::getDisconnectTimeoutSec() <= LibConfig::CONN_PING_INTERVAL_SEC)
-                throw new TGException(TGException::ERR_CONNECTION_BAD_PING_COMBINATION, 'delay < ping');
+                throw new TGException(TGException::ERR_CONNECTION_BAD_PING_COMBINATION, 'delay < ping for ' . $this->getUserId());
 
             $this->getConnection()->writeMessage(new ping_delay_disconnect());
             $this->lastPingTime = time();
@@ -215,7 +224,7 @@ class BasicClientImpl
     public function setMessageListener(MessageListener $messageCallback)
     {
         if($this->messageHandler)
-            throw new TGException(TGException::ERR_ASSERT_LISTENER_ALREADY_SET);
+            throw new TGException(TGException::ERR_ASSERT_LISTENER_ALREADY_SET, $this->getUserId());
 
         $this->messageHandler = $messageCallback;
     }

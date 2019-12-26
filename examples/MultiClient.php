@@ -35,17 +35,21 @@ class MultiClient
 
     public function connect(): void
     {
-        $timeStart = time();
+        $timeStart = microtime(true);
         $count = count($this->clients);
         foreach ($this->clients as $k => $client) {
             try {
-                $client->login($this->authKeys[$k]);
+                $authKey = $this->authKeys[$k];
+                $client->login($authKey);
+                $parts = explode(':', $authKey->getSerializedAuthKey());
+                Logger::log(__CLASS__, "after login {$parts[0]}");
             } catch (TGException $e) {
                 Logger::log(__CLASS__, $e->getMessage());
             }
         }
-        $timeDiff = time() - $timeStart;
-        Logger::log(__CLASS__, "Login took: $timeDiff sec for $count clients");
+        $timeDiff = microtime(true) - $timeStart;
+        $timeDiffStr = number_format($timeDiff, 3);
+        Logger::log(__CLASS__, "Login took: $timeDiffStr sec for $count clients");
     }
 
     /**
