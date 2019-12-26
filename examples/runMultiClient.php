@@ -23,15 +23,16 @@ foreach ($lines as $k => &$line) {
     }
 }
 
-$logLabel = "multiClient";
+$logLabel = 'multiClient';
 
 try {
     $proxy = $proxyStr
         ? new Proxy($proxyStr)
         : null;
 } catch (SocksException $e) {
-    Logger::log($logLabel, "proxy: " . $e->getMessage());
+    Logger::log($logLabel, 'proxy: '.$e->getMessage());
 }
+
 try {
     $mc = new MultiClient($lines);
     $mc->connect($proxy);
@@ -45,8 +46,8 @@ while(true) {
     try {
         $mc->poll();
     } catch (TGException $e) {
-        Logger::log($logLabel, "poll: " . $e->getMessage());
-        ++$errorCount;
+        Logger::log($logLabel, 'poll: '.$e->getMessage());
+        $errorCount++;
         if ($errorCount >= $errorLimit) {
             die("too many errors\n");
         }

@@ -62,9 +62,10 @@ class InfoClient implements InfoObtainingClient
     }
 
     /**
-     * @param AuthKey $authKey
-     * @param Proxy $proxy
+     * @param AuthKey       $authKey
+     * @param Proxy         $proxy
      * @param callable|null $cb
+     *
      * @return void
      */
     public function login(AuthKey $authKey, Proxy $proxy = null, ?callable $cb = null)
