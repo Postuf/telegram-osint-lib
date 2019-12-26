@@ -1,3 +1,5 @@
+presets: recommended
+
 finder:
   exclude:
     src/Exception
