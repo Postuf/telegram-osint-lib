@@ -1,3 +1,7 @@
+finder:
+  exclude:
+    src/Exception
+
 disabled:
   - braces
   - simplified_null_return
