@@ -69,6 +69,10 @@ class EncryptedSocketMessenger implements SocketMessenger
      */
     private $authKey;
     /**
+     * @var AuthKey
+     */
+    private $authKeyObj;
+    /**
      * @var AES
      */
     private $aes;
@@ -118,6 +122,7 @@ class EncryptedSocketMessenger implements SocketMessenger
         $this->sessionId = openssl_random_pseudo_bytes(8);
         $this->authKey = $authKey->getRawAuthKey();
         $this->authKeyId = substr(sha1($this->authKey, true), -8);
+        $this->authKeyObj = $authKey;
 
         $this->aes = new PhpSecLibAES();
         $this->outerHeaderWrapper = new OuterHeaderWrapper();
@@ -377,20 +382,24 @@ class EncryptedSocketMessenger implements SocketMessenger
      */
     private function analyzeRpcError(RpcError $rpcError)
     {
+        $parts = explode(':', $this->authKeyObj->getSerializedAuthKey());
+        $userId = $parts[0];
+
         if($rpcError->isNetworkMigrateError())
-            throw new TGException(TGException::ERR_MSG_NETWORK_MIGRATE, 'reconnection to another DataCenter needed');
+            throw new TGException(TGException::ERR_MSG_NETWORK_MIGRATE, "reconnection to another DataCenter needed for $userId");
         if($rpcError->isPhoneMigrateError())
-            throw new TGException(TGException::ERR_MSG_PHONE_MIGRATE, 'phone already used in another DataCenter');
+            throw new TGException(TGException::ERR_MSG_PHONE_MIGRATE, "phone $userId already used in another DataCenter");
         if($rpcError->isFloodError())
             throw new TGException(TGException::ERR_MSG_FLOOD, (new FloodWait($rpcError))->getWaitTimeSec());
-        if($rpcError->isUserDeactivated())
-            throw new TGException(TGException::ERR_MSG_USER_BANNED);
+        if($rpcError->isUserDeactivated()) {
+            throw new TGException(TGException::ERR_MSG_USER_BANNED, "User $userId banned");
+        }
         if($rpcError->isPhoneBanned())
-            throw new TGException(TGException::ERR_MSG_PHONE_BANNED);
+            throw new TGException(TGException::ERR_MSG_PHONE_BANNED, "User $userId phone banned");
         if($rpcError->isAuthKeyDuplicated())
-            throw new TGException(TGException::ERR_MSG_BANNED_AUTHKEY_DUPLICATED, 'relogin with phone number needed');
+            throw new TGException(TGException::ERR_MSG_BANNED_AUTHKEY_DUPLICATED, "relogin with phone number needed $userId");
         if($rpcError->isSessionRevoked())
-            throw new TGException(TGException::ERR_MSG_BANNED_SESSION_STOLEN, 'bot stolen by revoking session');
+            throw new TGException(TGException::ERR_MSG_BANNED_SESSION_STOLEN, "bot stolen by revoking session $userId");
     }
 
     /**

@@ -29,4 +29,8 @@ interface Socket
      * @return DataCentre
      */
     public function getDCInfo();
+
+    public function poll(): void;
+
+    public function ready(): bool;
 }

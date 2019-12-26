@@ -10,11 +10,12 @@ interface Client
 {
     /**
      * @param AuthKey $authKey
-     * @param Proxy s$proxy
+     * @param Proxy $proxy
+     * @param callable|null $cb
      *
      * @return void
      */
-    public function login(AuthKey $authKey, Proxy $proxy = null);
+    public function login(AuthKey $authKey, Proxy $proxy = null, callable $cb = null);
 
     /**
      * @return void

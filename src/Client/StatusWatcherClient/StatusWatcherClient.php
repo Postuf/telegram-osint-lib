@@ -65,16 +65,14 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
     }
 
     /**
-     * @param AuthKey    $authKey
+     * @param AuthKey $authKey
      * @param Proxy|null $proxy
-     *
-     * @throws TGException
-     *
+     * @param callable|null $cb
      * @return void
      */
-    public function login(AuthKey $authKey, Proxy $proxy = null)
+    public function login(AuthKey $authKey, Proxy $proxy = null, ?callable $cb = null)
     {
-        $this->basicClient->login($authKey, $proxy);
+        $this->basicClient->login($authKey, $proxy, $cb);
     }
 
     /**

@@ -5,6 +5,7 @@ use Client\AuthKey\AuthKeyCreator;
 use Client\InfoObtainingClient\InfoClient;
 use Exception\TGException;
 use Logger\Logger;
+use SocksProxyAsync\Proxy;
 
 class MultiClient
 {
@@ -15,6 +16,11 @@ class MultiClient
 
     /** @var InfoClient[] */
     private $clients;
+
+    /** @var int */
+    private $connectedCount = 0;
+    /** @var float */
+    private $startTime;
 
     /**
      * @param string[] $authKeysSerialized
@@ -33,19 +39,33 @@ class MultiClient
         }
     }
 
-    public function connect(): void
+    public function connect(?Proxy $proxy = null): void
     {
-        $timeStart = time();
+        $this->startTime = microtime(true);
         $count = count($this->clients);
         foreach ($this->clients as $k => $client) {
             try {
-                $client->login($this->authKeys[$k]);
+                $authKey = $this->authKeys[$k];
+                $client->login($authKey, $proxy, function() use($authKey) {
+                    $parts = explode(':', $authKey->getSerializedAuthKey());
+                    $phone = $parts[0];
+                    Logger::log(__CLASS__, $phone . ' connected');
+                    ++$this->connectedCount;
+                    if ($this->connectedCount == count($this->clients)) {
+                        $timeDiff = microtime(true) - $this->startTime;
+                        $timeDiffStr = number_format($timeDiff, 3);
+                        Logger::log(__CLASS__, "all clients connected after $timeDiffStr sec");
+                    }
+                });
+                $parts = explode(':', $authKey->getSerializedAuthKey());
+                Logger::log(__CLASS__, "after login {$parts[0]}");
             } catch (TGException $e) {
                 Logger::log(__CLASS__, $e->getMessage());
             }
         }
-        $timeDiff = time() - $timeStart;
-        Logger::log(__CLASS__, "Login took: $timeDiff sec for $count clients");
+        $timeDiff = microtime(true) - $this->startTime;
+        $timeDiffStr = number_format($timeDiff, 3);
+        Logger::log(__CLASS__, "login took: $timeDiffStr sec for $count clients");
     }
 
     /**

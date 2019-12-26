@@ -100,4 +100,14 @@ class TcpSocket implements Socket
         @socket_close($this->socket);
         $this->isTerminated = true;
     }
+
+    public function poll(): void
+    {
+
+    }
+
+    public function ready(): bool
+    {
+        return true;
+    }
 }

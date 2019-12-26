@@ -63,15 +63,13 @@ class InfoClient implements InfoObtainingClient
 
     /**
      * @param AuthKey $authKey
-     * @param Proxy   $proxy
-     *
-     * @throws TGException
-     *
+     * @param Proxy $proxy
+     * @param callable|null $cb
      * @return void
      */
-    public function login(AuthKey $authKey, Proxy $proxy = null)
+    public function login(AuthKey $authKey, Proxy $proxy = null, ?callable $cb = null)
     {
-        $this->basicClient->login($authKey, $proxy);
+        $this->basicClient->login($authKey, $proxy, $cb);
     }
 
     /**
