@@ -75,8 +75,8 @@ class ProxySocket implements Socket
     public function runOnConnectedCallback() {
         if ($this->cbOnConnected) {
             $func = $this->cbOnConnected;
-            $func();
             $this->cbOnConnected = null;
+            $func();
         }
     }
 
@@ -152,5 +152,22 @@ class ProxySocket implements Socket
     {
         @socket_close($this->socksSocket);
         $this->isTerminated = true;
+    }
+
+    /**
+     * @throws SocksException
+     */
+    public function poll(): void
+    {
+        $socketObject = $this->getSocketObject();
+        $this->getSocketObject()->poll();
+        if ($socketObject->ready()) {
+            $this->runOnConnectedCallback();
+        }
+    }
+
+    public function ready(): bool
+    {
+        return $this->getSocketObject()->ready();
     }
 }

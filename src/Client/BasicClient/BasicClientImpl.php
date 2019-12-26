@@ -7,9 +7,7 @@ use Client\AuthKey\AuthKey;
 use Exception\TGException;
 use LibConfig;
 use MTSerialization\AnonymousMessage;
-use SocksProxyAsync\Async;
 use SocksProxyAsync\Proxy;
-use SocksProxyAsync\SocketAsync;
 use SocksProxyAsync\SocksException;
 use TGConnection\DataCentre;
 use TGConnection\Socket\ProxySocket;
@@ -150,21 +148,15 @@ class BasicClientImpl
 
 
     /**
-     * return boolean
+     * @return boolean
      * @throws TGException
      * @throws SocksException
      */
     public function pollMessage()
     {
-        if ($this->socket instanceof ProxySocket && $this->socket->getSocketObject() instanceof SocketAsyncTg) {
-            /** @var SocketAsyncTg $socketObject */
-            $socketObject = $this->socket->getSocketObject();
-            if (!$socketObject->ready()) {
-                $this->socket->getSocketObject()->poll();
-                return false;
-            } else {
-                $this->socket->runOnConnectedCallback();
-            }
+        if (!$this->socket->ready()) {
+            $this->socket->poll();
+            return false;
         }
         $this->checkConnectionAlive();
         $this->pingIfNeeded();

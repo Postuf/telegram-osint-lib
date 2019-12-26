@@ -30,5 +30,7 @@ interface Socket
      */
     public function getDCInfo();
 
+    public function poll(): void;
 
+    public function ready(): bool;
 }

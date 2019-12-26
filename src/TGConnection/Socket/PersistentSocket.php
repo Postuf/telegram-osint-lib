@@ -95,4 +95,13 @@ class PersistentSocket implements Socket
         $this->socket->terminate();
     }
 
+    public function poll(): void
+    {
+
+    }
+
+    public function ready(): bool
+    {
+        return true;
+    }
 }
