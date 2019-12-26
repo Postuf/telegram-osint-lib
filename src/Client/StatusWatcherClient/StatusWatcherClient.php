@@ -65,9 +65,10 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
     }
 
     /**
-     * @param AuthKey $authKey
-     * @param Proxy|null $proxy
+     * @param AuthKey       $authKey
+     * @param Proxy|null    $proxy
      * @param callable|null $cb
+     *
      * @return void
      */
     public function login(AuthKey $authKey, Proxy $proxy = null, ?callable $cb = null)

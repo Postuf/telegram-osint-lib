@@ -1,8 +1,6 @@
 <?php
 
-
 namespace TGConnection\Socket;
-
 
 use SocksProxyAsync\SocketAsync;
 use SocksProxyAsync\SocksException;
@@ -57,6 +55,7 @@ class SocketAsyncTg extends SocketAsync
                 if(!$this->isReady && $this->readSocksConnectStatus()) {
                     $this->isReady = true;
                     $this->step->setStep(6);
+
                     return;
                 }
                 break;
@@ -68,8 +67,8 @@ class SocketAsyncTg extends SocketAsync
             $this->step->checkIfStepStuck();
         } catch (SocksException $e){
             $this->stop();
+
             throw $e;
         }
     }
-
 }
