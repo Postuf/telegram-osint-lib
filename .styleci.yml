@@ -1,3 +1,4 @@
 disabled:
   - braces
   - simplified_null_return
+  - phpdoc_annotation_without_dot
