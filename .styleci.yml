@@ -2,6 +2,9 @@ finder:
   exclude:
     src/Exception
 
+enabled:
+  - phpdoc_annotation_without_dot
+
 disabled:
   - braces
   - simplified_null_return
