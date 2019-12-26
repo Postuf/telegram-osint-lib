@@ -1,4 +1,5 @@
-presets: recommended
+php:
+  preset: recommended
 
 finder:
   exclude:
