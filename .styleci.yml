@@ -4,4 +4,4 @@ finder:
 
 disabled:
   - braces
-  - phpdoc_annotation_without_dot
+  - simplified_null_return
