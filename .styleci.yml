@@ -1,2 +1,3 @@
 disabled:
   - braces
+  - simplified_null_return
