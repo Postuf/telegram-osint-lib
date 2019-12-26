@@ -2,15 +2,12 @@
 
 namespace Tests\Tests\Client\StatusWatcherClient;
 
-
 use Client\StatusWatcherClient\StatusWatcherCallbacks;
 use Client\StatusWatcherClient\StatusWatcherClient;
 use TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 
-
 class StatusWatcherClientMock extends StatusWatcherClient
 {
-
     /**
      * @var ContactUser[]
      */
@@ -20,16 +17,14 @@ class StatusWatcherClientMock extends StatusWatcherClient
      */
     private $isUserExpirationChecks = 0;
 
-
     public function __construct(StatusWatcherCallbacks $callbacks)
     {
         parent::__construct($callbacks);
         $this->contactKeeper = new ContactsKeeperMock(null);
     }
 
-
     /**
-     * @var ContactUser[] $contact
+     * @var ContactUser[]
      */
     public function loadMockContacts(array $contacts)
     {
@@ -37,12 +32,10 @@ class StatusWatcherClientMock extends StatusWatcherClient
         $this->contactKeeper->loadContacts($contacts);
     }
 
-
     public function pollMessage()
     {
         $this->checkOnlineStatusesExpired();
     }
-
 
     protected function checkOnlineStatusesExpired()
     {
@@ -58,9 +51,8 @@ class StatusWatcherClientMock extends StatusWatcherClient
         return $this->isUserExpirationChecks;
     }
 
-
     protected function throwIfNotLoggedIn()
     {
-        return;
+
     }
 }

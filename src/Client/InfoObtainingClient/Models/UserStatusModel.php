@@ -2,16 +2,14 @@
 
 namespace Client\InfoObtainingClient\Models;
 
-
 class UserStatusModel
 {
-
     /**
-     * @var boolean
+     * @var bool
      */
     public $is_online;
     /**
-     * @var boolean
+     * @var bool
      */
     public $is_hidden;
     /**

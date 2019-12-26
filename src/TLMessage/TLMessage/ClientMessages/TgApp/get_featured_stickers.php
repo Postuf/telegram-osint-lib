@@ -10,9 +10,7 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class get_featured_stickers implements TLClientMessage
 {
-
     const CONSTRUCTOR = 766298703; // 0x2DACCA4F
-
 
     /**
      * @return string
@@ -21,7 +19,6 @@ class get_featured_stickers implements TLClientMessage
     {
         return 'get_featured_stickers';
     }
-
 
     /**
      * @return string
@@ -32,5 +29,4 @@ class get_featured_stickers implements TLClientMessage
             Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packInt(0);
     }
-
 }

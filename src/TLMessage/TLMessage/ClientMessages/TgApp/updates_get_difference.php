@@ -10,17 +10,15 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class updates_get_difference implements TLClientMessage
 {
-
     const CONSTRUCTOR = 630429265; // 0x25939651
-
 
     private $qts;
     private $pts;
     private $date;
 
-
     /**
      * updates_get_difference constructor.
+     *
      * @param int $pts
      * @param int $qts
      * @param int $date
@@ -32,7 +30,6 @@ class updates_get_difference implements TLClientMessage
         $this->date = $date;
     }
 
-
     /**
      * @return string
      */
@@ -40,7 +37,6 @@ class updates_get_difference implements TLClientMessage
     {
         return 'updates_get_difference';
     }
-
 
     /**
      * @return string
@@ -54,5 +50,4 @@ class updates_get_difference implements TLClientMessage
             Packer::packInt($this->date).
             Packer::packInt($this->qts);
     }
-
 }

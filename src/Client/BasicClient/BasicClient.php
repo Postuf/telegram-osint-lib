@@ -1,17 +1,13 @@
 <?php
 
-
 namespace Client\BasicClient;
-
 
 use Client\Client;
 use TGConnection\SocketMessenger\MessageListener;
 use TGConnection\SocketMessenger\SocketMessenger;
 
-
 interface BasicClient extends Client
 {
-
     /**
      * @return SocketMessenger
      */
@@ -24,8 +20,8 @@ interface BasicClient extends Client
 
     /**
      * @param MessageListener $messageCallback
+     *
      * @return void
      */
     public function setMessageListener(MessageListener $messageCallback);
-
 }

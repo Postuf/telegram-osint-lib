@@ -7,9 +7,7 @@ use TLMessage\TLMessage\TLClientMessage;
 
 class invoke_with_layer implements TLClientMessage
 {
-
     const CONSTRUCTOR = 0xda9b0d0d;
-
 
     /**
      * @var int
@@ -20,9 +18,8 @@ class invoke_with_layer implements TLClientMessage
      */
     private $query;
 
-
     /**
-     * @param int $layerVersion
+     * @param int             $layerVersion
      * @param TLClientMessage $query
      */
     public function __construct(int $layerVersion, TLClientMessage $query)
@@ -31,7 +28,6 @@ class invoke_with_layer implements TLClientMessage
         $this->query = $query;
     }
 
-
     /**
      * @return string
      */
@@ -39,7 +35,6 @@ class invoke_with_layer implements TLClientMessage
     {
         return 'invoke_with_layer';
     }
-
 
     /**
      * @return string
@@ -51,5 +46,4 @@ class invoke_with_layer implements TLClientMessage
             Packer::packInt($this->layerVersion).
             Packer::packBytes($this->query->toBinary());
     }
-
 }

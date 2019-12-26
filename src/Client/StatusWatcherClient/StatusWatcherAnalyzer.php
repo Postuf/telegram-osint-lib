@@ -2,7 +2,6 @@
 
 namespace Client\StatusWatcherClient;
 
-
 use Client\Analyzer;
 use Client\StatusWatcherClient\Models\HiddenStatus;
 use Exception\TGException;
@@ -14,15 +13,12 @@ use TLMessage\TLMessage\ServerMessages\Update\Updates;
 use TLMessage\TLMessage\ServerMessages\Update\UpdateShort;
 use TLMessage\TLMessage\ServerMessages\Update\UpdateUserStatus;
 
-
 class StatusWatcherAnalyzer implements Analyzer
 {
-
     /**
      * @var StatusWatcherCallbacksMiddleware
      */
     private $notifier;
-
 
     /**
      * @param StatusWatcherCallbacksMiddleware $notifier
@@ -32,9 +28,9 @@ class StatusWatcherAnalyzer implements Analyzer
         $this->notifier = $notifier;
     }
 
-
     /**
      * @param AnonymousMessage $message
+     *
      * @throws TGException
      */
     public function analyzeMessage(AnonymousMessage $message)
@@ -57,9 +53,9 @@ class StatusWatcherAnalyzer implements Analyzer
             $this->analyzeCurrentStatuses($message);
     }
 
-
     /**
      * @param UpdateShort $shortUpdate
+     *
      * @throws TGException
      */
     private function onUpdateShort(UpdateShort $shortUpdate)
@@ -70,9 +66,9 @@ class StatusWatcherAnalyzer implements Analyzer
             $this->onUserStatusChanged(new UpdateUserStatus($update));
     }
 
-
     /**
      * @param UpdateUserStatus $newUserStatus
+     *
      * @throws TGException
      */
     private function onUserStatusChanged(UpdateUserStatus $newUserStatus)
@@ -82,6 +78,7 @@ class StatusWatcherAnalyzer implements Analyzer
 
     /**
      * @param ImportedContacts $importedContacts
+     *
      * @throws TGException
      */
     private function analyzeImportedContactsStatus(ImportedContacts $importedContacts)
@@ -92,6 +89,7 @@ class StatusWatcherAnalyzer implements Analyzer
 
     /**
      * @param Updates $updates
+     *
      * @throws TGException
      */
     private function analyzeUpdates(Updates $updates)
@@ -102,6 +100,7 @@ class StatusWatcherAnalyzer implements Analyzer
 
     /**
      * @param AnonymousMessage $message
+     *
      * @throws TGException
      */
     private function analyzeCurrentStatuses(AnonymousMessage $message)
@@ -112,14 +111,16 @@ class StatusWatcherAnalyzer implements Analyzer
     }
 
     /**
-     * @param int $userId
+     * @param int             $userId
      * @param UserStatus|null $status
+     *
      * @throws TGException
      */
     private function performStatusReaction(int $userId, $status)
     {
         if(!$status) {
             $this->notifier->onUserHidStatus($userId, new HiddenStatus(HiddenStatus::HIDDEN_SEEN_LONG_AGO));
+
             return;
         }
 
@@ -132,6 +133,4 @@ class StatusWatcherAnalyzer implements Analyzer
         if($status->isOffline())
             $this->notifier->onUserOffline($userId, $status->getWasOnline());
     }
-
-
 }

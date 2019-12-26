@@ -10,7 +10,6 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class contacts_search implements TLClientMessage
 {
-
     const CONSTRUCTOR = 301470424; // 0x11F812D8
 
     const DEFAULT_APP_LIMIT = 50;
@@ -24,13 +23,11 @@ class contacts_search implements TLClientMessage
      */
     private $limit;
 
-
     public function __construct(string $nickName, int $limit = self::DEFAULT_APP_LIMIT)
     {
         $this->nick = $nickName;
         $this->limit = $limit;
     }
-
 
     /**
      * @return string
@@ -39,7 +36,6 @@ class contacts_search implements TLClientMessage
     {
         return 'contacts_search';
     }
-
 
     /**
      * @return string
@@ -51,5 +47,4 @@ class contacts_search implements TLClientMessage
             Packer::packString($this->nick).
             Packer::packInt($this->limit);
     }
-
 }

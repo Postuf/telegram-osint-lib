@@ -9,7 +9,6 @@ use TLMessage\TLMessage\Packer;
  */
 class input_peer_empty extends input_peer
 {
-
     const CONSTRUCTOR = 2134579434; // 0x7f3b18ea
 
     /**
@@ -20,7 +19,6 @@ class input_peer_empty extends input_peer
         return 'input_peer_empty';
     }
 
-
     /**
      * @return string
      */
@@ -28,5 +26,4 @@ class input_peer_empty extends input_peer
     {
         return Packer::packConstructor(self::CONSTRUCTOR);
     }
-
 }

@@ -8,9 +8,7 @@ use TLMessage\TLMessage\TLClientMessage;
 /** @see https://tl.telethon.dev/constructors/p_q_inner_data_dc.html */
 class p_q_inner_data_dc implements TLClientMessage
 {
-
     const CONSTRUCTOR = 0xA9F55F95;
-
 
     /**
      * @var int
@@ -41,15 +39,14 @@ class p_q_inner_data_dc implements TLClientMessage
      */
     private $dcId;
 
-
     /**
-     * @param int $pq
-     * @param int $p
-     * @param int $q
+     * @param int    $pq
+     * @param int    $p
+     * @param int    $q
      * @param string $oldClientNonce
      * @param string $serverNonce
      * @param string $newClientNonce
-     * @param int $dcId
+     * @param int    $dcId
      */
     public function __construct(int $pq, int $p, int $q, string $oldClientNonce, string $serverNonce, string $newClientNonce, int $dcId)
     {
@@ -62,7 +59,7 @@ class p_q_inner_data_dc implements TLClientMessage
         $this->dcId = $dcId;
 
         assert($this->p < $this->q);
-        assert($this->p*$this->q == $this->pq);
+        assert($this->p * $this->q == $this->pq);
 
     }
 
@@ -89,5 +86,4 @@ class p_q_inner_data_dc implements TLClientMessage
             Packer::packBytes($this->newClientNonce).
             Packer::packInt($this->dcId);
     }
-
 }

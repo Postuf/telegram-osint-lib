@@ -8,9 +8,7 @@ use TLMessage\TLMessage\TLClientMessage;
 /** @see https://core.telegram.org/method/help.getInviteText */
 class get_invite_text implements TLClientMessage
 {
-
     const CONSTRUCTOR = 1295590211; // 0x4D392343
-
 
     /**
      * @return string
@@ -20,7 +18,6 @@ class get_invite_text implements TLClientMessage
         return 'get_invite_text';
     }
 
-
     /**
      * @return string
      */
@@ -28,5 +25,4 @@ class get_invite_text implements TLClientMessage
     {
         return Packer::packConstructor(self::CONSTRUCTOR);
     }
-
 }

@@ -8,7 +8,6 @@ use TLMessage\TLMessage\TLClientMessage;
 /** @see https://core.telegram.org/method/contacts.getContacts */
 class get_contacts implements TLClientMessage
 {
-
     const CONSTRUCTOR = 0x22c6aa08; // 583445000
 
     /**
@@ -18,7 +17,6 @@ class get_contacts implements TLClientMessage
     {
         return 'get_contacts';
     }
-
 
     /**
      * @return string
@@ -31,6 +29,4 @@ class get_contacts implements TLClientMessage
             Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packString($contactsHash);
     }
-
-
 }

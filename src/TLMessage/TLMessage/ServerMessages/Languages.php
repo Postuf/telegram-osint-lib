@@ -1,29 +1,25 @@
 <?php
 
-
 namespace TLMessage\TLMessage\ServerMessages;
-
 
 use Exception\TGException;
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class Languages extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
         return self::checkType($tlMessage, 'vector');
     }
 
-
     /**
-     * @return boolean
+     * @return bool
      */
     public function getCount()
     {
@@ -39,6 +35,4 @@ class Languages extends TLServerMessage
 
         return $langIdx;
     }
-
-
 }

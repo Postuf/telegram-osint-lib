@@ -2,29 +2,26 @@
 
 namespace TLMessage\TLMessage\ServerMessages\Contact;
 
-
 use Exception\TGException;
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class CurrentContacts extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
         return self::checkType($tlMessage, 'contacts.contacts');
     }
 
-
     /**
-     * @return ContactUser[]
-     *
      * @throws TGException
+     *
+     * @return ContactUser[]
      */
     public function getUsers()
     {
@@ -35,5 +32,4 @@ class CurrentContacts extends TLServerMessage
 
         return $userObjects;
     }
-
 }

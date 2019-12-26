@@ -2,23 +2,21 @@
 
 namespace TLMessage\TLMessage;
 
-
 use Exception\TGException;
 use MTSerialization\AnonymousMessage;
 
-
 abstract class TLServerMessage
 {
-
     /**
      * @var AnonymousMessage
      */
     private $tlMessage;
 
-
     /**
      * TLServerMessage constructor.
+     *
      * @param AnonymousMessage $tlMessage
+     *
      * @throws TGException
      */
     public function __construct(AnonymousMessage $tlMessage)
@@ -27,17 +25,17 @@ abstract class TLServerMessage
         $this->tlMessage = $tlMessage;
     }
 
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
-    public abstract static function isIt(AnonymousMessage $tlMessage);
-
+    abstract public static function isIt(AnonymousMessage $tlMessage);
 
     /**
      * @param AnonymousMessage $anonymousMessage
-     * @param string $type
+     * @param string           $type
+     *
      * @return bool
      */
     protected static function checkType(AnonymousMessage $anonymousMessage, string $type)
@@ -45,17 +43,16 @@ abstract class TLServerMessage
         return $anonymousMessage->getType() == $type;
     }
 
-
     /**
      * @param AnonymousMessage $anonymousMessage
+     *
      * @throws TGException
      */
     private function throwIfIncorrectType(AnonymousMessage $anonymousMessage)
     {
         if(!static::isIt($anonymousMessage))
-            throw new TGException(TGException::ERR_TL_MESSAGE_UNEXPECTED_OBJECT,  $anonymousMessage->getType());
+            throw new TGException(TGException::ERR_TL_MESSAGE_UNEXPECTED_OBJECT, $anonymousMessage->getType());
     }
-
 
     /**
      * @return AnonymousMessage
@@ -64,6 +61,4 @@ abstract class TLServerMessage
     {
         return $this->tlMessage;
     }
-
-
 }

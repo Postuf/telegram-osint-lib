@@ -8,9 +8,7 @@ use TLMessage\TLMessage\TLClientMessage;
 /** @see https://core.telegram.org/method/updates.getState */
 class get_state implements TLClientMessage
 {
-
     const CONSTRUCTOR = -304838614; // 0xEDD4882A
-
 
     /**
      * @return string
@@ -20,7 +18,6 @@ class get_state implements TLClientMessage
         return 'get_state';
     }
 
-
     /**
      * @return string
      */
@@ -28,5 +25,4 @@ class get_state implements TLClientMessage
     {
         return Packer::packConstructor(self::CONSTRUCTOR);
     }
-
 }

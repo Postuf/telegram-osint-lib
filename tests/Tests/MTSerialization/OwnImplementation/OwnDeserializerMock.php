@@ -6,7 +6,6 @@ use MTSerialization\OwnImplementation\OwnDeserializer;
 
 class OwnDeserializerMock extends OwnDeserializer
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -52,6 +51,4 @@ class OwnDeserializerMock extends OwnDeserializer
             "methods": []
         }');
     }
-
-
 }

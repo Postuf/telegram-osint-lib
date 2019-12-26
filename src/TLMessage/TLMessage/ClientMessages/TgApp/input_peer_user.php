@@ -7,7 +7,6 @@ use TLMessage\TLMessage\Packer;
 /** @see https://core.telegram.org/constructor/inputPeerUser */
 class input_peer_user extends input_peer
 {
-
     const CONSTRUCTOR = 2072935910; // 0x7B8E7DE6
 
     /**
@@ -21,6 +20,7 @@ class input_peer_user extends input_peer
 
     /**
      * input_peer_user constructor.
+     *
      * @param int $userId
      * @param int $accessHash
      */
@@ -30,7 +30,6 @@ class input_peer_user extends input_peer
         $this->accessHash = $accessHash;
     }
 
-
     /**
      * @return string
      */
@@ -38,7 +37,6 @@ class input_peer_user extends input_peer
     {
         return 'input_peer_user';
     }
-
 
     /**
      * @return string
@@ -50,5 +48,4 @@ class input_peer_user extends input_peer
             Packer::packInt($this->userId).
             Packer::packLong($this->accessHash);
     }
-
 }

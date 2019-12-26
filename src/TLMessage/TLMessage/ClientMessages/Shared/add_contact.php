@@ -11,7 +11,6 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class add_contact implements TLClientMessage
 {
-
     const CONSTRUCTOR = -386636848; // 0xE8F463D0
 
     /**
@@ -22,7 +21,6 @@ class add_contact implements TLClientMessage
      * @var int
      */
     private $accessHash;
-
 
     /**
      * @param int $userId
@@ -42,7 +40,6 @@ class add_contact implements TLClientMessage
         return 'add_contact';
     }
 
-
     /**
      * @return string
      */
@@ -60,5 +57,4 @@ class add_contact implements TLClientMessage
             Packer::packString($contactLastName).
             Packer::packString('');
     }
-
 }

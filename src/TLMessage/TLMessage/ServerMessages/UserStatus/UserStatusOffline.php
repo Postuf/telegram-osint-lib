@@ -2,17 +2,15 @@
 
 namespace TLMessage\TLMessage\ServerMessages\UserStatus;
 
-
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class UserStatusOffline extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
@@ -26,6 +24,4 @@ class UserStatusOffline extends TLServerMessage
     {
         return $this->getTlMessage()->getValue('was_online');
     }
-
-
 }

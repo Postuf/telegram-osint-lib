@@ -4,7 +4,6 @@ namespace Client\InfoObtainingClient\Models;
 
 class UserInfoModel
 {
-
     /**
      * @var int
      */

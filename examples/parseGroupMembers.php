@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__.'/../vendor/autoload.php';
-require_once __DIR__ . '/MyTgClientDebug.php';
+require_once __DIR__.'/MyTgClientDebug.php';
 
 use Client\InfoObtainingClient\Models\UserInfoModel;
 use Exception\TGException;
@@ -14,7 +14,8 @@ use MTSerialization\AnonymousMessage;
  * This example requires info user (second authkey)
  * to be member of one or several groups, otherwise it is useless.
  */
-class GroupMembersClient extends MyTgClientDebug {
+class GroupMembersClient extends MyTgClientDebug
+{
     public function __construct()
     {
         parent::__construct();
@@ -26,10 +27,10 @@ class GroupMembersClient extends MyTgClientDebug {
     public function startActions()
     {
         $this->infoLogin();
-        Logger::log(__CLASS__, "getting all chats");
+        Logger::log(__CLASS__, 'getting all chats');
         /** @var array $ids */
         $ids = [];
-        $this->infoClient->getAllChats(function (AnonymousMessage $message) use(&$ids) {
+        $this->infoClient->getAllChats(function (AnonymousMessage $message) use (&$ids) {
             /** @see https://core.telegram.org/constructor/messages.chats */
             $chats = $message->getNodes('chats');
             $chatCount = count($chats);
@@ -47,6 +48,7 @@ class GroupMembersClient extends MyTgClientDebug {
 
     /**
      * @param int $id
+     *
      * @return Closure
      */
     private function makeChatMemberHandler(int $id) {
@@ -86,5 +88,5 @@ class GroupMembersClient extends MyTgClientDebug {
     }
 }
 
-/** @noinspection PhpUnhandledExceptionInspection */
+/* @noinspection PhpUnhandledExceptionInspection */
 (new GroupMembersClient())->startActions();

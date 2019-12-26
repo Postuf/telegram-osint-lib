@@ -2,11 +2,9 @@
 
 namespace TLMessage\TLMessage\ServerMessages;
 
-
 use Exception\TGException;
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\TLServerMessage;
-
 
 class UserProfilePhoto extends TLServerMessage
 {
@@ -17,7 +15,8 @@ class UserProfilePhoto extends TLServerMessage
 
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
@@ -40,16 +39,15 @@ class UserProfilePhoto extends TLServerMessage
         return $this->getTlMessage()->getValue('photo_id');
     }
 
-
     /**
      * @return FileLocation
      */
     public function getBigPhoto()
     {
         $photo = $this->getTlMessage()->getNode('photo_big');
+
         return new FileLocation($photo);
     }
-
 
     /**
      * @return FileLocation
@@ -57,6 +55,7 @@ class UserProfilePhoto extends TLServerMessage
     public function getSmallPhoto()
     {
         $photo = $this->getTlMessage()->getNode('photo_small');
+
         return new FileLocation($photo);
     }
 
@@ -66,6 +65,7 @@ class UserProfilePhoto extends TLServerMessage
     public function getDcId()
     {
         $this->throwIfNotV2();
+
         return $this->getTlMessage()->getValue('dc_id');
     }
 
@@ -82,5 +82,4 @@ class UserProfilePhoto extends TLServerMessage
         if(!$this->isV2())
             throw new TGException(TGException::ERR_TL_MESSAGE_FIELD_NOT_EXISTS, 'Deprecated node!');
     }
-
 }

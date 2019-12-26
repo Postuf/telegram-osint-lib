@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpUnused */
+<?php
+
+/** @noinspection PhpUnused */
 
 namespace TLMessage\TLMessage\ClientMessages\TgApp;
 
@@ -13,7 +15,6 @@ class register_device_push implements TLClientMessage
 {
     const CONSTRUCTOR = 1669245048; // 0x637EA878
 
-
     /**
      * @return string
      */
@@ -21,7 +22,6 @@ class register_device_push implements TLClientMessage
     {
         return 'register_device_push';
     }
-
 
     /**
      * @return string
@@ -33,6 +33,4 @@ class register_device_push implements TLClientMessage
             Packer::packInt(7).
             Packer::packString(rand(1000, 9999).rand(1000, 9999).rand(1000, 9999).rand(1000, 9999).rand(100, 999));
     }
-
-
 }

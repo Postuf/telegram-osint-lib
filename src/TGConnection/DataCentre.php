@@ -2,12 +2,10 @@
 
 namespace TGConnection;
 
-
 use LibConfig;
 
 class DataCentre
 {
-
     /** @var string */
     private $dcIp;
     /** @var int */
@@ -15,11 +13,10 @@ class DataCentre
     /** @var int */
     private $dcPort;
 
-
     /**
      * @param string $dcIp
-     * @param int $dcId
-     * @param int $dcPort
+     * @param int    $dcId
+     * @param int    $dcPort
      */
     public function __construct($dcIp, $dcId, $dcPort)
     {
@@ -28,18 +25,16 @@ class DataCentre
         $this->dcPort = $dcPort;
     }
 
-
     /**
      * @return DataCentre
      */
     public static function getDefault()
     {
-        return new DataCentre(
+        return new self(
             LibConfig::DC_DEFAULT_IP,
             LibConfig::DC_DEFAULT_ID,
             LibConfig::DC_DEFAULT_PORT);
     }
-
 
     /**
      * @return string
@@ -64,5 +59,4 @@ class DataCentre
     {
         return $this->dcPort;
     }
-
 }

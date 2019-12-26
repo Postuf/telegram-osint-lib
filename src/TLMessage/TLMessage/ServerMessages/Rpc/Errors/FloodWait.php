@@ -2,18 +2,15 @@
 
 namespace TLMessage\TLMessage\ServerMessages\Rpc\Errors;
 
-
 use Exception\TGException;
 use TLMessage\TLMessage\ServerMessages\Rpc\RpcError;
 
 class FloodWait
 {
-
     /**
      * @var RpcError
      */
     private $error;
-
 
     /**
      * @param RpcError $rpcError
@@ -22,10 +19,8 @@ class FloodWait
     {
         if(!$rpcError->isFloodError())
             throw new TGException(TGException::ERR_TL_MESSAGE_UNEXPECTED_OBJECT, 'not a flood error');
-
         $this->error = $rpcError;
     }
-
 
     /**
      * @return int
@@ -33,8 +28,7 @@ class FloodWait
     public function getWaitTimeSec()
     {
         $parts = explode('_', $this->error->getErrorString());
-        return (int)$parts[count($parts)-1];
+
+        return (int) $parts[count($parts) - 1];
     }
-
-
 }

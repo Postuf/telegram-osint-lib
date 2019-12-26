@@ -1,6 +1,5 @@
 <?php
 
-
 use Auth\Protocol\AppAuthorization;
 use Client\AuthKey\AuthKey;
 use Client\AuthKey\AuthKeyCreator;
@@ -13,12 +12,9 @@ use PHPUnit\Framework\TestCase;
 use TGConnection\DataCentre;
 use TGConnection\SocketMessenger\MessageListener;
 
-
 class AuthKeyCreateTest extends TestCase implements MessageListener
 {
-
     private $session_created = false;
-
 
     public function test_generate_auth_key()
     {
@@ -27,7 +23,7 @@ class AuthKeyCreateTest extends TestCase implements MessageListener
         $dc = DataCentre::getDefault();
         /** @noinspection PhpUnhandledExceptionInspection */
         $auth = new AppAuthorization($dc);
-        /** @noinspection PhpUnhandledExceptionInspection */
+        /* @noinspection PhpUnhandledExceptionInspection */
         $auth->createAuthKey(function (AuthKey $key) {
             $serializedKey = $key->getSerializedAuthKey();
             $authKey = AuthKeyCreator::createFromString($serializedKey);
@@ -48,7 +44,6 @@ class AuthKeyCreateTest extends TestCase implements MessageListener
         });
     }
 
-
     /**
      * @param AnonymousMessage $message
      */
@@ -60,5 +55,4 @@ class AuthKeyCreateTest extends TestCase implements MessageListener
         if($message->getType() == 'new_session_created')
             $this->session_created = true;
     }
-
 }

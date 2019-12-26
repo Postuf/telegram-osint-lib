@@ -10,17 +10,14 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class delete_contacts implements TLClientMessage
 {
-
     const CONSTRUCTOR = 157945344; // 0x96A0E00
     /** @see https://core.telegram.org/type/InputUser */
     const INPUT_USER_CONSTRUCTOR = -668391402; // 0xD8292816
-
 
     /**
      * @param array
      */
     private $contactsToDelete = [];
-
 
     /**
      * @param int $accessHash
@@ -29,11 +26,10 @@ class delete_contacts implements TLClientMessage
     public function addToDelete(int $accessHash, int $userId)
     {
         $this->contactsToDelete[] = [
-            'access_hash' =>$accessHash,
-            'user_id' => $userId
+            'access_hash' => $accessHash,
+            'user_id'     => $userId,
         ];
     }
-
 
     /**
      * @return string
@@ -42,7 +38,6 @@ class delete_contacts implements TLClientMessage
     {
         return 'delete_contacts';
     }
-
 
     /**
      * @return string
@@ -53,7 +48,6 @@ class delete_contacts implements TLClientMessage
             Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packVector($this->contactsToDelete, $this->getElementGenerator());
     }
-
 
     /**
      * @return callable
@@ -67,5 +61,4 @@ class delete_contacts implements TLClientMessage
                 Packer::packLong($userData['access_hash']);
         };
     }
-
 }

@@ -7,7 +7,6 @@ use TLMessage\TLMessage\TLClientMessage;
 
 class ping_delay_disconnect implements TLClientMessage
 {
-
     const CONSTRUCTOR = 0xf3427b8c;
 
     /**
@@ -19,9 +18,9 @@ class ping_delay_disconnect implements TLClientMessage
      */
     private $disconnectDelay;
 
-
     /**
      * ping constructor.
+     *
      * @param string|null $pingId
      */
     public function __construct(string $pingId = null)
@@ -30,9 +29,7 @@ class ping_delay_disconnect implements TLClientMessage
         $this->disconnectDelay = self::getDisconnectTimeoutSec();
     }
 
-
     /**
-     *
      * Timeout when server disconnect client without pings
      * (taken from official client, better not touch)
      *
@@ -43,7 +40,6 @@ class ping_delay_disconnect implements TLClientMessage
         return 35;
     }
 
-
     /**
      * @return string
      */
@@ -52,7 +48,6 @@ class ping_delay_disconnect implements TLClientMessage
         return openssl_random_pseudo_bytes(8);
     }
 
-
     /**
      * @return string
      */
@@ -60,7 +55,6 @@ class ping_delay_disconnect implements TLClientMessage
     {
         return 'ping_delay_disconnect';
     }
-
 
     /**
      * @return string
@@ -72,5 +66,4 @@ class ping_delay_disconnect implements TLClientMessage
             Packer::packBytes($this->pingId).
             Packer::packInt($this->disconnectDelay);
     }
-
 }

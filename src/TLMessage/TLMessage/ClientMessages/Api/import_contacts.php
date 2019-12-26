@@ -10,11 +10,9 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class import_contacts implements TLClientMessage
 {
-
     const CONSTRUCTOR = 0xda30b32d;
     /** @see https://core.telegram.org/constructor/inputPhoneContact */
     const INPUT_PHONE_CONTACT_CONSTRUCTOR = -208488460; // 0xf392b7f4
-
 
     /**
      * @var string[]
@@ -25,17 +23,15 @@ class import_contacts implements TLClientMessage
      */
     private $overwriteOnServer;
 
-
     /**
      * @param array $phones
-     * @param bool $clearPrevious
+     * @param bool  $clearPrevious
      */
     public function __construct(array $phones, bool $clearPrevious)
     {
         $this->phones = $phones;
         $this->overwriteOnServer = $clearPrevious;
     }
-
 
     /**
      * @return string
@@ -44,7 +40,6 @@ class import_contacts implements TLClientMessage
     {
         return 'import_contacts';
     }
-
 
     /**
      * @return string
@@ -56,7 +51,6 @@ class import_contacts implements TLClientMessage
             Packer::packVector($this->phones, $this->getElementGenerator()).
             Packer::packBool($this->overwriteOnServer);
     }
-
 
     /**
      * @return callable
@@ -78,5 +72,4 @@ class import_contacts implements TLClientMessage
                 Packer::packString($contactLastName);
         };
     }
-
 }

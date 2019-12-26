@@ -2,7 +2,6 @@
 
 namespace Registration;
 
-
 use Auth\Protocol\ApiAuthorization;
 use Client\AuthKey\AuthInfo;
 use Client\AuthKey\AuthKey;
@@ -24,11 +23,8 @@ use TLMessage\TLMessage\ServerMessages\AuthorizationSelfUser;
 use TLMessage\TLMessage\ServerMessages\SentCodeApi;
 use Tools\Phone;
 
-
-class RegistrationFromApi
-    implements RegisterInterface, MessageListener
+class RegistrationFromApi implements RegisterInterface, MessageListener
 {
-
     /**
      * @var AuthKey
      */
@@ -38,7 +34,7 @@ class RegistrationFromApi
      */
     private $socketMessenger;
     /**
-     * @var boolean
+     * @var bool
      */
     private $isPhoneRegistered = false;
     /**
@@ -58,14 +54,13 @@ class RegistrationFromApi
      */
     private $phoneHash;
     /**
-     * @var boolean
+     * @var bool
      */
     private $isSmsRequested = false;
 
-
     /**
      * @param AccountInfo|null $accountInfo
-     * @param Proxy|null $proxy
+     * @param Proxy|null       $proxy
      */
     public function __construct(Proxy $proxy = null, AccountInfo $accountInfo = null)
     {
@@ -73,22 +68,22 @@ class RegistrationFromApi
         $this->proxy = $proxy;
     }
 
-
     /**
-     * @param string $phoneNumber
+     * @param string   $phoneNumber
      * @param callable $cb
+     *
      * @throws TGException
      */
     public function requestCodeForPhone(string $phoneNumber, callable $cb): void
     {
         $this->phone = $phoneNumber;
-         $this->requestBlankAuthKey(function (AuthKey $authKey) use($phoneNumber, $cb) {
+         $this->requestBlankAuthKey(function (AuthKey $authKey) use ($phoneNumber, $cb) {
              $this->blankAuthKey = $authKey;
 
              $this->initSocketMessenger();
 
              $request = new send_sms_code($phoneNumber);
-             $this->socketMessenger->getResponseAsync($request, function (AnonymousMessage $smsSentResponse) use($cb) {
+             $this->socketMessenger->getResponseAsync($request, function (AnonymousMessage $smsSentResponse) use ($cb) {
                  $smsSentResponseObj = new SentCodeApi($smsSentResponse);
 
                  $this->isPhoneRegistered = $smsSentResponseObj->isPhoneRegistered();
@@ -100,7 +95,6 @@ class RegistrationFromApi
              });
         });
     }
-
 
     /**
      * @throws TGException
@@ -114,11 +108,12 @@ class RegistrationFromApi
         $this->socketMessenger = new EncryptedSocketMessenger($socket, $this->blankAuthKey, $this);
     }
 
-
     /**
      * @param callable $cb
-     * @return void
+     *
      * @throws TGException
+     *
+     * @return void
      */
     private function requestBlankAuthKey(callable $cb)
     {
@@ -126,18 +121,17 @@ class RegistrationFromApi
         (new ApiAuthorization($dc))->createAuthKey($cb);
     }
 
-
     /**
-     * @param string $smsCode
+     * @param string   $smsCode
      * @param callable $cb
+     *
      * @throws TGException
      */
     public function confirmPhoneWithSmsCode(string $smsCode, callable $cb): void
     {
         if(!$this->isSmsRequested)
             throw new TGException(TGException::ERR_REG_REQUEST_SMS_CODE_FIRST);
-
-        $callback = function() use($cb) {
+        $callback = function () use ($cb) {
             $authInfo = (new AuthInfo())
                 ->setPhone($this->phone)
                 ->setAccountInfo($this->accountInfo);
@@ -149,9 +143,8 @@ class RegistrationFromApi
             : $this->signUp($callback);
     }
 
-
     /**
-     * @param string $smsCode
+     * @param string   $smsCode
      * @param callable $cb
      */
     private function signIn(string $smsCode, callable $cb): void
@@ -162,13 +155,12 @@ class RegistrationFromApi
             trim($smsCode)
         );
 
-        $this->socketMessenger->getResponseAsync($signInMessage, function(AnonymousMessage $response) use($cb) {
+        $this->socketMessenger->getResponseAsync($signInMessage, function (AnonymousMessage $response) use ($cb) {
             $authResponse = new AuthorizationSelfUser($response);
             $this->checkSigningResponse($authResponse);
             $cb();
         });
     }
-
 
     /**
      * @param callable $cb
@@ -182,16 +174,16 @@ class RegistrationFromApi
             $this->accountInfo->getLastName()
         );
 
-        $this->socketMessenger->getResponseAsync($signUpMessage, function (AnonymousMessage $message) use($cb) {
+        $this->socketMessenger->getResponseAsync($signUpMessage, function (AnonymousMessage $message) use ($cb) {
             $response = new AuthorizationSelfUser($message);
             $this->checkSigningResponse($response);
             $cb();
         });
     }
 
-
     /**
      * @param AuthorizationSelfUser $response
+     *
      * @throws TGException
      */
     private function checkSigningResponse(AuthorizationSelfUser $response): void
@@ -199,7 +191,6 @@ class RegistrationFromApi
         if(!Phone::equal($response->getUser()->getPhone(), $this->phone))
             throw new TGException(TGException::ERR_REG_FAILED);
     }
-
 
     /**
      * @param AnonymousMessage $message

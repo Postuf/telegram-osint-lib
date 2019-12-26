@@ -10,9 +10,7 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class p_q_inner_data implements TLClientMessage
 {
-
     const CONSTRUCTOR = 0x83C95AEC;
-
 
     /**
      * @var int
@@ -39,12 +37,12 @@ class p_q_inner_data implements TLClientMessage
      */
     private $newClientNonce;
 
-
     /**
      * p_q_inner_data constructor.
-     * @param int $pq
-     * @param int $p
-     * @param int $q
+     *
+     * @param int    $pq
+     * @param int    $p
+     * @param int    $q
      * @param string $oldClientNonce
      * @param string $serverNonce
      * @param string $newClientNonce
@@ -59,7 +57,7 @@ class p_q_inner_data implements TLClientMessage
         $this->newClientNonce = $newClientNonce;
 
         assert($this->p < $this->q);
-        assert($this->p*$this->q == $this->pq);
+        assert($this->p * $this->q == $this->pq);
 
     }
 
@@ -85,5 +83,4 @@ class p_q_inner_data implements TLClientMessage
             Packer::packBytes($this->serverNonce).
             Packer::packBytes($this->newClientNonce);
     }
-
 }

@@ -7,7 +7,6 @@ namespace Client;
  */
 interface PeriodicClient
 {
-
     /**
      * Reports to client that he has time to do periodic stuff
      */

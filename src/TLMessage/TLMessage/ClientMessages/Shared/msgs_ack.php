@@ -7,15 +7,12 @@ use TLMessage\TLMessage\TLClientMessage;
 
 class msgs_ack implements TLClientMessage
 {
-
     const CONSTRUCTOR = 0x62d6b459;
-
 
     /**
      * @param array $msgIds
      */
     private $messageIds;
-
 
     /**
      * @param int[] $msgIds
@@ -25,7 +22,6 @@ class msgs_ack implements TLClientMessage
         $this->messageIds = $msgIds;
     }
 
-
     /**
      * @return string
      */
@@ -33,7 +29,6 @@ class msgs_ack implements TLClientMessage
     {
         return 'msgs_ack';
     }
-
 
     /**
      * @return string
@@ -45,7 +40,6 @@ class msgs_ack implements TLClientMessage
             Packer::packVector($this->messageIds, $this->getElementGenerator());
     }
 
-
     /**
      * @return callable
      */
@@ -55,5 +49,4 @@ class msgs_ack implements TLClientMessage
             return Packer::packLong($messageId);
         };
     }
-
 }

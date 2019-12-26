@@ -4,7 +4,6 @@ namespace Client;
 
 interface StatusMonitoringClient extends Client
 {
-
     /**
      * Adds single number in monitoring book
      *
@@ -32,7 +31,7 @@ interface StatusMonitoringClient extends Client
     /**
      * Adds single username in monitoring book
      *
-     * @param string $userName
+     * @param string   $userName
      * @param callable $onComplete
      */
     public function addUser(string $userName, callable $onComplete);
@@ -40,7 +39,7 @@ interface StatusMonitoringClient extends Client
     /**
      * Removes single username from monitoring book
      *
-     * @param string $userName
+     * @param string   $userName
      * @param callable $onComplete
      */
     public function delUser(string $userName, callable $onComplete);
@@ -49,8 +48,8 @@ interface StatusMonitoringClient extends Client
      * Removes all contacts from monitoring book
      *
      * @param callable $onComplete
+     *
      * @return void
      */
     public function cleanMonitoringBook(callable $onComplete);
-
 }

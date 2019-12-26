@@ -10,6 +10,7 @@ class OwnDeserializer implements MTDeserializer
 {
     /**
      * Static in order to decrease memory consumption if multiple instances
+     *
      * @var array
      */
     private static $map = [];
@@ -21,18 +22,18 @@ class OwnDeserializer implements MTDeserializer
 
     public function __construct()
     {
-        $this->extendMap(file_get_contents(__DIR__ . '/maps/official.json'));
-        $this->extendMap(file_get_contents(__DIR__ . '/maps/tg_app_old.json'));
-        $this->extendMap(file_get_contents(__DIR__ . '/maps/tg_app.json'));
-        $this->extendMap(file_get_contents(__DIR__ . '/maps/unclassified.json'));
-        $this->extendMap(file_get_contents(__DIR__ . '/maps/layer_82.json'));
-        $this->extendMap(file_get_contents(__DIR__ . '/maps/layer_92.json'));
-        $this->extendMap(file_get_contents(__DIR__ . '/maps/layer_96.json'));
-        $this->extendMap(file_get_contents(__DIR__ . '/maps/layer_97.json'));
-        $this->extendMap(file_get_contents(__DIR__ . '/maps/layer_98.json'));
-        $this->extendMap(file_get_contents(__DIR__ . '/maps/layer_101.json'));
-        $this->extendMap(file_get_contents(__DIR__ . '/maps/layer_104.json'));
-        $this->extendMap(file_get_contents(__DIR__ . '/maps/layer_105.json'));
+        $this->extendMap(file_get_contents(__DIR__.'/maps/official.json'));
+        $this->extendMap(file_get_contents(__DIR__.'/maps/tg_app_old.json'));
+        $this->extendMap(file_get_contents(__DIR__.'/maps/tg_app.json'));
+        $this->extendMap(file_get_contents(__DIR__.'/maps/unclassified.json'));
+        $this->extendMap(file_get_contents(__DIR__.'/maps/layer_82.json'));
+        $this->extendMap(file_get_contents(__DIR__.'/maps/layer_92.json'));
+        $this->extendMap(file_get_contents(__DIR__.'/maps/layer_96.json'));
+        $this->extendMap(file_get_contents(__DIR__.'/maps/layer_97.json'));
+        $this->extendMap(file_get_contents(__DIR__.'/maps/layer_98.json'));
+        $this->extendMap(file_get_contents(__DIR__.'/maps/layer_101.json'));
+        $this->extendMap(file_get_contents(__DIR__.'/maps/layer_104.json'));
+        $this->extendMap(file_get_contents(__DIR__.'/maps/layer_105.json'));
     }
 
     /**
@@ -48,8 +49,8 @@ class OwnDeserializer implements MTDeserializer
         }
 
         foreach ($entities as $entity) {
-            $id     = hexdec(str_ireplace('ffffffff', '', dechex($entity['id'])));
-            $name   = $entity['predicate'] ?? $entity['method'];
+            $id = hexdec(str_ireplace('ffffffff', '', dechex($entity['id'])));
+            $name = $entity['predicate'] ?? $entity['method'];
             $params = $entity['params'];
 
             self::$map[$id] = [
@@ -61,6 +62,7 @@ class OwnDeserializer implements MTDeserializer
 
     /**
      * @param string $map
+     *
      * @return array
      */
     private function decodeMap(string $map)
@@ -71,20 +73,23 @@ class OwnDeserializer implements MTDeserializer
     /**
      * @param string $data
      *
-     * @return AnonymousMessage
      * @throws TGException
+     *
+     * @return AnonymousMessage
      */
     public function deserialize(string $data)
     {
         $object = $this->deserializeInternal($data);
+
         return new OwnAnonymousMessage($object);
     }
 
     /**
      * @param string $data
      *
-     * @return array
      * @throws TGException
+     *
+     * @return array
      */
     private function deserializeInternal(string $data)
     {
@@ -93,52 +98,56 @@ class OwnDeserializer implements MTDeserializer
         $object = $this->readObject();
 
         if (!$this->stream->isEmpty()) {
-            throw new TGException(TGException::ERR_DESERIALIZER_NOT_TOTAL_READ, 'left: ' . bin2hex($this->stream));
+            throw new TGException(TGException::ERR_DESERIALIZER_NOT_TOTAL_READ, 'left: '.bin2hex($this->stream));
         }
 
         return $object;
     }
 
     /**
-     * @return array
-     *
      * @throws TGException
+     *
+     * @return array
      */
     private function readObject()
     {
         $id = $this->readId();
+
         return $this->readObjectWithId($id);
     }
 
     /**
      * @param int $id
      *
-     * @return array
-     *
      * @throws TGException
+     *
+     * @return array
      */
     private function readObjectWithId(int $id): array
     {
         if (!isset(self::$map[$id])) {
             $idHex = bin2hex(pack('I', $id));
-            throw new TGException(TGException::ERR_DESERIALIZER_UNKNOWN_OBJECT, 'object with id not found: ' . $idHex);
+
+            throw new TGException(TGException::ERR_DESERIALIZER_UNKNOWN_OBJECT, 'object with id not found: '.$idHex);
         }
 
         $object = self::$map[$id];
+
         return $this->createObject($object);
     }
 
     /**
      * @param array $object
      *
-     * @return array
      * @throws TGException
+     *
+     * @return array
      */
     private function createObject(array $object)
     {
         $name = $object['name'];
 
-        $bundle      = [];
+        $bundle = [];
         $bundle['_'] = $name;
 
         if ($name == 'msg_container') {
@@ -210,10 +219,11 @@ class OwnDeserializer implements MTDeserializer
 
     /**
      * @param array $fieldBit
-     * @param int $bitMask
+     * @param int   $bitMask
+     *
+     * @throws TGException
      *
      * @return array|bool|null|string
-     * @throws TGException
      */
     private function readOptionalField(array $fieldBit, int $bitMask)
     {
@@ -242,14 +252,15 @@ class OwnDeserializer implements MTDeserializer
     }
 
     /**
-     * @return array
      * @throws TGException
+     *
+     * @return array
      */
     private function readMsgContainer()
     {
-        $msgCount                 = $this->readInt();
+        $msgCount = $this->readInt();
         $bundle['declared_count'] = $msgCount;
-        $bundle['messages']       = [];
+        $bundle['messages'] = [];
 
         for ($i = 0; $i < $msgCount; $i++) {
 
@@ -259,9 +270,9 @@ class OwnDeserializer implements MTDeserializer
                 break;
             }
 
-            $bundle['messages'][$i]           = [];
+            $bundle['messages'][$i] = [];
             $bundle['messages'][$i]['msg_id'] = $this->readLong();
-            $bundle['messages'][$i]['seqno']  = $this->readInt();
+            $bundle['messages'][$i]['seqno'] = $this->readInt();
             $bundle['messages'][$i]['length'] = $this->readInt();
             // rewrite everything above
             $bundle['messages'][$i] = $this->readObject();
@@ -273,13 +284,14 @@ class OwnDeserializer implements MTDeserializer
     /**
      * @param string $type
      *
-     * @return array|bool|string
      * @throws TGException
+     *
+     * @return array|bool|string
      */
     private function readTypedField(string $type)
     {
         switch ($type) {
-            # values of type # are serialized as 32-bit signed numbers from 0 to 2^31-1
+            // values of type # are serialized as 32-bit signed numbers from 0 to 2^31-1
             case '#':
             case 'int':
                 return $this->readInt();
@@ -304,8 +316,9 @@ class OwnDeserializer implements MTDeserializer
     /**
      * @param string $type
      *
-     * @return array
      * @throws TGException
+     *
+     * @return array
      */
     private function readVectorAsParam(string $type)
     {
@@ -314,10 +327,10 @@ class OwnDeserializer implements MTDeserializer
 
         $id = $this->readId();
         if ($id != 0x1cb5c415) {
-            throw new TGException(TGException::ERR_DESERIALIZER_VECTOR_EXPECTED, 'vector expected! got: ' . $id);
+            throw new TGException(TGException::ERR_DESERIALIZER_VECTOR_EXPECTED, 'vector expected! got: '.$id);
         }
 
-        $length  = $this->readInt();
+        $length = $this->readInt();
         $objects = [];
 
         for ($i = 0; $i < $length; $i++) {
@@ -328,12 +341,13 @@ class OwnDeserializer implements MTDeserializer
     }
 
     /**
-     * @return array
      * @throws TGException
+     *
+     * @return array
      */
     private function readVectorAsObject()
     {
-        $length  = $this->readInt();
+        $length = $this->readInt();
         $objects = [];
 
         for ($i = 0; $i < $length; $i++) {
@@ -344,8 +358,9 @@ class OwnDeserializer implements MTDeserializer
     }
 
     /**
-     * @return int
      * @throws TGException
+     *
+     * @return int
      */
     private function readId()
     {
@@ -356,8 +371,9 @@ class OwnDeserializer implements MTDeserializer
     }
 
     /**
-     * @return int
      * @throws TGException
+     *
+     * @return int
      */
     protected function readLong()
     {
@@ -368,8 +384,9 @@ class OwnDeserializer implements MTDeserializer
     }
 
     /**
-     * @return int
      * @throws TGException
+     *
+     * @return int
      */
     private function readInt()
     {
@@ -380,8 +397,9 @@ class OwnDeserializer implements MTDeserializer
     }
 
     /**
-     * @return string
      * @throws TGException
+     *
+     * @return string
      */
     private function readInt128()
     {
@@ -389,8 +407,9 @@ class OwnDeserializer implements MTDeserializer
     }
 
     /**
-     * @return string
      * @throws TGException
+     *
+     * @return string
      */
     private function readInt256()
     {
@@ -398,19 +417,20 @@ class OwnDeserializer implements MTDeserializer
     }
 
     /**
-     * @return string
      * @throws TGException
+     *
+     * @return string
      */
     private function readString()
     {
         $lengthValue = $this->stream->read(1);
-        $len         = unpack('C', $lengthValue)[1];
-        $padding     = $this->posmod(-($len + 1), 4);
+        $len = unpack('C', $lengthValue)[1];
+        $padding = $this->posmod(-($len + 1), 4);
 
         if ($len == 254) {
             $lengthValue = $this->stream->read(3);
-            $len         = unpack('I', $lengthValue . pack('x'))[1];
-            $padding     = $this->posmod(-($len), 4);
+            $len = unpack('I', $lengthValue.pack('x'))[1];
+            $padding = $this->posmod(-($len), 4);
         }
 
         $result = $len > 0 ? $this->stream->read($len) : '';

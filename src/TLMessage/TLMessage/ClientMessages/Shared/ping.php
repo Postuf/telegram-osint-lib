@@ -7,7 +7,6 @@ use TLMessage\TLMessage\TLClientMessage;
 
 class ping implements TLClientMessage
 {
-
     const CONSTRUCTOR = 0x7ABE77EC;
 
     /**
@@ -15,16 +14,15 @@ class ping implements TLClientMessage
      */
     private $pingId;
 
-
     /**
      * ping constructor.
+     *
      * @param string|null $pingId
      */
     public function __construct(string $pingId = null)
     {
         $this->pingId = $pingId ? $pingId : self::createPingId();
     }
-
 
     /**
      * @return string
@@ -34,7 +32,6 @@ class ping implements TLClientMessage
         return openssl_random_pseudo_bytes(8);
     }
 
-
     /**
      * @return string
      */
@@ -42,7 +39,6 @@ class ping implements TLClientMessage
     {
         return 'ping';
     }
-
 
     /**
      * @return string
@@ -53,5 +49,4 @@ class ping implements TLClientMessage
             Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packBytes($this->pingId);
     }
-
 }

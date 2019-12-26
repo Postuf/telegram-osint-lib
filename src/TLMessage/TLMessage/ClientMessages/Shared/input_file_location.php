@@ -10,7 +10,6 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class input_file_location implements TLClientMessage
 {
-
     const CONSTRUCTOR = -539317279; // 0xDFDAABE1
 
     /**
@@ -30,11 +29,10 @@ class input_file_location implements TLClientMessage
      */
     private $reference;
 
-
     /**
-     * @param int $volumeId
-     * @param int $localId
-     * @param int $secret
+     * @param int    $volumeId
+     * @param int    $localId
+     * @param int    $secret
      * @param string $reference
      */
     public function __construct($volumeId, $localId, $secret, $reference)
@@ -46,7 +44,6 @@ class input_file_location implements TLClientMessage
 
     }
 
-
     /**
      * @return string
      */
@@ -54,7 +51,6 @@ class input_file_location implements TLClientMessage
     {
         return 'input_file_location';
     }
-
 
     /**
      * @return string
@@ -68,5 +64,4 @@ class input_file_location implements TLClientMessage
             Packer::packLong($this->secret).
             Packer::packString($this->reference);
     }
-
 }

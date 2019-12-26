@@ -10,9 +10,7 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class get_dialogs implements TLClientMessage
 {
-
     const CONSTRUCTOR = -1594999949; // 0xA0EE3B73
-
 
     /**
      * @return string
@@ -21,7 +19,6 @@ class get_dialogs implements TLClientMessage
     {
         return 'get_dialogs';
     }
-
 
     /**
      * @return string
@@ -38,5 +35,4 @@ class get_dialogs implements TLClientMessage
             Packer::packInt(100).
             Packer::packInt(0);
     }
-
 }

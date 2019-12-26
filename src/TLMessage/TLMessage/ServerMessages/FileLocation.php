@@ -2,11 +2,9 @@
 
 namespace TLMessage\TLMessage\ServerMessages;
 
-
 use Exception\TGException;
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\TLServerMessage;
-
 
 class FileLocation extends TLServerMessage
 {
@@ -17,7 +15,8 @@ class FileLocation extends TLServerMessage
 
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
@@ -26,13 +25,11 @@ class FileLocation extends TLServerMessage
             self::checkType($tlMessage, 'fileLocationToBeDeprecated');
     }
 
-
     public function __construct(AnonymousMessage $tlMessage)
     {
         parent::__construct($tlMessage);
         $this->deprecated = self::checkType($tlMessage, 'fileLocationToBeDeprecated');
     }
-
 
     /**
      * @return int
@@ -40,9 +37,9 @@ class FileLocation extends TLServerMessage
     public function getDcId()
     {
         $this->throwIfDeprecated();
+
         return $this->getTlMessage()->getValue('dc_id');
     }
-
 
     /**
      * @return int
@@ -52,7 +49,6 @@ class FileLocation extends TLServerMessage
         return $this->getTlMessage()->getValue('volume_id');
     }
 
-
     /**
      * @return int
      */
@@ -61,16 +57,15 @@ class FileLocation extends TLServerMessage
         return $this->getTlMessage()->getValue('local_id');
     }
 
-
     /**
      * @return string
      */
     public function getSecret()
     {
         $this->throwIfDeprecated();
+
         return $this->getTlMessage()->getValue('secret');
     }
-
 
     /**
      * @return string
@@ -78,9 +73,9 @@ class FileLocation extends TLServerMessage
     public function getReference()
     {
         $this->throwIfDeprecated();
+
         return $this->getTlMessage()->getValue('file_reference');
     }
-
 
     /**
      * @throws TGException
@@ -90,6 +85,4 @@ class FileLocation extends TLServerMessage
         if($this->deprecated)
             throw new TGException(TGException::ERR_TL_MESSAGE_FIELD_NOT_EXISTS, 'Deprecated node!');
     }
-
-
 }

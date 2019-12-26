@@ -2,25 +2,22 @@
 
 namespace TLMessage\TLMessage\ServerMessages\Contact;
 
-
 use Exception\TGException;
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\ServerMessages\Custom\UserStatus;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class ContactStatus extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
         return self::checkType($tlMessage, 'contactStatus');
     }
-
 
     /**
      * @return UserStatus|null
@@ -32,9 +29,9 @@ class ContactStatus extends TLServerMessage
         } catch (TGException $e){
             return null;
         }
+
         return new UserStatus($status);
     }
-
 
     /**
      * @return int
@@ -43,5 +40,4 @@ class ContactStatus extends TLServerMessage
     {
         return $this->getTlMessage()->getValue('user_id');
     }
-
 }
