@@ -11,7 +11,6 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 interface SocketMessenger
 {
-
     /**
      * @return AnonymousMessage
      */
@@ -26,13 +25,13 @@ interface SocketMessenger
 
     /**
      * @param TLClientMessage $message
-     * @param callable $onAsyncResponse
+     * @param callable        $onAsyncResponse
      */
     public function getResponseAsync(TLClientMessage $message, callable $onAsyncResponse);
 
     /**
      * @param TLClientMessage[] $messages
-     * @param callable $onLastResponse
+     * @param callable          $onLastResponse
      */
     public function getResponseConsecutive(array $messages, callable $onLastResponse);
 
@@ -40,5 +39,4 @@ interface SocketMessenger
      * @return DataCentre
      */
     public function getDCInfo();
-
 }

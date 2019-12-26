@@ -2,19 +2,17 @@
 
 namespace Auth\Factorization;
 
-
 class PQ
 {
-
     private $p;
     private $q;
 
     public function __construct(int $p, int $q)
     {
-        $this->p = $p<=$q ? $p : $q;
-        $this->q = $p>=$q ? $p : $q;
+        $this->p = $p <= $q ? $p : $q;
+        $this->q = $p >= $q ? $p : $q;
 
-        assert((int)$this->p <= (int)$this->q);
+        assert((int) $this->p <= (int) $this->q);
     }
 
     /**
@@ -25,7 +23,6 @@ class PQ
         return $this->p;
     }
 
-
     /**
      * @return mixed
      */
@@ -33,5 +30,4 @@ class PQ
     {
         return $this->q;
     }
-
 }

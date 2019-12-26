@@ -2,7 +2,6 @@
 
 namespace Auth\Certificate;
 
-
 class Certificate
 {
     /**
@@ -14,9 +13,8 @@ class Certificate
      */
     private $fingerPrint;
 
-
     /**
-     * @param int $fingerPrint
+     * @param int    $fingerPrint
      * @param string $publicKey
      */
     public function __construct($fingerPrint, $publicKey)
@@ -24,7 +22,6 @@ class Certificate
         $this->publicKey = $publicKey;
         $this->fingerPrint = $fingerPrint;
     }
-
 
     /**
      * @return string
@@ -34,7 +31,6 @@ class Certificate
         return $this->publicKey;
     }
 
-
     /**
      * @return int
      */
@@ -43,9 +39,9 @@ class Certificate
         return $this->fingerPrint;
     }
 
-
     /**
      * @param int $fingerPrint
+     *
      * @return Certificate|null
      */
     public static function getCertificateByFingerPrint($fingerPrint)
@@ -56,6 +52,4 @@ class Certificate
 
         return null;
     }
-
-
 }

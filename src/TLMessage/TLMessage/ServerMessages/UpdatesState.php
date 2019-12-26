@@ -2,23 +2,20 @@
 
 namespace TLMessage\TLMessage\ServerMessages;
 
-
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class UpdatesState extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
         return self::checkType($tlMessage, 'updates.state');
     }
-
 
     /**
      * @return int
@@ -43,6 +40,4 @@ class UpdatesState extends TLServerMessage
     {
         return $this->getTlMessage()->getValue('date');
     }
-
-
 }

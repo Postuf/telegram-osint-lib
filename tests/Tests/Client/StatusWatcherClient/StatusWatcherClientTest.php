@@ -9,22 +9,20 @@ use Tests\Tests\Client\StatusWatcherClient\StatusWatcherClientMock;
 use Tests\Tests\Client\StatusWatcherClient\StatusWatcherClientTestCallbacks;
 use TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 
-
 class StatusWatcherClientTest extends TestCase
 {
-
     public function test_online_trigger_works()
     {
         $callbacks = new StatusWatcherClientTestCallbacks();
         /** @noinspection PhpUnhandledExceptionInspection */
         $watcherClient = new StatusWatcherClientMock($callbacks);
-        /** @noinspection PhpUnhandledExceptionInspection */
+        /* @noinspection PhpUnhandledExceptionInspection */
         $watcherClient->loadMockContacts([
             new ContactUser(AnonymousMessageMock::getContact(0x1000000, '7999888777666')),
-            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667'))
+            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667')),
         ]);
 
-        /** @noinspection PhpUnhandledExceptionInspection */
+        /* @noinspection PhpUnhandledExceptionInspection */
         $watcherClient->onMessage(AnonymousMessageMock::getUserOnline(0x1000000));
 
         $this->assertTrue($callbacks->getOnlineTriggersCntFor('7999888777666') == 1);
@@ -36,19 +34,18 @@ class StatusWatcherClientTest extends TestCase
         $this->assertTrue($callbacks->getHidTriggersCntFor('7999888777667') == 0);
     }
 
-
     public function test_offline_trigger_works()
     {
         $callbacks = new StatusWatcherClientTestCallbacks();
         /** @noinspection PhpUnhandledExceptionInspection */
         $watcherClient = new StatusWatcherClientMock($callbacks);
-        /** @noinspection PhpUnhandledExceptionInspection */
+        /* @noinspection PhpUnhandledExceptionInspection */
         $watcherClient->loadMockContacts([
             new ContactUser(AnonymousMessageMock::getContact(0x1000000, '7999888777666')),
-            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667'))
+            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667')),
         ]);
 
-        /** @noinspection PhpUnhandledExceptionInspection */
+        /* @noinspection PhpUnhandledExceptionInspection */
         $watcherClient->onMessage(AnonymousMessageMock::getUserOffline(0x1000000));
 
         $this->assertTrue($callbacks->getOnlineTriggersCntFor('7999888777666') == 0);
@@ -60,7 +57,6 @@ class StatusWatcherClientTest extends TestCase
         $this->assertTrue($callbacks->getHidTriggersCntFor('7999888777667') == 0);
     }
 
-
     /**
      * @throws TGException
      */
@@ -70,7 +66,7 @@ class StatusWatcherClientTest extends TestCase
         $watcherClient = new StatusWatcherClientMock($callbacks);
         $watcherClient->loadMockContacts([
             new ContactUser(AnonymousMessageMock::getContact(0x1000000, '7999888777666')),
-            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667'))
+            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667')),
         ]);
 
         $watcherClient->onMessage(AnonymousMessageMock::getUserEmpty(0x1000000));
@@ -85,7 +81,6 @@ class StatusWatcherClientTest extends TestCase
         $this->assertTrue($callbacks->getHidTriggersCntFor('7999888777667') == 0);
     }
 
-
     /**
      * @throws TGException
      */
@@ -95,7 +90,7 @@ class StatusWatcherClientTest extends TestCase
         $watcherClient = new StatusWatcherClientMock($callbacks);
         $watcherClient->loadMockContacts([
             new ContactUser(AnonymousMessageMock::getContact(0x1000000, '7999888777666')),
-            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667'))
+            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667')),
         ]);
 
         $watcherClient->onMessage(AnonymousMessageMock::getUserOnline(0x1000000));
@@ -111,7 +106,6 @@ class StatusWatcherClientTest extends TestCase
         $this->assertTrue($callbacks->getHidTriggersCntFor('7999888777667') == 0);
     }
 
-
     /**
      * @throws TGException
      */
@@ -121,7 +115,7 @@ class StatusWatcherClientTest extends TestCase
         $watcherClient = new StatusWatcherClientMock($callbacks);
         $watcherClient->loadMockContacts([
             new ContactUser(AnonymousMessageMock::getContact(0x1000000, '7999888777666')),
-            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667'))
+            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667')),
         ]);
 
         $watcherClient->onMessage(AnonymousMessageMock::getUserOffline(0x1000000));
@@ -137,7 +131,6 @@ class StatusWatcherClientTest extends TestCase
         $this->assertTrue($callbacks->getHidTriggersCntFor('7999888777667') == 0);
     }
 
-
     /**
      * @throws TGException
      */
@@ -147,7 +140,7 @@ class StatusWatcherClientTest extends TestCase
         $watcherClient = new StatusWatcherClientMock($callbacks);
         $watcherClient->loadMockContacts([
             new ContactUser(AnonymousMessageMock::getContact(0x1000000, '7999888777666')),
-            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667'))
+            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667')),
         ]);
 
         $watcherClient->onMessage(AnonymousMessageMock::getUserOffline(0x1000000));
@@ -165,7 +158,6 @@ class StatusWatcherClientTest extends TestCase
         $this->assertTrue($callbacks->getHidTriggersCntFor('7999888777667') == 0);
     }
 
-
     /**
      * @throws TGException
      */
@@ -175,7 +167,7 @@ class StatusWatcherClientTest extends TestCase
         $watcherClient = new StatusWatcherClientMock($callbacks);
         $watcherClient->loadMockContacts([
             new ContactUser(AnonymousMessageMock::getContact(0x1000000, '7999888777666')),
-            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667'))
+            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667')),
         ]);
 
         $watcherClient->onMessage(AnonymousMessageMock::getUserOnline(0x1000000));
@@ -191,7 +183,6 @@ class StatusWatcherClientTest extends TestCase
         $this->assertTrue($callbacks->getHidTriggersCntFor('7999888777667') == 0);
     }
 
-
     /**
      * @throws TGException
      */
@@ -201,7 +192,7 @@ class StatusWatcherClientTest extends TestCase
         $watcherClient = new StatusWatcherClientMock($callbacks);
         $watcherClient->loadMockContacts([
             new ContactUser(AnonymousMessageMock::getContact(0x1000000, '7999888777666')),
-            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667'))
+            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667')),
         ]);
 
         $watcherClient->onMessage(AnonymousMessageMock::getUserOnline(0x1000000));
@@ -217,7 +208,6 @@ class StatusWatcherClientTest extends TestCase
         $this->assertTrue($callbacks->getHidTriggersCntFor('7999888777667') == 0);
     }
 
-
     /**
      * @throws TGException
      */
@@ -227,7 +217,7 @@ class StatusWatcherClientTest extends TestCase
         $watcherClient = new StatusWatcherClientMock($callbacks);
         $watcherClient->loadMockContacts([
             new ContactUser(AnonymousMessageMock::getContact(0x1000000, '7999888777666')),
-            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667'))
+            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667')),
         ]);
 
         $watcherClient->onMessage(AnonymousMessageMock::getImportedContact(0x1000000, '7999888777666', 'online'));
@@ -244,7 +234,6 @@ class StatusWatcherClientTest extends TestCase
         $this->assertTrue($callbacks->getHidTriggersCntFor('7999888777667') == 0);
     }
 
-
     /**
      * @throws TGException
      */
@@ -254,7 +243,7 @@ class StatusWatcherClientTest extends TestCase
         $watcherClient = new StatusWatcherClientMock($callbacks);
         $watcherClient->loadMockContacts([
             new ContactUser(AnonymousMessageMock::getContact(0x1000000, '7999888777666')),
-            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667'))
+            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667')),
         ]);
 
         $watcherClient->onMessage(AnonymousMessageMock::getImportedContact(0x1000000, '7999888777666', 'online'));
@@ -269,7 +258,6 @@ class StatusWatcherClientTest extends TestCase
         $this->assertTrue($callbacks->getHidTriggersCntFor('7999888777667') == 0);
     }
 
-
     /**
      * @throws TGException
      */
@@ -279,7 +267,7 @@ class StatusWatcherClientTest extends TestCase
         $watcherClient = new StatusWatcherClientMock($callbacks);
         $watcherClient->loadMockContacts([
             new ContactUser(AnonymousMessageMock::getContact(0x1000000, '7999888777666')),
-            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667'))
+            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667')),
         ]);
 
         $watcherClient->onMessage(AnonymousMessageMock::getImportedContact(0x1000000, '7999888777666', 'recently'));
@@ -294,7 +282,6 @@ class StatusWatcherClientTest extends TestCase
         $this->assertTrue($callbacks->getHidTriggersCntFor('7999888777667') == 0);
     }
 
-
     /**
      * @throws TGException
      */
@@ -304,7 +291,7 @@ class StatusWatcherClientTest extends TestCase
         $watcherClient = new StatusWatcherClientMock($callbacks);
         $watcherClient->loadMockContacts([
             new ContactUser(AnonymousMessageMock::getContact(0x1000000, '7999888777666')),
-            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667'))
+            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667')),
         ]);
 
         $watcherClient->onMessage(AnonymousMessageMock::getImportedContact(0x1000000, '7999888777666', 'offline'));
@@ -320,7 +307,6 @@ class StatusWatcherClientTest extends TestCase
         $this->assertTrue($callbacks->getHidTriggersCntFor('7999888777667') == 0);
     }
 
-
     /**
      * @throws TGException
      */
@@ -330,10 +316,10 @@ class StatusWatcherClientTest extends TestCase
         $watcherClient = new StatusWatcherClientMock($callbacks);
         $watcherClient->loadMockContacts([
             new ContactUser(AnonymousMessageMock::getContact(0x1000000, '7999888777666')),
-            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667'))
+            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667')),
         ]);
 
-        $watcherClient->onMessage(AnonymousMessageMock::getUserOnline(0x1000000, time()+1));
+        $watcherClient->onMessage(AnonymousMessageMock::getUserOnline(0x1000000, time() + 1));
         $start = time();
         while(time() - $start < 3)
             $watcherClient->pollMessage();
@@ -347,7 +333,6 @@ class StatusWatcherClientTest extends TestCase
         $this->assertTrue($callbacks->getHidTriggersCntFor('7999888777667') == 0);
     }
 
-
     /**
      * @throws TGException
      */
@@ -357,10 +342,10 @@ class StatusWatcherClientTest extends TestCase
         $watcherClient = new StatusWatcherClientMock($callbacks);
         $watcherClient->loadMockContacts([
             new ContactUser(AnonymousMessageMock::getContact(0x1000000, '7999888777666')),
-            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667'))
+            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667')),
         ]);
 
-        $watcherClient->onMessage(AnonymousMessageMock::getUserOnline(0x1000000, time()+3));
+        $watcherClient->onMessage(AnonymousMessageMock::getUserOnline(0x1000000, time() + 3));
         $start = time();
         while(time() - $start < 2)
             $watcherClient->pollMessage();
@@ -374,7 +359,6 @@ class StatusWatcherClientTest extends TestCase
         $this->assertEquals(0, $callbacks->getHidTriggersCntFor('7999888777667'));
     }
 
-
     /**
      * @throws TGException
      */
@@ -384,25 +368,24 @@ class StatusWatcherClientTest extends TestCase
         $watcherClient = new StatusWatcherClientMock($callbacks);
         $watcherClient->loadMockContacts([
             new ContactUser(AnonymousMessageMock::getContact(0x1000000, '7999888777666')),
-            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667'))
+            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667')),
         ]);
 
         $watcherClient->onMessage(AnonymousMessageMock::getUserOnline(0x1000002, time()));
-        $watcherClient->onMessage(AnonymousMessageMock::getUserOnline(0x1000002, time()+1));
-        $watcherClient->onMessage(AnonymousMessageMock::getUserOnline(0x1000002, time()+3));
+        $watcherClient->onMessage(AnonymousMessageMock::getUserOnline(0x1000002, time() + 1));
+        $watcherClient->onMessage(AnonymousMessageMock::getUserOnline(0x1000002, time() + 3));
         $start = time();
         while(time() - $start < 2)
             $watcherClient->pollMessage();
 
-        $this->assertEquals(0,$callbacks->getOnlineTriggersCntFor('7999888777666'));
-        $this->assertEquals(0,$callbacks->getOfflineTriggersCntFor('7999888777666'));
-        $this->assertEquals(0,$callbacks->getHidTriggersCntFor('7999888777666'));
+        $this->assertEquals(0, $callbacks->getOnlineTriggersCntFor('7999888777666'));
+        $this->assertEquals(0, $callbacks->getOfflineTriggersCntFor('7999888777666'));
+        $this->assertEquals(0, $callbacks->getHidTriggersCntFor('7999888777666'));
 
-        $this->assertEquals(1,$callbacks->getOnlineTriggersCntFor('7999888777667'));
-        $this->assertEquals(0,$callbacks->getOfflineTriggersCntFor('7999888777667'));
-        $this->assertEquals(0,$callbacks->getHidTriggersCntFor('7999888777667'));
+        $this->assertEquals(1, $callbacks->getOnlineTriggersCntFor('7999888777667'));
+        $this->assertEquals(0, $callbacks->getOfflineTriggersCntFor('7999888777667'));
+        $this->assertEquals(0, $callbacks->getHidTriggersCntFor('7999888777667'));
     }
-
 
     /**
      * @throws TGException
@@ -414,7 +397,7 @@ class StatusWatcherClientTest extends TestCase
 
         $watcherClient->loadMockContacts([
             new ContactUser(AnonymousMessageMock::getContact(0x1000000, '7999888777666')),
-            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667'))
+            new ContactUser(AnonymousMessageMock::getContact(0x1000002, '7999888777667')),
         ]);
 
         $watcherClient->pollMessage();
@@ -425,7 +408,6 @@ class StatusWatcherClientTest extends TestCase
 
     }
 
-
     /**
      * @throws TGException
      */
@@ -435,19 +417,17 @@ class StatusWatcherClientTest extends TestCase
         $watcherClient = new StatusWatcherClientMock($callbacks);
 
         try{
-            $watcherClient->addNumbers(['ufheorhwewq'], function(){});
+            $watcherClient->addNumbers(['ufheorhwewq'], function () {});
             $this->assertFalse(true, 'bad format not detected');
         } catch (TGException $e){
             $this->assertEquals($e->getCode(), TGException::ERR_CLIENT_BAD_NUMBER_FORMAT);
         }
 
         try{
-            $watcherClient->addNumbers(['7+9169904863'], function(){});
+            $watcherClient->addNumbers(['7+9169904863'], function () {});
             $this->assertFalse(true, 'bad format not detected');
         } catch (TGException $e){
             $this->assertEquals($e->getCode(), TGException::ERR_CLIENT_BAD_NUMBER_FORMAT);
         }
     }
-
-
 }

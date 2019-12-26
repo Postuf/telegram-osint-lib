@@ -2,10 +2,8 @@
 
 namespace Auth;
 
-
 class AuthParams
 {
-
     /**
      * @var string
      */
@@ -14,7 +12,6 @@ class AuthParams
      * @var string
      */
     private $serverSalt;
-
 
     /**
      * @param string $authKey
@@ -41,6 +38,4 @@ class AuthParams
     {
         return $this->serverSalt;
     }
-
-
 }

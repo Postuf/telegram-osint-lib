@@ -4,11 +4,10 @@ namespace Auth\Factorization;
 
 interface Factorizer
 {
-
     /**
-     * @param integer $bigNumber
+     * @param int $bigNumber
+     *
      * @return PQ
      */
     public function factorize($bigNumber);
-
 }

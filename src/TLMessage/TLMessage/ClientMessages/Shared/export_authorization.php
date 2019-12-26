@@ -1,4 +1,6 @@
-<?php /** @noinspection SpellCheckingInspection */
+<?php
+
+/** @noinspection SpellCheckingInspection */
 
 namespace TLMessage\TLMessage\ClientMessages\Shared;
 
@@ -10,25 +12,22 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class export_authorization implements TLClientMessage
 {
-
     const CONSTRUCTOR = -440401971; // 0xE5BFFFCD
-
 
     /**
      * @var int
      */
     private $foreignDcId;
 
-
     /**
      * export_authorization constructor.
+     *
      * @param int $foreignDdIc
      */
     public function __construct(int $foreignDdIc)
     {
         $this->foreignDcId = $foreignDdIc;
     }
-
 
     /**
      * @return string
@@ -37,7 +36,6 @@ class export_authorization implements TLClientMessage
     {
         return 'export_authorization';
     }
-
 
     /**
      * @return string
@@ -48,5 +46,4 @@ class export_authorization implements TLClientMessage
             Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packInt($this->foreignDcId);
     }
-
 }

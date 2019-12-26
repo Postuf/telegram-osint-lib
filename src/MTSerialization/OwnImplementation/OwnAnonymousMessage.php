@@ -2,39 +2,38 @@
 
 namespace MTSerialization\OwnImplementation;
 
-
 use Exception\TGException;
 use MTSerialization\AnonymousMessage;
 
 class OwnAnonymousMessage implements AnonymousMessage
 {
-
     /**
      * @var array
      */
     private $object;
 
-
     /**
      * OwnAnonymousMessage constructor.
+     *
      * @param array $deserializedByOwnArray
+     *
      * @throws TGException
      */
     public function __construct(array $deserializedByOwnArray)
     {
         if(!is_array($deserializedByOwnArray))
             throw new TGException(TGException::ERR_TL_MESSAGE_FIELD_BAD_NODE);
-
         $this->object = $deserializedByOwnArray;
     }
-
 
     /**
      * Return named node from current object
      *
      * @param string $name
-     * @return AnonymousMessage
+     *
      * @throws TGException
+     *
+     * @return AnonymousMessage
      */
     public function getNode(string $name)
     {
@@ -42,30 +41,29 @@ class OwnAnonymousMessage implements AnonymousMessage
         if(!is_array($node))
             throw new TGException(TGException::ERR_TL_MESSAGE_FIELD_BAD_NODE);
 
-        return new OwnAnonymousMessage($node);
+        return new self($node);
     }
-
 
     /**
      * Return array of nodes under the $name from current object
      *
      * @param string $name
-     * @return AnonymousMessage[]
+     *
      * @throws TGException
+     *
+     * @return AnonymousMessage[]
      */
     public function getNodes(string $name)
     {
         $nodes = $this->getValue($name);
         if(!is_array($nodes))
             throw new TGException(TGException::ERR_TL_MESSAGE_FIELD_BAD_NODE);
-
         $objects = [];
         foreach ($nodes as $node)
-            $objects[] = new OwnAnonymousMessage($node);
+            $objects[] = new self($node);
 
         return $objects;
     }
-
 
     /**
      * Get message name
@@ -77,13 +75,14 @@ class OwnAnonymousMessage implements AnonymousMessage
         return isset($this->object['_']) ? $this->object['_'] : null;
     }
 
-
     /**
      * Get value of named field from current object
      *
      * @param string $name
-     * @return int|string|array
+     *
      * @throws TGException
+     *
+     * @return int|string|array
      */
     public function getValue(string $name)
     {
@@ -93,12 +92,10 @@ class OwnAnonymousMessage implements AnonymousMessage
         return $this->object[$name];
     }
 
-
     public function __toString()
     {
         return $this->getDebugPrintable();
     }
-
 
     /**
      * @return string
@@ -108,7 +105,6 @@ class OwnAnonymousMessage implements AnonymousMessage
         return json_encode($this->object, JSON_PRETTY_PRINT);
     }
 
-
     /**
      * @return string
      */
@@ -116,5 +112,4 @@ class OwnAnonymousMessage implements AnonymousMessage
     {
         return print_r($this->object, true);
     }
-
 }

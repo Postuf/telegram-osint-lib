@@ -2,13 +2,10 @@
 
 namespace TGConnection\SocketMessenger\MessengerTools;
 
-
 use Exception\TGException;
-
 
 class OuterHeaderWrapper
 {
-
     /**
      * @var int
      */
@@ -18,23 +15,25 @@ class OuterHeaderWrapper
      */
     private $in_seq_no = 0;
 
-
     /**
      * @param string $binaryPayload
+     *
      * @return string
      */
     public function wrap($binaryPayload)
     {
         $wrapped = $this->wrapPayloadWithSeqCounterAndCRC($binaryPayload);
         $this->out_seq_no++;
+
         return $wrapped;
     }
 
-
     /**
      * @param string $binaryPayload
-     * @return false|string
+     *
      * @throws TGException
+     *
+     * @return false|string
      */
     public function unwrap($binaryPayload)
     {
@@ -60,16 +59,15 @@ class OuterHeaderWrapper
         return $payload;
     }
 
-
     private function wrapPayloadWithSeqCounterAndCRC($payload)
     {
-        $length = strlen($payload) + 12;/* размер пакета(+12B:
+        $length = strlen($payload) + 12; /* размер пакета(+12B:
                     4 - размер,
-				 	4 - порядковый номер запроса,
-				 	4 - контрольная сумма) */
+                     4 - порядковый номер запроса,
+                     4 - контрольная сумма) */
 
         //размер пакета и порядковый номер запроса добавляется в начало
-        $payload = pack('II',$length, $this->out_seq_no).$payload;
+        $payload = pack('II', $length, $this->out_seq_no).$payload;
 
         //контролная сумма добавляется в конец
         $crc32 = hexdec(hash('crc32b', $payload));
@@ -77,5 +75,4 @@ class OuterHeaderWrapper
 
         return $payload;
     }
-
 }

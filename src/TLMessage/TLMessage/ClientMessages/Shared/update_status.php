@@ -10,25 +10,22 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class update_status implements TLClientMessage
 {
-
     const CONSTRUCTOR = 1713919532; // 0x6628562C
-
 
     /**
      * @var bool
      */
     private $online;
 
-
     /**
      * update_status constructor.
+     *
      * @param bool $online
      */
     public function __construct(bool $online)
     {
         $this->online = $online;
     }
-
 
     /**
      * @return string
@@ -37,7 +34,6 @@ class update_status implements TLClientMessage
     {
         return 'update_status';
     }
-
 
     /**
      * @return string
@@ -50,5 +46,4 @@ class update_status implements TLClientMessage
             Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packBool($offline);
     }
-
 }

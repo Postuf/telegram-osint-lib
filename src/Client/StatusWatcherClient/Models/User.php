@@ -2,10 +2,8 @@
 
 namespace Client\StatusWatcherClient\Models;
 
-
 class User
 {
-
     /** @var string|null */
     private $phone;
     /** @var string|null */
@@ -32,5 +30,4 @@ class User
     {
         return $this->username;
     }
-
 }

@@ -2,7 +2,6 @@
 
 namespace TGConnection\SocketMessenger;
 
-
 use Auth\AES\AES;
 use Auth\AES\PhpSecLibAES;
 use Client\AuthKey\AuthKey;
@@ -37,7 +36,6 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class EncryptedSocketMessenger implements SocketMessenger
 {
-
     /**
      * @var Socket
      */
@@ -103,10 +101,9 @@ class EncryptedSocketMessenger implements SocketMessenger
      */
     private $messagesToBeProcessedQueue = [];
 
-
     /**
-     * @param Socket $socket
-     * @param AuthKey $authKey
+     * @param Socket          $socket
+     * @param AuthKey         $authKey
      * @param MessageListener $callback
      */
     public function __construct(Socket $socket, AuthKey $authKey, MessageListener $callback)
@@ -129,8 +126,9 @@ class EncryptedSocketMessenger implements SocketMessenger
     }
 
     /**
-     * @return AnonymousMessage
      * @throws TGException
+     *
+     * @return AnonymousMessage
      */
     public function readMessage()
     {
@@ -145,7 +143,7 @@ class EncryptedSocketMessenger implements SocketMessenger
      */
     private function readMessageFromSocket()
     {
-        /**
+        /*
          * Block new reads.
          *
          * Messages must be processed one in time, because otherwise
@@ -153,6 +151,7 @@ class EncryptedSocketMessenger implements SocketMessenger
          */
         if(!empty($this->messagesToBeProcessedQueue)){
             $this->processServiceMessage(array_shift($this->messagesToBeProcessedQueue));
+
             return;
         }
 
@@ -163,13 +162,12 @@ class EncryptedSocketMessenger implements SocketMessenger
             return;
         if($readLength != 4)
             throw new TGException(TGException::ERR_DESERIALIZER_BROKEN_BINARY_READ, '4!='.$readLength);
-
         // data
         $payloadLength = unpack('I', $lengthValue)[1] - 4;
         $payload = $this->persistentSocket->readBinary($payloadLength);
 
         // full TL packet
-        $packet = $lengthValue . $payload;
+        $packet = $lengthValue.$payload;
 
         // collect messages
         $this->processServiceMessage(
@@ -185,12 +183,13 @@ class EncryptedSocketMessenger implements SocketMessenger
         );
     }
 
-
     /**
      * @param TLClientMessage $message
-     * @param int $timeoutMs
-     * @return AnonymousMessage
+     * @param int             $timeoutMs
+     *
      * @throws TGException
+     *
+     * @return AnonymousMessage
      */
     private function getResponse(TLClientMessage $message, $timeoutMs = LibConfig::CONN_SOCKET_TIMEOUT_WAIT_RESPONSE_MS)
     {
@@ -216,10 +215,10 @@ class EncryptedSocketMessenger implements SocketMessenger
         throw new TGException(TGException::ERR_MSG_RESPONSE_TIMEOUT);
     }
 
-
     /**
      * @param TLClientMessage $message
-     * @param callable $onAsyncResponse
+     * @param callable        $onAsyncResponse
+     *
      * @throws TGException
      */
     public function getResponseAsync(TLClientMessage $message, callable $onAsyncResponse)
@@ -229,11 +228,12 @@ class EncryptedSocketMessenger implements SocketMessenger
         $this->rpcMessages[$messageId] = new CallbackMessageListener($onAsyncResponse);
     }
 
-
     /**
      * @param string $payload
-     * @return string
+     *
      * @throws TGException
+     *
+     * @return string
      */
     private function decryptPayload(string $payload)
     {
@@ -243,22 +243,22 @@ class EncryptedSocketMessenger implements SocketMessenger
 
         if(strcmp($authKeyId, $this->authKeyId) != 0)
             throw new TGException(TGException::ERR_TL_CONTAINER_BAD_AUTHKEY_ID);
-
         list($aes_key, $aes_iv) = $this->aes_calculate($msgKey, $this->authKey, false);
         $decryptedPayload = $this->aes->decryptIgeMode($payload, $aes_key, $aes_iv);
 
-        $myMsgKey = substr(hash('sha256', substr($this->authKey, 96, 32) . $decryptedPayload, true), 8, 16);
+        $myMsgKey = substr(hash('sha256', substr($this->authKey, 96, 32).$decryptedPayload, true), 8, 16);
         if(strcmp($msgKey, $myMsgKey) != 0)
             throw new TGException(TGException::ERR_TL_CONTAINER_BAD_MSG_KEY);
 
         return $decryptedPayload;
     }
 
-
     /**
      * @param string $decryptedPayload
-     * @return bool|string
+     *
      * @throws TGException
+     *
+     * @return bool|string
      */
     private function decodeDecryptedPayloadHeaders(string $decryptedPayload)
     {
@@ -267,7 +267,6 @@ class EncryptedSocketMessenger implements SocketMessenger
         $session_id = substr($decryptedPayload, 8, 8);
         if(strcmp($session_id, $this->sessionId) != 0)
             throw new TGException(TGException::ERR_TL_CONTAINER_BAD_SESSION_ID);
-
         $msg_id = substr($decryptedPayload, 16, 8);
         $msg_id = unpack('Q', $msg_id)[1];
         $seq_no = substr($decryptedPayload, 24, 4);
@@ -277,12 +276,13 @@ class EncryptedSocketMessenger implements SocketMessenger
             $this->acknowledgeReceipt($msg_id);
 
         $message_data_length = unpack('V', substr($decryptedPayload, 28, 4))[1];
+
         return substr($decryptedPayload, 32, $message_data_length);
     }
 
-
     /**
      * @param int $msgId
+     *
      * @throws TGException
      */
     private function acknowledgeReceipt($msgId)
@@ -290,21 +290,21 @@ class EncryptedSocketMessenger implements SocketMessenger
         $this->writeMessage(new msgs_ack([$msgId]));
     }
 
-
     /**
      * @param string $payload
-     * @return AnonymousMessage
+     *
      * @throws TGException
+     *
+     * @return AnonymousMessage
      */
     private function deserializePayload(string $payload)
     {
-        Logger::log("Read_Message_Binary", bin2hex($payload));
+        Logger::log('Read_Message_Binary', bin2hex($payload));
         $deserializedMessage = $this->deserializer->deserialize($payload);
         Logger::log('Read_Message_TL', $deserializedMessage->getDebugPrintable());
 
         return $deserializedMessage;
     }
-
 
     /**
      * @return AnonymousMessage|null
@@ -314,12 +314,13 @@ class EncryptedSocketMessenger implements SocketMessenger
         $message = array_shift($this->reportableMessageQueue);
         if($message)
             $this->messageReceiptCallback->onMessage($message);
+
         return $message;
     }
 
-
     /**
      * @param AnonymousMessage $message
+     *
      * @throws TGException
      */
     private function processServiceMessage(AnonymousMessage $message)
@@ -369,9 +370,9 @@ class EncryptedSocketMessenger implements SocketMessenger
         }
     }
 
-
     /**
      * @param RpcError $rpcError
+     *
      * @throws TGException
      */
     private function analyzeRpcError(RpcError $rpcError)
@@ -392,10 +393,10 @@ class EncryptedSocketMessenger implements SocketMessenger
             throw new TGException(TGException::ERR_MSG_BANNED_SESSION_STOLEN, 'bot stolen by revoking session');
     }
 
-
     /**
-     * @param int $new_salt
+     * @param int    $new_salt
      * @param string $badMessageId
+     *
      * @throws TGException
      */
     private function reSendWithUpdatedSalt($new_salt, $badMessageId)
@@ -404,7 +405,6 @@ class EncryptedSocketMessenger implements SocketMessenger
 
         if(!isset($this->sentMessages[$badMessageId]))
             throw new TGException(TGException::ERR_MSG_RESEND_IMPOSSIBLE);
-
         $badMessage = $this->sentMessages[$badMessageId];
         $newMessageId = $this->msgIdGenerator->generateNext();
 
@@ -419,9 +419,9 @@ class EncryptedSocketMessenger implements SocketMessenger
         $this->readMessage();
     }
 
-
     /**
      * @param TLClientMessage $payload
+     *
      * @throws TGException
      */
     public function writeMessage(TLClientMessage $payload)
@@ -430,10 +430,10 @@ class EncryptedSocketMessenger implements SocketMessenger
         $this->writeIdentifiedMessage($payload, $messageId);
     }
 
-
     /**
      * @param TLClientMessage $payload
-     * @param int $messageId
+     * @param int             $messageId
+     *
      * @throws TGException
      */
     private function writeIdentifiedMessage(TLClientMessage $payload, $messageId)
@@ -452,10 +452,9 @@ class EncryptedSocketMessenger implements SocketMessenger
         $this->sentMessages[$messageId] = $payload;
     }
 
-
     private function isContentRelatedPayload(TLClientMessage $payload)
     {
-        $nonContentRelatedNames =  [
+        $nonContentRelatedNames = [
             'rpc_result',
             //'rpc_error',
             'rpc_drop_answer',
@@ -491,11 +490,11 @@ class EncryptedSocketMessenger implements SocketMessenger
         return !in_array($payload->getName(), $nonContentRelatedNames);
     }
 
-
     /**
      * @param TLClientMessage $payload
-     * @param int $messageId
-     * @param bool $contentRelated
+     * @param int             $messageId
+     * @param bool            $contentRelated
+     *
      * @return string
      */
     private function wrapEncryptedData(TLClientMessage $payload, $messageId, $contentRelated)
@@ -520,10 +519,10 @@ class EncryptedSocketMessenger implements SocketMessenger
             $padding;
     }
 
-
     /**
      * @param int $a
      * @param int $b
+     *
      * @return float|int
      */
     private function calcRemainder(int $a, int $b)
@@ -531,25 +530,27 @@ class EncryptedSocketMessenger implements SocketMessenger
         $remainder = $a % $b;
         if ($remainder < 0)
             $remainder += abs($b);
+
         return $remainder;
     }
-
 
     private function aes_calculate($msg_key, $auth_key, $to_server = true)
     {
         $x = $to_server ? 0 : 8;
-        $sha256_a = hash('sha256', $msg_key . substr($auth_key, $x, 36), true);
-        $sha256_b = hash('sha256', substr($auth_key, 40 + $x, 36) . $msg_key, true);
-        $aes_key = substr($sha256_a, 0, 8) . substr($sha256_b, 8, 16) . substr($sha256_a, 24, 8);
-        $aes_iv = substr($sha256_b, 0, 8) . substr($sha256_a, 8, 16) . substr($sha256_b, 24, 8);
+        $sha256_a = hash('sha256', $msg_key.substr($auth_key, $x, 36), true);
+        $sha256_b = hash('sha256', substr($auth_key, 40 + $x, 36).$msg_key, true);
+        $aes_key = substr($sha256_a, 0, 8).substr($sha256_b, 8, 16).substr($sha256_a, 24, 8);
+        $aes_iv = substr($sha256_b, 0, 8).substr($sha256_a, 8, 16).substr($sha256_b, 24, 8);
+
         return [$aes_key, $aes_iv];
     }
 
-
     /**
      * @param string $payload
-     * @return string
+     *
      * @throws TGException
+     *
+     * @return string
      */
     private function wrapEncryptedContainer($payload)
     {
@@ -565,18 +566,16 @@ class EncryptedSocketMessenger implements SocketMessenger
             $encryptedPayload;
     }
 
-
-
     // generates context-bound sequence number
-    private function generate_msg_seqno($context_related){
+    private function generate_msg_seqno($context_related) {
         $in = $context_related ? 1 : 0;
         //multiply by two and add one, if context-related
         $value = ($this->msg_seqno * 2) + $in;
         //increase current $this->seq_no if context related
         $this->msg_seqno += $in;
-        return $value;//return multiplied value
-    }
 
+        return $value; //return multiplied value
+    }
 
     /**
      * @return DataCentre
@@ -585,7 +584,6 @@ class EncryptedSocketMessenger implements SocketMessenger
     {
         return $this->socket->getDCInfo();
     }
-
 
     /**
      * @return void
@@ -597,7 +595,7 @@ class EncryptedSocketMessenger implements SocketMessenger
 
     /**
      * @param TLClientMessage[] $messages
-     * @param callable $onLastResponse
+     * @param callable          $onLastResponse
      */
     public function getResponseConsecutive(array $messages, callable $onLastResponse)
     {
@@ -607,7 +605,7 @@ class EncryptedSocketMessenger implements SocketMessenger
         }
         $newFunc = $onLastResponse;
         foreach ($messages as $message) {
-            $newFunc = function() use ($message, $newFunc) {
+            $newFunc = function () use ($message, $newFunc) {
                 $this->getResponseAsync($message, $newFunc);
             };
         }

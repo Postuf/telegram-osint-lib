@@ -15,7 +15,6 @@ use TLMessage\TLMessage\ClientMessages\TgApp\send_sms_code;
 
 class TgAppSerializationTest extends TestCase
 {
-
     public function test_get_contacts_serialization()
     {
         $this->assertEquals(
@@ -23,7 +22,6 @@ class TgAppSerializationTest extends TestCase
             hex2bin('9f8423c000000000')
         );
     }
-
 
     public function test_get_langpack_serialization()
     {
@@ -33,7 +31,6 @@ class TgAppSerializationTest extends TestCase
         );
     }
 
-
     public function test_get_languages_serialization()
     {
         $this->assertEquals(
@@ -41,7 +38,6 @@ class TgAppSerializationTest extends TestCase
             hex2bin('7dd50f80')
         );
     }
-
 
     public function test_get_tos_serialization()
     {
@@ -51,8 +47,6 @@ class TgAppSerializationTest extends TestCase
         );
     }
 
-
-
     public function test_invoke_with_layer_serialization()
     {
         $this->assertEquals(
@@ -61,15 +55,13 @@ class TgAppSerializationTest extends TestCase
         );
     }
 
-
     public function test_p_q_inner_data_dc_serialization()
     {
         $this->assertEquals(
-            (new p_q_inner_data_dc('1550767997241791113',1033421369,'1500615377','erwterterwt','retwertewt','retrtewtewr', 2))->toBinary(),
+            (new p_q_inner_data_dc('1550767997241791113', 1033421369, '1500615377', 'erwterterwt', 'retwertewt', 'retrtewtewr', 2))->toBinary(),
             hex2bin('955ff5a90815856f46f4a41289000000043d98c23900000004597192d1000000657277746572746572777472657477657274657774726574727465777465777202000000')
         );
     }
-
 
     public function test_input_file_location_serialization()
     {
@@ -79,7 +71,6 @@ class TgAppSerializationTest extends TestCase
         );
     }
 
-
     public function test_send_sms_code_serialization()
     {
         $this->assertStringStartsWith(
@@ -87,5 +78,4 @@ class TgAppSerializationTest extends TestCase
             bin2hex((new send_sms_code('3253245342'))->toBinary())
         );
     }
-
 }

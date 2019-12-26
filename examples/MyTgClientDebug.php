@@ -19,10 +19,8 @@ use SocksProxyAsync\Proxy;
  * Uses two telegram, connections (infoClient, monitoringClient)
  * Requires files: first.authkey, second.authkey
  */
-class MyTgClientDebug
-    implements StatusWatcherCallbacks, ClientDebugLogger
+class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger
 {
-
     /**
      * @var StatusWatcherClient
      */
@@ -44,25 +42,25 @@ class MyTgClientDebug
      */
     private $proxy;
 
-
     /**
      * @param Proxy|null $proxy
+     *
      * @throws TGException
      */
     public function __construct(?Proxy $proxy = null)
     {
-        /**
+        /*
          * Set TL-node logger
          */
         Logger::setupLogger($this);
 
-        /**
+        /*
          * (!) Authkeys can be the same (StatusClient и InfoClient), but it is NOT recommended,
          * due to Telegram-сервер sending nodes to different clients,leading to
-	 * data losses on clients.
+     * data losses on clients.
          */
-        $this->authKeyForFirstClient = trim(file_get_contents(__DIR__ . '/first.authkey'));
-        $this->authKeyForSecondClient = trim(file_get_contents(__DIR__ . '/second.authkey'));
+        $this->authKeyForFirstClient = trim(file_get_contents(__DIR__.'/first.authkey'));
+        $this->authKeyForSecondClient = trim(file_get_contents(__DIR__.'/second.authkey'));
 
         /*
          * Clients init
@@ -71,7 +69,6 @@ class MyTgClientDebug
         $this->infoClient = new InfoClient();
         $this->proxy = $proxy;
     }
-
 
     /**
      * @throws TGException
@@ -83,7 +80,6 @@ class MyTgClientDebug
         $this->monitorPhones();
     }
 
-
     /**
      * @throws TGException
      */
@@ -94,26 +90,26 @@ class MyTgClientDebug
 
         /* add via phone numbers */
         $monitoringPhones = [
-            "541123683798",
-            "60192003400",
-            "77779479694",
-            "393475723072",
-            "989196190933"
+            '541123683798',
+            '60192003400',
+            '77779479694',
+            '393475723072',
+            '989196190933',
         ];
         $lastContactsCleaningTime = 0;
-        $this->monitoringClient->reloadNumbers($monitoringPhones, function(ImportResult $result) use (&$lastContactsCleaningTime) {
+        $this->monitoringClient->reloadNumbers($monitoringPhones, function (ImportResult $result) use (&$lastContactsCleaningTime) {
             $lastContactsCleaningTime = time();
-            echo "Contacts imported total:" . count($result->importedPhones) . "\n";
-            echo "Replaced phones:" . print_r($result->replacedPhones, true) . "\n";
+            echo 'Contacts imported total:'.count($result->importedPhones)."\n";
+            echo 'Replaced phones:'.print_r($result->replacedPhones, true)."\n";
         });
 
         // wait a little between operations in order to get possible exceptions
         // it is preferable only once after first call of import/add contacts
-        for($i=0; $i<10; $i++) $this->pollClientCycle($this->monitoringClient);
+        for($i = 0; $i < 10; $i++) $this->pollClientCycle($this->monitoringClient);
 
         /* add via user names */
-        $this->monitoringClient->addUser('asen_17', function(bool $addResult){});
-        $this->monitoringClient->addUser('d_push', function(bool $addResult){});
+        $this->monitoringClient->addUser('asen_17', function (bool $addResult) {});
+        $this->monitoringClient->addUser('d_push', function (bool $addResult) {});
 
         $start = time();
 
@@ -126,22 +122,22 @@ class MyTgClientDebug
                 break;
             }
 
-            if($lastContactsCleaningTime>0 && time() - $lastContactsCleaningTime > 5) {
+            if($lastContactsCleaningTime > 0 && time() - $lastContactsCleaningTime > 5) {
                 // remove contact by name
-                $this->monitoringClient->delUser('ASEN_17', function(){});
+                $this->monitoringClient->delUser('ASEN_17', function () {});
                 $lastContactsCleaningTime = time();
             }
         }
 
-        $this->monitoringClient->cleanMonitoringBook(function(){
+        $this->monitoringClient->cleanMonitoringBook(function () {
             echo "Contacts cleaned\n";
         });
 
     }
 
-
     /**
      * @param Client $client
+     *
      * @throws TGException
      */
     private function pollClientCycle(Client $client)
@@ -151,7 +147,7 @@ class MyTgClientDebug
         } catch (TGException $e) {
             if($e->getCode() == TGException::ERR_CLIENT_ADD_USERNAME_ALREADY_IN_ADDRESS_BOOK)
 
-                echo "Error: " . $e->getMessage().PHP_EOL;
+                echo 'Error: '.$e->getMessage().PHP_EOL;
             else
                 throw $e;
         }
@@ -159,7 +155,6 @@ class MyTgClientDebug
         // save some CPU in infinite cycles
         usleep(50000);
     }
-
 
     /**
      * @throws TGException
@@ -169,23 +164,22 @@ class MyTgClientDebug
         $this->monitoringClient->terminate();
     }
 
-
     /**
      * @throws TGException
      */
     protected function getContactsInfo()
     {
         $phones = [
-            '+79153801634'
+            '+79153801634',
         ];
 
         $this->infoLogin();
 
         /* info by username */
-        $this->infoClient->getInfoByUsername('asen_17', true, true, function ($userInfoModel){
+        $this->infoClient->getInfoByUsername('asen_17', true, true, function ($userInfoModel) {
             if ($userInfoModel->photo)
                 file_put_contents(
-                    $userInfoModel->username . '.' . $userInfoModel->photo->format,
+                    $userInfoModel->username.'.'.$userInfoModel->photo->format,
                     $userInfoModel->photo->bytes
                 );
         });
@@ -194,10 +188,11 @@ class MyTgClientDebug
     }
 
     /**
-     * @param string[] $numbers
-     * @param bool $withPhoto
-     * @param bool $largePhoto
-     * @param callable|null $callback gets UserInfoModel[] as parameters
+     * @param string[]      $numbers
+     * @param bool          $withPhoto
+     * @param bool          $largePhoto
+     * @param callable|null $callback   gets UserInfoModel[] as parameters
+     *
      * @throws TGException
      */
     public function parseNumbers(array $numbers, bool $withPhoto = false, bool $largePhoto = false, ?callable $callback = null)
@@ -211,7 +206,7 @@ class MyTgClientDebug
                     if (!$callback) {
                         if ($userInfoModel->photo)
                             file_put_contents(
-                                $userInfoModel->phone . '.' . $userInfoModel->photo->format,
+                                $userInfoModel->phone.'.'.$userInfoModel->photo->format,
                                 $userInfoModel->photo->bytes
                             );
                         echo "#################################\n";
@@ -237,19 +232,19 @@ class MyTgClientDebug
     public function onUserOnline(User $user, int $expires)
     {
         echo "=======================\n";
-        echo 'User '.$user->getPhone()."|".$user->getUsername()." now online. Expires= ".date("d/m/Y H:i:s", $expires)."\n";
+        echo 'User '.$user->getPhone().'|'.$user->getUsername().' now online. Expires= '.date('d/m/Y H:i:s', $expires)."\n";
         echo "=======================\n";
     }
 
     public function onUserOffline(User $user, int $wasOnline)
     {
         echo "=======================\n";
-        echo 'User '.$user->getPhone()."|".$user->getUsername()." now offline. Last seen = ".date("d/m/Y H:i:s", $wasOnline)."\n";
+        echo 'User '.$user->getPhone().'|'.$user->getUsername().' now offline. Last seen = '.date('d/m/Y H:i:s', $wasOnline)."\n";
         echo "=======================\n";
     }
 
     /**
-     * @param User $user
+     * @param User         $user
      * @param HiddenStatus $hiddenStatusState
      */
     public function onUserHidStatus(User $user, HiddenStatus $hiddenStatusState)
@@ -273,19 +268,19 @@ class MyTgClientDebug
         }
 
         echo "=======================\n";
-        echo 'User '.$user->getPhone()."/".$user->getUsername()." hid his status\n";
+        echo 'User '.$user->getPhone().'/'.$user->getUsername()." hid his status\n";
         echo 'Hidden status info: '.$hiddenStatusState."\n";
         echo "=======================\n";
     }
 
-
     public function debugLibLog(string $dbgLabel, string $dbgMessage)
     {
-        echo date("d.m.Y H:i:s") . " | " . $dbgLabel.': '.$dbgMessage."\n";
+        echo date('d.m.Y H:i:s').' | '.$dbgLabel.': '.$dbgMessage."\n";
     }
 
     /**
      * Fetch messages and terminate client
+     *
      * @throws TGException
      */
     public function pollAndTerminate(): void
@@ -308,6 +303,7 @@ class MyTgClientDebug
 
     /**
      * Connect to telegram with info (second) account
+     *
      * @throws TGException
      */
     public function infoLogin(): void
@@ -315,5 +311,4 @@ class MyTgClientDebug
         $authKey = AuthKeyCreator::createFromString($this->authKeyForSecondClient);
         $this->infoClient->login($authKey, $this->proxy);
     }
-
 }

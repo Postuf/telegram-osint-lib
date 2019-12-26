@@ -8,18 +8,15 @@ use TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 
 class ContactsKeeperMock extends ContactsKeeper
 {
-
     /**
      * @var ContactUser[]
      */
     private $contacts;
 
-
     public function __construct(?BasicClient $client)
     {
         //parent::__construct($client);
     }
-
 
     /**
      * @param ContactUser[] $contacts
@@ -28,7 +25,6 @@ class ContactsKeeperMock extends ContactsKeeper
     {
         $this->contacts = $contacts;
     }
-
 
     public function getUserById(int $userId, callable $onSuccess)
     {
@@ -41,6 +37,4 @@ class ContactsKeeperMock extends ContactsKeeper
     {
         return true;
     }
-
-
 }

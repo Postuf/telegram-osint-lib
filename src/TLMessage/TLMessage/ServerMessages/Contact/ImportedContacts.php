@@ -2,23 +2,20 @@
 
 namespace TLMessage\TLMessage\ServerMessages\Contact;
 
-
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class ImportedContacts extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
         return self::checkType($tlMessage, 'contacts.importedContacts');
     }
-
 
     /**
      * @return ContactUser[]
@@ -33,7 +30,6 @@ class ImportedContacts extends TLServerMessage
         return $userObjects;
     }
 
-
     /**
      * @return ContactClient[]
      */
@@ -47,7 +43,6 @@ class ImportedContacts extends TLServerMessage
         return $clientObjects;
     }
 
-
     /**
      * @return array (index => client_id)
      */
@@ -55,5 +50,4 @@ class ImportedContacts extends TLServerMessage
     {
         return $this->getTlMessage()->getValue('retry_contacts');
     }
-
 }

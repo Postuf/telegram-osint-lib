@@ -10,9 +10,7 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class get_terms_of_service_update implements TLClientMessage
 {
-
     const CONSTRUCTOR = 749019089; // 0x2CA51FD1
-
 
     /**
      * @return string
@@ -22,7 +20,6 @@ class get_terms_of_service_update implements TLClientMessage
         return 'get_terms_of_service_update';
     }
 
-
     /**
      * @return string
      */
@@ -30,6 +27,4 @@ class get_terms_of_service_update implements TLClientMessage
     {
         return Packer::packConstructor(self::CONSTRUCTOR);
     }
-
-
 }

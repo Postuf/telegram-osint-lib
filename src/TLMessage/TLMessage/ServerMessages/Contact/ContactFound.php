@@ -2,23 +2,20 @@
 
 namespace TLMessage\TLMessage\ServerMessages\Contact;
 
-
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class ContactFound extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
         return self::checkType($tlMessage, 'contacts.found');
     }
-
 
     /**
      * @return ContactUser[]
@@ -32,5 +29,4 @@ class ContactFound extends TLServerMessage
 
         return $userObjects;
     }
-
 }

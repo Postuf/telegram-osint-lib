@@ -2,23 +2,20 @@
 
 namespace TLMessage\TLMessage\ServerMessages\Auth;
 
-
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class DHGenOk extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
         return self::checkType($tlMessage, 'dh_gen_ok');
     }
-
 
     /**
      * @return string
@@ -28,7 +25,6 @@ class DHGenOk extends TLServerMessage
         return $this->getTlMessage()->getValue('nonce');
     }
 
-
     /**
      * @return string
      */
@@ -36,5 +32,4 @@ class DHGenOk extends TLServerMessage
     {
         return $this->getTlMessage()->getValue('server_nonce');
     }
-
 }

@@ -1,12 +1,11 @@
 <?php
+
 /** @noinspection SpellCheckingInspection */
 
 namespace Auth\Certificate;
 
-
 class CertificateStorage
 {
-
     /**
      * @return Certificate[]
      */
@@ -38,7 +37,7 @@ NTLYXb6Sce1Uov0YtNx5wEowlREH1WOTlwIDAQAB
 TAG
 ),
 
-            new Certificate(-5738946642031285640, <<<TAG
+            new Certificate(-5738946642031285640, <<<'TAG'
 -----BEGIN RSA PUBLIC KEY-----
 MIIBCgKCAQEAsQZnSWVZNfClk29RcDTJQ76n8zZaiTGuUsi8sUhW8AS4PSbPKDm+
 DyJgdHDWdIF3HBzl7DHeFrILuqTs0vfS7Pa2NW8nUBwiaYQmPtwEa4n7bTmBVGsB
@@ -50,7 +49,7 @@ x5x17D7pfah3Sy2pA+NDXyzSlGcKdaUmwQIDAQAB
 TAG
 ),
 
-            new Certificate(8205599988028290019, <<<TAG
+            new Certificate(8205599988028290019, <<<'TAG'
 -----BEGIN RSA PUBLIC KEY-----
 MIIBCgKCAQEAwqjFW0pi4reKGbkc9pK83Eunwj/k0G8ZTioMMPbZmW99GivMibwa
 xDM9RDWabEMyUtGoQC2ZcDeLWRK3W8jMP6dnEKAlvLkDLfC4fXYHzFO5KHEqF06i
@@ -74,7 +73,7 @@ XGF710w9lwCGNbmNxNYhtIkdqfsEcwR5JwIDAQAB
 TAG
 ),
 
-            new Certificate(1562291298945373506, <<<TAG
+            new Certificate(1562291298945373506, <<<'TAG'
 -----BEGIN RSA PUBLIC KEY-----
 MIIBCgKCAQEAvfLHfYH2r9R70w8prHblWt/nDkh+XkgpflqQVcnAfSuTtO05lNPs
 pQmL8Y2XjVT4t8cT6xAkdgfmmvnvRPOOKPi0OfJXoRVylFzAQG/j83u5K3kRLbae
@@ -86,7 +85,7 @@ kSDF/gip3kWLG0o8XQpChDfyvsqB9OLV/wIDAQAB
 TAG
 ),
 
-            new Certificate(-5859577972006586033, <<<TAG
+            new Certificate(-5859577972006586033, <<<'TAG'
 -----BEGIN RSA PUBLIC KEY-----
 MIIBCgKCAQEAs/ditzm+mPND6xkhzwFIz6J/968CtkcSE/7Z2qAJiXbmZ3UDJPGr
 zqTDHkO30R8VeRM/Kz2f4nR05GIFiITl4bEjvpy7xqRDspJcCFIOcyXm8abVDhF+
@@ -108,8 +107,7 @@ Pji9NP3tJUFQjcECqcm0yV7/2d0t/pbCm+ZH1sadZspQCEPPrtbkQBlvHb4OLiIW
 PGHKSMeRFvp3IWcmdJqXahxLCUS1Eh6MAQIDAQAB
 -----END RSA PUBLIC KEY-----
 TAG
-)
+),
             ];
     }
-
 }

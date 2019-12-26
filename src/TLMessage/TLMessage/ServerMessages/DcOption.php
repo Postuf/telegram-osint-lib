@@ -2,23 +2,20 @@
 
 namespace TLMessage\TLMessage\ServerMessages;
 
-
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class DcOption extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
         return self::checkType($tlMessage, 'dcOption');
     }
-
 
     /**
      * @return int
@@ -28,7 +25,6 @@ class DcOption extends TLServerMessage
         return $this->getTlMessage()->getValue('id');
     }
 
-
     /**
      * @return int
      */
@@ -37,7 +33,6 @@ class DcOption extends TLServerMessage
         return $this->getTlMessage()->getValue('port');
     }
 
-
     /**
      * @return string
      */
@@ -45,7 +40,4 @@ class DcOption extends TLServerMessage
     {
         return $this->getTlMessage()->getValue('ip_address');
     }
-
-
-
 }

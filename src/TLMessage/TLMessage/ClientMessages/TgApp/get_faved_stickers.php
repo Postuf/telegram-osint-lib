@@ -10,9 +10,7 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class get_faved_stickers implements TLClientMessage
 {
-
     const CONSTRUCTOR = 567151374; // 0x21CE0B0E
-
 
     /**
      * @return string
@@ -21,7 +19,6 @@ class get_faved_stickers implements TLClientMessage
     {
         return 'get_faved_stickers';
     }
-
 
     /**
      * @return string
@@ -32,5 +29,4 @@ class get_faved_stickers implements TLClientMessage
             Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packInt(0);
     }
-
 }

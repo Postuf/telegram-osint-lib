@@ -2,7 +2,6 @@
 
 namespace TLMessage\TLMessage\ServerMessages\Custom;
 
-
 use Client\StatusWatcherClient\Models\HiddenStatus;
 use Exception\TGException;
 use MTSerialization\AnonymousMessage;
@@ -14,15 +13,12 @@ use TLMessage\TLMessage\ServerMessages\UserStatus\UserStatusOnline;
 use TLMessage\TLMessage\ServerMessages\UserStatus\UserStatusRecently;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class UserStatus extends TLServerMessage
 {
-
     /**
      * @var UserStatusEmpty|UserStatusOffline|UserStatusOnline|UserStatusLastWeek
      */
     private $status;
-
 
     public function __construct(AnonymousMessage $tlMessage)
     {
@@ -40,10 +36,10 @@ class UserStatus extends TLServerMessage
             $this->status = new UserStatusLastWeek($tlMessage);
     }
 
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
@@ -56,27 +52,24 @@ class UserStatus extends TLServerMessage
             UserStatusLastMonth::isIt($tlMessage);
     }
 
-
     /**
-     * @return boolean
+     * @return bool
      */
     public function isOnline()
     {
         return UserStatusOnline::isIt($this->getTlMessage());
     }
 
-
     /**
-     * @return boolean
+     * @return bool
      */
     public function isOffline()
     {
         return UserStatusOffline::isIt($this->getTlMessage());
     }
 
-
     /**
-     * @return boolean
+     * @return bool
      */
     public function isHidden()
     {
@@ -87,10 +80,10 @@ class UserStatus extends TLServerMessage
             UserStatusLastMonth::isIt($this->getTlMessage());
     }
 
-
     /**
-     * @return HiddenStatus
      * @throws TGException
+     *
+     * @return HiddenStatus
      */
     public function getHiddenState()
     {
@@ -109,7 +102,6 @@ class UserStatus extends TLServerMessage
         throw new TGException(TGException::ERR_ASSERT_UNKNOWN_HIDDEN_STATUS);
     }
 
-
     /**
      * @return int
      */
@@ -118,7 +110,6 @@ class UserStatus extends TLServerMessage
         return $this->isOnline() ? $this->status->getExpires() : null;
     }
 
-
     /**
      * @return int
      */
@@ -126,6 +117,4 @@ class UserStatus extends TLServerMessage
     {
         return $this->isOffline() ? $this->status->getWasOnline() : null;
     }
-
-
 }

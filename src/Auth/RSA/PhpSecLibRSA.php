@@ -2,18 +2,16 @@
 
 namespace Auth\RSA;
 
-
 use Auth\PowMod\PhpSecLibPowMod;
 use Auth\RSA\RSA as AuthRSA;
 use phpseclib\Crypt\RSA;
 
-
 class PhpSecLibRSA implements AuthRSA
 {
-
     /**
      * @param string $data
      * @param string $key
+     *
      * @return string
      */
     public function encrypt($data, $key)
@@ -25,5 +23,4 @@ class PhpSecLibRSA implements AuthRSA
 
         return (new PhpSecLibPowMod())->powMod($data, $e->toBytes(), $n->toBytes());
     }
-
 }

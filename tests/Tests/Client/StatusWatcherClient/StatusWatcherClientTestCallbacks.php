@@ -2,22 +2,20 @@
 
 namespace Tests\Tests\Client\StatusWatcherClient;
 
-
 use Client\StatusWatcherClient\Models\HiddenStatus;
 use Client\StatusWatcherClient\Models\User;
 use Client\StatusWatcherClient\StatusWatcherCallbacks;
 
 class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
 {
-
     private $onlineRecords = [];
     private $offlineRecords = [];
     private $hidRecords = [];
 
-
     /**
      * @param User $user
-     * @param int $expires
+     * @param int  $expires
+     *
      * @return void
      */
     public function onUserOnline(User $user, int $expires)
@@ -31,7 +29,8 @@ class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
 
     /**
      * @param User $user
-     * @param int $wasOnline
+     * @param int  $wasOnline
+     *
      * @return void
      */
     public function onUserOffline(User $user, int $wasOnline)
@@ -44,8 +43,9 @@ class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
     }
 
     /**
-     * @param User $user
+     * @param User         $user
      * @param HiddenStatus $hiddenStatus
+     *
      * @return void
      */
     public function onUserHidStatus(User $user, HiddenStatus $hiddenStatus)
@@ -59,6 +59,7 @@ class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
 
     /**
      * @param string $phone
+     *
      * @return int
      */
     public function getOnlineTriggersCntFor(string $phone)
@@ -68,6 +69,7 @@ class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
 
     /**
      * @param string $phone
+     *
      * @return int
      */
     public function getOfflineTriggersCntFor(string $phone)
@@ -77,11 +79,11 @@ class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
 
     /**
      * @param string $phone
-     * @return  int
+     *
+     * @return int
      */
     public function getHidTriggersCntFor(string $phone)
     {
         return isset($this->hidRecords[$phone]) ? $this->hidRecords[$phone] : 0;
     }
-
 }

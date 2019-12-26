@@ -2,23 +2,20 @@
 
 namespace Tests\Tests\TLMessage\TLMessage\ServerMessages;
 
-
 use Exception\TGException;
 use MTSerialization\AnonymousMessage;
 use MTSerialization\OwnImplementation\OwnAnonymousMessage;
 
-
 class AnonymousMessageMock implements AnonymousMessage
 {
-
     /**
      * @var AnonymousMessage
      */
     private $impl;
 
-
     /**
      * @param array $message
+     *
      * @throws TGException
      */
     public function __construct(array $message)
@@ -26,13 +23,14 @@ class AnonymousMessageMock implements AnonymousMessage
         $this->impl = new OwnAnonymousMessage($message);
     }
 
-
     /**
      * Return named node from current object
      *
      * @param string $name
-     * @return AnonymousMessage
+     *
      * @throws TGException
+     *
+     * @return AnonymousMessage
      */
     public function getNode(string $name)
     {
@@ -43,8 +41,10 @@ class AnonymousMessageMock implements AnonymousMessage
      * Return array of nodes under the $name from current object
      *
      * @param string $name
-     * @return AnonymousMessage[]
+     *
      * @throws TGException
+     *
+     * @return AnonymousMessage[]
      */
     public function getNodes(string $name)
     {
@@ -65,8 +65,10 @@ class AnonymousMessageMock implements AnonymousMessage
      * Get value of named field from current object
      *
      * @param string $name
-     * @return int|string|array
+     *
      * @throws TGException
+     *
+     * @return int|string|array
      */
     public function getValue(string $name)
     {
@@ -88,6 +90,4 @@ class AnonymousMessageMock implements AnonymousMessage
     {
         return $this->impl->getDebugPrintable();
     }
-
-
 }

@@ -8,7 +8,6 @@ use TLMessage\TLMessage\TLClientMessage;
 /** @see https://core.telegram.org/constructor/inputUser */
 class input_user implements TLClientMessage
 {
-
     const CONSTRUCTOR = -668391402; // 0xd8292816
 
     /**
@@ -19,7 +18,6 @@ class input_user implements TLClientMessage
      * @var int
      */
     private $accessHash;
-
 
     /**
      * @param int $userId
@@ -49,5 +47,4 @@ class input_user implements TLClientMessage
             Packer::packInt($this->userId).
             Packer::packLong($this->accessHash);
     }
-
 }

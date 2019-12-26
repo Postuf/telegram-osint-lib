@@ -10,11 +10,9 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class get_full_user implements TLClientMessage
 {
-
     const CONSTRUCTOR = -902781519; // 0xCA30A5B1
     /** @see https://core.telegram.org/type/InputUser */
     const CONSTRUCTOR_INPUT_USER = -668391402; // 0xD8292816
-
 
     /**
      * @var int
@@ -25,14 +23,11 @@ class get_full_user implements TLClientMessage
      */
     private $accessHash;
 
-
-
     public function __construct(int $userId, int $accessHash)
     {
         $this->userId = $userId;
         $this->accessHash = $accessHash;
     }
-
 
     /**
      * @return string
@@ -41,7 +36,6 @@ class get_full_user implements TLClientMessage
     {
         return 'get_full_user';
     }
-
 
     /**
      * @return string
@@ -54,5 +48,4 @@ class get_full_user implements TLClientMessage
             Packer::packInt($this->userId).
             Packer::packLong($this->accessHash);
     }
-
 }

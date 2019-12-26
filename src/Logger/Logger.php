@@ -6,7 +6,6 @@ use LibConfig;
 
 class Logger
 {
-
     /**
      * @var ClientDebugLogger
      */
@@ -38,7 +37,6 @@ class Logger
         }
     }
 
-
     /**
      * @return ClientDebugLogger
      */
@@ -50,7 +48,6 @@ class Logger
         return  self::$logger;
     }
 
-
     /**
      * @param ClientDebugLogger $logger
      */
@@ -58,5 +55,4 @@ class Logger
     {
         self::$logger = $logger;
     }
-
 }

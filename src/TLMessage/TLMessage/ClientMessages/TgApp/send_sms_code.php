@@ -11,15 +11,12 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class send_sms_code implements TLClientMessage
 {
-
     const CONSTRUCTOR = -1502141361; // 0xA677244F
-
 
     /**
      * @var string
      */
     private $phone;
-
 
     /**
      * @param string $phone
@@ -29,7 +26,6 @@ class send_sms_code implements TLClientMessage
         $this->phone = $phone;
     }
 
-
     /**
      * @return string
      */
@@ -37,7 +33,6 @@ class send_sms_code implements TLClientMessage
     {
         return 'send_code';
     }
-
 
     /**
      * @return string
@@ -51,5 +46,4 @@ class send_sms_code implements TLClientMessage
             Packer::packString(LibConfig::APP_API_HASH).
             Packer::packBytes((new send_sms_code_settings())->toBinary());
     }
-
 }

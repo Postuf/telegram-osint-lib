@@ -10,9 +10,7 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class sign_in implements TLClientMessage
 {
-
     const CONSTRUCTOR = -1126886015; // 0xbcd51581
-
 
     /**
      * @var string
@@ -27,9 +25,9 @@ class sign_in implements TLClientMessage
      */
     private $smsCode;
 
-
     /**
      * sign_in constructor.
+     *
      * @param string $phone
      * @param string $phoneHash
      * @param string $smsCode
@@ -41,7 +39,6 @@ class sign_in implements TLClientMessage
         $this->smsCode = $smsCode;
     }
 
-
     /**
      * @return string
      */
@@ -49,7 +46,6 @@ class sign_in implements TLClientMessage
     {
         return 'sign_in';
     }
-
 
     /**
      * @return string
@@ -62,5 +58,4 @@ class sign_in implements TLClientMessage
             Packer::packString($this->phoneHash).
             Packer::packString($this->smsCode);
     }
-
 }

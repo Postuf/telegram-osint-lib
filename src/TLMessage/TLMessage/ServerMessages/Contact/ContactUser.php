@@ -2,26 +2,23 @@
 
 namespace TLMessage\TLMessage\ServerMessages\Contact;
 
-
 use Exception\TGException;
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\ServerMessages\Custom\UserStatus;
 use TLMessage\TLMessage\ServerMessages\UserProfilePhoto;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class ContactUser extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
         return self::checkType($tlMessage, 'user');
     }
-
 
     /**
      * @return UserStatus|null
@@ -33,9 +30,9 @@ class ContactUser extends TLServerMessage
         } catch (TGException $e){
             return null;
         }
+
         return new UserStatus($status);
     }
-
 
     /**
      * @return UserProfilePhoto
@@ -44,6 +41,7 @@ class ContactUser extends TLServerMessage
     {
         try {
             $photo = $this->getTlMessage()->getNode('photo');
+
             return new UserProfilePhoto($photo);
         } catch (TGException $e){
             if($e->getCode() == TGException::ERR_TL_MESSAGE_FIELD_BAD_NODE)
@@ -53,7 +51,6 @@ class ContactUser extends TLServerMessage
         }
     }
 
-
     /**
      * @return int
      */
@@ -61,7 +58,6 @@ class ContactUser extends TLServerMessage
     {
         return $this->getTlMessage()->getValue('id');
     }
-
 
     /**
      * @return string
@@ -71,16 +67,15 @@ class ContactUser extends TLServerMessage
         return $this->getTlMessage()->getValue('phone');
     }
 
-
     /**
-     * @return string
      * @throws TGException
+     *
+     * @return string
      */
     public function getUsername()
     {
         return $this->getTlMessage()->getValue('username');
     }
-
 
     /**
      * @return int
@@ -89,5 +84,4 @@ class ContactUser extends TLServerMessage
     {
         return $this->getTlMessage()->getValue('access_hash');
     }
-
 }

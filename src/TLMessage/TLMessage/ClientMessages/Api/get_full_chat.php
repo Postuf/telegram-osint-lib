@@ -1,8 +1,6 @@
 <?php
 
-
 namespace TLMessage\TLMessage\ClientMessages\Api;
-
 
 use TLMessage\TLMessage\Packer;
 use TLMessage\TLMessage\TLClientMessage;
@@ -23,7 +21,7 @@ class get_full_chat implements TLClientMessage
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -31,7 +29,7 @@ class get_full_chat implements TLClientMessage
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function toBinary()
     {

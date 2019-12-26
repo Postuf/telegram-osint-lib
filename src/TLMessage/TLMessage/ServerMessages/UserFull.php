@@ -2,36 +2,34 @@
 
 namespace TLMessage\TLMessage\ServerMessages;
 
-
 use Exception\TGException;
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 use TLMessage\TLMessage\TLServerMessage;
 
-
 class UserFull extends TLServerMessage
 {
-
     /**
      * @param AnonymousMessage $tlMessage
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isIt(AnonymousMessage $tlMessage)
     {
         return self::checkType($tlMessage, 'userFull');
     }
 
-
     /**
-     * @return ContactUser
      * @throws TGException
+     *
+     * @return ContactUser
      */
     public function getUser()
     {
         $user = $this->getTlMessage()->getNode('user');
+
         return new ContactUser($user);
     }
-
 
     /**
      * @return string
@@ -40,5 +38,4 @@ class UserFull extends TLServerMessage
     {
         return $this->getTlMessage()->getValue('about');
     }
-
 }

@@ -10,9 +10,7 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class get_languages implements TLClientMessage
 {
-
     const CONSTRUCTOR = -2146445955; // 0x800FD57D
-
 
     /**
      * @return string
@@ -22,7 +20,6 @@ class get_languages implements TLClientMessage
         return 'get_languages';
     }
 
-
     /**
      * @return string
      */
@@ -30,5 +27,4 @@ class get_languages implements TLClientMessage
     {
         return Packer::packConstructor(self::CONSTRUCTOR);
     }
-
 }

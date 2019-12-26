@@ -1,6 +1,5 @@
 <?php
 
-
 use Client\AuthKey\AuthKey;
 use Client\AuthKey\AuthKeyCreator;
 use Client\InfoObtainingClient\InfoClient;
@@ -19,6 +18,7 @@ class MultiClient
 
     /**
      * @param string[] $authKeysSerialized
+     *
      * @throws TGException
      */
     public function __construct(array $authKeysSerialized)
@@ -54,7 +54,7 @@ class MultiClient
     public function poll(): void
     {
         if (!$this->clients) {
-            throw new TGException(0, "no clients");
+            throw new TGException(0, 'no clients');
         }
         foreach ($this->clients as $client) {
             $client->pollMessage();

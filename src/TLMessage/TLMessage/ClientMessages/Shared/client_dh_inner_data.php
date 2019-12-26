@@ -7,9 +7,7 @@ use TLMessage\TLMessage\TLClientMessage;
 
 class client_dh_inner_data implements TLClientMessage
 {
-
     const CONSTRUCTOR = 0x6643b654;
-
 
     /**
      * @var string
@@ -28,11 +26,10 @@ class client_dh_inner_data implements TLClientMessage
      */
     private $g_b;
 
-
     /**
      * @param  $oldClientNonce
      * @param string $serverNonce
-     * @param int $retry_id
+     * @param int    $retry_id
      * @param string $g_b
      */
     public function __construct(string $oldClientNonce, string $serverNonce, int $retry_id, string $g_b)
@@ -43,7 +40,6 @@ class client_dh_inner_data implements TLClientMessage
         $this->g_b = $g_b;
     }
 
-
     /**
      * @return string
      */
@@ -51,7 +47,6 @@ class client_dh_inner_data implements TLClientMessage
     {
         return 'client_dh_inner_data';
     }
-
 
     /**
      * @return string
@@ -65,5 +60,4 @@ class client_dh_inner_data implements TLClientMessage
             Packer::packLong($this->retryId).
             Packer::packString($this->g_b);
     }
-
 }

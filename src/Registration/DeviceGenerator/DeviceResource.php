@@ -2,10 +2,8 @@
 
 namespace Registration\DeviceGenerator;
 
-
 class DeviceResource
 {
-
     /**
      * @var string
      */
@@ -19,10 +17,9 @@ class DeviceResource
      */
     private $sdkVersion;
 
-
     public function __construct()
     {
-        $devices = json_decode(file_get_contents(__DIR__ . "/devices.json"), true);
+        $devices = json_decode(file_get_contents(__DIR__.'/devices.json'), true);
         $randomDevice = $devices[array_rand($devices)];
 
         $this->brand = $randomDevice['brand'];
@@ -32,22 +29,19 @@ class DeviceResource
         $this->sdkVersion = $sdks[array_rand($sdks)];
     }
 
-
     /**
-     * @return  string
+     * @return string
      */
     public function getDeviceString()
     {
-        return $this->brand . $this->model;
+        return $this->brand.$this->model;
     }
 
-
     /**
-     * @return  string
+     * @return string
      */
     public function getSdkString()
     {
-        return "SDK ".$this->sdkVersion;
+        return 'SDK '.$this->sdkVersion;
     }
-
 }

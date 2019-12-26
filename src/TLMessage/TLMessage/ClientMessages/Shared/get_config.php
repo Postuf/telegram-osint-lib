@@ -10,9 +10,7 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class get_config implements TLClientMessage
 {
-
     const CONSTRUCTOR = -990308245; // 0xC4F9186B
-
 
     /**
      * @return string
@@ -22,7 +20,6 @@ class get_config implements TLClientMessage
         return 'get_config';
     }
 
-
     /**
      * @return string
      */
@@ -30,5 +27,4 @@ class get_config implements TLClientMessage
     {
         return Packer::packConstructor(self::CONSTRUCTOR);
     }
-
 }

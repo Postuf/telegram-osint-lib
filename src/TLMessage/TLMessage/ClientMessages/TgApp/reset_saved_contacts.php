@@ -8,9 +8,7 @@ use TLMessage\TLMessage\TLClientMessage;
 /** @see https://core.telegram.org/method/contacts.resetSaved */
 class reset_saved_contacts implements TLClientMessage
 {
-
     const CONSTRUCTOR = -2020263951; // 0x879537f1
-
 
     /**
      * @return string
@@ -20,7 +18,6 @@ class reset_saved_contacts implements TLClientMessage
         return 'reset_saved';
     }
 
-
     /**
      * @return string
      */
@@ -28,6 +25,4 @@ class reset_saved_contacts implements TLClientMessage
     {
         return Packer::packConstructor(self::CONSTRUCTOR);
     }
-
-
 }

@@ -10,9 +10,7 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class input_notify_chats implements TLClientMessage
 {
-
     const CONSTRUCTOR = 1251338318; // 0x4A95E84E
-
 
     /**
      * @return string
@@ -22,7 +20,6 @@ class input_notify_chats implements TLClientMessage
         return 'input_notify_chats';
     }
 
-
     /**
      * @return string
      */
@@ -30,5 +27,4 @@ class input_notify_chats implements TLClientMessage
     {
         return Packer::packConstructor(self::CONSTRUCTOR);
     }
-
 }

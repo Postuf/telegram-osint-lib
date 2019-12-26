@@ -3,8 +3,8 @@
 use Client\InfoObtainingClient\Models\UserInfoModel;
 use Logger\Logger;
 
-require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/MyTgClientDebug.php';
+require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__.'/MyTgClientDebug.php';
 
 // here we get contact list and get contact online status
 // avatars are saved to current directory
@@ -17,14 +17,14 @@ if (!isset($argv[1])) {
 $numbers = explode(',', $argv[1]);
 
 $client = new MyTgClientDebug();
-/** @noinspection PhpUnhandledExceptionInspection */
+/* @noinspection PhpUnhandledExceptionInspection */
 $client->infoLogin();
-/** @noinspection PhpUnhandledExceptionInspection */
-$client->parseNumbers($numbers, false, false, function(array $models) {
+/* @noinspection PhpUnhandledExceptionInspection */
+$client->parseNumbers($numbers, false, false, function (array $models) {
     foreach ($models as $model) {
-        /** @var UserInfoModel $model */
+        /* @var UserInfoModel $model */
         Logger::log('ParseNumbers', print_r($model, true));
     }
 });
-/** @noinspection PhpUnhandledExceptionInspection */
+/* @noinspection PhpUnhandledExceptionInspection */
 $client->pollAndTerminate();

@@ -11,11 +11,9 @@ use TLMessage\TLMessage\TLClientMessage;
  */
 class import_contacts implements TLClientMessage
 {
-
     const CONSTRUCTOR = 746589157; // 0x2C800BE5
     /** @see https://core.telegram.org/constructor/inputPhoneContact */
     const INPUT_PHONE_CONTACT_CONSTRUCTOR = -208488460; // 0xf392b7f4
-
 
     /**
      * @var string[]
@@ -25,7 +23,6 @@ class import_contacts implements TLClientMessage
      * @var int
      */
     private static $clientId = 0;
-
 
     /**
      * @param array $phones
@@ -38,27 +35,26 @@ class import_contacts implements TLClientMessage
         }
     }
 
-
     private function transformPhone($phone)
     {
-        $phone = trim((string)$phone);
+        $phone = trim((string) $phone);
         if($phone[0] != '+')
             $phone = '+'.$phone;
+
         return $phone;
     }
 
-
     /**
      * @param int $clientId
+     *
      * @return string|bool
      */
     public function getPhoneByClientId(int $clientId)
     {
         return isset($this->phones[$clientId]) ?
             $this->phones[$clientId][1] :
-            FALSE;
+            false;
     }
-
 
     /**
      * @return string
@@ -67,7 +63,6 @@ class import_contacts implements TLClientMessage
     {
         return 'import_contacts';
     }
-
 
     /**
      * @return string
@@ -78,7 +73,6 @@ class import_contacts implements TLClientMessage
             Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packVector($this->phones, $this->getElementGenerator());
     }
-
 
     /**
      * @return callable
@@ -102,5 +96,4 @@ class import_contacts implements TLClientMessage
                 Packer::packString($contactLastName);
         };
     }
-
 }
