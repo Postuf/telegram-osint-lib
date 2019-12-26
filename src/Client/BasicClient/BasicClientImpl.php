@@ -7,10 +7,14 @@ use Client\AuthKey\AuthKey;
 use Exception\TGException;
 use LibConfig;
 use MTSerialization\AnonymousMessage;
+use SocksProxyAsync\Async;
 use SocksProxyAsync\Proxy;
+use SocksProxyAsync\SocketAsync;
+use SocksProxyAsync\SocksException;
 use TGConnection\DataCentre;
 use TGConnection\Socket\ProxySocket;
 use TGConnection\Socket\Socket;
+use TGConnection\Socket\SocketAsyncTg;
 use TGConnection\Socket\TcpSocket;
 use TGConnection\SocketMessenger\EncryptedSocketMessenger;
 use TGConnection\SocketMessenger\MessageListener;
@@ -50,6 +54,8 @@ class BasicClientImpl
     private $messageHandler;
     /** @var AuthKey|null */
     private $authKey;
+    /** @var Socket|null */
+    private $socket;
 
     public function __construct()
     {
@@ -77,19 +83,20 @@ class BasicClientImpl
     /**
      * @param AuthKey $authKey
      * @param Proxy|null $proxy
+     * @param callable|null $cb
      * @return void
      * @throws TGException
      */
-    public function login(AuthKey $authKey, ?Proxy $proxy = null)
+    public function login(AuthKey $authKey, ?Proxy $proxy = null, callable $cb = null)
     {
         if($this->isLoggedIn())
             throw new TGException(TGException::ERR_CLIENT_ALREADY_LOGGED_IN, $this->getUserId());
 
         $dc = $authKey->getAttachedDC();
-        $socket = $this->pickSocket($dc, $proxy);
+        $this->socket = $this->pickSocket($dc, $proxy, $cb);
 
         /** @noinspection PhpParamsInspection */
-        $this->connection = new EncryptedSocketMessenger($socket, $authKey, $this);
+        $this->connection = new EncryptedSocketMessenger($this->socket, $authKey, $this);
         $this->authKey = $authKey;
         $this->isLoggedIn = true;
     }
@@ -118,14 +125,15 @@ class BasicClientImpl
     /**
      * @param DataCentre $dc
      * @param Proxy|null $proxy
+     * @param callable|null $cb
      * @return Socket
      * @throws TGException
      */
-    private function pickSocket(DataCentre $dc, Proxy $proxy = null)
+    private function pickSocket(DataCentre $dc, Proxy $proxy = null, callable $cb = null)
     {
         if($proxy instanceof Proxy){
             if($proxy->getType() == Proxy::TYPE_SOCKS5)
-                return new ProxySocket($proxy, $dc);
+                return new ProxySocket($proxy, $dc, $cb);
         }
 
         return new TcpSocket($dc);
@@ -144,9 +152,20 @@ class BasicClientImpl
     /**
      * return boolean
      * @throws TGException
+     * @throws SocksException
      */
     public function pollMessage()
     {
+        if ($this->socket instanceof ProxySocket && $this->socket->getSocketObject() instanceof SocketAsyncTg) {
+            /** @var SocketAsyncTg $socketObject */
+            $socketObject = $this->socket->getSocketObject();
+            if (!$socketObject->ready()) {
+                $this->socket->getSocketObject()->poll();
+                return false;
+            } else {
+                $this->socket->runOnConnectedCallback();
+            }
+        }
         $this->checkConnectionAlive();
         $this->pingIfNeeded();
         $this->setOnlineStatusIfExpired();

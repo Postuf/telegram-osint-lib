@@ -6,6 +6,7 @@ use Client\AuthKey\AuthKeyCreator;
 use Client\InfoObtainingClient\InfoClient;
 use Exception\TGException;
 use Logger\Logger;
+use SocksProxyAsync\Proxy;
 
 class MultiClient
 {
@@ -33,14 +34,18 @@ class MultiClient
         }
     }
 
-    public function connect(): void
+    public function connect(?Proxy $proxy = null): void
     {
         $timeStart = microtime(true);
         $count = count($this->clients);
         foreach ($this->clients as $k => $client) {
             try {
                 $authKey = $this->authKeys[$k];
-                $client->login($authKey);
+                $client->login($authKey, $proxy, function() use($authKey) {
+                    $parts = explode(':', $authKey->getSerializedAuthKey());
+                    $phone = $parts[0];
+                    Logger::log(__CLASS__, $phone . ' connected');
+                });
                 $parts = explode(':', $authKey->getSerializedAuthKey());
                 Logger::log(__CLASS__, "after login {$parts[0]}");
             } catch (TGException $e) {

@@ -18,6 +18,8 @@ class ProxySocket implements Socket
      * @var resource
      */
     private $socksSocket = null;
+    /** @var SocketAsyncTg|Socks5Socket */
+    private $socketObject = null;
     /**
      * @var DataCentre
      */
@@ -30,30 +32,58 @@ class ProxySocket implements Socket
      * @var bool
      */
     private $isTerminated = false;
-
+    /** @var callable|null */
+    private $cbOnConnected = null;
 
     /**
      * @param Proxy $proxy
      * @param DataCentre $dc
+     * @param callable|null $cb
      * @throws TGException
      */
-    public function __construct(Proxy $proxy, DataCentre $dc)
+    public function __construct(Proxy $proxy, DataCentre $dc, callable $cb = null)
     {
         if(!in_array($proxy->getType(), [Proxy::TYPE_SOCKS5]))
             throw new TGException(TGException::ERR_PROXY_WRONG_PROXY_TYPE);
 
         $this->dc = $dc;
         $this->proxy = $proxy;
-        $this->socksSocket = new Socks5Socket($this->proxy, LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC);
 
+        if ($cb) {
+            $this->socketObject = new SocketAsyncTg(
+                $this->proxy,
+                $this->dc->getDcIp(),
+                $this->dc->getDcPort(),
+                LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC
+            );
+            $this->cbOnConnected = function() use ($cb) {
+                $this->socksSocket = $this->socketObject->getSocksSocket();
+                $cb();
+            };
+            return;
+        }
+
+        $this->socketObject = new Socks5Socket($this->proxy, LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC);
         try {
-            $this->socksSocket = $this->socksSocket->createConnected($this->dc->getDcIp(), $this->dc->getDcPort());
+            $this->socksSocket = $this->socketObject->createConnected($this->dc->getDcIp(), $this->dc->getDcPort());
             socket_set_nonblock($this->socksSocket);
         } catch (SocksException $e) {
             $this->wrapSocksLibException($e);
         }
     }
 
+    public function runOnConnectedCallback() {
+        if ($this->cbOnConnected) {
+            $func = $this->cbOnConnected;
+            $func();
+            $this->cbOnConnected = null;
+        }
+    }
+
+    public function getSocketObject()
+    {
+        return $this->socketObject;
+    }
 
     /**
      * @param SocksException $e
