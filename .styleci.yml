@@ -1,11 +1,7 @@
-php:
-  preset: recommended
-
 finder:
   exclude:
     src/Exception
 
 disabled:
   - braces
-  - simplified_null_return
   - phpdoc_annotation_without_dot
