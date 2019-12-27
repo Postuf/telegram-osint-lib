@@ -17,8 +17,10 @@ class ProxySocket implements Socket
      * @var resource
      */
     private $socksSocket = null;
-    /** @var SocketAsyncTg|Socks5Socket */
+    /** @var Socks5Socket|null */
     private $socketObject = null;
+    /** @var SocketAsyncTg|null */
+    private $socketObjectAsync = null;
     /**
      * @var DataCentre
      */
@@ -37,27 +39,27 @@ class ProxySocket implements Socket
     /**
      * @param Proxy         $proxy
      * @param DataCentre    $dc
-     * @param callable|null $cb
+     * @param callable|null $onSocketReady
      *
      * @throws TGException
      */
-    public function __construct(Proxy $proxy, DataCentre $dc, callable $cb = null)
+    public function __construct(Proxy $proxy, DataCentre $dc, callable $onSocketReady = null)
     {
         if(!in_array($proxy->getType(), [Proxy::TYPE_SOCKS5]))
             throw new TGException(TGException::ERR_PROXY_WRONG_PROXY_TYPE);
         $this->dc = $dc;
         $this->proxy = $proxy;
 
-        if ($cb) {
-            $this->socketObject = new SocketAsyncTg(
+        if ($onSocketReady) {
+            $this->socketObjectAsync = new SocketAsyncTg(
                 $this->proxy,
                 $this->dc->getDcIp(),
                 $this->dc->getDcPort(),
                 LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC
             );
-            $this->cbOnConnected = function () use ($cb) {
-                $this->socksSocket = $this->socketObject->getSocksSocket();
-                $cb();
+            $this->cbOnConnected = function () use ($onSocketReady) {
+                $this->socksSocket = $this->socketObjectAsync->getSocksSocket();
+                $onSocketReady();
             };
 
             return;
@@ -79,11 +81,6 @@ class ProxySocket implements Socket
             $this->cbOnConnected = null;
             $func();
         }
-    }
-
-    public function getSocketObject()
-    {
-        return $this->socketObject;
     }
 
     /**
@@ -166,15 +163,19 @@ class ProxySocket implements Socket
      */
     public function poll(): void
     {
-        $socketObject = $this->getSocketObject();
-        $this->getSocketObject()->poll();
-        if ($socketObject->ready()) {
+        if (!$this->socketObjectAsync) {
+            return;
+        }
+        $this->socketObjectAsync->poll();
+        if ($this->socketObjectAsync->ready()) {
             $this->runOnConnectedCallback();
         }
     }
 
     public function ready(): bool
     {
-        return $this->getSocketObject()->ready();
+        return $this->socketObject
+            ? true
+            : $this->socketObjectAsync->ready();
     }
 }
