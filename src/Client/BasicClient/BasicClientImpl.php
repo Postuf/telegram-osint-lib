@@ -7,7 +7,6 @@ use Exception\TGException;
 use LibConfig;
 use MTSerialization\AnonymousMessage;
 use SocksProxyAsync\Proxy;
-use SocksProxyAsync\SocksException;
 use TGConnection\DataCentre;
 use TGConnection\Socket\ProxySocket;
 use TGConnection\Socket\Socket;
@@ -75,7 +74,7 @@ class BasicClientImpl implements BasicClient, MessageListener
     /**
      * @param AuthKey       $authKey
      * @param Proxy|null    $proxy
-     * @param callable|null $cb
+     * @param callable|null $cb      function()
      *
      * @throws TGException
      *
@@ -89,7 +88,6 @@ class BasicClientImpl implements BasicClient, MessageListener
         $dc = $authKey->getAttachedDC();
         $this->socket = $this->pickSocket($dc, $proxy, $cb);
 
-        /* @noinspection PhpParamsInspection */
         $this->connection = new EncryptedSocketMessenger($this->socket, $authKey, $this);
         $this->authKey = $authKey;
         $this->isLoggedIn = true;
@@ -117,7 +115,7 @@ class BasicClientImpl implements BasicClient, MessageListener
     /**
      * @param DataCentre    $dc
      * @param Proxy|null    $proxy
-     * @param callable|null $cb
+     * @param callable|null $cb    function()
      *
      * @throws TGException
      *
@@ -144,7 +142,6 @@ class BasicClientImpl implements BasicClient, MessageListener
 
     /**
      * @throws TGException
-     * @throws SocksException
      *
      * @return bool
      */

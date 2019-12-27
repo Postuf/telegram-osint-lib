@@ -8,15 +8,15 @@ interface RegisterInterface
 {
     /**
      * @param string   $phoneNumber
-     * @param callable $cb
+     * @param callable $cb          function()
      */
     public function requestCodeForPhone(string $phoneNumber, callable $cb): void;
 
     /**
      * @param string   $smsCode
-     * @param callable $cb      function(AuthKey $authKey)
+     * @param callable $onAuthKeyReady function(AuthKey $authKey)
      */
-    public function confirmPhoneWithSmsCode(string $smsCode, callable $cb): void;
+    public function confirmPhoneWithSmsCode(string $smsCode, callable $onAuthKeyReady): void;
 
     public function pollMessages();
 }

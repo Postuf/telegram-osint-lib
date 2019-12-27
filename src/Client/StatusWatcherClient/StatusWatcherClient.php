@@ -67,7 +67,9 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
     /**
      * @param AuthKey       $authKey
      * @param Proxy|null    $proxy
-     * @param callable|null $cb
+     * @param callable|null $cb      function()
+     *
+     * @throws TGException
      *
      * @return void
      */
@@ -107,8 +109,6 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
     }
 
     /**
-     * @throws TGException
-     *
      * @return void
      */
     public function onPeriodAvailable(): void
@@ -116,9 +116,6 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
         $this->checkOnlineStatusesExpired();
     }
 
-    /**
-     * @throws TGException
-     */
     protected function checkOnlineStatusesExpired()
     {
         foreach ($this->currentlyOnlineUsers as $userId => $expires) {
@@ -129,7 +126,7 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
 
     /**
      * @param array    $numbers
-     * @param callable $onComplete
+     * @param callable $onComplete function(ImportResult $result)
      *
      * @throws TGException
      */
@@ -141,7 +138,7 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
 
     /**
      * @param array    $numbers
-     * @param callable $onComplete
+     * @param callable $onComplete function(ImportResult $result)
      *
      * @throws TGException
      */
@@ -192,7 +189,7 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
 
     /**
      * @param array    $numbers
-     * @param callable $onComplete
+     * @param callable $onComplete function()
      *
      * @throws TGException
      */
@@ -208,7 +205,7 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
 
     /**
      * @param string   $userName
-     * @param callable $onComplete
+     * @param callable $onComplete function(bool)
      *
      * @throws TGException
      */
@@ -220,7 +217,7 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
 
     /**
      * @param string   $userName
-     * @param callable $onComplete
+     * @param callable $onComplete function()
      *
      * @throws TGException
      */
@@ -233,7 +230,7 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
     }
 
     /**
-     * @param callable $onComplete
+     * @param callable $onComplete function()
      *
      * @throws TGException
      */
@@ -288,8 +285,6 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
     /**
      * @param int $userId
      * @param int $wasOnline
-     *
-     * @throws TGException
      */
     public function onUserOffline(int $userId, int $wasOnline)
     {
@@ -318,8 +313,6 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
     /**
      * @param int          $userId
      * @param HiddenStatus $hiddenStatusState
-     *
-     * @throws TGException
      */
     public function onUserHidStatus(int $userId, HiddenStatus $hiddenStatusState)
     {
@@ -365,8 +358,6 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
     }
 
     /**
-     * @throws TGException
-     *
      * @return void
      */
     public function terminate()

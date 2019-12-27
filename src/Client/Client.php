@@ -11,7 +11,7 @@ interface Client
     /**
      * @param AuthKey       $authKey
      * @param Proxy         $proxy
-     * @param callable|null $cb
+     * @param callable|null $cb      function()
      *
      * @return void
      */

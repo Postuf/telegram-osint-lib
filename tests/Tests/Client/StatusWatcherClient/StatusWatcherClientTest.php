@@ -2,6 +2,7 @@
 
 namespace Tests\Tests\Client;
 
+use Client\StatusWatcherClient\Models\ImportResult;
 use Exception\TGException;
 use PHPUnit\Framework\TestCase;
 use Tests\Tests\Client\StatusWatcherClient\AnonymousMessageMock;
@@ -411,20 +412,20 @@ class StatusWatcherClientTest extends TestCase
     /**
      * @throws TGException
      */
-    public function test_add_contects_bad_number()
+    public function test_add_contacts_bad_number()
     {
         $callbacks = new StatusWatcherClientTestCallbacks();
         $watcherClient = new StatusWatcherClientMock($callbacks);
 
         try{
-            $watcherClient->addNumbers(['ufheorhwewq'], function () {});
+            $watcherClient->addNumbers(['ufheorhwewq'], function (ImportResult $result) {});
             $this->assertFalse(true, 'bad format not detected');
         } catch (TGException $e){
             $this->assertEquals($e->getCode(), TGException::ERR_CLIENT_BAD_NUMBER_FORMAT);
         }
 
         try{
-            $watcherClient->addNumbers(['7+9169904863'], function () {});
+            $watcherClient->addNumbers(['7+9169904863'], function (ImportResult $result) {});
             $this->assertFalse(true, 'bad format not detected');
         } catch (TGException $e){
             $this->assertEquals($e->getCode(), TGException::ERR_CLIENT_BAD_NUMBER_FORMAT);

@@ -16,6 +16,7 @@ use Auth\RSA\RSA;
 use Client\AuthKey\AuthKeyCreator;
 use Exception\TGException;
 use Logger\Logger;
+use MTSerialization\AnonymousMessage;
 use MTSerialization\OwnImplementation\OwnDeserializer;
 use TGConnection\DataCentre;
 use TGConnection\Socket\TcpSocket;
@@ -107,21 +108,21 @@ abstract class BaseAuthorization implements Authorization
     abstract protected function getPqInnerDataMessage($pq, $p, $q, $oldClientNonce, $serverNonce, $newClientNonce);
 
     /**
-     * @param callable $cb
+     * @param callable $onAuthKeyReady function(AuthKey $authKey)
      *
      * @throws TGException
      */
-    public function createAuthKey(callable $cb)
+    public function createAuthKey(callable $onAuthKeyReady)
     {
-        $this->requestForPQ(function (ResPQ $pqResponse) use ($cb) {
+        $this->requestForPQ(function (ResPQ $pqResponse) use ($onAuthKeyReady) {
             $primes = $this->findPrimes($pqResponse->getPq());
-            $this->requestDHParams($primes, $pqResponse, function ($dhResponse) use ($cb, $pqResponse) {
+            $this->requestDHParams($primes, $pqResponse, function ($dhResponse) use ($onAuthKeyReady, $pqResponse) {
                 $dhParams = $this->decryptDHResponse($dhResponse, $pqResponse);
                 $this->setClientDHParams(
                     $dhParams,
                     $pqResponse,
-                    function (AuthParams $authKeyParams) use ($cb) {
-                        $cb(AuthKeyCreator::createActual(
+                    function (AuthParams $authKeyParams) use ($onAuthKeyReady) {
+                        $onAuthKeyReady(AuthKeyCreator::createActual(
                             $authKeyParams->getAuthKey(),
                             $authKeyParams->getServerSalt(),
                             $this->dc
@@ -132,7 +133,7 @@ abstract class BaseAuthorization implements Authorization
     }
 
     /**
-     * @param callable $cb
+     * @param callable $cb function(ResPQ $response)
      *
      * @throws TGException
      */
@@ -174,7 +175,7 @@ abstract class BaseAuthorization implements Authorization
 
         // send object
         $request = new req_dh_params($this->oldClientNonce, $pqData->getServerNonce(), $pq->getP(), $pq->getQ(), $certificate->getFingerPrint(), $encryptedData);
-        $this->socketContainer->getResponseAsync($request, function ($response) use ($cb) {
+        $this->socketContainer->getResponseAsync($request, function (AnonymousMessage $response) use ($cb) {
             $dhResponse = new DHReq($response);
 
             if(strcmp($dhResponse->getClientNonce(), $this->oldClientNonce) != 0)

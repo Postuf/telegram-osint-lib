@@ -60,8 +60,6 @@ class ContactsKeeper
     private $contactsLoadedQueue = [];
 
     /**
-     * ContactsKeeper constructor.
-     *
      * @param BasicClient $client
      */
     public function __construct(BasicClient $client)
@@ -71,7 +69,7 @@ class ContactsKeeper
 
     /**
      * @param string[] $numbers
-     * @param callable $onComplete
+     * @param callable $onComplete function(ImportResult $result)
      *
      * @throws TGException
      */
@@ -115,47 +113,54 @@ class ContactsKeeper
         });
     }
 
+    /**
+     * @param string   $userName
+     * @param callable $onComplete function(bool)
+     */
     public function addUser(string $userName, callable $onComplete)
     {
-        $this->client->getConnection()->getResponseAsync(new contacts_search($userName, 1), function (AnonymousMessage $message) use ($userName, $onComplete) {
+        $this->client->getConnection()->getResponseAsync(
+            new contacts_search($userName, 1),
+            function (AnonymousMessage $message) use ($userName, $onComplete) {
+                $object = new ContactFound($message);
+                $users = $object->getUsers();
+                if(empty($users)){
+                    $onComplete(false);
 
-            $object = new ContactFound($message);
-            $users = $object->getUsers();
-            if(empty($users)){
-                $onComplete(false);
+                    return;
+                }
 
-                return;
-            }
+                $user = $users[0];
+                $id = $user->getUserId();
+                $hash = $user->getAccessHash();
+                $username = $user->getUsername();
+                if(!Username::equal($userName, $username)){
+                    $onComplete(false);
 
-            $user = $users[0];
-            $id = $user->getUserId();
-            $hash = $user->getAccessHash();
-            $username = $user->getUsername();
-            if(!Username::equal($userName, $username)){
-                $onComplete(false);
+                    return;
+                }
 
-                return;
-            }
+                $this->getUserById($id, function ($contact) use ($id, $hash, $username, $onComplete) {
 
-            $this->getUserById($id, function ($contact) use ($id, $hash, $username, $onComplete) {
-
-                if($contact)
-                    throw new TGException(TGException::ERR_CLIENT_ADD_USERNAME_ALREADY_IN_ADDRESS_BOOK, $username);
-                $this->client->getConnection()->getResponseAsync(new add_contact($id, $hash), function (AnonymousMessage $message) use ($onComplete) {
-                    $updates = new Updates($message);
-                    $users = $updates->getUsers();
-                    $this->onContactsAdded($users);
-                    $onComplete(true);
+                    if($contact)
+                        throw new TGException(TGException::ERR_CLIENT_ADD_USERNAME_ALREADY_IN_ADDRESS_BOOK, $username);
+                    $this->client->getConnection()->getResponseAsync(
+                        new add_contact($id, $hash),
+                        function (AnonymousMessage $message) use ($onComplete) {
+                            $updates = new Updates($message);
+                            $users = $updates->getUsers();
+                            $this->onContactsAdded($users);
+                            $onComplete(true);
+                        }
+                    );
                 });
-
-            });
-
-        });
+            }
+        );
     }
 
     /**
      * @param string   $userName
-     * @param callable $onComplete
+     * @param callable $onComplete function()
      *
      * @throws TGException
      */
@@ -228,9 +233,7 @@ class ContactsKeeper
 
     /**
      * @param array    $numbers
-     * @param callable $onComplete
-     *
-     * @throws TGException
+     * @param callable $onComplete function()
      */
     public function delNumbers(array $numbers, callable $onComplete)
     {
@@ -245,7 +248,7 @@ class ContactsKeeper
 
     /**
      * @param ContactUser[] $contacts
-     * @param callable      $onComplete
+     * @param callable      $onComplete function()
      *
      * @throws TGException
      */
@@ -272,9 +275,7 @@ class ContactsKeeper
     }
 
     /**
-     * @param callable $onComplete
-     *
-     * @throws TGException
+     * @param callable $onComplete function()
      */
     public function cleanContacts(callable $onComplete)
     {
@@ -282,9 +283,12 @@ class ContactsKeeper
             return;
 
         // reset contacts
-        $this->client->getConnection()->getResponseAsync(new reset_saved_contacts(), function (/* @noinspection PhpUnusedParameterInspection */ AnonymousMessage $message) use ($onComplete) {
-            $this->delContacts($this->contacts, $onComplete);
-        });
+        $this->client->getConnection()->getResponseAsync(
+            new reset_saved_contacts(),
+            function (/* @noinspection PhpUnusedParameterInspection */ AnonymousMessage $message) use ($onComplete) {
+                $this->delContacts($this->contacts, $onComplete);
+            }
+        );
     }
 
     /**
@@ -306,7 +310,7 @@ class ContactsKeeper
     }
 
     /**
-     * @param callable $onLoadedCallback
+     * @param callable $onLoadedCallback function()
      *
      * @return bool
      */
@@ -326,7 +330,7 @@ class ContactsKeeper
     }
 
     /**
-     * @param callable $onReloaded
+     * @param callable $onReloaded function()
      */
     protected function reloadCurrentContacts(callable $onReloaded)
     {
@@ -360,9 +364,7 @@ class ContactsKeeper
 
     /**
      * @param int      $userId
-     * @param callable $onSuccess
-     *
-     * @throws TGException
+     * @param callable $onSuccess function(ContactUser $user)
      */
     public function getUserById(int $userId, callable $onSuccess)
     {
@@ -376,9 +378,7 @@ class ContactsKeeper
 
     /**
      * @param string   $phone
-     * @param callable $onSuccess
-     *
-     * @throws TGException
+     * @param callable $onSuccess function(ContactUser $user)
      */
     public function getUserByPhone(string $phone, callable $onSuccess)
     {
@@ -392,7 +392,7 @@ class ContactsKeeper
 
     /**
      * @param string   $username
-     * @param callable $onSuccess
+     * @param callable $onSuccess function(ContactUser $user)
      *
      * @throws TGException
      */
@@ -411,9 +411,7 @@ class ContactsKeeper
 
     /**
      * @param array    $phones
-     * @param callable $onSuccess
-     *
-     * @throws TGException
+     * @param callable $onSuccess function(ContactUser[] $users)
      */
     private function getUsersByPhones(array $phones, callable $onSuccess)
     {
@@ -430,9 +428,7 @@ class ContactsKeeper
     }
 
     /**
-     * @param callable $onSuccess
-     *
-     * @throws TGException
+     * @param callable $onSuccess function(ContactUser[] $users)
      */
     public function getCurrentContacts(callable $onSuccess)
     {
