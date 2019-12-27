@@ -112,6 +112,7 @@ class RegistrationFromApi implements RegisterInterface, MessageListener
      * @param callable $onAuthKeyReady function(AuthKey $authKey)
      *
      * @throws TGException
+     *
      * @return void
      */
     private function requestBlankAuthKey(callable $onAuthKeyReady)
