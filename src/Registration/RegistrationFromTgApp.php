@@ -173,7 +173,7 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
 
     /**
      * @param string   $smsCode
-     * @param callable $cb
+     * @param callable $cb      function(AuthKey $authKey)
      *
      * @throws TGException
      */
@@ -202,7 +202,7 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
     /**
      * post-actions
      *
-     * @param callable $cb
+     * @param callable $cb function(AnonymousMessage $message)
      */
     private function performLoginWorkFlow(callable $cb): void
     {

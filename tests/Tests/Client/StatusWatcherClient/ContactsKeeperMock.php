@@ -13,6 +13,7 @@ class ContactsKeeperMock extends ContactsKeeper
      */
     private $contacts;
 
+    /* @noinspection PhpMissingParentConstructorInspection */
     public function __construct(?BasicClient $client)
     {
         //parent::__construct($client);

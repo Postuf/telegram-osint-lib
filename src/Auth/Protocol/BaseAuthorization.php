@@ -16,6 +16,7 @@ use Auth\RSA\RSA;
 use Client\AuthKey\AuthKeyCreator;
 use Exception\TGException;
 use Logger\Logger;
+use MTSerialization\AnonymousMessage;
 use MTSerialization\OwnImplementation\OwnDeserializer;
 use TGConnection\DataCentre;
 use TGConnection\Socket\TcpSocket;
@@ -107,7 +108,7 @@ abstract class BaseAuthorization implements Authorization
     abstract protected function getPqInnerDataMessage($pq, $p, $q, $oldClientNonce, $serverNonce, $newClientNonce);
 
     /**
-     * @param callable $cb
+     * @param callable $cb function(AuthKey $authKey)
      *
      * @throws TGException
      */
@@ -132,7 +133,7 @@ abstract class BaseAuthorization implements Authorization
     }
 
     /**
-     * @param callable $cb
+     * @param callable $cb function(ResPQ $response)
      *
      * @throws TGException
      */
@@ -174,7 +175,7 @@ abstract class BaseAuthorization implements Authorization
 
         // send object
         $request = new req_dh_params($this->oldClientNonce, $pqData->getServerNonce(), $pq->getP(), $pq->getQ(), $certificate->getFingerPrint(), $encryptedData);
-        $this->socketContainer->getResponseAsync($request, function ($response) use ($cb) {
+        $this->socketContainer->getResponseAsync($request, function (AnonymousMessage $response) use ($cb) {
             $dhResponse = new DHReq($response);
 
             if(strcmp($dhResponse->getClientNonce(), $this->oldClientNonce) != 0)

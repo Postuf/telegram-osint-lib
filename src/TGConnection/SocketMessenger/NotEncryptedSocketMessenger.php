@@ -148,7 +148,7 @@ class NotEncryptedSocketMessenger implements SocketMessenger
 
     /**
      * @param TLClientMessage $message
-     * @param callable        $cb
+     * @param callable        $cb      function(AnonymousMessage $message)
      *
      * @throws TGException
      */

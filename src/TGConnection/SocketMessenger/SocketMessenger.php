@@ -25,13 +25,13 @@ interface SocketMessenger
 
     /**
      * @param TLClientMessage $message
-     * @param callable        $onAsyncResponse
+     * @param callable        $onAsyncResponse function(AnonymousMessage $message)
      */
     public function getResponseAsync(TLClientMessage $message, callable $onAsyncResponse);
 
     /**
      * @param TLClientMessage[] $messages
-     * @param callable          $onLastResponse
+     * @param callable          $onLastResponse function(AnonymousMessage $message)
      */
     public function getResponseConsecutive(array $messages, callable $onLastResponse);
 

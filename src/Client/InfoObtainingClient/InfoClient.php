@@ -64,7 +64,9 @@ class InfoClient implements InfoObtainingClient
     /**
      * @param AuthKey       $authKey
      * @param Proxy         $proxy
-     * @param callable|null $cb
+     * @param callable|null $cb      function()
+     *
+     * @throws TGException
      *
      * @return void
      */
@@ -99,6 +101,9 @@ class InfoClient implements InfoObtainingClient
         $this->basicClient->getConnection()->getResponseAsync(new get_full_chat($id), $onComplete);
     }
 
+    /**
+     * @param callable $onComplete function(AnonymousMessage $msg)
+     */
     public function getAllChats(callable $onComplete) {
         $this->basicClient->getConnection()->getResponseAsync(new get_all_chats(), $onComplete);
     }
@@ -107,9 +112,7 @@ class InfoClient implements InfoObtainingClient
      * @param string   $phone
      * @param bool     $withPhoto
      * @param bool     $largePhoto
-     * @param callable $onComplete
-     *
-     * @throws TGException
+     * @param callable $onComplete function(?UserInfoModel $model)
      */
     public function getInfoByPhone(string $phone, bool $withPhoto, bool $largePhoto, callable $onComplete)
     {
@@ -128,33 +131,34 @@ class InfoClient implements InfoObtainingClient
      * @param string   $userName
      * @param bool     $withPhoto
      * @param bool     $largePhoto
-     * @param callable $onComplete
+     * @param callable $onComplete function(?UserInfoModel $model)
      */
     public function getInfoByUsername(string $userName, bool $withPhoto, bool $largePhoto, callable $onComplete)
     {
-        $this->basicClient->getConnection()->getResponseAsync(new contacts_search($userName, 3), function (AnonymousMessage $message) use ($userName, $withPhoto, $largePhoto, $onComplete) {
+        $this->basicClient->getConnection()->getResponseAsync(
+            new contacts_search($userName, 3),
+            function (AnonymousMessage $message) use ($userName, $withPhoto, $largePhoto, $onComplete) {
 
-            $object = new ContactFound($message);
+                $object = new ContactFound($message);
 
-            $onModelBuilt = function (UserInfoModel $model) use ($userName, $onComplete) {
-                if(strcasecmp(trim($userName), trim($model->username)) == 0)
-                    $onComplete($model);
-            };
+                $onModelBuilt = function (UserInfoModel $model) use ($userName, $onComplete) {
+                    if(strcasecmp(trim($userName), trim($model->username)) == 0)
+                        $onComplete($model);
+                };
 
-            foreach ($object->getUsers() as $user){
-                $this->buildUserInfoModel($user, $withPhoto, $largePhoto, $onModelBuilt);
+                foreach ($object->getUsers() as $user){
+                    $this->buildUserInfoModel($user, $withPhoto, $largePhoto, $onModelBuilt);
+                }
+
             }
-
-        });
+        );
     }
 
     /**
      * @param string   $phone
      * @param bool     $withPhoto
      * @param bool     $largePhoto
-     * @param callable $onComplete
-     *
-     * @throws TGException
+     * @param callable $onComplete function(?UserInfoModel $model)
      */
     private function onContactReady(string $phone, bool $withPhoto, bool $largePhoto, callable $onComplete)
     {
@@ -178,7 +182,7 @@ class InfoClient implements InfoObtainingClient
      * @param ContactUser $user
      * @param bool        $withPhoto
      * @param bool        $largePhoto
-     * @param callable    $onComplete
+     * @param callable    $onComplete function(UserInfoModel $model)
      *
      * @throws TGException
      */
@@ -204,12 +208,14 @@ class InfoClient implements InfoObtainingClient
     private function extendUserInfoModel(UserInfoModel $model, UserFull $userFull)
     {
         $model->bio = $userFull->getAbout();
+
+        return $model;
     }
 
     /**
      * @param ContactUser $user
      * @param bool        $largePhotos
-     * @param callable    $onPictureLoaded
+     * @param callable    $onPictureLoaded function(?PictureModel $model)
      *
      * @throws TGException
      */
@@ -275,7 +281,7 @@ class InfoClient implements InfoObtainingClient
     /**
      * @param TLClientMessage $fileLocation
      * @param int             $photoDcId
-     * @param callable        $onPictureLoaded
+     * @param callable        $onPictureLoaded function(?PictureModel $model)
      *
      * @throws TGException
      * @noinspection PhpDocRedundantThrowsInspection
@@ -292,7 +298,7 @@ class InfoClient implements InfoObtainingClient
     /**
      * @param SocketMessenger   $basicClient
      * @param TLClientMessage   $location
-     * @param callable          $onPictureLoaded
+     * @param callable          $onPictureLoaded function(?PictureModel $model)
      * @param PictureModel|null $picModel
      * @param int               $offset
      */
@@ -325,7 +331,7 @@ class InfoClient implements InfoObtainingClient
     /**
      * @param TLClientMessage $location
      * @param int             $photoDcId
-     * @param callable        $onPictureLoaded
+     * @param callable        $onPictureLoaded function(?PictureModel $model)
      */
     private function readPictureFromForeignDC(TLClientMessage $location, int $photoDcId, callable $onPictureLoaded)
     {

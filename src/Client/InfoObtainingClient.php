@@ -8,7 +8,7 @@ interface InfoObtainingClient extends Client
      * @param string   $phone
      * @param bool     $withPhoto
      * @param bool     $largePhoto
-     * @param callable $onComplete
+     * @param callable $onComplete function(?UserInfoModel $model)
      */
     public function getInfoByPhone(string $phone, bool $withPhoto, bool $largePhoto, callable $onComplete);
 
@@ -16,7 +16,7 @@ interface InfoObtainingClient extends Client
      * @param string   $userName
      * @param bool     $withPhoto
      * @param bool     $largePhoto
-     * @param callable $onComplete
+     * @param callable $onComplete function(?UserInfoModel $model)
      */
     public function getInfoByUsername(string $userName, bool $withPhoto, bool $largePhoto, callable $onComplete);
 }

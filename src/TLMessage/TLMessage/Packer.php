@@ -93,7 +93,7 @@ class Packer
 
     /**
      * @param array    $array
-     * @param callable $elementGeneratorCallback
+     * @param callable $elementGeneratorCallback function(mixed)
      *
      * @return string
      */

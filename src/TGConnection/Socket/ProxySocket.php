@@ -37,27 +37,27 @@ class ProxySocket implements Socket
     /**
      * @param Proxy         $proxy
      * @param DataCentre    $dc
-     * @param callable|null $cb
+     * @param callable|null $onSocketReady function()
      *
      * @throws TGException
      */
-    public function __construct(Proxy $proxy, DataCentre $dc, callable $cb = null)
+    public function __construct(Proxy $proxy, DataCentre $dc, callable $onSocketReady = null)
     {
         if(!in_array($proxy->getType(), [Proxy::TYPE_SOCKS5]))
             throw new TGException(TGException::ERR_PROXY_WRONG_PROXY_TYPE);
         $this->dc = $dc;
         $this->proxy = $proxy;
 
-        if ($cb) {
+        if ($onSocketReady) {
             $this->socketObject = new SocketAsyncTg(
                 $this->proxy,
                 $this->dc->getDcIp(),
                 $this->dc->getDcPort(),
                 LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC
             );
-            $this->cbOnConnected = function () use ($cb) {
+            $this->cbOnConnected = function () use ($onSocketReady) {
                 $this->socksSocket = $this->socketObject->getSocksSocket();
-                $cb();
+                $onSocketReady();
             };
 
             return;
