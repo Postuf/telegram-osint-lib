@@ -17,8 +17,10 @@ class ProxySocket implements Socket
      * @var resource
      */
     private $socksSocket = null;
-    /** @var SocketAsyncTg|Socks5Socket */
+    /** @var Socks5Socket|null */
     private $socketObject = null;
+    /** @var SocketAsyncTg|null */
+    private $socketObjectAsync = null;
     /**
      * @var DataCentre
      */
@@ -49,14 +51,14 @@ class ProxySocket implements Socket
         $this->proxy = $proxy;
 
         if ($onSocketReady) {
-            $this->socketObject = new SocketAsyncTg(
+            $this->socketObjectAsync = new SocketAsyncTg(
                 $this->proxy,
                 $this->dc->getDcIp(),
                 $this->dc->getDcPort(),
                 LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC
             );
             $this->cbOnConnected = function () use ($onSocketReady) {
-                $this->socksSocket = $this->socketObject->getSocksSocket();
+                $this->socksSocket = $this->socketObjectAsync->getSocksSocket();
                 $onSocketReady();
             };
 
@@ -79,11 +81,6 @@ class ProxySocket implements Socket
             $this->cbOnConnected = null;
             $func();
         }
-    }
-
-    public function getSocketObject()
-    {
-        return $this->socketObject;
     }
 
     /**
@@ -166,15 +163,19 @@ class ProxySocket implements Socket
      */
     public function poll(): void
     {
-        $socketObject = $this->getSocketObject();
-        $this->getSocketObject()->poll();
-        if ($socketObject->ready()) {
+        if (!$this->socketObjectAsync) {
+            return;
+        }
+        $this->socketObjectAsync->poll();
+        if ($this->socketObjectAsync->ready()) {
             $this->runOnConnectedCallback();
         }
     }
 
     public function ready(): bool
     {
-        return $this->getSocketObject()->ready();
+        return $this->socketObject
+            ? true
+            : $this->socketObjectAsync->ready();
     }
 }
