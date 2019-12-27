@@ -108,21 +108,21 @@ abstract class BaseAuthorization implements Authorization
     abstract protected function getPqInnerDataMessage($pq, $p, $q, $oldClientNonce, $serverNonce, $newClientNonce);
 
     /**
-     * @param callable $cb function(AuthKey $authKey)
+     * @param callable $onAuthKeyReady function(AuthKey $authKey)
      *
      * @throws TGException
      */
-    public function createAuthKey(callable $cb)
+    public function createAuthKey(callable $onAuthKeyReady)
     {
-        $this->requestForPQ(function (ResPQ $pqResponse) use ($cb) {
+        $this->requestForPQ(function (ResPQ $pqResponse) use ($onAuthKeyReady) {
             $primes = $this->findPrimes($pqResponse->getPq());
-            $this->requestDHParams($primes, $pqResponse, function ($dhResponse) use ($cb, $pqResponse) {
+            $this->requestDHParams($primes, $pqResponse, function ($dhResponse) use ($onAuthKeyReady, $pqResponse) {
                 $dhParams = $this->decryptDHResponse($dhResponse, $pqResponse);
                 $this->setClientDHParams(
                     $dhParams,
                     $pqResponse,
-                    function (AuthParams $authKeyParams) use ($cb) {
-                        $cb(AuthKeyCreator::createActual(
+                    function (AuthParams $authKeyParams) use ($onAuthKeyReady) {
+                        $onAuthKeyReady(AuthKeyCreator::createActual(
                             $authKeyParams->getAuthKey(),
                             $authKeyParams->getServerSalt(),
                             $this->dc

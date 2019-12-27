@@ -70,7 +70,7 @@ class RegistrationFromApi implements RegisterInterface, MessageListener
 
     /**
      * @param string   $phoneNumber
-     * @param callable $cb
+     * @param callable $cb          function()
      *
      * @throws TGException
      */
@@ -109,34 +109,33 @@ class RegistrationFromApi implements RegisterInterface, MessageListener
     }
 
     /**
-     * @param callable $cb
+     * @param callable $onAuthKeyReady function(AuthKey $authKey)
      *
      * @throws TGException
-     *
      * @return void
      */
-    private function requestBlankAuthKey(callable $cb)
+    private function requestBlankAuthKey(callable $onAuthKeyReady)
     {
         $dc = DataCentre::getDefault();
-        (new ApiAuthorization($dc))->createAuthKey($cb);
+        (new ApiAuthorization($dc))->createAuthKey($onAuthKeyReady);
     }
 
     /**
      * @param string   $smsCode
-     * @param callable $cb
+     * @param callable $onAuthKeyReady function(AuthKey $authKey)
      *
      * @throws TGException
      */
-    public function confirmPhoneWithSmsCode(string $smsCode, callable $cb): void
+    public function confirmPhoneWithSmsCode(string $smsCode, callable $onAuthKeyReady): void
     {
         if(!$this->isSmsRequested)
             throw new TGException(TGException::ERR_REG_REQUEST_SMS_CODE_FIRST);
-        $callback = function () use ($cb) {
+        $callback = function () use ($onAuthKeyReady) {
             $authInfo = (new AuthInfo())
                 ->setPhone($this->phone)
                 ->setAccountInfo($this->accountInfo);
 
-            $cb(AuthKeyCreator::attachAuthInfo($this->blankAuthKey, $authInfo));
+            $onAuthKeyReady(AuthKeyCreator::attachAuthInfo($this->blankAuthKey, $authInfo));
         };
         $this->isPhoneRegistered
             ? $this->signIn($smsCode, $callback)
@@ -145,7 +144,7 @@ class RegistrationFromApi implements RegisterInterface, MessageListener
 
     /**
      * @param string   $smsCode
-     * @param callable $cb
+     * @param callable $cb      function()
      */
     private function signIn(string $smsCode, callable $cb): void
     {
@@ -163,7 +162,7 @@ class RegistrationFromApi implements RegisterInterface, MessageListener
     }
 
     /**
-     * @param callable $cb
+     * @param callable $cb function()
      */
     private function signUp(callable $cb): void
     {
