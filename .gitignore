@@ -5,3 +5,4 @@ composer.lock
 vendor
 .DS_Store
 docs
+coverage.xml
