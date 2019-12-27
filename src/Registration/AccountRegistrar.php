@@ -29,7 +29,7 @@ class AccountRegistrar implements RegisterInterface
 
     /**
      * @param string   $phoneNumber
-     * @param callable $cb
+     * @param callable $cb          function()
      *
      * @throws TGException
      */
@@ -41,13 +41,13 @@ class AccountRegistrar implements RegisterInterface
 
     /**
      * @param string   $smsCode
-     * @param callable $cb
+     * @param callable $onAuthKeyReady function(AuthKey $authKey)
      *
      * @throws TGException
      */
-    public function confirmPhoneWithSmsCode(string $smsCode, callable $cb): void
+    public function confirmPhoneWithSmsCode(string $smsCode, callable $onAuthKeyReady): void
     {
         $smsCode = trim($smsCode);
-        $this->reg->confirmPhoneWithSmsCode($smsCode, $cb);
+        $this->reg->confirmPhoneWithSmsCode($smsCode, $onAuthKeyReady);
     }
 }

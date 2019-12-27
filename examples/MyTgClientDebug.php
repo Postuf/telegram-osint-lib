@@ -191,7 +191,7 @@ class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger
      * @param string[]      $numbers
      * @param bool          $withPhoto
      * @param bool          $largePhoto
-     * @param callable|null $callback   gets UserInfoModel[] as parameters
+     * @param callable|null $callback   function(UserInfoModel[])
      *
      * @throws TGException
      */

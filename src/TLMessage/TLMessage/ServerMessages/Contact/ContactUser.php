@@ -8,6 +8,9 @@ use TLMessage\TLMessage\ServerMessages\Custom\UserStatus;
 use TLMessage\TLMessage\ServerMessages\UserProfilePhoto;
 use TLMessage\TLMessage\TLServerMessage;
 
+/**
+ * @see https://core.telegram.org/type/User
+ */
 class ContactUser extends TLServerMessage
 {
     /**

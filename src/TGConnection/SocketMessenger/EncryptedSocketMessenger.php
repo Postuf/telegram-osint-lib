@@ -222,7 +222,7 @@ class EncryptedSocketMessenger implements SocketMessenger
 
     /**
      * @param TLClientMessage $message
-     * @param callable        $onAsyncResponse
+     * @param callable        $onAsyncResponse function(AnonymousMessage $message)
      *
      * @throws TGException
      */
@@ -575,7 +575,13 @@ class EncryptedSocketMessenger implements SocketMessenger
             $encryptedPayload;
     }
 
-    // generates context-bound sequence number
+    /**
+     * Generate context-bound sequence number
+     *
+     * @param bool $context_related
+     *
+     * @return int
+     */
     private function generate_msg_seqno($context_related) {
         $in = $context_related ? 1 : 0;
         //multiply by two and add one, if context-related
@@ -583,7 +589,7 @@ class EncryptedSocketMessenger implements SocketMessenger
         //increase current $this->seq_no if context related
         $this->msg_seqno += $in;
 
-        return $value; //return multiplied value
+        return $value;
     }
 
     /**
@@ -604,7 +610,7 @@ class EncryptedSocketMessenger implements SocketMessenger
 
     /**
      * @param TLClientMessage[] $messages
-     * @param callable          $onLastResponse
+     * @param callable          $onLastResponse function(AnonymousMessage $message)
      */
     public function getResponseConsecutive(array $messages, callable $onLastResponse)
     {

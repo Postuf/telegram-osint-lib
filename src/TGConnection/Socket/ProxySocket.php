@@ -39,7 +39,7 @@ class ProxySocket implements Socket
     /**
      * @param Proxy         $proxy
      * @param DataCentre    $dc
-     * @param callable|null $onSocketReady
+     * @param callable|null $onSocketReady function()
      *
      * @throws TGException
      */

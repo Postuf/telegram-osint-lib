@@ -2,12 +2,10 @@
 
 namespace Auth;
 
-use Client\AuthKey\AuthKey;
-
 interface Authorization
 {
     /**
-     * @param callable $cb function(AuthKey $authKey)
+     * @param callable $onAuthKeyReady function(AuthKey $authKey)
      */
-    public function createAuthKey(callable $cb);
+    public function createAuthKey(callable $onAuthKeyReady);
 }
