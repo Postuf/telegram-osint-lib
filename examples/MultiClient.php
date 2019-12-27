@@ -41,6 +41,8 @@ class MultiClient
 
     public function connect(?Proxy $proxy = null): void
     {
+        //ini_set('xdebug.trace_format', 1);
+        //xdebug_start_trace('/tmp/trace.xdebug');
         $this->startTime = microtime(true);
         $count = count($this->clients);
         foreach ($this->clients as $k => $client) {
@@ -66,6 +68,7 @@ class MultiClient
         $timeDiff = microtime(true) - $this->startTime;
         $timeDiffStr = number_format($timeDiff, 3);
         Logger::log(__CLASS__, "login took: $timeDiffStr sec for $count clients");
+        //xdebug_stop_trace();
     }
 
     /**
