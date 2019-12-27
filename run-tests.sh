@@ -1,5 +1,9 @@
 #!/bin/sh
 
+cd node
+npm install
+cd ..
+
 nohup node node/proxy.js &
 echo $! > pid1.txt
 
