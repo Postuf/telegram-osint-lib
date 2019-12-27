@@ -45,6 +45,7 @@ $errorLimit = 100;
 while(true) {
     try {
         $mc->poll();
+        usleep(1000);
     } catch (TGException $e) {
         Logger::log($logLabel, 'poll: '.$e->getMessage());
         $errorCount++;

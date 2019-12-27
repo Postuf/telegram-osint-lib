@@ -14,6 +14,7 @@ class OwnDeserializer implements MTDeserializer
      * @var array
      */
     private static $map = [];
+    private static $mapLoaded = false;
 
     /**
      * @var ByteStream
@@ -22,18 +23,21 @@ class OwnDeserializer implements MTDeserializer
 
     public function __construct()
     {
-        $this->extendMap(file_get_contents(__DIR__.'/maps/official.json'));
-        $this->extendMap(file_get_contents(__DIR__.'/maps/tg_app_old.json'));
-        $this->extendMap(file_get_contents(__DIR__.'/maps/tg_app.json'));
-        $this->extendMap(file_get_contents(__DIR__.'/maps/unclassified.json'));
-        $this->extendMap(file_get_contents(__DIR__.'/maps/layer_82.json'));
-        $this->extendMap(file_get_contents(__DIR__.'/maps/layer_92.json'));
-        $this->extendMap(file_get_contents(__DIR__.'/maps/layer_96.json'));
-        $this->extendMap(file_get_contents(__DIR__.'/maps/layer_97.json'));
-        $this->extendMap(file_get_contents(__DIR__.'/maps/layer_98.json'));
-        $this->extendMap(file_get_contents(__DIR__.'/maps/layer_101.json'));
-        $this->extendMap(file_get_contents(__DIR__.'/maps/layer_104.json'));
-        $this->extendMap(file_get_contents(__DIR__.'/maps/layer_105.json'));
+        if (!self::$mapLoaded) {
+            $this->extendMap(file_get_contents(__DIR__ . '/maps/official.json'));
+            $this->extendMap(file_get_contents(__DIR__ . '/maps/tg_app_old.json'));
+            $this->extendMap(file_get_contents(__DIR__ . '/maps/tg_app.json'));
+            $this->extendMap(file_get_contents(__DIR__ . '/maps/unclassified.json'));
+            $this->extendMap(file_get_contents(__DIR__ . '/maps/layer_82.json'));
+            $this->extendMap(file_get_contents(__DIR__ . '/maps/layer_92.json'));
+            $this->extendMap(file_get_contents(__DIR__ . '/maps/layer_96.json'));
+            $this->extendMap(file_get_contents(__DIR__ . '/maps/layer_97.json'));
+            $this->extendMap(file_get_contents(__DIR__ . '/maps/layer_98.json'));
+            $this->extendMap(file_get_contents(__DIR__ . '/maps/layer_101.json'));
+            $this->extendMap(file_get_contents(__DIR__ . '/maps/layer_104.json'));
+            $this->extendMap(file_get_contents(__DIR__ . '/maps/layer_105.json'));
+            self::$mapLoaded = true;
+        }
     }
 
     /**
