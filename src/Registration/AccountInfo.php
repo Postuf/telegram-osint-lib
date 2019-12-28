@@ -9,17 +9,26 @@ use Registration\NameGenerator\NameResource;
 
 class AccountInfo
 {
+    /** @var string */
     private $device;
+    /** @var string */
     private $androidSdkVersion;
 
+    /** @var string */
     private $firstName;
+    /** @var string */
     private $lastName;
 
+    /** @var string */
     private $deviceLang;
+    /** @var string */
     private $appLang;
 
+    /** @var string */
     private $appVersion;
+    /** @var string */
     private $appVersionCode;
+    /** @var int */
     private $layerVersion;
 
     private function __construct()
@@ -100,7 +109,7 @@ class AccountInfo
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getDevice()
     {
@@ -108,7 +117,7 @@ class AccountInfo
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getAndroidSdkVersion()
     {
@@ -116,7 +125,7 @@ class AccountInfo
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getFirstName()
     {
@@ -124,7 +133,7 @@ class AccountInfo
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getLastName()
     {
@@ -132,7 +141,7 @@ class AccountInfo
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getDeviceLang()
     {
@@ -140,7 +149,7 @@ class AccountInfo
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getAppLang()
     {
@@ -148,7 +157,7 @@ class AccountInfo
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getAppVersion()
     {
@@ -156,7 +165,7 @@ class AccountInfo
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getAppVersionCode()
     {
@@ -164,7 +173,7 @@ class AccountInfo
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getLayerVersion()
     {
@@ -172,7 +181,7 @@ class AccountInfo
     }
 
     /**
-     * @param mixed $firstName
+     * @param string $firstName
      */
     public function setFirstName($firstName)
     {
@@ -180,7 +189,7 @@ class AccountInfo
     }
 
     /**
-     * @param mixed $lastName
+     * @param string $lastName
      */
     public function setLastName($lastName)
     {
