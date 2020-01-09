@@ -44,6 +44,10 @@ class GroupMembersClient extends MyTgClientDebug
             Logger::log(__CLASS__, "got $chatCount chats");
             foreach ($chats as $chatNode) {
                 $id = (int) $chatNode->getValue('id');
+                if ($chatNode->getType() != 'chat') {
+                    Logger::log(__CLASS__, 'Skipped node of type '.$chatNode->getType());
+                    continue;
+                }
                 $ids[] = $id;
 
                 $this->infoClient->getChatMembers($id, $this->makeChatMemberHandler($id));
