@@ -24,7 +24,7 @@ use TLMessage\TLMessage\ClientMessages\Api\get_history;
  * @see get_all_chats
  * @see get_history
  */
-class GroupPhotosClient extends MyTgClientDebug
+class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
 {
     /** @var int|null */
     private $groupId;

@@ -21,7 +21,7 @@ use TLMessage\TLMessage\ClientMessages\Api\get_full_chat;
  * @see get_all_chats
  * @see get_full_chat
  */
-class GroupMembersClient extends MyTgClientDebug
+class GroupMembersClient extends MyTgClientDebug implements ScenarioInterface
 {
     public function __construct()
     {
