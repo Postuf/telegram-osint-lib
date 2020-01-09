@@ -39,8 +39,10 @@ TXT;
 }
 
 /* @noinspection PhpUnhandledExceptionInspection */
-$photosClient = new GroupPhotosClient($groupId, $since, $to);
-if ($deepLink) {
+$photosClient = new GroupPhotosClient($since, $to);
+if ($groupId) {
+    $photosClient->setGroupId($groupId);
+} else if ($deepLink) {
     $photosClient->setDeepLink($deepLink);
 }
 /* @noinspection PhpUnhandledExceptionInspection */

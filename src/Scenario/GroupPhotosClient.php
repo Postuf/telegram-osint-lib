@@ -38,20 +38,23 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
     private $saveHandler;
 
     /**
-     * @param int|null      $groupId
      * @param string|null   $since
      * @param string|null   $to
      * @param callable|null $saveHandler function(PictureModel $model, int $id)
      *
      * @throws TGException
      */
-    public function __construct(?int $groupId = null, ?string $since = null, ?string $to = null, ?callable $saveHandler = null)
+    public function __construct(?string $since = null, ?string $to = null, ?callable $saveHandler = null)
     {
         parent::__construct();
-        $this->groupId = $groupId;
         $this->since = $since;
         $this->to = $to;
         $this->saveHandler = $saveHandler;
+    }
+
+    public function setGroupId(int $groupId): void
+    {
+        $this->groupId = $groupId;
     }
 
     public function setDeepLink(string $deepLink): void
