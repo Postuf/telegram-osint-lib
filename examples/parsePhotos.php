@@ -42,7 +42,7 @@ TXT;
 $photosClient = new GroupPhotosClient($since, $to);
 if ($groupId) {
     $photosClient->setGroupId($groupId);
-} else if ($deepLink) {
+} elseif ($deepLink) {
     $photosClient->setDeepLink($deepLink);
 }
 /* @noinspection PhpUnhandledExceptionInspection */
