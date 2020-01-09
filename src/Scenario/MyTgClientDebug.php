@@ -21,7 +21,7 @@ use SocksProxyAsync\Proxy;
  * Uses two telegram, connections (infoClient, monitoringClient)
  * Requires files: first.authkey, second.authkey
  */
-class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger
+class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger, ScenarioInterface
 {
     /**
      * @var StatusWatcherClient
@@ -75,7 +75,7 @@ class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger
     /**
      * @throws TGException
      */
-    public function startActions()
+    public function startActions(): void
     {
         $this->getContactsInfo();
         $this->pollAndTerminate();

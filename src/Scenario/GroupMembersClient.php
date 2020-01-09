@@ -31,7 +31,7 @@ class GroupMembersClient extends MyTgClientDebug implements ScenarioInterface
     /**
      * @throws TGException
      */
-    public function startActions()
+    public function startActions(): void
     {
         $this->infoLogin();
         Logger::log(__CLASS__, 'getting all chats');

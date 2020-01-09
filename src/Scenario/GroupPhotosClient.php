@@ -122,7 +122,7 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
     /**
      * @throws TGException
      */
-    public function startActions()
+    public function startActions(): void
     {
         $this->infoLogin();
         /** @var array $ids */

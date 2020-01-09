@@ -6,4 +6,5 @@ namespace Scenario;
 
 interface ScenarioInterface
 {
+    public function startActions(): void;
 }
