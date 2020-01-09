@@ -2,36 +2,38 @@
 
 declare(strict_types=1);
 
-namespace TLMessage\TLMessage\ClientMessages\Api;
+namespace TLMessage\TLMessage\ClientMessages\TgApp;
 
 use TLMessage\TLMessage\Packer;
-use TLMessage\TLMessage\TLClientMessage;
 
-/**
- * @see https://core.telegram.org/method/messages.getFullChat
- */
-class get_full_chat implements TLClientMessage
+/** @see https://core.telegram.org/constructor/inputPeerChat */
+class input_peer_chat extends input_peer
 {
-    const CONSTRUCTOR = 998448230; // 0x3b831c66
+    const CONSTRUCTOR = 396093539; // 0x179be863
 
-    /** @var int */
+    /**
+     * @var int
+     */
     private $chatId;
 
+    /**
+     * @param int $chatId
+     */
     public function __construct(int $chatId)
     {
         $this->chatId = $chatId;
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getName()
     {
-        return 'get_full_chat';
+        return 'input_peer_chat';
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function toBinary()
     {

@@ -1,5 +1,7 @@
 <?php
 
+namespace Scenario;
+
 use Client\AuthKey\AuthKeyCreator;
 use Client\Client;
 use Client\InfoObtainingClient\InfoClient;
@@ -56,11 +58,11 @@ class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger
 
         /*
          * (!) Authkeys can be the same (StatusClient и InfoClient), but it is NOT recommended,
-         * due to Telegram-сервер sending nodes to different clients,leading to
-     * data losses on clients.
+         * due to Telegram-server sending nodes to different clients,leading to
+         * data losses on clients.
          */
-        $this->authKeyForFirstClient = trim(file_get_contents(__DIR__.'/first.authkey'));
-        $this->authKeyForSecondClient = trim(file_get_contents(__DIR__.'/second.authkey'));
+        $this->authKeyForFirstClient = trim(file_get_contents('./first.authkey'));
+        $this->authKeyForSecondClient = trim(file_get_contents('./second.authkey'));
 
         /*
          * Clients init
@@ -156,9 +158,6 @@ class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger
         usleep(50000);
     }
 
-    /**
-     * @throws TGException
-     */
     private function terminateMonitoringClient()
     {
         $this->monitoringClient->terminate();
@@ -192,8 +191,6 @@ class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger
      * @param bool          $withPhoto
      * @param bool          $largePhoto
      * @param callable|null $callback   function(UserInfoModel[])
-     *
-     * @throws TGException
      */
     public function parseNumbers(array $numbers, bool $withPhoto = false, bool $largePhoto = false, ?callable $callback = null)
     {

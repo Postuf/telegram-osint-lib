@@ -1,7 +1,9 @@
-<?php /** @noinspection PhpUnused */
+<?php
+
+/** @noinspection PhpUnused */
+declare(strict_types=1);
 
 namespace Exception;
-
 
 use Exception;
 use ReflectionClass;
@@ -121,7 +123,7 @@ class TGException extends Exception
      * @param int $code
      * @return string
      */
-    private function getMessageByCode($code)
+    private function getMessageByCode(int $code): string
     {
         return $this->returnConstantNameOfCode($code);
     }
@@ -131,7 +133,7 @@ class TGException extends Exception
      * @param int $code
      * @return string
      */
-    private function returnConstantNameOfCode($code)
+    private function returnConstantNameOfCode(int $code): string
     {
         foreach(TGException::getConstants() as $constantCode => $constantName)
             if($code == $constantCode)
@@ -145,7 +147,7 @@ class TGException extends Exception
      * @return array
      * @noinspection PhpDocMissingThrowsInspection
      */
-    public function getConstants()
+    public function getConstants(): array
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         $reflector = new ReflectionClass(get_class($this));

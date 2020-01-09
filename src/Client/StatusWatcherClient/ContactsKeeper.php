@@ -314,7 +314,7 @@ class ContactsKeeper
      *
      * @return bool
      */
-    protected function contactsLoaded(callable $onLoadedCallback) : bool
+    protected function contactsLoaded(callable $onLoadedCallback): bool
     {
         if(!$this->contactsLoaded){
 

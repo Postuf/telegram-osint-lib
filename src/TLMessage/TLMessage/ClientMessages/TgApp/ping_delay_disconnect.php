@@ -35,7 +35,7 @@ class ping_delay_disconnect implements TLClientMessage
      *
      * @return int
      */
-    public static function getDisconnectTimeoutSec() : int
+    public static function getDisconnectTimeoutSec(): int
     {
         return 35;
     }

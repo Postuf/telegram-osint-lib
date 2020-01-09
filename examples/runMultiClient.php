@@ -1,12 +1,12 @@
 <?php
 
+use Client\MultiClient;
 use Exception\TGException;
 use Logger\Logger;
 use SocksProxyAsync\Proxy;
 use SocksProxyAsync\SocksException;
 
 require_once __DIR__.'/../vendor/autoload.php';
-require_once __DIR__.'/MultiClient.php';
 
 $keysFileName = isset($argv[1]) ? $argv[1] : 'keys.txt';
 $proxyStr = isset($argv[2]) && strpos($argv[2], '--') !== 0

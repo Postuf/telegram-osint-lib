@@ -1,14 +1,13 @@
 <?php
+declare(strict_types=1);
 
 use Exception\TGException;
 
 require_once __DIR__ . "/../../ClassLoader.php";
 
-
 $codeGroup = 100000;
 $localCounter = 0;
 
-/** @noinspection PhpUnhandledExceptionInspection */
 foreach((new TGException())->getConstants() as $code => $constant){
 
     if($code >= $codeGroup+100000) {
