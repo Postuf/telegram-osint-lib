@@ -103,7 +103,7 @@ class EncryptedSocketMessenger implements SocketMessenger
     /**
      * @var AnonymousMessage[]
      */
-    private $messagesToBeProcessedQueue = [];
+    protected $messagesToBeProcessedQueue = [];
 
     /**
      * @param Socket          $socket
@@ -146,7 +146,7 @@ class EncryptedSocketMessenger implements SocketMessenger
     /**
      * @throws TGException
      */
-    private function readMessageFromSocket()
+    protected function readMessageFromSocket()
     {
         /*
          * Block new reads.
@@ -328,7 +328,7 @@ class EncryptedSocketMessenger implements SocketMessenger
      *
      * @throws TGException
      */
-    private function processServiceMessage(AnonymousMessage $message)
+    protected function processServiceMessage(AnonymousMessage $message)
     {
         // rpc
         if(RpcResult::isIt($message)) {
@@ -445,7 +445,7 @@ class EncryptedSocketMessenger implements SocketMessenger
      *
      * @throws TGException
      */
-    private function writeIdentifiedMessage(TLClientMessage $payload, $messageId)
+    protected function writeIdentifiedMessage(TLClientMessage $payload, $messageId)
     {
         Logger::log('Write_Message_Binary', bin2hex($payload->toBinary()));
         Logger::log('Write_Message_ID', $messageId);

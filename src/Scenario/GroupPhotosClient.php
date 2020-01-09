@@ -38,15 +38,20 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
     private $saveHandler;
 
     /**
-     * @param string|null   $since
-     * @param string|null   $to
-     * @param callable|null $saveHandler function(PictureModel $model, int $id)
+     * @param string|null                   $since
+     * @param string|null                   $to
+     * @param callable|null                 $saveHandler function(PictureModel $model, int $id)
+     * @param ClientGeneratorInterface|null $generator
      *
      * @throws TGException
      */
-    public function __construct(?string $since = null, ?string $to = null, ?callable $saveHandler = null)
-    {
-        parent::__construct();
+    public function __construct(
+        ?string $since = null,
+        ?string $to = null,
+        ?callable $saveHandler = null,
+        ?ClientGeneratorInterface $generator = null
+    ) {
+        parent::__construct(null, $generator);
         $this->since = $since;
         $this->to = $to;
         $this->saveHandler = $saveHandler;
@@ -119,7 +124,22 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
             }
         });
 
-        $this->pollAndTerminate();
+        $this->pollAndTerinate();
+    }
+
+    /**
+     * @param FileModel $model
+     * @param callable  $saveFile function(PictureModel $model, int $id)
+     *
+     * @throws TGException
+     */
+    private function getFile(FileModel $model, callable $saveFile): void
+    {
+        usleep(100000);
+        $this->infoClient->loadFile($model, function (PictureModel $pictureModel) use ($model, $saveFile) {
+            $id = $model->getId();
+            $saveFile($pictureModel, $id);
+        });
     }
 
     /**
@@ -212,21 +232,6 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
         }
 
         $this->pollAndTerminate();
-    }
-
-    /**
-     * @param FileModel $model
-     * @param callable  $saveFile function(PictureModel $model, int $id)
-     *
-     * @throws TGException
-     */
-    private function getFile(FileModel $model, callable $saveFile): void
-    {
-        usleep(100000);
-        $this->infoClient->loadFile($model, function (PictureModel $pictureModel) use ($model, $saveFile) {
-            $id = $model->getId();
-            $saveFile($pictureModel, $id);
-        });
     }
 
     /**

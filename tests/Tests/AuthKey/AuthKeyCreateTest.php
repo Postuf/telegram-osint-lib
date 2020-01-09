@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Auth\Protocol\AppAuthorization;
 use Client\AuthKey\AuthKey;
 use Client\AuthKey\AuthKeyCreator;
@@ -18,6 +20,11 @@ class AuthKeyCreateTest extends TestCase implements MessageListener
     /** @var bool */
     private $session_created = false;
 
+    /**
+     * Test that telegram auth key is formatted correctly.
+     *
+     * @throws TGException
+     */
     public function test_generate_auth_key(): void
     {
         Logger::setupLogger($this->createMock(ClientDebugLogger::class));

@@ -24,11 +24,11 @@ class BasicClientImpl implements BasicClient, MessageListener
     /**
      * @var SocketMessenger
      */
-    private $connection;
+    protected $connection;
     /**
      * @var bool
      */
-    private $isLoggedIn;
+    protected $isLoggedIn;
     /**
      * @var int
      */
@@ -46,16 +46,26 @@ class BasicClientImpl implements BasicClient, MessageListener
      */
     private $messageHandler;
     /** @var AuthKey|null */
-    private $authKey;
+    protected $authKey;
     /** @var Socket|null */
-    private $socket;
+    protected $socket;
+    /** @var bool */
+    private $trace = false;
+    /** @var float */
+    private $traceStart;
+    /** @var array */
+    private $traceLog = [];
 
-    public function __construct()
+    public function __construct(bool $trace = false)
     {
         $this->lastPingTime = 0;
         $this->lastIncomingMessageReceiptTime = time();
         $this->lastStatusOnlineSet = 0;
         $this->isLoggedIn = false;
+        $this->trace = $trace;
+        if ($this->trace) {
+            $this->traceStart = microtime(true);
+        }
     }
 
     /**
@@ -68,6 +78,11 @@ class BasicClientImpl implements BasicClient, MessageListener
         } catch (TGException $e){
             if($e->getCode() != TGException::ERR_CONNECTION_SOCKET_TERMINATED)
                 throw $e;
+        }
+
+        if ($this->traceLog && $this->authKey) {
+            $encoded = json_encode([$this->traceStart, $this->traceLog], JSON_PRETTY_PRINT);
+            file_put_contents(md5($this->authKey->getSerializedAuthKey()).'.txt', $encoded);
         }
     }
 
@@ -122,7 +137,7 @@ class BasicClientImpl implements BasicClient, MessageListener
      * @return Socket
      * @return Socket
      */
-    private function pickSocket(DataCentre $dc, Proxy $proxy = null, callable $cb = null)
+    protected function pickSocket(DataCentre $dc, Proxy $proxy = null, callable $cb = null)
     {
         if($proxy instanceof Proxy){
             if($proxy->getType() == Proxy::TYPE_SOCKS5)
@@ -156,7 +171,17 @@ class BasicClientImpl implements BasicClient, MessageListener
         $this->pingIfNeeded();
         $this->setOnlineStatusIfExpired();
 
-        return $this->getConnection()->readMessage() != null;
+        $readMessage = $this->getConnection()->readMessage();
+        if ($readMessage && $this->trace) {
+            $this->recordTrace($readMessage);
+        }
+
+        return $readMessage != null;
+    }
+
+    private function recordTrace(AnonymousMessage $message): void
+    {
+        $this->traceLog[] = [$message->getType(), bin2hex(serialize($message)), microtime(true)];
     }
 
     /**

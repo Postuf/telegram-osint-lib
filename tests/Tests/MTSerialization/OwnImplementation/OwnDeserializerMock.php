@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\MTSerialization\OwnImplementation;
 
 use MTSerialization\OwnImplementation\OwnDeserializer;
@@ -12,7 +14,7 @@ class OwnDeserializerMock extends OwnDeserializer
         $this->extendMapWithTestMocks();
     }
 
-    private function extendMapWithTestMocks()
+    private function extendMapWithTestMocks(): void
     {
         $this->extendMap('{
             "constructors": [

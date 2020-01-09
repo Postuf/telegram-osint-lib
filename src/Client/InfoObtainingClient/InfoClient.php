@@ -5,7 +5,6 @@ namespace Client\InfoObtainingClient;
 use Auth\Protocol\AppAuthorization;
 use Client\AuthKey\AuthKey;
 use Client\BasicClient\BasicClient;
-use Client\BasicClient\BasicClientImpl;
 use Client\InfoObtainingClient;
 use Client\InfoObtainingClient\Models\FileModel;
 use Client\InfoObtainingClient\Models\PictureModel;
@@ -14,6 +13,8 @@ use Client\InfoObtainingClient\Models\UserStatusModel;
 use Client\StatusWatcherClient\ContactsKeeper;
 use Exception\TGException;
 use MTSerialization\AnonymousMessage;
+use Scenario\BasicClientGenerator;
+use Scenario\BasicClientGeneratorInterface;
 use SocksProxyAsync\Proxy;
 use TGConnection\DataCentre;
 use TGConnection\SocketMessenger\SocketMessenger;
@@ -59,10 +60,16 @@ class InfoClient implements InfoObtainingClient
      * @var ContactsKeeper
      */
     private $contactsKeeper;
+    /** @var BasicClientGeneratorInterface */
+    private $generator;
 
-    public function __construct()
+    public function __construct(?BasicClientGeneratorInterface $generator = null)
     {
-        $this->basicClient = new BasicClientImpl();
+        if (!$generator) {
+            $generator = new BasicClientGenerator();
+        }
+        $this->generator = $generator;
+        $this->basicClient = $generator->generate();
         $this->contactsKeeper = new ContactsKeeper($this->basicClient);
     }
 
@@ -70,8 +77,6 @@ class InfoClient implements InfoObtainingClient
      * @param AuthKey       $authKey
      * @param Proxy         $proxy
      * @param callable|null $cb      function()
-     *
-     * @throws TGException
      *
      * @return void
      */
@@ -406,7 +411,7 @@ class InfoClient implements InfoObtainingClient
 
                         // login in foreign dc
                         $clientKey = count($this->otherDcClients);
-                        $this->otherDcClients[$clientKey] = new BasicClientImpl();
+                        $this->otherDcClients[$clientKey] = $this->generator->generate();
                         $this->otherDcClients[$clientKey]->login($authKey);
 
                         // export current authorization to foreign dc

@@ -34,6 +34,8 @@ class GroupMembersClient extends MyTgClientDebug implements ScenarioInterface
     public function startActions(): void
     {
         $this->infoLogin();
+        Logger::log(__CLASS__, 'sleep(2)');
+        sleep(2);
         Logger::log(__CLASS__, 'getting all chats');
         /** @var array $ids */
         $ids = [];
@@ -50,6 +52,7 @@ class GroupMembersClient extends MyTgClientDebug implements ScenarioInterface
                 }
                 $ids[] = $id;
 
+                sleep(1);
                 $this->infoClient->getChatMembers($id, $this->makeChatMemberHandler($id));
             }
         });

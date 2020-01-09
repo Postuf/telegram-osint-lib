@@ -1,5 +1,8 @@
 <?php
 
+/** @noinspection SpellCheckingInspection */
+declare(strict_types=1);
+
 namespace Tests\Tests\TLMessage\TLMessage\ClientMessages;
 
 use PHPUnit\Framework\TestCase;
@@ -23,7 +26,7 @@ use TLMessage\TLMessage\ClientMessages\Shared\update_status;
 
 class SharedSerializationTest extends TestCase
 {
-    public function test_client_dh_inner_data_serialization()
+    public function test_client_dh_inner_data_serialization(): void
     {
         $this->assertEquals(
             (new client_dh_inner_data('AAAAAAAA', 'BBBBBBBB', 0, 'euighpsdfuhgpeirtheihepeirterptuheprut'))->toBinary(),
@@ -31,7 +34,7 @@ class SharedSerializationTest extends TestCase
         );
     }
 
-    public function test_delete_contacts_serialization()
+    public function test_delete_contacts_serialization(): void
     {
         $delContacts = new delete_contacts();
         $delContacts->addToDelete(34576439852, 34534);
@@ -44,7 +47,7 @@ class SharedSerializationTest extends TestCase
         );
     }
 
-    public function test_export_authorization_serialization()
+    public function test_export_authorization_serialization(): void
     {
         $this->assertEquals(
             (new export_authorization(4))->toBinary(),
@@ -52,7 +55,7 @@ class SharedSerializationTest extends TestCase
         );
     }
 
-    public function test_get_config_serialization()
+    public function test_get_config_serialization(): void
     {
         $this->assertEquals(
             (new get_config())->toBinary(),
@@ -60,7 +63,7 @@ class SharedSerializationTest extends TestCase
         );
     }
 
-    public function test_get_file_serialization()
+    public function test_get_file_serialization(): void
     {
         $this->assertEquals(
             (new get_file(new input_file_location(23423423, 23534534, 345345345, ''), 5096, 4096))->toBinary(),
@@ -68,7 +71,7 @@ class SharedSerializationTest extends TestCase
         );
     }
 
-    public function test_get_statuses_serialization()
+    public function test_get_statuses_serialization(): void
     {
         $this->assertEquals(
             bin2hex((new get_statuses())->toBinary()),
@@ -76,7 +79,7 @@ class SharedSerializationTest extends TestCase
         );
     }
 
-    public function test_import_authorization_serialization()
+    public function test_import_authorization_serialization(): void
     {
         $this->assertEquals(
             (new import_authorization(44234234, 'rewrwerewrrwerq34231'))->toBinary(),
@@ -84,7 +87,7 @@ class SharedSerializationTest extends TestCase
         );
     }
 
-    public function test_input_file_location_serialization()
+    public function test_input_file_location_serialization(): void
     {
         $this->assertEquals(
             (new input_file_location(4353452345, 34532453245, 3453453245, ''))->toBinary(),
@@ -92,7 +95,7 @@ class SharedSerializationTest extends TestCase
         );
     }
 
-    public function test_msgs_ack_serialization()
+    public function test_msgs_ack_serialization(): void
     {
         $this->assertEquals(
             (new msgs_ack([325134, 43532, 5345, 34, 524, 53, 4532453245, 3245, 23]))->toBinary(),
@@ -100,15 +103,15 @@ class SharedSerializationTest extends TestCase
         );
     }
 
-    public function test_p_q_inner_data_serialization()
+    public function test_p_q_inner_data_serialization(): void
     {
         $this->assertEquals(
-            (new p_q_inner_data('1550767997241791113', 1033421369, '1500615377', 'ergrterte45543645', '5424yrthfdgyt56udfd', '34543twgfd'))->toBinary(),
+            (new p_q_inner_data(1550767997241791113, 1033421369, 1500615377, 'ergrterte45543645', '5424yrthfdgyt56udfd', '34543twgfd'))->toBinary(),
             hex2bin('ec5ac9830815856f46f4a41289000000043d98c23900000004597192d100000065726772746572746534353534333634353534323479727468666467797435367564666433343534337477676664')
         );
     }
 
-    public function test_ping_serialization()
+    public function test_ping_serialization(): void
     {
         $this->assertEquals(
             bin2hex((new ping('AAAAAAAA'))->toBinary()),
@@ -116,7 +119,7 @@ class SharedSerializationTest extends TestCase
         );
     }
 
-    public function test_req_dh_params_serialization()
+    public function test_req_dh_params_serialization(): void
     {
         $this->assertEquals(
             (new req_dh_params('wqerwer23rfds', '5trwsdfr34tgw', 2342134, 345324, 34534253, '34523453532dfg'))->toBinary(),
@@ -124,7 +127,7 @@ class SharedSerializationTest extends TestCase
         );
     }
 
-    public function test_req_pq_multi_serialization()
+    public function test_req_pq_multi_serialization(): void
     {
         $this->assertEquals(
             bin2hex((new req_pq_multi('4578twgsrhuflyt84'))->toBinary()),
@@ -132,7 +135,7 @@ class SharedSerializationTest extends TestCase
         );
     }
 
-    public function test_set_client_dh_params_serialization()
+    public function test_set_client_dh_params_serialization(): void
     {
         $this->assertEquals(
             bin2hex((new set_client_dh_params('85twghso;fihgdh', ' o827gwtsfhdug8owe', '237twgshfdghoegre'))->toBinary()),
@@ -140,7 +143,7 @@ class SharedSerializationTest extends TestCase
         );
     }
 
-    public function test_sign_in_serialization()
+    public function test_sign_in_serialization(): void
     {
         $this->assertEquals(
             bin2hex((new sign_in('938432905', '234795tyhspughrew', '34534'))->toBinary()),
@@ -148,7 +151,7 @@ class SharedSerializationTest extends TestCase
         );
     }
 
-    public function test_sign_up_serialization()
+    public function test_sign_up_serialization(): void
     {
         $this->assertEquals(
             bin2hex((new sign_up('938432905', '234795tyhspughrew', '34534', 'ertret'))->toBinary()),
@@ -156,7 +159,7 @@ class SharedSerializationTest extends TestCase
         );
     }
 
-    public function test_update_status_serialization()
+    public function test_update_status_serialization(): void
     {
         $this->assertEquals(
             bin2hex((new update_status(true))->toBinary()),
