@@ -68,8 +68,8 @@ class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger, Scen
          * due to Telegram-server sending nodes to different clients,leading to
          * data losses on clients.
          */
-        $this->authKeyForFirstClient = $generator->getAuthKey('./first.authkey');
-        $this->authKeyForSecondClient = $generator->getAuthKey('./second.authkey');
+        $this->authKeyForFirstClient = $generator->getAuthKeyInfo();
+        $this->authKeyForSecondClient = $generator->getAuthKeyStatus();
 
         /*
          * Clients init

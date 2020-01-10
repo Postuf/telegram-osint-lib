@@ -36,7 +36,12 @@ class TestClientGenerator implements ClientGeneratorInterface
         return null;
     }
 
-    public function getAuthKey($path): string
+    public function getAuthKeyInfo(): string
+    {
+        return $this->authKey;
+    }
+
+    public function getAuthKeyStatus(): string
     {
         return $this->authKey;
     }

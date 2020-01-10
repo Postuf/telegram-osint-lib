@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection SpellCheckingInspection */
+
 declare(strict_types=1);
 
 namespace Scenario;
@@ -20,8 +22,13 @@ class ClientGenerator implements ClientGeneratorInterface
         return new StatusWatcherClient($callbacks);
     }
 
-    public function getAuthKey($path): string
+    public function getAuthKeyInfo(): string
     {
-        return trim(file_get_contents($path));
+        return trim(file_get_contents('./first.authkey'));
+    }
+
+    public function getAuthKeyStatus(): string
+    {
+        return trim(file_get_contents('./second.authkey'));
     }
 }

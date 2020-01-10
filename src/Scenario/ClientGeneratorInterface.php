@@ -25,5 +25,7 @@ interface ClientGeneratorInterface
      */
     public function getStatusWatcherClient(StatusWatcherCallbacks $callbacks);
 
-    public function getAuthKey($path): string;
+    public function getAuthKeyInfo(): string;
+
+    public function getAuthKeyStatus(): string;
 }
