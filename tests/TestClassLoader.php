@@ -13,6 +13,7 @@ class TestClassLoader
             $class
         );
 
+        $class = str_replace('Tests/Tests', 'Tests', $class);
         $classNames = [
             __DIR__.'/../src/'.$class.'.php',
             __DIR__.'/../tests/'.$class.'.php',
