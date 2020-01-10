@@ -18,12 +18,10 @@ use TGConnection\SocketMessenger\MessageListener;
 class AuthKeyCreateTest extends TestCase implements MessageListener
 {
     /** @var bool */
-    private $session_created = false;
+    private $sessionCreated = false;
 
     /**
      * Test that telegram auth key is formatted correctly.
-     *
-     * @throws TGException
      */
     public function test_generate_auth_key(): void
     {
@@ -36,10 +34,10 @@ class AuthKeyCreateTest extends TestCase implements MessageListener
                 $this->performAuth($dc);
                 break;
             } catch (TGException $e) {
-                // skip exception
+                Logger::log(__CLASS__, $e->getMessage());
             }
 
-            sleep(1000);
+            sleep(1);
         }
     }
 
@@ -48,11 +46,12 @@ class AuthKeyCreateTest extends TestCase implements MessageListener
      */
     public function onMessage(AnonymousMessage $message)
     {
-        if($message->getType() == 'msg_container' && $message->getNodes('messages')[0]->getType() == 'new_session_created')
-            $this->session_created = true;
+        if($message->getType() == 'msg_container') {
+            $message = $message->getNodes('messages')[0];
+        }
 
         if($message->getType() == 'new_session_created')
-            $this->session_created = true;
+            $this->sessionCreated = true;
     }
 
     /**
@@ -77,11 +76,12 @@ class AuthKeyCreateTest extends TestCase implements MessageListener
             $client->login($key);
 
             while (!$client->pollMessage()) {
+                usleep(100000);
                 true;
             }
 
             // check if key login-able
-            $this->assertTrue($this->session_created);
+            $this->assertTrue($this->sessionCreated);
         });
     }
 }

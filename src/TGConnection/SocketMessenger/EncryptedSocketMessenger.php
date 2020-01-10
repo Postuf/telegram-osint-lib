@@ -137,7 +137,9 @@ class EncryptedSocketMessenger implements SocketMessenger
      */
     public function readMessage()
     {
-        if(!empty($this->reportableMessageQueue)) {
+        if (!empty($this->messagesToBeProcessedQueue)) {
+            $this->processServiceMessage(array_shift($this->messagesToBeProcessedQueue));
+        } elseif (empty($this->reportableMessageQueue)) {
             if ($msg = $this->readMessageFromSocket()) {
                 $this->processServiceMessage($msg);
             }

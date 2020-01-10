@@ -23,9 +23,9 @@ class TracingBasicClientImpl extends BasicClientImpl
     {
         parent::__destruct();
 
-        if ($this->traceLog && $this->getAuthKey()) {
+        if ($this->traceLog) {
             $encoded = json_encode([$this->traceStart, $this->traceLog], JSON_PRETTY_PRINT);
-            file_put_contents(md5($this->getAuthKey()->getSerializedAuthKey()).'.txt', $encoded);
+            file_put_contents(md5(rand()).'.txt', $encoded);
         }
     }
 

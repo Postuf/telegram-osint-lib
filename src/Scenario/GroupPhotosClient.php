@@ -67,20 +67,48 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
         $this->deepLink = $deepLink;
     }
 
+    /** @noinspection SpellCheckingInspection */
+    private function processDate(string $date): int
+    {
+        $fmt1 = 'YYYYmmdd';
+        $fmt2 = 'YYYYmmdd HH:ii:ss';
+        $fmt3 = 'YYYY-mm-dd HH:ii:ss';
+        $dateFormatError = "invalid date format, use $fmt1|$fmt2|$fmt3";
+        if (strlen($date) !== strlen($fmt1)
+            && strlen($date) !== strlen($fmt2)
+            && strlen($date) !== strlen($fmt3)) {
+            throw new InvalidArgumentException($dateFormatError);
+        }
+        if (strlen($date) === strlen($fmt3)) {
+            $parts = explode(' ', $date);
+            if (count($parts) !== 2) {
+                throw new InvalidArgumentException($dateFormatError);
+            }
+            $parts[0] = str_replace('-', '', $parts[0]);
+            $date = implode(' ', $parts);
+        }
+        $y = substr($date, 0, 4);
+        $m = substr($date, 4, 2);
+        $d = substr($date, 6, 2);
+        $his = '00:00:00';
+        if (strlen($date) === strlen($fmt2)) {
+            $parts = explode(' ', $date);
+            if (count($parts) !== 2) {
+                throw new InvalidArgumentException($dateFormatError);
+            }
+            $his = $parts[1];
+        }
+
+        return strtotime("$y-$m-$d $his");
+    }
+
     private function getSinceTs(): int
     {
         if (!$this->since) {
             return 0;
         }
-        $fmt = 'YYYYmmdd';
-        if (strlen($this->since) !== strlen($fmt)) {
-            throw new InvalidArgumentException("invalid since format, use $fmt");
-        }
-        $y = substr($this->since, 0, 4);
-        $m = substr($this->since, 4, 2);
-        $d = substr($this->since, 6, 2);
 
-        return strtotime("$y-$m-$d 00:00:00");
+        return $this->processDate($this->since);
     }
 
     private function getToTs(): int
@@ -88,15 +116,8 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
         if (!$this->to) {
             return 0;
         }
-        $fmt = 'YYYYmmdd';
-        if (strlen($this->to) !== strlen($fmt)) {
-            throw new InvalidArgumentException("invalid to format, use $fmt");
-        }
-        $y = substr($this->to, 0, 4);
-        $m = substr($this->to, 4, 2);
-        $d = substr($this->to, 6, 2);
 
-        return strtotime("$y-$m-$d 00:00:00");
+        return $this->processDate($this->to);
     }
 
     /**
@@ -124,7 +145,7 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
             }
         });
 
-        $this->pollAndTerinate();
+        $this->pollAndTerminate();
     }
 
     /**
@@ -303,7 +324,7 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
                 $saveHandler = $this->saveHandler ?: function (PictureModel $pictureModel, int $id) {
                     $filename = "$id.".$pictureModel->format;
                     file_put_contents($filename, $pictureModel->bytes);
-                    Logger::log(__CLASS__, "$filename saved");
+                    Logger::log(__CLASS__, "$filename saved with time ".date('Y-m-d H:i:s', $pictureModel->modificationTime).' '.date_default_timezone_get());
                 };
                 $fileModel = new FileModel(
                     (int) $photo['id'],

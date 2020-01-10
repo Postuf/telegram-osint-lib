@@ -17,7 +17,7 @@ if (isset($argv[1])) {
         echo <<<'TXT'
 Usage: php parsePhotos.php [groupId|deepLink] [dateFrom] [dateTo] [--info]
     deepLink ex.: https://t.me/vityapelevin
-    dateFrom/dateTo format: YYYYMMdd
+    dateFrom/dateTo format: YYYYMMdd[ H:i:s]|YY-mm-dd H:i:s
 TXT;
 
         die();

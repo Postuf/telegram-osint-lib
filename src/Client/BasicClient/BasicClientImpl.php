@@ -97,11 +97,18 @@ class BasicClientImpl implements BasicClient, MessageListener
         if($this->isLoggedIn())
             throw new TGException(TGException::ERR_CLIENT_ALREADY_LOGGED_IN, $this->getUserId());
         $dc = $authKey->getAttachedDC();
-        $this->socket = $this->pickSocket($dc, $proxy, $cb);
-
-        $this->authKey = $authKey;
-        $this->connection = $this->getSocketMessenger();
-        $this->isLoggedIn = true;
+            $postSocket = function () use ($authKey) {
+            $this->authKey = $authKey;
+            $this->connection = $this->getSocketMessenger();
+            $this->isLoggedIn = true;
+        };
+        $this->socket = $this->pickSocket($dc, $proxy, $cb ? function () use ($cb, $postSocket) {
+            $postSocket();
+            $cb();
+        } : null);
+        if (!$cb) {
+            $postSocket();
+        }
     }
 
     /**
