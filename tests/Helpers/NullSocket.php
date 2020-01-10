@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace TGConnection\Socket;
+namespace Helpers;
 
 use TGConnection\DataCentre;
+use TGConnection\Socket\Socket;
 
 /**
  * Class NullSocket

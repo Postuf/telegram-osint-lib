@@ -8,7 +8,6 @@ use Client\AuthKey\AuthKey;
 use Client\BasicClient\BasicClientImpl;
 use SocksProxyAsync\Proxy;
 use TGConnection\DataCentre;
-use TGConnection\Socket\NullSocket;
 
 class NullBasicClientImpl extends BasicClientImpl
 {
@@ -17,7 +16,7 @@ class NullBasicClientImpl extends BasicClientImpl
 
     public function __construct(array $traceArray)
     {
-        parent::__construct(false);
+        parent::__construct();
         $this->traceArray = $traceArray;
     }
 

@@ -7,7 +7,6 @@ namespace Helpers;
 use Client\AuthKey\AuthKey;
 use MTSerialization\AnonymousMessage;
 use MTSerialization\OwnImplementation\OwnAnonymousMessage;
-use TGConnection\Socket\NullSocket;
 use TGConnection\SocketMessenger\EncryptedSocketMessenger;
 use TGConnection\SocketMessenger\MessageListener;
 use TLMessage\TLMessage\TLClientMessage;
