@@ -49,23 +49,13 @@ class BasicClientImpl implements BasicClient, MessageListener
     protected $authKey;
     /** @var Socket|null */
     protected $socket;
-    /** @var bool */
-    private $trace = false;
-    /** @var float */
-    private $traceStart;
-    /** @var array */
-    private $traceLog = [];
 
-    public function __construct(bool $trace = false)
+    public function __construct()
     {
         $this->lastPingTime = 0;
         $this->lastIncomingMessageReceiptTime = time();
         $this->lastStatusOnlineSet = 0;
         $this->isLoggedIn = false;
-        $this->trace = $trace;
-        if ($this->trace) {
-            $this->traceStart = microtime(true);
-        }
     }
 
     /**
@@ -78,11 +68,6 @@ class BasicClientImpl implements BasicClient, MessageListener
         } catch (TGException $e){
             if($e->getCode() != TGException::ERR_CONNECTION_SOCKET_TERMINATED)
                 throw $e;
-        }
-
-        if ($this->traceLog && $this->authKey) {
-            $encoded = json_encode([$this->traceStart, $this->traceLog], JSON_PRETTY_PRINT);
-            file_put_contents(md5($this->authKey->getSerializedAuthKey()).'.txt', $encoded);
         }
     }
 
@@ -158,30 +143,32 @@ class BasicClientImpl implements BasicClient, MessageListener
     /**
      * @throws TGException
      *
-     * @return bool
+     * @return AnonymousMessage|null
      */
-    public function pollMessage()
+    protected function prePollMessage(): ?AnonymousMessage
     {
         if (!$this->socket->ready()) {
             $this->socket->poll();
 
-            return false;
+            return null;
         }
         $this->checkConnectionAlive();
         $this->pingIfNeeded();
         $this->setOnlineStatusIfExpired();
 
-        $readMessage = $this->getConnection()->readMessage();
-        if ($readMessage && $this->trace) {
-            $this->recordTrace($readMessage);
-        }
-
-        return $readMessage != null;
+        return $this->getConnection()->readMessage();
     }
 
-    private function recordTrace(AnonymousMessage $message): void
+    /**
+     * @throws TGException
+     *
+     * @return bool
+     */
+    public function pollMessage()
     {
-        $this->traceLog[] = [$message->getType(), bin2hex(serialize($message)), microtime(true)];
+        $readMessage = $this->prePollMessage();
+
+        return $readMessage != null;
     }
 
     /**

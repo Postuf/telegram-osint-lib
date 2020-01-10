@@ -21,5 +21,8 @@
     "autoload": {
         "files": ["ClassLoader.php"]
     },
+    "autoload-dev": {
+        "files": ["tests/TestClassLoader.php"]
+    },
     "prefer-stable": true
 }

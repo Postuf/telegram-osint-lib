@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Scenario;
+namespace Helpers;
 
 use Client\InfoObtainingClient\InfoClient;
 use Client\StatusWatcherClient\StatusWatcherCallbacks;
+use Scenario\BasicClientGeneratorInterface;
+use Scenario\ClientGeneratorInterface;
 
 class TestClientGenerator implements ClientGeneratorInterface
 {

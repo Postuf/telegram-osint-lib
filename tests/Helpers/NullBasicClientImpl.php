@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Client\BasicClient;
+namespace Helpers;
 
 use Client\AuthKey\AuthKey;
+use Client\BasicClient\BasicClientImpl;
 use SocksProxyAsync\Proxy;
 use TGConnection\DataCentre;
 use TGConnection\Socket\NullSocket;
-use TGConnection\SocketMessenger\TraceSocketMessenger;
 
 class NullBasicClientImpl extends BasicClientImpl
 {

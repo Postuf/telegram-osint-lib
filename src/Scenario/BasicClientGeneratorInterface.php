@@ -6,5 +6,5 @@ use Client\BasicClient\BasicClient;
 
 interface BasicClientGeneratorInterface
 {
-    public function generate(): BasicClient;
+    public function generate(bool $trace = false): BasicClient;
 }

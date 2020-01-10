@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Scenario;
+namespace Helpers;
 
 use Client\BasicClient\BasicClient;
-use Client\BasicClient\NullBasicClientImpl;
+use Scenario\BasicClientGeneratorInterface;
 
 class NullBasicClientGenerator implements BasicClientGeneratorInterface
 {
@@ -17,7 +17,7 @@ class NullBasicClientGenerator implements BasicClientGeneratorInterface
         $this->traceArray = $traceArray;
     }
 
-    public function generate(): BasicClient
+    public function generate(bool $trace = false): BasicClient
     {
         return new NullBasicClientImpl($this->traceArray);
     }

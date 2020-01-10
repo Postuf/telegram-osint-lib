@@ -6,10 +6,10 @@ namespace Integration\Scenario;
 
 use Client\InfoObtainingClient\Models\PictureModel;
 use Exception\TGException;
+use Helpers\NullBasicClientGenerator;
+use Helpers\TestClientGenerator;
 use PHPUnit\Framework\TestCase;
 use Scenario\GroupPhotosClient;
-use Scenario\NullBasicClientGenerator;
-use Scenario\TestClientGenerator;
 
 class GroupPhotosClientTest extends TestCase
 {

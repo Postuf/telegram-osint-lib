@@ -12,12 +12,14 @@ class ClassLoader
 
         $className = __DIR__.'/src/'.$class.'.php';
 
-        if(file_exists($className))
+        if(file_exists($className)) {
+            /** @noinspection PhpIncludeInspection */
             require_once $className;
-        else
-            return false;
 
-        return true;
+            return true;
+        }
+
+        return false;
     }
 }
 
