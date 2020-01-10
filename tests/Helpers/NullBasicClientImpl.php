@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Helpers;
 
-use Client\AuthKey\AuthKey;
 use Client\BasicClient\BasicClientImpl;
 use SocksProxyAsync\Proxy;
 use TGConnection\DataCentre;
+use TGConnection\Socket\Socket;
+use TGConnection\SocketMessenger\SocketMessenger;
 
 class NullBasicClientImpl extends BasicClientImpl
 {
@@ -20,18 +21,13 @@ class NullBasicClientImpl extends BasicClientImpl
         $this->traceArray = $traceArray;
     }
 
-    protected function pickSocket(DataCentre $dc, Proxy $proxy = null, callable $cb = null)
+    protected function pickSocket(DataCentre $dc, Proxy $proxy = null, callable $cb = null): Socket
     {
         return new NullSocket();
     }
 
-    public function login(AuthKey $authKey, ?Proxy $proxy = null, callable $cb = null)
+    protected function getSocketMessenger(): SocketMessenger
     {
-        $dc = $authKey->getAttachedDC();
-        $this->socket = $this->pickSocket($dc, $proxy, $cb);
-
-        $this->connection = new TraceSocketMessenger($this->traceArray, $authKey, $this);
-        $this->authKey = $authKey;
-        $this->isLoggedIn = true;
+        return new TraceSocketMessenger($this->traceArray, $this->getAuthKey(), $this);
     }
 }

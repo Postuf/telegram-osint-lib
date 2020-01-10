@@ -24,11 +24,11 @@ class BasicClientImpl implements BasicClient, MessageListener
     /**
      * @var SocketMessenger
      */
-    protected $connection;
+    private $connection;
     /**
      * @var bool
      */
-    protected $isLoggedIn;
+    private $isLoggedIn;
     /**
      * @var int
      */
@@ -46,9 +46,9 @@ class BasicClientImpl implements BasicClient, MessageListener
      */
     private $messageHandler;
     /** @var AuthKey|null */
-    protected $authKey;
+    private $authKey;
     /** @var Socket|null */
-    protected $socket;
+    private $socket;
 
     public function __construct()
     {
@@ -60,6 +60,7 @@ class BasicClientImpl implements BasicClient, MessageListener
 
     /**
      * @throws TGException
+     * @noinspection PhpRedundantCatchClauseInspection
      */
     public function __destruct()
     {
@@ -69,6 +70,16 @@ class BasicClientImpl implements BasicClient, MessageListener
             if($e->getCode() != TGException::ERR_CONNECTION_SOCKET_TERMINATED)
                 throw $e;
         }
+    }
+
+    protected function getSocketMessenger(): SocketMessenger
+    {
+        return new EncryptedSocketMessenger($this->socket, $this->authKey, $this);
+    }
+
+    protected final function getAuthKey(): ?AuthKey
+    {
+        return $this->authKey;
     }
 
     /**
@@ -88,8 +99,8 @@ class BasicClientImpl implements BasicClient, MessageListener
         $dc = $authKey->getAttachedDC();
         $this->socket = $this->pickSocket($dc, $proxy, $cb);
 
-        $this->connection = new EncryptedSocketMessenger($this->socket, $authKey, $this);
         $this->authKey = $authKey;
+        $this->connection = $this->getSocketMessenger();
         $this->isLoggedIn = true;
     }
 
@@ -120,9 +131,8 @@ class BasicClientImpl implements BasicClient, MessageListener
      * @throws TGException
      *
      * @return Socket
-     * @return Socket
      */
-    protected function pickSocket(DataCentre $dc, Proxy $proxy = null, callable $cb = null)
+    protected function pickSocket(DataCentre $dc, Proxy $proxy = null, callable $cb = null): Socket
     {
         if($proxy instanceof Proxy){
             if($proxy->getType() == Proxy::TYPE_SOCKS5)

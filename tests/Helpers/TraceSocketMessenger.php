@@ -39,43 +39,29 @@ class TraceSocketMessenger extends EncryptedSocketMessenger
         $this->msgIds[] = $messageId;
     }
 
-    protected function readMessageFromSocket()
+    protected function readMessageFromSocket(): ?AnonymousMessage
     {
-        /*
-         * Block new reads.
-         *
-         * Messages must be processed one in time, because otherwise
-         * multi exception situation could occur
-         */
-        if(!empty($this->messagesToBeProcessedQueue)) {
-            $this->processServiceMessage(array_shift($this->messagesToBeProcessedQueue));
-
-            return;
-        }
-
         if (!$this->trace[1]) {
-            return;
+            return null;
         }
 
-        if ($this->trace[1]) {
-            foreach ($this->trace[1] as $k => $v) {
-                // do not return message if not ready in time
-                if (microtime(true) - $this->timeOffset <= $v[1]) {
-                    return;
-                }
-                unset($this->trace[1][$k]);
-                /** @var AnonymousMessage $msg */
-                $msg = unserialize(hex2bin($v[1]));
-                $arrMsg = (array) $msg;
-                $arrMsg = reset($arrMsg);
-                $packedMsg = new OwnAnonymousMessage([
-                    '_'          => 'rpc_result',
-                    'req_msg_id' => array_shift($this->msgIds),
-                    'result'     => $arrMsg,
-                ]);
-                $this->processServiceMessage($packedMsg);
-                break;
+        foreach ($this->trace[1] as $k => $v) {
+            // do not return message if not ready in time
+            if (microtime(true) - $this->timeOffset <= $v[1]) {
+                return null;
             }
+            unset($this->trace[1][$k]);
+            /** @var AnonymousMessage $msg */
+            $msg = unserialize(hex2bin($v[1]));
+            $arrMsg = (array) $msg;
+            $arrMsg = reset($arrMsg);
+            return new OwnAnonymousMessage([
+                '_'          => 'rpc_result',
+                'req_msg_id' => array_shift($this->msgIds),
+                'result'     => $arrMsg,
+            ]);
         }
+
+        return null;
     }
 }
