@@ -317,7 +317,7 @@ class EncryptedSocketMessenger implements SocketMessenger
      *
      * @throws TGException
      */
-    private final function processServiceMessage(AnonymousMessage $message)
+    final private function processServiceMessage(AnonymousMessage $message)
     {
         // rpc
         if(RpcResult::isIt($message)) {

@@ -77,7 +77,7 @@ class BasicClientImpl implements BasicClient, MessageListener
         return new EncryptedSocketMessenger($this->socket, $this->authKey, $this);
     }
 
-    protected final function getAuthKey(): ?AuthKey
+    final protected function getAuthKey(): ?AuthKey
     {
         return $this->authKey;
     }

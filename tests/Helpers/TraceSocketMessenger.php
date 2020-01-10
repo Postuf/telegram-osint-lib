@@ -55,6 +55,7 @@ class TraceSocketMessenger extends EncryptedSocketMessenger
             $msg = unserialize(hex2bin($v[1]));
             $arrMsg = (array) $msg;
             $arrMsg = reset($arrMsg);
+
             return new OwnAnonymousMessage([
                 '_'          => 'rpc_result',
                 'req_msg_id' => array_shift($this->msgIds),
