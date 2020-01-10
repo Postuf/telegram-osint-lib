@@ -9,7 +9,7 @@ interface Socket
     /**
      * @param int $length
      *
-     * @return string|null
+     * @return string
      */
     public function readBinary(int $length);
 
