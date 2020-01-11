@@ -1,4 +1,4 @@
-# Telegram API
+# Telegram OSINT scenario library
 
 [![Build Status](https://travis-ci.org/postuf/telegram-osint-lib.svg?branch=master)](https://travis-ci.org/postuf/telegram-osint-lib) [![codecov](https://codecov.io/gh/Postuf/telegram-osint-lib/branch/master/graph/badge.svg)](https://codecov.io/gh/Postuf/telegram-osint-lib)
 
