@@ -9,7 +9,6 @@ use Client\InfoObtainingClient\Models\PictureModel;
 use Closure;
 use Exception;
 use Exception\TGException;
-use InvalidArgumentException;
 use Logger\Logger;
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\ClientMessages\Api\get_all_chats;
@@ -28,9 +27,9 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
 {
     /** @var int|null */
     private $groupId;
-    /** @var string|null */
+    /** @var int|null */
     private $since;
-    /** @var string|null */
+    /** @var int|null */
     private $to;
     /** @var string|null */
     private $deepLink;
@@ -38,16 +37,16 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
     private $saveHandler;
 
     /**
-     * @param string|null                   $since
-     * @param string|null                   $to
+     * @param int|null                      $since
+     * @param int|null                      $to
      * @param callable|null                 $saveHandler function(PictureModel $model, int $id)
      * @param ClientGeneratorInterface|null $generator
      *
      * @throws TGException
      */
     public function __construct(
-        ?string $since = null,
-        ?string $to = null,
+        ?int $since = null,
+        ?int $to = null,
         ?callable $saveHandler = null,
         ?ClientGeneratorInterface $generator = null
     ) {
@@ -67,57 +66,14 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
         $this->deepLink = $deepLink;
     }
 
-    /** @noinspection SpellCheckingInspection */
-    private function processDate(string $date): int
-    {
-        $fmt1 = 'YYYYmmdd';
-        $fmt2 = 'YYYYmmdd HH:ii:ss';
-        $fmt3 = 'YYYY-mm-dd HH:ii:ss';
-        $dateFormatError = "invalid date format, use $fmt1|$fmt2|$fmt3";
-        if (strlen($date) !== strlen($fmt1)
-            && strlen($date) !== strlen($fmt2)
-            && strlen($date) !== strlen($fmt3)) {
-            throw new InvalidArgumentException($dateFormatError);
-        }
-        if (strlen($date) === strlen($fmt3)) {
-            $parts = explode(' ', $date);
-            if (count($parts) !== 2) {
-                throw new InvalidArgumentException($dateFormatError);
-            }
-            $parts[0] = str_replace('-', '', $parts[0]);
-            $date = implode(' ', $parts);
-        }
-        $y = substr($date, 0, 4);
-        $m = substr($date, 4, 2);
-        $d = substr($date, 6, 2);
-        $his = '00:00:00';
-        if (strlen($date) === strlen($fmt2)) {
-            $parts = explode(' ', $date);
-            if (count($parts) !== 2) {
-                throw new InvalidArgumentException($dateFormatError);
-            }
-            $his = $parts[1];
-        }
-
-        return strtotime("$y-$m-$d $his");
-    }
-
     private function getSinceTs(): int
     {
-        if (!$this->since) {
-            return 0;
-        }
-
-        return $this->processDate($this->since);
+        return (int) $this->since;
     }
 
     private function getToTs(): int
     {
-        if (!$this->to) {
-            return 0;
-        }
-
-        return $this->processDate($this->to);
+        return (int) $this->to;
     }
 
     /**
@@ -156,7 +112,6 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
      */
     private function getFile(FileModel $model, callable $saveFile): void
     {
-        usleep(100000);
         $this->infoClient->loadFile($model, function (PictureModel $pictureModel) use ($model, $saveFile) {
             $id = $model->getId();
             $saveFile($pictureModel, $id);

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Scenario\GroupPhotosClient;
+use Scenario\Helpers\DateParser;
 
 require_once __DIR__.'/../vendor/autoload.php';
 const INFO = '--info';
@@ -39,7 +40,10 @@ TXT;
 }
 
 /* @noinspection PhpUnhandledExceptionInspection */
-$photosClient = new GroupPhotosClient($since, $to);
+$photosClient = new GroupPhotosClient(
+    DateParser::parse($since),
+    DateParser::parse($to)
+);
 if ($groupId) {
     $photosClient->setGroupId($groupId);
 } elseif ($deepLink) {

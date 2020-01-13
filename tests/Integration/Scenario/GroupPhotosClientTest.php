@@ -10,6 +10,7 @@ use Helpers\NullBasicClientGenerator;
 use Helpers\TestClientGenerator;
 use PHPUnit\Framework\TestCase;
 use Scenario\GroupPhotosClient;
+use Scenario\Helpers\DateParser;
 
 class GroupPhotosClientTest extends TestCase
 {
@@ -53,7 +54,12 @@ class GroupPhotosClientTest extends TestCase
         $basicGenerator = new NullBasicClientGenerator(json_decode($file, true));
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
-        $client = new GroupPhotosClient('20190101', '20190202', $saveHandler, $testGenerator);
+        $client = new GroupPhotosClient(
+            DateParser::parse('20190101'),
+            DateParser::parse('20190202'),
+            $saveHandler,
+            $testGenerator
+        );
         $client->startActions();
         $this->assertEquals(0, $count);
     }
@@ -73,7 +79,12 @@ class GroupPhotosClientTest extends TestCase
         $basicGenerator = new NullBasicClientGenerator(json_decode($file, true));
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
-        $client = new GroupPhotosClient('20190101', '20200202', $saveHandler, $testGenerator);
+        $client = new GroupPhotosClient(
+            DateParser::parse('20190101'),
+            DateParser::parse('20200202'),
+            $saveHandler,
+            $testGenerator
+        );
         $client->startActions();
         $this->assertEquals(1, $count);
     }
@@ -93,7 +104,12 @@ class GroupPhotosClientTest extends TestCase
         $basicGenerator = new NullBasicClientGenerator(json_decode($file, true));
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
-        $client = new GroupPhotosClient('2019-01-01 00:00:00', '20200202', $saveHandler, $testGenerator);
+        $client = new GroupPhotosClient(
+            DateParser::parse('2019-01-01 00:00:00'),
+            DateParser::parse('20200202'),
+            $saveHandler,
+            $testGenerator
+        );
         $client->startActions();
         $this->assertEquals(1, $count);
     }
