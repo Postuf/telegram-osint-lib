@@ -22,6 +22,9 @@ class TraceSocketMessenger extends EncryptedSocketMessenger
     /** @var int[] */
     private $msgIds = [];
 
+    /** @var TLClientMessage[] */
+    private $msgs;
+
     /**
      * @param array           $trace    see tests/Integration/Scenario for
      * @param AuthKey         $authKey
@@ -37,6 +40,7 @@ class TraceSocketMessenger extends EncryptedSocketMessenger
     protected function writeIdentifiedMessage(TLClientMessage $payload, $messageId)
     {
         $this->msgIds[] = $messageId;
+        $this->msgs[] = $payload;
     }
 
     protected function readMessageFromSocket(): ?AnonymousMessage
@@ -56,9 +60,12 @@ class TraceSocketMessenger extends EncryptedSocketMessenger
             $arrMsg = (array) $msg;
             $arrMsg = reset($arrMsg);
 
+            $reqMsgId = array_shift($this->msgIds);
+            $reqMsg = array_shift($this->msgs);
+
             return new OwnAnonymousMessage([
                 '_'          => 'rpc_result',
-                'req_msg_id' => array_shift($this->msgIds),
+                'req_msg_id' => $reqMsgId,
                 'result'     => $arrMsg,
             ]);
         }

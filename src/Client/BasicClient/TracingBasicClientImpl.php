@@ -25,7 +25,7 @@ class TracingBasicClientImpl extends BasicClientImpl
 
         if ($this->traceLog) {
             $encoded = json_encode([$this->traceStart, $this->traceLog], JSON_PRETTY_PRINT);
-            file_put_contents(md5(rand()).'.txt', $encoded);
+            file_put_contents(md5((string) rand()).'.txt', $encoded);
         }
     }
 
