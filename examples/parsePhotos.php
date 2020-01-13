@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Scenario\GroupPhotosClient;
 use Helpers\DateParser;
+use Scenario\GroupPhotosClient;
 
 require_once __DIR__.'/../vendor/autoload.php';
 const INFO = '--info';
