@@ -23,7 +23,7 @@ class TraceSocketMessenger extends EncryptedSocketMessenger
     private $msgIds = [];
 
     /** @var TLClientMessage[] */
-    private $msgs;
+    private $msgs = [];
 
     /**
      * @param array           $trace    see tests/Integration/Scenario for
@@ -39,6 +39,9 @@ class TraceSocketMessenger extends EncryptedSocketMessenger
 
     protected function writeIdentifiedMessage(TLClientMessage $payload, $messageId)
     {
+        if ($payload->getName() === 'update_status') {
+            return;
+        }
         $this->msgIds[] = $messageId;
         $this->msgs[] = $payload;
     }

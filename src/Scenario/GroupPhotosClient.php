@@ -118,6 +118,84 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
         });
     }
 
+    public function getResolveHandler(int $limit): callable
+    {
+        return function (AnonymousMessage $message) use ($limit) {
+            if ($message->getType() !== 'contacts.resolvedPeer') {
+                Logger::log(__CLASS__, 'got unexpected response of type '.$message->getType());
+
+                return;
+            }
+            /** @var array $peer */
+            $peer = $message->getValue('peer');
+            if ($peer['_'] !== 'peerChannel') {
+                Logger::log(__CLASS__, 'got unexpected peer of type '.$peer['_']);
+
+                return;
+            }
+
+            $chats = $message->getValue('chats');
+            foreach ($chats as $chat) {
+                $id = (int) $chat['id'];
+                $handler = $this->makeChatMessagesHandler($id, $limit);
+                /** @var array $chat */
+                Logger::log(__CLASS__, "getting channel messages with limit $limit");
+                $this->infoClient->getChannelMessages(
+                    (int) $chat['id'],
+                    (int) $chat['access_hash'],
+                    $limit,
+                    0,
+                    0,
+                    $handler
+                );
+
+            }
+        };
+    }
+
+    public function getAllChatsHandler(int $limit): callable
+    {
+        return function (AnonymousMessage $message) use ($limit)
+        {
+            /** @see https://core.telegram.org/constructor/messages.chats */
+            $chats = $message->getNodes('chats');
+            $chatCount = count($chats);
+            Logger::log(__CLASS__, "got $chatCount chats");
+            foreach ($chats as $chatNode) {
+                $id = (int) $chatNode->getValue('id');
+                if ($this->groupId && $this->groupId != $id) {
+                    continue;
+                }
+
+                if ($chatNode->getType() != 'chat' && !$this->groupId) {
+                    continue;
+                }
+
+                $handler = $this->makeChatMessagesHandler($id, $limit);
+                Logger::log(__CLASS__, "parsing {$chatNode->getType()} $id with limit $limit");
+                if ($chatNode->getType() == 'chat') {
+                    $this->infoClient->getChatMessages(
+                        $id,
+                        $limit,
+                        0,
+                        0,
+                        $handler
+                    );
+                } else {
+                    $accessHash = $chatNode->getValue('access_hash');
+                    $this->infoClient->getChannelMessages(
+                        $id,
+                        $accessHash,
+                        $limit,
+                        0,
+                        0,
+                        $handler
+                    );
+                }
+            }
+        };
+    }
+
     /**
      * @throws TGException
      */
@@ -125,86 +203,16 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
     {
         $this->infoLogin();
         /** @var array $ids */
-        $ids = [];
         $limit = 200;
         sleep(1);
         if ($this->deepLink) {
             Logger::log(__CLASS__, "getting chat by deeplink {$this->deepLink}");
             $parts = explode('/', $this->deepLink);
             $username = $parts[count($parts) - 1];
-            $this->infoClient->resolveUsername($username, function (AnonymousMessage $message) use ($limit) {
-                if ($message->getType() !== 'contacts.resolvedPeer') {
-                    Logger::log(__CLASS__, 'got unexpected response of type '.$message->getType());
-
-                    return;
-                }
-                /** @var array $peer */
-                $peer = $message->getValue('peer');
-                if ($peer['_'] !== 'peerChannel') {
-                    Logger::log(__CLASS__, 'got unexpected peer of type '.$peer['_']);
-
-                    return;
-                }
-
-                $chats = $message->getValue('chats');
-                foreach ($chats as $chat) {
-                    $id = (int) $chat['id'];
-                    $handler = $this->makeChatMessagesHandler($id, $limit);
-                    /** @var array $chat */
-                    Logger::log(__CLASS__, "getting channel messages with limit $limit");
-                    $this->infoClient->getChannelMessages(
-                        (int) $chat['id'],
-                        (int) $chat['access_hash'],
-                        $limit,
-                        0,
-                        0,
-                        $handler
-                    );
-
-                }
-            });
+            $this->infoClient->resolveUsername($username, $this->getResolveHandler($limit));
         } else {
             Logger::log(__CLASS__, 'getting all chats');
-            $this->infoClient->getAllChats(function (AnonymousMessage $message) use (&$ids, $limit) {
-                /** @see https://core.telegram.org/constructor/messages.chats */
-                $chats = $message->getNodes('chats');
-                $chatCount = count($chats);
-                Logger::log(__CLASS__, "got $chatCount chats");
-                foreach ($chats as $chatNode) {
-                    $id = (int) $chatNode->getValue('id');
-                    $ids[] = $id;
-                    if ($this->groupId && $this->groupId != $id) {
-                        continue;
-                    }
-
-                        if ($chatNode->getType() != 'chat' && !$this->groupId) {
-                            continue;
-                        }
-
-                        $handler = $this->makeChatMessagesHandler($id, $limit);
-                        Logger::log(__CLASS__, "parsing {$chatNode->getType()} $id with limit $limit");
-                        if ($chatNode->getType() == 'chat') {
-                            $this->infoClient->getChatMessages(
-                                $id,
-                                $limit,
-                                0,
-                                0,
-                                $handler
-                            );
-                        } else {
-                            $accessHash = $chatNode->getValue('access_hash');
-                            $this->infoClient->getChannelMessages(
-                                $id,
-                                $accessHash,
-                                $limit,
-                                0,
-                                0,
-                                $handler
-                            );
-                        }
-                    }
-                }
-            );
+            $this->infoClient->getAllChats($this->getAllChatsHandler($limit));
         }
 
         $this->pollAndTerminate();
