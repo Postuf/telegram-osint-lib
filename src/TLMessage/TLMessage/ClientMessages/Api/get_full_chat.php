@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TLMessage\TLMessage\ClientMessages\Api;
 
 use TLMessage\TLMessage\Packer;

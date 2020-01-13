@@ -5,28 +5,34 @@ namespace Client\InfoObtainingClient;
 use Auth\Protocol\AppAuthorization;
 use Client\AuthKey\AuthKey;
 use Client\BasicClient\BasicClient;
-use Client\BasicClient\BasicClientImpl;
 use Client\InfoObtainingClient;
+use Client\InfoObtainingClient\Models\FileModel;
 use Client\InfoObtainingClient\Models\PictureModel;
 use Client\InfoObtainingClient\Models\UserInfoModel;
 use Client\InfoObtainingClient\Models\UserStatusModel;
 use Client\StatusWatcherClient\ContactsKeeper;
 use Exception\TGException;
 use MTSerialization\AnonymousMessage;
+use Scenario\BasicClientGenerator;
+use Scenario\BasicClientGeneratorInterface;
 use SocksProxyAsync\Proxy;
 use TGConnection\DataCentre;
 use TGConnection\SocketMessenger\SocketMessenger;
 use TLMessage\TLMessage\ClientMessages\Api\get_all_chats;
 use TLMessage\TLMessage\ClientMessages\Api\get_full_chat;
+use TLMessage\TLMessage\ClientMessages\Api\get_history;
 use TLMessage\TLMessage\ClientMessages\Shared\export_authorization;
 use TLMessage\TLMessage\ClientMessages\Shared\get_config;
 use TLMessage\TLMessage\ClientMessages\Shared\get_file;
 use TLMessage\TLMessage\ClientMessages\Shared\get_full_user;
 use TLMessage\TLMessage\ClientMessages\Shared\import_authorization;
 use TLMessage\TLMessage\ClientMessages\Shared\input_file_location;
+use TLMessage\TLMessage\ClientMessages\TgApp\contacts_resolve_username;
 use TLMessage\TLMessage\ClientMessages\TgApp\contacts_search;
+use TLMessage\TLMessage\ClientMessages\TgApp\get_deeplink_info;
 use TLMessage\TLMessage\ClientMessages\TgApp\input_peer_photofilelocation;
 use TLMessage\TLMessage\ClientMessages\TgApp\input_peer_user;
+use TLMessage\TLMessage\ClientMessages\TgApp\input_photofilelocation;
 use TLMessage\TLMessage\ServerMessages\AuthorizationSelfUser;
 use TLMessage\TLMessage\ServerMessages\Contact\ContactFound;
 use TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
@@ -54,10 +60,16 @@ class InfoClient implements InfoObtainingClient
      * @var ContactsKeeper
      */
     private $contactsKeeper;
+    /** @var BasicClientGeneratorInterface */
+    private $generator;
 
-    public function __construct()
+    public function __construct(?BasicClientGeneratorInterface $generator = null)
     {
-        $this->basicClient = new BasicClientImpl();
+        if (!$generator) {
+            $generator = new BasicClientGenerator();
+        }
+        $this->generator = $generator;
+        $this->basicClient = $generator->generate();
         $this->contactsKeeper = new ContactsKeeper($this->basicClient);
     }
 
@@ -65,8 +77,6 @@ class InfoClient implements InfoObtainingClient
      * @param AuthKey       $authKey
      * @param Proxy         $proxy
      * @param callable|null $cb      function()
-     *
-     * @throws TGException
      *
      * @return void
      */
@@ -101,10 +111,43 @@ class InfoClient implements InfoObtainingClient
         $this->basicClient->getConnection()->getResponseAsync(new get_full_chat($id), $onComplete);
     }
 
+    public function getChatMessages(int $id, int $limit, ?int $since, ?int $lastId, callable $onComplete) {
+        $request = new get_history($id, $limit, (int) $since, (int) $lastId);
+        $this->basicClient->getConnection()->getResponseAsync(
+            $request,
+            $onComplete
+        );
+    }
+
+    public function getChannelMessages(int $id, int $accessHash, int $limit, ?int $since, ?int $lastId, callable $onComplete) {
+        $request = new get_history($id, $limit, (int) $since, (int) $lastId, $accessHash);
+        $this->basicClient->getConnection()->getResponseAsync(
+            $request,
+            $onComplete
+        );
+    }
+
+    /**
+     * @param string   $username
+     * @param callable $onComplete function(AnonymousMessage $msg)
+     */
+    public function resolveUsername(string $username, callable $onComplete): void
+    {
+        $this->basicClient->getConnection()->getResponseAsync(new contacts_resolve_username($username), $onComplete);
+    }
+
+    /**
+     * @param string   $deepLink
+     * @param callable $onComplete function(AnonymousMessage $msg)
+     */
+    public function getByDeepLink(string $deepLink, callable $onComplete): void {
+        $this->basicClient->getConnection()->getResponseAsync(new get_deeplink_info($deepLink), $onComplete);
+    }
+
     /**
      * @param callable $onComplete function(AnonymousMessage $msg)
      */
-    public function getAllChats(callable $onComplete) {
+    public function getAllChats(callable $onComplete): void {
         $this->basicClient->getConnection()->getResponseAsync(new get_all_chats(), $onComplete);
     }
 
@@ -279,6 +322,23 @@ class InfoClient implements InfoObtainingClient
     }
 
     /**
+     * @param FileModel $model
+     * @param callable  $onPictureLoaded function(?PictureModel $model)
+     *
+     * @throws TGException
+     */
+    public function loadFile(FileModel $model, callable $onPictureLoaded): void
+    {
+        $locationRequest = new input_photofilelocation(
+            $model->getId(),
+            $model->getAccessHash(),
+            $model->getFileReference(),
+            $model->getSizeId()
+        );
+        $this->readPicture($locationRequest, $model->getDcId(), $onPictureLoaded);
+    }
+
+    /**
      * @param TLClientMessage $fileLocation
      * @param int             $photoDcId
      * @param callable        $onPictureLoaded function(?PictureModel $model)
@@ -286,7 +346,7 @@ class InfoClient implements InfoObtainingClient
      * @throws TGException
      * @noinspection PhpDocRedundantThrowsInspection
      */
-    private function readPicture(TLClientMessage $fileLocation, int $photoDcId, callable $onPictureLoaded)
+    private function readPicture(TLClientMessage $fileLocation, int $photoDcId, callable $onPictureLoaded): void
     {
         $isCurrentDc = $photoDcId == $this->basicClient->getConnection()->getDCInfo()->getDcId();
         if($isCurrentDc)
@@ -351,7 +411,7 @@ class InfoClient implements InfoObtainingClient
 
                         // login in foreign dc
                         $clientKey = count($this->otherDcClients);
-                        $this->otherDcClients[$clientKey] = new BasicClientImpl();
+                        $this->otherDcClients[$clientKey] = $this->generator->generate();
                         $this->otherDcClients[$clientKey]->login($authKey);
 
                         // export current authorization to foreign dc

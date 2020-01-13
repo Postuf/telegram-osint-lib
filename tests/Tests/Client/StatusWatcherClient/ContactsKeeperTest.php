@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Client\StatusWatcherClient;
 
 use Client\BasicClient\BasicClient;
@@ -37,7 +39,7 @@ class ContactsKeeperTest extends TestCase
         $this->keeper = new ContactsKeeper($this->basicClientMock);
     }
 
-    public function test_contacts_add() {
+    public function test_contacts_add(): void {
         $numbers = ['123', '456'];
         $importedPhones = [];
         $runCount = 0;
@@ -94,7 +96,6 @@ class ContactsKeeperTest extends TestCase
             ->willReturnCallback($responseCb);
 
         $returnedUsers = [];
-        /* @noinspection PhpUnhandledExceptionInspection */
         $this->keeper->getUserByPhone('123', function ($user) use (&$returnedUsers) {
             if ($user) {
                 $returnedUsers[] = $user;
@@ -127,7 +128,7 @@ class ContactsKeeperTest extends TestCase
         $this->assertEquals($importedPhones, $numbers);
     }
 
-    public function test_contacts_del() {
+    public function test_contacts_del(): void {
         $numbers = ['123'];
         $runCount = 0;
         $calls = [];
@@ -183,7 +184,6 @@ class ContactsKeeperTest extends TestCase
             ->willReturnCallback($responseCb);
 
         $returnedUsers = [];
-        /* @noinspection PhpUnhandledExceptionInspection */
         $this->keeper->getUserByPhone('123', function ($user) use (&$returnedUsers) {
             if ($user) {
                 $returnedUsers[] = $user;
@@ -206,7 +206,6 @@ class ContactsKeeperTest extends TestCase
             }
         }
 
-        /* @noinspection PhpUnhandledExceptionInspection */
         $this->keeper->delNumbers($numbers, function () { });
         while ($calls) {
             foreach ($calls as $k => $call) {
@@ -217,7 +216,6 @@ class ContactsKeeperTest extends TestCase
         }
 
         $cc = [];
-        /* @noinspection PhpUnhandledExceptionInspection */
         $this->keeper->getCurrentContacts(function (array $contacts) use (&$cc) {
             if ($contacts) {
                 $cc[] = 1;
@@ -238,7 +236,7 @@ class ContactsKeeperTest extends TestCase
     /**
      * @throws TGException
      */
-    public function test_contacts_add_exception() {
+    public function test_contacts_add_exception(): void {
         $numbers = ['123', '456'];
         $importedPhones = [];
         $runCount = 0;

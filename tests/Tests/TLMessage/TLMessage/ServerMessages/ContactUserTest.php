@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Tests\TLMessage\TLMessage\ServerMessages;
 
 use Exception\TGException;
@@ -8,7 +10,7 @@ use TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 
 class ContactUserTest extends TestCase
 {
-    private function getObjectOnLine()
+    private function getObjectOnLine(): AnonymousMessageMock
     {
         /* @noinspection PhpUnhandledExceptionInspection */
         return new AnonymousMessageMock([
@@ -47,7 +49,7 @@ class ContactUserTest extends TestCase
         ]);
     }
 
-    private function getObjectOffLine()
+    private function getObjectOffLine(): AnonymousMessageMock
     {
         /* @noinspection PhpUnhandledExceptionInspection */
         return new AnonymousMessageMock([
@@ -86,7 +88,7 @@ class ContactUserTest extends TestCase
         ]);
     }
 
-    private function getObjectHidden()
+    private function getObjectHidden(): AnonymousMessageMock
     {
         /* @noinspection PhpUnhandledExceptionInspection */
         return new AnonymousMessageMock([
@@ -127,7 +129,7 @@ class ContactUserTest extends TestCase
     /**
      * @throws TGException
      */
-    public function test_correct_field_mapping()
+    public function test_correct_field_mapping(): void
     {
         $asAnonymous = $this->getObjectOnLine();
         $userContact = new ContactUser($asAnonymous);
@@ -139,7 +141,7 @@ class ContactUserTest extends TestCase
 
     }
 
-    public function test_user_online()
+    public function test_user_online(): void
     {
         $asAnonymous = $this->getObjectOnLine();
         /** @noinspection PhpUnhandledExceptionInspection */
@@ -152,7 +154,7 @@ class ContactUserTest extends TestCase
 
     }
 
-    public function test_user_offline()
+    public function test_user_offline(): void
     {
         $asAnonymous = $this->getObjectOffLine();
         /** @noinspection PhpUnhandledExceptionInspection */
@@ -165,7 +167,7 @@ class ContactUserTest extends TestCase
 
     }
 
-    public function test_user_empty()
+    public function test_user_empty(): void
     {
         $asAnonymous = $this->getObjectHidden();
         /** @noinspection PhpUnhandledExceptionInspection */

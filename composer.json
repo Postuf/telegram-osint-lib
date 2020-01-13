@@ -4,9 +4,11 @@
     "homepage": "https://github.com/Postuf/telegram-osint-lib",
     "license": "MIT",
     "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "^8.5"
+    },
     "require": {
         "phpseclib/phpseclib": "^2.0",
-        "phpunit/phpunit": "^8.5",
         "ext-dom": "*",
         "ext-gmp": "*",
         "ext-json": "*",
@@ -14,13 +16,13 @@
         "ext-sockets": "*",
         "ext-xml": "*",
         "ext-zlib": "*",
-        "yidas/yii2-bower-asset": "2.0.13.1",
-        "yiisoft/yii2-apidoc": "^2.0",
-        "postuf/socks-proxy-async": "dev-master"
+        "postuf/socks-proxy-async": "^0.1"
     },
     "autoload": {
         "files": ["ClassLoader.php"]
     },
-    "minimum-stability": "dev",
+    "autoload-dev": {
+        "files": ["tests/TestClassLoader.php"]
+    },
     "prefer-stable": true
 }

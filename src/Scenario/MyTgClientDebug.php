@@ -1,5 +1,7 @@
 <?php
 
+namespace Scenario;
+
 use Client\AuthKey\AuthKeyCreator;
 use Client\Client;
 use Client\InfoObtainingClient\InfoClient;
@@ -16,10 +18,12 @@ use SocksProxyAsync\Proxy;
 
 /**
  * Client base class
- * Uses two telegram, connections (infoClient, monitoringClient)
- * Requires files: first.authkey, second.authkey
+ *
+ * Uses two telegram, connections (infoClient, monitoringClient).
+ *
+ * Requires files: `first.authkey`, `second.authkey`.
  */
-class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger
+class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger, ScenarioInterface
 {
     /**
      * @var StatusWatcherClient
@@ -43,37 +47,42 @@ class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger
     private $proxy;
 
     /**
-     * @param Proxy|null $proxy
+     * @param Proxy|null                    $proxy
+     * @param ClientGeneratorInterface|null $generator
      *
      * @throws TGException
      */
-    public function __construct(?Proxy $proxy = null)
+    public function __construct(?Proxy $proxy = null, ?ClientGeneratorInterface $generator = null)
     {
         /*
          * Set TL-node logger
          */
         Logger::setupLogger($this);
 
+        if (!$generator) {
+            $generator = new ClientGenerator();
+        }
+
         /*
          * (!) Authkeys can be the same (StatusClient и InfoClient), but it is NOT recommended,
-         * due to Telegram-сервер sending nodes to different clients,leading to
-     * data losses on clients.
+         * due to Telegram-server sending nodes to different clients,leading to
+         * data losses on clients.
          */
-        $this->authKeyForFirstClient = trim(file_get_contents(__DIR__.'/first.authkey'));
-        $this->authKeyForSecondClient = trim(file_get_contents(__DIR__.'/second.authkey'));
+        $this->authKeyForFirstClient = $generator->getAuthKeyInfo();
+        $this->authKeyForSecondClient = $generator->getAuthKeyStatus();
 
         /*
          * Clients init
          */
-        $this->monitoringClient = new StatusWatcherClient($this);
-        $this->infoClient = new InfoClient();
+        $this->monitoringClient = $generator->getStatusWatcherClient($this);
+        $this->infoClient = $generator->getInfoClient();
         $this->proxy = $proxy;
     }
 
     /**
      * @throws TGException
      */
-    public function startActions()
+    public function startActions(): void
     {
         $this->getContactsInfo();
         $this->pollAndTerminate();
@@ -156,9 +165,6 @@ class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger
         usleep(50000);
     }
 
-    /**
-     * @throws TGException
-     */
     private function terminateMonitoringClient()
     {
         $this->monitoringClient->terminate();
@@ -192,8 +198,6 @@ class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger
      * @param bool          $withPhoto
      * @param bool          $largePhoto
      * @param callable|null $callback   function(UserInfoModel[])
-     *
-     * @throws TGException
      */
     public function parseNumbers(array $numbers, bool $withPhoto = false, bool $largePhoto = false, ?callable $callback = null)
     {

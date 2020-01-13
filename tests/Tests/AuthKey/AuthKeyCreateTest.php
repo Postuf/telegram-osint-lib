@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 use Auth\Protocol\AppAuthorization;
 use Client\AuthKey\AuthKey;
 use Client\AuthKey\AuthKeyCreator;
 use Client\AuthKey\Versions\AuthKey_v2;
 use Client\BasicClient\BasicClientImpl;
+use Exception\TGException;
 use Logger\ClientDebugLogger;
 use Logger\Logger;
 use MTSerialization\AnonymousMessage;
@@ -14,13 +17,50 @@ use TGConnection\SocketMessenger\MessageListener;
 
 class AuthKeyCreateTest extends TestCase implements MessageListener
 {
-    private $session_created = false;
+    /** @var bool */
+    private $sessionCreated = false;
 
-    public function test_generate_auth_key()
+    /**
+     * Test that telegram auth key is formatted correctly.
+     */
+    public function test_generate_auth_key(): void
     {
         Logger::setupLogger($this->createMock(ClientDebugLogger::class));
 
         $dc = DataCentre::getDefault();
+        // perform several retries in case of failure
+        for ($i = 0; $i < 5; $i++) {
+            try {
+                $this->performAuth($dc);
+                break;
+            } catch (TGException $e) {
+                Logger::log(__CLASS__, $e->getMessage());
+            }
+
+            sleep(1);
+        }
+    }
+
+    /**
+     * @param AnonymousMessage $message
+     */
+    public function onMessage(AnonymousMessage $message)
+    {
+        if($message->getType() == 'msg_container') {
+            $message = $message->getNodes('messages')[0];
+        }
+
+        if($message->getType() == 'new_session_created')
+            $this->sessionCreated = true;
+    }
+
+    /**
+     * @param DataCentre $dc
+     *
+     * @throws TGException
+     */
+    protected function performAuth(DataCentre $dc): void
+    {
         /** @noinspection PhpUnhandledExceptionInspection */
         $auth = new AppAuthorization($dc);
         /* @noinspection PhpUnhandledExceptionInspection */
@@ -35,24 +75,13 @@ class AuthKeyCreateTest extends TestCase implements MessageListener
             $client->setMessageListener($this);
             $client->login($key);
 
-            while(!$client->pollMessage()){
+            while (!$client->pollMessage()) {
+                usleep(100000);
                 true;
             }
 
             // check if key login-able
-            $this->assertTrue($this->session_created);
+            $this->assertTrue($this->sessionCreated);
         });
-    }
-
-    /**
-     * @param AnonymousMessage $message
-     */
-    public function onMessage(AnonymousMessage $message)
-    {
-        if($message->getType() == 'msg_container' && $message->getNodes('messages')[0]->getType() == 'new_session_created')
-            $this->session_created = true;
-
-        if($message->getType() == 'new_session_created')
-            $this->session_created = true;
     }
 }

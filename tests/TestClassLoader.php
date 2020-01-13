@@ -14,14 +14,22 @@ class TestClassLoader
         );
 
         $class = str_replace('Tests/Tests', 'Tests', $class);
-        $className = __DIR__.'/'.$class.'.php';
+        $classNames = [
+            __DIR__.'/../src/'.$class.'.php',
+            __DIR__.'/../tests/'.$class.'.php',
+            __DIR__.'/../examples/'.$class.'.php',
+        ];
 
-        if(file_exists($className))
-            require_once $className;
-        else
-            return false;
+        foreach ($classNames as $className) {
+            if (file_exists($className)) {
+                /** @noinspection PhpIncludeInspection */
+                require_once $className;
 
-        return true;
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 

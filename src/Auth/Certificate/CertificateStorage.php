@@ -108,6 +108,6 @@ PGHKSMeRFvp3IWcmdJqXahxLCUS1Eh6MAQIDAQAB
 -----END RSA PUBLIC KEY-----
 TAG
 ),
-            ];
+        ];
     }
 }

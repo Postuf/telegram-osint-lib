@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Tests\TLMessage\TLMessage\ServerMessages;
 
 use PHPUnit\Framework\TestCase;
@@ -8,7 +10,7 @@ use TLMessage\TLMessage\ServerMessages\Update\UpdateUserStatus;
 
 class UpdateStatusTest extends TestCase
 {
-    public function test_update_status_online()
+    public function test_update_status_online(): void
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         $update = new AnonymousMessageMock([
@@ -38,7 +40,7 @@ class UpdateStatusTest extends TestCase
 
     }
 
-    public function test_update_status_offline()
+    public function test_update_status_offline(): void
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         $update = new AnonymousMessageMock([
@@ -67,7 +69,7 @@ class UpdateStatusTest extends TestCase
         $this->assertEquals($updateUserStatus->getStatus()->getWasOnline(), 784358232);
     }
 
-    public function test_update_status_hidden()
+    public function test_update_status_hidden(): void
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         $update = new AnonymousMessageMock([

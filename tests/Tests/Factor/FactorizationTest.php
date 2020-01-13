@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Auth\Factorization\GmpFactorizer;
 use PHPUnit\Framework\TestCase;
 
@@ -9,7 +11,8 @@ class FactorizationTest extends TestCase
     const P = 1033421369;
     const Q = 1500615377;
 
-    public function test_gmp_factorizer()
+    /** @noinspection SpellCheckingInspection */
+    public function test_gmp_factorizer(): void
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         $pq = (new GmpFactorizer())->factorize(self::PRIME);

@@ -137,34 +137,28 @@ class EncryptedSocketMessenger implements SocketMessenger
      */
     public function readMessage()
     {
-        if(empty($this->reportableMessageQueue))
-            $this->readMessageFromSocket();
+        if (!empty($this->messagesToBeProcessedQueue)) {
+            $this->processServiceMessage(array_shift($this->messagesToBeProcessedQueue));
+        } elseif (empty($this->reportableMessageQueue)) {
+            if ($msg = $this->readMessageFromSocket()) {
+                $this->processServiceMessage($msg);
+            }
+        }
 
         return $this->reportMessageToSubscriber();
     }
 
     /**
      * @throws TGException
+     * @noinspection DuplicatedCode
      */
-    private function readMessageFromSocket()
+    protected function readMessageFromSocket(): ?AnonymousMessage
     {
-        /*
-         * Block new reads.
-         *
-         * Messages must be processed one in time, because otherwise
-         * multi exception situation could occur
-         */
-        if(!empty($this->messagesToBeProcessedQueue)){
-            $this->processServiceMessage(array_shift($this->messagesToBeProcessedQueue));
-
-            return;
-        }
-
         // header
         $lengthValue = $this->socket->readBinary(4);
         $readLength = strlen($lengthValue);
         if($readLength == 0)
-            return;
+            return null;
         if($readLength != 4)
             throw new TGException(TGException::ERR_DESERIALIZER_BROKEN_BINARY_READ, '4!='.$readLength);
         // data
@@ -174,14 +168,11 @@ class EncryptedSocketMessenger implements SocketMessenger
         // full TL packet
         $packet = $lengthValue.$payload;
 
-        // collect messages
-        $this->processServiceMessage(
-            $this->deserializePayload(
-                $this->decodeDecryptedPayloadHeaders(
-                    $this->decryptPayload(
-                        $this->outerHeaderWrapper->unwrap(
-                            $packet
-                        )
+        return $this->deserializePayload(
+            $this->decodeDecryptedPayloadHeaders(
+                $this->decryptPayload(
+                    $this->outerHeaderWrapper->unwrap(
+                        $packet
                     )
                 )
             )
@@ -328,7 +319,7 @@ class EncryptedSocketMessenger implements SocketMessenger
      *
      * @throws TGException
      */
-    private function processServiceMessage(AnonymousMessage $message)
+    final private function processServiceMessage(AnonymousMessage $message)
     {
         // rpc
         if(RpcResult::isIt($message)) {
@@ -445,7 +436,7 @@ class EncryptedSocketMessenger implements SocketMessenger
      *
      * @throws TGException
      */
-    private function writeIdentifiedMessage(TLClientMessage $payload, $messageId)
+    protected function writeIdentifiedMessage(TLClientMessage $payload, $messageId)
     {
         Logger::log('Write_Message_Binary', bin2hex($payload->toBinary()));
         Logger::log('Write_Message_ID', $messageId);

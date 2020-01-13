@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Tests\Client;
 
 use Client\StatusWatcherClient\Models\ImportResult;
@@ -12,7 +14,7 @@ use TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 
 class StatusWatcherClientTest extends TestCase
 {
-    public function test_online_trigger_works()
+    public function test_online_trigger_works(): void
     {
         $callbacks = new StatusWatcherClientTestCallbacks();
         /** @noinspection PhpUnhandledExceptionInspection */
@@ -35,7 +37,7 @@ class StatusWatcherClientTest extends TestCase
         $this->assertTrue($callbacks->getHidTriggersCntFor('7999888777667') == 0);
     }
 
-    public function test_offline_trigger_works()
+    public function test_offline_trigger_works(): void
     {
         $callbacks = new StatusWatcherClientTestCallbacks();
         /** @noinspection PhpUnhandledExceptionInspection */
@@ -61,7 +63,7 @@ class StatusWatcherClientTest extends TestCase
     /**
      * @throws TGException
      */
-    public function test_hid_trigger_works()
+    public function test_hid_trigger_works(): void
     {
         $callbacks = new StatusWatcherClientTestCallbacks();
         $watcherClient = new StatusWatcherClientMock($callbacks);
@@ -85,7 +87,7 @@ class StatusWatcherClientTest extends TestCase
     /**
      * @throws TGException
      */
-    public function test_online_trigger_when_multiple_works_once()
+    public function test_online_trigger_when_multiple_works_once(): void
     {
         $callbacks = new StatusWatcherClientTestCallbacks();
         $watcherClient = new StatusWatcherClientMock($callbacks);
@@ -110,7 +112,7 @@ class StatusWatcherClientTest extends TestCase
     /**
      * @throws TGException
      */
-    public function test_offline_trigger_when_multiple_works_once()
+    public function test_offline_trigger_when_multiple_works_once(): void
     {
         $callbacks = new StatusWatcherClientTestCallbacks();
         $watcherClient = new StatusWatcherClientMock($callbacks);
@@ -135,7 +137,7 @@ class StatusWatcherClientTest extends TestCase
     /**
      * @throws TGException
      */
-    public function test_online_offline_statuses_rotate_triggers_works_not_once()
+    public function test_online_offline_statuses_rotate_triggers_works_not_once(): void
     {
         $callbacks = new StatusWatcherClientTestCallbacks();
         $watcherClient = new StatusWatcherClientMock($callbacks);
@@ -162,7 +164,7 @@ class StatusWatcherClientTest extends TestCase
     /**
      * @throws TGException
      */
-    public function test_recently_status_clears_online_trigger_works_twice()
+    public function test_recently_status_clears_online_trigger_works_twice(): void
     {
         $callbacks = new StatusWatcherClientTestCallbacks();
         $watcherClient = new StatusWatcherClientMock($callbacks);
@@ -187,7 +189,7 @@ class StatusWatcherClientTest extends TestCase
     /**
      * @throws TGException
      */
-    public function test_empty_status_clears_online_trigger_works_twice()
+    public function test_empty_status_clears_online_trigger_works_twice(): void
     {
         $callbacks = new StatusWatcherClientTestCallbacks();
         $watcherClient = new StatusWatcherClientMock($callbacks);
@@ -212,7 +214,7 @@ class StatusWatcherClientTest extends TestCase
     /**
      * @throws TGException
      */
-    public function test_empty_status_importation_online_trigger_works()
+    public function test_empty_status_importation_online_trigger_works(): void
     {
         $callbacks = new StatusWatcherClientTestCallbacks();
         $watcherClient = new StatusWatcherClientMock($callbacks);
@@ -238,7 +240,7 @@ class StatusWatcherClientTest extends TestCase
     /**
      * @throws TGException
      */
-    public function test_empty_status_importation_online_trigger_works_once()
+    public function test_empty_status_importation_online_trigger_works_once(): void
     {
         $callbacks = new StatusWatcherClientTestCallbacks();
         $watcherClient = new StatusWatcherClientMock($callbacks);
@@ -262,7 +264,7 @@ class StatusWatcherClientTest extends TestCase
     /**
      * @throws TGException
      */
-    public function test_empty_status_after_importation_recently_trigger_works()
+    public function test_empty_status_after_importation_recently_trigger_works(): void
     {
         $callbacks = new StatusWatcherClientTestCallbacks();
         $watcherClient = new StatusWatcherClientMock($callbacks);
@@ -286,7 +288,7 @@ class StatusWatcherClientTest extends TestCase
     /**
      * @throws TGException
      */
-    public function test_empty_status_after_importation_offline_trigger_works()
+    public function test_empty_status_after_importation_offline_trigger_works(): void
     {
         $callbacks = new StatusWatcherClientTestCallbacks();
         $watcherClient = new StatusWatcherClientMock($callbacks);
@@ -311,7 +313,7 @@ class StatusWatcherClientTest extends TestCase
     /**
      * @throws TGException
      */
-    public function test_online_expiration_must_expire()
+    public function test_online_expiration_must_expire(): void
     {
         $callbacks = new StatusWatcherClientTestCallbacks();
         $watcherClient = new StatusWatcherClientMock($callbacks);
@@ -337,7 +339,7 @@ class StatusWatcherClientTest extends TestCase
     /**
      * @throws TGException
      */
-    public function test_online_expiration_must_not_expire()
+    public function test_online_expiration_must_not_expire(): void
     {
         $callbacks = new StatusWatcherClientTestCallbacks();
         $watcherClient = new StatusWatcherClientMock($callbacks);
@@ -363,7 +365,7 @@ class StatusWatcherClientTest extends TestCase
     /**
      * @throws TGException
      */
-    public function test_online_expiration_update_must_not_expire()
+    public function test_online_expiration_update_must_not_expire(): void
     {
         $callbacks = new StatusWatcherClientTestCallbacks();
         $watcherClient = new StatusWatcherClientMock($callbacks);
@@ -391,7 +393,7 @@ class StatusWatcherClientTest extends TestCase
     /**
      * @throws TGException
      */
-    public function test_expired_statuses_checked()
+    public function test_expired_statuses_checked(): void
     {
         $callbacks = new StatusWatcherClientTestCallbacks();
         $watcherClient = new StatusWatcherClientMock($callbacks);
@@ -412,7 +414,7 @@ class StatusWatcherClientTest extends TestCase
     /**
      * @throws TGException
      */
-    public function test_add_contacts_bad_number()
+    public function test_add_contacts_bad_number(): void
     {
         $callbacks = new StatusWatcherClientTestCallbacks();
         $watcherClient = new StatusWatcherClientMock($callbacks);

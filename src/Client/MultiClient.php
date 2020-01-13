@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace Client;
+
 use Client\AuthKey\AuthKey;
 use Client\AuthKey\AuthKeyCreator;
 use Client\InfoObtainingClient\InfoClient;
@@ -23,11 +27,12 @@ class MultiClient
     private $startTime;
 
     /**
-     * @param string[] $authKeysSerialized
+     * @param string[]      $authKeysSerialized
+     * @param callable|null $clientCreator      function(): InfoClient
      *
      * @throws TGException
      */
-    public function __construct(array $authKeysSerialized)
+    public function __construct(array $authKeysSerialized, ?callable $clientCreator = null)
     {
         $this->clients = [];
         $this->authKeys = [];
@@ -35,7 +40,9 @@ class MultiClient
         foreach ($authKeysSerialized as $keyStr) {
             $authKey = AuthKeyCreator::createFromString($keyStr);
             $this->authKeys[] = $authKey;
-            $this->clients[] = new InfoClient();
+            $this->clients[] = $clientCreator
+                ? $clientCreator()
+                : new InfoClient();
         }
     }
 

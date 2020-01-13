@@ -5,4 +5,3 @@ finder:
 disabled:
   - braces
   - phpdoc_summary
-  - simplified_null_return

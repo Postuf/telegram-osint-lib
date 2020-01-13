@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Tests\Client\StatusWatcherClient;
 
 use Exception\TGException;
@@ -197,35 +199,35 @@ class AnonymousMessageMock implements AnonymousMessage
             'id'                        => $id,
             'access_hash'               => 2811936216873835544,
             'first_name'                => 'name_89169904863',
-                            'last_name' => 'l_f4d6bed238',
-                            'username'  => 'AseN_17',
-                            'phone'     => $phone,
-                            'photo'     => [
-                                    '_'           => 'userProfilePhoto',
-                                    'photo_id'    => 806194743786710955,
-                                    'photo_small' => [
-                                            '_'         => 'fileLocation',
-                                            'dc_id'     => 2,
-                                            'volume_id' => 225517222,
-                                            'local_id'  => 141372,
-                                            'secret'    => 4952891847968332097,
-                                        ],
+            'last_name'                 => 'l_f4d6bed238',
+            'username'                  => 'AseN_17',
+            'phone'                     => $phone,
+            'photo'                     => [
+                '_'           => 'userProfilePhoto',
+                'photo_id'    => 806194743786710955,
+                'photo_small' => [
+                    '_'         => 'fileLocation',
+                    'dc_id'     => 2,
+                    'volume_id' => 225517222,
+                    'local_id'  => 141372,
+                    'secret'    => 4952891847968332097,
+                ],
 
-                                    'photo_big' => [
-                                            '_'         => 'fileLocation',
-                                            'dc_id'     => 2,
-                                            'volume_id' => 225517222,
-                                            'local_id'  => 141374,
-                                            'secret'    => -5785720690880313215,
-                                        ],
+                'photo_big' => [
+                    '_'         => 'fileLocation',
+                    'dc_id'     => 2,
+                    'volume_id' => 225517222,
+                    'local_id'  => 141374,
+                    'secret'    => -5785720690880313215,
+                ],
 
-                                ],
+            ],
 
-                            'status' => [
-                                    '_'       => 'userStatusOnline',
-                                    'expires' => 1533377307,
-                                ],
-                        ]);
+            'status' => [
+                '_'       => 'userStatusOnline',
+                'expires' => 1533377307,
+            ],
+        ]);
     }
 
     public static function getImportedContact($userId, $userPhone, $status)
