@@ -19,6 +19,7 @@ use SocksProxyAsync\Proxy;
 use TGConnection\DataCentre;
 use TGConnection\SocketMessenger\SocketMessenger;
 use TLMessage\TLMessage\ClientMessages\Api\get_all_chats;
+use TLMessage\TLMessage\ClientMessages\Api\get_full_channel;
 use TLMessage\TLMessage\ClientMessages\Api\get_full_chat;
 use TLMessage\TLMessage\ClientMessages\Api\get_history;
 use TLMessage\TLMessage\ClientMessages\Shared\export_authorization;
@@ -109,6 +110,10 @@ class InfoClient implements InfoObtainingClient
 
     public function getChatMembers(int $id, callable $onComplete) {
         $this->basicClient->getConnection()->getResponseAsync(new get_full_chat($id), $onComplete);
+    }
+
+    public function getChannelMembers(int $id, int $accessHash, callable $onComplete) {
+        $this->basicClient->getConnection()->getResponseAsync(new get_full_channel($id, $accessHash), $onComplete);
     }
 
     public function getChatMessages(int $id, int $limit, ?int $since, ?int $lastId, callable $onComplete) {

@@ -18,6 +18,7 @@ class GroupPhotosClientTest extends TestCase
     private const TRACE_PATH_BY_DEEPLINK = '/traces/group-photos-by-deeplink.txt';
     private const CHANNEL_TRACE_PATH = '/traces/channel-photos.txt';
     private const CHANNEL_ID = 1229718840;
+    private const DEFAULT_FILE_SIZE = 140179;
 
     /**
      * We expect one photo to be loaded in basic scenario without limits and without group id
@@ -29,7 +30,7 @@ class GroupPhotosClientTest extends TestCase
         $count = 0;
         $saveHandler = function (PictureModel $model, int $id) use (&$count) {
             $count++;
-            $this->assertEquals(140179, strlen($model->bytes));
+            $this->assertEquals(self::DEFAULT_FILE_SIZE, strlen($model->bytes));
             $this->assertEquals(1578494852, $model->modificationTime);
         };
         $file = file_get_contents(__DIR__.self::DEFAULT_TRACE_PATH);
@@ -51,7 +52,7 @@ class GroupPhotosClientTest extends TestCase
         $count = 0;
         $saveHandler = function (PictureModel $model, int $id) use (&$count) {
             $count++;
-            $this->assertEquals(140179, strlen($model->bytes));
+            $this->assertEquals(self::DEFAULT_FILE_SIZE, strlen($model->bytes));
             $this->assertEquals(1578467676, $model->modificationTime);
         };
         $file = file_get_contents(__DIR__.self::CHANNEL_TRACE_PATH);
@@ -182,7 +183,7 @@ class GroupPhotosClientTest extends TestCase
         $count = 0;
         $saveHandler = function (PictureModel $model, int $id) use (&$count) {
             $count++;
-            $this->assertEquals(140179, strlen($model->bytes));
+            $this->assertEquals(self::DEFAULT_FILE_SIZE, strlen($model->bytes));
             $this->assertEquals(1578494852, $model->modificationTime);
         };
         $file = file_get_contents(__DIR__.self::DEFAULT_TRACE_PATH);

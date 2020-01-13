@@ -23,16 +23,12 @@ use TLMessage\TLMessage\ClientMessages\Api\get_history;
  * @see get_all_chats
  * @see get_history
  */
-class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
+class GroupPhotosClient extends AbstractGroupClient implements ScenarioInterface
 {
-    /** @var int|null */
-    private $groupId;
     /** @var int|null */
     private $since;
     /** @var int|null */
     private $to;
-    /** @var string|null */
-    private $deepLink;
     /** @var callable */
     private $saveHandler;
 
@@ -54,16 +50,6 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
         $this->since = $since;
         $this->to = $to;
         $this->saveHandler = $saveHandler;
-    }
-
-    public function setGroupId(int $groupId): void
-    {
-        $this->groupId = $groupId;
-    }
-
-    public function setDeepLink(string $deepLink): void
-    {
-        $this->deepLink = $deepLink;
     }
 
     private function getSinceTs(): int
@@ -118,42 +104,7 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
         });
     }
 
-    public function getResolveHandler(int $limit): callable
-    {
-        return function (AnonymousMessage $message) use ($limit) {
-            if ($message->getType() !== 'contacts.resolvedPeer') {
-                Logger::log(__CLASS__, 'got unexpected response of type '.$message->getType());
-
-                return;
-            }
-            /** @var array $peer */
-            $peer = $message->getValue('peer');
-            if ($peer['_'] !== 'peerChannel') {
-                Logger::log(__CLASS__, 'got unexpected peer of type '.$peer['_']);
-
-                return;
-            }
-
-            $chats = $message->getValue('chats');
-            foreach ($chats as $chat) {
-                $id = (int) $chat['id'];
-                $handler = $this->makeChatMessagesHandler($id, $limit);
-                /** @var array $chat */
-                Logger::log(__CLASS__, "getting channel messages with limit $limit");
-                $this->infoClient->getChannelMessages(
-                    (int) $chat['id'],
-                    (int) $chat['access_hash'],
-                    $limit,
-                    0,
-                    0,
-                    $handler
-                );
-
-            }
-        };
-    }
-
-    public function getAllChatsHandler(int $limit): callable
+    private function getAllChatsHandler(int $limit): callable
     {
         return function (AnonymousMessage $message) use ($limit)
         {
@@ -209,7 +160,23 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
             Logger::log(__CLASS__, "getting chat by deeplink {$this->deepLink}");
             $parts = explode('/', $this->deepLink);
             $username = $parts[count($parts) - 1];
-            $this->infoClient->resolveUsername($username, $this->getResolveHandler($limit));
+            $this->infoClient->resolveUsername($username, $this->getResolveHandler(function (AnonymousMessage $message) use ($limit) {
+                $chats = $message->getValue('chats');
+                foreach ($chats as $chat) {
+                    $id = (int) $chat['id'];
+                    $handler = $this->makeChatMessagesHandler($id, $limit);
+                    /** @var array $chat */
+                    Logger::log(__CLASS__, "getting channel messages with limit $limit");
+                    $this->infoClient->getChannelMessages(
+                        (int) $chat['id'],
+                        (int) $chat['access_hash'],
+                        $limit,
+                        0,
+                        0,
+                        $handler
+                    );
+                }
+            }));
         } else {
             Logger::log(__CLASS__, 'getting all chats');
             $this->infoClient->getAllChats($this->getAllChatsHandler($limit));
@@ -287,7 +254,12 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
                 $saveHandler = $this->saveHandler ?: function (PictureModel $pictureModel, int $id) {
                     $filename = "$id.".$pictureModel->format;
                     file_put_contents($filename, $pictureModel->bytes);
-                    Logger::log(__CLASS__, "$filename saved with time ".date('Y-m-d H:i:s', $pictureModel->modificationTime).' '.date_default_timezone_get());
+                    Logger::log(
+                        __CLASS__,
+                        "$filename saved with time ".
+                        date('Y-m-d H:i:s', $pictureModel->modificationTime).
+                        ' '.date_default_timezone_get()
+                    );
                 };
                 $fileModel = new FileModel(
                     (int) $photo['id'],
