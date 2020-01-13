@@ -10,7 +10,7 @@ use Helpers\NullBasicClientGenerator;
 use Helpers\TestClientGenerator;
 use PHPUnit\Framework\TestCase;
 use Scenario\GroupPhotosClient;
-use Scenario\Helpers\DateParser;
+use Helpers\DateParser;
 
 class GroupPhotosClientTest extends TestCase
 {

@@ -17,6 +17,7 @@ class TestClassLoader
         $classNames = [
             __DIR__.'/../src/'.$class.'.php',
             __DIR__.'/../tests/'.$class.'.php',
+            __DIR__.'/../examples/'.$class.'.php',
         ];
 
         foreach ($classNames as $className) {

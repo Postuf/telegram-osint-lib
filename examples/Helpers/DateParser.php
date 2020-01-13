@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Scenario\Helpers;
+namespace Helpers;
+
+use InvalidArgumentException;
 
 class DateParser
 {

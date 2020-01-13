@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Scenario\GroupPhotosClient;
-use Scenario\Helpers\DateParser;
+use Helpers\DateParser;
 
 require_once __DIR__.'/../vendor/autoload.php';
 const INFO = '--info';
