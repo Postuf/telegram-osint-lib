@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Tests\TLMessage\TLMessage\ServerMessages;
 
 use Exception\TGException;

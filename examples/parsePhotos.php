@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Scenario\GroupPhotosClient;
+use Helpers\DateParser;
 
 require_once __DIR__.'/../vendor/autoload.php';
 const INFO = '--info';
@@ -17,7 +18,7 @@ if (isset($argv[1])) {
         echo <<<'TXT'
 Usage: php parsePhotos.php [groupId|deepLink] [dateFrom] [dateTo] [--info]
     deepLink ex.: https://t.me/vityapelevin
-    dateFrom/dateTo format: YYYYMMdd
+    dateFrom/dateTo format: YYYYMMdd[ H:i:s]|YY-mm-dd H:i:s
 TXT;
 
         die();
@@ -39,7 +40,10 @@ TXT;
 }
 
 /* @noinspection PhpUnhandledExceptionInspection */
-$photosClient = new GroupPhotosClient($since, $to);
+$photosClient = new GroupPhotosClient(
+    DateParser::parse($since),
+    DateParser::parse($to)
+);
 if ($groupId) {
     $photosClient->setGroupId($groupId);
 } elseif ($deepLink) {

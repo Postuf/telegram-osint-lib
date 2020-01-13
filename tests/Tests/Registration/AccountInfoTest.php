@@ -12,6 +12,7 @@ class AccountInfoTest extends TestCase
 {
     /**
      * @throws TGException
+     * @noinspection SpellCheckingInspection
      */
     public function test_serialize(): void
     {

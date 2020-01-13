@@ -60,6 +60,7 @@ class BasicClientImpl implements BasicClient, MessageListener
 
     /**
      * @throws TGException
+     * @noinspection PhpRedundantCatchClauseInspection
      */
     public function __destruct()
     {
@@ -69,6 +70,16 @@ class BasicClientImpl implements BasicClient, MessageListener
             if($e->getCode() != TGException::ERR_CONNECTION_SOCKET_TERMINATED)
                 throw $e;
         }
+    }
+
+    protected function getSocketMessenger(): SocketMessenger
+    {
+        return new EncryptedSocketMessenger($this->socket, $this->authKey, $this);
+    }
+
+    final protected function getAuthKey(): ?AuthKey
+    {
+        return $this->authKey;
     }
 
     /**
@@ -86,11 +97,18 @@ class BasicClientImpl implements BasicClient, MessageListener
         if($this->isLoggedIn())
             throw new TGException(TGException::ERR_CLIENT_ALREADY_LOGGED_IN, $this->getUserId());
         $dc = $authKey->getAttachedDC();
-        $this->socket = $this->pickSocket($dc, $proxy, $cb);
-
-        $this->connection = new EncryptedSocketMessenger($this->socket, $authKey, $this);
-        $this->authKey = $authKey;
-        $this->isLoggedIn = true;
+            $postSocket = function () use ($authKey) {
+            $this->authKey = $authKey;
+            $this->connection = $this->getSocketMessenger();
+            $this->isLoggedIn = true;
+        };
+        $this->socket = $this->pickSocket($dc, $proxy, $cb ? function () use ($cb, $postSocket) {
+            $postSocket();
+            $cb();
+        } : null);
+        if (!$cb) {
+            $postSocket();
+        }
     }
 
     /**
@@ -120,9 +138,8 @@ class BasicClientImpl implements BasicClient, MessageListener
      * @throws TGException
      *
      * @return Socket
-     * @return Socket
      */
-    private function pickSocket(DataCentre $dc, Proxy $proxy = null, callable $cb = null)
+    protected function pickSocket(DataCentre $dc, Proxy $proxy = null, callable $cb = null): Socket
     {
         if($proxy instanceof Proxy){
             if($proxy->getType() == Proxy::TYPE_SOCKS5)
@@ -143,20 +160,32 @@ class BasicClientImpl implements BasicClient, MessageListener
     /**
      * @throws TGException
      *
-     * @return bool
+     * @return AnonymousMessage|null
      */
-    public function pollMessage()
+    protected function prePollMessage(): ?AnonymousMessage
     {
         if (!$this->socket->ready()) {
             $this->socket->poll();
 
-            return false;
+            return null;
         }
         $this->checkConnectionAlive();
         $this->pingIfNeeded();
         $this->setOnlineStatusIfExpired();
 
-        return $this->getConnection()->readMessage() != null;
+        return $this->getConnection()->readMessage();
+    }
+
+    /**
+     * @throws TGException
+     *
+     * @return bool
+     */
+    public function pollMessage()
+    {
+        $readMessage = $this->prePollMessage();
+
+        return $readMessage != null;
     }
 
     /**

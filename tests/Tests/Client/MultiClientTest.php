@@ -12,7 +12,9 @@ use PHPUnit\Framework\TestCase;
 
 class MultiClientTest extends TestCase
 {
-    /** @test
+    /**
+     * @test
+     *
      * @throws TGException
      */
     public function it_logs_in(): void
@@ -24,7 +26,9 @@ class MultiClientTest extends TestCase
         $mc->connect();
     }
 
-    /** @test
+    /**
+     * @test
+     *
      * @throws TGException
      */
     public function it_polls(): void

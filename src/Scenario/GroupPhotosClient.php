@@ -9,7 +9,6 @@ use Client\InfoObtainingClient\Models\PictureModel;
 use Closure;
 use Exception;
 use Exception\TGException;
-use InvalidArgumentException;
 use Logger\Logger;
 use MTSerialization\AnonymousMessage;
 use TLMessage\TLMessage\ClientMessages\Api\get_all_chats;
@@ -28,9 +27,9 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
 {
     /** @var int|null */
     private $groupId;
-    /** @var string|null */
+    /** @var int|null */
     private $since;
-    /** @var string|null */
+    /** @var int|null */
     private $to;
     /** @var string|null */
     private $deepLink;
@@ -38,15 +37,20 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
     private $saveHandler;
 
     /**
-     * @param string|null   $since
-     * @param string|null   $to
-     * @param callable|null $saveHandler function(PictureModel $model, int $id)
+     * @param int|null                      $since
+     * @param int|null                      $to
+     * @param callable|null                 $saveHandler function(PictureModel $model, int $id)
+     * @param ClientGeneratorInterface|null $generator
      *
      * @throws TGException
      */
-    public function __construct(?string $since = null, ?string $to = null, ?callable $saveHandler = null)
-    {
-        parent::__construct();
+    public function __construct(
+        ?int $since = null,
+        ?int $to = null,
+        ?callable $saveHandler = null,
+        ?ClientGeneratorInterface $generator = null
+    ) {
+        parent::__construct(null, $generator);
         $this->since = $since;
         $this->to = $to;
         $this->saveHandler = $saveHandler;
@@ -64,34 +68,12 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
 
     private function getSinceTs(): int
     {
-        if (!$this->since) {
-            return 0;
-        }
-        $fmt = 'YYYYmmdd';
-        if (strlen($this->since) !== strlen($fmt)) {
-            throw new InvalidArgumentException("invalid since format, use $fmt");
-        }
-        $y = substr($this->since, 0, 4);
-        $m = substr($this->since, 4, 2);
-        $d = substr($this->since, 6, 2);
-
-        return strtotime("$y-$m-$d 00:00:00");
+        return (int) $this->since;
     }
 
     private function getToTs(): int
     {
-        if (!$this->to) {
-            return 0;
-        }
-        $fmt = 'YYYYmmdd';
-        if (strlen($this->to) !== strlen($fmt)) {
-            throw new InvalidArgumentException("invalid to format, use $fmt");
-        }
-        $y = substr($this->to, 0, 4);
-        $m = substr($this->to, 4, 2);
-        $d = substr($this->to, 6, 2);
-
-        return strtotime("$y-$m-$d 00:00:00");
+        return (int) $this->to;
     }
 
     /**
@@ -120,6 +102,20 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
         });
 
         $this->pollAndTerminate();
+    }
+
+    /**
+     * @param FileModel $model
+     * @param callable  $saveFile function(PictureModel $model, int $id)
+     *
+     * @throws TGException
+     */
+    private function getFile(FileModel $model, callable $saveFile): void
+    {
+        $this->infoClient->loadFile($model, function (PictureModel $pictureModel) use ($model, $saveFile) {
+            $id = $model->getId();
+            $saveFile($pictureModel, $id);
+        });
     }
 
     /**
@@ -215,21 +211,6 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
     }
 
     /**
-     * @param FileModel $model
-     * @param callable  $saveFile function(PictureModel $model, int $id)
-     *
-     * @throws TGException
-     */
-    private function getFile(FileModel $model, callable $saveFile): void
-    {
-        usleep(100000);
-        $this->infoClient->loadFile($model, function (PictureModel $pictureModel) use ($model, $saveFile) {
-            $id = $model->getId();
-            $saveFile($pictureModel, $id);
-        });
-    }
-
-    /**
      * @param int $id
      * @param int $limit
      *
@@ -298,7 +279,7 @@ class GroupPhotosClient extends MyTgClientDebug implements ScenarioInterface
                 $saveHandler = $this->saveHandler ?: function (PictureModel $pictureModel, int $id) {
                     $filename = "$id.".$pictureModel->format;
                     file_put_contents($filename, $pictureModel->bytes);
-                    Logger::log(__CLASS__, "$filename saved");
+                    Logger::log(__CLASS__, "$filename saved with time ".date('Y-m-d H:i:s', $pictureModel->modificationTime).' '.date_default_timezone_get());
                 };
                 $fileModel = new FileModel(
                     (int) $photo['id'],

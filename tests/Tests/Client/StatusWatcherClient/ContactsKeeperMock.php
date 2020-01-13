@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace tests\Tests\Client\StatusWatcherClient;
 
 use Client\BasicClient\BasicClient;

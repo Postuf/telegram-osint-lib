@@ -18,8 +18,10 @@ use SocksProxyAsync\Proxy;
 
 /**
  * Client base class
- * Uses two telegram, connections (infoClient, monitoringClient)
- * Requires files: first.authkey, second.authkey
+ *
+ * Uses two telegram, connections (infoClient, monitoringClient).
+ *
+ * Requires files: `first.authkey`, `second.authkey`.
  */
 class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger, ScenarioInterface
 {
@@ -45,30 +47,35 @@ class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger, Scen
     private $proxy;
 
     /**
-     * @param Proxy|null $proxy
+     * @param Proxy|null                    $proxy
+     * @param ClientGeneratorInterface|null $generator
      *
      * @throws TGException
      */
-    public function __construct(?Proxy $proxy = null)
+    public function __construct(?Proxy $proxy = null, ?ClientGeneratorInterface $generator = null)
     {
         /*
          * Set TL-node logger
          */
         Logger::setupLogger($this);
 
+        if (!$generator) {
+            $generator = new ClientGenerator();
+        }
+
         /*
          * (!) Authkeys can be the same (StatusClient и InfoClient), but it is NOT recommended,
          * due to Telegram-server sending nodes to different clients,leading to
          * data losses on clients.
          */
-        $this->authKeyForFirstClient = trim(file_get_contents('./first.authkey'));
-        $this->authKeyForSecondClient = trim(file_get_contents('./second.authkey'));
+        $this->authKeyForFirstClient = $generator->getAuthKeyInfo();
+        $this->authKeyForSecondClient = $generator->getAuthKeyStatus();
 
         /*
          * Clients init
          */
-        $this->monitoringClient = new StatusWatcherClient($this);
-        $this->infoClient = new InfoClient();
+        $this->monitoringClient = $generator->getStatusWatcherClient($this);
+        $this->infoClient = $generator->getInfoClient();
         $this->proxy = $proxy;
     }
 
