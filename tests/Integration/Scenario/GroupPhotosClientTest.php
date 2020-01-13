@@ -10,7 +10,6 @@ use Helpers\NullBasicClientGenerator;
 use Helpers\TestClientGenerator;
 use PHPUnit\Framework\TestCase;
 use Scenario\GroupPhotosClient;
-use Helpers\DateParser;
 
 class GroupPhotosClientTest extends TestCase
 {
@@ -55,8 +54,8 @@ class GroupPhotosClientTest extends TestCase
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
         $client = new GroupPhotosClient(
-            DateParser::parse('20190101'),
-            DateParser::parse('20190202'),
+            1546300800, // 20190101
+            1549065600, // 20190202
             $saveHandler,
             $testGenerator
         );
@@ -80,33 +79,8 @@ class GroupPhotosClientTest extends TestCase
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
         $client = new GroupPhotosClient(
-            DateParser::parse('20190101'),
-            DateParser::parse('20200202'),
-            $saveHandler,
-            $testGenerator
-        );
-        $client->startActions();
-        $this->assertEquals(1, $count);
-    }
-
-    /**
-     * We expect one photo to be loaded in basic scenario with date limits and another date format
-     *
-     * @throws TGException
-     * @noinspection PhpUnusedParameterInspection
-     */
-    public function test_basic_scenario_with_date_limit_advanced(): void {
-        $count = 0;
-        $saveHandler = function (PictureModel $model, int $id) use (&$count) {
-            $count++;
-        };
-        $file = file_get_contents(__DIR__.self::DEFAULT_TRACE_PATH);
-        $basicGenerator = new NullBasicClientGenerator(json_decode($file, true));
-        $authKey = self::DEFAULT_AUTHKEY;
-        $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
-        $client = new GroupPhotosClient(
-            DateParser::parse('2019-01-01 00:00:00'),
-            DateParser::parse('20200202'),
+            1546300800, // 20190101
+            1580601600, // 20200202
             $saveHandler,
             $testGenerator
         );
