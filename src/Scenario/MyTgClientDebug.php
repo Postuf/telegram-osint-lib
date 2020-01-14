@@ -45,6 +45,8 @@ class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger, Scen
      * @var Proxy
      */
     private $proxy;
+    /** @var float */
+    private $timeout = 5.0;
 
     /**
      * @param Proxy|null                    $proxy
@@ -282,21 +284,31 @@ class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger, Scen
         echo date('d.m.Y H:i:s').' | '.$dbgLabel.': '.$dbgMessage."\n";
     }
 
+    public function setTimeout(float $timeout): void
+    {
+        $this->timeout = $timeout;
+    }
+
     /**
      * Fetch messages and terminate client
      *
+     * @param float $timeout seconds
+     *
      * @throws TGException
      */
-    public function pollAndTerminate(): void
+    public function pollAndTerminate(float $timeout = 0.0): void
     {
-        $lastMsg = time();
+        if ($timeout == 0.0) {
+            $timeout = $this->timeout;
+        }
+        $lastMsg = microtime(true);
         while (true) {
 
             if ($this->infoClient->pollMessage()) {
-                $lastMsg = time();
+                $lastMsg = microtime(true);
             }
 
-            if (time() - $lastMsg > 5)
+            if (microtime(true) - $lastMsg > $timeout)
                 break;
 
             usleep(10000);

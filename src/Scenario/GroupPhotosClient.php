@@ -155,7 +155,7 @@ class GroupPhotosClient extends AbstractGroupClient implements ScenarioInterface
         $this->infoLogin();
         /** @var array $ids */
         $limit = 200;
-        sleep(1);
+        usleep(10000);
         if ($this->deepLink) {
             Logger::log(__CLASS__, "getting chat by deeplink {$this->deepLink}");
             $parts = explode('/', $this->deepLink);
@@ -249,7 +249,7 @@ class GroupPhotosClient extends AbstractGroupClient implements ScenarioInterface
                 if (!$sizeId) {
                     throw new Exception('Invalid photo: no sizes: '.json_encode($photo));
                 }
-                sleep(1);
+                usleep(10000);
                 Logger::log(__CLASS__, 'getting file '.$photo['id']);
                 $saveHandler = $this->saveHandler ?: function (PictureModel $pictureModel, int $id) {
                     $filename = "$id.".$pictureModel->format;
@@ -272,7 +272,7 @@ class GroupPhotosClient extends AbstractGroupClient implements ScenarioInterface
             }
 
             if (count($nodes) === $limit) {
-                sleep(1);
+                usleep(10000);
                 Logger::log(__CLASS__, "Got more messages, iterate after $lastId");
                 $this->infoClient->getChatMessages(
                     $id,
