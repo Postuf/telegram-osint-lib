@@ -24,7 +24,7 @@ use TLMessage\TLMessage\ClientMessages\Api\get_full_chat;
  * @see get_all_chats
  * @see get_full_chat
  */
-class GroupMembersClient extends AbstractGroupClient implements ScenarioInterface
+class GroupMembersScenario extends AbstractGroupScenario implements ScenarioInterface
 {
     /** @var callable|null */
     private $handler;
