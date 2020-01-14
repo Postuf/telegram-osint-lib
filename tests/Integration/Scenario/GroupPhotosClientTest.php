@@ -19,6 +19,7 @@ class GroupPhotosClientTest extends TestCase
     private const CHANNEL_TRACE_PATH = '/traces/channel-photos.txt';
     private const CHANNEL_ID = 1229718840;
     private const DEFAULT_FILE_SIZE = 140179;
+    private const TIMEOUT = 0.15;
 
     /**
      * We expect one photo to be loaded in basic scenario without limits and without group id
@@ -38,6 +39,7 @@ class GroupPhotosClientTest extends TestCase
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
         $client = new GroupPhotosClient(null, null, $saveHandler, $testGenerator);
+        $client->setTimeout(self::TIMEOUT);
         $client->startActions();
         $this->assertEquals(1, $count);
     }
@@ -61,6 +63,7 @@ class GroupPhotosClientTest extends TestCase
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
         $client = new GroupPhotosClient(null, null, $saveHandler, $testGenerator);
         $client->setGroupId(self::CHANNEL_ID);
+        $client->setTimeout(self::TIMEOUT);
         $client->startActions();
         $this->assertEquals(1, $count);
     }
@@ -89,6 +92,7 @@ class GroupPhotosClientTest extends TestCase
             $testGenerator
         );
         $client->setGroupId(self::CHANNEL_ID);
+        $client->setTimeout(self::TIMEOUT);
         $client->startActions();
         $this->assertEquals(1, $count);
     }
@@ -117,6 +121,7 @@ class GroupPhotosClientTest extends TestCase
             $testGenerator
         );
         $client->setGroupId(self::CHANNEL_ID);
+        $client->setTimeout(self::TIMEOUT);
         $client->startActions();
         $this->assertEquals(0, $count);
     }
@@ -143,6 +148,7 @@ class GroupPhotosClientTest extends TestCase
             $testGenerator
         );
         $client->setDeepLink('https://t.me/asfaefegw');
+        $client->setTimeout(self::TIMEOUT);
         $client->startActions();
         $this->assertEquals(2, $count);
     }
@@ -169,6 +175,7 @@ class GroupPhotosClientTest extends TestCase
             $testGenerator
         );
         $client->setDeepLink('https://t.me/asfaefegw');
+        $client->setTimeout(self::TIMEOUT);
         $client->startActions();
         $this->assertEquals(2, $count);
     }
@@ -196,6 +203,7 @@ class GroupPhotosClientTest extends TestCase
             $saveHandler,
             $testGenerator
         );
+        $client->setTimeout(self::TIMEOUT);
         $client->startActions();
         $this->assertEquals(0, $count);
     }
@@ -221,6 +229,7 @@ class GroupPhotosClientTest extends TestCase
             $saveHandler,
             $testGenerator
         );
+        $client->setTimeout(self::TIMEOUT);
         $client->startActions();
         $this->assertEquals(1, $count);
     }

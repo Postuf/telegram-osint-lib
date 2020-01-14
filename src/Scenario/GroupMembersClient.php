@@ -59,7 +59,7 @@ class GroupMembersClient extends AbstractGroupClient implements ScenarioInterfac
                     continue;
                 }
 
-                sleep(1);
+                usleep(10000);
                 $this->infoClient->getChatMembers($id, $this->makeChatMemberHandler($id));
             }
         };
@@ -71,7 +71,7 @@ class GroupMembersClient extends AbstractGroupClient implements ScenarioInterfac
     public function startActions(): void
     {
         $this->infoLogin();
-        sleep(1);
+        usleep(10000);
         Logger::log(__CLASS__, 'getting all chats');
         if ($this->deepLink) {
             Logger::log(__CLASS__, "getting chat by deeplink {$this->deepLink}");
