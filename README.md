@@ -32,7 +32,7 @@ composer require postuf/telegram-api-lib
 ```
 
 To check out usage examples, go to `examples` dir.
-First of all, you need auth keys generated, run `php registration.php` to get those.
+You need auth keys generated, run `php registration.php` to get those.
 Some examples require two accounts to run, save those keys to `first.authkey` and `second.authkey`, respectively.
 Now you are all set, you can run any of them, for example, `php parseGroupMembers.php`, and check the output.
 
