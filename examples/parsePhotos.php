@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Helpers\DateParser;
-use Scenario\GroupPhotosClient;
+use Scenario\GroupPhotosScenario;
 
 require_once __DIR__.'/../vendor/autoload.php';
 const INFO = '--info';
@@ -40,7 +40,7 @@ TXT;
 }
 
 /* @noinspection PhpUnhandledExceptionInspection */
-$photosClient = new GroupPhotosClient(
+$photosClient = new GroupPhotosScenario(
     DateParser::parse($since),
     DateParser::parse($to)
 );

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use Scenario\GroupMembersClient;
+use Scenario\GroupMembersScenario;
 
 $groupId = null;
 if (isset($argv[1])) {
@@ -23,7 +23,7 @@ TXT;
         }
     }
 }
-$client = new GroupMembersClient();
+$client = new GroupMembersScenario();
 if ($groupId) {
     $client->setGroupId($groupId);
 } elseif ($deepLink) {

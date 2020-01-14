@@ -8,7 +8,7 @@ use Logger\Logger;
 use MTSerialization\AnonymousMessage;
 use SocksProxyAsync\Proxy;
 
-abstract class AbstractGroupClient extends MyTgClientDebug implements ScenarioInterface
+abstract class AbstractGroupScenario extends MyTgClientDebug implements ScenarioInterface
 {
     /** @var int|null */
     protected $groupId;
