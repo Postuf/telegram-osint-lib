@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace tests\Tests\Client\StatusWatcherClient;
 
-use Client\BasicClient\BasicClient;
-use Client\StatusWatcherClient\ContactsKeeper;
-use TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
+use TelegramOSINT\Client\BasicClient\BasicClient;
+use TelegramOSINT\Client\StatusWatcherClient\ContactsKeeper;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 
 class ContactsKeeperMock extends ContactsKeeper
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Client;
+namespace TelegramOSINT\Client;
 
-use Client\AuthKey\AuthKey;
-use Exception\TGException;
-use Tools\Proxy;
+use TelegramOSINT\Client\AuthKey\AuthKey;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\Tools\Proxy;
 
 interface Client
 {

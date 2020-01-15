@@ -1,6 +1,6 @@
 <?php
 
-namespace Logger;
+namespace TelegramOSINT\Logger;
 
 class DefaultLogger implements ClientDebugLogger
 {

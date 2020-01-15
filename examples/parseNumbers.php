@@ -1,8 +1,8 @@
 <?php
 
-use Client\InfoObtainingClient\Models\UserInfoModel;
-use Logger\Logger;
-use Scenario\MyTgClientDebug;
+use TelegramOSINT\Client\InfoObtainingClient\Models\UserInfoModel;
+use TelegramOSINT\Logger\Logger;
+use TelegramOSINT\Scenario\MyTgClientDebug;
 
 require_once __DIR__.'/../vendor/autoload.php';
 

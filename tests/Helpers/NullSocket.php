@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Helpers;
 
-use TGConnection\DataCentre;
-use TGConnection\Socket\Socket;
+use TelegramOSINT\TGConnection\DataCentre;
+use TelegramOSINT\TGConnection\Socket\Socket;
 
 /**
  * Class NullSocket

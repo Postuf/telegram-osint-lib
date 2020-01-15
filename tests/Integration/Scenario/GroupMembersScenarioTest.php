@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Integration\Scenario;
 
-use Exception\TGException;
 use Helpers\NullBasicClientGenerator;
 use Helpers\TestClientGenerator;
 use PHPUnit\Framework\TestCase;
-use Scenario\GroupMembersScenario;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\Scenario\GroupMembersScenario;
 
 class GroupMembersScenarioTest extends TestCase
 {

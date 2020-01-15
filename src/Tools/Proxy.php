@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tools;
+namespace TelegramOSINT\Tools;
 
-use Exception\TGException;
 use SocksProxyAsync\Proxy as LibProxy;
 use SocksProxyAsync\SocksException;
+use TelegramOSINT\Exception\TGException;
 
 class Proxy extends LibProxy
 {

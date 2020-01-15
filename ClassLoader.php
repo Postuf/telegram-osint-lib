@@ -9,6 +9,7 @@ class ClassLoader
             ['/'],
             $class
         );
+        $class = str_replace('TelegramOSINT/', '', $class);
 
         $className = __DIR__.'/src/'.$class.'.php';
 

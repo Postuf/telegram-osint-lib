@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace TLMessage\TLMessage\ClientMessages\TgApp;
+namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp;
 
-use TLMessage\TLMessage\Packer;
+use TelegramOSINT\TLMessage\TLMessage\Packer;
 
 /** @see https://core.telegram.org/constructor/inputPeerChat */
 class input_peer_chat extends input_peer

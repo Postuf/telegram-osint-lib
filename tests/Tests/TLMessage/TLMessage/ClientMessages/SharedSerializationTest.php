@@ -6,23 +6,23 @@ declare(strict_types=1);
 namespace Tests\Tests\TLMessage\TLMessage\ClientMessages;
 
 use PHPUnit\Framework\TestCase;
-use TLMessage\TLMessage\ClientMessages\Shared\client_dh_inner_data;
-use TLMessage\TLMessage\ClientMessages\Shared\delete_contacts;
-use TLMessage\TLMessage\ClientMessages\Shared\export_authorization;
-use TLMessage\TLMessage\ClientMessages\Shared\get_config;
-use TLMessage\TLMessage\ClientMessages\Shared\get_file;
-use TLMessage\TLMessage\ClientMessages\Shared\get_statuses;
-use TLMessage\TLMessage\ClientMessages\Shared\import_authorization;
-use TLMessage\TLMessage\ClientMessages\Shared\input_file_location;
-use TLMessage\TLMessage\ClientMessages\Shared\msgs_ack;
-use TLMessage\TLMessage\ClientMessages\Shared\p_q_inner_data;
-use TLMessage\TLMessage\ClientMessages\Shared\ping;
-use TLMessage\TLMessage\ClientMessages\Shared\req_dh_params;
-use TLMessage\TLMessage\ClientMessages\Shared\req_pq_multi;
-use TLMessage\TLMessage\ClientMessages\Shared\set_client_dh_params;
-use TLMessage\TLMessage\ClientMessages\Shared\sign_in;
-use TLMessage\TLMessage\ClientMessages\Shared\sign_up;
-use TLMessage\TLMessage\ClientMessages\Shared\update_status;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\client_dh_inner_data;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\delete_contacts;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\export_authorization;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\get_config;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\get_file;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\get_statuses;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\import_authorization;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\input_file_location;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\msgs_ack;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\p_q_inner_data;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\ping;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\req_dh_params;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\req_pq_multi;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\set_client_dh_params;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\sign_in;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\sign_up;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\update_status;
 
 class SharedSerializationTest extends TestCase
 {

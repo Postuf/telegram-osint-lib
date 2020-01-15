@@ -1,20 +1,20 @@
 <?php
 
-namespace Scenario;
+namespace TelegramOSINT\Scenario;
 
-use Client\AuthKey\AuthKeyCreator;
-use Client\Client;
-use Client\InfoObtainingClient\InfoClient;
-use Client\InfoObtainingClient\Models\UserInfoModel;
-use Client\StatusWatcherClient\Models\HiddenStatus;
-use Client\StatusWatcherClient\Models\ImportResult;
-use Client\StatusWatcherClient\Models\User;
-use Client\StatusWatcherClient\StatusWatcherCallbacks;
-use Client\StatusWatcherClient\StatusWatcherClient;
-use Exception\TGException;
-use Logger\ClientDebugLogger;
-use Logger\Logger;
-use Tools\Proxy;
+use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
+use TelegramOSINT\Client\Client;
+use TelegramOSINT\Client\InfoObtainingClient\InfoClient;
+use TelegramOSINT\Client\InfoObtainingClient\Models\UserInfoModel;
+use TelegramOSINT\Client\StatusWatcherClient\Models\HiddenStatus;
+use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
+use TelegramOSINT\Client\StatusWatcherClient\Models\User;
+use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherCallbacks;
+use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherClient;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\Logger\ClientDebugLogger;
+use TelegramOSINT\Logger\Logger;
+use TelegramOSINT\Tools\Proxy;
 
 /**
  * Client base class

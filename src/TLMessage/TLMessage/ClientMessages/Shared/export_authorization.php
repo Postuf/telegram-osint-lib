@@ -2,10 +2,10 @@
 
 /** @noinspection SpellCheckingInspection */
 
-namespace TLMessage\TLMessage\ClientMessages\Shared;
+namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared;
 
-use TLMessage\TLMessage\Packer;
-use TLMessage\TLMessage\TLClientMessage;
+use TelegramOSINT\TLMessage\TLMessage\Packer;
+use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 /**
  * @see https://core.telegram.org/method/auth.exportAuthorization

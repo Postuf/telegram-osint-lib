@@ -1,6 +1,6 @@
 <?php
 
-namespace Auth\Certificate;
+namespace TelegramOSINT\Auth\Certificate;
 
 class Certificate
 {

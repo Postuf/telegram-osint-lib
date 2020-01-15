@@ -1,9 +1,9 @@
 <?php
 
-namespace TLMessage\TLMessage\ServerMessages;
+namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages;
 
-use MTSerialization\AnonymousMessage;
-use TLMessage\TLMessage\TLServerMessage;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
 class SentCodeApp extends TLServerMessage
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace TGConnection\Socket;
+namespace TelegramOSINT\TGConnection\Socket;
 
 use SocksProxyAsync\SocketAsync;
 use SocksProxyAsync\SocksException;

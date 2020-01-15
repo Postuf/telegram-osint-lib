@@ -1,17 +1,17 @@
 <?php
 
-namespace TLMessage\TLMessage\ServerMessages\Custom;
+namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Custom;
 
-use Client\StatusWatcherClient\Models\HiddenStatus;
-use Exception\TGException;
-use MTSerialization\AnonymousMessage;
-use TLMessage\TLMessage\ServerMessages\UserStatus\UserStatusEmpty;
-use TLMessage\TLMessage\ServerMessages\UserStatus\UserStatusLastMonth;
-use TLMessage\TLMessage\ServerMessages\UserStatus\UserStatusLastWeek;
-use TLMessage\TLMessage\ServerMessages\UserStatus\UserStatusOffline;
-use TLMessage\TLMessage\ServerMessages\UserStatus\UserStatusOnline;
-use TLMessage\TLMessage\ServerMessages\UserStatus\UserStatusRecently;
-use TLMessage\TLMessage\TLServerMessage;
+use TelegramOSINT\Client\StatusWatcherClient\Models\HiddenStatus;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserStatus\UserStatusEmpty;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserStatus\UserStatusLastMonth;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserStatus\UserStatusLastWeek;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserStatus\UserStatusOffline;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserStatus\UserStatusOnline;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserStatus\UserStatusRecently;
+use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
 class UserStatus extends TLServerMessage
 {

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Client;
 
-use Client\InfoObtainingClient\InfoClient;
-use Client\MultiClient;
-use Exception\TGException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use TelegramOSINT\Client\InfoObtainingClient\InfoClient;
+use TelegramOSINT\Client\MultiClient;
+use TelegramOSINT\Exception\TGException;
 
 class MultiClientTest extends TestCase
 {

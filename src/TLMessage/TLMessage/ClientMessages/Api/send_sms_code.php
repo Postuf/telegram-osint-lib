@@ -1,10 +1,10 @@
 <?php
 
-namespace TLMessage\TLMessage\ClientMessages\Api;
+namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api;
 
-use LibConfig;
-use TLMessage\TLMessage\Packer;
-use TLMessage\TLMessage\TLClientMessage;
+use TelegramOSINT\LibConfig;
+use TelegramOSINT\TLMessage\TLMessage\Packer;
+use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class send_sms_code implements TLClientMessage
 {

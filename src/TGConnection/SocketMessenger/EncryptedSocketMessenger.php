@@ -1,35 +1,35 @@
 <?php
 
-namespace TGConnection\SocketMessenger;
+namespace TelegramOSINT\TGConnection\SocketMessenger;
 
-use Auth\AES\AES;
-use Auth\AES\PhpSecLibAES;
-use Client\AuthKey\AuthKey;
-use Exception\TGException;
-use LibConfig;
-use Logger\Logger;
 use LogicException;
-use MTSerialization\AnonymousMessage;
-use MTSerialization\MTDeserializer;
-use MTSerialization\OwnImplementation\OwnDeserializer;
-use TGConnection\DataCentre;
-use TGConnection\Socket\PersistentSocket;
-use TGConnection\Socket\Socket;
-use TGConnection\SocketMessenger\EncryptedSocketCallbacks\CallbackMessageListener;
-use TGConnection\SocketMessenger\EncryptedSocketCallbacks\ExpectingMessageListener;
-use TGConnection\SocketMessenger\MessengerTools\MessageIdGenerator;
-use TGConnection\SocketMessenger\MessengerTools\OuterHeaderWrapper;
-use TLMessage\TLMessage\ClientMessages\Shared\msgs_ack;
-use TLMessage\TLMessage\ClientMessages\TgApp\get_state;
-use TLMessage\TLMessage\ClientMessages\TgApp\updates_get_difference;
-use TLMessage\TLMessage\ServerMessages\BadServerSalt;
-use TLMessage\TLMessage\ServerMessages\MsgContainer;
-use TLMessage\TLMessage\ServerMessages\Rpc\Errors\FloodWait;
-use TLMessage\TLMessage\ServerMessages\Rpc\RpcError;
-use TLMessage\TLMessage\ServerMessages\Rpc\RpcResult;
-use TLMessage\TLMessage\ServerMessages\Update\UpdatesTooLong;
-use TLMessage\TLMessage\ServerMessages\UpdatesState;
-use TLMessage\TLMessage\TLClientMessage;
+use TelegramOSINT\Auth\AES\AES;
+use TelegramOSINT\Auth\AES\PhpSecLibAES;
+use TelegramOSINT\Client\AuthKey\AuthKey;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\LibConfig;
+use TelegramOSINT\Logger\Logger;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\MTSerialization\MTDeserializer;
+use TelegramOSINT\MTSerialization\OwnImplementation\OwnDeserializer;
+use TelegramOSINT\TGConnection\DataCentre;
+use TelegramOSINT\TGConnection\Socket\PersistentSocket;
+use TelegramOSINT\TGConnection\Socket\Socket;
+use TelegramOSINT\TGConnection\SocketMessenger\EncryptedSocketCallbacks\CallbackMessageListener;
+use TelegramOSINT\TGConnection\SocketMessenger\EncryptedSocketCallbacks\ExpectingMessageListener;
+use TelegramOSINT\TGConnection\SocketMessenger\MessengerTools\MessageIdGenerator;
+use TelegramOSINT\TGConnection\SocketMessenger\MessengerTools\OuterHeaderWrapper;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\msgs_ack;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\get_state;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\updates_get_difference;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\BadServerSalt;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\MsgContainer;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Rpc\Errors\FloodWait;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Rpc\RpcError;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Rpc\RpcResult;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update\UpdatesTooLong;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UpdatesState;
+use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 /**
  * Encrypted Telegram-specific socket

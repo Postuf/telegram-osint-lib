@@ -1,9 +1,9 @@
 <?php
 
-namespace Auth\Protocol;
+namespace TelegramOSINT\Auth\Protocol;
 
-use TLMessage\TLMessage\ClientMessages\Shared\p_q_inner_data;
-use TLMessage\TLMessage\TLClientMessage;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\p_q_inner_data;
+use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 /**
  * AuthKey generation algorithm described in API docs

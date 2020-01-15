@@ -1,13 +1,13 @@
 <?php
 
-namespace TGConnection\Socket;
+namespace TelegramOSINT\TGConnection\Socket;
 
-use Exception\TGException;
-use LibConfig;
 use SocksProxyAsync\Socks5Socket;
 use SocksProxyAsync\SocksException;
-use TGConnection\DataCentre;
-use Tools\Proxy;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\LibConfig;
+use TelegramOSINT\TGConnection\DataCentre;
+use TelegramOSINT\Tools\Proxy;
 
 class ProxySocket implements Socket
 {

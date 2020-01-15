@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Tests;
 
-use MTSerialization\MTDeserializer;
 use PHPUnit\Framework\TestCase;
+use TelegramOSINT\MTSerialization\MTDeserializer;
 use Tests\MTSerialization\OwnImplementation\OwnDeserializerMock;
 
 class OwnDeserializerTest extends TestCase

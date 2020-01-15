@@ -1,11 +1,11 @@
 <?php
 
-namespace TLMessage\TLMessage\ClientMessages\TgApp;
+namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp;
 
-use LibConfig;
-use Registration\AccountInfo;
-use TLMessage\TLMessage\Packer;
-use TLMessage\TLMessage\TLClientMessage;
+use TelegramOSINT\LibConfig;
+use TelegramOSINT\Registration\AccountInfo;
+use TelegramOSINT\TLMessage\TLMessage\Packer;
+use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 /**
  * @see https://core.telegram.org/method/initConnection

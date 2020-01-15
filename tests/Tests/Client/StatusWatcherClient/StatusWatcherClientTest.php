@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Tests\Client;
 
-use Client\StatusWatcherClient\Models\ImportResult;
-use Exception\TGException;
 use PHPUnit\Framework\TestCase;
+use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 use Tests\Tests\Client\StatusWatcherClient\AnonymousMessageMock;
 use Tests\Tests\Client\StatusWatcherClient\StatusWatcherClientMock;
 use Tests\Tests\Client\StatusWatcherClient\StatusWatcherClientTestCallbacks;
-use TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 
 class StatusWatcherClientTest extends TestCase
 {

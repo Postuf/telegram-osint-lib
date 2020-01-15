@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace TLMessage\TLMessage\ClientMessages\TgApp;
+namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp;
 
-use TLMessage\TLMessage\Packer;
-use TLMessage\TLMessage\TLClientMessage;
+use TelegramOSINT\TLMessage\TLMessage\Packer;
+use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 /** @see https://tl.telethon.dev/constructors/p_q_inner_data_dc.html */
 class p_q_inner_data_dc implements TLClientMessage

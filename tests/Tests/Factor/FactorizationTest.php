@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Auth\Factorization\GmpFactorizer;
 use PHPUnit\Framework\TestCase;
+use TelegramOSINT\Auth\Factorization\GmpFactorizer;
 
 class FactorizationTest extends TestCase
 {

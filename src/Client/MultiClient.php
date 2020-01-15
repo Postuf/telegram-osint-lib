@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Client;
+namespace TelegramOSINT\Client;
 
-use Client\AuthKey\AuthKey;
-use Client\AuthKey\AuthKeyCreator;
-use Client\InfoObtainingClient\InfoClient;
-use Exception\TGException;
-use Logger\Logger;
-use Tools\Proxy;
+use TelegramOSINT\Client\AuthKey\AuthKey;
+use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
+use TelegramOSINT\Client\InfoObtainingClient\InfoClient;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\Logger\Logger;
+use TelegramOSINT\Tools\Proxy;
 
 class MultiClient
 {

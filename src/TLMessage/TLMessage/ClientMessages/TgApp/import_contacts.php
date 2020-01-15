@@ -1,10 +1,10 @@
 <?php
 
-namespace TLMessage\TLMessage\ClientMessages\TgApp;
+namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp;
 
-use Registration\NameGenerator\NameResource;
-use TLMessage\TLMessage\Packer;
-use TLMessage\TLMessage\TLClientMessage;
+use TelegramOSINT\Registration\NameGenerator\NameResource;
+use TelegramOSINT\TLMessage\TLMessage\Packer;
+use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 /**
  * @see https://core.telegram.org/method/contacts.importContacts

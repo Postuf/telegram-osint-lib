@@ -1,8 +1,8 @@
 <?php
 
-namespace Scenario;
+namespace TelegramOSINT\Scenario;
 
-use Client\BasicClient\BasicClient;
+use TelegramOSINT\Client\BasicClient\BasicClient;
 
 interface BasicClientGeneratorInterface
 {

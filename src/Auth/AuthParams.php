@@ -1,6 +1,6 @@
 <?php
 
-namespace Auth;
+namespace TelegramOSINT\Auth;
 
 class AuthParams
 {

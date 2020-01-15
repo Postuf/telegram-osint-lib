@@ -1,11 +1,11 @@
 <?php
 
-namespace Registration;
+namespace TelegramOSINT\Registration;
 
-use Exception\TGException;
-use LibConfig;
-use Registration\DeviceGenerator\DeviceResource;
-use Registration\NameGenerator\NameResource;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\LibConfig;
+use TelegramOSINT\Registration\DeviceGenerator\DeviceResource;
+use TelegramOSINT\Registration\NameGenerator\NameResource;
 
 class AccountInfo
 {

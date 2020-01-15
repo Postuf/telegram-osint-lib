@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Helpers;
 
-use Client\BasicClient\BasicClientImpl;
-use TGConnection\DataCentre;
-use TGConnection\Socket\Socket;
-use TGConnection\SocketMessenger\SocketMessenger;
-use Tools\Proxy;
+use TelegramOSINT\Client\BasicClient\BasicClientImpl;
+use TelegramOSINT\TGConnection\DataCentre;
+use TelegramOSINT\TGConnection\Socket\Socket;
+use TelegramOSINT\TGConnection\SocketMessenger\SocketMessenger;
+use TelegramOSINT\Tools\Proxy;
 
 class NullBasicClientImpl extends BasicClientImpl
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace MTSerialization\OwnImplementation;
+namespace TelegramOSINT\MTSerialization\OwnImplementation;
 
-use Exception\TGException;
-use MTSerialization\AnonymousMessage;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
 
 class OwnAnonymousMessage implements AnonymousMessage
 {

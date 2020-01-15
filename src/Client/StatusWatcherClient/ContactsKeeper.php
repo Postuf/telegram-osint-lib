@@ -1,25 +1,25 @@
 <?php
 
-namespace Client\StatusWatcherClient;
+namespace TelegramOSINT\Client\StatusWatcherClient;
 
-use Client\BasicClient\BasicClient;
-use Client\StatusWatcherClient\Models\ImportResult;
-use Exception\TGException;
-use MTSerialization\AnonymousMessage;
-use TLMessage\TLMessage\ClientMessages\Shared\add_contact;
-use TLMessage\TLMessage\ClientMessages\Shared\delete_contacts;
-use TLMessage\TLMessage\ClientMessages\TgApp\contacts_search;
-use TLMessage\TLMessage\ClientMessages\TgApp\get_contacts;
-use TLMessage\TLMessage\ClientMessages\TgApp\import_contacts;
-use TLMessage\TLMessage\ClientMessages\TgApp\reset_saved_contacts;
-use TLMessage\TLMessage\ServerMessages\Contact\ContactFound;
-use TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
-use TLMessage\TLMessage\ServerMessages\Contact\CurrentContacts;
-use TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
-use TLMessage\TLMessage\ServerMessages\Update\Updates;
-use Tools\Phone;
-use Tools\Username;
-use Validators\ImportedPhoneValidator;
+use TelegramOSINT\Client\BasicClient\BasicClient;
+use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\add_contact;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\delete_contacts;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\contacts_search;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\get_contacts;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\import_contacts;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\reset_saved_contacts;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactFound;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\CurrentContacts;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update\Updates;
+use TelegramOSINT\Tools\Phone;
+use TelegramOSINT\Tools\Username;
+use TelegramOSINT\Validators\ImportedPhoneValidator;
 
 class ContactsKeeper
 {

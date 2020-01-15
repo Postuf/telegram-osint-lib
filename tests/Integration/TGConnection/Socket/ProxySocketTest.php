@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Integration\TGConnection\Socket;
 
-use Exception\TGException;
 use PHPUnit\Framework\TestCase;
-use TGConnection\DataCentre;
-use TGConnection\Socket\ProxySocket;
-use Tools\Proxy;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\TGConnection\DataCentre;
+use TelegramOSINT\TGConnection\Socket\ProxySocket;
+use TelegramOSINT\Tools\Proxy;
 
 class ProxySocketTest extends TestCase
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MTSerialization;
+namespace TelegramOSINT\MTSerialization;
 
 interface AnonymousMessage
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace MTSerialization\OwnImplementation;
+namespace TelegramOSINT\MTSerialization\OwnImplementation;
 
-use Exception\TGException;
-use MTSerialization\AnonymousMessage;
-use MTSerialization\MTDeserializer;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\MTSerialization\MTDeserializer;
 
 class OwnDeserializer implements MTDeserializer
 {

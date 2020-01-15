@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Tests\Tests\TLMessage\TLMessage\ClientMessages;
 
 use PHPUnit\Framework\TestCase;
-use TLMessage\TLMessage\ClientMessages\Shared\get_config;
-use TLMessage\TLMessage\ClientMessages\TgApp\get_contacts;
-use TLMessage\TLMessage\ClientMessages\TgApp\get_langpack;
-use TLMessage\TLMessage\ClientMessages\TgApp\get_languages;
-use TLMessage\TLMessage\ClientMessages\TgApp\get_terms_of_service_update;
-use TLMessage\TLMessage\ClientMessages\TgApp\invoke_with_layer;
-use TLMessage\TLMessage\ClientMessages\TgApp\p_q_inner_data_dc;
-use TLMessage\TLMessage\ClientMessages\TgApp\reset_saved_contacts;
-use TLMessage\TLMessage\ClientMessages\TgApp\send_sms_code;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\get_config;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\get_contacts;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\get_langpack;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\get_languages;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\get_terms_of_service_update;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\invoke_with_layer;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\p_q_inner_data_dc;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\reset_saved_contacts;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\send_sms_code;
 
 class TgAppSerializationTest extends TestCase
 {

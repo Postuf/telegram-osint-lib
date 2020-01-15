@@ -1,9 +1,9 @@
 <?php
 
-namespace Auth\Factorization;
+namespace TelegramOSINT\Auth\Factorization;
 
-use Exception\TGException;
 use GMP;
+use TelegramOSINT\Exception\TGException;
 
 class GmpFactorizer implements Factorizer
 {

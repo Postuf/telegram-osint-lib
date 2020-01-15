@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Integration\Scenario;
 
-use Client\InfoObtainingClient\Models\PictureModel;
-use Exception\TGException;
 use Helpers\NullBasicClientGenerator;
 use Helpers\TestClientGenerator;
 use PHPUnit\Framework\TestCase;
-use Scenario\GroupPhotosScenario;
+use TelegramOSINT\Client\InfoObtainingClient\Models\PictureModel;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\Scenario\GroupPhotosScenario;
 
 class GroupPhotosScenarioTest extends TestCase
 {

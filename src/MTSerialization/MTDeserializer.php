@@ -1,6 +1,6 @@
 <?php
 
-namespace MTSerialization;
+namespace TelegramOSINT\MTSerialization;
 
 interface MTDeserializer
 {

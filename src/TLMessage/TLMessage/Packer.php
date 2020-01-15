@@ -1,6 +1,6 @@
 <?php
 
-namespace TLMessage\TLMessage;
+namespace TelegramOSINT\TLMessage\TLMessage;
 
 class Packer
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Client\StatusWatcherClient\Models;
+namespace TelegramOSINT\Client\StatusWatcherClient\Models;
 
 class HiddenStatus
 {

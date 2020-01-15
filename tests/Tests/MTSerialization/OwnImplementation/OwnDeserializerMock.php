@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\MTSerialization\OwnImplementation;
 
-use MTSerialization\OwnImplementation\OwnDeserializer;
+use TelegramOSINT\MTSerialization\OwnImplementation\OwnDeserializer;
 
 class OwnDeserializerMock extends OwnDeserializer
 {

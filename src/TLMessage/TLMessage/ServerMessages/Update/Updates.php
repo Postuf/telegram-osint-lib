@@ -1,10 +1,10 @@
 <?php
 
-namespace TLMessage\TLMessage\ServerMessages\Update;
+namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update;
 
-use MTSerialization\AnonymousMessage;
-use TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
-use TLMessage\TLMessage\TLServerMessage;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
+use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
 class Updates extends TLServerMessage
 {

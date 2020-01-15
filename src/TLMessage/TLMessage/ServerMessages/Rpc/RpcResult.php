@@ -1,9 +1,9 @@
 <?php
 
-namespace TLMessage\TLMessage\ServerMessages\Rpc;
+namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Rpc;
 
-use MTSerialization\AnonymousMessage;
-use TLMessage\TLMessage\TLServerMessage;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
 class RpcResult extends TLServerMessage
 {

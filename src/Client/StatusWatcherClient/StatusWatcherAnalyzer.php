@@ -1,17 +1,17 @@
 <?php
 
-namespace Client\StatusWatcherClient;
+namespace TelegramOSINT\Client\StatusWatcherClient;
 
-use Client\Analyzer;
-use Client\StatusWatcherClient\Models\HiddenStatus;
-use Exception\TGException;
-use MTSerialization\AnonymousMessage;
-use TLMessage\TLMessage\ServerMessages\Contact\CurrentContacts;
-use TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
-use TLMessage\TLMessage\ServerMessages\Custom\UserStatus;
-use TLMessage\TLMessage\ServerMessages\Update\Updates;
-use TLMessage\TLMessage\ServerMessages\Update\UpdateShort;
-use TLMessage\TLMessage\ServerMessages\Update\UpdateUserStatus;
+use TelegramOSINT\Client\Analyzer;
+use TelegramOSINT\Client\StatusWatcherClient\Models\HiddenStatus;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\CurrentContacts;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Custom\UserStatus;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update\Updates;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update\UpdateShort;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update\UpdateUserStatus;
 
 class StatusWatcherAnalyzer implements Analyzer
 {

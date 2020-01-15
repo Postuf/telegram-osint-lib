@@ -1,6 +1,6 @@
 <?php
 
-namespace Auth\PowMod;
+namespace TelegramOSINT\Auth\PowMod;
 
 interface PowMod
 {

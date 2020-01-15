@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Tests\TLMessage\TLMessage\ServerMessages;
 
-use Exception\TGException;
 use PHPUnit\Framework\TestCase;
-use TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 
 class ContactUserTest extends TestCase
 {

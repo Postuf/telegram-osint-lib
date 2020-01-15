@@ -1,27 +1,27 @@
 <?php
 
-namespace Registration;
+namespace TelegramOSINT\Registration;
 
-use Auth\Protocol\ApiAuthorization;
-use Client\AuthKey\AuthInfo;
-use Client\AuthKey\AuthKey;
-use Client\AuthKey\AuthKeyCreator;
-use Exception\TGException;
-use Logger\Logger;
-use MTSerialization\AnonymousMessage;
-use TGConnection\DataCentre;
-use TGConnection\Socket\ProxySocket;
-use TGConnection\Socket\TcpSocket;
-use TGConnection\SocketMessenger\EncryptedSocketMessenger;
-use TGConnection\SocketMessenger\MessageListener;
-use TGConnection\SocketMessenger\SocketMessenger;
-use TLMessage\TLMessage\ClientMessages\Api\send_sms_code;
-use TLMessage\TLMessage\ClientMessages\Shared\sign_in;
-use TLMessage\TLMessage\ClientMessages\Shared\sign_up;
-use TLMessage\TLMessage\ServerMessages\AuthorizationSelfUser;
-use TLMessage\TLMessage\ServerMessages\SentCodeApi;
-use Tools\Phone;
-use Tools\Proxy;
+use TelegramOSINT\Auth\Protocol\ApiAuthorization;
+use TelegramOSINT\Client\AuthKey\AuthInfo;
+use TelegramOSINT\Client\AuthKey\AuthKey;
+use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\Logger\Logger;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TGConnection\DataCentre;
+use TelegramOSINT\TGConnection\Socket\ProxySocket;
+use TelegramOSINT\TGConnection\Socket\TcpSocket;
+use TelegramOSINT\TGConnection\SocketMessenger\EncryptedSocketMessenger;
+use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
+use TelegramOSINT\TGConnection\SocketMessenger\SocketMessenger;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\send_sms_code;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\sign_in;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\sign_up;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\AuthorizationSelfUser;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\SentCodeApi;
+use TelegramOSINT\Tools\Phone;
+use TelegramOSINT\Tools\Proxy;
 
 class RegistrationFromApi implements RegisterInterface, MessageListener
 {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Tests\Client\StatusWatcherClient;
 
-use Client\StatusWatcherClient\Models\HiddenStatus;
-use Client\StatusWatcherClient\Models\User;
-use Client\StatusWatcherClient\StatusWatcherCallbacks;
+use TelegramOSINT\Client\StatusWatcherClient\Models\HiddenStatus;
+use TelegramOSINT\Client\StatusWatcherClient\Models\User;
+use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherCallbacks;
 
 class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
 {

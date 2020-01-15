@@ -1,9 +1,9 @@
 <?php
 
-namespace TGConnection\Socket;
+namespace TelegramOSINT\TGConnection\Socket;
 
-use Exception\TGException;
-use TGConnection\DataCentre;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\TGConnection\DataCentre;
 
 /**
  * Simple socket over TCP which able to do basic operations

@@ -1,9 +1,9 @@
 <?php
 
-namespace Client\StatusWatcherClient;
+namespace TelegramOSINT\Client\StatusWatcherClient;
 
-use Client\StatusWatcherClient\Models\HiddenStatus;
-use Client\StatusWatcherClient\Models\User;
+use TelegramOSINT\Client\StatusWatcherClient\Models\HiddenStatus;
+use TelegramOSINT\Client\StatusWatcherClient\Models\User;
 
 interface StatusWatcherCallbacks
 {

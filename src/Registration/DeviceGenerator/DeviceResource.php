@@ -1,6 +1,6 @@
 <?php
 
-namespace Registration\DeviceGenerator;
+namespace TelegramOSINT\Registration\DeviceGenerator;
 
 class DeviceResource
 {

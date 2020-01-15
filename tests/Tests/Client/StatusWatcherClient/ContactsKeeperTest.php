@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Tests\Client\StatusWatcherClient;
 
-use Client\BasicClient\BasicClient;
-use Client\StatusWatcherClient\ContactsKeeper;
-use Client\StatusWatcherClient\Models\ImportResult;
-use Exception\TGException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use TelegramOSINT\Client\BasicClient\BasicClient;
+use TelegramOSINT\Client\StatusWatcherClient\ContactsKeeper;
+use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\TGConnection\SocketMessenger\SocketMessenger;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\delete_contacts;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\get_contacts;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\import_contacts;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\reset_saved_contacts;
+use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 use Tests\Tests\Client\StatusWatcherClient\AnonymousMessageMock;
-use TGConnection\SocketMessenger\SocketMessenger;
-use TLMessage\TLMessage\ClientMessages\Shared\delete_contacts;
-use TLMessage\TLMessage\ClientMessages\TgApp\get_contacts;
-use TLMessage\TLMessage\ClientMessages\TgApp\import_contacts;
-use TLMessage\TLMessage\ClientMessages\TgApp\reset_saved_contacts;
-use TLMessage\TLMessage\TLClientMessage;
 
 class ContactsKeeperTest extends TestCase
 {

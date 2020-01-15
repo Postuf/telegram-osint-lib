@@ -1,9 +1,9 @@
 <?php
 
-namespace TLMessage\TLMessage\ServerMessages\Bool;
+namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Bool;
 
-use MTSerialization\AnonymousMessage;
-use TLMessage\TLMessage\TLServerMessage;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
 class BoolTrue extends TLServerMessage
 {

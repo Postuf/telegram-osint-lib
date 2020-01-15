@@ -1,8 +1,8 @@
 <?php
 
-namespace Client\AuthKey;
+namespace TelegramOSINT\Client\AuthKey;
 
-use Registration\AccountInfo;
+use TelegramOSINT\Registration\AccountInfo;
 
 interface AuthorizedAuthKey extends AuthKey
 {

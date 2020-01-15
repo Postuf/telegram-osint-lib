@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Tests\TLMessage\TLMessage\ServerMessages;
 
 use PHPUnit\Framework\TestCase;
-use TLMessage\TLMessage\ServerMessages\Update\UpdateShort;
-use TLMessage\TLMessage\ServerMessages\Update\UpdateUserStatus;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update\UpdateShort;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update\UpdateUserStatus;
 
 class UpdateStatusTest extends TestCase
 {

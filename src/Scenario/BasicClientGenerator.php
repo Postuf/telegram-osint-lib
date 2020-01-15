@@ -1,10 +1,10 @@
 <?php
 
-namespace Scenario;
+namespace TelegramOSINT\Scenario;
 
-use Client\BasicClient\BasicClient;
-use Client\BasicClient\BasicClientImpl;
-use Client\BasicClient\TracingBasicClientImpl;
+use TelegramOSINT\Client\BasicClient\BasicClient;
+use TelegramOSINT\Client\BasicClient\BasicClientImpl;
+use TelegramOSINT\Client\BasicClient\TracingBasicClientImpl;
 
 class BasicClientGenerator implements BasicClientGeneratorInterface
 {

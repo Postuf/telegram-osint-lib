@@ -1,9 +1,9 @@
 <?php
 
-namespace TLMessage\TLMessage\ClientMessages\TgApp;
+namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp;
 
-use TLMessage\TLMessage\Packer;
-use TLMessage\TLMessage\TLClientMessage;
+use TelegramOSINT\TLMessage\TLMessage\Packer;
+use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class invoke_with_layer implements TLClientMessage
 {

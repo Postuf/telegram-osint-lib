@@ -1,9 +1,9 @@
 <?php
 
-namespace TLMessage\TLMessage\ClientMessages\Api;
+namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api;
 
-use TLMessage\TLMessage\Packer;
-use TLMessage\TLMessage\TLClientMessage;
+use TelegramOSINT\TLMessage\TLMessage\Packer;
+use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 /**
  * @see https://git.mel.vin/telegram_desktop/upstream/blob/4221fe666f13f1d83c27c5f64e83d9bc8b3cfb51/README.md
