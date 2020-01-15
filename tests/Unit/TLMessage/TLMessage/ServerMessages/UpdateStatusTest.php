@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Tests\TLMessage\TLMessage\ServerMessages;
+namespace Unit\TLMessage\TLMessage\ServerMessages;
 
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update\UpdateShort;

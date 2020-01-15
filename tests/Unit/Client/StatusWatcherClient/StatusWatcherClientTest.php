@@ -2,15 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Tests\Client;
+namespace Unit\Client\StatusWatcherClient;
 
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
-use Tests\Tests\Client\StatusWatcherClient\AnonymousMessageMock;
-use Tests\Tests\Client\StatusWatcherClient\StatusWatcherClientMock;
-use Tests\Tests\Client\StatusWatcherClient\StatusWatcherClientTestCallbacks;
 
 class StatusWatcherClientTest extends TestCase
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Client\StatusWatcherClient;
+namespace Unit\Client\StatusWatcherClient;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +16,6 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\get_contacts;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\import_contacts;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\reset_saved_contacts;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
-use Tests\Tests\Client\StatusWatcherClient\AnonymousMessageMock;
 
 class ContactsKeeperTest extends TestCase
 {

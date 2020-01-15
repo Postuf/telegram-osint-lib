@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\MTSerialization\OwnImplementation;
+namespace Unit\MTSerialization\OwnImplementation;
 
 use TelegramOSINT\MTSerialization\OwnImplementation\OwnDeserializer;
 

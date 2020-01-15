@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace tests\Tests\Client\StatusWatcherClient;
+namespace Unit\Client\StatusWatcherClient;
 
 use TelegramOSINT\Client\BasicClient\BasicClient;
 use TelegramOSINT\Client\StatusWatcherClient\ContactsKeeper;

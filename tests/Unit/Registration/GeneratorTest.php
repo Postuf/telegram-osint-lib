@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Tests\Registration;
+namespace Unit\Registration;
 
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Registration\DeviceGenerator\DeviceResource;
