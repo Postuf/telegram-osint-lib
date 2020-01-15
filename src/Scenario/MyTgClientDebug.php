@@ -14,7 +14,7 @@ use Client\StatusWatcherClient\StatusWatcherClient;
 use Exception\TGException;
 use Logger\ClientDebugLogger;
 use Logger\Logger;
-use SocksProxyAsync\Proxy;
+use Tools\Proxy;
 
 /**
  * Client base class

@@ -4,10 +4,10 @@ namespace TGConnection\Socket;
 
 use Exception\TGException;
 use LibConfig;
-use SocksProxyAsync\Proxy;
 use SocksProxyAsync\Socks5Socket;
 use SocksProxyAsync\SocksException;
 use TGConnection\DataCentre;
+use Tools\Proxy;
 
 class ProxySocket implements Socket
 {

@@ -4,7 +4,7 @@ namespace Client;
 
 use Client\AuthKey\AuthKey;
 use Exception\TGException;
-use SocksProxyAsync\Proxy;
+use Tools\Proxy;
 
 interface Client
 {

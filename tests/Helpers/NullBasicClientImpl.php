@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Helpers;
 
 use Client\BasicClient\BasicClientImpl;
-use SocksProxyAsync\Proxy;
 use TGConnection\DataCentre;
 use TGConnection\Socket\Socket;
 use TGConnection\SocketMessenger\SocketMessenger;
+use Tools\Proxy;
 
 class NullBasicClientImpl extends BasicClientImpl
 {

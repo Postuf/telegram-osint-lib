@@ -3,8 +3,7 @@
 use Client\MultiClient;
 use Exception\TGException;
 use Logger\Logger;
-use SocksProxyAsync\Proxy;
-use SocksProxyAsync\SocksException;
+use Tools\Proxy;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
@@ -29,7 +28,7 @@ try {
     $proxy = $proxyStr
         ? new Proxy($proxyStr)
         : null;
-} catch (SocksException $e) {
+} catch (TGException $e) {
     Logger::log($logLabel, 'proxy: '.$e->getMessage());
 }
 

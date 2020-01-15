@@ -6,16 +6,14 @@ namespace Integration\TGConnection\Socket;
 
 use Exception\TGException;
 use PHPUnit\Framework\TestCase;
-use SocksProxyAsync\Proxy;
-use SocksProxyAsync\SocksException;
 use TGConnection\DataCentre;
 use TGConnection\Socket\ProxySocket;
+use Tools\Proxy;
 
 class ProxySocketTest extends TestCase
 {
     /**
      * @throws TGException
-     * @throws SocksException
      */
     public function test_proxy_connect(): void
     {
@@ -26,7 +24,6 @@ class ProxySocketTest extends TestCase
 
     /**
      * @throws TGException
-     * @throws SocksException
      */
     public function test_proxy_connect_async(): void
     {
