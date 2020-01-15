@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Helpers;
 
-use Client\BasicClient\BasicClient;
-use Scenario\BasicClientGeneratorInterface;
+use TelegramOSINT\Client\BasicClient\BasicClient;
+use TelegramOSINT\Scenario\BasicClientGeneratorInterface;
 
 class NullBasicClientGenerator implements BasicClientGeneratorInterface
 {

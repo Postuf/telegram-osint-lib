@@ -1,9 +1,9 @@
 <?php
 
-namespace TLMessage\TLMessage\ServerMessages\UserStatus;
+namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserStatus;
 
-use MTSerialization\AnonymousMessage;
-use TLMessage\TLMessage\TLServerMessage;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
 class UserStatusOffline extends TLServerMessage
 {

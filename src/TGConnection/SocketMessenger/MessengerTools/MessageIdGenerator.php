@@ -1,6 +1,6 @@
 <?php
 
-namespace TGConnection\SocketMessenger\MessengerTools;
+namespace TelegramOSINT\TGConnection\SocketMessenger\MessengerTools;
 
 class MessageIdGenerator
 {

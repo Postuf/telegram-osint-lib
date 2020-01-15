@@ -1,6 +1,6 @@
 <?php
 
-namespace Client;
+namespace TelegramOSINT\Client;
 
 interface InfoObtainingClient extends Client
 {

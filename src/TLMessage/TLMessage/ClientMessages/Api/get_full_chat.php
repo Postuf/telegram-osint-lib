@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace TLMessage\TLMessage\ClientMessages\Api;
+namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api;
 
-use TLMessage\TLMessage\Packer;
-use TLMessage\TLMessage\TLClientMessage;
+use TelegramOSINT\TLMessage\TLMessage\Packer;
+use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 /**
  * @see https://core.telegram.org/method/messages.getFullChat

@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-use Auth\Protocol\AppAuthorization;
-use Client\AuthKey\AuthKey;
-use Client\AuthKey\AuthKeyCreator;
-use Client\AuthKey\Versions\AuthKey_v2;
-use Client\BasicClient\BasicClientImpl;
-use Exception\TGException;
-use Logger\ClientDebugLogger;
-use Logger\Logger;
-use MTSerialization\AnonymousMessage;
 use PHPUnit\Framework\TestCase;
-use TGConnection\DataCentre;
-use TGConnection\SocketMessenger\MessageListener;
+use TelegramOSINT\Auth\Protocol\AppAuthorization;
+use TelegramOSINT\Client\AuthKey\AuthKey;
+use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
+use TelegramOSINT\Client\AuthKey\Versions\AuthKey_v2;
+use TelegramOSINT\Client\BasicClient\BasicClientImpl;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\Logger\ClientDebugLogger;
+use TelegramOSINT\Logger\Logger;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TGConnection\DataCentre;
+use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
 
 class AuthKeyCreateTest extends TestCase implements MessageListener
 {

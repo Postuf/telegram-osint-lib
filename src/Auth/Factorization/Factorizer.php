@@ -1,6 +1,6 @@
 <?php
 
-namespace Auth\Factorization;
+namespace TelegramOSINT\Auth\Factorization;
 
 interface Factorizer
 {

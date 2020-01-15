@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Scenario;
+namespace TelegramOSINT\Scenario;
 
-use Logger\Logger;
-use MTSerialization\AnonymousMessage;
-use Tools\Proxy;
+use TelegramOSINT\Logger\Logger;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\Tools\Proxy;
 
 abstract class AbstractGroupScenario extends MyTgClientDebug implements ScenarioInterface
 {

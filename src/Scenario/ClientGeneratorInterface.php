@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Scenario;
+namespace TelegramOSINT\Scenario;
 
-use Client\InfoObtainingClient\InfoClient;
-use Client\StatusWatcherClient\StatusWatcherCallbacks;
-use Client\StatusWatcherClient\StatusWatcherClient;
-use Exception\TGException;
+use TelegramOSINT\Client\InfoObtainingClient\InfoClient;
+use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherCallbacks;
+use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherClient;
+use TelegramOSINT\Exception\TGException;
 
 interface ClientGeneratorInterface
 {

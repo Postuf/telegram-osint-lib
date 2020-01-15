@@ -1,8 +1,8 @@
 <?php
 
-namespace TGConnection\SocketMessenger;
+namespace TelegramOSINT\TGConnection\SocketMessenger;
 
-use MTSerialization\AnonymousMessage;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
 
 interface MessageListener
 {

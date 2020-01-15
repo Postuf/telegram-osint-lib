@@ -1,36 +1,36 @@
 <?php
 
-namespace Auth\Protocol;
+namespace TelegramOSINT\Auth\Protocol;
 
-use Auth\AES\AES;
-use Auth\AES\PhpSecLibAES;
-use Auth\Authorization;
-use Auth\AuthParams;
-use Auth\Certificate\Certificate;
-use Auth\Factorization\GmpFactorizer;
-use Auth\Factorization\PQ;
-use Auth\PowMod\PhpSecLibPowMod;
-use Auth\PowMod\PowMod;
-use Auth\RSA\PhpSecLibRSA;
-use Auth\RSA\RSA;
-use Client\AuthKey\AuthKeyCreator;
-use Exception\TGException;
-use Logger\Logger;
-use MTSerialization\AnonymousMessage;
-use MTSerialization\OwnImplementation\OwnDeserializer;
-use TGConnection\DataCentre;
-use TGConnection\Socket\TcpSocket;
-use TGConnection\SocketMessenger\NotEncryptedSocketMessenger;
-use TGConnection\SocketMessenger\SocketMessenger;
-use TLMessage\TLMessage\ClientMessages\Shared\client_dh_inner_data;
-use TLMessage\TLMessage\ClientMessages\Shared\req_dh_params;
-use TLMessage\TLMessage\ClientMessages\Shared\req_pq_multi;
-use TLMessage\TLMessage\ClientMessages\Shared\set_client_dh_params;
-use TLMessage\TLMessage\ServerMessages\Auth\DHGenOk;
-use TLMessage\TLMessage\ServerMessages\Auth\DHReq;
-use TLMessage\TLMessage\ServerMessages\Auth\DHServerInnerData;
-use TLMessage\TLMessage\ServerMessages\Auth\ResPQ;
-use TLMessage\TLMessage\TLClientMessage;
+use TelegramOSINT\Auth\AES\AES;
+use TelegramOSINT\Auth\AES\PhpSecLibAES;
+use TelegramOSINT\Auth\Authorization;
+use TelegramOSINT\Auth\AuthParams;
+use TelegramOSINT\Auth\Certificate\Certificate;
+use TelegramOSINT\Auth\Factorization\GmpFactorizer;
+use TelegramOSINT\Auth\Factorization\PQ;
+use TelegramOSINT\Auth\PowMod\PhpSecLibPowMod;
+use TelegramOSINT\Auth\PowMod\PowMod;
+use TelegramOSINT\Auth\RSA\PhpSecLibRSA;
+use TelegramOSINT\Auth\RSA\RSA;
+use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\Logger\Logger;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\MTSerialization\OwnImplementation\OwnDeserializer;
+use TelegramOSINT\TGConnection\DataCentre;
+use TelegramOSINT\TGConnection\Socket\TcpSocket;
+use TelegramOSINT\TGConnection\SocketMessenger\NotEncryptedSocketMessenger;
+use TelegramOSINT\TGConnection\SocketMessenger\SocketMessenger;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\client_dh_inner_data;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\req_dh_params;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\req_pq_multi;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\set_client_dh_params;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Auth\DHGenOk;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Auth\DHReq;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Auth\DHServerInnerData;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Auth\ResPQ;
+use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 abstract class BaseAuthorization implements Authorization
 {

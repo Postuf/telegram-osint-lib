@@ -1,5 +1,7 @@
 <?php
 
+namespace TelegramOSINT;
+
 class LibConfig
 {
     /* ================================================================ Debug output */

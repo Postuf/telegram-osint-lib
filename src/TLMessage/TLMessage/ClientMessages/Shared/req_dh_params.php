@@ -1,9 +1,9 @@
 <?php
 
-namespace TLMessage\TLMessage\ClientMessages\Shared;
+namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared;
 
-use TLMessage\TLMessage\Packer;
-use TLMessage\TLMessage\TLClientMessage;
+use TelegramOSINT\TLMessage\TLMessage\Packer;
+use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class req_dh_params implements TLClientMessage
 {

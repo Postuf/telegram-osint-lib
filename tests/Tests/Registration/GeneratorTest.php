@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Tests\Registration;
 
 use PHPUnit\Framework\TestCase;
-use Registration\DeviceGenerator\DeviceResource;
-use Registration\NameGenerator\NameResource;
+use TelegramOSINT\Registration\DeviceGenerator\DeviceResource;
+use TelegramOSINT\Registration\NameGenerator\NameResource;
 
 class GeneratorTest extends TestCase
 {

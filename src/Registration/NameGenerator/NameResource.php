@@ -1,6 +1,6 @@
 <?php
 
-namespace Registration\NameGenerator;
+namespace TelegramOSINT\Registration\NameGenerator;
 
 class NameResource
 {

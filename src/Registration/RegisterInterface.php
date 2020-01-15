@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Registration;
+namespace TelegramOSINT\Registration;
 
 interface RegisterInterface
 {

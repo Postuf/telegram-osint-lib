@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Helpers\DateParser;
-use Scenario\GroupPhotosScenario;
+use TelegramOSINT\Scenario\GroupPhotosScenario;
 
 require_once __DIR__.'/../vendor/autoload.php';
 const INFO = '--info';

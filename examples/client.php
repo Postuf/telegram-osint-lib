@@ -1,6 +1,6 @@
 <?php
 
-use Scenario\MyTgClientDebug;
+use TelegramOSINT\Scenario\MyTgClientDebug;
 
 require_once __DIR__.'/../vendor/autoload.php';
 

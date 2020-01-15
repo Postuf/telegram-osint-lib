@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Scenario;
+namespace TelegramOSINT\Scenario;
 
-use Client\InfoObtainingClient\Models\FileModel;
-use Client\InfoObtainingClient\Models\PictureModel;
 use Closure;
 use Exception;
-use Exception\TGException;
-use Logger\Logger;
-use MTSerialization\AnonymousMessage;
-use TLMessage\TLMessage\ClientMessages\Api\get_all_chats;
-use TLMessage\TLMessage\ClientMessages\Api\get_history;
+use TelegramOSINT\Client\InfoObtainingClient\Models\FileModel;
+use TelegramOSINT\Client\InfoObtainingClient\Models\PictureModel;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\Logger\Logger;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_all_chats;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_history;
 
 /**
  * Downloading group photos

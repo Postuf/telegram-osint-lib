@@ -1,10 +1,10 @@
 <?php
 
-namespace Auth\Protocol;
+namespace TelegramOSINT\Auth\Protocol;
 
-use TGConnection\DataCentre;
-use TLMessage\TLMessage\ClientMessages\TgApp\p_q_inner_data_dc;
-use TLMessage\TLMessage\TLClientMessage;
+use TelegramOSINT\TGConnection\DataCentre;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\p_q_inner_data_dc;
+use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 /**
  * AuthKey generation algorithm used by official application

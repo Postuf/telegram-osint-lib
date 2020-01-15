@@ -1,8 +1,8 @@
 <?php
 
-namespace Client\AuthKey;
+namespace TelegramOSINT\Client\AuthKey;
 
-use TGConnection\DataCentre;
+use TelegramOSINT\TGConnection\DataCentre;
 
 interface AuthKey
 {

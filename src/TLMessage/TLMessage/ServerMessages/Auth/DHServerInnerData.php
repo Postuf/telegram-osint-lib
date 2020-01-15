@@ -1,9 +1,9 @@
 <?php
 
-namespace TLMessage\TLMessage\ServerMessages\Auth;
+namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Auth;
 
-use MTSerialization\AnonymousMessage;
-use TLMessage\TLMessage\TLServerMessage;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
 class DHServerInnerData extends TLServerMessage
 {

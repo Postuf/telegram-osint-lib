@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Scenario;
+namespace TelegramOSINT\Scenario;
 
-use Client\InfoObtainingClient\Models\UserInfoModel;
 use Closure;
-use Exception\TGException;
-use Logger\Logger;
-use MTSerialization\AnonymousMessage;
-use TLMessage\TLMessage\ClientMessages\Api\get_all_chats;
-use TLMessage\TLMessage\ClientMessages\Api\get_full_chat;
-use Tools\Proxy;
+use TelegramOSINT\Client\InfoObtainingClient\Models\UserInfoModel;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\Logger\Logger;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_all_chats;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_full_chat;
+use TelegramOSINT\Tools\Proxy;
 
 /**
  * Listing group members

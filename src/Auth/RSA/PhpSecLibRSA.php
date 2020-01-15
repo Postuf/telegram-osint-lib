@@ -1,10 +1,10 @@
 <?php
 
-namespace Auth\RSA;
+namespace TelegramOSINT\Auth\RSA;
 
-use Auth\PowMod\PhpSecLibPowMod;
-use Auth\RSA\RSA as AuthRSA;
 use phpseclib\Crypt\RSA;
+use TelegramOSINT\Auth\PowMod\PhpSecLibPowMod;
+use TelegramOSINT\Auth\RSA\RSA as AuthRSA;
 
 class PhpSecLibRSA implements AuthRSA
 {

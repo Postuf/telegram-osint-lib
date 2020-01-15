@@ -1,21 +1,21 @@
 <?php
 
-namespace Client\BasicClient;
+namespace TelegramOSINT\Client\BasicClient;
 
-use Client\AuthKey\AuthKey;
-use Exception\TGException;
-use LibConfig;
-use MTSerialization\AnonymousMessage;
-use TGConnection\DataCentre;
-use TGConnection\Socket\ProxySocket;
-use TGConnection\Socket\Socket;
-use TGConnection\Socket\TcpSocket;
-use TGConnection\SocketMessenger\EncryptedSocketMessenger;
-use TGConnection\SocketMessenger\MessageListener;
-use TGConnection\SocketMessenger\SocketMessenger;
-use TLMessage\TLMessage\ClientMessages\Shared\update_status;
-use TLMessage\TLMessage\ClientMessages\TgApp\ping_delay_disconnect;
-use Tools\Proxy;
+use TelegramOSINT\Client\AuthKey\AuthKey;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\LibConfig;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TGConnection\DataCentre;
+use TelegramOSINT\TGConnection\Socket\ProxySocket;
+use TelegramOSINT\TGConnection\Socket\Socket;
+use TelegramOSINT\TGConnection\Socket\TcpSocket;
+use TelegramOSINT\TGConnection\SocketMessenger\EncryptedSocketMessenger;
+use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
+use TelegramOSINT\TGConnection\SocketMessenger\SocketMessenger;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\update_status;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\ping_delay_disconnect;
+use TelegramOSINT\Tools\Proxy;
 
 class BasicClientImpl implements BasicClient, MessageListener
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Client;
+namespace TelegramOSINT\Client;
 
 /*
  * Client with repeatable actions

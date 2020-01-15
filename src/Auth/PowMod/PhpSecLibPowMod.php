@@ -1,6 +1,6 @@
 <?php
 
-namespace Auth\PowMod;
+namespace TelegramOSINT\Auth\PowMod;
 
 use phpseclib\Math\BigInteger;
 

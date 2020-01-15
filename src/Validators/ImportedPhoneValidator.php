@@ -1,6 +1,6 @@
 <?php
 
-namespace Validators;
+namespace TelegramOSINT\Validators;
 
 class ImportedPhoneValidator implements Validator
 {

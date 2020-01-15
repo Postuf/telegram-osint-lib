@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use Scenario\GroupMembersScenario;
+use TelegramOSINT\Scenario\GroupMembersScenario;
 
 $groupId = null;
 if (isset($argv[1])) {

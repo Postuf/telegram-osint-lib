@@ -1,9 +1,9 @@
 <?php
 
-namespace TGConnection\SocketMessenger\EncryptedSocketCallbacks;
+namespace TelegramOSINT\TGConnection\SocketMessenger\EncryptedSocketCallbacks;
 
-use MTSerialization\AnonymousMessage;
-use TGConnection\SocketMessenger\MessageListener;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
 
 class ExpectingMessageListener implements MessageListener
 {

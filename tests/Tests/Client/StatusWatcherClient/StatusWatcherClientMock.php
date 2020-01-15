@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Tests\Client\StatusWatcherClient;
 
-use Client\StatusWatcherClient\StatusWatcherCallbacks;
-use Client\StatusWatcherClient\StatusWatcherClient;
-use TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
+use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherCallbacks;
+use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherClient;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 
 class StatusWatcherClientMock extends StatusWatcherClient
 {

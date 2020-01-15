@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Tests\TLMessage\TLMessage\ServerMessages;
 
-use Exception\TGException;
-use MTSerialization\AnonymousMessage;
-use MTSerialization\OwnImplementation\OwnAnonymousMessage;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\MTSerialization\OwnImplementation\OwnAnonymousMessage;
 
 class AnonymousMessageMock implements AnonymousMessage
 {

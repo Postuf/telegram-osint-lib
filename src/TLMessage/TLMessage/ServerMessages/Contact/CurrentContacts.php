@@ -1,10 +1,10 @@
 <?php
 
-namespace TLMessage\TLMessage\ServerMessages\Contact;
+namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact;
 
-use Exception\TGException;
-use MTSerialization\AnonymousMessage;
-use TLMessage\TLMessage\TLServerMessage;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
 class CurrentContacts extends TLServerMessage
 {

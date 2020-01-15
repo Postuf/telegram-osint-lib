@@ -1,11 +1,11 @@
 <?php
 
-namespace TLMessage\TLMessage\ServerMessages;
+namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages;
 
-use Exception\TGException;
-use MTSerialization\AnonymousMessage;
-use TLMessage\TLMessage\ServerMessages\Custom\UserStatus;
-use TLMessage\TLMessage\TLServerMessage;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Custom\UserStatus;
+use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
 class UserSelf extends TLServerMessage
 {

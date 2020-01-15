@@ -1,20 +1,20 @@
 <?php
 
-namespace TGConnection\SocketMessenger;
+namespace TelegramOSINT\TGConnection\SocketMessenger;
 
-use Exception\TGException;
-use LibConfig;
-use Logger\Logger;
 use LogicException;
-use MTSerialization\AnonymousMessage;
-use MTSerialization\MTDeserializer;
-use MTSerialization\OwnImplementation\OwnDeserializer;
-use TGConnection\DataCentre;
-use TGConnection\Socket\PersistentSocket;
-use TGConnection\Socket\Socket;
-use TGConnection\SocketMessenger\MessengerTools\MessageIdGenerator;
-use TGConnection\SocketMessenger\MessengerTools\OuterHeaderWrapper;
-use TLMessage\TLMessage\TLClientMessage;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\LibConfig;
+use TelegramOSINT\Logger\Logger;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\MTSerialization\MTDeserializer;
+use TelegramOSINT\MTSerialization\OwnImplementation\OwnDeserializer;
+use TelegramOSINT\TGConnection\DataCentre;
+use TelegramOSINT\TGConnection\Socket\PersistentSocket;
+use TelegramOSINT\TGConnection\Socket\Socket;
+use TelegramOSINT\TGConnection\SocketMessenger\MessengerTools\MessageIdGenerator;
+use TelegramOSINT\TGConnection\SocketMessenger\MessengerTools\OuterHeaderWrapper;
+use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class NotEncryptedSocketMessenger implements SocketMessenger
 {

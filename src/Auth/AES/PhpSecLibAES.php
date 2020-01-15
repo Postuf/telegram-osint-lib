@@ -1,9 +1,9 @@
 <?php
 
-namespace Auth\AES;
+namespace TelegramOSINT\Auth\AES;
 
-use Exception\TGException;
 use phpseclib\Crypt\AES as BaseAES;
+use TelegramOSINT\Exception\TGException;
 
 /**
  * AES IGE impl using phpseclib

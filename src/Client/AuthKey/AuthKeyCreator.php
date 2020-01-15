@@ -1,15 +1,15 @@
 <?php
 
-namespace Client\AuthKey;
+namespace TelegramOSINT\Client\AuthKey;
 
-use Client\AuthKey\Versions\AuthKey_v0_RawB64;
-use Client\AuthKey\Versions\AuthKey_v1_Extended;
-use Client\AuthKey\Versions\AuthKey_v1_Simple;
-use Client\AuthKey\Versions\AuthKey_v2;
-use Client\AuthKey\Versions\AuthKey_v2_Authorized;
-use Client\AuthKey\Versions\AuthKey_v2_Phone;
-use Exception\TGException;
-use TGConnection\DataCentre;
+use TelegramOSINT\Client\AuthKey\Versions\AuthKey_v0_RawB64;
+use TelegramOSINT\Client\AuthKey\Versions\AuthKey_v1_Extended;
+use TelegramOSINT\Client\AuthKey\Versions\AuthKey_v1_Simple;
+use TelegramOSINT\Client\AuthKey\Versions\AuthKey_v2;
+use TelegramOSINT\Client\AuthKey\Versions\AuthKey_v2_Authorized;
+use TelegramOSINT\Client\AuthKey\Versions\AuthKey_v2_Phone;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\TGConnection\DataCentre;
 
 /**
  * Class which manages different AuthKey versions

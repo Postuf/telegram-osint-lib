@@ -1,22 +1,22 @@
 <?php
 
-namespace Client\StatusWatcherClient;
+namespace TelegramOSINT\Client\StatusWatcherClient;
 
-use Client\AuthKey\AuthKey;
-use Client\BasicClient\BasicClient;
-use Client\BasicClient\BasicClientImpl;
-use Client\PeriodicClient;
-use Client\StatusMonitoringClient;
-use Client\StatusWatcherClient\Models\HiddenStatus;
-use Client\StatusWatcherClient\Models\ImportResult;
-use Client\StatusWatcherClient\Models\User;
-use Exception\TGException;
-use MTSerialization\AnonymousMessage;
-use TGConnection\SocketMessenger\MessageListener;
-use TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
-use TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
-use Tools\Phone;
-use Tools\Proxy;
+use TelegramOSINT\Client\AuthKey\AuthKey;
+use TelegramOSINT\Client\BasicClient\BasicClient;
+use TelegramOSINT\Client\BasicClient\BasicClientImpl;
+use TelegramOSINT\Client\PeriodicClient;
+use TelegramOSINT\Client\StatusMonitoringClient;
+use TelegramOSINT\Client\StatusWatcherClient\Models\HiddenStatus;
+use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
+use TelegramOSINT\Client\StatusWatcherClient\Models\User;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
+use TelegramOSINT\Tools\Phone;
+use TelegramOSINT\Tools\Proxy;
 
 class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, StatusWatcherCallbacksMiddleware, MessageListener
 {

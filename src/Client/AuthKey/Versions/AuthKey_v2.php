@@ -1,11 +1,11 @@
 <?php
 
-namespace Client\AuthKey\Versions;
+namespace TelegramOSINT\Client\AuthKey\Versions;
 
-use Client\AuthKey\AuthKey;
-use Exception\TGException;
-use LibConfig;
-use TGConnection\DataCentre;
+use TelegramOSINT\Client\AuthKey\AuthKey;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\LibConfig;
+use TelegramOSINT\TGConnection\DataCentre;
 use Throwable;
 
 /**

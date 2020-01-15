@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Helpers;
 
-use Client\InfoObtainingClient\InfoClient;
-use Client\StatusWatcherClient\StatusWatcherCallbacks;
-use Scenario\BasicClientGeneratorInterface;
-use Scenario\ClientGeneratorInterface;
+use TelegramOSINT\Client\InfoObtainingClient\InfoClient;
+use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherCallbacks;
+use TelegramOSINT\Scenario\BasicClientGeneratorInterface;
+use TelegramOSINT\Scenario\ClientGeneratorInterface;
 
 class TestClientGenerator implements ClientGeneratorInterface
 {

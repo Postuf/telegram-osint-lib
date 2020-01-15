@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Client\BasicClient;
+namespace TelegramOSINT\Client\BasicClient;
 
-use MTSerialization\AnonymousMessage;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
 
 class TracingBasicClientImpl extends BasicClientImpl
 {

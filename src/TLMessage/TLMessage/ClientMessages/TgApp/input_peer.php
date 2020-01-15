@@ -1,8 +1,8 @@
 <?php
 
-namespace TLMessage\TLMessage\ClientMessages\TgApp;
+namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp;
 
-use TLMessage\TLMessage\TLClientMessage;
+use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 abstract class input_peer implements TLClientMessage
 {

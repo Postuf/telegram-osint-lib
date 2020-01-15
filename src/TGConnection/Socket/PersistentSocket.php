@@ -1,10 +1,10 @@
 <?php
 
-namespace TGConnection\Socket;
+namespace TelegramOSINT\TGConnection\Socket;
 
-use Exception\TGException;
-use LibConfig;
-use TGConnection\DataCentre;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\LibConfig;
+use TelegramOSINT\TGConnection\DataCentre;
 
 /**
  * Wrapper over @Socket which provides IO-blocking methods of reading and writing

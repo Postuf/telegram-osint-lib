@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Registration;
 
-use Exception\TGException;
 use PHPUnit\Framework\TestCase;
-use Registration\AccountInfo;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\Registration\AccountInfo;
 
 class AccountInfoTest extends TestCase
 {

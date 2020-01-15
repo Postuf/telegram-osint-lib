@@ -1,6 +1,6 @@
 <?php
 
-namespace Client\InfoObtainingClient\Models;
+namespace TelegramOSINT\Client\InfoObtainingClient\Models;
 
 class UserStatusModel
 {

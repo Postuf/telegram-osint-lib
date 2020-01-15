@@ -1,9 +1,9 @@
 <?php
 
-use Client\MultiClient;
-use Exception\TGException;
-use Logger\Logger;
-use Tools\Proxy;
+use TelegramOSINT\Client\MultiClient;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\Logger\Logger;
+use TelegramOSINT\Tools\Proxy;
 
 require_once __DIR__.'/../vendor/autoload.php';
 

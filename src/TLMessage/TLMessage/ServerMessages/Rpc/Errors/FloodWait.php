@@ -1,9 +1,9 @@
 <?php
 
-namespace TLMessage\TLMessage\ServerMessages\Rpc\Errors;
+namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Rpc\Errors;
 
-use Exception\TGException;
-use TLMessage\TLMessage\ServerMessages\Rpc\RpcError;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Rpc\RpcError;
 
 class FloodWait
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Client\StatusWatcherClient;
+namespace TelegramOSINT\Client\StatusWatcherClient;
 
-use Client\StatusWatcherClient\Models\HiddenStatus;
-use TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
+use TelegramOSINT\Client\StatusWatcherClient\Models\HiddenStatus;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
 
 interface StatusWatcherCallbacksMiddleware
 {

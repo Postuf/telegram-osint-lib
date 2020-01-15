@@ -3,7 +3,7 @@
 /** @noinspection PhpUnused */
 declare(strict_types=1);
 
-namespace Exception;
+namespace TelegramOSINT\Exception;
 
 use Exception;
 use ReflectionClass;

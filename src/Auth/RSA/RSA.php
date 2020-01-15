@@ -1,6 +1,6 @@
 <?php
 
-namespace Auth\RSA;
+namespace TelegramOSINT\Auth\RSA;
 
 interface RSA
 {

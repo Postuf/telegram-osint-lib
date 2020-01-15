@@ -1,7 +1,7 @@
 <?php
 
-use Client\AuthKey\AuthKey;
-use Registration\AccountRegistrar;
+use TelegramOSINT\Client\AuthKey\AuthKey;
+use TelegramOSINT\Registration\AccountRegistrar;
 
 require_once __DIR__.'/../vendor/autoload.php';
 

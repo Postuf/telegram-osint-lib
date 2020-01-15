@@ -1,8 +1,8 @@
 <?php
 
-namespace Client;
+namespace TelegramOSINT\Client;
 
-use MTSerialization\AnonymousMessage;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
 
 interface Analyzer
 {

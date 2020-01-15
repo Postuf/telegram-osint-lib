@@ -1,10 +1,10 @@
 <?php
 
-namespace Client\AuthKey\Versions;
+namespace TelegramOSINT\Client\AuthKey\Versions;
 
-use Client\AuthKey\AuthKey;
-use Exception\TGException;
-use TGConnection\DataCentre;
+use TelegramOSINT\Client\AuthKey\AuthKey;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\TGConnection\DataCentre;
 
 /**
  * <phone>:base64(serverSalt+authKey)

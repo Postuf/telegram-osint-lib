@@ -1,8 +1,8 @@
 <?php
 
-namespace TGConnection\SocketMessenger\MessengerTools;
+namespace TelegramOSINT\TGConnection\SocketMessenger\MessengerTools;
 
-use Exception\TGException;
+use TelegramOSINT\Exception\TGException;
 
 class OuterHeaderWrapper
 {

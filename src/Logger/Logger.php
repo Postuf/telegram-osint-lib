@@ -1,8 +1,8 @@
 <?php
 
-namespace Logger;
+namespace TelegramOSINT\Logger;
 
-use LibConfig;
+use TelegramOSINT\LibConfig;
 
 class Logger
 {

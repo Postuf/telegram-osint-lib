@@ -1,8 +1,8 @@
 <?php
 
-namespace TGConnection\Socket;
+namespace TelegramOSINT\TGConnection\Socket;
 
-use TGConnection\DataCentre;
+use TelegramOSINT\TGConnection\DataCentre;
 
 interface Socket
 {

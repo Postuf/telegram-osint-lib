@@ -1,10 +1,10 @@
 <?php
 
-namespace TGConnection\SocketMessenger;
+namespace TelegramOSINT\TGConnection\SocketMessenger;
 
-use MTSerialization\AnonymousMessage;
-use TGConnection\DataCentre;
-use TLMessage\TLMessage\TLClientMessage;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TGConnection\DataCentre;
+use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 /**
  * Telegram-specific socket interface

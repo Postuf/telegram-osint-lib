@@ -1,10 +1,10 @@
 <?php
 
-namespace Client\BasicClient;
+namespace TelegramOSINT\Client\BasicClient;
 
-use Client\Client;
-use TGConnection\SocketMessenger\MessageListener;
-use TGConnection\SocketMessenger\SocketMessenger;
+use TelegramOSINT\Client\Client;
+use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
+use TelegramOSINT\TGConnection\SocketMessenger\SocketMessenger;
 
 interface BasicClient extends Client
 {

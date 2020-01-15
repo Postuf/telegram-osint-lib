@@ -1,6 +1,6 @@
 <?php
 
-namespace Tools;
+namespace TelegramOSINT\Tools;
 
 class Username
 {

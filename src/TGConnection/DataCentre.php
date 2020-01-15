@@ -1,8 +1,8 @@
 <?php
 
-namespace TGConnection;
+namespace TelegramOSINT\TGConnection;
 
-use LibConfig;
+use TelegramOSINT\LibConfig;
 
 class DataCentre
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace TLMessage\TLMessage\ClientMessages\Api;
+namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api;
 
-use TLMessage\TLMessage\Packer;
-use TLMessage\TLMessage\TLClientMessage;
+use TelegramOSINT\TLMessage\TLMessage\Packer;
+use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 /**
  * Class get_all_chats

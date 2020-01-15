@@ -1,9 +1,9 @@
 <?php
 
-namespace TLMessage\TLMessage;
+namespace TelegramOSINT\TLMessage\TLMessage;
 
-use Exception\TGException;
-use MTSerialization\AnonymousMessage;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
 
 abstract class TLServerMessage
 {

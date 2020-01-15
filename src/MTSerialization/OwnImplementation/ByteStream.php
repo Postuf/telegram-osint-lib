@@ -1,8 +1,8 @@
 <?php
 
-namespace MTSerialization\OwnImplementation;
+namespace TelegramOSINT\MTSerialization\OwnImplementation;
 
-use Exception\TGException;
+use TelegramOSINT\Exception\TGException;
 
 class ByteStream
 {

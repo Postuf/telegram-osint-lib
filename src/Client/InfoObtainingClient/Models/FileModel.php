@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Client\InfoObtainingClient\Models;
+namespace TelegramOSINT\Client\InfoObtainingClient\Models;
 
 class FileModel
 {

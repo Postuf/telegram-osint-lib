@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Registration;
+namespace TelegramOSINT\Registration;
 
-use Exception\TGException;
-use Tools\Proxy;
+use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\Tools\Proxy;
 
 class AccountRegistrar implements RegisterInterface
 {

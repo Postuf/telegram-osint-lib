@@ -1,6 +1,6 @@
 <?php
 
-namespace Auth\AES;
+namespace TelegramOSINT\Auth\AES;
 
 /**
  * Interface AES

@@ -1,8 +1,8 @@
 <?php
 
-namespace TLMessage\TLMessage\ClientMessages\TgApp;
+namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp;
 
-use TLMessage\TLMessage\Packer;
+use TelegramOSINT\TLMessage\TLMessage\Packer;
 
 /** @see https://core.telegram.org/constructor/inputPeerChannel */
 class input_peer_channel extends input_peer

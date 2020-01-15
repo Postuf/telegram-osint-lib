@@ -2,7 +2,7 @@
 
 /** @noinspection SpellCheckingInspection */
 
-namespace Auth\Certificate;
+namespace TelegramOSINT\Auth\Certificate;
 
 class CertificateStorage
 {
