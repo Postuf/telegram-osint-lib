@@ -19,10 +19,14 @@
         "postuf/socks-proxy-async": "^0.1"
     },
     "autoload": {
-        "files": ["ClassLoader.php"]
+        "psr-4": {
+            "TelegramOSINT\\": "src/"
+        }
     },
     "autoload-dev": {
-        "files": ["tests/TestClassLoader.php"]
+        "psr-4": {
+            "": "tests/"
+        }
     },
     "prefer-stable": true
 }

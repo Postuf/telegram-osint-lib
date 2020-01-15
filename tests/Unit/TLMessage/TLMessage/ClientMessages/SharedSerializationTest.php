@@ -3,7 +3,7 @@
 /** @noinspection SpellCheckingInspection */
 declare(strict_types=1);
 
-namespace Tests\Tests\TLMessage\TLMessage\ClientMessages;
+namespace Unit\TLMessage\TLMessage\ClientMessages;
 
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\client_dh_inner_data;

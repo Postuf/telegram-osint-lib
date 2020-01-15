@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Tests\Client\StatusWatcherClient;
+namespace Unit\Client\StatusWatcherClient;
 
 use TelegramOSINT\Client\StatusWatcherClient\Models\HiddenStatus;
 use TelegramOSINT\Client\StatusWatcherClient\Models\User;

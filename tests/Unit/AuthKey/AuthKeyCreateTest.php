@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+namespace Unit\AuthKey;
+
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Auth\Protocol\AppAuthorization;
 use TelegramOSINT\Client\AuthKey\AuthKey;
@@ -25,7 +28,9 @@ class AuthKeyCreateTest extends TestCase implements MessageListener
      */
     public function test_generate_auth_key(): void
     {
-        Logger::setupLogger($this->createMock(ClientDebugLogger::class));
+        /** @var ClientDebugLogger|MockObject $logger */
+        $logger = $this->createMock(ClientDebugLogger::class);
+        Logger::setupLogger($logger);
 
         $dc = DataCentre::getDefault();
         // perform several retries in case of failure
