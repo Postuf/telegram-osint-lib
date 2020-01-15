@@ -6,7 +6,7 @@ namespace Scenario;
 
 use Logger\Logger;
 use MTSerialization\AnonymousMessage;
-use SocksProxyAsync\Proxy;
+use Tools\Proxy;
 
 abstract class AbstractGroupScenario extends MyTgClientDebug implements ScenarioInterface
 {

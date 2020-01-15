@@ -1,6 +1,6 @@
 <?php
 
-use SocksProxyAsync\Proxy;
+use Tools\Proxy;
 
 require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/MyTgClientDebug.php';

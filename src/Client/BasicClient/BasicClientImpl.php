@@ -6,7 +6,6 @@ use Client\AuthKey\AuthKey;
 use Exception\TGException;
 use LibConfig;
 use MTSerialization\AnonymousMessage;
-use SocksProxyAsync\Proxy;
 use TGConnection\DataCentre;
 use TGConnection\Socket\ProxySocket;
 use TGConnection\Socket\Socket;
@@ -16,6 +15,7 @@ use TGConnection\SocketMessenger\MessageListener;
 use TGConnection\SocketMessenger\SocketMessenger;
 use TLMessage\TLMessage\ClientMessages\Shared\update_status;
 use TLMessage\TLMessage\ClientMessages\TgApp\ping_delay_disconnect;
+use Tools\Proxy;
 
 class BasicClientImpl implements BasicClient, MessageListener
 {

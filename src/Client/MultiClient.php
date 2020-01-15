@@ -9,7 +9,7 @@ use Client\AuthKey\AuthKeyCreator;
 use Client\InfoObtainingClient\InfoClient;
 use Exception\TGException;
 use Logger\Logger;
-use SocksProxyAsync\Proxy;
+use Tools\Proxy;
 
 class MultiClient
 {

@@ -15,7 +15,6 @@ use Exception\TGException;
 use MTSerialization\AnonymousMessage;
 use Scenario\BasicClientGenerator;
 use Scenario\BasicClientGeneratorInterface;
-use SocksProxyAsync\Proxy;
 use TGConnection\DataCentre;
 use TGConnection\SocketMessenger\SocketMessenger;
 use TLMessage\TLMessage\ClientMessages\Api\get_all_chats;
@@ -44,6 +43,7 @@ use TLMessage\TLMessage\ServerMessages\ExportedAuthorization;
 use TLMessage\TLMessage\ServerMessages\UploadedFile;
 use TLMessage\TLMessage\ServerMessages\UserFull;
 use TLMessage\TLMessage\TLClientMessage;
+use Tools\Proxy;
 
 class InfoClient implements InfoObtainingClient
 {

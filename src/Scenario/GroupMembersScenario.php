@@ -9,9 +9,9 @@ use Closure;
 use Exception\TGException;
 use Logger\Logger;
 use MTSerialization\AnonymousMessage;
-use SocksProxyAsync\Proxy;
 use TLMessage\TLMessage\ClientMessages\Api\get_all_chats;
 use TLMessage\TLMessage\ClientMessages\Api\get_full_chat;
+use Tools\Proxy;
 
 /**
  * Listing group members
