@@ -40,11 +40,16 @@ class ProxySocket implements Socket
      * @param Proxy         $proxy
      * @param DataCentre    $dc
      * @param callable|null $onSocketReady function()
+     * @param int           $timeout
      *
      * @throws TGException
      */
-    public function __construct(Proxy $proxy, DataCentre $dc, callable $onSocketReady = null)
-    {
+    public function __construct(
+        Proxy $proxy,
+        DataCentre $dc,
+        callable $onSocketReady = null,
+        int $timeout = LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC
+    ) {
         if(!in_array($proxy->getType(), [Proxy::TYPE_SOCKS5]))
             throw new TGException(TGException::ERR_PROXY_WRONG_PROXY_TYPE);
         $this->dc = $dc;
@@ -55,7 +60,7 @@ class ProxySocket implements Socket
                 $this->proxy,
                 $this->dc->getDcIp(),
                 $this->dc->getDcPort(),
-                LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC
+                $timeout
             );
             $this->cbOnConnected = function () use ($onSocketReady) {
                 $this->socksSocket = $this->socketObjectAsync->getSocksSocket();
@@ -65,7 +70,7 @@ class ProxySocket implements Socket
             return;
         }
 
-        $this->socketObject = new Socks5Socket($this->proxy, LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC);
+        $this->socketObject = new Socks5Socket($this->proxy, $timeout);
 
         try {
             $this->socksSocket = $this->socketObject->createConnected($this->dc->getDcIp(), $this->dc->getDcPort());
@@ -159,14 +164,19 @@ class ProxySocket implements Socket
     }
 
     /**
-     * @throws SocksException
+     * @throws TGException
      */
     public function poll(): void
     {
         if (!$this->socketObjectAsync) {
             return;
         }
-        $this->socketObjectAsync->poll();
+
+        try {
+            $this->socketObjectAsync->poll();
+        } catch (SocksException $e) {
+            throw new TGException(TGException::ERR_SOCKS_STEP_ERROR, $e->getMessage());
+        }
         if ($this->socketObjectAsync->ready()) {
             $this->runOnConnectedCallback();
         }
