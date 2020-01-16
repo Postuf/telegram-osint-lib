@@ -148,9 +148,11 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
     }
 
     /**
+     * @param bool $pollAndTerminate
+     *
      * @throws TGException
      */
-    public function startActions(): void
+    public function startActions(bool $pollAndTerminate = true): void
     {
         $this->infoLogin();
         /** @var array $ids */
@@ -182,7 +184,9 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
             $this->infoClient->getAllChats($this->getAllChatsHandler($limit));
         }
 
-        $this->pollAndTerminate();
+        if ($pollAndTerminate) {
+            $this->pollAndTerminate();
+        }
     }
 
     /**

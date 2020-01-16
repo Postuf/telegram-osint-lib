@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 require_once __DIR__.'/../vendor/autoload.php';
 
+use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\Scenario\GroupMessagesScenario;
+use TelegramOSINT\Scenario\GroupResolverScenario;
+use TelegramOSINT\Scenario\Models\GroupId;
+use TelegramOSINT\Scenario\Models\GroupRequest;
+use TelegramOSINT\Scenario\ReusableClientGenerator;
 
 const INFO = '--info';
 
@@ -38,17 +43,28 @@ TXT;
         $timestamp = (int) $argv[3];
     }
 }
-/** @noinspection PhpUnhandledExceptionInspection */
-$client = new GroupMessagesScenario(
-    null,
-    $timestamp,
-    $username
-);
-if ($groupId) {
-    $client->setGroupId($groupId);
-} elseif ($deepLink) {
-    $client->setDeepLink($deepLink);
-}
+$generator = new ReusableClientGenerator();
+$request = $groupId
+    ? GroupRequest::ofGroupId($groupId)
+    : GroupRequest::ofUserName($deepLink);
 
-/* @noinspection PhpUnhandledExceptionInspection */
-$client->startActions();
+$onGroupReady = function (?int $groupId, ?int $accessHash) use ($timestamp, $username) {
+    if (!$groupId) {
+        Logger::log('parseGroupMessages', 'Group not found');
+
+        return;
+    }
+
+    $client = new GroupMessagesScenario(
+        new GroupId($groupId, $accessHash),
+        null,
+        $timestamp,
+        $username
+    );
+
+    $client->startActions();
+};
+
+$resolver = new GroupResolverScenario($request, $generator, $onGroupReady);
+/** @noinspection PhpUnhandledExceptionInspection */
+$resolver->startActions(false);
