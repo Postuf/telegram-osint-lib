@@ -103,6 +103,8 @@ class TGException extends Exception
     const ERR_PROXY_BAD_FORMAT                                                 = 1005000;
     const ERR_PROXY_AUTH_FAILED                                                = 1006000;
 
+    // misc errors
+    const ERR_SOCKS_STEP_ERROR                                                 = 2000000;
 
     /**
      * TGException constructor.

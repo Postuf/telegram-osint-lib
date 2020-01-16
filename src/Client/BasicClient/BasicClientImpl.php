@@ -49,13 +49,16 @@ class BasicClientImpl implements BasicClient, MessageListener
     private $authKey;
     /** @var Socket|null */
     private $socket;
+    /** @var int seconds */
+    private $proxyTimeout;
 
-    public function __construct()
+    public function __construct(int $proxyTimeout = LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC)
     {
         $this->lastPingTime = 0;
         $this->lastIncomingMessageReceiptTime = time();
         $this->lastStatusOnlineSet = 0;
         $this->isLoggedIn = false;
+        $this->proxyTimeout = $proxyTimeout;
     }
 
     /**
@@ -143,7 +146,7 @@ class BasicClientImpl implements BasicClient, MessageListener
     {
         if($proxy instanceof Proxy){
             if($proxy->getType() == Proxy::TYPE_SOCKS5)
-                return new ProxySocket($proxy, $dc, $cb);
+                return new ProxySocket($proxy, $dc, $cb, $this->proxyTimeout);
         }
 
         return new TcpSocket($dc);
