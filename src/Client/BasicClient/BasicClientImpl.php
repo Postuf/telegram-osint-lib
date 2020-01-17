@@ -234,8 +234,9 @@ class BasicClientImpl implements BasicClient, MessageListener
         $elapsedSinceLastPing = time() - $this->lastPingTime;
         if($elapsedSinceLastPing >= LibConfig::CONN_PING_INTERVAL_SEC){
 
-            if(ping_delay_disconnect::getDisconnectTimeoutSec() <= LibConfig::CONN_PING_INTERVAL_SEC)
+            if(ping_delay_disconnect::getDisconnectTimeoutSec() <= LibConfig::CONN_PING_INTERVAL_SEC) {
                 throw new TGException(TGException::ERR_CONNECTION_BAD_PING_COMBINATION, 'delay < ping for '.$this->getUserId());
+            }
             $this->getConnection()->writeMessage(new ping_delay_disconnect());
             $this->lastPingTime = time();
         }
