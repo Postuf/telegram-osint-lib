@@ -3,7 +3,6 @@
 namespace TelegramOSINT\TGConnection\Socket;
 
 use TelegramOSINT\Exception\TGException;
-use TelegramOSINT\LibConfig;
 use TelegramOSINT\TGConnection\DataCentre;
 
 /**
@@ -25,32 +24,11 @@ class PersistentSocket implements Socket
     /**
      * @param int $length
      *
-     * @throws TGException
-     *
      * @return string
      */
     public function readBinary(int $length)
     {
-        $read = '';
-        $readStartTime = $this->getMicroTime();
-
-        while(strlen($read) < $length) {
-            $read .= $this->socket->readBinary($length - strlen($read));
-            $elapsedTime = $this->getMicroTime() - $readStartTime;
-            if($elapsedTime > LibConfig::CONN_SOCKET_TIMEOUT_PERSISTENT_READ_MS)
-                break;
-            usleep(LibConfig::CONN_SOCKET_RESPONSE_DELAY_MICROS);
-        }
-
-        if(strlen($read) != $length)
-            throw new TGException(TGException::ERR_CONNECTION_SOCKET_READ_TIMEOUT);
-
-        return $read;
-    }
-
-    private function getMicroTime()
-    {
-        return round(microtime(true) * 1000);
+        return $this->socket->readBinary($length);
     }
 
     /**

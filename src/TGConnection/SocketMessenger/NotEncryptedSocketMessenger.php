@@ -18,6 +18,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class NotEncryptedSocketMessenger implements SocketMessenger
 {
+    private const HEADER_LENGTH_BYTES = 4;
     /**
      * @var Socket
      */
@@ -38,6 +39,8 @@ class NotEncryptedSocketMessenger implements SocketMessenger
      * @var MTDeserializer
      */
     private $deserializer;
+    /** @var ReadState|null */
+    private $readState;
 
     /**
      * @param Socket $socket
@@ -58,19 +61,42 @@ class NotEncryptedSocketMessenger implements SocketMessenger
      */
     public function readMessage()
     {
-        // header
-        $lengthValue = $this->socket->readBinary(4);
-        $readLength = strlen($lengthValue);
-        if($readLength == 0)
+        if (!$this->readState) {
+            $this->readState = new ReadState();
+        }
+        if (!$this->readState->getLength()) {
+            // header
+            $lengthValue = $this->socket->readBinary(self::HEADER_LENGTH_BYTES);
+            $readLength = strlen($lengthValue);
+            if ($readLength == 0)
+                return null;
+            if ($readLength != self::HEADER_LENGTH_BYTES)
+                throw new TGException(TGException::ERR_DESERIALIZER_BROKEN_BINARY_READ, self::HEADER_LENGTH_BYTES.'!='.$readLength);
+            // data
+            $payloadLength = unpack('I', $lengthValue)[1] - self::HEADER_LENGTH_BYTES;
+            $this->readState->setLengthValue($lengthValue);
+            $this->readState->setLength($payloadLength);
+        } else {
+            $payloadLength = $this->readState->getLength();
+            $lengthValue = $this->readState->getLengthValue();
+        }
+        $lengthToRead = $payloadLength - $this->readState->getCurrentLength();
+        $newPayload = $this->persistentSocket->readBinary($lengthToRead);
+        if (strlen($newPayload)) {
+            $this->readState->addRead($newPayload);
+        }
+        if (!$this->readState->ready()) {
+            $timeDiff = 1000.0 * (microtime(true) - $this->readState->getTimeStart());
+            if ($timeDiff > LibConfig::CONN_SOCKET_TIMEOUT_PERSISTENT_READ_MS) {
+                throw new TGException(TGException::ERR_CONNECTION_SOCKET_READ_TIMEOUT);
+            }
+
             return null;
-        if($readLength != 4)
-            throw new TGException(TGException::ERR_DESERIALIZER_BROKEN_BINARY_READ, '4!='.$readLength);
-        // data
-        $payloadLength = unpack('I', $lengthValue)[1] - 4;
-        $payload = $this->persistentSocket->readBinary($payloadLength);
+        }
 
         // full TL packet
-        $packet = $lengthValue.$payload;
+        $packet = $lengthValue.$this->readState->getPayload();
+        $this->readState = null;
 
         Logger::log('Read_Message_Binary', bin2hex($packet));
 
