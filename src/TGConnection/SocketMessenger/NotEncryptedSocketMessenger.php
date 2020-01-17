@@ -10,23 +10,13 @@ use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\MTSerialization\MTDeserializer;
 use TelegramOSINT\MTSerialization\OwnImplementation\OwnDeserializer;
 use TelegramOSINT\TGConnection\DataCentre;
-use TelegramOSINT\TGConnection\Socket\PersistentSocket;
 use TelegramOSINT\TGConnection\Socket\Socket;
 use TelegramOSINT\TGConnection\SocketMessenger\MessengerTools\MessageIdGenerator;
 use TelegramOSINT\TGConnection\SocketMessenger\MessengerTools\OuterHeaderWrapper;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
-class NotEncryptedSocketMessenger implements SocketMessenger
+class NotEncryptedSocketMessenger extends TgSocketMessenger implements SocketMessenger
 {
-    private const HEADER_LENGTH_BYTES = 4;
-    /**
-     * @var Socket
-     */
-    private $socket;
-    /**
-     * @var PersistentSocket
-     */
-    private $persistentSocket;
     /**
      * @var OuterHeaderWrapper
      */
@@ -39,16 +29,13 @@ class NotEncryptedSocketMessenger implements SocketMessenger
      * @var MTDeserializer
      */
     private $deserializer;
-    /** @var ReadState|null */
-    private $readState;
 
     /**
      * @param Socket $socket
      */
     public function __construct(Socket $socket)
     {
-        $this->socket = $socket;
-        $this->persistentSocket = new PersistentSocket($this->socket);
+        parent::__construct($socket);
         $this->outerHeaderWrapper = new OuterHeaderWrapper();
         $this->msgIdGenerator = new MessageIdGenerator();
         $this->deserializer = new OwnDeserializer();
@@ -61,42 +48,10 @@ class NotEncryptedSocketMessenger implements SocketMessenger
      */
     public function readMessage()
     {
-        if (!$this->readState) {
-            $this->readState = new ReadState();
-        }
-        if (!$this->readState->getLength()) {
-            // header
-            $lengthValue = $this->socket->readBinary(self::HEADER_LENGTH_BYTES);
-            $readLength = strlen($lengthValue);
-            if ($readLength == 0)
-                return null;
-            if ($readLength != self::HEADER_LENGTH_BYTES)
-                throw new TGException(TGException::ERR_DESERIALIZER_BROKEN_BINARY_READ, self::HEADER_LENGTH_BYTES.'!='.$readLength);
-            // data
-            $payloadLength = unpack('I', $lengthValue)[1] - self::HEADER_LENGTH_BYTES;
-            $this->readState->setLengthValue($lengthValue);
-            $this->readState->setLength($payloadLength);
-        } else {
-            $payloadLength = $this->readState->getLength();
-            $lengthValue = $this->readState->getLengthValue();
-        }
-        $lengthToRead = $payloadLength - $this->readState->getCurrentLength();
-        $newPayload = $this->persistentSocket->readBinary($lengthToRead);
-        if (strlen($newPayload)) {
-            $this->readState->addRead($newPayload);
-        }
-        if (!$this->readState->ready()) {
-            $timeDiff = 1000.0 * (microtime(true) - $this->readState->getTimeStart());
-            if ($timeDiff > LibConfig::CONN_SOCKET_TIMEOUT_PERSISTENT_READ_MS) {
-                throw new TGException(TGException::ERR_CONNECTION_SOCKET_READ_TIMEOUT);
-            }
-
+        $packet = $this->readPacket();
+        if (!$packet) {
             return null;
         }
-
-        // full TL packet
-        $packet = $lengthValue.$this->readState->getPayload();
-        $this->readState = null;
 
         Logger::log('Read_Message_Binary', bin2hex($packet));
 
