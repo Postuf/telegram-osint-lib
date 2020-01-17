@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace TelegramOSINT\Scenario;
 
+use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
 use TelegramOSINT\Client\InfoObtainingClient\Models\MessageModel;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
-use TelegramOSINT\Tools\Proxy;
+use TelegramOSINT\Scenario\Models\GroupId;
+use TelegramOSINT\Scenario\Models\OptionalDateRange;
 
-class GroupMessagesScenario extends AbstractGroupScenario
+class GroupMessagesScenario extends InfoClientScenario
 {
     /** @var callable|null */
     private $handler;
@@ -21,53 +23,34 @@ class GroupMessagesScenario extends AbstractGroupScenario
     private $userId;
     /** @var int|null */
     private $startTimestamp;
+    /** @var int|null */
+    private $endTimestamp;
+    /** @var GroupId */
+    private $groupIdObj;
+    /** @var ClientGeneratorInterface */
+    private $generator;
 
     /**
-     * @param callable|null                 $handler        function(MessageModel $message)
-     * @param int|null                      $startTimestamp
-     * @param string|null                   $username
-     * @param Proxy|null                    $proxy
-     * @param ClientGeneratorInterface|null $generator
-     *
-     * @throws TGException
+     * @param GroupId                  $groupId
+     * @param ClientGeneratorInterface $generator
+     * @param OptionalDateRange        $dateRange
+     * @param callable|null            $handler   function(MessageModel $message)
+     * @param string|null              $username
      */
     public function __construct(
+        GroupId $groupId,
+        ClientGeneratorInterface $generator,
+        OptionalDateRange $dateRange,
         callable $handler = null,
-        ?int $startTimestamp = null,
-        ?string $username = null,
-        ?Proxy $proxy = null,
-        ?ClientGeneratorInterface $generator = null
+        ?string $username = null
     ) {
-        parent::__construct($proxy, $generator);
+        parent::__construct($generator);
         $this->handler = $handler;
-        $this->startTimestamp = $startTimestamp;
+        $this->startTimestamp = $dateRange->getSince();
+        $this->endTimestamp = $dateRange->getTo();
         $this->username = $username;
-    }
-
-    /**
-     * @return callable function(AnonymousMessage $message)
-     */
-    public function getAllChatsHandler(): callable
-    {
-        return function (AnonymousMessage $message) {
-            /** @see https://core.telegram.org/constructor/messages.chats */
-            $chats = $message->getNodes('chats');
-            $chatCount = count($chats);
-            Logger::log(__CLASS__, "got $chatCount chats");
-            $limit = 100;
-            foreach ($chats as $chatNode) {
-                $id = (int) $chatNode->getValue('id');
-                $accessHash = (int) $chatNode->getValue('access_hash');
-                if ($chatNode->getType() != 'chat') {
-                    Logger::log(__CLASS__, 'Skipped node of type '.$chatNode->getType());
-                    continue;
-                }
-
-                usleep(10000);
-                $this->parseMessages($id, $accessHash, $limit);
-            }
-        };
-
+        $this->groupIdObj = $groupId;
+        $this->generator = $generator;
     }
 
     /**
@@ -89,46 +72,40 @@ class GroupMessagesScenario extends AbstractGroupScenario
         };
     }
 
-    private function getGroupResolveHandler(): callable
+    /**
+     * Connect to telegram with info (second) account
+     *
+     * @throws TGException
+     */
+    protected function infoLogin(): void
     {
-        return function (AnonymousMessage $message) {
-            $chats = $message->getValue('chats');
-            $limit = 100;
-            foreach ($chats as $chat) {
-                $id = (int) $chat['id'];
-                $accessHash = (int) $chat['access_hash'];
-                Logger::log(__CLASS__, "getting channel messages for channel $id");
-                /** @var array $chat */
-                $this->parseMessages($id, $accessHash, $limit);
-            }
-        };
+        $authKey = AuthKeyCreator::createFromString($this->generator->getAuthKeyInfo());
+        if (!$this->infoClient->isLoggedIn()) {
+            $this->infoClient->login($authKey);
+        }
     }
 
-    public function startActions(): void
+    /**
+     * @param bool $pollAndTerminate
+     *
+     * @throws TGException
+     */
+    public function startActions(bool $pollAndTerminate = true): void
     {
         $this->infoLogin();
         usleep(10000);
-        Logger::log(__CLASS__, 'getting all chats');
-        if ($this->deepLink) {
-            Logger::log(__CLASS__, "getting chat by deeplink {$this->deepLink}");
-            $parts = explode('/', $this->deepLink);
-            $username = $parts[count($parts) - 1];
-            $this->infoClient->resolveUsername($username, $this->getResolveHandler(function (AnonymousMessage $message) {
-                if ($this->username) {
-                    $this->infoClient->resolveUsername($this->username, $this->getUserResolveHandler(function () use ($message) {
-                        $handler = $this->getGroupResolveHandler();
-                        $handler($message);
-                    }));
-                } else {
-                    $handler = $this->getGroupResolveHandler();
-                    $handler($message);
-                }
+        $limit = 100;
+        if ($this->username) {
+            $this->infoClient->resolveUsername($this->username, $this->getUserResolveHandler(function () use ($limit) {
+                $this->parseMessages($this->groupIdObj->getGroupId(), $this->groupIdObj->getAccessHash(), $limit);
             }));
         } else {
-            $this->infoClient->getAllChats($this->getAllChatsHandler());
+            $this->parseMessages($this->groupIdObj->getGroupId(), $this->groupIdObj->getAccessHash(), $limit);
         }
 
-        $this->pollAndTerminate();
+        if ($pollAndTerminate) {
+            $this->pollAndTerminate();
+        }
     }
 
     private function parseMessages(int $id, int $accessHash, int $limit): void
@@ -173,6 +150,10 @@ class GroupMessagesScenario extends AbstractGroupScenario
                 if ($this->userId && $message['from_id'] != $this->userId) {
                     continue;
                 }
+                if ($this->endTimestamp && $message['date'] > $this->endTimestamp) {
+                    continue;
+                }
+
                 if ($this->startTimestamp && $message['date'] < $this->startTimestamp) {
                     return;
                 }

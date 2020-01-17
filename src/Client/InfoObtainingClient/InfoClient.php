@@ -116,6 +116,10 @@ class InfoClient implements InfoObtainingClient
         $this->basicClient->getConnection()->getResponseAsync(new get_full_channel($id, $accessHash), $onComplete);
     }
 
+    public function getFullChannel(int $id, int $accessHash, callable $onComplete) {
+        $this->basicClient->getConnection()->getResponseAsync(new get_full_channel($id, $accessHash), $onComplete);
+    }
+
     public function getChatMessages(int $id, int $limit, ?int $since, ?int $lastId, callable $onComplete) {
         $request = new get_history($id, $limit, (int) $since, (int) $lastId);
         $this->basicClient->getConnection()->getResponseAsync(

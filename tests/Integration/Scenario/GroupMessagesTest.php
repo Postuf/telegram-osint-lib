@@ -10,8 +10,12 @@ use Helpers\NullBasicClientGenerator;
 use Helpers\TestClientGenerator;
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Client\InfoObtainingClient\Models\MessageModel;
-use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Scenario\GroupMessagesScenario;
+use TelegramOSINT\Scenario\GroupResolverScenario;
+use TelegramOSINT\Scenario\Models\GroupId;
+use TelegramOSINT\Scenario\Models\GroupRequest;
+use TelegramOSINT\Scenario\Models\OptionalDateRange;
+use TelegramOSINT\Scenario\ReusableClientGenerator;
 
 class GroupMessagesTest extends TestCase
 {
@@ -21,57 +25,102 @@ class GroupMessagesTest extends TestCase
     private const USERNAME = 'ntlvikhhjofnekge';
     private const DEFAULT_GROUP_DEEPLINK = 'https://t.me/asfaefegw';
 
+    /** @var ReusableClientGenerator */
+    private $clientGenerator;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $file = file_get_contents(__DIR__.self::TRACE_PATH);
+        $baseGenerator = new NullBasicClientGenerator(json_decode($file, true));
+        $this->clientGenerator = new ReusableClientGenerator(
+            new TestClientGenerator($baseGenerator, self::DEFAULT_AUTHKEY)
+        );
+    }
+
+    private function resolve(GroupRequest $request, callable $onGroupReady): void
+    {
+        $resolver = new GroupResolverScenario($request, $this->clientGenerator, $onGroupReady);
+        $resolver->setTimeout(self::TIMEOUT);
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $resolver->startActions(false);
+        /** @noinspection PhpStatementHasEmptyBodyInspection */
+        /** @noinspection PhpUnhandledExceptionInspection */
+        do { } while(!$resolver->poll());
+    }
+
     /**
      * Test that we receive a message by user from specified group
-     *
-     * @throws TGException
      */
     public function test_get_user_messages(): void
     {
-        $file = file_get_contents(__DIR__.self::TRACE_PATH);
-        $baseGenerator = new NullBasicClientGenerator(json_decode($file, true));
-        $count = 0;
-        $handler = function (MessageModel $message) use (&$count) {
-            $this->assertEquals('qweq', $message->getText());
-            $count++;
-        };
-        $client = new GroupMessagesScenario(
-            $handler,
-            null,
-            self::USERNAME,
-            null,
-            new TestClientGenerator($baseGenerator, self::DEFAULT_AUTHKEY)
-        );
-        $client->setDeepLink(self::DEFAULT_GROUP_DEEPLINK);
-        $client->setTimeout(self::TIMEOUT);
-        $client->startActions();
-        $this->assertEquals(1, $count);
+        $request = GroupRequest::ofUserName(self::DEFAULT_GROUP_DEEPLINK);
+        $this->resolve($request, function (?int $groupId, ?int $accessHash) {
+            $count = 0;
+            $handler = function (MessageModel $message) use (&$count) {
+                $this->assertEquals('qweq', $message->getText());
+                $count++;
+            };
+            $client = new GroupMessagesScenario(
+                new GroupId($groupId, $accessHash),
+                $this->clientGenerator,
+                new OptionalDateRange(),
+                $handler,
+                self::USERNAME
+            );
+            $client->setTimeout(self::TIMEOUT);
+            $client->startActions();
+            $this->assertEquals(1, $count);
+        });
     }
 
     /**
      * Test that we receive a message by user from specified group and filter by timestamp.
-     *
-     * @throws TGException
      */
     public function test_get_user_messages_filtered(): void
     {
-        $file = file_get_contents(__DIR__.self::TRACE_PATH);
-        $baseGenerator = new NullBasicClientGenerator(json_decode($file, true));
-        $count = 0;
-        $handler = function (MessageModel $message) use (&$count) {
-            $this->assertEquals('qweq', $message->getText());
-            $count++;
-        };
-        $client = new GroupMessagesScenario(
-            $handler,
-            time(),
-            self::USERNAME,
-            null,
-            new TestClientGenerator($baseGenerator, self::DEFAULT_AUTHKEY)
-        );
-        $client->setDeepLink(self::DEFAULT_GROUP_DEEPLINK);
-        $client->setTimeout(self::TIMEOUT);
-        $client->startActions();
-        $this->assertEquals(0, $count);
+        $request = GroupRequest::ofUserName(self::DEFAULT_GROUP_DEEPLINK);
+        $this->resolve($request, function (?int $groupId, ?int $accessHash) {
+            $count = 0;
+            $handler = function (MessageModel $message) use (&$count) {
+                $this->assertEquals('qweq', $message->getText());
+                $count++;
+            };
+            $client = new GroupMessagesScenario(
+                new GroupId($groupId, $accessHash),
+                $this->clientGenerator,
+                new OptionalDateRange(time()),
+                $handler,
+                self::USERNAME
+            );
+            $client->setTimeout(self::TIMEOUT);
+            $client->startActions();
+            $this->assertEquals(0, $count);
+        });
+    }
+
+    /**
+     * Test that we receive a message by user from specified group and filter by whole range.
+     */
+    public function test_get_user_messages_filtered_by_range(): void
+    {
+        $request = GroupRequest::ofUserName(self::DEFAULT_GROUP_DEEPLINK);
+        $this->resolve($request, function (?int $groupId, ?int $accessHash) {
+            $count = 0;
+            $handler = function (MessageModel $message) use (&$count) {
+                $this->assertEquals('qweq', $message->getText());
+                $count++;
+            };
+            $client = new GroupMessagesScenario(
+                new GroupId($groupId, $accessHash),
+                $this->clientGenerator,
+                new OptionalDateRange(strtotime('2019/06/06'), strtotime('2019/07/07')),
+                $handler,
+                self::USERNAME
+            );
+            $client->setTimeout(self::TIMEOUT);
+            $client->startActions();
+            $this->assertEquals(0, $count);
+        });
     }
 }

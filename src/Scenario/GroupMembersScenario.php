@@ -66,9 +66,11 @@ class GroupMembersScenario extends AbstractGroupScenario implements ScenarioInte
     }
 
     /**
+     * @param bool $pollAndTerminate
+     *
      * @throws TGException
      */
-    public function startActions(): void
+    public function startActions(bool $pollAndTerminate = true): void
     {
         $this->infoLogin();
         usleep(10000);
@@ -90,7 +92,9 @@ class GroupMembersScenario extends AbstractGroupScenario implements ScenarioInte
             $this->infoClient->getAllChats($this->getAllChatsHandler());
         }
 
-        $this->pollAndTerminate();
+        if ($pollAndTerminate) {
+            $this->pollAndTerminate();
+        }
     }
 
     /**
