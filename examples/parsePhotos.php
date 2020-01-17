@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Helpers\DateParser;
 use TelegramOSINT\Scenario\GroupPhotosScenario;
+use TelegramOSINT\Scenario\Models\OptionalDateRange;
 
 require_once __DIR__.'/../vendor/autoload.php';
 const INFO = '--info';
@@ -41,8 +42,10 @@ TXT;
 
 /* @noinspection PhpUnhandledExceptionInspection */
 $photosClient = new GroupPhotosScenario(
-    DateParser::parse($since),
-    DateParser::parse($to)
+    new OptionalDateRange(
+        DateParser::parse($since),
+        DateParser::parse($to)
+    )
 );
 if ($groupId) {
     $photosClient->setGroupId($groupId);

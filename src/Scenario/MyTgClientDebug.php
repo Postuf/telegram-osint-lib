@@ -82,13 +82,17 @@ class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger, Scen
     }
 
     /**
+     * @param bool $pollAndTerminate
+     *
      * @throws TGException
      */
-    public function startActions(): void
+    public function startActions(bool $pollAndTerminate = true): void
     {
         $this->getContactsInfo();
-        $this->pollAndTerminate();
-        $this->monitorPhones();
+        if ($pollAndTerminate) {
+            $this->pollAndTerminate();
+            $this->monitorPhones();
+        }
     }
 
     /**
@@ -325,6 +329,8 @@ class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger, Scen
     public function infoLogin(): void
     {
         $authKey = AuthKeyCreator::createFromString($this->authKeyForSecondClient);
-        $this->infoClient->login($authKey, $this->proxy);
+        if (!$this->infoClient->isLoggedIn()) {
+            $this->infoClient->login($authKey, $this->proxy);
+        }
     }
 }

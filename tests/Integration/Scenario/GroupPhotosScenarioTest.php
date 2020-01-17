@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Client\InfoObtainingClient\Models\PictureModel;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Scenario\GroupPhotosScenario;
+use TelegramOSINT\Scenario\Models\OptionalDateRange;
 
 class GroupPhotosScenarioTest extends TestCase
 {
@@ -20,6 +21,10 @@ class GroupPhotosScenarioTest extends TestCase
     private const CHANNEL_ID = 1229718840;
     private const DEFAULT_FILE_SIZE = 140179;
     private const TIMEOUT = 0.15;
+    private const DEFAULT_GROUP_DEEPLINK = 'https://t.me/asfaefegw';
+    private const START_TS_20190101 = 1546300800;
+    private const END_TS_20200202 = 1580601600;
+    private const END_TS_20190202 = 1549065600;
 
     /**
      * We expect one photo to be loaded in basic scenario without limits and without group id
@@ -38,7 +43,7 @@ class GroupPhotosScenarioTest extends TestCase
         $basicGenerator = new NullBasicClientGenerator(json_decode($file, true));
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
-        $client = new GroupPhotosScenario(null, null, $saveHandler, $testGenerator);
+        $client = new GroupPhotosScenario(new OptionalDateRange(), $saveHandler, $testGenerator);
         $client->setTimeout(self::TIMEOUT);
         $client->startActions();
         $this->assertEquals(1, $count);
@@ -61,7 +66,7 @@ class GroupPhotosScenarioTest extends TestCase
         $basicGenerator = new NullBasicClientGenerator(json_decode($file, true));
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
-        $client = new GroupPhotosScenario(null, null, $saveHandler, $testGenerator);
+        $client = new GroupPhotosScenario(new OptionalDateRange(), $saveHandler, $testGenerator);
         $client->setGroupId(self::CHANNEL_ID);
         $client->setTimeout(self::TIMEOUT);
         $client->startActions();
@@ -78,7 +83,7 @@ class GroupPhotosScenarioTest extends TestCase
         $count = 0;
         $saveHandler = function (PictureModel $model, int $id) use (&$count) {
             $count++;
-            $this->assertEquals(140179, strlen($model->bytes));
+            $this->assertEquals(self::DEFAULT_FILE_SIZE, strlen($model->bytes));
             $this->assertEquals(1578467676, $model->modificationTime);
         };
         $file = file_get_contents(__DIR__.self::CHANNEL_TRACE_PATH);
@@ -86,8 +91,10 @@ class GroupPhotosScenarioTest extends TestCase
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
         $client = new GroupPhotosScenario(
-            1546300800, // 20190101
-            1580601600, // 20200202
+            new OptionalDateRange(
+                self::START_TS_20190101, // 20190101
+                self::END_TS_20200202 // 20200202
+            ),
             $saveHandler,
             $testGenerator
         );
@@ -107,7 +114,7 @@ class GroupPhotosScenarioTest extends TestCase
         $count = 0;
         $saveHandler = function (PictureModel $model, int $id) use (&$count) {
             $count++;
-            $this->assertEquals(140179, strlen($model->bytes));
+            $this->assertEquals(self::DEFAULT_FILE_SIZE, strlen($model->bytes));
             $this->assertEquals(1578467676, $model->modificationTime);
         };
         $file = file_get_contents(__DIR__.self::CHANNEL_TRACE_PATH);
@@ -115,8 +122,10 @@ class GroupPhotosScenarioTest extends TestCase
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
         $client = new GroupPhotosScenario(
-            1546300800, // 20190101
-            1549065600, // 20190202
+            new OptionalDateRange(
+                self::START_TS_20190101, // 20190101
+                self::END_TS_20190202 // 20190202
+            ),
             $saveHandler,
             $testGenerator
         );
@@ -142,12 +151,11 @@ class GroupPhotosScenarioTest extends TestCase
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
         $client = new GroupPhotosScenario(
-            null,
-            null,
+            new OptionalDateRange(),
             $saveHandler,
             $testGenerator
         );
-        $client->setDeepLink('https://t.me/asfaefegw');
+        $client->setDeepLink(self::DEFAULT_GROUP_DEEPLINK);
         $client->setTimeout(self::TIMEOUT);
         $client->startActions();
         $this->assertEquals(2, $count);
@@ -169,12 +177,11 @@ class GroupPhotosScenarioTest extends TestCase
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
         $client = new GroupPhotosScenario(
-            null,
-            null,
+            new OptionalDateRange(),
             $saveHandler,
             $testGenerator
         );
-        $client->setDeepLink('https://t.me/asfaefegw');
+        $client->setDeepLink(self::DEFAULT_GROUP_DEEPLINK);
         $client->setTimeout(self::TIMEOUT);
         $client->startActions();
         $this->assertEquals(2, $count);
@@ -198,8 +205,10 @@ class GroupPhotosScenarioTest extends TestCase
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
         $client = new GroupPhotosScenario(
-            1546300800, // 20190101
-            1549065600, // 20190202
+            new OptionalDateRange(
+                self::START_TS_20190101, // 20190101
+                self::END_TS_20190202 // 20190202
+            ),
             $saveHandler,
             $testGenerator
         );
@@ -224,8 +233,10 @@ class GroupPhotosScenarioTest extends TestCase
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
         $client = new GroupPhotosScenario(
-            1546300800, // 20190101
-            1580601600, // 20200202
+            new OptionalDateRange(
+                self::START_TS_20190101, // 20190101
+                self::END_TS_20200202 // 20200202
+            ),
             $saveHandler,
             $testGenerator
         );

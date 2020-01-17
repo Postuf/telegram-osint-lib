@@ -25,7 +25,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "": "tests/"
+            "": ["tests/", "examples/"]
         }
     },
     "prefer-stable": true

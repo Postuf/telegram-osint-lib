@@ -6,5 +6,5 @@ namespace TelegramOSINT\Scenario;
 
 interface ScenarioInterface
 {
-    public function startActions(): void;
+    public function startActions(bool $pollAndTerminate = true): void;
 }

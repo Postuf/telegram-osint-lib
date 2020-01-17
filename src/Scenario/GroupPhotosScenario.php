@@ -11,6 +11,7 @@ use TelegramOSINT\Client\InfoObtainingClient\Models\PictureModel;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\Scenario\Models\OptionalDateRange;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_all_chats;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_history;
 
@@ -33,22 +34,20 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
     private $saveHandler;
 
     /**
-     * @param int|null                      $since
-     * @param int|null                      $to
+     * @param OptionalDateRange             $dateRange
      * @param callable|null                 $saveHandler function(PictureModel $model, int $id)
      * @param ClientGeneratorInterface|null $generator
      *
      * @throws TGException
      */
     public function __construct(
-        ?int $since = null,
-        ?int $to = null,
+        OptionalDateRange $dateRange,
         ?callable $saveHandler = null,
         ?ClientGeneratorInterface $generator = null
     ) {
         parent::__construct(null, $generator);
-        $this->since = $since;
-        $this->to = $to;
+        $this->since = $dateRange->getSince();
+        $this->to = $dateRange->getTo();
         $this->saveHandler = $saveHandler;
     }
 
@@ -148,9 +147,11 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
     }
 
     /**
+     * @param bool $pollAndTerminate
+     *
      * @throws TGException
      */
-    public function startActions(): void
+    public function startActions(bool $pollAndTerminate = true): void
     {
         $this->infoLogin();
         /** @var array $ids */
@@ -182,7 +183,9 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
             $this->infoClient->getAllChats($this->getAllChatsHandler($limit));
         }
 
-        $this->pollAndTerminate();
+        if ($pollAndTerminate) {
+            $this->pollAndTerminate();
+        }
     }
 
     /**
