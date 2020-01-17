@@ -53,6 +53,9 @@ class MultiClientTest extends TestCase
 
         return new MultiClient([$k1], function () use ($require) {
             $mockClient = $this->createMock(InfoClient::class);
+            $mockClient
+                ->method('isLoggedIn')
+                ->willReturn(true);
             $require($mockClient);
 
             return $mockClient;

@@ -87,7 +87,9 @@ class MultiClient
             throw new TGException(0, 'no clients');
         }
         foreach ($this->clients as $client) {
-            $client->pollMessage();
+            if ($client->isLoggedIn()) {
+                $client->pollMessage();
+            }
         }
     }
 }
