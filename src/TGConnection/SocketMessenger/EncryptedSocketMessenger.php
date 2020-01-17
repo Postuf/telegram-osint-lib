@@ -36,6 +36,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class EncryptedSocketMessenger implements SocketMessenger
 {
+    private const HEADER_LENGTH_BYTES = 4;
     /**
      * @var Socket
      */
@@ -104,6 +105,8 @@ class EncryptedSocketMessenger implements SocketMessenger
      * @var AnonymousMessage[]
      */
     private $messagesToBeProcessedQueue = [];
+    /** @var ReadState|null */
+    private $readState;
 
     /**
      * @param Socket          $socket
@@ -154,19 +157,41 @@ class EncryptedSocketMessenger implements SocketMessenger
      */
     protected function readMessageFromSocket(): ?AnonymousMessage
     {
-        // header
-        $lengthValue = $this->socket->readBinary(4);
-        $readLength = strlen($lengthValue);
-        if($readLength == 0)
+        if (!$this->readState) {
+            $this->readState = new ReadState();
+        }
+        if (!$this->readState->getLength()) {
+            // header
+            $lengthValue = $this->socket->readBinary(self::HEADER_LENGTH_BYTES);
+            if ($lengthValue === false)
+                return null;
+            if (strlen($lengthValue) != self::HEADER_LENGTH_BYTES)
+                throw new TGException(TGException::ERR_DESERIALIZER_BROKEN_BINARY_READ, self::HEADER_LENGTH_BYTES.'!='.strlen($lengthValue));
+            // data
+            $payloadLength = unpack('I', $lengthValue)[1] - self::HEADER_LENGTH_BYTES;
+            $this->readState->setLengthValue($lengthValue);
+            $this->readState->setLength($payloadLength);
+        } else {
+            $payloadLength = $this->readState->getLength();
+            $lengthValue = $this->readState->getLengthValue();
+        }
+        $lengthToRead = $payloadLength - $this->readState->getCurrentLength();
+        $newPayload = $this->persistentSocket->readBinary($lengthToRead);
+        if (strlen($newPayload)) {
+            $this->readState->addRead($newPayload);
+        }
+        if (!$this->readState->ready()) {
+            $timeDiff = 1000.0 * (microtime(true) - $this->readState->getTimeStart());
+            if ($timeDiff > LibConfig::CONN_SOCKET_TIMEOUT_PERSISTENT_READ_MS) {
+                throw new TGException(TGException::ERR_CONNECTION_SOCKET_READ_TIMEOUT);
+            }
+
             return null;
-        if($readLength != 4)
-            throw new TGException(TGException::ERR_DESERIALIZER_BROKEN_BINARY_READ, '4!='.$readLength);
-        // data
-        $payloadLength = unpack('I', $lengthValue)[1] - 4;
-        $payload = $this->persistentSocket->readBinary($payloadLength);
+        }
 
         // full TL packet
-        $packet = $lengthValue.$payload;
+        $packet = $lengthValue.$this->readState->getPayload();
+        $this->readState = null;
 
         return $this->deserializePayload(
             $this->decodeDecryptedPayloadHeaders(
@@ -265,13 +290,13 @@ class EncryptedSocketMessenger implements SocketMessenger
             throw new TGException(TGException::ERR_TL_CONTAINER_BAD_SESSION_ID);
         $msg_id = substr($decryptedPayload, 16, 8);
         $msg_id = unpack('Q', $msg_id)[1];
-        $seq_no = substr($decryptedPayload, 24, 4);
+        $seq_no = substr($decryptedPayload, 24, self::HEADER_LENGTH_BYTES);
         $seq_no = unpack('I', $seq_no);
 
         if($seq_no % 2 == 1)
             $this->acknowledgeReceipt($msg_id);
 
-        $message_data_length = unpack('V', substr($decryptedPayload, 28, 4))[1];
+        $message_data_length = unpack('V', substr($decryptedPayload, 28, self::HEADER_LENGTH_BYTES))[1];
 
         return substr($decryptedPayload, 32, $message_data_length);
     }

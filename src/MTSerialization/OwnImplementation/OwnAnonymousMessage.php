@@ -11,10 +11,9 @@ class OwnAnonymousMessage implements AnonymousMessage
      * @var array
      */
     private $object;
+    private $type;
 
     /**
-     * OwnAnonymousMessage constructor.
-     *
      * @param array $deserializedByOwnArray
      *
      * @throws TGException
@@ -24,6 +23,7 @@ class OwnAnonymousMessage implements AnonymousMessage
         if(!is_array($deserializedByOwnArray))
             throw new TGException(TGException::ERR_TL_MESSAGE_FIELD_BAD_NODE);
         $this->object = $deserializedByOwnArray;
+        $this->type = isset($this->object['_']) ? $this->object['_'] : null;
     }
 
     /**
@@ -72,7 +72,7 @@ class OwnAnonymousMessage implements AnonymousMessage
      */
     public function getType()
     {
-        return isset($this->object['_']) ? $this->object['_'] : null;
+        return $this->type;
     }
 
     /**
