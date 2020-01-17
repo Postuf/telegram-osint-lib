@@ -11,6 +11,7 @@ use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherCallbacks;
 use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherClient;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\LibConfig;
+use TelegramOSINT\Tools\Proxy;
 
 class ClientGenerator implements ClientGeneratorInterface
 {
@@ -45,5 +46,10 @@ class ClientGenerator implements ClientGeneratorInterface
         }
 
         return trim(file_get_contents($envPath));
+    }
+
+    public function getProxy(): ?Proxy
+    {
+        return null;
     }
 }

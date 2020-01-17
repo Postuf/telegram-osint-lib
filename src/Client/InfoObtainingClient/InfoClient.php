@@ -32,6 +32,8 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\input_file_location;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\contacts_resolve_username;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\contacts_search;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\get_deeplink_info;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\get_participants;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\input_channel;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\input_peer_photofilelocation;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\input_peer_user;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\input_photofilelocation;
@@ -150,6 +152,12 @@ class InfoClient implements InfoObtainingClient
     public function getCommonChats(int $id, int $accessHash, int $limit, int $max_id, callable $onComplete)
     {
         $this->basicClient->getConnection()->getResponseAsync(new get_common_chats($id, $accessHash, $limit, $max_id), $onComplete);
+    }
+
+    public function getParticipants(int $id, int $accessHash, int $offset, callable $onComplete): void
+    {
+        $channel = new input_channel($id, $accessHash);
+        $this->basicClient->getConnection()->getResponseAsync(new get_participants($channel, $offset), $onComplete);
     }
 
     /**

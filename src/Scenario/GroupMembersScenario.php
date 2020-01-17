@@ -9,15 +9,14 @@ use TelegramOSINT\Client\InfoObtainingClient\Models\UserInfoModel;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\Scenario\Models\GroupId;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_all_chats;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_full_chat;
-use TelegramOSINT\Tools\Proxy;
 
 /**
  * Listing group members
  *
- * This example requires info user
- * to be member of one or several groups, otherwise it is useless.
+ * This example requires info user to be member of one or several groups, otherwise it is useless.
  *
  * Please note that for public groups you need to be group admin to see member list.
  *
@@ -26,23 +25,26 @@ use TelegramOSINT\Tools\Proxy;
  */
 class GroupMembersScenario extends AbstractGroupScenario implements ScenarioInterface
 {
-    /** @var callable|null */
+    private const PAGE_LIMIT = 100;
+
+    /** @var callable|null function() */
     private $handler;
+    /** @var GroupId|null */
+    private $groupIdObj;
 
     /**
+     * @param GroupId|null                  $groupId
      * @param callable                      $handler   function()
-     * @param Proxy|null                    $proxy
      * @param ClientGeneratorInterface|null $generator
-     *
-     * @throws TGException
      */
     public function __construct(
+        ?GroupId $groupId = null,
         callable $handler = null,
-        ?Proxy $proxy = null,
         ?ClientGeneratorInterface $generator = null
     ) {
-        parent::__construct($proxy, $generator);
+        parent::__construct($generator);
         $this->handler = $handler;
+        $this->groupIdObj = $groupId;
     }
 
     private function getAllChatsHandler(): callable
@@ -74,12 +76,11 @@ class GroupMembersScenario extends AbstractGroupScenario implements ScenarioInte
     {
         $this->login();
         usleep(10000);
-        Logger::log(__CLASS__, 'getting all chats');
         if ($this->deepLink) {
             Logger::log(__CLASS__, "getting chat by deeplink {$this->deepLink}");
             $parts = explode('/', $this->deepLink);
-            $username = $parts[count($parts) - 1];
-            $this->infoClient->resolveUsername($username, $this->getResolveHandler(function (AnonymousMessage $message) {
+            $groupName = $parts[count($parts) - 1];
+            $this->infoClient->resolveUsername($groupName, $this->getResolveHandler(function (AnonymousMessage $message) {
                 $chats = $message->getValue('chats');
                 foreach ($chats as $chat) {
                     $id = (int) $chat['id'];
@@ -88,7 +89,21 @@ class GroupMembersScenario extends AbstractGroupScenario implements ScenarioInte
                     $this->infoClient->getChannelMembers($id, $chat['access_hash'], $this->makeChatMemberHandler($id));
                 }
             }));
+        } elseif ($this->groupIdObj) {
+            Logger::log(__CLASS__, 'getting chat participants');
+            $this->infoClient->getParticipants(
+                $this->groupIdObj->getGroupId(),
+                $this->groupIdObj->getAccessHash(),
+                0,
+                $this->makeChatMemberHandler(
+                    $this->groupIdObj->getGroupId(),
+                    0,
+                    true
+                )
+
+            );
         } else {
+            Logger::log(__CLASS__, 'getting all chats');
             $this->infoClient->getAllChats($this->getAllChatsHandler());
         }
 
@@ -98,13 +113,16 @@ class GroupMembersScenario extends AbstractGroupScenario implements ScenarioInte
     }
 
     /**
-     * @param int $id
+     * @param int  $id
+     * @param int  $offset
+     * @param bool $continue
      *
      * @return Closure
      */
-    private function makeChatMemberHandler(int $id): Closure {
-        return function (AnonymousMessage $message) use ($id) {
+    private function makeChatMemberHandler(int $id, int $offset = 0, bool $continue = false): Closure {
+        return function (AnonymousMessage $message) use ($id, $offset, $continue) {
             /** @see https://core.telegram.org/constructor/messages.chatFull */
+            /** @see https://core.telegram.org/constructor/channels.channelParticipants */
             $users = $message->getNodes('users');
             if ($this->handler) {
                 $models = [];
@@ -133,6 +151,21 @@ class GroupMembersScenario extends AbstractGroupScenario implements ScenarioInte
                         );
                     }
                 }
+            }
+            if ($users && $continue) {
+                $newOffset = $offset + self::PAGE_LIMIT;
+                Logger::log(__CLASS__, "getting more participants for {$this->groupIdObj->getGroupId()} starting with $newOffset");
+                $this->infoClient->getParticipants(
+                    $this->groupIdObj->getGroupId(),
+                    $this->groupIdObj->getAccessHash(),
+                    $newOffset,
+                    $this->makeChatMemberHandler(
+                        $this->groupIdObj->getGroupId(),
+                        $newOffset,
+                        true
+                    )
+                );
+
             }
         };
     }

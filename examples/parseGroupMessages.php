@@ -55,13 +55,18 @@ $request = $groupId
     ? GroupRequest::ofGroupId($groupId)
     : GroupRequest::ofUserName($deepLink);
 
-$onGroupReady = function (?int $groupId, ?int $accessHash) use ($timestampStart, $timestampEnd, $username, $generator) {
-    if (!$groupId) {
+/**
+ * @param ?int $groupId
+ * @param ?int $accessHash
+ */
+$onGroupReady = function ($groupId, $accessHash = null) use ($timestampStart, $timestampEnd, $username, $generator) {
+    if (!$groupId || !$accessHash) {
         Logger::log('parseGroupMessages', 'Group not found');
 
         return;
     }
 
+    /** @var int $accessHash */
     $client = new GroupMessagesScenario(
         new GroupId($groupId, $accessHash),
         $generator,

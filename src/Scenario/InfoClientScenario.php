@@ -16,6 +16,8 @@ abstract class InfoClientScenario implements ScenarioInterface
     private $timeout = 3.0;
     /** @var string */
     private $authKey;
+    /** @var ClientGeneratorInterface */
+    private $generator;
 
     /**
      * @param ClientGeneratorInterface|null $clientGenerator
@@ -27,6 +29,7 @@ abstract class InfoClientScenario implements ScenarioInterface
         if (!$clientGenerator) {
             $clientGenerator = new ClientGenerator();
         }
+        $this->generator = $clientGenerator;
         $this->infoClient = $clientGenerator->getInfoClient();
         $this->authKey = $clientGenerator->getAuthKey();
     }
@@ -77,5 +80,10 @@ abstract class InfoClientScenario implements ScenarioInterface
         if ($terminate) {
             $this->infoClient->terminate();
         }
+    }
+
+    protected function getGenerator(): ClientGeneratorInterface
+    {
+        return $this->generator;
     }
 }

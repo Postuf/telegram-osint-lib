@@ -28,6 +28,8 @@ class GroupMessagesScenario extends InfoClientScenario
     private $groupIdObj;
     /** @var ClientGeneratorInterface */
     private $generator;
+    /** @var int */
+    private $callLimit;
 
     /**
      * @param GroupId                  $groupId
@@ -35,6 +37,7 @@ class GroupMessagesScenario extends InfoClientScenario
      * @param OptionalDateRange        $dateRange
      * @param callable|null            $handler   function(MessageModel $message)
      * @param string|null              $username
+     * @param int|null                 $callLimit
      *
      * @throws TGException
      */
@@ -43,9 +46,9 @@ class GroupMessagesScenario extends InfoClientScenario
         ClientGeneratorInterface $generator,
         OptionalDateRange $dateRange,
         callable $handler = null,
-        ?string $username = null
-    )
-    {
+        ?string $username = null,
+        ?int $callLimit = 100
+    ) {
         parent::__construct($generator);
         $this->handler = $handler;
         $this->startTimestamp = $dateRange->getSince();
@@ -53,6 +56,7 @@ class GroupMessagesScenario extends InfoClientScenario
         $this->username = $username;
         $this->groupIdObj = $groupId;
         $this->generator = $generator;
+        $this->callLimit = $callLimit;
     }
 
     /**
@@ -200,6 +204,12 @@ class GroupMessagesScenario extends InfoClientScenario
             }
 
             if ($messages && $lastId !== 1) {
+                $this->callLimit--;
+                if (!$this->callLimit) {
+                    Logger::log(__CLASS__, 'not loading more messages, max call count reached');
+
+                    return;
+                }
                 Logger::log(__CLASS__, "loading more messages, starting with $lastId");
                 usleep(500000);
                 $this->infoClient->getChannelMessages(
