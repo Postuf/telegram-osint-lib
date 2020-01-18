@@ -42,7 +42,7 @@ Verbose logging (all messages sent/received) is enabled by default, add `--info`
 
 ```
 docker build -t telegram-osint-lib . 
-docker run -d --name tg-osint-lib telegram-osint-lib
+docker run -d -t --name tg-osint-lib telegram-osint-lib
 docker exec -it tg-osint-lib /bin/bash
 php examples/registration.php
 ```

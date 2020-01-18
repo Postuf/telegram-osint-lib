@@ -1,4 +1,4 @@
-FROM php:7.2-fpm
+FROM php:7.4-cli
 
 LABEL version="1.0.0"
 LABEL description="Postuf Telegram OSINT Library"
@@ -11,19 +11,21 @@ g++ \
 libzip-dev \
 unzip \
 && docker-php-ext-install zip \
+&& docker-php-ext-install sockets \
+&& docker-php-ext-install pcntl \
+&& docker-php-ext-install bcmath \
 && docker-php-ext-configure gmp \
-&& docker-php-ext-install gmp \
-&& docker-php-ext-install sockets
+&& docker-php-ext-install gmp
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 RUN curl -sS https://getcomposer.org/installer | php \
-&& mv composer.phar /usr/local/bin/composer \
-&& composer global require hirak/prestissimo
+&& mv composer.phar /usr/local/bin/composer
 
-ADD ./docker/php.ini /usr/local/etc/php
-ADD ./docker/fpm-custom.conf /usr/local/etc/php-fpm.d/
+COPY examples /app/examples/
+COPY src /app/src/
+COPY composer.json /app/
+COPY composer.lock /app/
 
 WORKDIR /app
 
-RUN git clone https://github.com/Postuf/telegram-osint-lib.git /app/ \
-&& composer update
+RUN composer update
