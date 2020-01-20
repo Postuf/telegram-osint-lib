@@ -34,8 +34,8 @@ class LibConfig
     /* ================================================================ Api keys */
 
     // Official App
-    const APP_API_HASH = 'eb06d4abfb49dc3eeb1aeb98ae0f581e';
-    const APP_API_ID = 6;
+    const APP_API_HASH = '014b35b6184100b085b0d0572f9b5103';
+    const APP_API_ID = 4;
 
     //  Any Custom App
     const OWN_API_HASH = '1fe17cda7d355166cdaa71f04122873c';
@@ -45,9 +45,9 @@ class LibConfig
 
     const APP_DEFAULT_DEVICE_LANG_CODE = 'en-us';
     const APP_DEFAULT_LANG_CODE = 'en';
-    const APP_DEFAULT_VERSION = '5.11.0';
-    const APP_DEFAULT_VERSION_CODE = '17107'; // looks like 5th digit is always "7"
+    const APP_DEFAULT_VERSION = '5.13.1';
+    const APP_DEFAULT_VERSION_CODE = '18297'; // looks like 5th digit is always "7"
     const APP_DEFAULT_LANG_PACK = 'android';
-    const APP_DEFAULT_TL_LAYER_VERSION = 105;
+    const APP_DEFAULT_TL_LAYER_VERSION = 108;
 
 }
