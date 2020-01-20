@@ -38,6 +38,15 @@ Now you are all set, you can run any of them, for example, `php parseGroupMember
 
 Verbose logging (all messages sent/received) is enabled by default, add `--info` to arguments to suppress it.
 
+### Docker container
+
+```
+docker build -t telegram-osint-lib . 
+docker run -d -t --name tg-osint-lib telegram-osint-lib
+docker exec -it tg-osint-lib /bin/bash
+php examples/registration.php
+```
+
 # Limitations
 
 We currently use Europe/CIS DC, see `src/LibConfig.php` for details/to change your DC, see also: https://core.telegram.org/method/help.getNearestDc .
