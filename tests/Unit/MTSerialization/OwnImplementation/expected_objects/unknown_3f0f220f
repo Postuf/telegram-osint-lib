@@ -1,0 +1,64 @@
+{
+    "_": "rpc_result",
+    "req_msg_id": 6783909391019148324,
+    "result": {
+        "_": "unknown_3f0f220f",
+        "flags": 16,
+        "user": {
+            "_": "user",
+            "flags": 2143,
+            "id": 267228757,
+            "access_hash": 3604736181447093608,
+            "first_name": "Razid",
+            "last_name": "Apps",
+            "username": "alferovmikhail",
+            "phone": "79107420304",
+            "photo": null,
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1579501980
+            },
+            "bot_info_version": null,
+            "restriction_reason": null,
+            "bot_inline_placeholder": null,
+            "lang_code": null
+        },
+        "contactsLink": {
+            "_": "contactsLink",
+            "foreign_link": {
+                "_": "contacts.myLinkContact"
+            },
+            "my_link": {
+                "_": "contacts.myLinkUnKnown"
+            },
+            "user": {
+                "_": "user",
+                "flags": 2143,
+                "id": 267228757,
+                "access_hash": 3604736181447093608,
+                "first_name": "Razid",
+                "last_name": "Apps",
+                "username": "alferovmikhail",
+                "phone": "79107420304",
+                "photo": null,
+                "status": {
+                    "_": "userStatusOffline",
+                    "was_online": 1579501980
+                },
+                "bot_info_version": null,
+                "restriction_reason": null,
+                "bot_inline_placeholder": null,
+                "lang_code": null
+            }
+        },
+        "peerNotifySettings": {
+            "_": "peerNotifySettings",
+            "flags": 0,
+            "show_previews": null,
+            "silent": null,
+            "mute_until": null,
+            "sound": null
+        },
+        "unknown": 0
+    }
+}
