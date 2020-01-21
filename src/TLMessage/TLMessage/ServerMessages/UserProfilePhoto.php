@@ -6,7 +6,7 @@ use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
-class UserProfilePhoto extends TLServerMessage
+class UserProfilePhoto extends TLServerMessage implements PhotoInterface
 {
     /**
      * @var bool
@@ -42,7 +42,7 @@ class UserProfilePhoto extends TLServerMessage
     /**
      * @return FileLocation
      */
-    public function getBigPhoto()
+    public function getBigPhoto(): FileLocation
     {
         $photo = $this->getTlMessage()->getNode('photo_big');
 
@@ -52,7 +52,7 @@ class UserProfilePhoto extends TLServerMessage
     /**
      * @return FileLocation
      */
-    public function getSmallPhoto()
+    public function getSmallPhoto(): FileLocation
     {
         $photo = $this->getTlMessage()->getNode('photo_small');
 
@@ -62,7 +62,7 @@ class UserProfilePhoto extends TLServerMessage
     /**
      * @return int
      */
-    public function getDcId()
+    public function getDcId(): int
     {
         $this->throwIfNotV2();
 
