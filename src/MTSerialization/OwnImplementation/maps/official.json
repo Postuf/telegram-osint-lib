@@ -529,7 +529,7 @@
         },
         {
             "id": "-715532088",
-            "predicate": "userProfilePhoto",
+            "predicate": "userProfilePhoto_v1",
             "params": [
                 {
                     "name": "photo_id",
