@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\MTSerialization\OwnImplementation;
 
 use TelegramOSINT\Exception\TGException;
@@ -30,13 +32,21 @@ class ByteStream
      *
      * @return false|string
      */
-    public function read($length)
+    public function read($length): string
     {
         $data = substr($this->stream, $this->pointer, $length);
 
         if($this->pointer + $length > $this->len)
             throw new TGException(TGException::ERR_DESERIALIZER_BROKEN_BINARY_READ);
         $this->pointer += $length;
+
+        return $data;
+    }
+
+    public function readToEnd(): string
+    {
+        $data = substr($this->stream, $this->pointer, strlen($this->stream) - $this->pointer);
+        $this->pointer = strlen($this->stream);
 
         return $data;
     }

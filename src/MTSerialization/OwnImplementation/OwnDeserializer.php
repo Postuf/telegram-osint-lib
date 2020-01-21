@@ -133,8 +133,12 @@ class OwnDeserializer implements MTDeserializer
     {
         if (!isset(self::$map[$id])) {
             $idHex = bin2hex(pack('I', $id));
+            $data = $this->stream->readToEnd();
 
-            throw new TGException(TGException::ERR_DESERIALIZER_UNKNOWN_OBJECT, 'object with id not found: '.$idHex);
+            throw new TGException(
+                TGException::ERR_DESERIALIZER_UNKNOWN_OBJECT,
+                'object with id not found: '.$idHex.'data: '.$data
+            );
         }
 
         $object = self::$map[$id];
