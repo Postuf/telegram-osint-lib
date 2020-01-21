@@ -33,7 +33,7 @@
                 "username": null,
                 "phone": "9647810662771",
                 "photo": {
-                    "_": "userProfilePhoto",
+                    "_": "userProfilePhoto_v1",
                     "photo_id": 2652385649993295785,
                     "photo_small": {
                         "_": "fileLocation",

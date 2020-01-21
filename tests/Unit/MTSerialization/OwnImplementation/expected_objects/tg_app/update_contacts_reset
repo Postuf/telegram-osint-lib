@@ -313,7 +313,7 @@
             "username": null,
             "phone": "9647519984092",
             "photo": {
-                "_": "userProfilePhoto",
+                "_": "userProfilePhoto_v1",
                 "photo_id": 869138606201087918,
                 "photo_small": {
                     "_": "fileLocation",
@@ -368,7 +368,7 @@
             "username": null,
             "phone": "50253850014",
             "photo": {
-                "_": "userProfilePhoto",
+                "_": "userProfilePhoto_v1",
                 "photo_id": 1202510755081070505,
                 "photo_small": {
                     "_": "fileLocation",
@@ -404,7 +404,7 @@
             "username": "inwady",
             "phone": "79160653055",
             "photo": {
-                "_": "userProfilePhoto",
+                "_": "userProfilePhoto_v1",
                 "photo_id": 723469481777670546,
                 "photo_small": {
                     "_": "fileLocation",
@@ -477,7 +477,7 @@
             "username": null,
             "phone": "79264291377",
             "photo": {
-                "_": "userProfilePhoto",
+                "_": "userProfilePhoto_v1",
                 "photo_id": 1962110532088604586,
                 "photo_small": {
                     "_": "fileLocation",
@@ -531,7 +531,7 @@
             "username": "ilyasem",
             "phone": "79854541929",
             "photo": {
-                "_": "userProfilePhoto",
+                "_": "userProfilePhoto_v1",
                 "photo_id": 1166022869007837109,
                 "photo_small": {
                     "_": "fileLocation",
@@ -604,7 +604,7 @@
             "username": "yungs35",
             "phone": "79687794824",
             "photo": {
-                "_": "userProfilePhoto",
+                "_": "userProfilePhoto_v1",
                 "photo_id": 959850557465536436,
                 "photo_small": {
                     "_": "fileLocation",
@@ -640,7 +640,7 @@
             "username": null,
             "phone": "79689264469",
             "photo": {
-                "_": "userProfilePhoto",
+                "_": "userProfilePhoto_v1",
                 "photo_id": 1585840108122253225,
                 "photo_small": {
                     "_": "fileLocation",
@@ -713,7 +713,7 @@
             "username": null,
             "phone": "79129950250",
             "photo": {
-                "_": "userProfilePhoto",
+                "_": "userProfilePhoto_v1",
                 "photo_id": 1629098988662794154,
                 "photo_small": {
                     "_": "fileLocation",
@@ -768,7 +768,7 @@
             "username": "MartinovichIvan",
             "phone": "79150421088",
             "photo": {
-                "_": "userProfilePhoto",
+                "_": "userProfilePhoto_v1",
                 "photo_id": 834771166956726185,
                 "photo_small": {
                     "_": "fileLocation",
@@ -804,7 +804,7 @@
             "username": "drakylar",
             "phone": "79269873316",
             "photo": {
-                "_": "userProfilePhoto",
+                "_": "userProfilePhoto_v1",
                 "photo_id": 721269032592975785,
                 "photo_small": {
                     "_": "fileLocation",
@@ -859,7 +859,7 @@
             "username": "kargui",
             "phone": "79636930473",
             "photo": {
-                "_": "userProfilePhoto",
+                "_": "userProfilePhoto_v1",
                 "photo_id": 162587391900624910,
                 "photo_small": {
                     "_": "fileLocation",

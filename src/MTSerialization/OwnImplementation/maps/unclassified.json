@@ -6,7 +6,7 @@
             "params": [
                 {
                     "name": "flags",
-                    "type": "int"
+                    "type": "#"
                 },
                 {
                     "name": "user",
@@ -17,8 +17,12 @@
                     "type": "ContactsMyLink"
                 },
                 {
+                    "name": "photo",
+                    "type": "flags.2?PhotoLayer82"
+                },
+                {
                     "name": "peerNotifySettings",
-                    "type": "PeerNotifySettings"
+                    "type": "flags.4?PeerNotifySettings"
                 },
                 {
                     "name": "unknown",

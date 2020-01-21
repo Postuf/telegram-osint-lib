@@ -51,6 +51,7 @@
                 "lang_code": null
             }
         },
+        "photo": null,
         "peerNotifySettings": {
             "_": "peerNotifySettings",
             "flags": 0,
