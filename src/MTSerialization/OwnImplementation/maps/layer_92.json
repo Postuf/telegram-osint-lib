@@ -2,7 +2,7 @@
     "constructors": [
         {
             "id": "-930515796",
-            "predicate": "channel",
+            "predicate": "channelLayer92",
             "params": [
                 {
                     "name": "flags",
@@ -52,7 +52,8 @@
                     "name": "participants_count",
                     "type": "flags.17?string"
                 }
-            ]
+            ],
+            "type": "Chat"
         },
         {
             "id": "1498631756",

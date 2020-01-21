@@ -659,7 +659,7 @@
         },
         {
             "id": "1632839530",
-            "predicate": "chatPhoto",
+            "predicate": "chatPhotoOld",
             "params": [
                 {
                     "name": "photo_small",

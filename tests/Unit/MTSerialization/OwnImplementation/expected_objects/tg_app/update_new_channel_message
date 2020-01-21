@@ -62,14 +62,14 @@
             ],
             "chats": [
                 {
-                    "_": "channel",
+                    "_": "channelLayer92",
                     "flags": 5440,
                     "id": 1145900615,
                     "access_hash": null,
                     "title": "Wendy Chat",
                     "username": "WendyChat",
                     "photo": {
-                        "_": "chatPhoto",
+                        "_": "chatPhotoOld",
                         "photo_small": {
                             "_": "fileLocation",
                             "dc_id": 2,
@@ -151,14 +151,14 @@
             ],
             "chats": [
                 {
-                    "_": "channel",
+                    "_": "channelLayer92",
                     "flags": 5440,
                     "id": 1145900615,
                     "access_hash": null,
                     "title": "Wendy Chat",
                     "username": "WendyChat",
                     "photo": {
-                        "_": "chatPhoto",
+                        "_": "chatPhotoOld",
                         "photo_small": {
                             "_": "fileLocation",
                             "dc_id": 2,
