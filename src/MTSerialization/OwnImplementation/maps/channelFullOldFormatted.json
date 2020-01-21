@@ -1,0 +1,104 @@
+{
+  "constructors": [
+    {
+      "id": "1991201921",
+      "params": [
+        {
+          "name": "flags",
+          "type": "#"
+        },
+        {
+          "name": "can_view_participants",
+          "type": "flags.3?true"
+        },
+        {
+          "name": "can_set_username",
+          "type": "flags.6?true"
+        },
+        {
+          "name": "can_set_stickers",
+          "type": "flags.7?true"
+        },
+        {
+          "name": "hidden_prehistory",
+          "type": "flags.10?true"
+        },
+        {
+          "name": "id",
+          "type": "int"
+        },
+        {
+          "name": "about",
+          "type": "string"
+        },
+        {
+          "name": "participants_count",
+          "type": "flags.0?int"
+        },
+        {
+          "name": "admins_count",
+          "type": "flags.1?int"
+        },
+        {
+          "name": "kicked_count",
+          "type": "flags.2?int"
+        },
+        {
+          "name": "banned_count",
+          "type": "flags.2?int"
+        },
+        {
+          "name": "read_inbox_max_id",
+          "type": "int"
+        },
+        {
+          "name": "read_outbox_max_id",
+          "type": "int"
+        },
+        {
+          "name": "unread_count",
+          "type": "int"
+        },
+        {
+          "name": "chat_photo",
+          "type": "Photo"
+        },
+        {
+          "name": "notify_settings",
+          "type": "PeerNotifySettings"
+        },
+        {
+          "name": "exported_invite",
+          "type": "ExportedChatInvite"
+        },
+        {
+          "name": "bot_info",
+          "type": "Vector<BotInfo>"
+        },
+        {
+          "name": "migrated_from_chat_id",
+          "type": "flags.4?int"
+        },
+        {
+          "name": "migrated_from_max_id",
+          "type": "flags.4?int"
+        },
+        {
+          "name": "pinned_msg_id",
+          "type": "flags.5?int"
+        },
+        {
+          "name": "stickerset",
+          "type": "flags.8?StickerSet"
+        },
+        {
+          "name": "available_min_id",
+          "type": "flags.9?int"
+        }
+      ],
+      "type": "ChatFull",
+      "predicate": "channelFullOld"
+    }
+  ],
+  "methods": []
+}
