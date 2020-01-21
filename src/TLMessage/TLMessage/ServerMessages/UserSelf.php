@@ -34,18 +34,18 @@ class UserSelf extends TLServerMessage
     }
 
     /**
-     * @return UserProfilePhoto|null
+     * @return UserProfilePhoto|ChatPhoto|null
      */
     public function getPhoto()
     {
-        try {
-            $photo = $this->getTlMessage()->getNode('photo');
-
+        $photo = $this->getTlMessage()->getNode('photo');
+        if (TLServerMessage::checkType($photo, 'userProfilePhoto')) {
             return new UserProfilePhoto($photo);
-        }catch (TGException $e){
-            return null;
+        } elseif (TLServerMessage::checkType($photo, 'chatPhoto')) {
+            return new ChatPhoto($photo);
+        } else {
+            throw new TGException(TGException::ERR_DESERIALIZER_UNKNOWN_OBJECT);
         }
-
     }
 
     /**
