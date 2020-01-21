@@ -45,7 +45,13 @@ class ContactUser extends TLServerMessage
         try {
             $photo = $this->getTlMessage()->getNode('photo');
 
-            return new UserProfilePhoto($photo);
+            if (TLServerMessage::checkType($photo, 'userProfilePhoto')) {
+                return new UserProfilePhoto($photo);
+            } elseif (TLServerMessage::checkType($photo, 'chatPhoto')) {
+                return new ChatPhoto($photo);
+            } else {
+                throw new TGException(TGException::ERR_DESERIALIZER_UNKNOWN_OBJECT);
+            }
         } catch (TGException $e){
             if($e->getCode() == TGException::ERR_TL_MESSAGE_FIELD_BAD_NODE)
                 return null;
