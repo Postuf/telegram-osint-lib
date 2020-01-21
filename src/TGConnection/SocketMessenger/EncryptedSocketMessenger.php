@@ -7,7 +7,6 @@ use TelegramOSINT\Auth\AES\AES;
 use TelegramOSINT\Auth\AES\PhpSecLibAES;
 use TelegramOSINT\Client\AuthKey\AuthKey;
 use TelegramOSINT\Exception\TGException;
-use TelegramOSINT\LibConfig;
 use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\MTSerialization\MTDeserializer;
@@ -15,7 +14,6 @@ use TelegramOSINT\MTSerialization\OwnImplementation\OwnDeserializer;
 use TelegramOSINT\TGConnection\DataCentre;
 use TelegramOSINT\TGConnection\Socket\Socket;
 use TelegramOSINT\TGConnection\SocketMessenger\EncryptedSocketCallbacks\CallbackMessageListener;
-use TelegramOSINT\TGConnection\SocketMessenger\EncryptedSocketCallbacks\ExpectingMessageListener;
 use TelegramOSINT\TGConnection\SocketMessenger\MessengerTools\MessageIdGenerator;
 use TelegramOSINT\TGConnection\SocketMessenger\MessengerTools\OuterHeaderWrapper;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\msgs_ack;
@@ -161,38 +159,6 @@ class EncryptedSocketMessenger extends TgSocketMessenger implements SocketMessen
 
     /**
      * @param TLClientMessage $message
-     * @param int             $timeoutMs
-     *
-     * @throws TGException
-     *
-     * @return AnonymousMessage
-     */
-    private function getResponse(TLClientMessage $message, $timeoutMs = LibConfig::CONN_SOCKET_TIMEOUT_WAIT_RESPONSE_MS)
-    {
-        $messageId = $this->msgIdGenerator->generateNext();
-        $this->writeIdentifiedMessage($message, $messageId);
-
-        $response = null;
-        $this->rpcMessages[$messageId] = new ExpectingMessageListener($response);
-
-        $startTimeMs = microtime(true) * 1000;
-        while(true){
-            $this->readMessage();
-            if($response)
-                return $response;
-
-            $currentTimeMs = microtime(true) * 1000;
-            if(($currentTimeMs - $startTimeMs) > $timeoutMs)
-                break;
-
-            usleep(LibConfig::CONN_SOCKET_RESPONSE_DELAY_MICROS);
-        }
-
-        throw new TGException(TGException::ERR_MSG_RESPONSE_TIMEOUT);
-    }
-
-    /**
-     * @param TLClientMessage $message
      * @param callable        $onAsyncResponse function(AnonymousMessage $message)
      *
      * @throws TGException
@@ -333,12 +299,16 @@ class EncryptedSocketMessenger extends TgSocketMessenger implements SocketMessen
         }
 
         elseif(UpdatesTooLong::isIt($message)){
-            $updatesState = new UpdatesState($this->getResponse(new get_state()));
-            $this->getResponse(new updates_get_difference(
-                $updatesState->getPts(),
-                $updatesState->getQts(),
-                $updatesState->getDate()
-            ));
+            $this->getResponseAsync(new get_state(), function (AnonymousMessage $response) {
+                $updatesState = new UpdatesState($response);
+                $this->getResponseAsync(new updates_get_difference(
+                    $updatesState->getPts(),
+                    $updatesState->getQts(),
+                    $updatesState->getDate()
+                ), function (AnonymousMessage $message) {
+                    //
+                });
+            });
         }
 
         else {
