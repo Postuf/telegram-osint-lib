@@ -45,6 +45,10 @@ class ByteStream
 
     public function readToEnd(): string
     {
+        if (!$this->stream) {
+            return '';
+        }
+
         $data = substr($this->stream, $this->pointer, strlen($this->stream) - $this->pointer);
         $this->pointer = strlen($this->stream);
 
