@@ -1,6 +1,32 @@
 {
     "constructors": [
         {
+            "id": "253890367",
+            "predicate": "unknown_3f0f220f",
+            "params": [
+                {
+                    "name": "flags",
+                    "type": "int"
+                },
+                {
+                    "name": "user",
+                    "type": "user"
+                },
+                {
+                    "name": "contactsLink",
+                    "type": "ContactsMyLink"
+                },
+                {
+                    "name": "peerNotifySettings",
+                    "type": "PeerNotifySettings"
+                },
+                {
+                    "name": "unknown",
+                    "type": "int"
+                }
+            ]
+        },
+        {
             "id": "-775091636",
             "predicate": "contacts.importedContacts",
             "params": [

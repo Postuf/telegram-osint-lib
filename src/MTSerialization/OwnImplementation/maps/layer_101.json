@@ -3,17 +3,20 @@
         {
             "id": "-17968211",
             "predicate": "contacts.myLinkEmpty",
-            "params": []
+            "params": [],
+            "type": "ContactsMyLink"
         },
         {
             "id": "1599050311",
             "predicate": "contacts.myLinkUnKnown",
-            "params": []
+            "params": [],
+            "type": "ContactsMyLink"
         },
         {
             "id": "-721239344",
             "predicate": "contacts.myLinkContact",
-            "params": []
+            "params": [],
+            "type": "ContactsMyLink"
         },
         {
             "id": "986597452",

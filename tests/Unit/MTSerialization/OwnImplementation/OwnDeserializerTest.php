@@ -176,4 +176,13 @@ class OwnDeserializerTest extends TestCase
 
         $this->assertEquals($got, $expected);
     }
+
+    public function test_unknown_3f0f220f(): void
+    {
+        $data = '016d5cf324042200a649255e3f0f220f10000000c3f4132e5f0800005596ed0f68ed2654759806320552617a6964000004417070730000000e616c6665726f766d696b6861696c000b37393130373432303330343f708c009c49255e4c48ce3ad0c202d547924f5fc3f4132e5f0800005596ed0f68ed2654759806320552617a6964000004417070730000000e616c6665726f766d696b6861696c000b37393130373432303330343f708c009c49255e209d50af0000000000000000';
+        $got = $this->deserializeIntoComparableObject($data);
+        $expected = file_get_contents(__DIR__.'/expected_objects/unknown_3f0f220f');
+
+        $this->assertEquals($got, $expected);
+    }
 }
