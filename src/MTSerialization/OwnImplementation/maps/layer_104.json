@@ -60,11 +60,11 @@
         },
         {
             "id": "1157215293",
-            "predicate": "Message",
+            "predicate": "message",
             "params": [
                 {
                     "name": "flags",
-                    "type": "int"
+                    "type": "#"
                 },
                 {
                     "name": "id",
@@ -100,7 +100,7 @@
                 },
                 {
                     "name": "media",
-                    "type": "flags.10?MessageMedia"
+                    "type": "flags.9?MessageMedia"
                 },
                 {
                     "name": "reply_markup",
@@ -108,9 +108,26 @@
                 },
                 {
                     "name": "entities",
-                    "type": "Vector<MessageEntity>"
+                    "type": "flags.7?Vector<MessageEntity>"
+                },
+                {
+                    "name": "views",
+                    "type": "flags.10?int"
+                },
+                {
+                    "name": "edit_date",
+                    "type": "flags.15?int"
+                },
+                {
+                    "name": "post_author",
+                    "type": "flags.16?string"
+                },
+                {
+                    "name": "grouped_id",
+                    "type": "flags.17?long"
                 }
-            ]
+            ],
+            "type": "Message"
         }
     ],
     "methods": []
