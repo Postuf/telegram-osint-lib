@@ -6,6 +6,7 @@ use TelegramOSINT\Client\AuthKey\AuthKey;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\LibConfig;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\Registration\AccountInfo;
 use TelegramOSINT\TGConnection\DataCentre;
 use TelegramOSINT\TGConnection\Socket\ProxySocket;
 use TelegramOSINT\TGConnection\Socket\Socket;
@@ -13,7 +14,10 @@ use TelegramOSINT\TGConnection\Socket\TcpSocket;
 use TelegramOSINT\TGConnection\SocketMessenger\EncryptedSocketMessenger;
 use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
 use TelegramOSINT\TGConnection\SocketMessenger\SocketMessenger;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\get_config;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\update_status;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\init_connection;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\invoke_with_layer;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\ping_delay_disconnect;
 use TelegramOSINT\Tools\Proxy;
 
@@ -100,10 +104,12 @@ class BasicClientImpl implements BasicClient, MessageListener
         if($this->isLoggedIn())
             throw new TGException(TGException::ERR_CLIENT_ALREADY_LOGGED_IN, $this->getUserId());
         $dc = $authKey->getAttachedDC();
-            $postSocket = function () use ($authKey) {
+        $postSocket = function () use ($authKey) {
             $this->authKey = $authKey;
             $this->connection = $this->getSocketMessenger();
             $this->isLoggedIn = true;
+
+            $this->bumpProtocolVersion();
         };
         $this->socket = $this->pickSocket($dc, $proxy, $cb ? function () use ($cb, $postSocket) {
             $postSocket();
@@ -112,6 +118,13 @@ class BasicClientImpl implements BasicClient, MessageListener
         if (!$cb) {
             $postSocket();
         }
+    }
+
+    private function bumpProtocolVersion(): void
+    {
+        $initConnection = new init_connection(AccountInfo::generate(), new get_config());
+        $requestWithLayer = new invoke_with_layer(LibConfig::APP_DEFAULT_TL_LAYER_VERSION, $initConnection);
+        $this->getConnection()->getResponseAsync($requestWithLayer, function (AnonymousMessage $response) {});
     }
 
     /**

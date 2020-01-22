@@ -54,11 +54,11 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
      */
     public function __construct(StatusWatcherCallbacks $callbacks)
     {
+        $this->basicClient = new BasicClientImpl();
         $this->userCallbacks = $callbacks;
         $this->currentlyOnlineUsers = [];
         $this->currentlyOfflineUsers = [];
 
-        $this->basicClient = new BasicClientImpl();
         $this->basicClient->setMessageListener($this);
         $this->messageAnalyzer = new StatusWatcherAnalyzer($this);
         $this->contactKeeper = new ContactsKeeper($this->basicClient);
@@ -66,7 +66,7 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
 
     /**
      * @param AuthKey       $authKey
-     * @param Proxy|null    $proxy
+     * @param Proxy         $proxy
      * @param callable|null $cb      function()
      *
      * @throws TGException

@@ -12,9 +12,7 @@ use TelegramOSINT\Client\InfoObtainingClient\Models\UserInfoModel;
 use TelegramOSINT\Client\InfoObtainingClient\Models\UserStatusModel;
 use TelegramOSINT\Client\StatusWatcherClient\ContactsKeeper;
 use TelegramOSINT\Exception\TGException;
-use TelegramOSINT\LibConfig;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
-use TelegramOSINT\Registration\AccountInfo;
 use TelegramOSINT\Scenario\BasicClientGenerator;
 use TelegramOSINT\Scenario\BasicClientGeneratorInterface;
 use TelegramOSINT\TGConnection\DataCentre;
@@ -32,11 +30,9 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\input_file_location;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\contacts_resolve_username;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\contacts_search;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\get_deeplink_info;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\init_connection;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\input_peer_photofilelocation;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\input_peer_user;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\input_photofilelocation;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\invoke_with_layer;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\AuthorizationSelfUser;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactFound;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
@@ -57,6 +53,7 @@ class InfoClient implements InfoObtainingClient
      * @var BasicClient
      */
     private $basicClient;
+
     /**
      * @var BasicClient[]
      */
@@ -87,21 +84,7 @@ class InfoClient implements InfoObtainingClient
      */
     public function login(AuthKey $authKey, Proxy $proxy = null, ?callable $cb = null)
     {
-        $this->basicClient->login($authKey, $proxy, $cb ? function () use ($cb) {
-            $this->bumpProtocolVersion();
-            $cb();
-        } : null);
-        if (!$cb) {
-            $this->bumpProtocolVersion();
-        }
-    }
-
-    private function bumpProtocolVersion(): void
-    {
-        $initConnection = new init_connection(AccountInfo::generate(), new get_config());
-        $requestWithLayer = new invoke_with_layer(LibConfig::APP_DEFAULT_TL_LAYER_VERSION, $initConnection);
-        $this->basicClient->getConnection()->getResponseAsync($requestWithLayer, function (AnonymousMessage $response) {
-        });
+        $this->basicClient->login($authKey, $proxy, $cb);
     }
 
     /**
