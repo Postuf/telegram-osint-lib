@@ -2,28 +2,22 @@
 
 namespace TelegramOSINT\Client\StatusWatcherClient;
 
-use TelegramOSINT\Client\AuthKey\AuthKey;
-use TelegramOSINT\Client\BasicClient\BasicClient;
 use TelegramOSINT\Client\BasicClient\BasicClientImpl;
 use TelegramOSINT\Client\PeriodicClient;
 use TelegramOSINT\Client\StatusMonitoringClient;
 use TelegramOSINT\Client\StatusWatcherClient\Models\HiddenStatus;
 use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
 use TelegramOSINT\Client\StatusWatcherClient\Models\User;
+use TelegramOSINT\Client\VersionUpdatingClient;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
 use TelegramOSINT\Tools\Phone;
-use TelegramOSINT\Tools\Proxy;
 
-class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, StatusWatcherCallbacksMiddleware, MessageListener
+class StatusWatcherClient extends VersionUpdatingClient implements StatusMonitoringClient, PeriodicClient, StatusWatcherCallbacksMiddleware, MessageListener
 {
-    /**
-     * @var BasicClient
-     */
-    private $basicClient;
     /**
      * @var StatusWatcherAnalyzer
      */
@@ -54,36 +48,14 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
      */
     public function __construct(StatusWatcherCallbacks $callbacks)
     {
+        parent::__construct(new BasicClientImpl());
         $this->userCallbacks = $callbacks;
         $this->currentlyOnlineUsers = [];
         $this->currentlyOfflineUsers = [];
 
-        $this->basicClient = new BasicClientImpl();
         $this->basicClient->setMessageListener($this);
         $this->messageAnalyzer = new StatusWatcherAnalyzer($this);
         $this->contactKeeper = new ContactsKeeper($this->basicClient);
-    }
-
-    /**
-     * @param AuthKey       $authKey
-     * @param Proxy|null    $proxy
-     * @param callable|null $cb      function()
-     *
-     * @throws TGException
-     *
-     * @return void
-     */
-    public function login(AuthKey $authKey, Proxy $proxy = null, ?callable $cb = null)
-    {
-        $this->basicClient->login($authKey, $proxy, $cb);
-    }
-
-    /**
-     * @return bool
-     */
-    public function isLoggedIn()
-    {
-        return $this->basicClient->isLoggedIn();
     }
 
     /**
