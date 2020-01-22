@@ -137,7 +137,7 @@ class OwnDeserializer implements MTDeserializer
 
             throw new TGException(
                 TGException::ERR_DESERIALIZER_UNKNOWN_OBJECT,
-                'object with id not found: '.$idHex.'data: '.$data
+                'object with id not found: '.$idHex.'data: '.bin2hex($data)
             );
         }
 

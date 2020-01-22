@@ -1,102 +1,240 @@
 {
-    "constructors": [
+  "constructors": [
+    {
+      "id": "1489977929",
+      "params": [
         {
-            "id": "-930515796",
-            "predicate": "channelLayer92",
-            "params": [
-                {
-                    "name": "flags",
-                    "type": "int"
-                },
-                {
-                    "name": "id",
-                    "type": "int"
-                },
-                {
-                    "name": "access_hash",
-                    "type": "flags.13?long"
-                },
-                {
-                    "name": "title",
-                    "type": "string"
-                },
-                {
-                    "name": "username",
-                    "type": "flags.6?string"
-                },
-                {
-                    "name": "photo",
-                    "type": "ChatPhoto"
-                },
-                {
-                    "name": "date",
-                    "type": "int"
-                },
-                {
-                    "name": "version",
-                    "type": "int"
-                },
-                {
-                    "name": "restriction_reason",
-                    "type": "flags.9?string"
-                },
-                {
-                    "name": "admin_rights",
-                    "type": "flags.14?string"
-                },
-                {
-                    "name": "banned_rights",
-                    "type": "flags.15?string"
-                },
-                {
-                    "name": "participants_count",
-                    "type": "flags.17?string"
-                }
-            ],
-            "type": "Chat"
+          "name": "flags",
+          "type": "#"
         },
         {
-            "id": "1498631756",
-            "predicate": "Document",
-            "params": [
-                {
-                    "name": "id",
-                    "type": "long"
-                },
-                {
-                    "name": "access_hash",
-                    "type": "long"
-                },
-                {
-                    "name": "file_reference",
-                    "type": "string"
-                },
-                {
-                    "name": "date",
-                    "type": "int"
-                },
-                {
-                    "name": "mime_type",
-                    "type": "string"
-                },
-                {
-                    "name": "size",
-                    "type": "int"
-                },
-                {
-                    "name": "thumb",
-                    "type": "TLRPC.PhotoSize"
-                },
-                {
-                    "name": "dc_id",
-                    "type": "int"
-                },
-                {
-                    "name": "attributes",
-                    "type": "DocAttr"
-                }
-            ]
+          "name": "view_messages",
+          "type": "flags.0?true"
+        },
+        {
+          "name": "send_messages",
+          "type": "flags.1?true"
+        },
+        {
+          "name": "send_media",
+          "type": "flags.2?true"
+        },
+        {
+          "name": "send_stickers",
+          "type": "flags.3?true"
+        },
+        {
+          "name": "send_gifs",
+          "type": "flags.4?true"
+        },
+        {
+          "name": "send_games",
+          "type": "flags.5?true"
+        },
+        {
+          "name": "send_inline",
+          "type": "flags.6?true"
+        },
+        {
+          "name": "embed_links",
+          "type": "flags.7?true"
+        },
+        {
+          "name": "until_date",
+          "type": "int"
         }
-    ],
-    "methods": []
+      ],
+      "type": "ChannelBannedRights",
+      "predicate": "channelBannedRights"
+    },
+    {
+      "id": "1568467877",
+      "params": [
+        {
+          "name": "flags",
+          "type": "#"
+        },
+        {
+          "name": "change_info",
+          "type": "flags.0?true"
+        },
+        {
+          "name": "post_messages",
+          "type": "flags.1?true"
+        },
+        {
+          "name": "edit_messages",
+          "type": "flags.2?true"
+        },
+        {
+          "name": "delete_messages",
+          "type": "flags.3?true"
+        },
+        {
+          "name": "ban_users",
+          "type": "flags.4?true"
+        },
+        {
+          "name": "invite_users",
+          "type": "flags.5?true"
+        },
+        {
+          "name": "invite_link",
+          "type": "flags.6?true"
+        },
+        {
+          "name": "pin_messages",
+          "type": "flags.7?true"
+        },
+        {
+          "name": "add_admins",
+          "type": "flags.9?true"
+        },
+        {
+          "name": "manage_call",
+          "type": "flags.10?true"
+        }
+      ],
+      "type": "ChannelAdminRights",
+      "predicate": "channelAdminRights"
+    },
+    {
+      "id": "-930515796",
+      "params": [
+        {
+          "name": "flags",
+          "type": "#"
+        },
+        {
+          "name": "creator",
+          "type": "flags.0?true"
+        },
+        {
+          "name": "left",
+          "type": "flags.2?true"
+        },
+        {
+          "name": "editor",
+          "type": "flags.3?true"
+        },
+        {
+          "name": "broadcast",
+          "type": "flags.5?true"
+        },
+        {
+          "name": "verified",
+          "type": "flags.7?true"
+        },
+        {
+          "name": "megagroup",
+          "type": "flags.8?true"
+        },
+        {
+          "name": "restricted",
+          "type": "flags.9?true"
+        },
+        {
+          "name": "democracy",
+          "type": "flags.10?true"
+        },
+        {
+          "name": "signatures",
+          "type": "flags.11?true"
+        },
+        {
+          "name": "min",
+          "type": "flags.12?true"
+        },
+        {
+          "name": "id",
+          "type": "int"
+        },
+        {
+          "name": "access_hash",
+          "type": "flags.13?long"
+        },
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "username",
+          "type": "flags.6?string"
+        },
+        {
+          "name": "photo",
+          "type": "ChatPhoto"
+        },
+        {
+          "name": "date",
+          "type": "int"
+        },
+        {
+          "name": "version",
+          "type": "int"
+        },
+        {
+          "name": "restriction_reason",
+          "type": "flags.9?string"
+        },
+        {
+          "name": "admin_rights",
+          "type": "flags.14?ChannelAdminRights"
+        },
+        {
+          "name": "banned_rights",
+          "type": "flags.15?ChannelBannedRights"
+        },
+        {
+          "name": "participants_count",
+          "type": "flags.17?int"
+        }
+      ],
+      "type": "Chat",
+      "predicate": "channelLayer92"
+    },
+    {
+      "id": "1498631756",
+      "predicate": "Document",
+      "params": [
+        {
+          "name": "id",
+          "type": "long"
+        },
+        {
+          "name": "access_hash",
+          "type": "long"
+        },
+        {
+          "name": "file_reference",
+          "type": "string"
+        },
+        {
+          "name": "date",
+          "type": "int"
+        },
+        {
+          "name": "mime_type",
+          "type": "string"
+        },
+        {
+          "name": "size",
+          "type": "int"
+        },
+        {
+          "name": "thumb",
+          "type": "TLRPC.PhotoSize"
+        },
+        {
+          "name": "dc_id",
+          "type": "int"
+        },
+        {
+          "name": "attributes",
+          "type": "DocAttr"
+        }
+      ]
+    }
+  ],
+  "methods": []
 }
