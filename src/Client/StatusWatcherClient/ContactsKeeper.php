@@ -43,6 +43,10 @@ class ContactsKeeper
      */
     private $contacts = [];
     /**
+     * @var ContactUser[]
+     */
+    private $contactsByPhone = [];
+    /**
      * @var int
      */
     private $lastDelContactsTime = 0;
@@ -296,8 +300,10 @@ class ContactsKeeper
      */
     private function onContactsDeleted(array $contacts)
     {
-        foreach ($contacts as $contact)
+        foreach ($contacts as $contact) {
             unset($this->contacts[$contact->getUserId()]);
+            unset($this->contactsByPhone[Phone::convertToTelegramView($contact->getPhone())]);
+        }
     }
 
     /**
@@ -305,8 +311,10 @@ class ContactsKeeper
      */
     private function onContactsAdded(array $contacts)
     {
-        foreach ($contacts as $contact)
+        foreach ($contacts as $contact) {
             $this->contacts[$contact->getUserId()] = $contact;
+            $this->contactsByPhone[Phone::convertToTelegramView($contact->getPhone())] = $contact;
+        }
     }
 
     /**
@@ -419,10 +427,12 @@ class ContactsKeeper
             return;
 
         $contacts = [];
-        foreach ($this->contacts as $contact)
-            foreach ($phones as $phone)
-                if(Phone::equal($phone, $contact->getPhone()))
-                    $contacts[] = $contact;
+        foreach ($phones as $phone) {
+            $phoneFormatted = Phone::convertToTelegramView($phone);
+            if (isset($this->contactsByPhone[$phoneFormatted])) {
+                $contacts[] = $this->contactsByPhone[$phoneFormatted];
+            }
+        }
 
         $onSuccess($contacts);
     }
