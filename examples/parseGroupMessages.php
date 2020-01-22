@@ -22,33 +22,32 @@ $username = null;
 $timestampStart = null;
 /** @var int|null $timestampEnd */
 $timestampEnd = null;
-if (isset($argv[1])) {
-    if ($argv[1] === '--help') {
-        echo <<<'TXT'
-Usage: php parseGroupMessages.php [groupId|deepLink] [username] [timestampStart] [timestampEnd] [--info]
+if (!isset($argv[1]) || isset($argv[1]) && $argv[1] === '--help') {
+    echo <<<'TXT'
+Usage: php parseGroupMessages.php groupId|deepLink username [timestampStart] [timestampEnd] [--info]
     deepLink ex.: https://t.me/vityapelevin
 TXT;
+    die();
+}
 
-        die();
-    } elseif ($argv[1] !== INFO) {
-        if (is_numeric($argv[1])) {
-            $groupId = (int) $argv[1];
-        } else {
-            $deepLink = $argv[1];
-        }
+if ($argv[1] !== INFO) {
+    if (is_numeric($argv[1])) {
+        $groupId = (int) $argv[1];
+    } else {
+        $deepLink = $argv[1];
     }
+}
 
-    if (isset($argv[2]) && $argv[2] !== INFO) {
-        $username = $argv[2];
-    }
+if (isset($argv[2]) && $argv[2] !== INFO) {
+    $username = $argv[2];
+}
 
-    if (isset($argv[3]) && $argv[3] !== INFO) {
-        $timestampStart = (int) $argv[3];
-    }
+if (isset($argv[3]) && $argv[3] !== INFO) {
+    $timestampStart = (int) $argv[3];
+}
 
-    if (isset($argv[4]) && $argv[4] !== INFO) {
-        $timestampEnd = (int) $argv[4];
-    }
+if (isset($argv[4]) && $argv[4] !== INFO) {
+    $timestampEnd = (int) $argv[4];
 }
 $generator = new ReusableClientGenerator();
 $request = $groupId
@@ -69,6 +68,7 @@ $onGroupReady = function (?int $groupId, ?int $accessHash) use ($timestampStart,
             $timestampStart,
             $timestampEnd,
         ),
+        null,
         $username
     );
 
@@ -78,3 +78,6 @@ $onGroupReady = function (?int $groupId, ?int $accessHash) use ($timestampStart,
 $resolver = new GroupResolverScenario($request, $generator, $onGroupReady);
 /** @noinspection PhpUnhandledExceptionInspection */
 $resolver->startActions(false);
+do {
+    $done = $resolver->poll();
+} while (!$done);
