@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\Registration\NameGenerator;
 
 class NameResource
@@ -12,16 +14,17 @@ class NameResource
      * @var string
      */
     private $lastName;
+    /** @var array */
+    private static $names = [];
 
     public function __construct()
     {
-        $names = json_decode(file_get_contents(__DIR__.'/names.json'), true);
+        if (!self::$names) {
+            self::$names = json_decode(file_get_contents(__DIR__.'/names.json'), true);
+        }
 
-        $this->name = $names[array_rand($names)];
-        $this->lastName = $names[array_rand($names)];
-
-        $names = [];
-        unset($names);
+        $this->name = self::$names[array_rand(self::$names)];
+        $this->lastName = self::$names[array_rand(self::$names)];
     }
 
     /**

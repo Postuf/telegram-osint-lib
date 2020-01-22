@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\Registration\DeviceGenerator;
 
 class DeviceResource
@@ -16,11 +18,15 @@ class DeviceResource
      * @var int
      */
     private $sdkVersion;
+    /** @var array */
+    private static $devices = [];
 
     public function __construct()
     {
-        $devices = json_decode(file_get_contents(__DIR__.'/devices.json'), true);
-        $randomDevice = $devices[array_rand($devices)];
+        if (!self::$devices) {
+            self::$devices = json_decode(file_get_contents(__DIR__.'/devices.json'), true);
+        }
+        $randomDevice = self::$devices[array_rand(self::$devices)];
 
         $this->brand = $randomDevice['brand'];
         $this->model = $randomDevice['model'];
