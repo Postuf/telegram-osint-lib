@@ -2,8 +2,11 @@
     "_": "rpc_result",
     "req_msg_id": 6783909391019148324,
     "result": {
-        "_": "unknown_3f0f220f",
+        "_": "userFull",
         "flags": 16,
+        "blocked": false,
+        "phone_calls_available": true,
+        "phone_calls_private": false,
         "user": {
             "_": "user",
             "flags": 2143,
@@ -23,7 +26,8 @@
             "bot_inline_placeholder": null,
             "lang_code": null
         },
-        "contactsLink": {
+        "about": null,
+        "link": {
             "_": "contactsLink",
             "foreign_link": {
                 "_": "contacts.myLinkContact"
@@ -51,8 +55,8 @@
                 "lang_code": null
             }
         },
-        "photo": null,
-        "peerNotifySettings": {
+        "profile_photo": null,
+        "notify_settings": {
             "_": "peerNotifySettings",
             "flags": 0,
             "show_previews": null,
@@ -60,6 +64,7 @@
             "mute_until": null,
             "sound": null
         },
-        "unknown": 0
+        "bot_info": null,
+        "common_chats_count": 0
     }
 }
