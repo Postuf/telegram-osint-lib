@@ -51,7 +51,7 @@ abstract class TgSocketMessenger implements SocketMessenger
         }
         $lengthToRead = $payloadLength - $this->readState->getCurrentLength();
         $newPayload = $this->socket->readBinary($lengthToRead);
-        if (strlen($newPayload)) {
+        if (strlen((string) $newPayload)) {
             $this->readState->addRead($newPayload);
         }
         if (!$this->readState->ready()) {

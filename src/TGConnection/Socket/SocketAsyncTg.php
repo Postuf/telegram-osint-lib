@@ -2,6 +2,7 @@
 
 namespace TelegramOSINT\TGConnection\Socket;
 
+use Exception;
 use SocksProxyAsync\SocketAsync;
 use SocksProxyAsync\SocksException;
 
@@ -16,7 +17,6 @@ class SocketAsyncTg extends SocketAsync
 
     /**
      * @throws SocksException
-     * @noinspection PhpUnhandledExceptionInspection
      */
     public function poll(): void
     {
@@ -65,10 +65,10 @@ class SocketAsyncTg extends SocketAsync
 
         try{
             $this->step->checkIfStepStuck();
-        } catch (SocksException $e){
+        } catch (Exception $e){
             $this->stop();
 
-            throw $e;
+            throw new SocksException(SocksException::STEP_STUCK, $e->getMessage());
         }
     }
 }
