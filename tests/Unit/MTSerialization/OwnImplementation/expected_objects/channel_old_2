@@ -1,0 +1,442 @@
+{
+    "_": "contacts.found",
+    "my_results": [],
+    "results": [
+        {
+            "_": "peerChannel",
+            "channel_id": 1207035963
+        },
+        {
+            "_": "peerChannel",
+            "channel_id": 1409271113
+        },
+        {
+            "_": "peerUser",
+            "user_id": 378175025
+        },
+        {
+            "_": "peerChannel",
+            "channel_id": 1306218647
+        },
+        {
+            "_": "peerChannel",
+            "channel_id": 1404331986
+        },
+        {
+            "_": "peerChannel",
+            "channel_id": 1411678646
+        },
+        {
+            "_": "peerChannel",
+            "channel_id": 1142422363
+        },
+        {
+            "_": "peerChannel",
+            "channel_id": 1150582767
+        },
+        {
+            "_": "peerUser",
+            "user_id": 96203125
+        },
+        {
+            "_": "peerUser",
+            "user_id": 743638586
+        }
+    ],
+    "chats": [
+        {
+            "_": "channelLayer92",
+            "flags": 139364,
+            "creator": false,
+            "left": true,
+            "editor": false,
+            "broadcast": true,
+            "verified": false,
+            "megagroup": false,
+            "restricted": false,
+            "democracy": false,
+            "signatures": false,
+            "min": false,
+            "id": 1207035963,
+            "access_hash": 6685298691721137429,
+            "title": "\u041c\u0415\u0422\u041e\u0414 \u0424\u041e\u0420\u26bd\ufe0f",
+            "username": "pusher_dallas",
+            "photo": {
+                "_": "chatPhotoOld",
+                "photo_small": {
+                    "_": "fileLocation",
+                    "dc_id": 2,
+                    "volume_id": 260417898,
+                    "local_id": 326635,
+                    "secret": -7609804377037033297
+                },
+                "photo_big": {
+                    "_": "fileLocation",
+                    "dc_id": 2,
+                    "volume_id": 260417898,
+                    "local_id": 326637,
+                    "secret": 8059014919347578996
+                }
+            },
+            "date": 1563908665,
+            "version": 0,
+            "restriction_reason": null,
+            "admin_rights": null,
+            "banned_rights": null,
+            "participants_count": 2300
+        },
+        {
+            "_": "channelLayer92",
+            "flags": 140612,
+            "creator": false,
+            "left": true,
+            "editor": false,
+            "broadcast": false,
+            "verified": false,
+            "megagroup": true,
+            "restricted": false,
+            "democracy": true,
+            "signatures": false,
+            "min": false,
+            "id": 1409271113,
+            "access_hash": -5207904736848190727,
+            "title": "NEW\ud83c\udfc5PUSH Dx24H LIKES ONLY\ud83c\udfc5",
+            "username": "newpush24hlikes",
+            "photo": {
+                "_": "chatPhotoOld",
+                "photo_small": {
+                    "_": "fileLocation",
+                    "dc_id": 4,
+                    "volume_id": 446430146,
+                    "local_id": 240916,
+                    "secret": 5210508267898026524
+                },
+                "photo_big": {
+                    "_": "fileLocation",
+                    "dc_id": 4,
+                    "volume_id": 446430146,
+                    "local_id": 240918,
+                    "secret": -7225555631887772868
+                }
+            },
+            "date": 1571562318,
+            "version": 0,
+            "restriction_reason": null,
+            "admin_rights": null,
+            "banned_rights": null,
+            "participants_count": 17705
+        },
+        {
+            "_": "channelLayer92",
+            "flags": 140612,
+            "creator": false,
+            "left": true,
+            "editor": false,
+            "broadcast": false,
+            "verified": false,
+            "megagroup": true,
+            "restricted": false,
+            "democracy": true,
+            "signatures": false,
+            "min": false,
+            "id": 1306218647,
+            "access_hash": 675271516419172651,
+            "title": "NEW\ud83c\udfc5PUSH Dx20 L&C\ud83c\udfc5",
+            "username": "PUSHDx20",
+            "photo": {
+                "_": "chatPhotoOld",
+                "photo_small": {
+                    "_": "fileLocation",
+                    "dc_id": 5,
+                    "volume_id": 855804044,
+                    "local_id": 225247,
+                    "secret": -2592243213092412400
+                },
+                "photo_big": {
+                    "_": "fileLocation",
+                    "dc_id": 5,
+                    "volume_id": 855804044,
+                    "local_id": 225249,
+                    "secret": -4679022793882720818
+                }
+            },
+            "date": 1570797548,
+            "version": 0,
+            "restriction_reason": null,
+            "admin_rights": null,
+            "banned_rights": null,
+            "participants_count": 14671
+        },
+        {
+            "_": "channelLayer92",
+            "flags": 140612,
+            "creator": false,
+            "left": true,
+            "editor": false,
+            "broadcast": false,
+            "verified": false,
+            "megagroup": true,
+            "restricted": false,
+            "democracy": true,
+            "signatures": false,
+            "min": false,
+            "id": 1404331986,
+            "access_hash": 5053255783292453553,
+            "title": "NEW\ud83c\udfc5PUSH Dx15 L&C\ud83c\udfc5",
+            "username": "PUSHDx15",
+            "photo": {
+                "_": "chatPhotoOld",
+                "photo_small": {
+                    "_": "fileLocation",
+                    "dc_id": 5,
+                    "volume_id": 855210662,
+                    "local_id": 328934,
+                    "secret": 690770010843386895
+                },
+                "photo_big": {
+                    "_": "fileLocation",
+                    "dc_id": 5,
+                    "volume_id": 855210662,
+                    "local_id": 328936,
+                    "secret": -5299900941653941813
+                }
+            },
+            "date": 1571066975,
+            "version": 0,
+            "restriction_reason": null,
+            "admin_rights": null,
+            "banned_rights": null,
+            "participants_count": 13291
+        },
+        {
+            "_": "channelLayer92",
+            "flags": 140612,
+            "creator": false,
+            "left": true,
+            "editor": false,
+            "broadcast": false,
+            "verified": false,
+            "megagroup": true,
+            "restricted": false,
+            "democracy": true,
+            "signatures": false,
+            "min": false,
+            "id": 1411678646,
+            "access_hash": 6684327655114337660,
+            "title": "NEW\ud83c\udfc5PUSH Dx10 L&C\ud83c\udfc5",
+            "username": "pushgroupdx10new",
+            "photo": {
+                "_": "chatPhotoOld",
+                "photo_small": {
+                    "_": "fileLocation",
+                    "dc_id": 5,
+                    "volume_id": 855210701,
+                    "local_id": 330401,
+                    "secret": -25213884115756223
+                },
+                "photo_big": {
+                    "_": "fileLocation",
+                    "dc_id": 5,
+                    "volume_id": 855210701,
+                    "local_id": 330403,
+                    "secret": -7570144495129196027
+                }
+            },
+            "date": 1570798240,
+            "version": 0,
+            "restriction_reason": null,
+            "admin_rights": null,
+            "banned_rights": null,
+            "participants_count": 9808
+        },
+        {
+            "_": "channelLayer92",
+            "flags": 140612,
+            "creator": false,
+            "left": true,
+            "editor": false,
+            "broadcast": false,
+            "verified": false,
+            "megagroup": true,
+            "restricted": false,
+            "democracy": true,
+            "signatures": false,
+            "min": false,
+            "id": 1142422363,
+            "access_hash": -3425766656764206156,
+            "title": "\u2744\ufe0f\ud83c\udfc5PUSH | Dx24H | LIKES ONLY 2",
+            "username": "newsmartpush24hgroup",
+            "photo": {
+                "_": "chatPhotoOld",
+                "photo_small": {
+                    "_": "fileLocation",
+                    "dc_id": 4,
+                    "volume_id": 446535720,
+                    "local_id": 476128,
+                    "secret": 6755523994040973593
+                },
+                "photo_big": {
+                    "_": "fileLocation",
+                    "dc_id": 4,
+                    "volume_id": 446535720,
+                    "local_id": 476130,
+                    "secret": 5932458411062120371
+                }
+            },
+            "date": 1511364505,
+            "version": 0,
+            "restriction_reason": null,
+            "admin_rights": null,
+            "banned_rights": null,
+            "participants_count": 4229
+        },
+        {
+            "_": "channelLayer92",
+            "flags": 139364,
+            "creator": false,
+            "left": true,
+            "editor": false,
+            "broadcast": true,
+            "verified": false,
+            "megagroup": false,
+            "restricted": false,
+            "democracy": false,
+            "signatures": false,
+            "min": false,
+            "id": 1150582767,
+            "access_hash": 5563044322648035155,
+            "title": "\u062f\u0648\u0631\u0647\u0645\u06cc \u067e\u0648\u0634",
+            "username": "dorhami_push",
+            "photo": {
+                "_": "chatPhotoOld",
+                "photo_small": {
+                    "_": "fileLocation",
+                    "dc_id": 4,
+                    "volume_id": 426340130,
+                    "local_id": 291882,
+                    "secret": 4691580993930347283
+                },
+                "photo_big": {
+                    "_": "fileLocation",
+                    "dc_id": 4,
+                    "volume_id": 426340130,
+                    "local_id": 291884,
+                    "secret": 2088581500880077274
+                }
+            },
+            "date": 1517291661,
+            "version": 0,
+            "restriction_reason": null,
+            "admin_rights": null,
+            "banned_rights": null,
+            "participants_count": 265
+        }
+    ],
+    "users": [
+        {
+            "_": "user",
+            "flags": 107,
+            "id": 378175025,
+            "access_hash": -7688006554193857069,
+            "first_name": "Denis",
+            "last_name": null,
+            "username": "d_push",
+            "phone": null,
+            "photo": {
+                "_": "userProfilePhoto_v1",
+                "photo_id": 1624249364995221417,
+                "photo_small": {
+                    "_": "fileLocation",
+                    "dc_id": 2,
+                    "volume_id": 235921627,
+                    "local_id": 180374,
+                    "secret": -8185548936787625888
+                },
+                "photo_big": {
+                    "_": "fileLocation",
+                    "dc_id": 2,
+                    "volume_id": 235921627,
+                    "local_id": 180376,
+                    "secret": 1334291717779285246
+                }
+            },
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1579677584
+            },
+            "bot_info_version": null,
+            "restriction_reason": null,
+            "bot_inline_placeholder": null,
+            "lang_code": null
+        },
+        {
+            "_": "user",
+            "flags": 107,
+            "id": 96203125,
+            "access_hash": 8851537361721427444,
+            "first_name": "Pusha D",
+            "last_name": null,
+            "username": "Pusha_d",
+            "phone": null,
+            "photo": {
+                "_": "userProfilePhoto_v1",
+                "photo_id": 413189276104243588,
+                "photo_small": {
+                    "_": "fileLocation",
+                    "dc_id": 2,
+                    "volume_id": 246108679,
+                    "local_id": 165998,
+                    "secret": 7195107827590657709
+                },
+                "photo_big": {
+                    "_": "fileLocation",
+                    "dc_id": 2,
+                    "volume_id": 246108679,
+                    "local_id": 166000,
+                    "secret": -7844353551557792336
+                }
+            },
+            "status": {
+                "_": "userStatusOffline",
+                "was_online": 1579674665
+            },
+            "bot_info_version": null,
+            "restriction_reason": null,
+            "bot_inline_placeholder": null,
+            "lang_code": null
+        },
+        {
+            "_": "user",
+            "flags": 43,
+            "id": 743638586,
+            "access_hash": -4284810783561305005,
+            "first_name": "\u4e8c\u72d7",
+            "last_name": null,
+            "username": "Dog_push",
+            "phone": null,
+            "photo": {
+                "_": "userProfilePhoto_v1",
+                "photo_id": 3193903407369922483,
+                "photo_small": {
+                    "_": "fileLocation",
+                    "dc_id": 5,
+                    "volume_id": 853505569,
+                    "local_id": 388859,
+                    "secret": 8425431426751661699
+                },
+                "photo_big": {
+                    "_": "fileLocation",
+                    "dc_id": 5,
+                    "volume_id": 853505569,
+                    "local_id": 388861,
+                    "secret": -1918249468101341043
+                }
+            },
+            "status": null,
+            "bot_info_version": null,
+            "restriction_reason": null,
+            "bot_inline_placeholder": null,
+            "lang_code": null
+        }
+    ]
+}
