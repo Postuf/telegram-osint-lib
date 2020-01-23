@@ -55,11 +55,11 @@ class get_history implements TLClientMessage
                 ? new input_peer_chat($this->chatId)
                 : new input_peer_channel($this->chatId, $this->accessHash))
                     ->toBinary().
-            Packer::packInt(0). // offset_id
+            Packer::packInt($this->maxId). // offset_id
             Packer::packInt($this->since). // offset_date
             Packer::packInt(0). // add_offset
             Packer::packInt($this->limit). // limit
-            Packer::packInt($this->maxId). // max_id
+            Packer::packInt(0). // max_id
             Packer::packInt(0). // min_id
             Packer::packInt(0); // hash
     }
