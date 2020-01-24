@@ -1,4 +1,4 @@
-##InfoClient
+## InfoClient
  Класс предназначен для активного получение информации с сервера Telegram и имеет следующие методы:
 
 `login(AuthKey $authKey[, Proxy $proxy[, callable $cb]])` - авторизация клиента на сервере Telegram.  
@@ -65,7 +65,7 @@
 
 `terminate()` - завершить сеанс связи
 
-##StatusWatcherClient
+## StatusWatcherClient
  Клиент-наблюдатель, используется для мониторинга изменения статуса пользователя в сети. В нем доступные следующие методы:
 
 `login(AuthKey $authKey[, Proxy $proxy[, callable $cb]])` - авторизация клиента на сервере Telegram.  
