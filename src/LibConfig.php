@@ -52,4 +52,5 @@ class LibConfig
     const APP_DEFAULT_LANG_PACK = 'android';
     const APP_DEFAULT_TL_LAYER_VERSION = 109;
 
+    const ENV_AUTHKEY = 'AUTHKEY'; // env variable for authkey path
 }

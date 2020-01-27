@@ -83,13 +83,9 @@ $onGroupReady = function (?int $groupId, ?int $accessHash) use ($timestampStart,
         ),
         $parseLinks
     );
-    //$client->startActions();
     $client->startLinkParse();
 };
 
 $resolver = new GroupResolverScenario($request, $generator, $onGroupReady);
 /** @noinspection PhpUnhandledExceptionInspection */
-$resolver->startActions(false);
-do {
-    $done = $resolver->poll();
-} while (!$done);
+$resolver->startActions();

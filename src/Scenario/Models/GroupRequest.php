@@ -49,4 +49,9 @@ class GroupRequest
     {
         return $this->groupId;
     }
+
+    public function __toString()
+    {
+        return $this->username ? 'username: '.$this->username : 'id: '.$this->groupId;
+    }
 }

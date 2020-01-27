@@ -16,7 +16,7 @@ use TelegramOSINT\Tools\Proxy;
 /**
  * Listing group members
  *
- * This example requires info user (second authkey)
+ * This example requires info user
  * to be member of one or several groups, otherwise it is useless.
  *
  * Please note that for public groups you need to be group admin to see member list.
@@ -72,7 +72,7 @@ class GroupMembersScenario extends AbstractGroupScenario implements ScenarioInte
      */
     public function startActions(bool $pollAndTerminate = true): void
     {
-        $this->infoLogin();
+        $this->login();
         usleep(10000);
         Logger::log(__CLASS__, 'getting all chats');
         if ($this->deepLink) {

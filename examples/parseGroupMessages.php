@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 require_once __DIR__.'/../vendor/autoload.php';
 
+use TelegramOSINT\LibConfig;
 use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\Scenario\GroupMessagesScenario;
 use TelegramOSINT\Scenario\GroupResolverScenario;
@@ -24,8 +25,9 @@ $timestampStart = null;
 $timestampEnd = null;
 if (!isset($argv[1]) || isset($argv[1]) && $argv[1] === '--help') {
     echo <<<'TXT'
-Usage: php parseGroupMessages.php groupId|deepLink username [timestampStart] [timestampEnd] [--info]
+Usage: php parseGroupMessages.php groupId|deepLink [username] [timestampStart] [timestampEnd] [--info]
     deepLink ex.: https://t.me/vityapelevin
+    if you do not need username filter (but need timestamp filter), please specify -- as value
 TXT;
     die();
 }
@@ -38,7 +40,7 @@ if ($argv[1] !== INFO) {
     }
 }
 
-if (isset($argv[2]) && $argv[2] !== INFO) {
+if (isset($argv[2]) && $argv[2] !== INFO && $argv[2] !== '--') {
     $username = $argv[2];
 }
 
@@ -49,7 +51,7 @@ if (isset($argv[3]) && $argv[3] !== INFO) {
 if (isset($argv[4]) && $argv[4] !== INFO) {
     $timestampEnd = (int) $argv[4];
 }
-$generator = new ReusableClientGenerator();
+$generator = new ReusableClientGenerator(LibConfig::ENV_AUTHKEY);
 $request = $groupId
     ? GroupRequest::ofGroupId($groupId)
     : GroupRequest::ofUserName($deepLink);
@@ -72,12 +74,10 @@ $onGroupReady = function (?int $groupId, ?int $accessHash) use ($timestampStart,
         $username
     );
 
-    $client->startActions();
+    $client->startActions(false);
 };
 
+Logger::log(__FILE__, 'starting group resolver for '.$request);
 $resolver = new GroupResolverScenario($request, $generator, $onGroupReady);
 /** @noinspection PhpUnhandledExceptionInspection */
-$resolver->startActions(false);
-do {
-    $done = $resolver->poll();
-} while (!$done);
+$resolver->startActions();

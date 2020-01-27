@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TelegramOSINT\Scenario;
 
-use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\Scenario\Models\GroupRequest;
@@ -72,26 +71,13 @@ class GroupResolverScenario extends InfoClientScenario
     }
 
     /**
-     * Connect to telegram with info (second) account
-     *
-     * @throws TGException
-     */
-    public function infoLogin(): void
-    {
-        $authKey = AuthKeyCreator::createFromString($this->generator->getAuthKeyInfo());
-        if (!$this->infoClient->isLoggedIn()) {
-            $this->infoClient->login($authKey);
-        }
-    }
-
-    /**
      * @param bool $pollAndTerminate
      *
      * @throws TGException
      */
     public function startActions(bool $pollAndTerminate = true): void
     {
-        $this->infoLogin();
+        $this->login();
         if ($this->groupRequest->getUserName()) {
             $this->infoClient->resolveUsername($this->groupRequest->getUserName(), $this->getGroupResolveHandler());
         } else {
