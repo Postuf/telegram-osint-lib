@@ -215,8 +215,13 @@ class InfoClient implements InfoObtainingClient
      */
     private function onContactReady(string $phone, bool $withPhoto, bool $largePhoto, callable $onComplete)
     {
-        $this->contactsKeeper->getUserByPhone($phone, function ($user) use ($onComplete, $withPhoto, $largePhoto) {
+        $this->contactsKeeper->getUserByPhone($phone, function ($user) use ($onComplete, $withPhoto, $largePhoto, $phone) {
             if($user instanceof ContactUser){
+                $username = $user->getUsername();
+                $this->contactsKeeper->delNumbers([$phone], function() use ($username, $withPhoto, $largePhoto, $onComplete){
+                    $this->getInfoByUsername($username, $withPhoto, $largePhoto, $onComplete);
+                });
+                /*
                 $fullUserRequest = new get_full_user($user->getUserId(), $user->getAccessHash());
                 $this->basicClient->getConnection()->getResponseAsync($fullUserRequest, function (AnonymousMessage $message) use ($withPhoto, $largePhoto, $onComplete) {
                     $userFull = new UserFull($message);
@@ -224,7 +229,7 @@ class InfoClient implements InfoObtainingClient
                         $this->extendUserInfoModel($model, $userFull);
                         $onComplete($model);
                     });
-                });
+                });*/
             } else {
                 $onComplete($user);
             }
@@ -247,6 +252,8 @@ class InfoClient implements InfoObtainingClient
         $userModel->username = $user->getUsername();
         $userModel->status = $this->createUserStatusModel($user->getStatus());
         $userModel->accessHash = $user->getAccessHash();
+        $userModel->firstName = $user->getFirstName();
+        $userModel->lastName = $user->getLastName();
 
         if($withPhoto){
             $this->createUserPictureModel($user, $largePhoto, function ($photo) use ($userModel, $onComplete) {
@@ -261,6 +268,7 @@ class InfoClient implements InfoObtainingClient
     private function extendUserInfoModel(UserInfoModel $model, UserFull $userFull)
     {
         $model->bio = $userFull->getAbout();
+        $model->commonChatsCount = $userFull->getCommonChatsCount();
 
         return $model;
     }

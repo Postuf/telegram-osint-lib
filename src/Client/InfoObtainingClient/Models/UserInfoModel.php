@@ -32,5 +32,16 @@ class UserInfoModel
      * @var UserStatusModel
      */
     public $status;
-
+    /**
+     * @var int
+     */
+    public $commonChatsCount;
+    /**
+     * @var string
+     */
+    public $firstName;
+    /**
+     * @var string
+     */
+    public $lastName;
 }
