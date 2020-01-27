@@ -1,0 +1,201 @@
+{
+    "methods": [
+        {
+            "id": "-1200736242",
+            "method": "messages.getPollVotes",
+            "params": [
+                {
+                    "name": "flags",
+                    "type": "#"
+                },
+                {
+                    "name": "peer",
+                    "type": "InputPeer"
+                },
+                {
+                    "name": "id",
+                    "type": "int"
+                },
+                {
+                    "name": "option",
+                    "type": "flags.0?bytes"
+                },
+                {
+                    "name": "offset",
+                    "type": "flags.1?string"
+                },
+                {
+                    "name": "limit",
+                    "type": "int"
+                }
+            ],
+            "type": "messages.VotesList"
+        }
+    ],
+    "constructors": [
+        {
+            "id": "-1567730343",
+            "predicate": "messageUserVote",
+            "params": [
+                {
+                    "name": "user_id",
+                    "type": "int"
+                },
+                {
+                    "name": "option",
+                    "type": "bytes"
+                },
+                {
+                    "name": "date",
+                    "type": "int"
+                }
+            ],
+            "type": "MessageUserVote"
+        },
+        {
+            "id": "-1410741723",
+            "predicate": "inputMediaPoll",
+            "params": [
+                {
+                    "name": "flags",
+                    "type": "#"
+                },
+                {
+                    "name": "poll",
+                    "type": "Poll"
+                },
+                {
+                    "name": "correct_answers",
+                    "type": "flags.0?Vector<bytes>"
+                }
+            ],
+            "type": "InputMedia"
+        },
+        {
+            "id": "-1144565411",
+            "predicate": "keyboardButtonRequestPoll",
+            "params": [
+                {
+                    "name": "flags",
+                    "type": "#"
+                },
+                {
+                    "name": "quiz",
+                    "type": "flags.0?Bool"
+                },
+                {
+                    "name": "text",
+                    "type": "string"
+                }
+            ],
+            "type": "KeyboardButton"
+        },
+        {
+            "id": "-932174686",
+            "predicate": "pollResults",
+            "params": [
+                {
+                    "name": "flags",
+                    "type": "#"
+                },
+                {
+                    "name": "min",
+                    "type": "flags.0?true"
+                },
+                {
+                    "name": "results",
+                    "type": "flags.1?Vector<PollAnswerVoters>"
+                },
+                {
+                    "name": "total_voters",
+                    "type": "flags.2?int"
+                },
+                {
+                    "name": "recent_voters",
+                    "type": "flags.3?Vector<int>"
+                }
+            ],
+            "type": "PollResults"
+        },
+        {
+            "id": "136574537",
+            "predicate": "messages.votesList",
+            "params": [
+                {
+                    "name": "flags",
+                    "type": "#"
+                },
+                {
+                    "name": "count",
+                    "type": "int"
+                },
+                {
+                    "name": "votes",
+                    "type": "Vector<MessageUserVote>"
+                },
+                {
+                    "name": "users",
+                    "type": "Vector<User>"
+                },
+                {
+                    "name": "next_offset",
+                    "type": "flags.0?string"
+                }
+            ],
+            "type": "messages.VotesList"
+        },
+        {
+            "id": "244310238",
+            "predicate": "messageUserVoteMultiple",
+            "params": [
+                {
+                    "name": "user_id",
+                    "type": "int"
+                },
+                {
+                    "name": "options",
+                    "type": "Vector<bytes>"
+                },
+                {
+                    "name": "date",
+                    "type": "int"
+                }
+            ],
+            "type": "MessageUserVote"
+        },
+        {
+            "id": "909603888",
+            "predicate": "messageUserVoteInputOption",
+            "params": [
+                {
+                    "name": "user_id",
+                    "type": "int"
+                },
+                {
+                    "name": "date",
+                    "type": "int"
+                }
+            ],
+            "type": "MessageUserVote"
+        },
+        {
+            "id": "1123585836",
+            "predicate": "updateMessagePollVote",
+            "params": [
+                {
+                    "name": "poll_id",
+                    "type": "long"
+                },
+                {
+                    "name": "user_id",
+                    "type": "int"
+                },
+                {
+                    "name": "options",
+                    "type": "Vector<bytes>"
+                }
+            ],
+            "type": "Update"
+        }
+    ]
+}
