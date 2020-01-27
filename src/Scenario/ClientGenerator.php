@@ -12,6 +12,9 @@ use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherClient;
 
 class ClientGenerator implements ClientGeneratorInterface
 {
+    private const AUTHKEY_ENV = 'AUTHKEY';
+    private const SECOND_AUTHKEY_ENV = 'SECOND_AUTHKEY';
+
     public function getInfoClient()
     {
         return new InfoClient();
@@ -24,11 +27,21 @@ class ClientGenerator implements ClientGeneratorInterface
 
     public function getAuthKeyInfo(): string
     {
-        return trim(file_get_contents('./first.authkey'));
+        $authkey = './first.authkey';
+        if (getenv(self::AUTHKEY_ENV)) {
+            $authkey = getenv(self::AUTHKEY_ENV);
+        }
+
+        return trim(file_get_contents($authkey));
     }
 
     public function getAuthKeyStatus(): string
     {
-        return trim(file_get_contents('./second.authkey'));
+        $authkey = './second.authkey';
+        if (getenv(self::SECOND_AUTHKEY_ENV)) {
+            $authkey = getenv(self::SECOND_AUTHKEY_ENV);
+        }
+
+        return trim(file_get_contents($authkey));
     }
 }

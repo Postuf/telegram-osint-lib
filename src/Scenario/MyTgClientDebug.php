@@ -20,8 +20,6 @@ use TelegramOSINT\Tools\Proxy;
  * Client base class
  *
  * Uses two telegram, connections (infoClient, monitoringClient).
- *
- * Requires files: `first.authkey`, `second.authkey`.
  */
 class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger, ScenarioInterface
 {

@@ -35,8 +35,17 @@ To check out usage examples, go to `examples` dir.
 You need auth keys generated, run `php registration.php` to get those.
 Some examples require two accounts to run, save those keys to `first.authkey` and `second.authkey`, respectively.
 Now you are all set, you can run any of them, for example, `php parseGroupMembers.php`, and check the output.
+To switch between authkeys easily, you can use environment variable:
 
-Verbose logging (all messages sent/received) is enabled by default, add `--info` to arguments to suppress it.
+```
+AUTHKEY=first.authkey php parseNumbers.php 79061234567
+```
+
+Verbose logging (all messages sent/received) is enabled by default, add `--info` to arguments to suppress it:
+
+```
+php parseNumbers.php 79061234567 --info
+```
 
 ### Docker container
 
