@@ -166,7 +166,7 @@ class GroupMessagesScenario extends InfoClientScenario
                         (int) $message['from_id'],
                         (int) $message['date']
                     );
-                    $handler($msgModel);
+                    $handler($msgModel, $message);
                 }
 
             }
