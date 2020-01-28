@@ -24,7 +24,7 @@ class get_common_chats implements TLClientMessage
     /** @var int */
     private $accessHash;
 
-    public function __construct(int $user_id, int $limit, int $max_id = 0, int $accessHash = 0)
+    public function __construct(int $user_id, int $accessHash, int $limit, int $max_id = 0)
     {
         $this->user_id = $user_id;
         $this->limit = $limit;

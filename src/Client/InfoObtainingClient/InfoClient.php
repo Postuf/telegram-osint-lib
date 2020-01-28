@@ -149,7 +149,7 @@ class InfoClient implements InfoObtainingClient
 
     public function getCommonChats(int $id, int $accessHash, int $limit, int $max_id, callable $onComplete)
     {
-        $this->basicClient->getConnection()->getResponseAsync(new get_common_chats($id, $limit, $max_id, $accessHash), $onComplete);
+        $this->basicClient->getConnection()->getResponseAsync(new get_common_chats($id, $accessHash, $limit, $max_id), $onComplete);
     }
 
     /**
