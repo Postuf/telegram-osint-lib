@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TelegramOSINT\Scenario;
 
-use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
 use TelegramOSINT\Client\InfoObtainingClient\Models\MessageModel;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Logger\Logger;
@@ -36,6 +35,8 @@ class GroupMessagesScenario extends InfoClientScenario
      * @param OptionalDateRange        $dateRange
      * @param callable|null            $handler   function(MessageModel $message)
      * @param string|null              $username
+     *
+     * @throws TGException
      */
     public function __construct(
         GroupId $groupId,
@@ -74,26 +75,13 @@ class GroupMessagesScenario extends InfoClientScenario
     }
 
     /**
-     * Connect to telegram with info (second) account
-     *
-     * @throws TGException
-     */
-    protected function infoLogin(): void
-    {
-        $authKey = AuthKeyCreator::createFromString($this->generator->getAuthKeyInfo());
-        if (!$this->infoClient->isLoggedIn()) {
-            $this->infoClient->login($authKey);
-        }
-    }
-
-    /**
      * @param bool $pollAndTerminate
      *
      * @throws TGException
      */
     public function startActions(bool $pollAndTerminate = true): void
     {
-        $this->infoLogin();
+        $this->login();
         usleep(10000);
         $limit = 100;
         if ($this->username) {
@@ -116,7 +104,7 @@ class GroupMessagesScenario extends InfoClientScenario
      */
     public function startLinkParse(bool $pollAndTerminate = true): void
     {
-        $this->infoLogin();
+        $this->login();
         usleep(10000);
         $limit = 100;
 
@@ -169,6 +157,7 @@ class GroupMessagesScenario extends InfoClientScenario
             $messages = $anonymousMessage->getValue('messages');
             /** @var int|null $lastId */
             $lastId = null;
+            $bunchSkipped = false;
             foreach ($messages as $message) {
                 $lastId = (int) $message['id'];
                 if ($message['_'] !== 'message') {
@@ -181,14 +170,22 @@ class GroupMessagesScenario extends InfoClientScenario
                     continue;
                 }
                 if ($this->endTimestamp && $message['date'] > $this->endTimestamp) {
+                    if (!$bunchSkipped) {
+                        Logger::log(__CLASS__, "skipping bunch due to later date ({$message['date']} > {$this->endTimestamp})");
+                        $bunchSkipped = true;
+                    }
                     continue;
                 }
 
                 if ($this->startTimestamp && $message['date'] < $this->startTimestamp) {
+                    Logger::log(__CLASS__, 'skipping msg due to earlier date');
+
                     return;
                 }
 
-                Logger::log(__CLASS__, "got message '{$message['message']}' from {$message['from_id']} at ".date('Y-m-d H:i:s', $message['date']));
+                $body = $message['message'];
+                $body = str_replace("\n", ' \\\\ ', $body);
+                Logger::log(__CLASS__, "got message '{$body}' from {$message['from_id']} at ".date('Y-m-d H:i:s', $message['date']));
                 if ($this->handler) {
                     $handler = $this->handler;
                     $msgModel = new MessageModel(
@@ -204,6 +201,7 @@ class GroupMessagesScenario extends InfoClientScenario
 
             if ($messages && $lastId !== 1) {
                 Logger::log(__CLASS__, "loading more messages, starting with $lastId");
+                usleep(500000);
                 $this->infoClient->getChannelMessages(
                     $id,
                     $accessHash,

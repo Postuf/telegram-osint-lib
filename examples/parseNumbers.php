@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use TelegramOSINT\Client\InfoObtainingClient\Models\UserInfoModel;
-use TelegramOSINT\Scenario\MyTgClientDebug;
+use TelegramOSINT\Scenario\UserContactsScenario;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
@@ -17,9 +17,8 @@ if (!isset($argv[1])) {
 
 $numbers = explode(',', $argv[1]);
 
-$client = new MyTgClientDebug();
+$client = new UserContactsScenario(array_slice($numbers, 0, 1));
 /* @noinspection PhpUnhandledExceptionInspection */
-$client->infoLogin();
 $client->parseNumbers($numbers, true, true, function (array $models) {
     echo "Phone\t|\tUsername\t|\tFirst name\t|\tLast name\t|\tPhoto\t|\tAbout\t|\tCommon chats\t|\tLang\t|\tWas online\n\n";
     foreach ($models as $model) {
@@ -45,4 +44,4 @@ $client->parseNumbers($numbers, true, true, function (array $models) {
     }
 });
 /* @noinspection PhpUnhandledExceptionInspection */
-$client->pollAndTerminate();
+$client->startActions();

@@ -8,7 +8,7 @@ use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\Tools\Proxy;
 
-abstract class AbstractGroupScenario extends MyTgClientDebug implements ScenarioInterface
+abstract class AbstractGroupScenario extends InfoClientScenario implements ScenarioInterface
 {
     /** @var int|null */
     protected $groupId;
@@ -27,7 +27,7 @@ abstract class AbstractGroupScenario extends MyTgClientDebug implements Scenario
 
     public function __construct(?Proxy $proxy = null, ?ClientGeneratorInterface $generator = null)
     {
-        parent::__construct($proxy, $generator);
+        parent::__construct($generator);
     }
 
     /**

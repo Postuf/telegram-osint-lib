@@ -13,16 +13,17 @@ class ReusableClientGenerator extends ClientGenerator
     /** @var ClientGeneratorInterface */
     private $clientGenerator;
 
-    public function __construct(?ClientGeneratorInterface $clientGenerator = null)
+    public function __construct(string $envName, ?ClientGeneratorInterface $clientGenerator = null)
     {
+        parent::__construct($envName);
         $this->clientGenerator = $clientGenerator;
     }
 
-    public function getAuthKeyInfo(): string
+    public function getAuthKey(): string
     {
         return $this->clientGenerator
-            ? $this->clientGenerator->getAuthKeyInfo()
-            : parent::getAuthKeyInfo();
+            ? $this->clientGenerator->getAuthKey()
+            : parent::getAuthKey();
     }
 
     public function getInfoClient()

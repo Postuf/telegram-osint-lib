@@ -18,9 +18,6 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_history;
 /**
  * Downloading group photos
  *
- * This example requires info user (second authkey)
- * to be member of a group, otherwise it is useless.
- *
  * @see get_all_chats
  * @see get_history
  */
@@ -78,7 +75,7 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
      */
     public function listChats(?string $type = null)
     {
-        $this->infoLogin();
+        $this->login();
         Logger::log(__CLASS__, 'listing all chats');
         $this->infoClient->getAllChats(function (AnonymousMessage $message) use ($type) {
             /** @see https://core.telegram.org/constructor/messages.chats */
@@ -163,7 +160,7 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
      */
     public function startActions(bool $pollAndTerminate = true): void
     {
-        $this->infoLogin();
+        $this->login();
         /** @var array $ids */
         $limit = 200;
         usleep(10000);
