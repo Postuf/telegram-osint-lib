@@ -24,6 +24,7 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_history;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\export_authorization;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\get_config;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\get_file;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\get_full_user;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\import_authorization;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\input_file_location;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\contacts_resolve_username;
