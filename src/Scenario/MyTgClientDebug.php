@@ -237,6 +237,7 @@ class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger, Scen
                     $callback($models);
                 }
             });
+            // sleep to avoid flood err
             sleep(2);
         }
     }
