@@ -23,6 +23,7 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_common_chats;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_full_channel;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_full_chat;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_history;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\join_channel;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\messages_search;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\export_authorization;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\get_config;
@@ -202,6 +203,15 @@ class InfoClient implements InfoObtainingClient
      */
     public function getByDeepLink(string $deepLink, callable $onComplete): void {
         $this->basicClient->getConnection()->getResponseAsync(new get_deeplink_info($deepLink), $onComplete);
+    }
+
+    /**
+     * @param int $id
+     * @param int $accessHash
+     * @param callable $onComplete
+     */
+    public function joinChannel(int $id, int $accessHash, callable $onComplete): void {
+        $this->basicClient->getConnection()->getResponseAsync(new join_channel($id, $accessHash), $onComplete);
     }
 
     /**
