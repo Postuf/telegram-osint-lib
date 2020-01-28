@@ -41,11 +41,20 @@ class ClientGenerator implements ClientGeneratorInterface
     public function getAuthKey(): string
     {
         $envPath = getenv($this->envName);
-        if (!$envPath || !file_exists($envPath)) {
-            throw new TGException(0, "Please set {$this->envName} env var to valid filename");
+        if (!$envPath) {
+            throw new TGException(0, "Please set {$this->envName} env var to valid key or @filename");
         }
 
-        return trim(file_get_contents($envPath));
+        if (strpos($envPath, '@') === 0) {
+            $envPath = substr($envPath, 1);
+            if (!file_exists($envPath)) {
+                throw new TGException(0, "Please set {$this->envName} env var to valid key or @filename");
+            }
+
+            return trim(file_get_contents($envPath));
+        }
+
+        return trim($envPath);
     }
 
     public function getProxy(): ?Proxy
