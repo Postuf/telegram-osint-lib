@@ -51,5 +51,4 @@ class get_common_chats implements TLClientMessage
             Packer::packInt($this->max_id).
             Packer::packInt($this->limit);
     }
-    
 }
