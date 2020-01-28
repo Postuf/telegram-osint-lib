@@ -25,6 +25,7 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\messages_search;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\export_authorization;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\get_config;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\get_file;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\get_full_user;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\import_authorization;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\input_file_location;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\contacts_resolve_username;
@@ -226,9 +227,20 @@ class InfoClient implements InfoObtainingClient
         $this->contactsKeeper->getUserByPhone($phone, function ($user) use ($onComplete, $withPhoto, $largePhoto, $phone) {
             if($user instanceof ContactUser){
                 $username = $user->getUsername();
-                $this->contactsKeeper->delNumbers([$phone], function () use ($username, $withPhoto, $largePhoto, $onComplete) {
-                    $this->getInfoByUsername($username, $withPhoto, $largePhoto, $onComplete);
-                });
+                if (!empty($username)) {
+                    $this->contactsKeeper->delNumbers([$phone], function () use ($username, $withPhoto, $largePhoto, $onComplete) {
+                        $this->getInfoByUsername($username, $withPhoto, $largePhoto, $onComplete);
+                    });
+                } else {
+                    $fullUserRequest = new get_full_user($user->getUserId(), $user->getAccessHash());
+                    $this->basicClient->getConnection()->getResponseAsync($fullUserRequest, function (AnonymousMessage $message) use ($withPhoto, $largePhoto, $onComplete) {
+                        $userFull = new UserFull($message);
+                        $this->buildUserInfoModel($userFull->getUser(), $withPhoto, $largePhoto, function (UserInfoModel $model) use ($onComplete, $userFull) {
+                            $this->extendUserInfoModel($model, $userFull);
+                            $onComplete($model);
+                        });
+                    });
+                }
             } else {
                 $onComplete($user);
             }
@@ -253,6 +265,7 @@ class InfoClient implements InfoObtainingClient
         $userModel->accessHash = $user->getAccessHash();
         $userModel->firstName = $user->getFirstName();
         $userModel->lastName = $user->getLastName();
+        $userModel->langCode = $user->getLangCode();
 
         if($withPhoto){
             $this->createUserPictureModel($user, $largePhoto, function ($photo) use ($userModel, $onComplete) {

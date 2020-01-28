@@ -211,8 +211,9 @@ class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger, Scen
         $models = [];
         /* info by phone */
         foreach ($numbers as $phone) {
-            $this->infoClient->getInfoByPhone($phone, $withPhoto, $largePhoto, function (?UserInfoModel $userInfoModel) use (&$counter, $callback, &$models) {
+            $this->infoClient->getInfoByPhone($phone, $withPhoto, $largePhoto, function (?UserInfoModel $userInfoModel) use (&$counter, $callback, &$models, $phone) {
                 if ($userInfoModel) {
+                    $userInfoModel->phone = $phone;
                     if (!$callback) {
                         if ($userInfoModel->photo)
                             file_put_contents(
@@ -236,6 +237,8 @@ class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger, Scen
                     $callback($models);
                 }
             });
+            // sleep to avoid flood err
+            sleep(2);
         }
     }
 
