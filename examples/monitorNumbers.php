@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Helpers\MonitorNumbersToFile;
-use TelegramOSINT\LibConfig;
 use TelegramOSINT\Scenario\ClientGenerator;
 use TelegramOSINT\Scenario\PresenceMonitoringScenario\PresenceMonitoringScenario;
 
@@ -17,7 +16,7 @@ if ($argc != 3) {
 $numbers = explode(',', $argv[1]);
 $file = $argv[2];
 
-$generator = new ClientGenerator(LibConfig::ENV_AUTHKEY);
+$generator = new ClientGenerator();
 $monitor = new MonitorNumbersToFile($file);
 $scenario = new PresenceMonitoringScenario($numbers, $monitor, $generator);
 $scenario->startActions(false);
