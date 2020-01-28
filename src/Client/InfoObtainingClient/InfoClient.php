@@ -18,6 +18,7 @@ use TelegramOSINT\Scenario\BasicClientGeneratorInterface;
 use TelegramOSINT\TGConnection\DataCentre;
 use TelegramOSINT\TGConnection\SocketMessenger\SocketMessenger;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_all_chats;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_common_chats;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_full_channel;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_full_chat;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_history;
@@ -144,6 +145,11 @@ class InfoClient implements InfoObtainingClient
             $request,
             $onComplete
         );
+    }
+
+    public function getCommonChats(int $id, int $accessHash, int $limit, int $max_id, callable $onComplete)
+    {
+        $this->basicClient->getConnection()->getResponseAsync(new get_common_chats($id, $accessHash, $limit, $max_id), $onComplete);
     }
 
     /**
