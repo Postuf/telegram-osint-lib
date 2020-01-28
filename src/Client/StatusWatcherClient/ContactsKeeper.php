@@ -242,7 +242,6 @@ class ContactsKeeper
     public function delNumbers(array $numbers, callable $onComplete)
     {
         $this->getUsersByPhones($numbers, function (array $contacts) use ($numbers, $onComplete) {
-            sleep(4);
             // if all current contacts to be deleted
             if(count($contacts) == count($this->contacts))
                 $this->cleanContacts($onComplete);
