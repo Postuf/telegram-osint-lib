@@ -109,6 +109,7 @@ class ContactUser extends TLServerMessage
     {
         return $this->getTlMessage()->getValue('last_name');
     }
+
     /**
      * @return string
      */

@@ -224,9 +224,9 @@ class InfoClient implements InfoObtainingClient
                     });
                 } else {
                     $fullUserRequest = new get_full_user($user->getUserId(), $user->getAccessHash());
-                    $this->basicClient->getConnection()->getResponseAsync($fullUserRequest, function(AnonymousMessage $message) use ($withPhoto, $largePhoto, $onComplete){
+                    $this->basicClient->getConnection()->getResponseAsync($fullUserRequest, function (AnonymousMessage $message) use ($withPhoto, $largePhoto, $onComplete) {
                         $userFull = new UserFull($message);
-                        $this->buildUserInfoModel($userFull->getUser(), $withPhoto, $largePhoto, function(UserInfoModel $model) use ($onComplete, $userFull){
+                        $this->buildUserInfoModel($userFull->getUser(), $withPhoto, $largePhoto, function (UserInfoModel $model) use ($onComplete, $userFull) {
                             $this->extendUserInfoModel($model, $userFull);
                             $onComplete($model);
                         });

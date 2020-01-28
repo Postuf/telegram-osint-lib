@@ -25,21 +25,21 @@ $client->parseNumbers($numbers, true, true, function (array $models) {
         //Logger::log('ParseNumbers', print_r($model, true));
         $photo_file = '';
         if ($model->photo){
-            $photo_file = $model->phone . '.' . $model->photo->format;
+            $photo_file = $model->phone.'.'.$model->photo->format;
             file_put_contents(
                 $photo_file,
                 $model->photo->bytes
             );
         }
-        echo $model->phone . "\t|\t" .
-            $model->username . "\t|\t" .
-            $model->firstName . "\t|\t".
-            $model->lastName . "\t|\t".
-            $photo_file . "\t|\t" .
-            $model->bio . "\t|\t".
-            $model->commonChatsCount . "\t|\t".
-            $model->langCode . "\t|\t".
-            $model->status->was_online . "\n";
+        echo $model->phone."\t|\t".
+            $model->username."\t|\t".
+            $model->firstName."\t|\t".
+            $model->lastName."\t|\t".
+            $photo_file."\t|\t".
+            $model->bio."\t|\t".
+            $model->commonChatsCount."\t|\t".
+            $model->langCode."\t|\t".
+            $model->status->was_online."\n";
     }
 });
 /* @noinspection PhpUnhandledExceptionInspection */
