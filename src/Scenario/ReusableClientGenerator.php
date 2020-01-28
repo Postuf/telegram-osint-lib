@@ -13,9 +13,9 @@ class ReusableClientGenerator extends ClientGenerator
     /** @var ClientGeneratorInterface */
     private $clientGenerator;
 
-    public function __construct(string $envName, ?ClientGeneratorInterface $clientGenerator = null)
+    public function __construct(?ClientGeneratorInterface $clientGenerator = null)
     {
-        parent::__construct($envName);
+        parent::__construct();
         $this->clientGenerator = $clientGenerator;
     }
 

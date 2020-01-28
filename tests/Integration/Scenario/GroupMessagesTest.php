@@ -10,7 +10,6 @@ use Helpers\NullBasicClientGenerator;
 use Helpers\TestClientGenerator;
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Client\InfoObtainingClient\Models\MessageModel;
-use TelegramOSINT\LibConfig;
 use TelegramOSINT\Scenario\GroupMessagesScenario;
 use TelegramOSINT\Scenario\GroupResolverScenario;
 use TelegramOSINT\Scenario\Models\GroupId;
@@ -35,7 +34,6 @@ class GroupMessagesTest extends TestCase
         $file = file_get_contents(__DIR__.self::TRACE_PATH);
         $baseGenerator = new NullBasicClientGenerator(json_decode($file, true));
         $this->clientGenerator = new ReusableClientGenerator(
-            LibConfig::ENV_AUTHKEY,
             new TestClientGenerator($baseGenerator, self::DEFAULT_AUTHKEY)
         );
     }

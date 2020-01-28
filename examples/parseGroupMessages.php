@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use TelegramOSINT\LibConfig;
 use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\Scenario\GroupMessagesScenario;
 use TelegramOSINT\Scenario\GroupResolverScenario;
@@ -51,7 +50,7 @@ if (isset($argv[3]) && $argv[3] !== INFO) {
 if (isset($argv[4]) && $argv[4] !== INFO) {
     $timestampEnd = (int) $argv[4];
 }
-$generator = new ReusableClientGenerator(LibConfig::ENV_AUTHKEY);
+$generator = new ReusableClientGenerator();
 $request = $groupId
     ? GroupRequest::ofGroupId($groupId)
     : GroupRequest::ofUserName($deepLink);

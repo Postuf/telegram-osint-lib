@@ -7,7 +7,6 @@ namespace TelegramOSINT\Scenario;
 use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
 use TelegramOSINT\Client\InfoObtainingClient\InfoClient;
 use TelegramOSINT\Exception\TGException;
-use TelegramOSINT\LibConfig;
 
 abstract class InfoClientScenario implements ScenarioInterface
 {
@@ -26,7 +25,7 @@ abstract class InfoClientScenario implements ScenarioInterface
     public function __construct(ClientGeneratorInterface $clientGenerator = null)
     {
         if (!$clientGenerator) {
-            $clientGenerator = new ClientGenerator(LibConfig::ENV_AUTHKEY);
+            $clientGenerator = new ClientGenerator();
         }
         $this->infoClient = $clientGenerator->getInfoClient();
         $this->authKey = $clientGenerator->getAuthKey();

@@ -22,6 +22,6 @@ $numbers = explode(',', $argv[1]);
 /** @noinspection PhpUnhandledExceptionInspection */
 (new UserContactsScenario($numbers, function () use ($numbers) {
     /* @noinspection PhpUnhandledExceptionInspection */
-    (new StatusWatcherScenario($numbers, [], new ClientGenerator('STATUS_KEY')))
+    (new StatusWatcherScenario($numbers, [], new ClientGenerator()))
         ->startActions(false);
 }))->startActions();
