@@ -44,4 +44,8 @@ class UserInfoModel
      * @var string
      */
     public $lastName;
+    /**
+     * @var string
+     */
+    public $langCode;
 }
