@@ -8,6 +8,7 @@ use TelegramOSINT\Client\InfoObtainingClient\InfoClient;
 use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherCallbacks;
 use TelegramOSINT\Scenario\BasicClientGeneratorInterface;
 use TelegramOSINT\Scenario\ClientGeneratorInterface;
+use TelegramOSINT\Tools\Proxy;
 
 class TestClientGenerator implements ClientGeneratorInterface
 {
@@ -41,5 +42,10 @@ class TestClientGenerator implements ClientGeneratorInterface
     public function getAuthKey(): string
     {
         return $this->authKey;
+    }
+
+    public function getProxy(): ?Proxy
+    {
+        return null;
     }
 }

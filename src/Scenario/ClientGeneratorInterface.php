@@ -8,6 +8,7 @@ use TelegramOSINT\Client\InfoObtainingClient\InfoClient;
 use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherCallbacks;
 use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherClient;
 use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\Tools\Proxy;
 
 interface ClientGeneratorInterface
 {
@@ -26,4 +27,6 @@ interface ClientGeneratorInterface
     public function getStatusWatcherClient(StatusWatcherCallbacks $callbacks);
 
     public function getAuthKey(): string;
+
+    public function getProxy(): ?Proxy;
 }

@@ -6,6 +6,7 @@ namespace Helpers;
 
 use TelegramOSINT\Client\BasicClient\BasicClient;
 use TelegramOSINT\Scenario\BasicClientGeneratorInterface;
+use TelegramOSINT\Tools\Proxy;
 
 class NullBasicClientGenerator implements BasicClientGeneratorInterface
 {
@@ -20,5 +21,10 @@ class NullBasicClientGenerator implements BasicClientGeneratorInterface
     public function generate(bool $trace = false): BasicClient
     {
         return new NullBasicClientImpl($this->traceArray);
+    }
+
+    public function getProxy(): ?Proxy
+    {
+        return null;
     }
 }

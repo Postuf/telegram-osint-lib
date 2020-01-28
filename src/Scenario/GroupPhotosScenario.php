@@ -42,8 +42,6 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
      * @param string|null                   $username
      * @param callable|null                 $saveHandler function(PictureModel $model, int $id)
      * @param ClientGeneratorInterface|null $generator
-     *
-     * @throws TGException
      */
     public function __construct(
         OptionalDateRange $dateRange,
@@ -51,7 +49,7 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
         ?callable $saveHandler = null,
         ?ClientGeneratorInterface $generator = null
     ) {
-        parent::__construct(null, $generator);
+        parent::__construct($generator);
         $this->since = $dateRange->getSince();
         $this->to = $dateRange->getTo();
         $this->saveHandler = $saveHandler;

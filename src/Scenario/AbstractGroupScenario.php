@@ -6,7 +6,6 @@ namespace TelegramOSINT\Scenario;
 
 use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
-use TelegramOSINT\Tools\Proxy;
 
 abstract class AbstractGroupScenario extends InfoClientScenario implements ScenarioInterface
 {
@@ -25,7 +24,7 @@ abstract class AbstractGroupScenario extends InfoClientScenario implements Scena
         $this->deepLink = $deepLink;
     }
 
-    public function __construct(?Proxy $proxy = null, ?ClientGeneratorInterface $generator = null)
+    public function __construct(?ClientGeneratorInterface $generator = null)
     {
         parent::__construct($generator);
     }

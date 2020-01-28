@@ -13,6 +13,10 @@ class GroupRequest
     /** @var string|null */
     private $username;
 
+    /**
+     * @param int|null    $groupId
+     * @param string|null $username any format (groupname, https://t.me/groupname, `@groupname`)
+     */
     public function __construct(?int $groupId = null, ?string $username = null)
     {
         if (!$groupId && !$username) {
@@ -25,6 +29,8 @@ class GroupRequest
                 $parts = explode('/', $username);
                 $username = $parts[count($parts) - 1];
             }
+
+            $username = str_replace('@', '', $username);
 
             $this->username = $username;
         }
