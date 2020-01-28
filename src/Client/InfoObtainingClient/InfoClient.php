@@ -21,6 +21,7 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_all_chats;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_full_channel;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_full_chat;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_history;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\messages_search;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\export_authorization;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\get_config;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\get_file;
@@ -130,6 +131,14 @@ class InfoClient implements InfoObtainingClient
 
     public function getChannelMessages(int $id, int $accessHash, int $limit, ?int $since, ?int $lastId, callable $onComplete) {
         $request = new get_history($id, $limit, (int) $since, (int) $lastId, $accessHash);
+        $this->basicClient->getConnection()->getResponseAsync(
+            $request,
+            $onComplete
+        );
+    }
+
+    public function getChannelLinks(int $id, int $limit, int $accessHash, ?int $since, ?int $lastId, callable $onComplete) {
+        $request = new messages_search($id, $limit, $accessHash, (int) $since, (int) $lastId);
         $this->basicClient->getConnection()->getResponseAsync(
             $request,
             $onComplete
