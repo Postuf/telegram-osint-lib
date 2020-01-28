@@ -18,7 +18,7 @@ $numbers = explode(',', $argv[1]);
 $client = new MyTgClientDebug();
 /* @noinspection PhpUnhandledExceptionInspection */
 $client->infoLogin();
-$client->parseNumbers($numbers, true, true, function (array $models) {
+$client->parseNumbers($numbers, true, true, function (array $models) 
     echo "Phone\t|\tUsername\t|\tFirst name\t|\tLast name\t|\tPhoto\t|\tAbout\t|\tCommon chats\t|\tLang\t|\tWas online\n\n";
     foreach ($models as $model) {
         /* @var UserInfoModel $model */

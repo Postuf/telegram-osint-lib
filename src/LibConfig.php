@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT;
 
 class LibConfig
@@ -45,9 +47,9 @@ class LibConfig
 
     const APP_DEFAULT_DEVICE_LANG_CODE = 'en-us';
     const APP_DEFAULT_LANG_CODE = 'en';
-    const APP_DEFAULT_VERSION = '5.13.1';
-    const APP_DEFAULT_VERSION_CODE = '18297'; // looks like 5th digit is always "7"
+    const APP_DEFAULT_VERSION = '5.14.0';
+    const APP_DEFAULT_VERSION_CODE = '18517'; // looks like 5th digit is always "7"
     const APP_DEFAULT_LANG_PACK = 'android';
-    const APP_DEFAULT_TL_LAYER_VERSION = 108;
+    const APP_DEFAULT_TL_LAYER_VERSION = 109;
 
 }

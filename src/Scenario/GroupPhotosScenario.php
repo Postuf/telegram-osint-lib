@@ -26,15 +26,23 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_history;
  */
 class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInterface
 {
+    private const FIELD_MESSAGE_DATE = 'date';
+    private const FIELD_MESSAGE_MEDIA = 'media';
+
     /** @var int|null */
     private $since;
     /** @var int|null */
     private $to;
     /** @var callable */
     private $saveHandler;
+    /** @var string|null */
+    private $username;
+    /** @var int|null */
+    private $userId;
 
     /**
      * @param OptionalDateRange             $dateRange
+     * @param string|null                   $username
      * @param callable|null                 $saveHandler function(PictureModel $model, int $id)
      * @param ClientGeneratorInterface|null $generator
      *
@@ -42,6 +50,7 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
      */
     public function __construct(
         OptionalDateRange $dateRange,
+        ?string $username = null,
         ?callable $saveHandler = null,
         ?ClientGeneratorInterface $generator = null
     ) {
@@ -49,6 +58,7 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
         $this->since = $dateRange->getSince();
         $this->to = $dateRange->getTo();
         $this->saveHandler = $saveHandler;
+        $this->username = $username;
     }
 
     private function getSinceTs(): int
@@ -160,8 +170,9 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
         if ($this->deepLink) {
             Logger::log(__CLASS__, "getting chat by deeplink {$this->deepLink}");
             $parts = explode('/', $this->deepLink);
-            $username = $parts[count($parts) - 1];
-            $this->infoClient->resolveUsername($username, $this->getResolveHandler(function (AnonymousMessage $message) use ($limit) {
+            $groupname = $parts[count($parts) - 1];
+
+            $afterGroupResolve = function (AnonymousMessage $message) use ($limit) {
                 $chats = $message->getValue('chats');
                 foreach ($chats as $chat) {
                     $id = (int) $chat['id'];
@@ -177,7 +188,34 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
                         $handler
                     );
                 }
-            }));
+            };
+
+            if ($this->username) {
+                $onUserResolve = function (AnonymousMessage $message) use ($groupname, $afterGroupResolve) {
+                    /** @see https://core.telegram.org/constructor/contacts.resolvedPeer */
+                    if ($message->getType() !== 'contacts.resolvedPeer') {
+                        Logger::log(__CLASS__, 'got unexpected response of type '.$message->getType());
+
+                        return;
+                    }
+                    /** @var array $peer */
+                    $peer = $message->getValue('peer');
+                    /** @see https://core.telegram.org/constructor/peerUser */
+                    if ($peer['_'] !== 'peerUser') {
+                        Logger::log(__CLASS__, 'got unexpected peer of type '.$peer['_']);
+
+                        return;
+                    }
+
+                    $this->userId = (int) $peer['user_id'];
+
+                    $this->infoClient->resolveUsername($groupname, $this->getResolveHandler($afterGroupResolve));
+                };
+
+                $this->infoClient->resolveUsername($this->username, $onUserResolve);
+            } else {
+                $this->infoClient->resolveUsername($groupname, $this->getResolveHandler($afterGroupResolve));
+            }
         } else {
             Logger::log(__CLASS__, 'getting all chats');
             $this->infoClient->getAllChats($this->getAllChatsHandler($limit));
@@ -211,7 +249,10 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
             }
             $lastId = null;
             foreach ($nodes as $node) {
-                if ($node->getType() !== 'message' || !($hasMedia = $node->getValue('media'))) {
+                /** @see https://core.telegram.org/constructor/message */
+                $lastId = (int) $node->getValue('id');
+
+                if ($node->getType() !== 'message' || !($hasMedia = $node->getValue(self::FIELD_MESSAGE_MEDIA))) {
                     Logger::log(
                         __CLASS__,
                         $node->getType() !== 'message'
@@ -221,19 +262,21 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
                     continue;
                 }
 
-                $lastId = (int) $node->getValue('id');
-
-                if ($this->getSinceTs() && $node->getValue('date') < $this->getSinceTs()) {
+                if ($this->userId && $node->getValue('from_id') != $this->userId) {
                     continue;
                 }
 
-                if ($this->getToTs() && $node->getValue('date') > $this->getToTs()) {
+                if ($this->getSinceTs() && $node->getValue(self::FIELD_MESSAGE_DATE) < $this->getSinceTs()) {
+                    continue;
+                }
+
+                if ($this->getToTs() && $node->getValue(self::FIELD_MESSAGE_DATE) > $this->getToTs()) {
                     continue;
                 }
 
                 /* https://core.telegram.org/type/MessageMedia */
                 /** @var array $media */
-                $media = $node->getValue('media');
+                $media = $node->getValue(self::FIELD_MESSAGE_MEDIA);
                 if ($media['_'] !== 'messageMediaPhoto') {
                     continue;
                 }

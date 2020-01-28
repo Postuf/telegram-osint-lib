@@ -13,11 +13,12 @@ $groupId = null;
 $deepLink = '';
 $since = null;
 $to = null;
+$username = null;
 if (isset($argv[1])) {
     if ($argv[1] === '--help') {
         /** @noinspection SpellCheckingInspection */
         echo <<<'TXT'
-Usage: php parsePhotos.php [groupId|deepLink] [dateFrom] [dateTo] [--info]
+Usage: php parsePhotos.php [groupId|deepLink] [dateFrom] [dateTo] [username] [--info]
     deepLink ex.: https://t.me/vityapelevin
     dateFrom/dateTo format: YYYYMMdd[ H:i:s]|YY-mm-dd H:i:s
 TXT;
@@ -38,6 +39,10 @@ TXT;
     if (isset($argv[3]) && $argv[3] !== INFO) {
         $to = $argv[3];
     }
+
+    if (isset($argv[4]) && $argv[4] !== INFO) {
+        $username = $argv[4];
+    }
 }
 
 /* @noinspection PhpUnhandledExceptionInspection */
@@ -45,7 +50,8 @@ $photosClient = new GroupPhotosScenario(
     new OptionalDateRange(
         DateParser::parse($since),
         DateParser::parse($to)
-    )
+    ),
+    $username
 );
 if ($groupId) {
     $photosClient->setGroupId($groupId);
