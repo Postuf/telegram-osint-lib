@@ -38,4 +38,12 @@ class UserFull extends TLServerMessage
     {
         return $this->getTlMessage()->getValue('about');
     }
+
+    /**
+     * @return int
+     */
+    public function getCommonChatsCount()
+    {
+        return $this->getTlMessage()->getValue('common_chats_count');
+    }
 }

@@ -93,4 +93,20 @@ class ContactUser extends TLServerMessage
     {
         return $this->getTlMessage()->getValue('access_hash');
     }
+
+    /**
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->getTlMessage()->getValue('first_name');
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->getTlMessage()->getValue('last_name');
+    }
 }

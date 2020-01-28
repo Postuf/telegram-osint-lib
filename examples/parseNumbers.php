@@ -19,7 +19,7 @@ $numbers = explode(',', $argv[1]);
 $client = new MyTgClientDebug();
 /* @noinspection PhpUnhandledExceptionInspection */
 $client->infoLogin();
-$client->parseNumbers($numbers, false, false, function (array $models) {
+$client->parseNumbers($numbers, true, true, function (array $models) {
     foreach ($models as $model) {
         /* @var UserInfoModel $model */
         Logger::log('ParseNumbers', print_r($model, true));
