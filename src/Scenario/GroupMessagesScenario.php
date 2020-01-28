@@ -13,6 +13,8 @@ use TelegramOSINT\Scenario\Models\OptionalDateRange;
 
 class GroupMessagesScenario extends InfoClientScenario
 {
+    private const FIELD_MSG_FROM_ID = 'from_id';
+
     /** @var callable|null */
     private $handler;
 
@@ -30,14 +32,19 @@ class GroupMessagesScenario extends InfoClientScenario
     private $generator;
     /** @var int */
     private $callLimit;
+    /** @var bool */
+    private $resolveUsernames;
+    /** @var string[] int -> string */
+    private $userMap = [];
 
     /**
      * @param GroupId                  $groupId
      * @param ClientGeneratorInterface $generator
      * @param OptionalDateRange        $dateRange
-     * @param callable|null            $handler   function(MessageModel $message)
+     * @param callable|null            $handler          function(MessageModel $message)
      * @param string|null              $username
      * @param int|null                 $callLimit
+     * @param bool                     $resolveUsernames
      *
      * @throws TGException
      */
@@ -47,7 +54,8 @@ class GroupMessagesScenario extends InfoClientScenario
         OptionalDateRange $dateRange,
         callable $handler = null,
         ?string $username = null,
-        ?int $callLimit = 100
+        ?int $callLimit = 100,
+        bool $resolveUsernames = false
     ) {
         parent::__construct($generator);
         $this->handler = $handler;
@@ -57,6 +65,7 @@ class GroupMessagesScenario extends InfoClientScenario
         $this->groupIdObj = $groupId;
         $this->generator = $generator;
         $this->callLimit = $callLimit;
+        $this->resolveUsernames = $resolveUsernames;
     }
 
     /**
@@ -157,6 +166,13 @@ class GroupMessagesScenario extends InfoClientScenario
 
                 return;
             }
+            $users = $anonymousMessage->getValue('users');
+            foreach ($users as $user) {
+                if (!$user['username']) {
+                    continue;
+                }
+                $this->userMap[$user['id']] = $user['username'];
+            }
 
             $messages = $anonymousMessage->getValue('messages');
             /** @var int|null $lastId */
@@ -170,7 +186,7 @@ class GroupMessagesScenario extends InfoClientScenario
                 if (!$message['message']) {
                     continue;
                 }
-                if ($this->userId && $message['from_id'] != $this->userId) {
+                if ($this->userId && $message[self::FIELD_MSG_FROM_ID] != $this->userId) {
                     continue;
                 }
                 if ($this->endTimestamp && $message['date'] > $this->endTimestamp) {
@@ -187,15 +203,29 @@ class GroupMessagesScenario extends InfoClientScenario
                     return;
                 }
 
-                $body = $message['message'];
-                $body = str_replace("\n", ' \\\\ ', $body);
-                Logger::log(__CLASS__, "got message '{$body}' from {$message['from_id']} at ".date('Y-m-d H:i:s', $message['date']));
+                $fnLog = function ($message, $from = null) {
+                    $body = $message['message'];
+                    $body = str_replace("\n", ' \\\\ ', $body);
+                    if (!$from) {
+                        $from = $message[self::FIELD_MSG_FROM_ID];
+                    }
+                    Logger::log(__CLASS__, "got message '{$body}' from $from at ".date('Y-m-d H:i:s', $message['date']));
+                };
+                if ($this->resolveUsernames) {
+                    if (!isset($this->userMap[(int) $message[self::FIELD_MSG_FROM_ID]])) {
+                        $fnLog($message);
+                    } else {
+                        $fnLog($message, $this->userMap[(int) $message[self::FIELD_MSG_FROM_ID]]);
+                    }
+                } else {
+                    $fnLog($message);
+                }
                 if ($this->handler) {
                     $handler = $this->handler;
                     $msgModel = new MessageModel(
                         (int) $message['id'],
                         $message['message'],
-                        (int) $message['from_id'],
+                        (int) $message[self::FIELD_MSG_FROM_ID],
                         (int) $message['date']
                     );
                     $handler($msgModel, $message);

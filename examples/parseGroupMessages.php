@@ -75,7 +75,9 @@ $onGroupReady = function ($groupId, $accessHash = null) use ($timestampStart, $t
             $timestampEnd,
         ),
         null,
-        $username
+        $username,
+        100,
+        true
     );
 
     $client->startActions(false);

@@ -17,7 +17,7 @@ class BasicClientGenerator implements BasicClientGeneratorInterface
         $this->proxy = $proxy;
     }
 
-    public function generate(bool $trace = true): BasicClient
+    public function generate(bool $trace = false): BasicClient
     {
         return $trace
             ? new TracingBasicClientImpl()
