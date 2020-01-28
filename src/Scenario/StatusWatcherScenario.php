@@ -27,7 +27,7 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
     /**
      * @var StatusWatcherClient
      */
-    protected $client;
+    private $client;
     /**
      * @var string
      */
