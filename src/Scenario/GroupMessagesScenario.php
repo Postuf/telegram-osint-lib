@@ -31,11 +31,11 @@ class GroupMessagesScenario extends InfoClientScenario
     private $generator;
 
     /**
-     * @param GroupId                  $groupId
+     * @param GroupId $groupId
      * @param ClientGeneratorInterface $generator
-     * @param OptionalDateRange        $dateRange
-     * @param callable|null            $handler   function(MessageModel $message)
-     * @param string|null              $username
+     * @param OptionalDateRange $dateRange
+     * @param callable|null $handler function(MessageModel $message)
+     * @param string|null $username
      */
     public function __construct(
         GroupId $groupId,
@@ -43,7 +43,8 @@ class GroupMessagesScenario extends InfoClientScenario
         OptionalDateRange $dateRange,
         callable $handler = null,
         ?string $username = null
-    ) {
+    )
+    {
         parent::__construct($generator);
         $this->handler = $handler;
         $this->startTimestamp = $dateRange->getSince();
@@ -64,7 +65,7 @@ class GroupMessagesScenario extends InfoClientScenario
             if ($message->getType() === 'contacts.resolvedPeer' && $message->getValue('users')) {
                 $user = $message->getValue('users')[0];
                 if ($user['_'] == 'user') {
-                    $this->userId = (int) $user['id'];
+                    $this->userId = (int)$user['id'];
                     Logger::log(__CLASS__, "resolved user {$this->username} to {$this->userId}");
                 }
             }
@@ -108,6 +109,35 @@ class GroupMessagesScenario extends InfoClientScenario
         }
     }
 
+    /**
+     * @param bool $pollAndTerminate
+     *
+     * @throws TGException
+     */
+    public function startLinkParse(bool $pollAndTerminate = true): void
+    {
+        $this->infoLogin();
+        usleep(10000);
+        $limit = 100;
+
+        if ($this->username) {
+            $this->infoClient->resolveUsername($this->username, $this->getUserResolveHandler(function () use ($limit) {
+                $this->parseLinks($this->groupIdObj->getGroupId(), $this->groupIdObj->getAccessHash(), $limit);
+            }));
+        } else {
+            $this->parseLinks($this->groupIdObj->getGroupId(), $this->groupIdObj->getAccessHash(), $limit);
+        }
+
+        if ($pollAndTerminate) {
+            $this->pollAndTerminate();
+        }
+    }
+
+    private function parseLinks(int $id, int $accessHash, int $limit): void
+    {
+        $this->infoClient->getChannelLinks($id, $limit, $accessHash, null, null, $this->makeMessagesHandler($id, $accessHash, $limit));
+    }
+
     private function parseMessages(int $id, int $accessHash, int $limit): void
     {
         $this->infoClient->getChannelMessages(
@@ -119,6 +149,8 @@ class GroupMessagesScenario extends InfoClientScenario
             $this->makeMessagesHandler($id, $accessHash, $limit)
         );
     }
+
+
 
     /**
      * @param int $id
@@ -157,7 +189,8 @@ class GroupMessagesScenario extends InfoClientScenario
                 if ($this->startTimestamp && $message['date'] < $this->startTimestamp) {
                     return;
                 }
-                Logger::log(__CLASS__, "got message '{$message['message']}' from {$message['from_id']} at {$message['date']}");
+
+                Logger::log(__CLASS__, "got message '{$message['message']}' from {$message['from_id']} at ".date('Y-m-d H:i:s', $message['date']));
                 if ($this->handler) {
                     $handler = $this->handler;
                     $msgModel = new MessageModel(

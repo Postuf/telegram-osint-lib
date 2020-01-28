@@ -9,6 +9,7 @@ use TelegramOSINT\Scenario\Models\GroupId;
 use TelegramOSINT\Scenario\Models\GroupRequest;
 use TelegramOSINT\Scenario\Models\OptionalDateRange;
 use TelegramOSINT\Scenario\ReusableClientGenerator;
+use TelegramOSINT\Client\InfoObtainingClient\Models\MessageModel;
 
 const INFO = '--info';
 
@@ -48,6 +49,8 @@ $request = $groupId
     ? GroupRequest::ofGroupId($groupId)
     : GroupRequest::ofUserName($deepLink);
 
+
+
 $result = [];
 $addLink = function(string $url) use (&$result) {
     if (preg_match('/http[s]?:\/\/([\w.\-_\d]*)/', $url, $matches)) {
@@ -60,10 +63,10 @@ $addLink = function(string $url) use (&$result) {
     print_r($result);
 };
 
-$parseLinks = function(\TelegramOSINT\Client\InfoObtainingClient\Models\MessageModel $messageModel, array $messageRaw) use ($addLink) {
-    //print_r($messageRaw);
-    if (!empty($messageRaw['entities'][1]['url'])) {
-        $addLink($messageRaw['entities'][1]['url']);
+$parseLinks = function(MessageModel $messageModel, array $messageRaw) use ($addLink) {
+    // print_r($messageRaw);
+    if (!empty($messageRaw['media']['webpage']['url'])) {
+        $addLink($messageRaw['media']['webpage']['url']);
     }
 };
 
@@ -82,7 +85,8 @@ $onGroupReady = function (?int $groupId, ?int $accessHash) use ($timestampStart,
         ),
         $parseLinks
     );
-    $client->startActions();
+    //$client->startActions();
+    $client->startLinkParse();
 };
 
 $resolver = new GroupResolverScenario($request, $generator, $onGroupReady);
