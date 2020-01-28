@@ -30,7 +30,7 @@ class messages_search implements TLClientMessage
     /** @var int */
     private $lastId;
 
-    public function __construct(int $chatId, int $limit = 100, int $accessHash =0, int $since = 0, int $lastId = 0)
+    public function __construct(int $chatId, int $limit = 100, int $accessHash = 0, int $since = 0, int $lastId = 0)
     {
         $this->chatId = $chatId;
         $this->limit = $limit;

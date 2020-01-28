@@ -31,11 +31,11 @@ class GroupMessagesScenario extends InfoClientScenario
     private $generator;
 
     /**
-     * @param GroupId $groupId
+     * @param GroupId                  $groupId
      * @param ClientGeneratorInterface $generator
-     * @param OptionalDateRange $dateRange
-     * @param callable|null $handler function(MessageModel $message)
-     * @param string|null $username
+     * @param OptionalDateRange        $dateRange
+     * @param callable|null            $handler   function(MessageModel $message)
+     * @param string|null              $username
      */
     public function __construct(
         GroupId $groupId,
@@ -65,7 +65,7 @@ class GroupMessagesScenario extends InfoClientScenario
             if ($message->getType() === 'contacts.resolvedPeer' && $message->getValue('users')) {
                 $user = $message->getValue('users')[0];
                 if ($user['_'] == 'user') {
-                    $this->userId = (int)$user['id'];
+                    $this->userId = (int) $user['id'];
                     Logger::log(__CLASS__, "resolved user {$this->username} to {$this->userId}");
                 }
             }
@@ -149,8 +149,6 @@ class GroupMessagesScenario extends InfoClientScenario
             $this->makeMessagesHandler($id, $accessHash, $limit)
         );
     }
-
-
 
     /**
      * @param int $id
