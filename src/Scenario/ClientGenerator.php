@@ -10,13 +10,14 @@ use TelegramOSINT\Client\InfoObtainingClient\InfoClient;
 use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherCallbacks;
 use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherClient;
 use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\LibConfig;
 
 class ClientGenerator implements ClientGeneratorInterface
 {
     /** @var string */
     private $envName;
 
-    public function __construct(string $envName)
+    public function __construct(string $envName = LibConfig::ENV_AUTHKEY)
     {
         $this->envName = $envName;
     }
