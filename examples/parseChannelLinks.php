@@ -10,6 +10,7 @@ use TelegramOSINT\Scenario\Models\GroupRequest;
 use TelegramOSINT\Scenario\Models\OptionalDateRange;
 use TelegramOSINT\Scenario\ReusableClientGenerator;
 use TelegramOSINT\Client\InfoObtainingClient\Models\MessageModel;
+use TelegramOSINT\Scenario\GroupMessagesScenario;
 
 const INFO = '--info';
 
@@ -52,21 +53,18 @@ $request = $groupId
 
 
 $result = [];
-$addLink = function(string $url) use (&$result) {
-    if (preg_match('/http[s]?:\/\/([\w.\-_\d]*)/', $url, $matches)) {
-        if (!empty($matches[1])) {
-            $domain = $matches[1];
-            $result[$domain] = !empty($result[$domain]) ? $result[$domain] + 1 : 1;
-            arsort($result, SORT_NUMERIC);
-        }
-    }
-    print_r($result);
-};
 
-$parseLinks = function(MessageModel $messageModel, array $messageRaw) use ($addLink) {
-    // print_r($messageRaw);
+$parseLinks = function(MessageModel $messageModel, array $messageRaw) use (&$result) {
     if (!empty($messageRaw['media']['webpage']['url'])) {
-        $addLink($messageRaw['media']['webpage']['url']);
+        $url = $messageRaw['media']['webpage']['url'];
+        if (preg_match('/http[s]?:\/\/([\w.\-_\d]*)/', $url, $matches)) {
+            if (!empty($matches[1])) {
+                $domain = $matches[1];
+                $result[$domain] = !empty($result[$domain]) ? $result[$domain] + 1 : 1;
+                arsort($result, SORT_NUMERIC);
+            }
+        }
+        print_r($result);
     }
 };
 
@@ -76,7 +74,7 @@ $onGroupReady = function (?int $groupId, ?int $accessHash) use ($timestampStart,
         return;
     }
 
-    $client = new \TelegramOSINT\Scenario\GroupMessagesScenario(
+    $client = new GroupMessagesScenario(
         new GroupId($groupId, $accessHash),
         $generator,
         new OptionalDateRange(
