@@ -24,9 +24,9 @@ This class is designed to actively receive information from the Telegram server 
   
 `getFullChannel (int $id, int $accessHash, callable $onComplete)` - get channel info with all settings (notifications, permissions, photo, etc.)  
   
-`getChatMessages (int $id, int $limit, int $since, int $lastId, callable $onComplete)` - receive messages from the chat with the ability to filter by time and quantity.  
+`getChatMessages (int $id, int $limit, int $since, int $lastId, callable $onComplete)` - receive messages from the chat, filtered by time send.  
 * *$id* - chat id  
-* *$limit* - how many messages are requested from the server  
+* *$limit* - max number of messages expected to be received, is <= 100  
 * *$since* - timestamp with which messages are requested  
 * *$lastId* - id of the last message received, used when paging messages  
 * *$onComplete* - a callback function, in the input parameter of which comes AnonymousMessage - a message from the server with requested information  
@@ -43,7 +43,7 @@ This class is designed to actively receive information from the Telegram server 
 * *$username* - username of the user / chat / channel  
 * *$onComplete* - a callback function, in the input parameter of which comes AnonymousMessage - a message from the server with requested information  
   
-`getByDeepLink (string $deepLink, callable $onComplete)` - get channel / chat via diplink  
+`getByDeepLink (string $deepLink, callable $onComplete)` - get channel / chat via deeplink  
 * *$deepLink* - a short link to the channel / chat, of the form https://t.me/username  
 * *$onComplete* - a callback function, in the input parameter of which comes AnonymousMessage - a message from the server with requested information  
   
@@ -66,10 +66,10 @@ This class is designed to actively receive information from the Telegram server 
 * *$model* - a model with information about the location of the file on the network  
 * *$onPictureLoaded* - callback function to be executed when the file is finished loading  
   
-`terminate ()` - end a communication session  
+`terminate ()` - end the communication session  
  
 ## StatusWatcherClient
-This is client-observer, used to monitor changes in user status on the network. The following methods are available in it:  
+This is client-observer, used to monitor changes in user status on the network. The following methods are available:  
   
 `login (AuthKey $authKey [, Proxy $proxy [, callable $cb]])` - authorization of the client on the Telegram server.  
 * *$authKey* - authorization key received after registering the phone number on the Telegram server  
@@ -94,7 +94,7 @@ This is client-observer, used to monitor changes in user status on the network. 
 * *$numbers* - an array with phone numbers  
 * *$onComplete* - callback function to be executed after the completion of number deletion  
   
-`addUser (string $userName, callable $onComplete)` - add a user to the contact list  
+`addUser (string $userName, callable $onComplete)` - add a user to contact list  
 * *$userName* - user login  
 * *$onComplete* - callback function to be executed after adding a user  
   
