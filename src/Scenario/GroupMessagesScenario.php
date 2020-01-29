@@ -162,7 +162,9 @@ class GroupMessagesScenario extends InfoClientScenario
             /** @var int|null $lastId */
             $lastId = null;
             $bunchSkipped = false;
+            $flagCounter = count($messages);
             foreach ($messages as $message) {
+                $flagCounter--;
                 $lastId = (int) $message['id'];
                 if ($message['_'] !== 'message') {
                     continue;
@@ -183,6 +185,10 @@ class GroupMessagesScenario extends InfoClientScenario
 
                 if ($this->startTimestamp && $message['date'] < $this->startTimestamp) {
                     Logger::log(__CLASS__, 'skipping msg due to earlier date');
+                    if ($this->handler) {
+                        $handler = $this->handler;
+                        $handler(null, null, -1);
+                    }
 
                     return;
                 }
@@ -198,7 +204,7 @@ class GroupMessagesScenario extends InfoClientScenario
                         (int) $message['from_id'],
                         (int) $message['date']
                     );
-                    $handler($msgModel, $message);
+                    $handler($msgModel, $message, $flagCounter);
                 }
 
             }

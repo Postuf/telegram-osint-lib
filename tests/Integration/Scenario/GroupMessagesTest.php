@@ -57,9 +57,11 @@ class GroupMessagesTest extends TestCase
         $request = GroupRequest::ofUserName(self::DEFAULT_GROUP_DEEPLINK);
         $this->resolve($request, function (?int $groupId, ?int $accessHash) {
             $count = 0;
-            $handler = function (MessageModel $message) use (&$count) {
-                $this->assertEquals('qweq', $message->getText());
-                $count++;
+            $handler = function (?MessageModel $message = null) use (&$count) {
+                if ($message) {
+                    $this->assertEquals('qweq', $message->getText());
+                    $count++;
+                }
             };
             $client = new GroupMessagesScenario(
                 new GroupId($groupId, $accessHash),
@@ -82,9 +84,11 @@ class GroupMessagesTest extends TestCase
         $request = GroupRequest::ofUserName(self::DEFAULT_GROUP_DEEPLINK);
         $this->resolve($request, function (?int $groupId, ?int $accessHash) {
             $count = 0;
-            $handler = function (MessageModel $message) use (&$count) {
-                $this->assertEquals('qweq', $message->getText());
-                $count++;
+            $handler = function (?MessageModel $message = null) use (&$count) {
+                if ($message) {
+                    $this->assertEquals('qweq', $message->getText());
+                    $count++;
+                }
             };
             $client = new GroupMessagesScenario(
                 new GroupId($groupId, $accessHash),
@@ -108,8 +112,10 @@ class GroupMessagesTest extends TestCase
         $this->resolve($request, function (?int $groupId, ?int $accessHash) {
             $count = 0;
             $handler = function (MessageModel $message) use (&$count) {
-                $this->assertEquals('qweq', $message->getText());
-                $count++;
+                if ($message) {
+                    $this->assertEquals('qweq', $message->getText());
+                    $count++;
+                }
             };
             $client = new GroupMessagesScenario(
                 new GroupId($groupId, $accessHash),

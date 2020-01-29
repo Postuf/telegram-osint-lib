@@ -52,18 +52,23 @@ $request = $groupId
     : GroupRequest::ofUserName($deepLink);
 
 $result = [];
+$parseLinks = function (?MessageModel $messageModel, ?array $messageRaw, int $endFlag) use (&$result) {
+    if ($endFlag == -1){
+        arsort($result, SORT_NUMERIC);
 
-$parseLinks = function (MessageModel $messageModel, array $messageRaw) use (&$result) {
-    if (!empty($messageRaw['media']['webpage']['url'])) {
-        $url = $messageRaw['media']['webpage']['url'];
-        if (preg_match('/http[s]?:\/\/([\w.\-_\d]*)/', $url, $matches)) {
-            if (!empty($matches[1])) {
-                $domain = $matches[1];
-                $result[$domain] = !empty($result[$domain]) ? $result[$domain] + 1 : 1;
-                arsort($result, SORT_NUMERIC);
+        echo "\tSite\t|\tLinks count\t\n";
+        foreach ($result as $site => $count) {
+            echo $site."\t|\t".$count."\n";
+        }
+    } else {
+        if (!empty($messageRaw['message'])) {
+            if (preg_match('/http[s]?:\/\/([\w.\-_\d]*)/', $messageRaw['message'], $matches)) {
+                if (!empty($matches[1])) {
+                    $domain = $matches[1];
+                    $result[$domain] = !empty($result[$domain]) ? $result[$domain] + 1 : 1;
+                }
             }
         }
-        print_r($result);
     }
 };
 
