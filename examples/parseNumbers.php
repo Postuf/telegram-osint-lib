@@ -20,8 +20,6 @@ $numbers = explode(',', $argv[1]);
 $client = new UserContactsScenario(array_slice($numbers, 0, 1));
 /* @noinspection PhpUnhandledExceptionInspection */
 
-$client->infoLogin();
-
 echo "Phone\t|\tUsername\t|\tFirst name\t|\tLast name\t|\tPhoto\t|\tAbout\t|\tCommon chats\t|\tLang\t|\tWas online\n\n";
 $client->parseNumbers($numbers, true, true, function (UserInfoModel $model) {
         $photo_file = '';
@@ -41,10 +39,10 @@ $client->parseNumbers($numbers, true, true, function (UserInfoModel $model) {
             $model->commonChatsCount."\t|\t".
             $model->langCode."\t|\t";
         if ($model->status->was_online)
-            echo date("Y-m-d H:i:s",$model->status->was_online)."\n";
-        else if ($model->status->is_hidden)
+            echo date('Y-m-d H:i:s', $model->status->was_online)."\n";
+        elseif ($model->status->is_hidden)
             echo "Hidden\n";
-        else if ($model->status->is_online)
+        elseif ($model->status->is_online)
             echo "Online\n";
         else
             echo "\n";

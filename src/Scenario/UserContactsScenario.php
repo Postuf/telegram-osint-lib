@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace TelegramOSINT\Scenario;
 
 use TelegramOSINT\Client\InfoObtainingClient\Models\UserInfoModel;
+use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
 use TelegramOSINT\Exception\TGException;
-use TelegramOSINT\Logger\Logger;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 
 class UserContactsScenario extends InfoClientScenario
 {
@@ -61,42 +62,58 @@ class UserContactsScenario extends InfoClientScenario
         $this->callQueue[] = function () use ($numbers, $withPhoto, $largePhoto, $callback) {
             $counter = count($numbers);
             $models = [];
-            $cbGen = function ($phone) use (&$counter, &$models, $callback) {
-                return function (?UserInfoModel $userInfoModel) use (&$counter, $callback, &$models, $phone) {
-                    if ($userInfoModel) {
-                        $userInfoModel->phone = $phone;
-                        if (!$callback) {
-                            if ($userInfoModel->photo)
-                                file_put_contents(
-                                    $userInfoModel->phone.'.'.$userInfoModel->photo->format,
-                                    $userInfoModel->photo->bytes
-                                );
-                            echo "#################################\n";
-                            if ($userInfoModel->photo) {
-                                $userInfoModel->photo->bytes = 'HIDDEN';
-                            }
-                            Logger::log(__CLASS__, print_r($userInfoModel, true));
-                        } else {
-                            $counter--;
-                            $models[] = $userInfoModel;
-                        }
-                    } else {
-                        $counter--;
-                    }
+            $this->infoClient->reloadNumbers($numbers, function (ImportResult $result) use (&$models, $callback, $withPhoto, $largePhoto) {
+                $loadFlags = count($result->importedPhones);
 
-                    if (!$counter && $callback) {
-                        $callback($models);
-                        if ($this->cb) {
-                            $cb = $this->cb;
-                            $cb();
-                        }
-                    }
-                };
-            };
-            foreach ($numbers as $phone) {
-                $this->infoClient->getInfoByPhone($phone, $withPhoto, $largePhoto, $cbGen($phone));
-            }
+                foreach ($result->importedPhones as $importedPhone) {
+                    $this->infoClient->getContactByPhone($importedPhone, function (ContactUser $user) use (&$models, &$loadFlags, $callback, $withPhoto, $largePhoto) {
+                        $model = new UserInfoModel();
+                        $model->id = $user->getUserId();
+                        $model->phone = $user->getPhone();
+                        $model->langCode = $user->getLangCode();
+                        $model->firstName = $user->getFirstName();
+                        $model->lastName = $user->getLastName();
+                        $model->username = $user->getUsername();
+
+                        $this->infoClient->getFullUserInfo($user, $withPhoto, $largePhoto, function (UserInfoModel $fullModel) use ($model, &$models, $user, &$loadFlags, $callback) {
+                            $model->commonChatsCount = $fullModel->commonChatsCount;
+                            $model->status = $fullModel->status;
+                            $model->bio = $fullModel->bio;
+
+                            $models[$user->getUserId()] = $model;
+                            $loadFlags--;
+
+                            if ($loadFlags == 0) {
+                                $this->reloadUsersInfo($models, $callback);
+                            }
+                        });
+                    });
+                    sleep(2);
+                }
+            });
         };
+    }
+
+    private function reloadUsersInfo(array $models, callable $onComplete)
+    {
+        $this->infoClient->cleanContacts(function () use (&$models, $onComplete) {
+            foreach ($models as $user) {
+                if ($user->username) {
+                    $this->infoClient->getInfoByUsername($user->username, true, true, function (UserInfoModel $userModel) use (&$models, $onComplete) {
+                        $userModel->phone = $models[$userModel->id]->phone;
+                        $userModel->bio = $models[$userModel->id]->bio;
+                        $userModel->commonChatsCount = $models[$userModel->id]->commonChatsCount;
+                        $onComplete($userModel);
+                    });
+                } else {
+                    $user->firstName = '----';
+                    $user->lastName = '----';
+                    $user->username = '----';
+                    $onComplete($user);
+                }
+                sleep(1);
+            }
+        });
     }
 
     /**

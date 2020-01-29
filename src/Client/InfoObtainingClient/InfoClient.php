@@ -187,7 +187,7 @@ class InfoClient implements InfoObtainingClient
     }
 
     /**
-     * @param array $numbers
+     * @param array    $numbers
      * @param callable $onComplete
      *
      * @throws TGException
@@ -214,7 +214,7 @@ class InfoClient implements InfoObtainingClient
             $obsoleteNumbers = array_diff($currentPhones, $numbers);
             $newNumbers = array_diff($numbers, $currentPhones);
 
-            $addNumbersFunc = function() use ($newNumbers, $onComplete, $existingNumbers) {
+            $addNumbersFunc = function () use ($newNumbers, $onComplete, $existingNumbers) {
                 if (!empty($newNumbers)) {
                     $this->addNumbers($newNumbers, function (ImportResult $result) use ($onComplete, $existingNumbers) {
                         $result->importedPhones = array_merge($result->importedPhones, $existingNumbers);
@@ -228,7 +228,7 @@ class InfoClient implements InfoObtainingClient
             };
 
             if (!empty($obsoleteNumbers)) {
-                $this->delNumbers($obsoleteNumbers, function() use ($addNumbersFunc) { $addNumbersFunc(); });
+                $this->delNumbers($obsoleteNumbers, function () use ($addNumbersFunc) { $addNumbersFunc(); });
             } else {
                 $addNumbersFunc();
             }
@@ -244,8 +244,9 @@ class InfoClient implements InfoObtainingClient
     }
 
     /**
-     * @param array $numbers
+     * @param array    $numbers
      * @param callable $onComplete function(ImportResult $result)
+     *
      * @throws TGException
      */
     public function addNumbers(array $numbers, callable $onComplete)
@@ -254,9 +255,8 @@ class InfoClient implements InfoObtainingClient
     }
 
     /**
-     * @param array $numbers
+     * @param array    $numbers
      * @param callable $onComplete
-     *
      */
     public function delNumbers(array $numbers, callable $onComplete)
     {
@@ -266,7 +266,7 @@ class InfoClient implements InfoObtainingClient
     }
 
     /**
-     * @param string $number
+     * @param string   $number
      * @param callable $onComplete
      */
     public function getContactByPhone(string $number, callable $onComplete)
@@ -322,9 +322,9 @@ class InfoClient implements InfoObtainingClient
 
     /**
      * @param ContactUser $user
-     * @param bool $withPhoto
-     * @param bool $largePhoto
-     * @param callable $onComplete
+     * @param bool        $withPhoto
+     * @param bool        $largePhoto
+     * @param callable    $onComplete
      */
     public function getFullUserInfo(ContactUser $user, bool $withPhoto, bool $largePhoto, callable $onComplete)
     {
@@ -354,7 +354,14 @@ class InfoClient implements InfoObtainingClient
                         $this->getInfoByUsername($username, $withPhoto, $largePhoto, $onComplete);
                     });
                 } else {
-                    $this->getFullUserInfo($user, $withPhoto, $largePhoto, $onComplete);
+                    $fullUserRequest = new get_full_user($user->getUserId(), $user->getAccessHash());
+                    $this->basicClient->getConnection()->getResponseAsync($fullUserRequest, function (AnonymousMessage $message) use ($withPhoto, $largePhoto, $onComplete) {
+                        $userFull = new UserFull($message);
+                        $this->buildUserInfoModel($userFull->getUser(), $withPhoto, $largePhoto, function (UserInfoModel $model) use ($onComplete, $userFull) {
+                            $this->extendUserInfoModel($model, $userFull);
+                            $onComplete($model);
+                        });
+                    });
                 }
             } else {
                 $onComplete($user);
