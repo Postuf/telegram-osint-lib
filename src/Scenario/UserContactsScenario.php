@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace TelegramOSINT\Scenario;
 
 use TelegramOSINT\Client\InfoObtainingClient\Models\UserInfoModel;
+use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
 use TelegramOSINT\Exception\TGException;
-use TelegramOSINT\Logger\Logger;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 
 class UserContactsScenario extends InfoClientScenario
 {
@@ -56,46 +57,35 @@ class UserContactsScenario extends InfoClientScenario
      * @param bool          $largePhoto
      * @param callable|null $callback   function(UserInfoModel[])
      */
-    public function parseNumbers(array $numbers, bool $withPhoto = false, bool $largePhoto = false, ?callable $callback = null): void
+    public function parseNumbers(array $numbers, bool $withPhoto = false, bool $largePhoto = false): void
     {
-        $this->callQueue[] = function () use ($numbers, $withPhoto, $largePhoto, $callback) {
-            $counter = count($numbers);
+        $this->callQueue[] = function () use ($numbers, $withPhoto, $largePhoto) {
             $models = [];
-            $cbGen = function ($phone) use (&$counter, &$models, $callback) {
-                return function (?UserInfoModel $userInfoModel) use (&$counter, $callback, &$models, $phone) {
-                    if ($userInfoModel) {
-                        $userInfoModel->phone = $phone;
-                        if (!$callback) {
-                            if ($userInfoModel->photo)
-                                file_put_contents(
-                                    $userInfoModel->phone.'.'.$userInfoModel->photo->format,
-                                    $userInfoModel->photo->bytes
-                                );
-                            echo "#################################\n";
-                            if ($userInfoModel->photo) {
-                                $userInfoModel->photo->bytes = 'HIDDEN';
-                            }
-                            Logger::log(__CLASS__, print_r($userInfoModel, true));
-                        } else {
-                            $counter--;
-                            $models[] = $userInfoModel;
-                        }
-                    } else {
-                        $counter--;
-                    }
+            $rememberedContacts = [];
+            $this->infoClient->reloadNumbers($numbers, function (ImportResult $result) use (
+                                                &$models, &$rememberedContacts, $withPhoto, $largePhoto) {
 
-                    if (!$counter && $callback) {
-                        $callback($models);
-                        if ($this->cb) {
-                            $cb = $this->cb;
-                            $cb();
-                        }
+                foreach ($result->importedPhones as $importedPhone) {
+                    $this->infoClient->getContactByPhone($importedPhone, function (ContactUser $user) use (
+                        &$models, &$rememberedContacts, $withPhoto, $largePhoto) {
+                        $rememberedContacts[] = $user;
+                    });
+                }
+                $this->infoClient->cleanContacts(function () use ($rememberedContacts, $withPhoto, $largePhoto) {
+                    /** @var ContactUser $user */
+                    foreach ($rememberedContacts as $user) {
+                        $this->infoClient->getFullUserInfo($user, $withPhoto, $largePhoto, function (UserInfoModel $fullModel) use (
+                            $user
+                        ) {
+                            $fullModel->phone = $user->getPhone();
+                            if ($this->cb) {
+                                $callback = $this->cb;
+                                $callback($fullModel);
+                            }
+                        });
                     }
-                };
-            };
-            foreach ($numbers as $phone) {
-                $this->infoClient->getInfoByPhone($phone, $withPhoto, $largePhoto, $cbGen($phone));
-            }
+                });
+            });
         };
     }
 
