@@ -14,9 +14,7 @@ use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherClient;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Logger\ClientDebugLogger;
 use TelegramOSINT\Logger\Logger;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\get_full_user;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
-use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserFull;
 use TelegramOSINT\Tools\Proxy;
 
 /**
@@ -216,7 +214,7 @@ class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger, Scen
             $loadFlags = count($result->importedPhones);
 
             foreach ($result->importedPhones as $importedPhone) {
-                $this->infoClient->getContactByPhone($importedPhone, function(ContactUser $user) use (&$models, &$loadFlags, $onComplete, $withPhoto, $largePhoto) {
+                $this->infoClient->getContactByPhone($importedPhone, function (ContactUser $user) use (&$models, &$loadFlags, $onComplete, $withPhoto, $largePhoto) {
                     $model = new UserInfoModel();
                     $model->id = $user->getUserId();
                     $model->phone = $user->getPhone();
@@ -225,7 +223,7 @@ class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger, Scen
                     $model->lastName = $user->getLastName();
                     $model->username = $user->getUsername();
 
-                    $this->infoClient->getFullUserInfo($user, $withPhoto, $largePhoto, function(UserInfoModel $fullModel) use($model, &$models, $user, &$loadFlags, $onComplete) {
+                    $this->infoClient->getFullUserInfo($user, $withPhoto, $largePhoto, function (UserInfoModel $fullModel) use ($model, &$models, $user, &$loadFlags, $onComplete) {
                         $model->commonChatsCount = $fullModel->commonChatsCount;
                         $model->status = $fullModel->status;
                         $model->bio = $fullModel->bio;
@@ -240,7 +238,6 @@ class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger, Scen
                 });
                 sleep(2);
             }
-
 
         });
 
@@ -279,10 +276,10 @@ class MyTgClientDebug implements StatusWatcherCallbacks, ClientDebugLogger, Scen
 
     private function reloadUsersInfo(array $models, callable $onComplete)
     {
-        $this->infoClient->cleanContacts(function() use (&$models, $onComplete){
+        $this->infoClient->cleanContacts(function () use (&$models, $onComplete) {
             foreach ($models as $user) {
                 if ($user->username) {
-                    $this->infoClient->getInfoByUsername($user->username, true, true, function(UserInfoModel $userModel) use (&$models, $onComplete) {
+                    $this->infoClient->getInfoByUsername($user->username, true, true, function (UserInfoModel $userModel) use (&$models, $onComplete) {
                         $userModel->phone = $models[$userModel->id]->phone;
                         $userModel->bio = $models[$userModel->id]->bio;
                         $userModel->commonChatsCount = $models[$userModel->id]->commonChatsCount;

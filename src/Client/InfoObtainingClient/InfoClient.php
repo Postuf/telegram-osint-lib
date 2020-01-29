@@ -260,9 +260,7 @@ class InfoClient implements InfoObtainingClient
      */
     public function delNumbers(array $numbers, callable $onComplete)
     {
-        $this->contactsKeeper->delNumbers($numbers, function () use ($onComplete) {
-            $onComplete();
-        });
+        $this->contactsKeeper->delNumbers($numbers, $onComplete);
     }
 
     /**
