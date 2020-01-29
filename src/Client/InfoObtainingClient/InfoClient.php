@@ -11,6 +11,7 @@ use TelegramOSINT\Client\InfoObtainingClient\Models\PictureModel;
 use TelegramOSINT\Client\InfoObtainingClient\Models\UserInfoModel;
 use TelegramOSINT\Client\InfoObtainingClient\Models\UserStatusModel;
 use TelegramOSINT\Client\StatusWatcherClient\ContactsKeeper;
+use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\Scenario\BasicClientGenerator;
@@ -47,6 +48,7 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\ExportedAuthorization;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UploadedFile;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserFull;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
+use TelegramOSINT\Tools\Phone;
 use TelegramOSINT\Tools\Proxy;
 
 class InfoClient implements InfoObtainingClient
@@ -185,6 +187,94 @@ class InfoClient implements InfoObtainingClient
     }
 
     /**
+     * @param array $numbers
+     * @param callable $onComplete
+     *
+     * @throws TGException
+     */
+    public function reloadNumbers(array $numbers, callable $onComplete)
+    {
+        $this->contactsKeeper->getCurrentContacts(function (array $contacts) use ($numbers, $onComplete) {
+            $currentPhones = [];
+            $currentUserNames = [];
+
+            /** @var ContactUser[] $contacts */
+            foreach ($contacts as $contact){
+                if ($contact->getPhone())
+                    $currentPhones[] = Phone::convertToTelegramView($contact->getPhone());
+                if ($contact->getUsername())
+                    $currentUserNames[] = $contact->getUsername();
+            }
+
+            foreach ($numbers as $key => $number) {
+                $numbers[$key] = Phone::convertToTelegramView($number);
+            }
+
+            $existingNumbers = array_intersect($currentPhones, $numbers);
+            $obsoleteNumbers = array_diff($currentPhones, $numbers);
+            $newNumbers = array_diff($numbers, $currentPhones);
+
+            $addNumbersFunc = function() use ($newNumbers, $onComplete, $existingNumbers) {
+                if (!empty($newNumbers)) {
+                    $this->addNumbers($newNumbers, function (ImportResult $result) use ($onComplete, $existingNumbers) {
+                        $result->importedPhones = array_merge($result->importedPhones, $existingNumbers);
+                        $onComplete($result);
+                    });
+                } else {
+                    $importResult = new ImportResult();
+                    $importResult->importedPhones = $existingNumbers;
+                    $onComplete($importResult);
+                }
+            };
+
+            if (!empty($obsoleteNumbers)) {
+                $this->delNumbers($obsoleteNumbers, function() use ($addNumbersFunc) { $addNumbersFunc(); });
+            } else {
+                $addNumbersFunc();
+            }
+        });
+    }
+
+    /**
+     * @param callable $onComplete
+     */
+    public function cleanContacts(callable $onComplete)
+    {
+        $this->contactsKeeper->cleanContacts($onComplete);
+    }
+
+    /**
+     * @param array $numbers
+     * @param callable $onComplete function(ImportResult $result)
+     * @throws TGException
+     */
+    public function addNumbers(array $numbers, callable $onComplete)
+    {
+        $this->contactsKeeper->addNumbers($numbers, $onComplete);
+    }
+
+    /**
+     * @param array $numbers
+     * @param callable $onComplete
+     *
+     */
+    public function delNumbers(array $numbers, callable $onComplete)
+    {
+        $this->contactsKeeper->delNumbers($numbers, function () use ($onComplete) {
+            $onComplete();
+        });
+    }
+
+    /**
+     * @param string $number
+     * @param callable $onComplete
+     */
+    public function getContactByPhone(string $number, callable $onComplete)
+    {
+        $this->contactsKeeper->getUserByPhone($number, $onComplete);
+    }
+
+    /**
      * @param string   $phone
      * @param bool     $withPhoto
      * @param bool     $largePhoto
@@ -231,6 +321,24 @@ class InfoClient implements InfoObtainingClient
     }
 
     /**
+     * @param ContactUser $user
+     * @param bool $withPhoto
+     * @param bool $largePhoto
+     * @param callable $onComplete
+     */
+    public function getFullUserInfo(ContactUser $user, bool $withPhoto, bool $largePhoto, callable $onComplete)
+    {
+        $fullUserRequest = new get_full_user($user->getUserId(), $user->getAccessHash());
+        $this->basicClient->getConnection()->getResponseAsync($fullUserRequest, function (AnonymousMessage $message) use ($withPhoto, $largePhoto, $onComplete) {
+            $userFull = new UserFull($message);
+            $this->buildUserInfoModel($userFull->getUser(), $withPhoto, $largePhoto, function (UserInfoModel $model) use ($onComplete, $userFull) {
+                $this->extendUserInfoModel($model, $userFull);
+                $onComplete($model);
+            });
+        });
+    }
+
+    /**
      * @param string   $phone
      * @param bool     $withPhoto
      * @param bool     $largePhoto
@@ -246,14 +354,7 @@ class InfoClient implements InfoObtainingClient
                         $this->getInfoByUsername($username, $withPhoto, $largePhoto, $onComplete);
                     });
                 } else {
-                    $fullUserRequest = new get_full_user($user->getUserId(), $user->getAccessHash());
-                    $this->basicClient->getConnection()->getResponseAsync($fullUserRequest, function (AnonymousMessage $message) use ($withPhoto, $largePhoto, $onComplete) {
-                        $userFull = new UserFull($message);
-                        $this->buildUserInfoModel($userFull->getUser(), $withPhoto, $largePhoto, function (UserInfoModel $model) use ($onComplete, $userFull) {
-                            $this->extendUserInfoModel($model, $userFull);
-                            $onComplete($model);
-                        });
-                    });
+                    $this->getFullUserInfo($user, $withPhoto, $largePhoto, $onComplete);
                 }
             } else {
                 $onComplete($user);

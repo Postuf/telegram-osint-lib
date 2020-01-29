@@ -19,11 +19,11 @@ $numbers = explode(',', $argv[1]);
 
 $client = new UserContactsScenario(array_slice($numbers, 0, 1));
 /* @noinspection PhpUnhandledExceptionInspection */
-$client->parseNumbers($numbers, true, true, function (array $models) {
-    echo "Phone\t|\tUsername\t|\tFirst name\t|\tLast name\t|\tPhoto\t|\tAbout\t|\tCommon chats\t|\tLang\t|\tWas online\n\n";
-    foreach ($models as $model) {
-        /* @var UserInfoModel $model */
-        //Logger::log('ParseNumbers', print_r($model, true));
+
+$client->infoLogin();
+
+echo "Phone\t|\tUsername\t|\tFirst name\t|\tLast name\t|\tPhoto\t|\tAbout\t|\tCommon chats\t|\tLang\t|\tWas online\n\n";
+$client->parseNumbers($numbers, true, true, function (UserInfoModel $model) {
         $photo_file = '';
         if ($model->photo){
             $photo_file = $model->phone.'.'.$model->photo->format;
@@ -39,9 +39,15 @@ $client->parseNumbers($numbers, true, true, function (array $models) {
             $photo_file."\t|\t".
             $model->bio."\t|\t".
             $model->commonChatsCount."\t|\t".
-            $model->langCode."\t|\t".
-            $model->status->was_online."\n";
-    }
+            $model->langCode."\t|\t";
+        if ($model->status->was_online)
+            echo date("Y-m-d H:i:s",$model->status->was_online)."\n";
+        else if ($model->status->is_hidden)
+            echo "Hidden\n";
+        else if ($model->status->is_online)
+            echo "Online\n";
+        else
+            echo "\n";
 });
 /* @noinspection PhpUnhandledExceptionInspection */
 $client->startActions();
