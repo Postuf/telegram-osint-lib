@@ -14,6 +14,11 @@ class Packer
         return self::packInt($value);
     }
 
+    public static function packDouble(float $value)
+    {
+        return pack('e', $value);
+    }
+
     /**
      * @param int $value
      *

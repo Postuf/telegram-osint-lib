@@ -59,7 +59,6 @@ class TraceSocketMessenger extends EncryptedSocketMessenger
             if (microtime(true) - $this->timeOffset <= $v[1]) {
                 return null;
             }
-            unset($this->trace[1][$k]);
             /** @var AnonymousMessage $msg */
             $unhexed = $orig = hex2bin($v[1]);
             $replaces = [
@@ -101,11 +100,17 @@ class TraceSocketMessenger extends EncryptedSocketMessenger
             /** @noinspection PhpUnusedLocalVariableInspection */
             $reqMsg = array_shift($this->msgs);
 
-            return new OwnAnonymousMessage([
-                '_'          => 'rpc_result',
-                'req_msg_id' => $reqMsgId,
-                'result'     => $arrMsg,
-            ]);
+            if ($reqMsg) {
+                unset($this->trace[1][$k]);
+
+                return new OwnAnonymousMessage([
+                    '_'          => 'rpc_result',
+                    'req_msg_id' => $reqMsgId,
+                    'result'     => $arrMsg,
+                ]);
+            } else {
+                return null;
+            }
         }
 
         return null;

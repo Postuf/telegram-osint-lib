@@ -315,6 +315,8 @@ class OwnDeserializer implements MTDeserializer
             case 'bytes':
             case 'string':
                 return $this->readString();
+            case 'double':
+                return $this->readDouble();
         }
 
         if (strstr($type, 'Vector')) {
@@ -390,6 +392,19 @@ class OwnDeserializer implements MTDeserializer
     {
         $value = $this->stream->read(8);
         $value = unpack('Q', $value)[1];
+
+        return $value;
+    }
+
+    /**
+     * @throws TGException
+     *
+     * @return int
+     */
+    protected function readDouble()
+    {
+        $value = $this->stream->read(8);
+        $value = unpack('e', $value)[1];
 
         return $value;
     }

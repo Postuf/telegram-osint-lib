@@ -19,11 +19,14 @@ class get_participants implements TLClientMessage
     private $offset;
     /** @var input_channel */
     private $channel;
+    /** @var string|null */
+    private $query;
 
-    public function __construct(input_channel $channel, int $offset = 0)
+    public function __construct(input_channel $channel, int $offset = 0, ?string $query = null)
     {
         $this->channel = $channel;
         $this->offset = $offset;
+        $this->query = $query;
     }
 
     /**
@@ -41,7 +44,9 @@ class get_participants implements TLClientMessage
     {
         return Packer::packConstructor(self::CONSTRUCTOR).
             $this->channel->toBinary().
-            (new channel_participants_filter())->toBinary().
+            ($this->query
+                ? new channel_participants_filter(channel_participants_filter::PARTICIPANTS_SEARCH, $this->query)
+                : new channel_participants_filter())->toBinary().
             Packer::packInt($this->offset).
             Packer::packInt(self::LIMIT).
             Packer::packInt(0); // hash

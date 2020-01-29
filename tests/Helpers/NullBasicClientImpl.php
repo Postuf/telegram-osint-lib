@@ -14,6 +14,7 @@ class NullBasicClientImpl extends BasicClientImpl
 {
     /** @var array */
     private $traceArray;
+    private $socketMessenger;
 
     public function __construct(array $traceArray)
     {
@@ -28,6 +29,10 @@ class NullBasicClientImpl extends BasicClientImpl
 
     protected function getSocketMessenger(): SocketMessenger
     {
-        return new TraceSocketMessenger($this->traceArray, $this->getAuthKey(), $this);
+        if (!$this->socketMessenger) {
+            $this->socketMessenger = new TraceSocketMessenger($this->traceArray, $this->getAuthKey(), $this);
+        }
+
+        return $this->socketMessenger;
     }
 }
