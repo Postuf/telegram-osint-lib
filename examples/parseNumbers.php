@@ -26,14 +26,16 @@ $onComplete = function (UserInfoModel $model) {
             $model->photo->bytes
         );
     }
-    echo $model->phone."\t|\t".
-        $model->username."\t|\t".
-        $model->firstName."\t|\t".
-        $model->lastName."\t|\t".
-        $photo_file."\t|\t".
-        $model->bio."\t|\t".
-        $model->commonChatsCount."\t|\t".
-        $model->langCode."\t|\t";
+    echo implode("\t|\t", [
+        $model->phone,
+        $model->firstName,
+        $model->lastName,
+        $photo_file,
+        $model->bio,
+        $model->commonChatsCount,
+        $model->langCode,
+    ]);
+
     if ($model->status->was_online)
         echo date('Y-m-d H:i:s', $model->status->was_online)."\n";
     elseif ($model->status->is_hidden)
