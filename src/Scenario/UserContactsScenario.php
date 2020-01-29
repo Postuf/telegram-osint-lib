@@ -57,63 +57,36 @@ class UserContactsScenario extends InfoClientScenario
      * @param bool          $largePhoto
      * @param callable|null $callback   function(UserInfoModel[])
      */
-    public function parseNumbers(array $numbers, bool $withPhoto = false, bool $largePhoto = false, ?callable $callback = null): void
+    public function parseNumbers(array $numbers, bool $withPhoto = false, bool $largePhoto = false): void
     {
-        $this->callQueue[] = function () use ($numbers, $withPhoto, $largePhoto, $callback) {
-            $counter = count($numbers);
+        $this->callQueue[] = function () use ($numbers, $withPhoto, $largePhoto) {
             $models = [];
-            $this->infoClient->reloadNumbers($numbers, function (ImportResult $result) use (&$models, $callback, $withPhoto, $largePhoto) {
-                $loadFlags = count($result->importedPhones);
+            $rememberedContacts = [];
+            $this->infoClient->reloadNumbers($numbers, function (ImportResult $result) use (
+                                                &$models, &$rememberedContacts, $withPhoto, $largePhoto) {
 
                 foreach ($result->importedPhones as $importedPhone) {
-                    $this->infoClient->getContactByPhone($importedPhone, function (ContactUser $user) use (&$models, &$loadFlags, $callback, $withPhoto, $largePhoto) {
-                        $model = new UserInfoModel();
-                        $model->id = $user->getUserId();
-                        $model->phone = $user->getPhone();
-                        $model->langCode = $user->getLangCode();
-                        $model->firstName = $user->getFirstName();
-                        $model->lastName = $user->getLastName();
-                        $model->username = $user->getUsername();
-
-                        $this->infoClient->getFullUserInfo($user, $withPhoto, $largePhoto, function (UserInfoModel $fullModel) use ($model, &$models, $user, &$loadFlags, $callback) {
-                            $model->commonChatsCount = $fullModel->commonChatsCount;
-                            $model->status = $fullModel->status;
-                            $model->bio = $fullModel->bio;
-
-                            $models[$user->getUserId()] = $model;
-                            $loadFlags--;
-
-                            if ($loadFlags == 0) {
-                                $this->reloadUsersInfo($models, $callback);
+                    $this->infoClient->getContactByPhone($importedPhone, function (ContactUser $user) use (
+                        &$models, &$rememberedContacts, $withPhoto, $largePhoto) {
+                        $rememberedContacts[] = $user;
+                    });
+                }
+                $this->infoClient->cleanContacts(function () use ($rememberedContacts, $withPhoto, $largePhoto) {
+                    /** @var ContactUser $user */
+                    foreach ($rememberedContacts as $user) {
+                        $this->infoClient->getFullUserInfo($user, $withPhoto, $largePhoto, function (UserInfoModel $fullModel) use (
+                            $user
+                        ) {
+                            $fullModel->phone = $user->getPhone();
+                            if ($this->cb) {
+                                $callback = $this->cb;
+                                $callback($fullModel);
                             }
                         });
-                    });
-                    sleep(2);
-                }
+                    }
+                });
             });
         };
-    }
-
-    private function reloadUsersInfo(array $models, callable $onComplete)
-    {
-        $this->infoClient->cleanContacts(function () use (&$models, $onComplete) {
-            foreach ($models as $user) {
-                if ($user->username) {
-                    $this->infoClient->getInfoByUsername($user->username, true, true, function (UserInfoModel $userModel) use (&$models, $onComplete) {
-                        $userModel->phone = $models[$userModel->id]->phone;
-                        $userModel->bio = $models[$userModel->id]->bio;
-                        $userModel->commonChatsCount = $models[$userModel->id]->commonChatsCount;
-                        $onComplete($userModel);
-                    });
-                } else {
-                    $user->firstName = '----';
-                    $user->lastName = '----';
-                    $user->username = '----';
-                    $onComplete($user);
-                }
-                sleep(1);
-            }
-        });
     }
 
     /**
