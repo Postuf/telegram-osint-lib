@@ -32,9 +32,8 @@ composer require postuf/telegram-api-lib
 ```
 
 To check out usage examples, go to `examples` dir.
-You need auth keys generated, run `php registration.php` to get those.
-Some examples require two accounts to run, save those keys to `first.authkey` and `second.authkey`, respectively.
-Now you are all set, you can run any of them, for example, `php parseGroupMembers.php`, and check the output.
+You need auth keys generated, run `php registration.php` to get this.
+Now you are all set, you can run any of examples, for example, `php parseGroupMembers.php`, and check the output.
 
 Verbose logging (all messages sent/received) is enabled by default, add `--info` to arguments to suppress it.
 
@@ -45,6 +44,11 @@ docker build -t telegram-osint-lib .
 docker run -d -t --name tg-osint-lib telegram-osint-lib
 docker exec -it tg-osint-lib /bin/bash
 php examples/registration.php
+```
+
+When you get AuthKey in registration script, you can use it the following way:
+```
+docker exec  --env BOT=your-auth-key -i tg-osint-lib php examples/monitorNumbers.php 123123123
 ```
 
 # Limitations
