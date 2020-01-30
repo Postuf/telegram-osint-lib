@@ -8,6 +8,7 @@ use TelegramOSINT\Client\InfoObtainingClient\Models\UserInfoModel;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Chats;
 use TelegramOSINT\Tools\CacheMap;
 
 /**
@@ -74,6 +75,7 @@ class CommonChatsScenario extends InfoClientScenario
         usleep(10000);
 
         $this->subscribeToChats(function () {
+            Logger::log(__CLASS__, 'subscription complete');
             $this->getCommonChats(function () {
                 Logger::log(__CLASS__, 'Common chats: '.print_r($this->commonChats, true));
 
@@ -153,16 +155,14 @@ class CommonChatsScenario extends InfoClientScenario
     {
         $client = new UserContactsScenario([$this->phone], function (UserInfoModel $user) use ($callback) {
             $this->infoClient->getCommonChats($user->id, $user->accessHash, 100, 0, function (AnonymousMessage $message) use ($callback) {
-                Logger::log(__CLASS__, 'get common chats');
-                $chats = $message->getNodes('chats');
+                if (!Chats::isIt($message)) {
+                    return;
+                }
+                $updates = new Chats($message);
 
-                foreach ($chats as $chatNode) {
-                    if ($chatNode->getType() != 'chat' && $chatNode->getType() != 'channel') {
-                        Logger::log(__CLASS__, 'Skipped node of type '.$chatNode->getType());
-                        continue;
-                    }
+                foreach ($updates->getChats() as $chat) {
 
-                    $this->commonChats[] = strtolower($chatNode->getValue('username'));
+                    $this->commonChats[] = strtolower($chat->username);
                 }
 
                 if ($callback) {
@@ -170,7 +170,7 @@ class CommonChatsScenario extends InfoClientScenario
                 }
             });
         });
-        $client->startActions(false);
+        $client->startActions();
     }
 
     /**
