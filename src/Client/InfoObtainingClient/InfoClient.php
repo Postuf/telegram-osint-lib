@@ -206,8 +206,8 @@ class InfoClient implements InfoObtainingClient
     }
 
     /**
-     * @param int $id
-     * @param int $accessHash
+     * @param int      $id
+     * @param int      $accessHash
      * @param callable $onComplete
      */
     public function joinChannel(int $id, int $accessHash, callable $onComplete): void {

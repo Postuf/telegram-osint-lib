@@ -16,6 +16,7 @@ class CacheMap
         if (file_exists($filename)) {
             $this->map = json_decode(file_get_contents($filename), true);
         }
+        $this->filename = $filename;
     }
 
     public function set(string $key, $value): void {
@@ -24,6 +25,6 @@ class CacheMap
     }
 
     public function get(string $key) {
-        return $this->map[$key] ?: null;
+        return isset($this->map[$key]) ? $this->map[$key] : null;
     }
 }
