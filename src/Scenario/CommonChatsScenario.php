@@ -59,7 +59,7 @@ class CommonChatsScenario extends InfoClientScenario
     /**
      * @param bool $pollAndTerminate
      *
-     * @throws \TelegramOSINT\Exception\TGException
+     * @throws TGException
      */
     public function startActions(bool $pollAndTerminate = true): void
     {
@@ -145,9 +145,9 @@ class CommonChatsScenario extends InfoClientScenario
     }
 
     /**
-     * @param callable|null $callback
+     * @param callable|null $callback function()
      *
-     * @throws \TelegramOSINT\Exception\TGException
+     * @throws TGException
      */
     public function getCommonChats(?callable $callback = null)
     {
@@ -170,15 +170,20 @@ class CommonChatsScenario extends InfoClientScenario
                 }
             });
         });
-        $client->startActions();
+        $client->startActions(false);
     }
 
+    /**
+     * @param int           $groupId
+     * @param int|null      $accessHash
+     * @param callable|null $callback   function(AnonymousMessage $message)
+     */
     private function joinGroup(int $groupId, ?int $accessHash, ?callable $callback)
     {
         $this->infoClient->joinChannel($groupId, $accessHash, $callback);
     }
 
-    private function getInterest()
+    private function getInterest(): void
     {
         $result = [];
         foreach ($this->commonChats as $commonChat) {
