@@ -37,7 +37,7 @@ class CommonChatsScenario extends InfoClientScenario
 
     /**
      * @param ClientGeneratorInterface $clientGenerator
-     * @param array                    $groupnames
+     * @param array                    $groupMap
      * @param string                   $phone
      * @param callable|null            $handler
      *
