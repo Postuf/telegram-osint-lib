@@ -75,7 +75,7 @@ class CommonChatsScenario extends InfoClientScenario
         usleep(10000);
 
         $this->subscribeToChats(function () {
-            Logger::log(__CLASS__, 'subscribe complete');
+            Logger::log(__CLASS__, 'subscription complete');
             $this->getCommonChats(function () {
                 Logger::log(__CLASS__, 'Common chats: '.print_r($this->commonChats, true));
 
