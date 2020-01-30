@@ -8,6 +8,7 @@ use Helpers\NullBasicClientGenerator;
 use Helpers\TestClientGenerator;
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Client\InfoObtainingClient\Models\GeoChannelModel;
+use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Scenario\GeoSearchScenario;
 use TelegramOSINT\Scenario\GroupMembersScenario;
 
@@ -17,6 +18,11 @@ class GeoSearchTest extends TestCase
     private const TRACE_PATH = '/traces/trace-geo-user.txt';
     private const TIMEOUT = 0.25;
 
+    /**
+     * php geoSearch.php 55.75639,37.661931 rostislav_u 5
+     *
+     * @throws TGException
+     */
     public function test_geo_search(): void
     {
         $file = file_get_contents(__DIR__.self::TRACE_PATH);
@@ -30,7 +36,7 @@ class GeoSearchTest extends TestCase
         $generator = new TestClientGenerator($baseGenerator, self::DEFAULT_AUTHKEY);
 
         $finders = [];
-        $username = 'b00k1ng';
+        $username = 'rostislav_u';
         $groupHandler = function (GeoChannelModel $model) use (&$generator, &$finders, $username, &$handler) {
             $membersFinder = new GroupMembersScenario(
                 $model->getGroupId(),
@@ -46,7 +52,7 @@ class GeoSearchTest extends TestCase
         };
         $points = [[55.75393, 37.615714], [55.75639, 37.661931]];
         /* @noinspection PhpUnhandledExceptionInspection */
-        $search = new GeoSearchScenario($points, $groupHandler, $generator, 30);
+        $search = new GeoSearchScenario($points, $groupHandler, $generator, 5);
         $search->setTimeout(self::TIMEOUT);
         /* @noinspection PhpUnhandledExceptionInspection */
         $search->startActions();

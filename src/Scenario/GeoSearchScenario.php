@@ -52,34 +52,46 @@ class GeoSearchScenario extends InfoClientScenario
     public function startActions(bool $pollAndTerminate = true): void
     {
         $this->login();
+        $lastCb = null;
         foreach($this->points as $point) {
             [$lat, $lon] = $point;
             if ($this->counter > $this->limit) {
                 break;
             }
-            $this->infoClient->getLocated($lat, $lon, function (AnonymousMessage $message) use ($lat, $lon) {
-                /** @see https://core.telegram.org/constructor/updates */
-                if (!Updates::isIt($message)) {
-                    return;
-                }
-
-                $updates = new Updates($message);
-
-                foreach ($updates->getChats() as $chat) {
-                    $this->counter++;
-                    if ($this->counter > $this->limit) {
-                        break;
+            $lastCb = function () use ($lat, $lon, $lastCb) {
+                $this->infoClient->getLocated($lat, $lon, function (AnonymousMessage $message) use ($lat, $lon, $lastCb) {
+                    /** @see https://core.telegram.org/constructor/updates */
+                    if (!Updates::isIt($message)) {
+                        return;
                     }
-                    $latF = number_format($lat, self::DECIMALS);
-                    $lonF = number_format($lon, self::DECIMALS);
-                    Logger::log(__CLASS__, "found group '{$chat->title}' near ($latF, $lonF)");
-                    $chatModel = GeoChannelModel::of($chat, $lat, $lon);
-                    if ($this->onChatReady) {
-                        $onChatReady = $this->onChatReady;
-                        $onChatReady($chatModel);
+
+                    $updates = new Updates($message);
+
+                    foreach ($updates->getChats() as $chat) {
+                        $this->counter++;
+                        if ($this->counter > $this->limit) {
+                            break;
+                        }
+                        $latF = number_format($lat, self::DECIMALS);
+                        $lonF = number_format($lon, self::DECIMALS);
+                        Logger::log(__CLASS__, "found group '{$chat->title}' near ($latF, $lonF)");
+                        $chatModel = GeoChannelModel::of($chat, $lat, $lon);
+                        if ($this->onChatReady) {
+                            $onChatReady = $this->onChatReady;
+                            $onChatReady($chatModel);
+                        }
                     }
-                }
-            });
+
+                    usleep(700 * 1000);
+                    if ($lastCb) {
+                        $lastCb();
+                    }
+                });
+            };
+        }
+
+        if ($lastCb) {
+            $lastCb();
         }
 
         if ($pollAndTerminate) {
