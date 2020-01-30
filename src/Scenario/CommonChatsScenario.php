@@ -8,91 +8,130 @@ use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
 use TelegramOSINT\Client\InfoObtainingClient\InfoClient;
 use TelegramOSINT\Client\InfoObtainingClient\Models\UserInfoModel;
 use TelegramOSINT\Logger\Logger;
-use TelegramOSINT\Scenario\ScenarioInterface;
-use TelegramOSINT\Logger\ClientDebugLogger;
+use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\Scenario\Models\GroupRequest;
 use TelegramOSINT\Tools\Proxy;
 
-class CommonChatsScenario implements ClientDebugLogger, ScenarioInterface
+class CommonChatsScenario extends InfoClientScenario
+
 {
-    /** @var InfoClient */
-    protected $infoClient;
+    /** @var callable|null function(int $groupId, string $title) */
+    private $handler;
+    /** @var string[] */
+    private $groupnames;
+    /** @var string[] */
+    private $commonChats = [];
     /** @var string */
-    private $authKeyForFirstClient;
-    /** @var string */
-    private $authKeyForSecondClient;
-    /** @var Proxy */
-    private $proxy;
-    /** @var float */
-    private $timeout = 5.0;
+    private $phone;
+    /** @var array */
+    private $resolvedGroups = [];
 
-    public function __construct(?Proxy $proxy = null, ?ClientGeneratorInterface $generator = null)
-    {
-        /**
-         * Set TL-node logger
-         */
-        Logger::setupLogger($this);
-
-        if (!$generator) {
-            $generator  = new ClientGenerator();
-        }
-
-        $this->authKeyForFirstClient = $generator->getAuthKeyInfo();
-
-        $this->infoClient = $generator->getInfoClient();
-        $this->proxy = $proxy;
-    }
-
-    public function login(): void
-    {
-        $authKey = AuthKeyCreator::createFromString($this->authKeyForFirstClient);
-        if (!$this->infoClient->isLoggedIn()) {
-            $this->infoClient->login($authKey, $this->proxy);
-        }
+    /**
+     * CommonChatsScenario constructor.
+     * @param ClientGeneratorInterface $clientGenerator
+     * @param array $groupnames
+     * @param string $phone
+     * @param callable|null $handler
+     * @throws \TelegramOSINT\Exception\TGException
+     */
+    public function __construct(
+        ClientGeneratorInterface $clientGenerator,
+        array $groupnames,
+        string $phone,
+        ?callable $handler = null
+    ) {
+        parent::__construct($clientGenerator);
+        $this->handler = $handler;
+        $this->groupnames = $groupnames;
+        $this->phone = $phone;
     }
 
     public function startActions(bool $pollAndTerminate = true): void
     {
+        $this->login();
+        usleep(10000);
+        $this->subscribeToChats(function(){
+            $this->getCommonChats(function() {
+                Logger::log("DEBUG", "Common chats: " . print_r($this->commonChats, true));
+            });
+        });
+
         if ($pollAndTerminate) {
             $this->pollAndTerminate();
         }
     }
 
-    public function getCommonChats(string $phone, array $groups, ?callable $callback = null)
+    public function subscribeToChats(callable $onComplete)
     {
-        $limit = 10;
-
-        foreach ($groups as $group) {
-
-        }
-
-        $this->infoClient->getInfoByPhone($phone, false, false, function(?UserInfoModel $userModel) use ($limit, $callback){
-            if ($userModel) {
-
-                $this->infoClient->getCommonChats($userModel->id, $userModel->accessHash, $limit, 0, $callback);
+        $callback = function() use ($onComplete) {
+            Logger::log("DEBUG", "Run user resolver...");
+            $joinCnt = count($this->resolvedGroups);
+            foreach ($this->resolvedGroups as $group) {
+                $this->joinGroup($group['id'], $group['accessHash'], function(AnonymousMessage $message) use ($group, &$joinCnt, $onComplete) {
+                    $joinCnt--;
+                    Logger::log(__CLASS__, 'subscribe to channel '. $group['title']);
+                    if ($joinCnt == 0) {
+                        $onComplete();
+                    }
+                });
             }
+        };
+        $groupsCnt = count($this->groupnames);
+        foreach ($this->groupnames as $groupName) {
+            $this->infoClient->resolveUsername($groupName, function(AnonymousMessage $message) use ($groupName, &$groupsCnt, $callback) {
+                $groupsCnt--;
+                if ($message->getType() === 'contacts.resolvedPeer' && ($chats = $message->getValue('chats'))){
+                    foreach ($chats as $chat) {
+                        $id = (int) $chat['id'];
+                        $accessHash = (int) $chat['access_hash'];
+                        $this->resolvedGroups[] = [
+                            'title' => $groupName,
+                            'id' => $id,
+                            'accessHash' => $accessHash,
+                        ];
+                        break;
+                    }
+                }
+                if ($groupsCnt == 0) {
+                    $callback();
+                }
+            });
+        }
+    }
+
+    /**
+     * @param string $phone
+     * @param array $groups
+     * @param callable|null $callback
+     * @throws \TelegramOSINT\Exception\TGException
+     */
+    public function getCommonChats(?callable $callback = null)
+    {
+        $client = new UserContactsScenario([$this->phone], function(UserInfoModel $user) use ($callback) {
+            $this->infoClient->getCommonChats($user->id, $user->accessHash, 100, 0, function(AnonymousMessage $message) use($callback) {
+                Logger::log(__CLASS__, "get common chats");
+                $chats = $message->getNodes('chats');
+
+                foreach ($chats as $chatNode) {
+                    if ($chatNode->getType() != 'chat' && $chatNode->getType() != 'channel') {
+                        Logger::log(__CLASS__, "Skipped node of type " . $chatNode->getType());
+                        continue;
+                    }
+
+                    $this->commonChats[] = $chatNode->getValue('username');
+                }
+
+                if ($callback) {
+                    $callback();
+                }
+            });
         });
+        $client->startActions();
     }
 
-    public function debugLibLog(string $dbgLabel, string $dbgMessage)
+    private function joinGroup(int $groupId, ?int $accessHash, ?callable $callback)
     {
-        echo date('d.m.Y H:i:s').' | '.$dbgLabel.': '.$dbgMessage."\n";
+        $this->infoClient->joinChannel($groupId, $accessHash, $callback);
     }
 
-    public function pollAndTerminate(float $timeout = 0.0): void
-    {
-        if ($timeout == 0.0) {
-            $timeout = $this->timeout;
-        }
-        $lastMsg = microtime(true);
-        while(true) {
-            if ($this->infoClient->pollMessage()) {
-                $lastMsg = microtime(true);
-            }
-            if (microtime(true) - $lastMsg > $timeout)
-                break;
-            usleep(10000);
-        }
-
-        $this->infoClient->terminate();
-    }
 }
