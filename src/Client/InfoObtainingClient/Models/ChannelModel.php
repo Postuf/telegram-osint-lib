@@ -8,11 +8,12 @@ use TelegramOSINT\Scenario\Models\GroupId;
 
 class ChannelModel
 {
-    public function __construct(int $id, int $accessHash, string $title)
+    public function __construct(int $id, int $accessHash, string $title, ?string $username = '')
     {
         $this->id = $id;
         $this->accessHash = $accessHash;
         $this->title = $title;
+        $this->username = $username;
     }
 
     /** @var int */
@@ -21,6 +22,8 @@ class ChannelModel
     public $accessHash;
     /** @var string */
     public $title;
+    /** @var string */
+    public $username;
 
     public function getGroupId(): GroupId
     {
