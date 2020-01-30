@@ -2,6 +2,7 @@
 
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update;
 
+use TelegramOSINT\Client\InfoObtainingClient\Models\ChannelModel;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
@@ -29,5 +30,25 @@ class Updates extends TLServerMessage
             $userObjects[] = new ContactUser($user);
 
         return $userObjects;
+    }
+
+    /**
+     * @return ChannelModel[]
+     */
+    public function getChats(): array
+    {
+        $nodes = $this->getTlMessage()->getNodes('chats');
+        $chats = [];
+        foreach ($nodes as $chat) {
+            $title = $chat->getValue('title');
+            $chatModel = new ChannelModel(
+                $chat->getValue('id'),
+                $chat->getValue('access_hash'),
+                $title
+            );
+            $chats[] = $chatModel;
+        }
+
+        return $chats;
     }
 }

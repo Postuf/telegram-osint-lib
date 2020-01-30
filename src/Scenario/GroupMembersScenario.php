@@ -31,20 +31,32 @@ class GroupMembersScenario extends AbstractGroupScenario implements ScenarioInte
     private $handler;
     /** @var GroupId|null */
     private $groupIdObj;
+    /** @var int */
+    private $limit;
+    /** @var string|null */
+    private $username;
 
     /**
      * @param GroupId|null                  $groupId
      * @param callable                      $handler   function()
      * @param ClientGeneratorInterface|null $generator
+     * @param int                           $limit
+     * @param string|null                   $username
+     *
+     * @throws TGException
      */
     public function __construct(
         ?GroupId $groupId = null,
         callable $handler = null,
-        ?ClientGeneratorInterface $generator = null
+        ?ClientGeneratorInterface $generator = null,
+        int $limit = 100,
+        ?string $username = null
     ) {
         parent::__construct($generator);
         $this->handler = $handler;
         $this->groupIdObj = $groupId;
+        $this->limit = $limit;
+        $this->username = $username;
     }
 
     private function getAllChatsHandler(): callable
@@ -75,7 +87,6 @@ class GroupMembersScenario extends AbstractGroupScenario implements ScenarioInte
     public function startActions(bool $pollAndTerminate = true): void
     {
         $this->login();
-        usleep(10000);
         if ($this->deepLink) {
             Logger::log(__CLASS__, "getting chat by deeplink {$this->deepLink}");
             $parts = explode('/', $this->deepLink);
@@ -90,18 +101,31 @@ class GroupMembersScenario extends AbstractGroupScenario implements ScenarioInte
                 }
             }));
         } elseif ($this->groupIdObj) {
-            Logger::log(__CLASS__, 'getting chat participants');
-            $this->infoClient->getParticipants(
-                $this->groupIdObj->getGroupId(),
-                $this->groupIdObj->getAccessHash(),
-                0,
-                $this->makeChatMemberHandler(
+            if ($this->username) {
+                Logger::log(__CLASS__, "searching chat {$this->groupIdObj->getGroupId()} participants for {$this->username}");
+                $this->infoClient->getParticipantsSearch(
                     $this->groupIdObj->getGroupId(),
+                    $this->groupIdObj->getAccessHash(),
+                    $this->username,
+                    $this->makeChatMemberHandler(
+                        $this->groupIdObj->getGroupId(),
+                        0,
+                        true
+                    )
+                );
+            } else {
+                Logger::log(__CLASS__, "getting chat {$this->groupIdObj->getGroupId()} participants");
+                $this->infoClient->getParticipants(
+                    $this->groupIdObj->getGroupId(),
+                    $this->groupIdObj->getAccessHash(),
                     0,
-                    true
-                )
-
-            );
+                    $this->makeChatMemberHandler(
+                        $this->groupIdObj->getGroupId(),
+                        0,
+                        true
+                    )
+                );
+            }
         } else {
             Logger::log(__CLASS__, 'getting all chats');
             $this->infoClient->getAllChats($this->getAllChatsHandler());
@@ -139,8 +163,10 @@ class GroupMembersScenario extends AbstractGroupScenario implements ScenarioInte
                 foreach ($users as $user) {
                     $userId = (int) $user->getValue('id');
                     $phone = (string) $user->getValue('phone');
+                    $username = (string) $user->getValue('username');
                     $phoneSuffix = $phone ? " with phone $phone" : '';
-                    Logger::log(__CLASS__, "chat $id contains user $userId$phoneSuffix");
+                    $usernameSuffix = $username ? " with username $username" : '';
+                    Logger::log(__CLASS__, "chat $id contains user $userId$phoneSuffix$usernameSuffix");
 
                     if ($phone) {
                         $this->infoClient->getInfoByPhone(
@@ -154,18 +180,19 @@ class GroupMembersScenario extends AbstractGroupScenario implements ScenarioInte
             }
             if ($users && $continue) {
                 $newOffset = $offset + self::PAGE_LIMIT;
-                Logger::log(__CLASS__, "getting more participants for {$this->groupIdObj->getGroupId()} starting with $newOffset");
-                $this->infoClient->getParticipants(
-                    $this->groupIdObj->getGroupId(),
-                    $this->groupIdObj->getAccessHash(),
-                    $newOffset,
-                    $this->makeChatMemberHandler(
+                if ($newOffset < $this->limit) {
+                    Logger::log(__CLASS__, "getting more participants for {$this->groupIdObj->getGroupId()} starting with $newOffset");
+                    $this->infoClient->getParticipants(
                         $this->groupIdObj->getGroupId(),
+                        $this->groupIdObj->getAccessHash(),
                         $newOffset,
-                        true
-                    )
-                );
-
+                        $this->makeChatMemberHandler(
+                            $this->groupIdObj->getGroupId(),
+                            $newOffset,
+                            true
+                        )
+                    );
+                }
             }
         };
     }

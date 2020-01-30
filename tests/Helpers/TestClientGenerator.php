@@ -16,6 +16,8 @@ class TestClientGenerator implements ClientGeneratorInterface
     private $generator;
     /** @var string */
     private $authKey;
+    /** @var InfoClient */
+    private $client;
 
     public function __construct(BasicClientGeneratorInterface $generator, string $authKey)
     {
@@ -28,7 +30,11 @@ class TestClientGenerator implements ClientGeneratorInterface
      */
     public function getInfoClient()
     {
-        return new InfoClient($this->generator);
+        if (!$this->client) {
+            $this->client = new InfoClient($this->generator);
+        }
+
+        return $this->client;
     }
 
     /**

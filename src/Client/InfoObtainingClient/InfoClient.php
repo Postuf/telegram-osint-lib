@@ -18,6 +18,7 @@ use TelegramOSINT\Scenario\BasicClientGenerator;
 use TelegramOSINT\Scenario\BasicClientGeneratorInterface;
 use TelegramOSINT\TGConnection\DataCentre;
 use TelegramOSINT\TGConnection\SocketMessenger\SocketMessenger;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\contacts_get_located;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_all_chats;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_common_chats;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_full_channel;
@@ -160,6 +161,23 @@ class InfoClient implements InfoObtainingClient
     {
         $channel = new input_channel($id, $accessHash);
         $this->basicClient->getConnection()->getResponseAsync(new get_participants($channel, $offset), $onComplete);
+    }
+
+    public function getParticipantsSearch(int $id, int $accessHash, string $username, callable $onComplete): void
+    {
+        $channel = new input_channel($id, $accessHash);
+        $this->basicClient->getConnection()->getResponseAsync(new get_participants($channel, 0, $username), $onComplete);
+    }
+
+    /**
+     * @param float    $latitude
+     * @param float    $longitude
+     * @param callable $onComplete function(AnonymousMessage $msg)
+     */
+    public function getLocated(float $latitude, float $longitude, callable $onComplete): void
+    {
+        $request = new contacts_get_located($latitude, $longitude);
+        $this->basicClient->getConnection()->getResponseAsync($request, $onComplete);
     }
 
     /**
