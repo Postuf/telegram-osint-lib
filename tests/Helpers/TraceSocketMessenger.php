@@ -98,7 +98,6 @@ class TraceSocketMessenger extends EncryptedSocketMessenger
             $arrMsg = reset($arrMsg);
 
             $reqMsgId = array_shift($this->msgIds);
-            /** @noinspection PhpUnusedLocalVariableInspection */
             $reqMsg = array_shift($this->msgs);
 
             $retain = true;
