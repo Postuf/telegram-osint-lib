@@ -17,19 +17,27 @@ class UserContactsScenario extends InfoClientScenario
     private $callQueue = [];
     /** @var string[] */
     private $phones;
+    /** @var bool */
+    private $withPhoto;
+    /** @var bool */
+    private $largePhoto;
 
     /**
      * @param string[]                      $phones
      * @param callable|null                 $cb              function()
      * @param ClientGeneratorInterface|null $clientGenerator
+     * @param bool                          $withPhoto
+     * @param bool                          $largePhoto
      *
      * @throws TGException
      */
-    public function __construct(array $phones, ?callable $cb = null, ClientGeneratorInterface $clientGenerator = null)
+    public function __construct(array $phones, ?callable $cb = null, ClientGeneratorInterface $clientGenerator = null, bool $withPhoto = true, bool $largePhoto = true)
     {
         parent::__construct($clientGenerator);
         $this->cb = $cb;
         $this->phones = $phones;
+        $this->withPhoto = $withPhoto;
+        $this->largePhoto = $largePhoto;
     }
 
     /**
@@ -40,7 +48,7 @@ class UserContactsScenario extends InfoClientScenario
         $this->login();
 
         /* info by username */
-        $this->infoClient->getInfoByUsername('asen_17', true, true, function ($userInfoModel) {
+        $this->infoClient->getInfoByUsername('asen_17', $this->withPhoto, $this->largePhoto, function ($userInfoModel) {
             if ($userInfoModel->photo)
                 file_put_contents(
                     $userInfoModel->username.'.'.$userInfoModel->photo->format,
@@ -48,7 +56,7 @@ class UserContactsScenario extends InfoClientScenario
                 );
         });
 
-        $this->parseNumbers($this->phones, true, true);
+        $this->parseNumbers($this->phones, $this->withPhoto, $this->largePhoto);
     }
 
     /**

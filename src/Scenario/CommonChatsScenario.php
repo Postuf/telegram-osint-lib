@@ -169,7 +169,7 @@ class CommonChatsScenario extends InfoClientScenario
                     $callback();
                 }
             });
-        }, $this->getGenerator());
+        }, $this->getGenerator(), false, false);
         $client->startActions(false);
     }
 
