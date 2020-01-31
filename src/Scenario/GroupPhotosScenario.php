@@ -14,6 +14,8 @@ use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\Scenario\Models\OptionalDateRange;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_all_chats;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_history;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ResolvedPeer;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Peer\PeerUser;
 
 /**
  * Downloading group photos
@@ -187,22 +189,23 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
 
             if ($this->username) {
                 $onUserResolve = function (AnonymousMessage $message) use ($groupname, $afterGroupResolve) {
-                    /** @see https://core.telegram.org/constructor/contacts.resolvedPeer */
-                    if ($message->getType() !== 'contacts.resolvedPeer') {
+                    if (!ResolvedPeer::isIt($message)) {
                         Logger::log(__CLASS__, 'got unexpected response of type '.$message->getType());
 
                         return;
                     }
+
+                    $resolvedPeer = new ResolvedPeer($message);
                     /** @var array $peer */
-                    $peer = $message->getValue('peer');
+                    $peer = $resolvedPeer->getPeer();
                     /** @see https://core.telegram.org/constructor/peerUser */
-                    if ($peer['_'] !== 'peerUser') {
-                        Logger::log(__CLASS__, 'got unexpected peer of type '.$peer['_']);
+                    if (!($peer instanceof PeerUser)) {
+                        Logger::log(__CLASS__, 'got unexpected peer type');
 
                         return;
                     }
 
-                    $this->userId = (int) $peer['user_id'];
+                    $this->userId = (int) $peer->getId();
 
                     $this->infoClient->resolveUsername($groupname, $this->getResolveHandler($afterGroupResolve));
                 };

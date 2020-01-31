@@ -10,6 +10,7 @@ use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\Scenario\Models\GroupId;
 use TelegramOSINT\Scenario\Models\OptionalDateRange;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ResolvedPeer;
 
 class GroupMessagesScenario extends InfoClientScenario
 {
@@ -76,12 +77,12 @@ class GroupMessagesScenario extends InfoClientScenario
     private function getUserResolveHandler(callable $cb): callable
     {
         return function (AnonymousMessage $message) use ($cb) {
-            if ($message->getType() === 'contacts.resolvedPeer' && $message->getValue('users')) {
-                $user = $message->getValue('users')[0];
-                if ($user['_'] == 'user') {
-                    $this->userId = (int) $user['id'];
-                    Logger::log(__CLASS__, "resolved user {$this->username} to {$this->userId}");
-                }
+            if (ResolvedPeer::isIt($message)
+                && ($resolvedPeer = new ResolvedPeer($message))
+                && $resolvedPeer->getUsers()) {
+                $user = $resolvedPeer->getUsers()[0];
+                $this->userId = (int) $user->id;
+                Logger::log(__CLASS__, "resolved user {$this->username} to {$this->userId}");
             }
             $cb();
         };

@@ -7,6 +7,7 @@ namespace TelegramOSINT\Scenario;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\Scenario\Models\GroupRequest;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ResolvedPeer;
 
 class GroupResolverScenario extends InfoClientScenario
 {
@@ -23,6 +24,8 @@ class GroupResolverScenario extends InfoClientScenario
      * @param GroupRequest             $request
      * @param ClientGeneratorInterface $generator
      * @param callable                 $onReady   function(?int $groupId, ?int $accessHash)
+     *
+     * @throws TGException
      */
     public function __construct(GroupRequest $request, ClientGeneratorInterface $generator, callable $onReady)
     {
@@ -55,10 +58,12 @@ class GroupResolverScenario extends InfoClientScenario
             if (!$onReady) {
                 return;
             }
-            if ($message->getType() === 'contacts.resolvedPeer' && ($chats = $message->getValue('chats'))) {
+            if (ResolvedPeer::isIt($message)
+                && ($resolvedPeer = new ResolvedPeer($message))
+                && ($chats = $resolvedPeer->getChats())) {
                 foreach ($chats as $chat) {
-                    $id = (int) $chat['id'];
-                    $accessHash = (int) $chat['access_hash'];
+                    $id = (int) $chat->id;
+                    $accessHash = (int) $chat->accessHash;
                     $onReady($id, $accessHash);
                     $this->onReady = null;
                     break;
