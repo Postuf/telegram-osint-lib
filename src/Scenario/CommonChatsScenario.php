@@ -20,7 +20,7 @@ class CommonChatsScenario extends InfoClientScenario
     /** @var callable|null function(int $groupId, string $title) */
     private $handler;
     /** @var string[] */
-    private $groupnames;
+    private $groupnames = [];
     /** @var array */
     private $groupMap;
     /** @var string[] */
@@ -169,8 +169,8 @@ class CommonChatsScenario extends InfoClientScenario
                     $callback();
                 }
             });
-        });
-        $client->startActions();
+        }, $this->getGenerator(), false, false);
+        $client->startActions(false);
     }
 
     /**

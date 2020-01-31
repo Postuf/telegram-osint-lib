@@ -9,6 +9,7 @@ use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\MTSerialization\OwnImplementation\OwnAnonymousMessage;
 use TelegramOSINT\TGConnection\SocketMessenger\EncryptedSocketMessenger;
 use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\ping_delay_disconnect;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 use Throwable;
 
@@ -100,8 +101,16 @@ class TraceSocketMessenger extends EncryptedSocketMessenger
             /** @noinspection PhpUnusedLocalVariableInspection */
             $reqMsg = array_shift($this->msgs);
 
+            $retain = true;
+            if ($reqMsg && $reqMsg instanceof ping_delay_disconnect) {
+                $arrMsg['_'] = 'pong';
+                $retain = false;
+            }
+
             if ($reqMsg) {
-                unset($this->trace[1][$k]);
+                if ($retain) {
+                    unset($this->trace[1][$k]);
+                }
 
                 return new OwnAnonymousMessage([
                     '_'          => 'rpc_result',
