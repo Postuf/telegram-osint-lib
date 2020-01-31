@@ -63,7 +63,7 @@ class AuthKey_v2 implements AuthKey
     {
         $metaInfo = [
             'created' => time(),
-            'api_id'  => LibConfig::APP_API_ID,
+            'api_id'  => getenv('APP_API_ID'),
             'dc_id'   => $dc->getDcId(),
             'dc_ip'   => $dc->getDcIp(),
             'dc_port' => $dc->getDcPort(),

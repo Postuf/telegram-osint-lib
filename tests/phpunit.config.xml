@@ -8,4 +8,8 @@
   <logging>
     <log type="coverage-clover" target="coverage.xml"/>
   </logging>
+  <php>
+    <env name="APP_API_ID" value="4" force="true" />
+    <env name="APP_API_HASH" value="014b35b6184100b085b0d0572f9b5103" force="true" />
+  </php>
 </phpunit>

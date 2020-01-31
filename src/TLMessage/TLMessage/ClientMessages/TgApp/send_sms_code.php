@@ -2,7 +2,6 @@
 
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp;
 
-use TelegramOSINT\LibConfig;
 use TelegramOSINT\TLMessage\TLMessage\Packer;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
@@ -39,11 +38,13 @@ class send_sms_code implements TLClientMessage
      */
     public function toBinary()
     {
+        $apiId = getenv('APP_API_ID');
+
         return
             Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packString($this->phone).
-            Packer::packInt(LibConfig::APP_API_ID).
-            Packer::packString(LibConfig::APP_API_HASH).
+            Packer::packInt($apiId).
+            Packer::packString(getenv('APP_API_HASH')).
             Packer::packBytes((new send_sms_code_settings())->toBinary());
     }
 }

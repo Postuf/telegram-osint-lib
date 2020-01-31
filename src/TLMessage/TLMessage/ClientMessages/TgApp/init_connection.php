@@ -51,7 +51,7 @@ class init_connection implements TLClientMessage
         return
             Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packInt($flags).
-            Packer::packInt(LibConfig::APP_API_ID).
+            Packer::packInt(getenv('APP_API_ID')).
             Packer::packString($this->account->getDevice()).
             Packer::packString($this->account->getAndroidSdkVersion()).
             Packer::packString($this->account->getAppVersion().' ('.$this->account->getAppVersionCode().')').

@@ -33,16 +33,6 @@ class LibConfig
     const DC_DEFAULT_PORT = 443;
     const DC_DEFAULT_ID = 2;
 
-    /* ================================================================ Api keys */
-
-    // Official App
-    const APP_API_HASH = '014b35b6184100b085b0d0572f9b5103';
-    const APP_API_ID = 4;
-
-    //  Any Custom App
-    const OWN_API_HASH = '1fe17cda7d355166cdaa71f04122873c';
-    const OWN_API_ID = 25628;
-
     /* ================================================================  Default client info */
 
     const APP_DEFAULT_DEVICE_LANG_CODE = 'en-us';
