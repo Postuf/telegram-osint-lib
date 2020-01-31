@@ -21,6 +21,7 @@ class CommonChatsTest extends TestCase
      */
     public function test_get_interests(): void
     {
+        @unlink(__DIR__.'/../../../src/Scenario/CommonChatsScenario.php.tmp');
         $file = file_get_contents(__DIR__.self::TRACE_PATH);
         $baseGenerator = new NullBasicClientGenerator(json_decode($file, true));
         $interests = 0;

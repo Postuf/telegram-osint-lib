@@ -14,11 +14,11 @@ use TelegramOSINT\TGConnection\Socket\TcpSocket;
 use TelegramOSINT\TGConnection\SocketMessenger\EncryptedSocketMessenger;
 use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
 use TelegramOSINT\TGConnection\SocketMessenger\SocketMessenger;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\get_config;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\update_status;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\init_connection;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\invoke_with_layer;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\ping_delay_disconnect;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_config;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\init_connection;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\invoke_with_layer;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\ping_delay_disconnect;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\update_status;
 use TelegramOSINT\Tools\Proxy;
 
 class BasicClientImpl implements BasicClient, MessageListener
