@@ -28,6 +28,7 @@ $onComplete = function (UserInfoModel $model) {
     }
     echo implode("\t|\t", [
         $model->phone,
+        $model->username,
         $model->firstName,
         $model->lastName,
         $photo_file,
