@@ -35,6 +35,7 @@ $onComplete = function (UserInfoModel $model) {
         $model->bio,
         $model->commonChatsCount,
         $model->langCode,
+        '',
     ]);
 
     if ($model->status->was_online)
