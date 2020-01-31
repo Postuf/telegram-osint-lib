@@ -6,6 +6,8 @@ namespace TelegramOSINT\Scenario;
 
 use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ResolvedPeer;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Peer\PeerChannel;
 
 abstract class AbstractGroupScenario extends InfoClientScenario implements ScenarioInterface
 {
@@ -37,15 +39,15 @@ abstract class AbstractGroupScenario extends InfoClientScenario implements Scena
     protected function getResolveHandler(callable $onChannelFound): callable
     {
         return function (AnonymousMessage $message) use ($onChannelFound) {
-            if ($message->getType() !== 'contacts.resolvedPeer') {
+            if (!ResolvedPeer::isIt($message)) {
                 Logger::log(__CLASS__, 'got unexpected response of type '.$message->getType());
 
                 return;
             }
             /** @var array $peer */
-            $peer = $message->getValue('peer');
-            if ($peer['_'] !== 'peerChannel') {
-                Logger::log(__CLASS__, 'got unexpected peer of type '.$peer['_']);
+            $peer = (new ResolvedPeer($message))->getPeer();
+            if (!($peer instanceof PeerChannel)) {
+                Logger::log(__CLASS__, 'got unexpected peer type');
 
                 return;
             }

@@ -7,6 +7,7 @@ namespace Integration\Scenario;
 use Helpers\NullBasicClientGenerator;
 use Helpers\TestClientGenerator;
 use PHPUnit\Framework\TestCase;
+use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Scenario\CommonChatsScenario;
 
 class CommonChatsTest extends TestCase
@@ -15,6 +16,9 @@ class CommonChatsTest extends TestCase
     private const TRACE_PATH = '/traces/get-common-chats.txt';
     private const TIMEOUT = 0.25;
 
+    /**
+     * @throws TGException
+     */
     public function test_get_interests(): void
     {
         $file = file_get_contents(__DIR__.self::TRACE_PATH);

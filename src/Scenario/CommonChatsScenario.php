@@ -9,6 +9,7 @@ use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Chats;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ResolvedPeer;
 use TelegramOSINT\Tools\CacheMap;
 
 /**
@@ -31,8 +32,6 @@ class CommonChatsScenario extends InfoClientScenario
     private $phone;
     /** @var array */
     private $resolvedGroups = [];
-    /** @var array */
-    private $matchesInterest = [];
     /** @var CacheMap */
     private $resolveCache;
 
@@ -90,6 +89,7 @@ class CommonChatsScenario extends InfoClientScenario
 
     /**
      * @param callable $onComplete function()
+     * @noinspection PhpUnusedParameterInspection
      */
     public function subscribeToChats(callable $onComplete)
     {
@@ -118,10 +118,12 @@ class CommonChatsScenario extends InfoClientScenario
             } else {
                 $this->infoClient->resolveUsername($groupName, function (AnonymousMessage $message) use ($groupName, &$groupsCnt, &$completedFlag, $callback) {
                     $groupsCnt--;
-                    if ($message->getType() === 'contacts.resolvedPeer' && ($chats = $message->getValue('chats'))){
-                        foreach ($chats as $chat) {
-                            $id = (int) $chat['id'];
-                            $accessHash = (int) $chat['access_hash'];
+                    if (ResolvedPeer::isIt($message)
+                        && ($resolvedPeer = new ResolvedPeer($message))
+                        && $resolvedPeer->getChats()) {
+                        foreach ($resolvedPeer->getChats() as $chat) {
+                            $id = (int) $chat->id;
+                            $accessHash = (int) $chat->accessHash;
                             $value = [
                                 'title'      => $groupName,
                                 'id'         => $id,

@@ -7,6 +7,7 @@ namespace TelegramOSINT\Scenario;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ResolvedPeer;
 
 class UserResolveScenario extends InfoClientScenario
 {
@@ -21,6 +22,8 @@ class UserResolveScenario extends InfoClientScenario
      * @param string                        $username
      * @param callable                      $cb              function(int|null $userId)
      * @param ClientGeneratorInterface|null $clientGenerator
+     *
+     * @throws TGException
      */
     public function __construct(string $username, callable $cb, ClientGeneratorInterface $clientGenerator = null)
     {
@@ -51,15 +54,15 @@ class UserResolveScenario extends InfoClientScenario
     private function getUserResolveHandler(callable $cb): callable
     {
         return function (AnonymousMessage $message) use ($cb) {
-            if ($message->getType() === 'contacts.resolvedPeer' && $message->getValue('users')) {
-                $user = $message->getValue('users')[0];
-                if ($user['_'] == 'user') {
-                    $this->userId = (int) $user['id'];
-                    Logger::log(__CLASS__, "resolved user {$this->username} to {$this->userId}");
-                    $cb($this->userId);
+            if (ResolvedPeer::isIt($message)
+                && ($peer = new ResolvedPeer($message))
+                && $peer->getUsers()) {
+                $user = $peer->getUsers()[0];
+                $this->userId = $user->id;
+                Logger::log(__CLASS__, "resolved user {$this->username} to {$this->userId}");
+                $cb($this->userId);
 
-                    return;
-                }
+                return;
             }
             $cb(null);
         };
