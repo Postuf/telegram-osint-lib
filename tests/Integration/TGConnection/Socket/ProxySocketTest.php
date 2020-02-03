@@ -7,6 +7,7 @@ namespace Integration\TGConnection\Socket;
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\TGConnection\DataCentre;
+use TelegramOSINT\TGConnection\Socket\NonBlockingProxySocket;
 use TelegramOSINT\TGConnection\Socket\ProxySocket;
 use TelegramOSINT\Tools\Proxy;
 
@@ -28,7 +29,7 @@ class ProxySocketTest extends TestCase
     public function test_proxy_connect_async(): void
     {
         $isReady = false;
-        $socket = new ProxySocket(
+        $socket = new NonBlockingProxySocket(
             new Proxy('127.0.0.1:1080'),
             DataCentre::getDefault(),
             function () use (&$isReady) {

@@ -16,59 +16,40 @@ class ProxySocket implements Socket
      *
      * @var resource
      */
-    private $socksSocket = null;
+    protected $socksSocket = null;
     /** @var Socks5Socket|null */
     private $socketObject = null;
-    /** @var SocketAsyncTg|null */
-    private $socketObjectAsync = null;
     /**
      * @var DataCentre
      */
-    private $dc;
+    protected $dc;
     /**
      * @var Proxy
      */
-    private $proxy;
+    protected $proxy;
     /**
      * @var bool
      */
     private $isTerminated = false;
     /** @var callable|null */
-    private $cbOnConnected = null;
+    protected $cbOnConnected = null;
 
     /**
-     * @param Proxy         $proxy
-     * @param DataCentre    $dc
-     * @param callable|null $onSocketReady function()
-     * @param int           $timeout
+     * @param Proxy      $proxy
+     * @param DataCentre $dc
+     * @param int        $timeout
      *
      * @throws TGException
      */
     public function __construct(
         Proxy $proxy,
         DataCentre $dc,
-        callable $onSocketReady = null,
         int $timeout = LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC
     ) {
         if(!in_array($proxy->getType(), [Proxy::TYPE_SOCKS5]))
             throw new TGException(TGException::ERR_PROXY_WRONG_PROXY_TYPE);
         $this->dc = $dc;
         $this->proxy = $proxy;
-
-        if ($onSocketReady) {
-            $this->socketObjectAsync = new SocketAsyncTg(
-                $this->proxy,
-                $this->dc->getDcIp(),
-                $this->dc->getDcPort(),
-                $timeout
-            );
-            $this->cbOnConnected = function () use ($onSocketReady) {
-                $this->socksSocket = $this->socketObjectAsync->getSocksSocket();
-                $onSocketReady();
-            };
-
-            return;
-        }
 
         $this->socketObject = new Socks5Socket($this->proxy, $timeout);
 
@@ -77,14 +58,6 @@ class ProxySocket implements Socket
             socket_set_nonblock($this->socksSocket);
         } catch (SocksException $e) {
             $this->wrapSocksLibException($e);
-        }
-    }
-
-    public function runOnConnectedCallback() {
-        if ($this->cbOnConnected) {
-            $func = $this->cbOnConnected;
-            $this->cbOnConnected = null;
-            $func();
         }
     }
 
@@ -163,29 +136,13 @@ class ProxySocket implements Socket
         $this->isTerminated = true;
     }
 
-    /**
-     * @throws TGException
-     */
     public function poll(): void
     {
-        if (!$this->socketObjectAsync) {
-            return;
-        }
 
-        try {
-            $this->socketObjectAsync->poll();
-        } catch (SocksException $e) {
-            throw new TGException(TGException::ERR_PROXY_LONG_STEP, $e->getMessage());
-        }
-        if ($this->socketObjectAsync->ready()) {
-            $this->runOnConnectedCallback();
-        }
     }
 
     public function ready(): bool
     {
-        return $this->socketObject
-            ? true
-            : $this->socketObjectAsync->ready();
+        return true;
     }
 }

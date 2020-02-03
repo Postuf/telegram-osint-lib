@@ -8,6 +8,7 @@ use TelegramOSINT\LibConfig;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\Registration\AccountInfo;
 use TelegramOSINT\TGConnection\DataCentre;
+use TelegramOSINT\TGConnection\Socket\NonBlockingProxySocket;
 use TelegramOSINT\TGConnection\Socket\ProxySocket;
 use TelegramOSINT\TGConnection\Socket\Socket;
 use TelegramOSINT\TGConnection\Socket\TcpSocket;
@@ -159,7 +160,9 @@ class BasicClientImpl implements BasicClient, MessageListener
     {
         if($proxy instanceof Proxy){
             if($proxy->getType() == Proxy::TYPE_SOCKS5)
-                return new ProxySocket($proxy, $dc, $cb, $this->proxyTimeout);
+                return $cb
+                    ? new NonBlockingProxySocket($proxy, $dc, $cb, $this->proxyTimeout)
+                    : new ProxySocket($proxy, $dc, $this->proxyTimeout);
         }
 
         return new TcpSocket($dc);
