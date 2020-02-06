@@ -132,7 +132,11 @@ class ProxySocket implements Socket
      */
     public function terminate()
     {
-        @socket_close($this->socksSocket);
+        if (is_resource($this->socksSocket)) {
+            @socket_shutdown($this->socksSocket, 2);
+            @socket_close($this->socksSocket);
+        }
+        $this->socksSocket = null;
         $this->isTerminated = true;
     }
 

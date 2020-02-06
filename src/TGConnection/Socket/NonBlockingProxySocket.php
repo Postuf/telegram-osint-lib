@@ -79,4 +79,10 @@ class NonBlockingProxySocket extends ProxySocket
     {
         return $this->socketObjectAsync->ready();
     }
+
+    public function __destruct()
+    {
+        $this->socketObjectAsync->stop();
+        parent::__destruct();
+    }
 }
