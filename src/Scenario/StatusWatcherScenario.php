@@ -12,6 +12,7 @@ use TelegramOSINT\Client\StatusWatcherClient\Models\User;
 use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherCallbacks;
 use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherClient;
 use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\LibConfig;
 use TelegramOSINT\Logger\ClientDebugLogger;
 use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\Tools\Proxy;
@@ -57,7 +58,7 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
         Logger::setupLogger($this);
 
         if (!$generator) {
-            $generator = new ClientGenerator();
+            $generator = new ClientGenerator(LibConfig::ENV_AUTHKEY, $proxy);
         }
 
         $this->authKey = $generator->getAuthKey();
@@ -128,7 +129,6 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
         $this->client->cleanMonitoringBook(function () {
             echo "Contacts cleaned\n";
         });
-
     }
 
     /**
