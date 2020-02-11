@@ -16,7 +16,7 @@
         "ext-sockets": "*",
         "ext-xml": "*",
         "ext-zlib": "*",
-        "postuf/socks-proxy-async": "^0.1.5"
+        "postuf/socks-proxy-async": "0.1.11"
     },
     "autoload": {
         "psr-4": {
@@ -28,5 +28,11 @@
             "": ["tests/", "examples/"]
         }
     },
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Postuf/SocksProxyAsync"
+        }
+    ]
 }

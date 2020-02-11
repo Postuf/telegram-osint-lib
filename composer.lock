@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "85b3e2051e0c8f3414207f01769952ce",
+    "content-hash": "518ac2b99f5bb09a61f1cf9bd3af1b71",
     "packages": [
         {
             "name": "phpseclib/phpseclib",
@@ -100,16 +100,16 @@
         },
         {
             "name": "postuf/socks-proxy-async",
-            "version": "v0.1.9",
+            "version": "v0.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Postuf/SocksProxyAsync.git",
-                "reference": "08aca0b7defdbc9cb0ab0a25d96e9bf3b239f7a5"
+                "reference": "2bf12c2c6fab242cafbb3308dd2ac518e9e34d82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Postuf/SocksProxyAsync/zipball/08aca0b7defdbc9cb0ab0a25d96e9bf3b239f7a5",
-                "reference": "08aca0b7defdbc9cb0ab0a25d96e9bf3b239f7a5",
+                "url": "https://api.github.com/repos/Postuf/SocksProxyAsync/zipball/2bf12c2c6fab242cafbb3308dd2ac518e9e34d82",
+                "reference": "2bf12c2c6fab242cafbb3308dd2ac518e9e34d82",
                 "shasum": ""
             },
             "require": {
@@ -124,13 +124,16 @@
                     "SocksProxyAsync\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "description": "Lightweight asynchronous socks proxy for PHP",
             "homepage": "https://github.com/Postuf/SocksProxyAsync",
-            "time": "2020-02-11T12:20:13+00:00"
+            "support": {
+                "source": "https://github.com/Postuf/SocksProxyAsync/tree/v0.1.11",
+                "issues": "https://github.com/Postuf/SocksProxyAsync/issues"
+            },
+            "time": "2020-02-11T14:35:07+00:00"
         }
     ],
     "packages-dev": [
