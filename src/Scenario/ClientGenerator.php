@@ -17,10 +17,13 @@ class ClientGenerator implements ClientGeneratorInterface
 {
     /** @var string */
     private $envName;
+    /** @var Proxy|null */
+    private $proxy;
 
-    public function __construct(string $envName = LibConfig::ENV_AUTHKEY)
+    public function __construct(string $envName = LibConfig::ENV_AUTHKEY, ?Proxy $proxy = null)
     {
         $this->envName = $envName;
+        $this->proxy = $proxy;
     }
 
     public function getInfoClient()
@@ -59,6 +62,6 @@ class ClientGenerator implements ClientGeneratorInterface
 
     public function getProxy(): ?Proxy
     {
-        return null;
+        return $this->proxy;
     }
 }
