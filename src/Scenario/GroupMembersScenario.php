@@ -10,8 +10,8 @@ use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\Scenario\Models\GroupId;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_all_chats;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_full_chat;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_all_chats;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_full_chat;
 
 /**
  * Listing group members

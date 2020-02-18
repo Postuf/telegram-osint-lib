@@ -11,10 +11,10 @@ use TelegramOSINT\Client\StatusWatcherClient\ContactsKeeper;
 use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\TGConnection\SocketMessenger\SocketMessenger;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Shared\delete_contacts;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\get_contacts;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\import_contacts;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\reset_saved_contacts;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\delete_contacts;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_contacts;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\import_contacts;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\reset_saved_contacts;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class ContactsKeeperTest extends TestCase

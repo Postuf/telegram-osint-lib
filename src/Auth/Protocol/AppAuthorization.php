@@ -3,7 +3,7 @@
 namespace TelegramOSINT\Auth\Protocol;
 
 use TelegramOSINT\TGConnection\DataCentre;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\p_q_inner_data_dc;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\p_q_inner_data_dc;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 /**

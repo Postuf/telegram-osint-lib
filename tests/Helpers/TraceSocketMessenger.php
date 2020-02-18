@@ -9,7 +9,7 @@ use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\MTSerialization\OwnImplementation\OwnAnonymousMessage;
 use TelegramOSINT\TGConnection\SocketMessenger\EncryptedSocketMessenger;
 use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\TgApp\ping_delay_disconnect;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\ping_delay_disconnect;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 use Throwable;
 

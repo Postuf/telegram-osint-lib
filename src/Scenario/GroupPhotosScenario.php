@@ -12,8 +12,8 @@ use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\Scenario\Models\OptionalDateRange;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_all_chats;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\Api\get_history;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_all_chats;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_history;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ResolvedPeer;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Peer\PeerUser;
 
