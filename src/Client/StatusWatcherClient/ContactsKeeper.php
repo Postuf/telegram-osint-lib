@@ -16,6 +16,7 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactFound;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\CurrentContacts;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Rpc\RpcError;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update\Updates;
 use TelegramOSINT\Tools\Phone;
 use TelegramOSINT\Tools\Username;
@@ -345,6 +346,17 @@ class ContactsKeeper
         $this->contactsLoadedQueue[] = $onReloaded;
 
         $this->client->getConnection()->getResponseAsync(new get_contacts(), function (AnonymousMessage $message) {
+            if (RpcError::isIt($message)) {
+                $rpcError = new RpcError($message);
+                $errorString = $rpcError->getErrorString();
+                $clarification = 'got rpc_error with message '.$errorString.' instead of CurrentContacts';
+
+                if ($errorString == 'AUTH_KEY_UNREGISTERED') {
+                    throw new TGException(TGException::ERR_MSG_USER_BANNED, $clarification);
+                } else {
+                    throw new TGException(TGException::ERR_TL_MESSAGE_UNEXPECTED_OBJECT, $clarification);
+                }
+            }
             $users = new CurrentContacts($message);
             $this->onContactsAdded($users->getUsers());
             $this->contactsLoading = false;

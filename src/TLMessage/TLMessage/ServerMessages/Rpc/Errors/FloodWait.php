@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Rpc\Errors;
 
 use TelegramOSINT\Exception\TGException;
@@ -14,6 +16,8 @@ class FloodWait
 
     /**
      * @param RpcError $rpcError
+     *
+     * @throws TGException
      */
     public function __construct(RpcError $rpcError)
     {
@@ -22,10 +26,7 @@ class FloodWait
         $this->error = $rpcError;
     }
 
-    /**
-     * @return int
-     */
-    public function getWaitTimeSec()
+    public function getWaitTimeSec(): int
     {
         $parts = explode('_', $this->error->getErrorString());
 
