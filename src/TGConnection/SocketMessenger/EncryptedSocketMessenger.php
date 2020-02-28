@@ -332,9 +332,10 @@ class EncryptedSocketMessenger extends TgSocketMessenger implements SocketMessen
             throw new TGException(TGException::ERR_MSG_PHONE_MIGRATE, "phone $userId already used in another DataCenter");
         if($rpcError->isFloodError())
             throw new TGException(TGException::ERR_MSG_FLOOD, (new FloodWait($rpcError))->getWaitTimeSec());
-        if($rpcError->isUserDeactivated()) {
+        if($rpcError->isUserDeactivated())
             throw new TGException(TGException::ERR_MSG_USER_BANNED, "User $userId banned");
-        }
+        if($rpcError->isAuthKeyUnregistered())
+            throw new TGException(TGException::ERR_MSG_USER_BANNED, "User $userId unregistered");
         if($rpcError->isPhoneBanned())
             throw new TGException(TGException::ERR_MSG_PHONE_BANNED, "User $userId phone banned");
         if($rpcError->isAuthKeyDuplicated())
