@@ -84,6 +84,14 @@ class RpcError extends TLServerMessage
     /**
      * @return bool
      */
+    public function isAuthKeyUnregistered()
+    {
+        return strstr($this->getErrorString(), 'AUTH_KEY_UNREGISTERED');
+    }
+
+    /**
+     * @return bool
+     */
     public function isSessionRevoked()
     {
         return strstr($this->getErrorString(), 'SESSION_REVOKED');
