@@ -2,6 +2,7 @@
 
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Rpc;
 
+use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
@@ -67,6 +68,7 @@ class RpcError extends TLServerMessage
 
     /**
      * @return bool
+     * @noinspection PhpUnused
      */
     public function isPhoneNumberUnoccupied()
     {
@@ -95,5 +97,19 @@ class RpcError extends TLServerMessage
     public function isSessionRevoked()
     {
         return strstr($this->getErrorString(), 'SESSION_REVOKED');
+    }
+
+    /**
+     * @param AnonymousMessage $anonymousMessage
+     *
+     * @throws TGException
+     */
+    protected function throwIfIncorrectType(AnonymousMessage $anonymousMessage)
+    {
+        if(!static::isIt($anonymousMessage)) {
+            $msg = $anonymousMessage->getType().' with error "'.$this->getErrorString().'" instead of '.get_called_class().' class';
+
+            throw new TGException(TGException::ERR_TL_MESSAGE_UNEXPECTED_OBJECT, $msg);
+        }
     }
 }
