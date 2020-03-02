@@ -19,7 +19,7 @@ Our goal is to make a library that implements some real-life OSINT usage scenari
 
 ## Requirements
 
-* PHP 7.1+
+* PHP 7.3+
 * Composer
   * phpseclib
 

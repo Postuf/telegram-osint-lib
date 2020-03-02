@@ -48,7 +48,7 @@ abstract class TLServerMessage
      *
      * @throws TGException
      */
-    private function throwIfIncorrectType(AnonymousMessage $anonymousMessage)
+    protected function throwIfIncorrectType(AnonymousMessage $anonymousMessage)
     {
         if(!static::isIt($anonymousMessage)) {
             $msg = $anonymousMessage->getType().' instead of '.get_called_class().' class';
