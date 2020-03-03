@@ -53,7 +53,7 @@ class StatusWatcherClientMock extends StatusWatcherClient
         return $this->isUserExpirationChecks;
     }
 
-    protected function throwIfNotLoggedIn()
+    protected function throwIfNotLoggedIn(string $message)
     {
 
     }
