@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6958c308d408a0c475cf8ae3723b3f88",
+    "content-hash": "670857587db9d7070abdbbb00d09b759",
     "packages": [
         {
             "name": "phpseclib/phpseclib",
@@ -100,16 +100,16 @@
         },
         {
             "name": "postuf/socks-proxy-async",
-            "version": "v0.1.12",
+            "version": "v0.1.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Postuf/SocksProxyAsync.git",
-                "reference": "68c9c0b29db940f98fd8e79d16f5b037a2a47aaa"
+                "reference": "c3049a9ae02d0140e5fec957495e4f20a882c8de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Postuf/SocksProxyAsync/zipball/68c9c0b29db940f98fd8e79d16f5b037a2a47aaa",
-                "reference": "68c9c0b29db940f98fd8e79d16f5b037a2a47aaa",
+                "url": "https://api.github.com/repos/Postuf/SocksProxyAsync/zipball/c3049a9ae02d0140e5fec957495e4f20a882c8de",
+                "reference": "c3049a9ae02d0140e5fec957495e4f20a882c8de",
                 "shasum": ""
             },
             "require": {
@@ -130,10 +130,10 @@
             "description": "Lightweight asynchronous socks proxy for PHP",
             "homepage": "https://github.com/Postuf/SocksProxyAsync",
             "support": {
-                "source": "https://github.com/Postuf/SocksProxyAsync/tree/v0.1.12",
+                "source": "https://github.com/Postuf/SocksProxyAsync/tree/v0.1.13",
                 "issues": "https://github.com/Postuf/SocksProxyAsync/issues"
             },
-            "time": "2020-03-02T07:50:28+00:00"
+            "time": "2020-03-03T08:47:56+00:00"
         }
     ],
     "packages-dev": [
