@@ -14,9 +14,11 @@ interface BasicClient extends Client
     public function getConnection();
 
     /**
+     * @param string $message
+     *
      * @return void
      */
-    public function throwIfNotLoggedIn();
+    public function throwIfNotLoggedIn(string $message = '');
 
     /**
      * @param MessageListener $messageCallback

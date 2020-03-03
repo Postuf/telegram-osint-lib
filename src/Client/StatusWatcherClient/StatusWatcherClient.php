@@ -87,13 +87,15 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
     }
 
     /**
+     * @param string $message
+     *
      * @throws TGException
      *
      * @return void
      */
-    protected function throwIfNotLoggedIn()
+    protected function throwIfNotLoggedIn(string $message)
     {
-        $this->basicClient->throwIfNotLoggedIn();
+        $this->basicClient->throwIfNotLoggedIn($message);
     }
 
     /**
@@ -132,7 +134,7 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
      */
     public function addNumbers(array $numbers, callable $onComplete)
     {
-        $this->throwIfNotLoggedIn();
+        $this->throwIfNotLoggedIn(__METHOD__);
         $this->contactKeeper->addNumbers($numbers, $onComplete);
     }
 
@@ -144,7 +146,7 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
      */
     public function reloadNumbers(array $numbers, callable $onComplete)
     {
-        $this->throwIfNotLoggedIn();
+        $this->throwIfNotLoggedIn(__METHOD__);
         $this->contactKeeper->getCurrentContacts(function (array $contacts) use ($numbers, $onComplete) {
 
             $currentPhones = [];
@@ -195,7 +197,7 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
      */
     public function delNumbers(array $numbers, callable $onComplete)
     {
-        $this->throwIfNotLoggedIn();
+        $this->throwIfNotLoggedIn(__METHOD__);
         $this->contactKeeper->delNumbers($numbers, function () use ($onComplete) {
             $this->currentlyOnlineUsers = [];
             $this->currentlyOfflineUsers = [];
@@ -211,7 +213,7 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
      */
     public function addUser(string $userName, callable $onComplete)
     {
-        $this->throwIfNotLoggedIn();
+        $this->throwIfNotLoggedIn(__METHOD__);
         $this->contactKeeper->addUser($userName, $onComplete);
     }
 
@@ -223,7 +225,7 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
      */
     public function delUser(string $userName, callable $onComplete)
     {
-        $this->throwIfNotLoggedIn();
+        $this->throwIfNotLoggedIn(__METHOD__);
         $this->contactKeeper->delUser($userName, function () use ($onComplete) {
             $onComplete();
         });
@@ -236,7 +238,7 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
      */
     public function cleanMonitoringBook(callable $onComplete)
     {
-        $this->throwIfNotLoggedIn();
+        $this->throwIfNotLoggedIn(__METHOD__);
         $this->contactKeeper->cleanContacts($onComplete);
     }
 

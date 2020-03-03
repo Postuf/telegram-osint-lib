@@ -137,14 +137,16 @@ class BasicClientImpl implements BasicClient, MessageListener
     }
 
     /**
+     * @param string $message
+     *
      * @throws TGException
      *
      * @return void
      */
-    public function throwIfNotLoggedIn()
+    public function throwIfNotLoggedIn(string $message = '')
     {
         if(!$this->isLoggedIn())
-            throw new TGException(TGException::ERR_CLIENT_NOT_LOGGED_IN);
+            throw new TGException(TGException::ERR_CLIENT_NOT_LOGGED_IN, $message);
     }
 
     /**
