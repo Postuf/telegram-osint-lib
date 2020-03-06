@@ -16,7 +16,7 @@
         "ext-sockets": "*",
         "ext-xml": "*",
         "ext-zlib": "*",
-        "postuf/socks-proxy-async": "0.1.13"
+        "postuf/socks-proxy-async": "0.1.14"
     },
     "autoload": {
         "psr-4": {
