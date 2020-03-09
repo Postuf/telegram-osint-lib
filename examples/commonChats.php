@@ -7,12 +7,24 @@ use TelegramOSINT\Scenario\ReusableClientGenerator;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-if (!isset($argv[1])){
-    echo "please specify number: 79001234567\n";
+$argsOrFalse = getopt('n:h', ['number:', 'help']);
+if ($argsOrFalse === false
+    || (array_key_exists('h', $argsOrFalse) || array_key_exists('help', $argsOrFalse))
+    || (!array_key_exists('n', $argsOrFalse) && !array_key_exists('number', $argsOrFalse))
+) {
+    echo <<<'EOT'
+Usage:
+    php commonChats.php -n number 
+    php commonChats.php --number number
+
+   -n, --number                 Phone number (e.g. 1234567890).
+   -h, --help                   Display this help message.
+
+EOT;
     exit(1);
 }
 
-$phone = $argv[1];
+$phone = $argsOrFalse['n'] ?? $argsOrFalse['number'];
 
 $chatMap = [
     'twochannel'              => ['политика', 'развлечения'],
@@ -72,10 +84,12 @@ $callback = function ($interests) use ($phone) {
 };
 
 $generator = new ReusableClientGenerator();
+/** @noinspection PhpUnhandledExceptionInspection */
 $scenario = new CommonChatsScenario(
     $generator,
     $chatMap,
     $phone,
     $callback
 );
+/** @noinspection PhpUnhandledExceptionInspection */
 $scenario->startActions();

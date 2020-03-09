@@ -6,22 +6,30 @@ use TelegramOSINT\Scenario\UserContactsScenario;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-if (!isset($argv[1]) || $argv[1] == '--help' || $argv[1] == '--info') {
-    $msg = <<<'MSG'
-Usage: php watcher.php numbers
-    numbers: 79061231231,79061231232,...
-MSG;
-    die($msg);
+$argsOrFalse = getopt('n:h', ['numbers:', 'help']);
+if ($argsOrFalse === false
+    || (array_key_exists('h', $argsOrFalse) || array_key_exists('help', $argsOrFalse))
+    || (!array_key_exists('n', $argsOrFalse) && !array_key_exists('numbers', $argsOrFalse))
+) {
+    echo <<<'EOT'
+Usage:
+    php watcher.php -n numbers
+    php watcher.php --numbers numbers
+
+   -n, --numbers                Comma separated phone number list (e.g. 79061231231,79061231232).
+   -h, --help                   Display this help message.
+
+EOT;
+    exit(1);
 }
 
-$numbers = explode(',', $argv[1]);
+$numbers = explode(',', $argsOrFalse['n'] ?? $argsOrFalse['numbers']);
 
 // here we get contact list and get contact online status
 // avatars are saved to current directory
 
 /** @noinspection PhpUnhandledExceptionInspection */
 (new UserContactsScenario($numbers, function () use ($numbers) {
-    /* @noinspection PhpUnhandledExceptionInspection */
     (new StatusWatcherScenario($numbers, [], new ClientGenerator()))
         ->startActions(false);
 }))->startActions();
