@@ -9,21 +9,34 @@ use TelegramOSINT\Scenario\SearchUserScenario;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-const INFO = '--info';
+$argsOrFalse = getopt('g:u:h', ['group-list-file:', 'user:', 'help']);
+if ($argsOrFalse === false
+    || (array_key_exists('h', $argsOrFalse) || array_key_exists('help', $argsOrFalse))
+    || (!array_key_exists('g', $argsOrFalse) && !array_key_exists('group-list-file', $argsOrFalse))
+    || (!array_key_exists('u', $argsOrFalse) && !array_key_exists('user', $argsOrFalse))
+) {
+    echo <<<'EOT'
+Usage:
+    php searchUserInGroups.php -g filename -u username
+    php searchUserInGroups.php --group-list-file filename --user username
 
-if (!isset($argv[1]) || isset($argv[1]) && $argv[1] === '--help' || !isset($argv[2])) {
-    echo <<<'TXT'
-Usage: php searchUserInGroups.php grouplist.txt username [--info]
-TXT;
-    die();
-}
+   -g, --group-list-file        Text input file with groups.
+   -u, --user                   User name.
+   -h, --help                   Display this help message.
 
-if (!file_exists($argv[1])) {
-    fwrite(STDERR, "File {$argv[1]} not found\n");
+EOT;
     exit(1);
 }
 
-$contents = file_get_contents($argv[1]);
+$groupsFile = $argsOrFalse['g'] ?? $argsOrFalse['group-list-file'];
+$username = $argsOrFalse['u'] ?? $argsOrFalse['user'];
+
+if (!file_exists($groupsFile)) {
+    fwrite(STDERR, "File $groupsFile not found.".PHP_EOL);
+    exit(1);
+}
+
+$contents = file_get_contents($groupsFile);
 $lines = explode("\n", $contents);
 $groupnames = [];
 foreach ($lines as $line) {
@@ -32,8 +45,6 @@ foreach ($lines as $line) {
     }
     $groupnames[] = trim($line);
 }
-
-$username = $argv[2];
 
 $generator = new ReusableClientGenerator();
 $scenario = new SearchUserScenario($generator, $groupnames, $username);

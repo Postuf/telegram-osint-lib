@@ -9,56 +9,46 @@ use TelegramOSINT\Scenario\ReusableClientGenerator;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-const INFO = '--info';
+$argsOrFalse = getopt('c:u:l:gh', ['coordinates:', 'user:', 'limit:', 'groups-only', 'help']);
+if ($argsOrFalse === false
+    || (array_key_exists('h', $argsOrFalse) || array_key_exists('help', $argsOrFalse))
+    || (!array_key_exists('c', $argsOrFalse) && !array_key_exists('coordinates', $argsOrFalse))
+) {
+    echo <<<'EOT'
+Usage:
+    php geoSearch.php -c lat1,lon1,lat2,lon2 [-u username] [-l limit] [-g]
+    php geoSearch.php --coordinates lat1,lon1,lat2,lon2 [--user username] [--limit limit] [--groups-only]
 
-if (!isset($argv[1]) || $argv[1] === INFO || $argv[1] === '--help') {
-    $msg = <<<'MSG'
-usage: php geoSearch.php lat1,lon1,lat2,lon2,... [username] [limit] [--groups-only]
-    lat/lon example: 55.2353
-    if username specified, searches user in selected groups, otherwise prints group list only
+   -c, --coordinates            Comma separated list of latitudes and longitudes.
+   -u, --user                   Optional user name. If specified it searches the user in selected groups,
+                                otherwise prints group list only.
+   -l, --limit                  Optional limit (default 100).
+   -g, --groups-only            Optional groups only flag.
+   -h, --help                   Display this help message.
 
-MSG;
-
-    die($msg);
+EOT;
+    exit(1);
 }
 
-$points = array_chunk(explode(',', $argv[1]), 2);
-foreach($points as &$point) {
-    foreach ($point as &$coord) {
-        $coord = (float) $coord;
-    }
-}
+$coordinates = $argsOrFalse['c'] ?? $argsOrFalse['coordinates'];
+// explode => convert each value to float => chunk into pairs
+$points = array_chunk(array_map(function (string $value): float {
+    return (float) $value;
+}, explode(',', $coordinates)), 2);
 
-$username = null;
-if (isset($argv[2]) && $argv[2] != INFO && $argv[2] != '--') {
-    $username = $argv[2];
-}
-
-$groupsOnlyKey = '--groups-only';
-$groupsOnly = false;
-
-$limit = 100;
-if (isset($argv[3]) && $argv[3] != INFO && $argv[3] != $groupsOnlyKey) {
-    $limit = (int) $argv[3];
-}
-
-if (isset($argv[3]) && $argv[3] == $groupsOnlyKey) {
-    $groupsOnly = true;
-}
-
-if (isset($argv[4]) && $argv[4] == $groupsOnlyKey) {
-    $groupsOnly = true;
-}
+$username = $argsOrFalse['u'] ?? $argsOrFalse['user'] ?? null;
+$groupsOnly = array_key_exists('g', $argsOrFalse) || array_key_exists('groups-only', $argsOrFalse);
+$limit = (int) ($argsOrFalse['l'] ?? $argsOrFalse['limit'] ?? 100);
 
 $generator = new ReusableClientGenerator();
 
 $finders = [];
-$groupHandler = function (GeoChannelModel $model) use (&$generator, &$finders, $username) {
+$groupHandler = function (GeoChannelModel $model) use (&$generator, &$finders, $username, $limit) {
     $membersFinder = new GroupMembersScenario(
         $model->getGroupId(),
         null,
         $generator,
-        100,
+        $limit,
         $username
     );
 

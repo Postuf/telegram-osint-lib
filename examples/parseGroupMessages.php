@@ -12,54 +12,61 @@ use TelegramOSINT\Scenario\Models\GroupRequest;
 use TelegramOSINT\Scenario\Models\OptionalDateRange;
 use TelegramOSINT\Scenario\ReusableClientGenerator;
 
-const INFO = '--info';
+$argsOrFalse = getopt('g:l:f:t:u:h', ['group-id:', 'deep-link:', 'timestamp-from:', 'timestamp-to:', 'user:', 'help']);
+$hasGroupId = array_key_exists('g', $argsOrFalse) || array_key_exists('group-id', $argsOrFalse);
+$hasLink = array_key_exists('l', $argsOrFalse) || array_key_exists('deep-link', $argsOrFalse);
+if ($argsOrFalse === false
+    || (array_key_exists('h', $argsOrFalse) || array_key_exists('help', $argsOrFalse))
+    || (!$hasGroupId && !$hasLink)
+) {
+    echo <<<'EOT'
+Usage:
+    php parseGroupMessages.php -g groupID | -l link
+                               [-f timestampFrom] [-t timestampTo] [-u username]
+    php parseGroupMessages.php --group-id groupID | --deep-link link
+                               [--timestamp-from timestampFrom] [--timestamp-to timestampTo] [--user username]
 
-/** @var int|null $groupId */
-$groupId = null;
-/** @var string|null $username */
-$username = null;
-/** @var int|null $timestampStart */
-$timestampStart = null;
-/** @var int|null $timestampEnd */
-$timestampEnd = null;
-if (!isset($argv[1]) || isset($argv[1]) && $argv[1] === '--help') {
-    echo <<<'TXT'
-Usage: php parseGroupMessages.php groupId|deepLink [username] [timestampStart] [timestampEnd] [--info]
-    deepLink ex.: https://t.me/vityapelevin
-    if you do not need username filter (but need timestamp filter), please specify -- as value
-TXT;
-    die();
+    Note: Group ID and Deep Link are mutually exclusive. Please specify only one of them.
+
+   -g, --group-id               Group identifier.
+   -l, --deep-link              Deep link (e.g. https://t.me/vityapelevin).
+   -f, --timestamp-from         Optional start timestamp.
+   -t, --timestamp-to           Optional end timestamp.
+   -u, --user                   Optional user name.
+   -h, --help                   Display this help message.
+
+EOT;
+    exit(1);
 }
 
-if ($argv[1] !== INFO) {
-    if (is_numeric($argv[1])) {
-        $groupId = (int) $argv[1];
-    } else {
-        $deepLink = $argv[1];
-    }
+if ($hasGroupId && $hasLink) {
+    echo 'Group ID and Deep Link are mutually exclusive. Please specify only one of them.'.PHP_EOL;
+
+    exit(1);
 }
 
-if (isset($argv[2]) && $argv[2] !== INFO && $argv[2] !== '--') {
-    $username = $argv[2];
-}
+$groupId = $argsOrFalse['g'] ?? $argsOrFalse['group-id'] ?? null;
+$deepLink = $argsOrFalse['l'] ?? $argsOrFalse['deep-link'] ?? '';
+$username = $argsOrFalse['u'] ?? $argsOrFalse['user'] ?? null;
+$timestampStart = $argsOrFalse['f'] ?? $argsOrFalse['timestamp-from'] ?? null;
+$timestampEnd = $argsOrFalse['t'] ?? $argsOrFalse['timestamp-to'] ?? null;
 
-if (isset($argv[3]) && $argv[3] !== INFO) {
-    $timestampStart = (int) $argv[3];
-}
+$timestampStart = $timestampStart === null ? null : (int) $timestampStart;
+$timestampEnd = $timestampEnd === null ? null : (int) $timestampEnd;
 
-if (isset($argv[4]) && $argv[4] !== INFO) {
-    $timestampEnd = (int) $argv[4];
-}
 $generator = new ReusableClientGenerator();
-$request = $groupId
-    ? GroupRequest::ofGroupId($groupId)
+$request = $groupId !== null
+    ? GroupRequest::ofGroupId((int) $groupId)
     : GroupRequest::ofUserName($deepLink);
 
 /**
- * @param ?int $groupId
- * @param ?int $accessHash
+ * @param int|null $groupId
+ * @param int|null $accessHash
  */
-$onGroupReady = function ($groupId, $accessHash = null) use ($timestampStart, $timestampEnd, $username, $generator) {
+$onGroupReady = function (
+    ?int $groupId,
+    ?int $accessHash = null
+) use ($timestampStart, $timestampEnd, $username, $generator): void {
     if (!$groupId || !$accessHash) {
         Logger::log('parseGroupMessages', 'Group not found');
 
@@ -84,6 +91,7 @@ $onGroupReady = function ($groupId, $accessHash = null) use ($timestampStart, $t
 };
 
 Logger::log(__FILE__, 'starting group resolver for '.$request);
+/** @noinspection PhpUnhandledExceptionInspection */
 $resolver = new GroupResolverScenario($request, $generator, $onGroupReady);
 /** @noinspection PhpUnhandledExceptionInspection */
 $resolver->startActions();

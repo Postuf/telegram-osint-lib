@@ -10,12 +10,24 @@ require_once __DIR__.'/../vendor/autoload.php';
 // here we get contact list and get contact online status
 // avatars are saved to current directory
 
-if (!isset($argv[1])) {
-    echo "please specify numbers (comma-separated): 79061231231,79061231232\n";
+$argsOrFalse = getopt('n:h', ['numbers:', 'help']);
+if ($argsOrFalse === false
+    || (array_key_exists('h', $argsOrFalse) || array_key_exists('help', $argsOrFalse))
+    || (!array_key_exists('n', $argsOrFalse) && !array_key_exists('numbers', $argsOrFalse))
+) {
+    echo <<<'EOT'
+Usage:
+    php parseNumbers.php -n numbers 
+    php parseNumbers.php --numbers numbers
+
+   -n, --numbers                Comma separated phone number list (e.g. 79061231231,79061231232).
+   -h, --help                   Display this help message.
+
+EOT;
     exit(1);
 }
 
-$numbers = explode(',', $argv[1]);
+$numbers = explode(',', $argsOrFalse['n'] ?? $argsOrFalse['numbers']);
 
 $onComplete = function (UserInfoModel $model) {
     $photo_file = '';
@@ -49,6 +61,7 @@ $onComplete = function (UserInfoModel $model) {
 };
 
 echo "Phone\t|\tUsername\t|\tFirst name\t|\tLast name\t|\tPhoto\t|\tAbout\t|\tCommon chats\t|\tLang\t|\tWas online\n\n";
+/** @noinspection PhpUnhandledExceptionInspection */
 $client = new UserContactsScenario(
     $numbers,
     $onComplete

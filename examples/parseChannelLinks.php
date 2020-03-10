@@ -13,46 +13,57 @@ use TelegramOSINT\Scenario\Models\GroupRequest;
 use TelegramOSINT\Scenario\Models\OptionalDateRange;
 use TelegramOSINT\Scenario\ReusableClientGenerator;
 
-const INFO = '--info';
+$argsOrFalse = getopt('g:l:f:t:h', ['group-id:', 'deep-link:', 'timestamp-from:', 'timestamp-to:', 'help']);
+$hasGroupId = array_key_exists('g', $argsOrFalse) || array_key_exists('group-id', $argsOrFalse);
+$hasLink = array_key_exists('l', $argsOrFalse) || array_key_exists('deep-link', $argsOrFalse);
+if ($argsOrFalse === false
+    || (array_key_exists('h', $argsOrFalse) || array_key_exists('help', $argsOrFalse))
+    || (!$hasGroupId && !$hasLink)
+) {
+    echo <<<'EOT'
+Usage:
+    php parseChannelLinks.php -g groupID | -l link [-f timestampFrom] [-t timestampTo]
+    php parseChannelLinks.php --group-id groupID | --deep-link link
+                              [--timestamp-from timestampFrom] [--timestamp-to timestampTo]
 
-/** @var int|null $groupId */
-$groupId = null;
-/** @var int|null $timestampStart */
-$timestampStart = null;
-/** @var int|null $timestampEnd */
-$timestampEnd = null;
+    Note: Group ID and Deep Link are mutually exclusive. Please specify only one of them.
 
-if (!isset($argv[1]) || isset($argv[1]) && $argv[1] === '--help') {
-    echo <<<'TXT'
-Usage: php parseChannelLinks.php groupId|deepLink [timestampStart] [timestampEnd] [--info]
-    deepLink ex.: https://t.me/vityapelevin
-TXT;
-    die();
+   -g, --group-id               Group identifier.
+   -l, --deep-link              Deep link (e.g. https://t.me/vityapelevin).
+   -f, --timestamp-from         Optional start timestamp.
+   -t, --timestamp-to           Optional end timestamp.
+   -h, --help                   Display this help message.
+
+EOT;
+    exit(1);
 }
 
-if ($argv[1] !== INFO) {
-    if (is_numeric($argv[1])) {
-        $groupId = (int) $argv[1];
-    } else {
-        $deepLink = $argv[1];
-    }
+if ($hasGroupId && $hasLink) {
+    echo 'Group ID and Deep Link are mutually exclusive. Please specify only one of them.'.PHP_EOL;
+
+    exit(1);
 }
 
-if (isset($argv[2]) && $argv[2] !== INFO) {
-    $timestampStart = (int) $argv[2];
-}
+$groupId = $argsOrFalse['g'] ?? $argsOrFalse['group-id'] ?? null;
+$deepLink = $argsOrFalse['l'] ?? $argsOrFalse['deep-link'] ?? '';
+$timestampStart = $argsOrFalse['f'] ?? $argsOrFalse['timestamp-from'] ?? null;
+$timestampEnd = $argsOrFalse['t'] ?? $argsOrFalse['timestamp-to'] ?? null;
 
-if (isset($argv[3]) && $argv[3] !== INFO) {
-    $timestampEnd = (int) $argv[3];
-}
+$timestampStart = $timestampStart === null ? null : (int) $timestampStart;
+$timestampEnd = $timestampEnd === null ? null : (int) $timestampEnd;
 
 $generator = new ReusableClientGenerator();
-$request = $groupId
-    ? GroupRequest::ofGroupId($groupId)
+$request = $groupId !== null
+    ? GroupRequest::ofGroupId((int) $groupId)
     : GroupRequest::ofUserName($deepLink);
 
 $result = [];
-$parseLinks = function (?MessageModel $messageModel, ?array $messageRaw, int $endFlag) use (&$result) {
+$parseLinks = function (
+    /** @noinspection PhpUnusedParameterInspection */
+    ?MessageModel $messageModel = null,
+    ?array $messageRaw = null,
+    int $endFlag = -1
+) use (&$result) {
     if ($endFlag == -1){
         arsort($result, SORT_NUMERIC);
 
@@ -72,7 +83,10 @@ $parseLinks = function (?MessageModel $messageModel, ?array $messageRaw, int $en
     }
 };
 
-$onGroupReady = function (?int $groupId, ?int $accessHash) use ($timestampStart, $timestampEnd, $generator, $parseLinks) {
+$onGroupReady = function (
+    ?int $groupId = null,
+    ?int $accessHash = null
+) use ($timestampStart, $timestampEnd, $generator, $parseLinks) {
     if (!$groupId) {
         Logger::log('parseChannelLinks', 'Group not found');
 
@@ -91,6 +105,7 @@ $onGroupReady = function (?int $groupId, ?int $accessHash) use ($timestampStart,
     $client->startLinkParse();
 };
 
+/** @noinspection PhpUnhandledExceptionInspection */
 $resolver = new GroupResolverScenario($request, $generator, $onGroupReady);
 /** @noinspection PhpUnhandledExceptionInspection */
 $resolver->startActions();

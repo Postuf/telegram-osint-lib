@@ -12,21 +12,28 @@ require_once __DIR__.'/../vendor/autoload.php';
 // multiple clients scenario
 // proxy is highly recommended for 3+ clients
 
-if (isset($argv[1]) && $argv[1] === '--help') {
-    $msg = <<<'MSG'
-Usage: php runMultiClient.php [keys.txt] [proxy] [--info]
+$argsOrFalse = getopt('k:p:l:h', ['keys-file:', 'proxy:', 'limit:', 'help']);
+if ($argsOrFalse === false
+    || (array_key_exists('h', $argsOrFalse) || array_key_exists('help', $argsOrFalse))
+) {
+    echo <<<'EOT'
+Usage:
+    php runMultiClient.php [-k keys.txt] [-p proxy] [-l limit]
+    php runMultiClient.php [--keys-file keys.txt] [--proxy proxy] [--limit limit]
 
-MSG;
+   -k, --keys-file              Optional keys file (default `keys.txt`).
+   -p, --proxy                  Optional proxy (e.g. `host:port` or `host:port|login:password`).
+   -l, --limit                  Optional limit (default 1000).
+   -h, --help                   Display this help message.
 
-    die($msg);
+EOT;
+    exit(1);
 }
 
-$keysFileName = isset($argv[1]) && strpos($argv[1], '--') !== 0 ? $argv[1] : './keys.txt';
-/** @var string|null $proxyStr */
-$proxyStr = isset($argv[2]) && strpos($argv[2], '--') !== 0
-    ? $argv[2] : null;
-$limit = isset($argv[3]) && strpos($argv[3], '--') !== 0
-    ? ((int) $argv[3]) : 1000;
+$keysFileName = $argsOrFalse['k'] ?? $argsOrFalse['keys-file'] ?? './keys.txt';
+$proxyStr = $argsOrFalse['p'] ?? $argsOrFalse['proxy'] ?? null;
+$limit = (int) ($argsOrFalse['l'] ?? $argsOrFalse['limit'] ?? 1000);
+
 $keysStr = file_get_contents($keysFileName);
 $lines = explode("\n", $keysStr);
 $lines = array_slice($lines, 0, $limit);
@@ -40,9 +47,9 @@ foreach ($lines as $k => &$line) {
 $logLabel = 'multiClient';
 
 $proxy = null;
-if ($proxyStr) {
+if ($proxyStr !== null) {
     try {
-        $proxy = new Proxy($proxyStr);
+        $proxy = new Proxy((string) $proxyStr);
     } catch (TGException $e) {
         Logger::log($logLabel, 'proxy: '.$e->getMessage());
         exit(1);
