@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages;
 
 use TelegramOSINT\Exception\TGException;
@@ -18,7 +20,7 @@ class FileLocation extends TLServerMessage
      *
      * @return bool
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return
             self::checkType($tlMessage, 'fileLocation') ||
@@ -32,35 +34,33 @@ class FileLocation extends TLServerMessage
     }
 
     /**
+     * @throws TGException
+     *
      * @return int
      */
-    public function getDcId()
+    public function getDcId(): int
     {
         $this->throwIfDeprecated();
 
         return $this->getTlMessage()->getValue('dc_id');
     }
 
-    /**
-     * @return int
-     */
-    public function getVolumeId()
+    public function getVolumeId(): int
     {
         return $this->getTlMessage()->getValue('volume_id');
     }
 
-    /**
-     * @return int
-     */
-    public function getLocalId()
+    public function getLocalId(): int
     {
         return $this->getTlMessage()->getValue('local_id');
     }
 
     /**
+     * @throws TGException
+     *
      * @return string
      */
-    public function getSecret()
+    public function getSecret(): string
     {
         $this->throwIfDeprecated();
 
@@ -68,9 +68,11 @@ class FileLocation extends TLServerMessage
     }
 
     /**
+     * @throws TGException
+     *
      * @return string
      */
-    public function getReference()
+    public function getReference(): string
     {
         $this->throwIfDeprecated();
 
@@ -80,7 +82,7 @@ class FileLocation extends TLServerMessage
     /**
      * @throws TGException
      */
-    private function throwIfDeprecated()
+    private function throwIfDeprecated(): void
     {
         if($this->deprecated)
             throw new TGException(TGException::ERR_TL_MESSAGE_FIELD_NOT_EXISTS, 'Deprecated node!');

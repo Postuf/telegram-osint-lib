@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Rpc;
 
 use TelegramOSINT\Exception\TGException;
@@ -13,88 +15,60 @@ class RpcError extends TLServerMessage
      *
      * @return bool
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return self::checkType($tlMessage, 'rpc_error');
     }
 
-    /**
-     * @return string
-     */
-    public function getErrorString()
+    public function getErrorString(): string
     {
         return $this->getTlMessage()->getValue('error_message');
     }
 
-    /**
-     * @return bool
-     */
-    public function isNetworkMigrateError()
+    public function isNetworkMigrateError(): bool
     {
         return strstr($this->getErrorString(), 'NETWORK_MIGRATE_');
     }
 
-    /**
-     * @return bool
-     */
-    public function isPhoneMigrateError()
+    public function isPhoneMigrateError(): bool
     {
         return strstr($this->getErrorString(), 'PHONE_MIGRATE_');
     }
 
-    /**
-     * @return bool
-     */
-    public function isFloodError()
+    public function isFloodError(): bool
     {
         return strstr($this->getErrorString(), 'FLOOD_WAIT_');
     }
 
-    /**
-     * @return bool
-     */
-    public function isUserDeactivated()
+    public function isUserDeactivated(): bool
     {
         return strstr($this->getErrorString(), 'USER_DEACTIVATED');
     }
 
-    /**
-     * @return bool
-     */
-    public function isPhoneBanned()
+    public function isPhoneBanned(): bool
     {
         return strstr($this->getErrorString(), 'PHONE_NUMBER_BANNED');
     }
 
     /**
-     * @return bool
      * @noinspection PhpUnused
      */
-    public function isPhoneNumberUnoccupied()
+    public function isPhoneNumberUnoccupied(): bool
     {
         return strstr($this->getErrorString(), 'PHONE_NUMBER_UNOCCUPIED');
     }
 
-    /**
-     * @return bool
-     */
-    public function isAuthKeyDuplicated()
+    public function isAuthKeyDuplicated(): bool
     {
         return strstr($this->getErrorString(), 'AUTH_KEY_DUPLICATED');
     }
 
-    /**
-     * @return bool
-     */
-    public function isAuthKeyUnregistered()
+    public function isAuthKeyUnregistered(): bool
     {
         return strstr($this->getErrorString(), 'AUTH_KEY_UNREGISTERED');
     }
 
-    /**
-     * @return bool
-     */
-    public function isSessionRevoked()
+    public function isSessionRevoked(): bool
     {
         return strstr($this->getErrorString(), 'SESSION_REVOKED');
     }
@@ -104,7 +78,7 @@ class RpcError extends TLServerMessage
      *
      * @throws TGException
      */
-    protected function throwIfIncorrectType(AnonymousMessage $anonymousMessage)
+    protected function throwIfIncorrectType(AnonymousMessage $anonymousMessage): void
     {
         if(!static::isIt($anonymousMessage)) {
             $msg = $anonymousMessage->getType().' with error "'.$this->getErrorString().'" instead of '.get_called_class().' class';

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 
 use TelegramOSINT\TLMessage\TLMessage\Packer;
@@ -40,26 +42,17 @@ class ping_delay_disconnect implements TLClientMessage
         return 35;
     }
 
-    /**
-     * @return string
-     */
-    public static function createPingId()
+    public static function createPingId(): string
     {
         return openssl_random_pseudo_bytes(8);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'ping_delay_disconnect';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).

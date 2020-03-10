@@ -7,10 +7,10 @@ interface TLClientMessage
     /**
      * @return string
      */
-    public function getName();
+    public function getName(): string;
 
     /**
      * @return string
      */
-    public function toBinary();
+    public function toBinary(): string;
 }

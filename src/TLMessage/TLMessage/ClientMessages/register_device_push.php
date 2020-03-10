@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /** @noinspection PhpUnused */
 
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
@@ -15,18 +17,12 @@ class register_device_push implements TLClientMessage
 {
     const CONSTRUCTOR = 1669245048; // 0x637EA878
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'register_device_push';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).

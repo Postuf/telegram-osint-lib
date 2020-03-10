@@ -34,7 +34,7 @@ class AnonymousMessageMock implements AnonymousMessage
      *
      * @return AnonymousMessage
      */
-    public function getNode(string $name)
+    public function getNode(string $name): AnonymousMessage
     {
         return $this->impl->getNode($name);
     }
@@ -48,7 +48,7 @@ class AnonymousMessageMock implements AnonymousMessage
      *
      * @return AnonymousMessage[]
      */
-    public function getNodes(string $name)
+    public function getNodes(string $name): array
     {
         return $this->impl->getNodes($name);
     }
@@ -58,7 +58,7 @@ class AnonymousMessageMock implements AnonymousMessage
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->impl->getType();
     }
@@ -80,7 +80,7 @@ class AnonymousMessageMock implements AnonymousMessage
     /**
      * @return string
      */
-    public function getPrintable()
+    public function getPrintable(): string
     {
         return $this->impl->getPrintable();
     }
@@ -88,7 +88,7 @@ class AnonymousMessageMock implements AnonymousMessage
     /**
      * @return string
      */
-    public function getDebugPrintable()
+    public function getDebugPrintable(): string
     {
         return $this->impl->getDebugPrintable();
     }
@@ -101,7 +101,7 @@ class AnonymousMessageMock implements AnonymousMessage
      *
      * @return AnonymousMessage
      */
-    public static function getUserOnline(int $userId, int $expires = 0)
+    public static function getUserOnline(int $userId, int $expires = 0): AnonymousMessage
     {
         return new self([
             '_'      => 'updateShort',
@@ -124,7 +124,7 @@ class AnonymousMessageMock implements AnonymousMessage
      *
      * @return AnonymousMessage
      */
-    public static function getUserOffline(int $userId)
+    public static function getUserOffline(int $userId): AnonymousMessage
     {
         return new self([
             '_'      => 'updateShort',
@@ -147,7 +147,7 @@ class AnonymousMessageMock implements AnonymousMessage
      *
      * @return AnonymousMessage
      */
-    public static function getUserEmpty(int $userId)
+    public static function getUserEmpty(int $userId): AnonymousMessage
     {
         return new self([
             '_'      => 'updateShort',
@@ -169,7 +169,7 @@ class AnonymousMessageMock implements AnonymousMessage
      *
      * @return AnonymousMessage
      */
-    public static function getUserRecently(int $userId)
+    public static function getUserRecently(int $userId): AnonymousMessage
     {
         return new self([
             '_'      => 'updateShort',
@@ -192,7 +192,7 @@ class AnonymousMessageMock implements AnonymousMessage
      *
      * @return AnonymousMessage
      */
-    public static function getContact(int $id, string $phone)
+    public static function getContact(int $id, string $phone): AnonymousMessage
     {
         return new self([
             '_'                         => 'user',
@@ -230,7 +230,16 @@ class AnonymousMessageMock implements AnonymousMessage
         ]);
     }
 
-    public static function getImportedContact($userId, $userPhone, $status)
+    /**
+     * @param int    $userId
+     * @param string $userPhone
+     * @param string $status
+     *
+     * @throws TGException
+     *
+     * @return AnonymousMessage
+     */
+    public static function getImportedContact(int $userId, string $userPhone, string $status): AnonymousMessage
     {
         $statusObj = '';
 

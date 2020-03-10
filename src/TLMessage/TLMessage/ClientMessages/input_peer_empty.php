@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 
 use TelegramOSINT\TLMessage\TLMessage\Packer;
@@ -11,18 +13,12 @@ class input_peer_empty extends input_peer
 {
     const CONSTRUCTOR = 2134579434; // 0x7f3b18ea
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'input_peer_empty';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return Packer::packConstructor(self::CONSTRUCTOR);
     }

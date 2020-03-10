@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages;
 
 use TelegramOSINT\Exception\TGException;
@@ -13,22 +15,19 @@ class Languages extends TLServerMessage
      *
      * @return bool
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return self::checkType($tlMessage, 'vector');
     }
 
-    /**
-     * @return bool
-     */
-    public function getCount()
+    public function getCount(): int
     {
         $langIdx = 0;
         while(true){
             try {
-                $this->getTlMessage()->getNode($langIdx);
+                $this->getTlMessage()->getNode((string) $langIdx);
                 $langIdx++;
-            }catch(TGException $exception){
+            } /** @noinspection PhpRedundantCatchClauseInspection */ catch (TGException $exception){
                 break;
             }
         }

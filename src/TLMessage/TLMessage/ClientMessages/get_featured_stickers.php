@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 
 use TelegramOSINT\TLMessage\TLMessage\Packer;
@@ -12,18 +14,12 @@ class get_featured_stickers implements TLClientMessage
 {
     const CONSTRUCTOR = 766298703; // 0x2DACCA4F
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'get_featured_stickers';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).

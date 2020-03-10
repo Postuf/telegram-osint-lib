@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TGConnection\SocketMessenger;
 
 use LogicException;
@@ -345,12 +347,12 @@ class EncryptedSocketMessenger extends TgSocketMessenger implements SocketMessen
     }
 
     /**
-     * @param int    $new_salt
+     * @param string $new_salt
      * @param string $badMessageId
      *
      * @throws TGException
      */
-    private function reSendWithUpdatedSalt($new_salt, $badMessageId)
+    private function reSendWithUpdatedSalt(string $new_salt, string $badMessageId): void
     {
         $this->salt = $new_salt;
 

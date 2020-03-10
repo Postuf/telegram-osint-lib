@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 
 use TelegramOSINT\TLMessage\TLMessage\Packer;
@@ -12,18 +14,12 @@ class input_notify_chats implements TLClientMessage
 {
     const CONSTRUCTOR = 1251338318; // 0x4A95E84E
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'input_notify_chats';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return Packer::packConstructor(self::CONSTRUCTOR);
     }

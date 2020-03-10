@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Unit\TLMessage\TLMessage\ServerMessages;
 
 use PHPUnit\Framework\TestCase;
+use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\MTDeserializer;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\ChatPhoto;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserProfilePhoto;
@@ -102,7 +103,10 @@ class UserSelfTest extends TestCase
         ]);
     }
 
-    public function test_get_photo()
+    /**
+     * @throws TGException
+     */
+    public function test_get_photo(): void
     {
         $data = '016d5cf3c8250a005dbb265ed97a077f32e5ddbd9b26674915c4b51c01000000ac7489c8642000009b266749600b4f1e8e4c9ac94750726f66697447617465202d20d18dd0bad0bed0bdd0bed0bcd0b8d0bad0b02c20d182d180d0b5d0b9d0b4d0b8d0bdd0b32c20d0b8d0bdd0b2d0b5d181d182d0b8d186d0b8d0b80a50726f66697447617465006a2753617690d653020000009ad3510f00000000bc3d020096bc0b2d98c6fe417690d653020000009ad3510f00000000be3d0200d3309f6700d1831cc1fb065a0000000015c4b51c00000000';
         //$got = $this->deserializeIntoComparableObject($data);

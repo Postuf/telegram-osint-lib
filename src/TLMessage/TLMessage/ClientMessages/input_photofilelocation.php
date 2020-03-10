@@ -45,18 +45,12 @@ class input_photofilelocation implements TLClientMessage
         $this->thumbSize = $thumbSize;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'input_photofilelocation';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).

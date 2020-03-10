@@ -1,6 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage;
+
+use function pack;
+use function str_pad;
+use function strrev;
+use function substr;
 
 class Packer
 {
@@ -9,12 +16,17 @@ class Packer
      *
      * @return string
      */
-    public static function packConstructor($value)
+    public static function packConstructor(int $value): string
     {
         return self::packInt($value);
     }
 
-    public static function packDouble(float $value)
+    /**
+     * @param float $value
+     *
+     * @return string
+     */
+    public static function packDouble(float $value): string
     {
         return pack('e', $value);
     }
@@ -24,7 +36,7 @@ class Packer
      *
      * @return string
      */
-    public static function packInt($value)
+    public static function packInt(int $value): string
     {
         return pack('I', $value);
     }
@@ -34,7 +46,7 @@ class Packer
      *
      * @return string
      */
-    public static function packBool($value)
+    public static function packBool(bool $value): string
     {
         return self::packInt($value ? 0x997275b5 : 0xbc799737);
     }
@@ -44,7 +56,7 @@ class Packer
      *
      * @return string
      */
-    public static function packLongAsBytes($value)
+    public static function packLongAsBytes(int $value): string
     {
         return self::packString(pack('J', $value));
     }
@@ -54,7 +66,7 @@ class Packer
      *
      * @return string
      */
-    public static function packIntAsBytesLittleEndian($value)
+    public static function packIntAsBytesLittleEndian(int $value): string
     {
         return self::packString(strrev(self::packInt($value)));
     }
@@ -64,7 +76,7 @@ class Packer
      *
      * @return string
      */
-    public static function packLong($value) {
+    public static function packLong(int $value): string {
         return pack('Q', $value);
     }
 
@@ -73,16 +85,16 @@ class Packer
      *
      * @return string
      */
-    public static function packBytes($value) {
+    public static function packBytes(string $value): string {
         return $value;
     }
 
     /**
-     * @param int $value
+     * @param string $value
      *
      * @return string
      */
-    public static function packString($value) {
+    public static function packString(string $value): string {
         $l = strlen($value);
         if ($l <= 253) {
             $len = pack('C', $l);
@@ -102,7 +114,7 @@ class Packer
      *
      * @return string
      */
-    public static function packVector($array, $elementGeneratorCallback)
+    public static function packVector(array $array, callable $elementGeneratorCallback): string
     {
         $vector =
             self::packInt(481674261).
@@ -120,7 +132,7 @@ class Packer
      *
      * @return string
      */
-    private static function calcPadding(int $a, int $b)
+    private static function calcPadding(int $a, int $b): string
     {
         $padLength = self::calcRemainder(-$a, $b);
 
@@ -133,7 +145,7 @@ class Packer
      *
      * @return int
      */
-    private static function calcRemainder(int $a, int $b)
+    private static function calcRemainder(int $a, int $b): int
     {
         $remainder = $a % $b;
         if ($remainder < 0)

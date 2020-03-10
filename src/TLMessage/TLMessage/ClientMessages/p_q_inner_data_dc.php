@@ -65,18 +65,12 @@ class p_q_inner_data_dc implements TLClientMessage
 
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'pq_inner_data_dc';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).

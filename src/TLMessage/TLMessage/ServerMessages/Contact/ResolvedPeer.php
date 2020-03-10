@@ -22,7 +22,7 @@ class ResolvedPeer extends TLServerMessage
     /**
      * {@inheritdoc}
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return $tlMessage->getType() === 'contacts.resolvedPeer';
     }

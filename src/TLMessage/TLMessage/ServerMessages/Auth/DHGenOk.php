@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Auth;
 
 use TelegramOSINT\MTSerialization\AnonymousMessage;
@@ -12,23 +14,17 @@ class DHGenOk extends TLServerMessage
      *
      * @return bool
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return self::checkType($tlMessage, 'dh_gen_ok');
     }
 
-    /**
-     * @return string
-     */
-    public function getClientNonce()
+    public function getClientNonce(): string
     {
         return $this->getTlMessage()->getValue('nonce');
     }
 
-    /**
-     * @return string
-     */
-    public function getServerNonce()
+    public function getServerNonce(): string
     {
         return $this->getTlMessage()->getValue('server_nonce');
     }

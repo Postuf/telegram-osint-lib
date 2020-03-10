@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 
 use TelegramOSINT\TLMessage\TLMessage\Packer;
@@ -12,18 +14,12 @@ class get_top_peers implements TLClientMessage
 {
     const CONSTRUCTOR = -728224331; // 0xD4982DB5
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'get_top_peers';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).

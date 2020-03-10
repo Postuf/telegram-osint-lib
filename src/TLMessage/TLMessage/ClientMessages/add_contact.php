@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 
 use TelegramOSINT\Registration\NameGenerator\NameResource;
@@ -32,18 +34,12 @@ class add_contact implements TLClientMessage
         $this->accessHash = $accessHash;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'add_contact';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         $human = new NameResource();
         $contactFirstName = $human->getName();

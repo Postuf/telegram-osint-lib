@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact;
 
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\ChatPhoto;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Custom\UserStatus;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\PhotoInterface;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserProfilePhoto;
 use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
@@ -18,19 +22,21 @@ class ContactUser extends TLServerMessage
      *
      * @return bool
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return self::checkType($tlMessage, 'user');
     }
 
     /**
+     * @throws TGException
+     *
      * @return UserStatus|null
      */
-    public function getStatus()
+    public function getStatus(): ?UserStatus
     {
         try {
             $status = $this->getTlMessage()->getNode('status');
-        } catch (TGException $e){
+        } /** @noinspection PhpRedundantCatchClauseInspection */ catch (TGException $e){
             return null;
         }
 
@@ -38,9 +44,11 @@ class ContactUser extends TLServerMessage
     }
 
     /**
-     * @return UserProfilePhoto
+     * @throws TGException
+     *
+     * @return PhotoInterface|null
      */
-    public function getPhoto()
+    public function getPhoto(): ?PhotoInterface
     {
         try {
             $photo = $this->getTlMessage()->getNode('photo');
@@ -60,60 +68,37 @@ class ContactUser extends TLServerMessage
         }
     }
 
-    /**
-     * @return int
-     */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->getTlMessage()->getValue('id');
     }
 
-    /**
-     * @return string
-     */
-    public function getPhone()
+    public function getPhone(): ?string
     {
         return $this->getTlMessage()->getValue('phone');
     }
 
-    /**
-     * @throws TGException
-     *
-     * @return string
-     */
-    public function getUsername()
+    public function getUsername(): ?string
     {
         return $this->getTlMessage()->getValue('username');
     }
 
-    /**
-     * @return int
-     */
-    public function getAccessHash()
+    public function getAccessHash(): int
     {
         return $this->getTlMessage()->getValue('access_hash');
     }
 
-    /**
-     * @return string
-     */
-    public function getFirstName()
+    public function getFirstName(): ?string
     {
         return $this->getTlMessage()->getValue('first_name');
     }
 
-    /**
-     * @return string
-     */
-    public function getLastName()
+    public function getLastName(): ?string
     {
         return $this->getTlMessage()->getValue('last_name');
     }
 
-    /**
-     * @return string
-     */
-    public function getLangCode()
+    public function getLangCode(): ?string
     {
         return $this->getTlMessage()->getValue('lang_code');
     }

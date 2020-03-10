@@ -25,18 +25,12 @@ class get_full_channel implements TLClientMessage
         $this->accessHash = $accessHash;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'get_full_chat';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).

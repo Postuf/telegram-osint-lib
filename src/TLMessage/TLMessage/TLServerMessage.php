@@ -30,7 +30,7 @@ abstract class TLServerMessage
      *
      * @return bool
      */
-    abstract public static function isIt(AnonymousMessage $tlMessage);
+    abstract public static function isIt(AnonymousMessage $tlMessage): bool;
 
     /**
      * @param AnonymousMessage $anonymousMessage
@@ -38,9 +38,9 @@ abstract class TLServerMessage
      *
      * @return bool
      */
-    protected static function checkType(AnonymousMessage $anonymousMessage, string $type)
+    protected static function checkType(AnonymousMessage $anonymousMessage, string $type): bool
     {
-        return $anonymousMessage->getType() == $type;
+        return $anonymousMessage->getType() === $type;
     }
 
     /**
@@ -48,7 +48,7 @@ abstract class TLServerMessage
      *
      * @throws TGException
      */
-    protected function throwIfIncorrectType(AnonymousMessage $anonymousMessage)
+    protected function throwIfIncorrectType(AnonymousMessage $anonymousMessage): void
     {
         if(!static::isIt($anonymousMessage)) {
             $msg = $anonymousMessage->getType().' instead of '.get_called_class().' class';

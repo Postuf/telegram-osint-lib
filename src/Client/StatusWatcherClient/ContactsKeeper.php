@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\Client\StatusWatcherClient;
 
 use TelegramOSINT\Client\BasicClient\BasicClient;
@@ -196,6 +198,8 @@ class ContactsKeeper
     /**
      * @param ImportedContacts $imported
      * @param ImportResult     $importResult
+     *
+     * @throws TGException
      */
     private function updateImportedPhones(ImportedContacts $imported, ImportResult $importResult)
     {
@@ -207,6 +211,8 @@ class ContactsKeeper
      * @param import_contacts  $source
      * @param ImportedContacts $results
      * @param ImportResult     $importResult
+     *
+     * @throws TGException
      */
     private function checkReplacedContacts(import_contacts $source, ImportedContacts $results, ImportResult $importResult)
     {

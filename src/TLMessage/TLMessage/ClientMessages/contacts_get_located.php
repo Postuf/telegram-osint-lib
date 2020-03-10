@@ -25,18 +25,12 @@ class contacts_get_located implements TLClientMessage
         $this->lon = $lon;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'contacts_get_located';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return Packer::packConstructor(self::CONSTRUCTOR).
             (new geo_point($this->lat, $this->lon))->toBinary();

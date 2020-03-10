@@ -14,18 +14,12 @@ class get_pinned_dialogs implements TLClientMessage
 {
     const CONSTRUCTOR = -692498958; // 0xD6B94DF2
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'get_pinned_dialogs';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).

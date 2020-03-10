@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 
 use TelegramOSINT\TLMessage\TLMessage\Packer;
@@ -15,8 +17,6 @@ class ping implements TLClientMessage
     private $pingId;
 
     /**
-     * ping constructor.
-     *
      * @param string|null $pingId
      */
     public function __construct(string $pingId = null)
@@ -24,26 +24,17 @@ class ping implements TLClientMessage
         $this->pingId = $pingId ? $pingId : self::createPingId();
     }
 
-    /**
-     * @return string
-     */
-    public static function createPingId()
+    public static function createPingId(): string
     {
         return openssl_random_pseudo_bytes(8);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'ping';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).

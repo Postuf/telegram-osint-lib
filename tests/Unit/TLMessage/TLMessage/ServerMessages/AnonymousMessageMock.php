@@ -34,7 +34,7 @@ class AnonymousMessageMock implements AnonymousMessage
      *
      * @return AnonymousMessage
      */
-    public function getNode(string $name)
+    public function getNode(string $name): AnonymousMessage
     {
         return $this->impl->getNode($name);
     }
@@ -48,7 +48,7 @@ class AnonymousMessageMock implements AnonymousMessage
      *
      * @return AnonymousMessage[]
      */
-    public function getNodes(string $name)
+    public function getNodes(string $name): array
     {
         return $this->impl->getNodes($name);
     }
@@ -58,7 +58,7 @@ class AnonymousMessageMock implements AnonymousMessage
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->impl->getType();
     }
@@ -80,7 +80,7 @@ class AnonymousMessageMock implements AnonymousMessage
     /**
      * @return string
      */
-    public function getPrintable()
+    public function getPrintable(): string
     {
         return $this->impl->getPrintable();
     }
@@ -88,7 +88,7 @@ class AnonymousMessageMock implements AnonymousMessage
     /**
      * @return string
      */
-    public function getDebugPrintable()
+    public function getDebugPrintable(): string
     {
         return $this->impl->getDebugPrintable();
     }

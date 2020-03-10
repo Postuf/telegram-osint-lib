@@ -23,18 +23,12 @@ class channel_participants_filter implements TLClientMessage
         $this->query = $query;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'channel_participants_filter';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         $prefix = Packer::packConstructor($this->constructor);
 

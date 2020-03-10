@@ -20,7 +20,7 @@ class ContactUserTest extends TestCase
             'first_name'  => 'name_89169904863',
             'last_name'   => 'l_f4d6bed238',
             'username'    => 'AseN_17',
-            'phone'       => 79169904855,
+            'phone'       => '79169904855',
             'photo'       => [
                 '_'           => 'userProfilePhoto',
                 'photo_id'    => 806194743786710955,
@@ -135,12 +135,15 @@ class ContactUserTest extends TestCase
         $userContact = new ContactUser($asAnonymous);
 
         $this->assertEquals($userContact->getUsername(), 'AseN_17');
-        $this->assertEquals($userContact->getPhone(), 79169904855);
+        $this->assertEquals($userContact->getPhone(), '79169904855');
         $this->assertEquals($userContact->getUserId(), 438562352);
         $this->assertEquals($userContact->getAccessHash(), 2811936216873835544);
 
     }
 
+    /**
+     * @throws TGException
+     */
     public function test_user_online(): void
     {
         $asAnonymous = $this->getObjectOnLine();
@@ -154,6 +157,9 @@ class ContactUserTest extends TestCase
 
     }
 
+    /**
+     * @throws TGException
+     */
     public function test_user_offline(): void
     {
         $asAnonymous = $this->getObjectOffLine();
@@ -167,6 +173,9 @@ class ContactUserTest extends TestCase
 
     }
 
+    /**
+     * @throws TGException
+     */
     public function test_user_empty(): void
     {
         $asAnonymous = $this->getObjectHidden();

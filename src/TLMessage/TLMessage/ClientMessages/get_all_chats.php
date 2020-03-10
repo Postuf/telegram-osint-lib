@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 
 use TelegramOSINT\TLMessage\TLMessage\Packer;
@@ -25,28 +27,19 @@ class get_all_chats implements TLClientMessage
         $this->exceptIds = $exceptIds;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'get_all_chats';
     }
 
-    /**
-     * @return callable
-     */
-    private function getElementGenerator()
+    private function getElementGenerator(): callable
     {
         return function ($exceptId) {
             return Packer::packInt((int) $exceptId);
         };
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).

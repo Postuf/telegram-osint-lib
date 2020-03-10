@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /** @noinspection PhpUnused */
 
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact;
@@ -15,7 +17,7 @@ class ContactStatuses extends TLServerMessage
      *
      * @return bool
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return self::checkType($tlMessage, 'vector');
     }
@@ -30,7 +32,7 @@ class ContactStatuses extends TLServerMessage
 
         while(true){
             try {
-                $statuses[] = new ContactStatus($this->getTlMessage()->getNode($index));
+                $statuses[] = new ContactStatus($this->getTlMessage()->getNode((string) $index));
                 $index++;
             } catch(TGException $exception){
                 break;

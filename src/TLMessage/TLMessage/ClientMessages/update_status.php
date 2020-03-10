@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 
 use TelegramOSINT\TLMessage\TLMessage\Packer;
@@ -18,8 +20,6 @@ class update_status implements TLClientMessage
     private $online;
 
     /**
-     * update_status constructor.
-     *
      * @param bool $online
      */
     public function __construct(bool $online)
@@ -27,18 +27,12 @@ class update_status implements TLClientMessage
         $this->online = $online;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'update_status';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         $offline = !$this->online;
 
