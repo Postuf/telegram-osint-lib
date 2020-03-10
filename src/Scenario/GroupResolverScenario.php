@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TelegramOSINT\Scenario;
 
+use LogicException;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\Scenario\Models\GroupRequest;
@@ -82,16 +83,13 @@ class GroupResolverScenario extends InfoClientScenario
      */
     public function startActions(bool $pollAndTerminate = true): void
     {
-        $this->login();
-        if ($this->groupRequest->getUserName()) {
-            $this->infoClient->resolveUsername($this->groupRequest->getUserName(), $this->getGroupResolveHandler());
-        } else {
-            // TODO
-            throw new \LogicException('Not implemented');
-        }
-
-        if ($pollAndTerminate) {
-            $this->pollAndTerminate();
-        }
+        $this->authAndPerformActions(function (): void {
+            if ($this->groupRequest->getUserName()) {
+                $this->infoClient->resolveUsername($this->groupRequest->getUserName(), $this->getGroupResolveHandler());
+            } else {
+                // TODO
+                throw new LogicException('Not implemented');
+            }
+        }, $pollAndTerminate);
     }
 }

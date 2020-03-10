@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace TelegramOSINT\Scenario;
 
+use function call_user_func;
+use function microtime;
 use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
 use TelegramOSINT\Client\InfoObtainingClient\InfoClient;
 use TelegramOSINT\Exception\TGException;
+use function usleep;
 
 abstract class InfoClientScenario implements ScenarioInterface
 {
@@ -82,6 +85,36 @@ abstract class InfoClientScenario implements ScenarioInterface
         }
     }
 
+    /**
+     * Wraps authentication/login and pollAndTerminate with a given actions callable.
+     *
+     * @param callable $actions
+     * @param bool     $pollAndTerminate
+     * @param float    $timeout
+     * @param bool     $terminate
+     *
+     * @throws TGException
+     *
+     * @return void
+     */
+    protected function authAndPerformActions(
+        callable $actions,
+        bool $pollAndTerminate = true,
+        float $timeout = 0,
+        bool $terminate = true
+    ): void {
+        $this->login();
+
+        call_user_func($actions);
+
+        if ($pollAndTerminate) {
+            $this->pollAndTerminate($timeout, $terminate);
+        }
+    }
+
+    /**
+     * @return ClientGeneratorInterface
+     */
     protected function getGenerator(): ClientGeneratorInterface
     {
         return $this->generator;

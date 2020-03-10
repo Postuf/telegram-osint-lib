@@ -95,20 +95,18 @@ class GroupMessagesScenario extends InfoClientScenario
      */
     public function startActions(bool $pollAndTerminate = true): void
     {
-        $this->login();
-        usleep(10000);
-        $limit = 100;
-        if ($this->username) {
-            $this->infoClient->resolveUsername($this->username, $this->getUserResolveHandler(function () use ($limit) {
+        $this->authAndPerformActions(function (): void {
+            usleep(10000);
+            $limit = 100;
+            $parseMsgCallback = function () use ($limit): void {
                 $this->parseMessages($this->groupIdObj->getGroupId(), $this->groupIdObj->getAccessHash(), $limit);
-            }));
-        } else {
-            $this->parseMessages($this->groupIdObj->getGroupId(), $this->groupIdObj->getAccessHash(), $limit);
-        }
-
-        if ($pollAndTerminate) {
-            $this->pollAndTerminate();
-        }
+            };
+            if ($this->username) {
+                $this->infoClient->resolveUsername($this->username, $this->getUserResolveHandler($parseMsgCallback));
+            } else {
+                $parseMsgCallback();
+            }
+        }, $pollAndTerminate);
     }
 
     /**
@@ -118,21 +116,20 @@ class GroupMessagesScenario extends InfoClientScenario
      */
     public function startLinkParse(bool $pollAndTerminate = true): void
     {
-        $this->login();
-        usleep(10000);
-        $limit = 100;
+        $this->authAndPerformActions(function (): void {
+            usleep(10000);
+            $limit = 100;
 
-        if ($this->username) {
-            $this->infoClient->resolveUsername($this->username, $this->getUserResolveHandler(function () use ($limit) {
+            $parseLinksCallback = function () use ($limit) {
                 $this->parseLinks($this->groupIdObj->getGroupId(), $this->groupIdObj->getAccessHash(), $limit);
-            }));
-        } else {
-            $this->parseLinks($this->groupIdObj->getGroupId(), $this->groupIdObj->getAccessHash(), $limit);
-        }
+            };
 
-        if ($pollAndTerminate) {
-            $this->pollAndTerminate();
-        }
+            if ($this->username) {
+                $this->infoClient->resolveUsername($this->username, $this->getUserResolveHandler($parseLinksCallback));
+            } else {
+                $parseLinksCallback();
+            }
+        }, $pollAndTerminate);
     }
 
     private function parseLinks(int $id, int $accessHash, int $limit): void
