@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
+use TelegramOSINT\Client\InfoObtainingClient\InfoClient;
 use TelegramOSINT\Client\MultiClient;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Logger\Logger;
+use TelegramOSINT\Scenario\BasicClientGenerator;
 use TelegramOSINT\Tools\Proxy;
 
 require_once __DIR__.'/../vendor/autoload.php';
@@ -57,7 +59,10 @@ if ($proxyStr !== null) {
 }
 
 try {
-    $mc = new MultiClient($lines);
+    $clientCreator = function () {
+        return new InfoClient(new BasicClientGenerator());
+    };
+    $mc = new MultiClient($lines, $clientCreator);
     $mc->connect($proxy);
 } catch (TGException $e) {
     Logger::log($logLabel, $e->getMessage());

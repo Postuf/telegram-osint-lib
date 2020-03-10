@@ -28,7 +28,7 @@ class ClientGenerator implements ClientGeneratorInterface
 
     public function getInfoClient()
     {
-        return new InfoClient();
+        return new InfoClient(new BasicClientGenerator());
     }
 
     public function getStatusWatcherClient(StatusWatcherCallbacks $callbacks)

@@ -14,7 +14,6 @@ use TelegramOSINT\Client\StatusWatcherClient\ContactsKeeper;
 use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
-use TelegramOSINT\Scenario\BasicClientGenerator;
 use TelegramOSINT\Scenario\BasicClientGeneratorInterface;
 use TelegramOSINT\TGConnection\DataCentre;
 use TelegramOSINT\TGConnection\SocketMessenger\SocketMessenger;
@@ -73,11 +72,8 @@ class InfoClient implements InfoObtainingClient
     /** @var BasicClientGeneratorInterface */
     private $generator;
 
-    public function __construct(?BasicClientGeneratorInterface $generator = null)
+    public function __construct(BasicClientGeneratorInterface $generator)
     {
-        if (!$generator) {
-            $generator = new BasicClientGenerator();
-        }
         $this->generator = $generator;
         $this->basicClient = $generator->generate();
         $this->contactsKeeper = new ContactsKeeper($this->basicClient);
