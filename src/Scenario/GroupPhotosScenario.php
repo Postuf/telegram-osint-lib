@@ -44,6 +44,8 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
      * @param string|null                   $username
      * @param callable|null                 $saveHandler function(PictureModel $model, int $id)
      * @param ClientGeneratorInterface|null $generator
+     *
+     * @throws TGException
      */
     public function __construct(
         OptionalDateRange $dateRange,
@@ -75,25 +77,26 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
      */
     public function listChats(?string $type = null)
     {
-        $this->login();
-        Logger::log(__CLASS__, 'listing all chats');
-        $this->infoClient->getAllChats(function (AnonymousMessage $message) use ($type) {
-            /** @see https://core.telegram.org/constructor/messages.chats */
-            $chats = $message->getNodes('chats');
-            $chatCount = count($chats);
-            Logger::log(__CLASS__, "got $chatCount chats/channels");
-            foreach ($chats as $chatNode) {
-                $id = (int) $chatNode->getValue('id');
-                $currentType = $chatNode->getType();
-                if ($type && $type != $currentType) {
-                    continue;
-                }
-                $title = $chatNode->getValue('title');
-                Logger::log(__CLASS__, "got chat '$title' with id $id of type $currentType");
-            }
-        });
+        $pollAndTerminate = true;
 
-        $this->pollAndTerminate();
+        $this->authAndPerformActions(function () use ($type): void {
+            Logger::log(__CLASS__, 'listing all chats');
+            $this->infoClient->getAllChats(function (AnonymousMessage $message) use ($type) {
+                /** @see https://core.telegram.org/constructor/messages.chats */
+                $chats = $message->getNodes('chats');
+                $chatCount = count($chats);
+                Logger::log(__CLASS__, "got $chatCount chats/channels");
+                foreach ($chats as $chatNode) {
+                    $id = (int) $chatNode->getValue('id');
+                    $currentType = $chatNode->getType();
+                    if ($type && $type != $currentType) {
+                        continue;
+                    }
+                    $title = $chatNode->getValue('title');
+                    Logger::log(__CLASS__, "got chat '$title' with id $id of type $currentType");
+                }
+            });
+        }, $pollAndTerminate);
     }
 
     /**
@@ -160,68 +163,67 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
      */
     public function startActions(bool $pollAndTerminate = true): void
     {
-        $this->login();
-        /** @var array $ids */
-        $limit = 200;
-        usleep(10000);
-        if ($this->deepLink) {
-            Logger::log(__CLASS__, "getting chat by deeplink {$this->deepLink}");
-            $parts = explode('/', $this->deepLink);
-            $groupname = $parts[count($parts) - 1];
+        $actions = function (): void {
+            /** @var array $ids */
+            $limit = 200;
+            usleep(10000);
+            if ($this->deepLink) {
+                Logger::log(__CLASS__, "getting chat by deeplink {$this->deepLink}");
+                $parts = explode('/', $this->deepLink);
+                $groupname = $parts[count($parts) - 1];
 
-            $afterGroupResolve = function (AnonymousMessage $message) use ($limit) {
-                $chats = $message->getValue('chats');
-                foreach ($chats as $chat) {
-                    $id = (int) $chat['id'];
-                    $handler = $this->makeChatMessagesHandler($id, $limit);
-                    /** @var array $chat */
-                    Logger::log(__CLASS__, "getting channel messages with limit $limit");
-                    $this->infoClient->getChannelMessages(
-                        (int) $chat['id'],
-                        (int) $chat['access_hash'],
-                        $limit,
-                        0,
-                        0,
-                        $handler
-                    );
-                }
-            };
-
-            if ($this->username) {
-                $onUserResolve = function (AnonymousMessage $message) use ($groupname, $afterGroupResolve) {
-                    if (!ResolvedPeer::isIt($message)) {
-                        Logger::log(__CLASS__, 'got unexpected response of type '.$message->getType());
-
-                        return;
+                $afterGroupResolve = function (AnonymousMessage $message) use ($limit) {
+                    $chats = $message->getValue('chats');
+                    foreach ($chats as $chat) {
+                        $id = (int) $chat['id'];
+                        $handler = $this->makeChatMessagesHandler($id, $limit);
+                        /** @var array $chat */
+                        Logger::log(__CLASS__, "getting channel messages with limit $limit");
+                        $this->infoClient->getChannelMessages(
+                            (int) $chat['id'],
+                            (int) $chat['access_hash'],
+                            $limit,
+                            0,
+                            0,
+                            $handler
+                        );
                     }
-
-                    $resolvedPeer = new ResolvedPeer($message);
-                    /** @var array $peer */
-                    $peer = $resolvedPeer->getPeer();
-                    /** @see https://core.telegram.org/constructor/peerUser */
-                    if (!($peer instanceof PeerUser)) {
-                        Logger::log(__CLASS__, 'got unexpected peer type');
-
-                        return;
-                    }
-
-                    $this->userId = (int) $peer->getId();
-
-                    $this->infoClient->resolveUsername($groupname, $this->getResolveHandler($afterGroupResolve));
                 };
 
-                $this->infoClient->resolveUsername($this->username, $onUserResolve);
-            } else {
-                $this->infoClient->resolveUsername($groupname, $this->getResolveHandler($afterGroupResolve));
-            }
-        } else {
-            Logger::log(__CLASS__, 'getting all chats');
-            $this->infoClient->getAllChats($this->getAllChatsHandler($limit));
-        }
+                if ($this->username) {
+                    $onUserResolve = function (AnonymousMessage $message) use ($groupname, $afterGroupResolve) {
+                        if (!ResolvedPeer::isIt($message)) {
+                            Logger::log(__CLASS__, 'got unexpected response of type '.$message->getType());
 
-        if ($pollAndTerminate) {
-            $this->pollAndTerminate();
-        }
+                            return;
+                        }
+
+                        $resolvedPeer = new ResolvedPeer($message);
+                        /** @var array $peer */
+                        $peer = $resolvedPeer->getPeer();
+                        /** @see https://core.telegram.org/constructor/peerUser */
+                        if (!($peer instanceof PeerUser)) {
+                            Logger::log(__CLASS__, 'got unexpected peer type');
+
+                            return;
+                        }
+
+                        $this->userId = (int) $peer->getId();
+
+                        $this->infoClient->resolveUsername($groupname, $this->getResolveHandler($afterGroupResolve));
+                    };
+
+                    $this->infoClient->resolveUsername($this->username, $onUserResolve);
+                } else {
+                    $this->infoClient->resolveUsername($groupname, $this->getResolveHandler($afterGroupResolve));
+                }
+            } else {
+                Logger::log(__CLASS__, 'getting all chats');
+                $this->infoClient->getAllChats($this->getAllChatsHandler($limit));
+            }
+        };
+
+        $this->authAndPerformActions($actions, $pollAndTerminate);
     }
 
     /**

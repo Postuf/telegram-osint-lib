@@ -70,21 +70,18 @@ class CommonChatsScenario extends InfoClientScenario
             }
         }
 
-        $this->login();
-        usleep(10000);
+        $this->authAndPerformActions(function (): void {
+            usleep(10000);
 
-        $this->subscribeToChats(function () {
-            Logger::log(__CLASS__, 'subscription complete');
-            $this->getCommonChats(function () {
-                Logger::log(__CLASS__, 'Common chats: '.print_r($this->commonChats, true));
+            $this->subscribeToChats(function () {
+                Logger::log(__CLASS__, 'subscription complete');
+                $this->getCommonChats(function () {
+                    Logger::log(__CLASS__, 'Common chats: '.print_r($this->commonChats, true));
 
-                $this->getInterest();
+                    $this->getInterest();
+                });
             });
-        });
-
-        if ($pollAndTerminate) {
-            $this->pollAndTerminate();
-        }
+        }, $pollAndTerminate);
     }
 
     /**

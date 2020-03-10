@@ -86,54 +86,56 @@ class GroupMembersScenario extends AbstractGroupScenario implements ScenarioInte
      */
     public function startActions(bool $pollAndTerminate = true): void
     {
-        $this->login();
-        if ($this->deepLink) {
-            Logger::log(__CLASS__, "getting chat by deeplink {$this->deepLink}");
-            $parts = explode('/', $this->deepLink);
-            $groupName = $parts[count($parts) - 1];
-            $this->infoClient->resolveUsername($groupName, $this->getResolveHandler(function (AnonymousMessage $message) {
-                $chats = $message->getValue('chats');
-                foreach ($chats as $chat) {
-                    $id = (int) $chat['id'];
-                    Logger::log(__CLASS__, "getting channel members for channel $id");
-                    /** @var array $chat */
-                    $this->infoClient->getChannelMembers($id, $chat['access_hash'], $this->makeChatMemberHandler($id));
-                }
-            }));
-        } elseif ($this->groupIdObj) {
-            if ($this->username) {
-                Logger::log(__CLASS__, "searching chat {$this->groupIdObj->getGroupId()} participants for {$this->username}");
-                $this->infoClient->getParticipantsSearch(
-                    $this->groupIdObj->getGroupId(),
-                    $this->groupIdObj->getAccessHash(),
-                    $this->username,
-                    $this->makeChatMemberHandler(
-                        $this->groupIdObj->getGroupId(),
-                        0,
-                        true
-                    )
-                );
-            } else {
-                Logger::log(__CLASS__, "getting chat {$this->groupIdObj->getGroupId()} participants");
-                $this->infoClient->getParticipants(
-                    $this->groupIdObj->getGroupId(),
-                    $this->groupIdObj->getAccessHash(),
-                    0,
-                    $this->makeChatMemberHandler(
-                        $this->groupIdObj->getGroupId(),
-                        0,
-                        true
-                    )
-                );
-            }
-        } else {
-            Logger::log(__CLASS__, 'getting all chats');
-            $this->infoClient->getAllChats($this->getAllChatsHandler());
-        }
+        $actions = function (): void {
+            if ($this->deepLink) {
+                Logger::log(__CLASS__, "getting chat by deeplink {$this->deepLink}");
 
-        if ($pollAndTerminate) {
-            $this->pollAndTerminate();
-        }
+                $parts = explode('/', $this->deepLink);
+                $groupName = $parts[count($parts) - 1];
+                $onChannelFound = function (AnonymousMessage $message) {
+                    $chats = $message->getValue('chats');
+                    foreach ($chats as $chat) {
+                        $id = (int) $chat['id'];
+                        Logger::log(__CLASS__, "getting channel members for channel $id");
+                        /** @var array $chat */
+                        $this->infoClient->getChannelMembers($id, $chat['access_hash'], $this->makeChatMemberHandler($id));
+                    }
+                };
+
+                $this->infoClient->resolveUsername($groupName, $this->getResolveHandler($onChannelFound));
+            } elseif ($this->groupIdObj) {
+                if ($this->username) {
+                    Logger::log(__CLASS__, "searching chat {$this->groupIdObj->getGroupId()} participants for {$this->username}");
+                    $this->infoClient->getParticipantsSearch(
+                        $this->groupIdObj->getGroupId(),
+                        $this->groupIdObj->getAccessHash(),
+                        $this->username,
+                        $this->makeChatMemberHandler(
+                            $this->groupIdObj->getGroupId(),
+                            0,
+                            true
+                        )
+                    );
+                } else {
+                    Logger::log(__CLASS__, "getting chat {$this->groupIdObj->getGroupId()} participants");
+                    $this->infoClient->getParticipants(
+                        $this->groupIdObj->getGroupId(),
+                        $this->groupIdObj->getAccessHash(),
+                        0,
+                        $this->makeChatMemberHandler(
+                            $this->groupIdObj->getGroupId(),
+                            0,
+                            true
+                        )
+                    );
+                }
+            } else {
+                Logger::log(__CLASS__, 'getting all chats');
+                $this->infoClient->getAllChats($this->getAllChatsHandler());
+            }
+        };
+
+        $this->authAndPerformActions($actions, $pollAndTerminate);
     }
 
     /**

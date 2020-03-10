@@ -60,10 +60,9 @@ class UserContactsScenario extends InfoClientScenario
     }
 
     /**
-     * @param string[]      $numbers
-     * @param bool          $withPhoto
-     * @param bool          $largePhoto
-     * @param callable|null $callback   function(UserInfoModel[])
+     * @param string[] $numbers
+     * @param bool     $withPhoto
+     * @param bool     $largePhoto
      */
     public function parseNumbers(array $numbers, bool $withPhoto = false, bool $largePhoto = false): void
     {
@@ -104,14 +103,12 @@ class UserContactsScenario extends InfoClientScenario
      */
     public function startActions(bool $pollAndTerminate = true): void
     {
-        $this->login();
-        $this->getContactsInfo();
-        foreach ($this->callQueue as $cb) {
-            $cb();
-        }
-        $this->callQueue = [];
-        if ($pollAndTerminate) {
-            $this->pollAndTerminate();
-        }
+        $this->authAndPerformActions(function (): void {
+            $this->getContactsInfo();
+            foreach ($this->callQueue as $cb) {
+                $cb();
+            }
+            $this->callQueue = [];
+        }, $pollAndTerminate);
     }
 }
