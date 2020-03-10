@@ -14,7 +14,7 @@ if ($argsOrFalse === false
 ) {
     echo <<<'EOT'
 Usage:
-    php commonChats.php -n number 
+    php commonChats.php -n number
     php commonChats.php --number number
 
    -n, --number                 Phone number (e.g. 1234567890).

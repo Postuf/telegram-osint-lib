@@ -23,7 +23,7 @@ class SearchUserScenario extends InfoClientScenario
     private $resolvedHashes = [];
     /** @var int */
     private $userId;
-    /** @var callable|null function(int $groupId, string $title) */
+    /** @var callable|null function(int, string) */
     private $handler;
 
     /**

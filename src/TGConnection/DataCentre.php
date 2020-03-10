@@ -33,7 +33,8 @@ class DataCentre
         return new self(
             LibConfig::DC_DEFAULT_IP,
             LibConfig::DC_DEFAULT_ID,
-            LibConfig::DC_DEFAULT_PORT);
+            LibConfig::DC_DEFAULT_PORT
+        );
     }
 
     /**

@@ -17,7 +17,7 @@ if ($argsOrFalse === false
 ) {
     echo <<<'EOT'
 Usage:
-    php parseNumbers.php -n numbers 
+    php parseNumbers.php -n numbers
     php parseNumbers.php --numbers numbers
 
    -n, --numbers                Comma separated phone number list (e.g. 79061231231,79061231232).

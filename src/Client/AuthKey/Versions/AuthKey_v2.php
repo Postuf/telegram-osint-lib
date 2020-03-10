@@ -102,7 +102,8 @@ class AuthKey_v2 implements AuthKey
             return new DataCentre(
                 $meta['dc_ip'],
                 $meta['dc_id'],
-                isset($meta['dc_port']) ? $meta['dc_port'] : LibConfig::DC_DEFAULT_PORT);
+                isset($meta['dc_port']) ? $meta['dc_port'] : LibConfig::DC_DEFAULT_PORT
+            );
 
         return DataCentre::getDefault();
     }

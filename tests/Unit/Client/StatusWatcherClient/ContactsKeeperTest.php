@@ -19,9 +19,9 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class ContactsKeeperTest extends TestCase
 {
-    /** @var BasicClient|MockObject $basicClientMock */
+    /** @var BasicClient|MockObject */
     private $basicClientMock;
-    /** @var SocketMessenger|MockObject $socketMessengerMock */
+    /** @var SocketMessenger|MockObject */
     private $socketMessengerMock;
     /** @var ContactsKeeper */
     private $keeper;
