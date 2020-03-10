@@ -127,7 +127,8 @@ abstract class BaseAuthorization implements Authorization
                             $authKeyParams->getServerSalt(),
                             $this->dc
                         ));
-                    });
+                    }
+                );
             });
         });
     }
@@ -204,8 +205,10 @@ abstract class BaseAuthorization implements Authorization
             }
         }
 
-        throw new TGException(TGException::ERR_AUTH_CERT_FINGERPRINT_NOT_FOUND,
-            'fingerprints: '.print_r($receivedFingerPrints, true));
+        throw new TGException(
+            TGException::ERR_AUTH_CERT_FINGERPRINT_NOT_FOUND,
+            'fingerprints: '.print_r($receivedFingerPrints, true)
+        );
     }
 
     /**

@@ -57,7 +57,8 @@ class AuthKeyCreator
      */
     public static function createActual(
         string $authKey,
-        /* @noinspection PhpUnusedParameterInspection */ string $initialSalt,
+        /* @noinspection PhpUnusedParameterInspection */
+        string $initialSalt,
         DataCentre $associatedWithDC
     ) {
         return AuthKey_v2::serialize($authKey, $associatedWithDC);

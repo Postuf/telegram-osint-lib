@@ -566,7 +566,12 @@ class InfoClient implements InfoObtainingClient
      * @param int               $offset
      */
     private function readPictureFromCurrentDC(
-        SocketMessenger $basicClient, TLClientMessage $location, callable $onPictureLoaded, $picModel = null, int $offset = 0)
+        SocketMessenger $basicClient,
+        TLClientMessage $location,
+        callable $onPictureLoaded,
+        $picModel = null,
+        int $offset = 0
+    )
     {
         if(!$picModel)
             $picModel = $picModel = new PictureModel();

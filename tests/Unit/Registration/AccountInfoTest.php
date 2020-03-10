@@ -16,7 +16,8 @@ class AccountInfoTest extends TestCase
      */
     public function test_serialize(): void
     {
-        $accountInfo = AccountInfo::deserializeFromJson(<<<'TAG'
+        $accountInfo = AccountInfo::deserializeFromJson(
+            <<<'TAG'
         {
         "device":"x1",
         "androidSdkVersion":"x2",
@@ -29,7 +30,7 @@ class AccountInfoTest extends TestCase
         "layerVersion":105
         }
 TAG
-);
+        );
         $unserializedAccountInfo = AccountInfo::deserializeFromJson($accountInfo->serializeToJson());
         $this->assertEquals('x1', $unserializedAccountInfo->getDevice());
         $this->assertEquals('x2', $unserializedAccountInfo->getAndroidSdkVersion());

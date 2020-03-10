@@ -147,8 +147,10 @@ class GroupPhotosScenarioTest extends TestCase
     public function test_basic_get_with_group_scenario_without_limits(): void {
         $count = 0;
         $saveHandler = function (
-/** @noinspection PhpUnusedParameterInspection */ PictureModel $model,
-/** @noinspection PhpUnusedParameterInspection */ int $id
+            /** @noinspection PhpUnusedParameterInspection */
+            PictureModel $model,
+            /** @noinspection PhpUnusedParameterInspection */
+            int $id
         ) use (&$count) {
             $count++;
         };
@@ -177,8 +179,10 @@ class GroupPhotosScenarioTest extends TestCase
     public function test_basic_get_with_group_scenario(): void {
         $count = 0;
         $saveHandler = function (
-/** @noinspection PhpUnusedParameterInspection */ PictureModel $model,
-/** @noinspection PhpUnusedParameterInspection */ int $id
+            /** @noinspection PhpUnusedParameterInspection */
+            PictureModel $model,
+            /** @noinspection PhpUnusedParameterInspection */
+            int $id
         ) use (&$count) {
             $count++;
         };
@@ -207,8 +211,10 @@ class GroupPhotosScenarioTest extends TestCase
     public function test_basic_get_with_user_scenario(): void {
         $count = 0;
         $saveHandler = function (
-/** @noinspection PhpUnusedParameterInspection */ PictureModel $model,
-/** @noinspection PhpUnusedParameterInspection */ int $id
+            /** @noinspection PhpUnusedParameterInspection */
+            PictureModel $model,
+            /** @noinspection PhpUnusedParameterInspection */
+            int $id
         ) use (&$count) {
             $count++;
         };
@@ -268,8 +274,10 @@ class GroupPhotosScenarioTest extends TestCase
     public function test_basic_scenario_with_date_limit_one(): void {
         $count = 0;
         $saveHandler = function (
-/** @noinspection PhpUnusedParameterInspection */ PictureModel $model,
-/** @noinspection PhpUnusedParameterInspection */ int $id
+            /** @noinspection PhpUnusedParameterInspection */
+            PictureModel $model,
+            /** @noinspection PhpUnusedParameterInspection */
+            int $id
         ) use (&$count) {
             $count++;
         };

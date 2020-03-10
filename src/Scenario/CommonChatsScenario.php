@@ -18,7 +18,7 @@ use TelegramOSINT\Tools\CacheMap;
 class CommonChatsScenario extends InfoClientScenario
 
 {
-    /** @var callable|null function(int $groupId, string $title) */
+    /** @var callable|null function(int, string) */
     private $handler;
     /** @var string[] */
     private $groupnames = [];

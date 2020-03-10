@@ -12,7 +12,7 @@ if ($argsOrFalse === false
 ) {
     echo <<<'EOT'
 Usage:
-    php proxy.php -n numbers 
+    php proxy.php -n numbers
     php proxy.php --numbers numbers
 
    -n, --numbers                Comma separated phone number list (e.g. 79061231231,79061231232).
