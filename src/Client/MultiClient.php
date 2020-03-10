@@ -23,16 +23,17 @@ class MultiClient
 
     /** @var int */
     private $connectedCount = 0;
+
     /** @var float */
     private $startTime;
 
     /**
-     * @param string[]      $authKeysSerialized
-     * @param callable|null $clientCreator      function(): InfoClient
+     * @param string[] $authKeysSerialized
+     * @param callable $clientCreator      function(): InfoClient
      *
      * @throws TGException
      */
-    public function __construct(array $authKeysSerialized, ?callable $clientCreator = null)
+    public function __construct(array $authKeysSerialized, callable $clientCreator)
     {
         $this->clients = [];
         $this->authKeys = [];
@@ -40,9 +41,7 @@ class MultiClient
         foreach ($authKeysSerialized as $keyStr) {
             $authKey = AuthKeyCreator::createFromString($keyStr);
             $this->authKeys[] = $authKey;
-            $this->clients[] = $clientCreator
-                ? $clientCreator()
-                : new InfoClient();
+            $this->clients[] = $clientCreator();
         }
     }
 
@@ -68,7 +67,7 @@ class MultiClient
                 });
                 $parts = explode(':', $authKey->getSerializedAuthKey());
                 Logger::log(__CLASS__, "after login {$parts[0]}");
-            } catch (TGException $e) {
+            } /** @noinspection PhpRedundantCatchClauseInspection */ catch (TGException $e) {
                 Logger::log(__CLASS__, $e->getMessage());
             }
         }
