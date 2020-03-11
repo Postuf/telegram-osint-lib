@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages;
 
 use TelegramOSINT\Exception\TGException;
@@ -18,7 +20,7 @@ class UserProfilePhoto extends TLServerMessage implements PhotoInterface
      *
      * @return bool
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return
             self::checkType($tlMessage, 'userProfilePhoto_v1') ||
@@ -31,15 +33,14 @@ class UserProfilePhoto extends TLServerMessage implements PhotoInterface
         $this->v1 = self::checkType($tlMessage, 'userProfilePhoto_v1');
     }
 
-    /**
-     * @return int
-     */
-    public function getPhotoId()
+    public function getPhotoId(): int
     {
         return $this->getTlMessage()->getValue('photo_id');
     }
 
     /**
+     * @throws TGException
+     *
      * @return FileLocation
      */
     public function getBigPhoto(): FileLocation
@@ -50,6 +51,8 @@ class UserProfilePhoto extends TLServerMessage implements PhotoInterface
     }
 
     /**
+     * @throws TGException
+     *
      * @return FileLocation
      */
     public function getSmallPhoto(): FileLocation
@@ -60,6 +63,8 @@ class UserProfilePhoto extends TLServerMessage implements PhotoInterface
     }
 
     /**
+     * @throws TGException
+     *
      * @return int
      */
     public function getDcId(): int
@@ -77,7 +82,7 @@ class UserProfilePhoto extends TLServerMessage implements PhotoInterface
     /**
      * @throws TGException
      */
-    private function throwIfNotV2()
+    private function throwIfNotV2(): void
     {
         if(!$this->isV2())
             throw new TGException(TGException::ERR_TL_MESSAGE_FIELD_NOT_EXISTS, 'Deprecated node!');

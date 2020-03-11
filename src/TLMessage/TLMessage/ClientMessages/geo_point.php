@@ -23,18 +23,12 @@ class geo_point implements TLClientMessage
         $this->lon = $lon;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'geo_point';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         $l1 = Packer::packDouble($this->lat);
         $l2 = Packer::packDouble($this->lon);

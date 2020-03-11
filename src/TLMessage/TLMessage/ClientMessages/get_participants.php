@@ -29,18 +29,12 @@ class get_participants implements TLClientMessage
         $this->query = $query;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'get_participants';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return Packer::packConstructor(self::CONSTRUCTOR).
             $this->channel->toBinary().

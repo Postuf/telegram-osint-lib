@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update;
 
 use TelegramOSINT\Client\InfoObtainingClient\Models\ChannelModel;
+use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
@@ -14,12 +17,14 @@ class Updates extends TLServerMessage
      *
      * @return bool
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return self::checkType($tlMessage, 'updates');
     }
 
     /**
+     * @throws TGException
+     *
      * @return ContactUser[]
      */
     public function getUsers(): array

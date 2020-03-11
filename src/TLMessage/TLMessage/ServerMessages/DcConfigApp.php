@@ -12,7 +12,7 @@ class DcConfigApp extends TLServerMessage
      *
      * @return bool
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return self::checkType($tlMessage, 'config');
     }
@@ -22,7 +22,7 @@ class DcConfigApp extends TLServerMessage
      * @noinspection PhpDocMissingThrowsInspection
      * @noinspection PhpUnhandledExceptionInspection
      */
-    public function getDataCenters()
+    public function getDataCenters(): array
     {
         $dcs = $this->getTlMessage()->getNodes('dc_options');
 
@@ -34,10 +34,9 @@ class DcConfigApp extends TLServerMessage
     }
 
     /**
-     * @return int
      * @noinspection PhpUnused
      */
-    public function getLangPackVersion()
+    public function getLangPackVersion(): int
     {
         return (int) $this->getTlMessage()->getValue('lang_pack_version');
     }

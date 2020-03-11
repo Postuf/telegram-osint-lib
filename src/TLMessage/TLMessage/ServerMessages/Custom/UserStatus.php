@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Custom;
 
 use TelegramOSINT\Client\StatusWatcherClient\Models\HiddenStatus;
@@ -41,7 +43,7 @@ class UserStatus extends TLServerMessage
      *
      * @return bool
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return
             UserStatusOnline::isIt($tlMessage) ||
@@ -52,26 +54,17 @@ class UserStatus extends TLServerMessage
             UserStatusLastMonth::isIt($tlMessage);
     }
 
-    /**
-     * @return bool
-     */
-    public function isOnline()
+    public function isOnline(): bool
     {
         return UserStatusOnline::isIt($this->getTlMessage());
     }
 
-    /**
-     * @return bool
-     */
-    public function isOffline()
+    public function isOffline(): bool
     {
         return UserStatusOffline::isIt($this->getTlMessage());
     }
 
-    /**
-     * @return bool
-     */
-    public function isHidden()
+    public function isHidden(): bool
     {
         return
             UserStatusEmpty::isIt($this->getTlMessage()) ||
@@ -85,7 +78,7 @@ class UserStatus extends TLServerMessage
      *
      * @return HiddenStatus
      */
-    public function getHiddenState()
+    public function getHiddenState(): HiddenStatus
     {
         if(UserStatusRecently::isIt($this->getTlMessage()))
             return new HiddenStatus(HiddenStatus::HIDDEN_SEEN_RECENTLY);
@@ -102,18 +95,12 @@ class UserStatus extends TLServerMessage
         throw new TGException(TGException::ERR_ASSERT_UNKNOWN_HIDDEN_STATUS);
     }
 
-    /**
-     * @return int
-     */
-    public function getExpires()
+    public function getExpires(): ?int
     {
         return $this->isOnline() ? $this->status->getExpires() : null;
     }
 
-    /**
-     * @return int
-     */
-    public function getWasOnline()
+    public function getWasOnline(): ?int
     {
         return $this->isOffline() ? $this->status->getWasOnline() : null;
     }

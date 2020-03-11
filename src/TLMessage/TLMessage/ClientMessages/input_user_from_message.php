@@ -31,18 +31,12 @@ class input_user_from_message implements TLClientMessage
         $this->userId = $userId;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'input_user_from_message';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return Packer::packConstructor(self::CONSTRUCTOR).
             (new input_peer_channel($this->channelId, $this->accessHash))->toBinary().

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 
 use TelegramOSINT\Registration\NameGenerator\NameResource;
@@ -35,15 +37,6 @@ class import_contacts implements TLClientMessage
         }
     }
 
-    private function transformPhone($phone)
-    {
-        $phone = trim((string) $phone);
-        if($phone[0] != '+')
-            $phone = '+'.$phone;
-
-        return $phone;
-    }
-
     /**
      * @param int $clientId
      *
@@ -56,28 +49,19 @@ class import_contacts implements TLClientMessage
             false;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'import_contacts';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packVector($this->phones, $this->getElementGenerator());
     }
 
-    /**
-     * @return callable
-     */
-    private function getElementGenerator()
+    private function getElementGenerator(): callable
     {
         return function (array $clientIdAndPhone) {
 
@@ -95,5 +79,14 @@ class import_contacts implements TLClientMessage
                 Packer::packString($contactFirstName).
                 Packer::packString($contactLastName);
         };
+    }
+
+    private function transformPhone(string $phone): string
+    {
+        $phone = trim($phone);
+        if($phone[0] != '+')
+            $phone = '+'.$phone;
+
+        return $phone;
     }
 }

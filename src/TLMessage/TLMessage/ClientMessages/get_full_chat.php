@@ -22,18 +22,12 @@ class get_full_chat implements TLClientMessage
         $this->chatId = $chatId;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'get_full_chat';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).

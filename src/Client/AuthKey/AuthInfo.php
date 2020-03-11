@@ -27,9 +27,6 @@ class AuthInfo
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getPhone(): string
     {
         return $this->phone;

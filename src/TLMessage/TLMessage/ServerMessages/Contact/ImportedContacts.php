@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact;
 
+use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
@@ -12,15 +15,17 @@ class ImportedContacts extends TLServerMessage
      *
      * @return bool
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return self::checkType($tlMessage, 'contacts.importedContacts');
     }
 
     /**
+     * @throws TGException
+     *
      * @return ContactUser[]
      */
-    public function getImportedUsers()
+    public function getImportedUsers(): array
     {
         $users = $this->getTlMessage()->getNodes('users');
         $userObjects = [];
@@ -31,9 +36,11 @@ class ImportedContacts extends TLServerMessage
     }
 
     /**
+     * @throws TGException
+     *
      * @return ContactClient[]
      */
-    public function getImportedClients()
+    public function getImportedClients(): array
     {
         $clients = $this->getTlMessage()->getNodes('imported');
         $clientObjects = [];
@@ -46,7 +53,7 @@ class ImportedContacts extends TLServerMessage
     /**
      * @return array (index => client_id)
      */
-    public function getRetryContacts()
+    public function getRetryContacts(): array
     {
         return $this->getTlMessage()->getValue('retry_contacts');
     }

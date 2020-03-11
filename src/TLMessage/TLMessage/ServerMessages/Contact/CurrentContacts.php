@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact;
 
 use TelegramOSINT\Exception\TGException;
@@ -13,7 +15,7 @@ class CurrentContacts extends TLServerMessage
      *
      * @return bool
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return self::checkType($tlMessage, 'contacts.contacts');
     }
@@ -23,7 +25,7 @@ class CurrentContacts extends TLServerMessage
      *
      * @return ContactUser[]
      */
-    public function getUsers()
+    public function getUsers(): array
     {
         $users = $this->getTlMessage()->getNodes('users');
         $userObjects = [];

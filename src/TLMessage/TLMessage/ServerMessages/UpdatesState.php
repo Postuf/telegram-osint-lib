@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages;
 
 use TelegramOSINT\MTSerialization\AnonymousMessage;
@@ -12,31 +14,22 @@ class UpdatesState extends TLServerMessage
      *
      * @return bool
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return self::checkType($tlMessage, 'updates.state');
     }
 
-    /**
-     * @return int
-     */
-    public function getPts()
+    public function getPts(): int
     {
         return $this->getTlMessage()->getValue('pts');
     }
 
-    /**
-     * @return int
-     */
-    public function getQts()
+    public function getQts(): int
     {
         return $this->getTlMessage()->getValue('qts');
     }
 
-    /**
-     * @return int
-     */
-    public function getDate()
+    public function getDate(): int
     {
         return $this->getTlMessage()->getValue('date');
     }

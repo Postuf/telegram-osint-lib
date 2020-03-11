@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Auth;
 
 use TelegramOSINT\MTSerialization\AnonymousMessage;
@@ -12,42 +14,32 @@ class ResPQ extends TLServerMessage
      *
      * @return bool
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return self::checkType($tlMessage, 'resPQ');
     }
 
-    /**
-     * @return string
-     */
-    public function getClientNonce()
+    public function getClientNonce(): string
     {
         return $this->getTlMessage()->getValue('nonce');
     }
 
-    /**
-     * @return string
-     */
-    public function getServerNonce()
+    public function getServerNonce(): string
     {
         return $this->getTlMessage()->getValue('server_nonce');
     }
 
     /**
-     * @return int
      * @noinspection PhpUnused
      */
-    public function getPQ()
+    public function getPQ(): int
     {
         $pqBin = $this->getTlMessage()->getValue('pq');
 
         return unpack('J', $pqBin)[1];
     }
 
-    /**
-     * @return array
-     */
-    public function getFingerprints()
+    public function getFingerprints(): array
     {
         return $this->getTlMessage()->getValue('server_public_key_fingerprints');
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages;
 
 use TelegramOSINT\MTSerialization\AnonymousMessage;
@@ -15,39 +17,27 @@ class UploadedFile extends TLServerMessage
      *
      * @return bool
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return self::checkType($tlMessage, 'upload.file');
     }
 
-    /**
-     * @return string
-     */
-    public function getBytes()
+    public function getBytes(): string
     {
         return $this->getTlMessage()->getValue('bytes');
     }
 
-    /**
-     * @return int
-     */
-    public function getModificationTs()
+    public function getModificationTs(): int
     {
         return (int) $this->getTlMessage()->getValue('mtime');
     }
 
-    /**
-     * @return bool
-     */
-    public function isJpeg()
+    public function isJpeg(): bool
     {
-        return $this->getTlMessage()->getNode('type')->getType() == 'storage.fileJpeg';
+        return $this->getTlMessage()->getNode('type')->getType() === 'storage.fileJpeg';
     }
 
-    /**
-     * @return bool
-     */
-    public function getFormatName()
+    public function getFormatName(): string
     {
         switch($this->getTlMessage()->getNode('type')->getType())
         {

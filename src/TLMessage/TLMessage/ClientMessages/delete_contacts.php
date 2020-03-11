@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 
 use TelegramOSINT\TLMessage\TLMessage\Packer;
@@ -23,7 +25,7 @@ class delete_contacts implements TLClientMessage
      * @param int $accessHash
      * @param int $userId
      */
-    public function addToDelete(int $accessHash, int $userId)
+    public function addToDelete(int $accessHash, int $userId): void
     {
         $this->contactsToDelete[] = [
             'access_hash' => $accessHash,
@@ -31,28 +33,19 @@ class delete_contacts implements TLClientMessage
         ];
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'delete_contacts';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packVector($this->contactsToDelete, $this->getElementGenerator());
     }
 
-    /**
-     * @return callable
-     */
-    private function getElementGenerator()
+    private function getElementGenerator(): callable
     {
         return function ($userData) {
             return

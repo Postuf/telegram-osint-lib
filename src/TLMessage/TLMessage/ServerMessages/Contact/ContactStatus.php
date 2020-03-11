@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact;
 
 use TelegramOSINT\Exception\TGException;
@@ -14,29 +16,28 @@ class ContactStatus extends TLServerMessage
      *
      * @return bool
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return self::checkType($tlMessage, 'contactStatus');
     }
 
     /**
+     * @throws TGException
+     *
      * @return UserStatus|null
      */
-    public function getStatus()
+    public function getStatus(): ?UserStatus
     {
         try {
             $status = $this->getTlMessage()->getNode('status');
-        } catch (TGException $e){
+        } /** @noinspection PhpRedundantCatchClauseInspection */ catch (TGException $e) {
             return null;
         }
 
         return new UserStatus($status);
     }
 
-    /**
-     * @return int
-     */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->getTlMessage()->getValue('user_id');
     }

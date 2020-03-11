@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages;
 
+use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
@@ -20,6 +21,8 @@ class ChatPhoto extends TLServerMessage implements PhotoInterface
     }
 
     /**
+     * @throws TGException
+     *
      * @return FileLocation
      */
     public function getBigPhoto(): FileLocation
@@ -30,6 +33,8 @@ class ChatPhoto extends TLServerMessage implements PhotoInterface
     }
 
     /**
+     * @throws TGException
+     *
      * @return FileLocation
      */
     public function getSmallPhoto(): FileLocation
@@ -39,9 +44,6 @@ class ChatPhoto extends TLServerMessage implements PhotoInterface
         return new FileLocation($photo);
     }
 
-    /**
-     * @return int
-     */
     public function getDcId(): int
     {
         return $this->getTlMessage()->getValue('dc_id');

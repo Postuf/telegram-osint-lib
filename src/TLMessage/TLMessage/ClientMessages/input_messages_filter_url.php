@@ -11,12 +11,12 @@ class input_messages_filter_url implements TLClientMessage
 {
     const CONSTRUCTOR = 2129714567; //0x7EF0DD87
 
-    public function getName()
+    public function getName(): string
     {
         return 'input_messages_filter_url';
     }
 
-    public function toBinary()
+    public function toBinary(): string
     {
         return Packer::packConstructor(self::CONSTRUCTOR);
     }

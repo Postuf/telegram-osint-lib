@@ -11,25 +11,25 @@ interface AnonymousMessage
      *
      * @param string $name
      *
-     * @return AnonymousMessage
+     * @return self
      */
-    public function getNode(string $name);
+    public function getNode(string $name): self;
 
     /**
      * Return array of nodes under the $name from current object
      *
      * @param string $name
      *
-     * @return AnonymousMessage[]
+     * @return self[]
      */
-    public function getNodes(string $name);
+    public function getNodes(string $name): array;
 
     /**
      * Get message name
      *
      * @return string
      */
-    public function getType();
+    public function getType(): string;
 
     /**
      * Get value of named field from current object
@@ -40,13 +40,7 @@ interface AnonymousMessage
      */
     public function getValue(string $name);
 
-    /**
-     * @return string
-     */
-    public function getPrintable();
+    public function getPrintable(): string;
 
-    /**
-     * @return string
-     */
-    public function getDebugPrintable();
+    public function getDebugPrintable(): string;
 }

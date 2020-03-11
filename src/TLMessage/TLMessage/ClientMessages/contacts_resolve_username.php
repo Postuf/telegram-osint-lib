@@ -26,18 +26,12 @@ class contacts_resolve_username implements TLClientMessage
         $this->username = $username;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'contacts_resolve_username';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packString($this->username);

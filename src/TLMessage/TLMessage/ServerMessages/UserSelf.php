@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages;
 
 use TelegramOSINT\Exception\TGException;
@@ -14,19 +16,21 @@ class UserSelf extends TLServerMessage
      *
      * @return bool
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return self::checkType($tlMessage, 'userSelf');
     }
 
     /**
+     * @throws TGException
+     *
      * @return UserStatus|null
      */
-    public function getStatus()
+    public function getStatus(): ?UserStatus
     {
         try {
             $status = $this->getTlMessage()->getNode('status');
-        } catch (TGException $e){
+        } /** @noinspection PhpRedundantCatchClauseInspection */ catch (TGException $e){
             return null;
         }
 
@@ -34,9 +38,11 @@ class UserSelf extends TLServerMessage
     }
 
     /**
-     * @return UserProfilePhoto|ChatPhoto|null
+     * @throws TGException
+     *
+     * @return PhotoInterface|null
      */
-    public function getPhoto()
+    public function getPhoto(): ?PhotoInterface
     {
         $photo = $this->getTlMessage()->getNode('photo');
         if (TLServerMessage::checkType($photo, 'userProfilePhoto')) {
@@ -48,18 +54,12 @@ class UserSelf extends TLServerMessage
         }
     }
 
-    /**
-     * @return int
-     */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->getTlMessage()->getValue('id');
     }
 
-    /**
-     * @return string
-     */
-    public function getPhone()
+    public function getPhone(): string
     {
         return $this->getTlMessage()->getValue('phone');
     }

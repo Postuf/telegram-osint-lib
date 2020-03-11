@@ -110,9 +110,6 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
         return $this->basicClient->pollMessage();
     }
 
-    /**
-     * @return void
-     */
     public function onPeriodAvailable(): void
     {
         $this->checkOnlineStatusesExpired();

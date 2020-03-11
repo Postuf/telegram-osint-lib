@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 
 use TelegramOSINT\TLMessage\TLMessage\Packer;
@@ -15,8 +17,6 @@ class req_pq_multi implements TLClientMessage
     private $nonce;
 
     /**
-     * req_pq_multi constructor.
-     *
      * @param string $nonce
      */
     public function __construct(string $nonce)
@@ -24,18 +24,12 @@ class req_pq_multi implements TLClientMessage
         $this->nonce = $nonce;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'req_pq_multi';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).

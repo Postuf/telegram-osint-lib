@@ -112,9 +112,6 @@ abstract class InfoClientScenario implements ScenarioInterface
         }
     }
 
-    /**
-     * @return ClientGeneratorInterface
-     */
     protected function getGenerator(): ClientGeneratorInterface
     {
         return $this->generator;

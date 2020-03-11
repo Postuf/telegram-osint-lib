@@ -35,7 +35,7 @@ class OwnAnonymousMessage implements AnonymousMessage
      *
      * @return AnonymousMessage
      */
-    public function getNode(string $name)
+    public function getNode(string $name): AnonymousMessage
     {
         $node = $this->getValue($name);
         if(!is_array($node))
@@ -53,7 +53,7 @@ class OwnAnonymousMessage implements AnonymousMessage
      *
      * @return AnonymousMessage[]
      */
-    public function getNodes(string $name)
+    public function getNodes(string $name): array
     {
         $nodes = $this->getValue($name);
         if(!is_array($nodes))
@@ -70,7 +70,7 @@ class OwnAnonymousMessage implements AnonymousMessage
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -97,18 +97,12 @@ class OwnAnonymousMessage implements AnonymousMessage
         return $this->getDebugPrintable();
     }
 
-    /**
-     * @return string
-     */
-    public function getPrintable()
+    public function getPrintable(): string
     {
         return json_encode($this->object, JSON_PRETTY_PRINT);
     }
 
-    /**
-     * @return string
-     */
-    public function getDebugPrintable()
+    public function getDebugPrintable(): string
     {
         return print_r($this->object, true);
     }

@@ -22,18 +22,12 @@ class get_deeplink_info implements TLClientMessage
         $this->path = $path;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'get_deeplink_info';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packString($this->path);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages;
 
 use TelegramOSINT\MTSerialization\AnonymousMessage;
@@ -12,23 +14,17 @@ class ExportedAuthorization extends TLServerMessage
      *
      * @return bool
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return self::checkType($tlMessage, 'auth.exportedAuthorization');
     }
 
-    /**
-     * @return int
-     */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->getTlMessage()->getValue('id');
     }
 
-    /**
-     * @return string
-     */
-    public function getTransferKey()
+    public function getTransferKey(): string
     {
         return $this->getTlMessage()->getValue('bytes');
     }

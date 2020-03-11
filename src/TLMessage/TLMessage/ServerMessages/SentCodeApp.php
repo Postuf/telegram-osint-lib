@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages;
 
 use TelegramOSINT\MTSerialization\AnonymousMessage;
@@ -12,23 +14,17 @@ class SentCodeApp extends TLServerMessage
      *
      * @return bool
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return self::checkType($tlMessage, 'auth.sentCode');
     }
 
-    /**
-     * @return bool
-     */
-    public function isSentCodeTypeSms()
+    public function isSentCodeTypeSms(): bool
     {
         return $this->getTlMessage()->getNode('type')->getType() == 'auth.sentCodeTypeSms';
     }
 
-    /**
-     * @return string
-     */
-    public function getPhoneCodeHash()
+    public function getPhoneCodeHash(): string
     {
         return $this->getTlMessage()->getValue('phone_code_hash');
     }

@@ -55,12 +55,12 @@ class ContactsKeeperTest extends TestCase
                         [
                             '_'         => 'importedContact',
                             'user_id'   => 1,
-                            'client_id' => '1123',
+                            'client_id' => 1123,
                         ],
                         [
                             '_'         => 'importedContact',
                             'user_id'   => 2,
-                            'client_id' => '1456',
+                            'client_id' => 1456,
                         ],
                     ],
                     'users' => [
@@ -252,12 +252,12 @@ class ContactsKeeperTest extends TestCase
                         [
                             '_'         => 'importedContact',
                             'user_id'   => 1,
-                            'client_id' => '1123',
+                            'client_id' => 1123,
                         ],
                         [
                             '_'         => 'importedContact',
                             'user_id'   => 2,
-                            'client_id' => '1456',
+                            'client_id' => 1456,
                         ],
                     ],
                     'users' => [

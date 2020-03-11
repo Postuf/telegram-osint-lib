@@ -2,6 +2,8 @@
 
 /** @noinspection SpellCheckingInspection */
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 
 use TelegramOSINT\TLMessage\TLMessage\Packer;
@@ -29,18 +31,12 @@ class export_authorization implements TLClientMessage
         $this->foreignDcId = $foreignDdIc;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'export_authorization';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).

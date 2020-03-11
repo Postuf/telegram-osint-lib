@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserStatus;
 
 use TelegramOSINT\MTSerialization\AnonymousMessage;
@@ -12,7 +14,7 @@ class UserStatusLastMonth extends TLServerMessage
      *
      * @return bool
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return self::checkType($tlMessage, 'userStatusLastMonth');
     }

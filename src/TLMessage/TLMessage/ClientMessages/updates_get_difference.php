@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 
 use TelegramOSINT\TLMessage\TLMessage\Packer;
@@ -17,8 +19,6 @@ class updates_get_difference implements TLClientMessage
     private $date;
 
     /**
-     * updates_get_difference constructor.
-     *
      * @param int $pts
      * @param int $qts
      * @param int $date
@@ -30,18 +30,12 @@ class updates_get_difference implements TLClientMessage
         $this->date = $date;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'updates_get_difference';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).

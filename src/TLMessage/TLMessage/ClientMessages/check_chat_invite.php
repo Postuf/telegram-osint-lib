@@ -22,18 +22,12 @@ class check_chat_invite implements TLClientMessage
         $this->hash = $hash;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'check_chat_invite';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         return Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packString($this->hash);

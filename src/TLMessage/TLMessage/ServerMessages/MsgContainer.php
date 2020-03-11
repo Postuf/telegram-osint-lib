@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages;
 
 use TelegramOSINT\MTSerialization\AnonymousMessage;
@@ -12,7 +14,7 @@ class MsgContainer extends TLServerMessage
      *
      * @return bool
      */
-    public static function isIt(AnonymousMessage $tlMessage)
+    public static function isIt(AnonymousMessage $tlMessage): bool
     {
         return self::checkType($tlMessage, 'msg_container');
     }
@@ -20,7 +22,7 @@ class MsgContainer extends TLServerMessage
     /**
      * @return AnonymousMessage[]
      */
-    public function getMessages()
+    public function getMessages(): array
     {
         return $this->getTlMessage()->getNodes('messages');
     }

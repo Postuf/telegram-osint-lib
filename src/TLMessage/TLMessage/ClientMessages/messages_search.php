@@ -36,18 +36,12 @@ class messages_search implements TLClientMessage
         $this->accessHash = $accessHash;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'search';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         $flags = 0x0; // 0b00000001; 0x3
         return

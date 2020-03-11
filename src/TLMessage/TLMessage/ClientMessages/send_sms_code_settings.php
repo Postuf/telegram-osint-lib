@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 
 use TelegramOSINT\TLMessage\TLMessage\Packer;
@@ -12,18 +14,12 @@ class send_sms_code_settings implements TLClientMessage
 {
     const CONSTRUCTOR = -557924733; // 0xDEBEBE83
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'send_code_settings';
     }
 
-    /**
-     * @return string
-     */
-    public function toBinary()
+    public function toBinary(): string
     {
         $bitMask = 16;
 
