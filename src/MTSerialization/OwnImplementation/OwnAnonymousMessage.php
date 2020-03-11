@@ -97,17 +97,11 @@ class OwnAnonymousMessage implements AnonymousMessage
         return $this->getDebugPrintable();
     }
 
-    /**
-     * @return string
-     */
     public function getPrintable(): string
     {
         return json_encode($this->object, JSON_PRETTY_PRINT);
     }
 
-    /**
-     * @return string
-     */
     public function getDebugPrintable(): string
     {
         return print_r($this->object, true);

@@ -37,25 +37,16 @@ class DataCentre
         );
     }
 
-    /**
-     * @return string
-     */
     public function getDcIp(): string
     {
         return $this->dcIp;
     }
 
-    /**
-     * @return int
-     */
     public function getDcId(): int
     {
         return $this->dcId;
     }
 
-    /**
-     * @return int
-     */
     public function getDcPort(): int
     {
         return $this->dcPort;

@@ -57,9 +57,6 @@ abstract class TLServerMessage
         }
     }
 
-    /**
-     * @return AnonymousMessage
-     */
     protected function getTlMessage(): AnonymousMessage
     {
         return $this->tlMessage;

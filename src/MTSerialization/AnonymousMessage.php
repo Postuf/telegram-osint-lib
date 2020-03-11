@@ -40,13 +40,7 @@ interface AnonymousMessage
      */
     public function getValue(string $name);
 
-    /**
-     * @return string
-     */
     public function getPrintable(): string;
 
-    /**
-     * @return string
-     */
     public function getDebugPrintable(): string;
 }
