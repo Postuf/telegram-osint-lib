@@ -1,0 +1,199 @@
+{
+    "trace-timestamp": 1578928828.802187,
+    "records": [
+        {
+            "record-type": "boolTrue",
+            "message": {
+                "_": "boolTrue"
+            },
+            "record-timestamp": 1578928828.852187
+        },
+        {
+            "record-type": "contacts.resolvedPeer",
+            "message": {
+                "_": "contacts.resolvedPeer",
+                "peer": {
+                    "_": "peerChannel",
+                    "channel_id": 1289424496
+                },
+                "chats": [
+                    {
+                        "_": "channel",
+                        "flags": 270656,
+                        "creator": false,
+                        "left": false,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": false,
+                        "slowmode_enabled": false,
+                        "id": 1289424496,
+                        "access_hash": 8749010901541877783,
+                        "title": "Test group",
+                        "username": "asfaefegw",
+                        "photo": {
+                            "_": "chatPhotoEmpty"
+                        },
+                        "date": 1578489375,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 132096,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": false,
+                            "send_gifs": false,
+                            "send_games": false,
+                            "send_inline": false,
+                            "embed_links": false,
+                            "send_polls": false,
+                            "change_info": true,
+                            "invite_users": false,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": null
+                    }
+                ],
+                "users": []
+            },
+            "record-timestamp": 1578928828.852187
+        },
+        {
+            "record-type": "messages.chatFull",
+            "message": {
+                "_": "messages.chatFull",
+                "full_chat": {
+                    "_": "channelFull",
+                    "flags": 8217,
+                    "can_view_participants": true,
+                    "can_set_username": false,
+                    "can_set_stickers": false,
+                    "hidden_prehistory": false,
+                    "can_view_stats": false,
+                    "can_set_location": false,
+                    "has_scheduled": false,
+                    "id": 1289424496,
+                    "about": "",
+                    "participants_count": 3,
+                    "admins_count": null,
+                    "kicked_count": null,
+                    "banned_count": null,
+                    "online_count": 2,
+                    "read_inbox_max_id": 1,
+                    "read_outbox_max_id": 3,
+                    "unread_count": 2,
+                    "chat_photo": {
+                        "_": "photoEmpty",
+                        "id": 0
+                    },
+                    "notify_settings": {
+                        "_": "peerNotifySettings",
+                        "flags": 0,
+                        "show_previews": null,
+                        "silent": null,
+                        "mute_until": null,
+                        "sound": null
+                    },
+                    "exported_invite": {
+                        "_": "chatInviteEmpty"
+                    },
+                    "bot_info": [],
+                    "migrated_from_chat_id": 354099730,
+                    "migrated_from_max_id": 17,
+                    "pinned_msg_id": null,
+                    "stickerset": null,
+                    "available_min_id": null,
+                    "folder_id": null,
+                    "linked_chat_id": null,
+                    "location": null,
+                    "slowmode_seconds": null,
+                    "slowmode_next_send_date": null,
+                    "pts": 4
+                },
+                "chats": [
+                    {
+                        "_": "channel",
+                        "flags": 270656,
+                        "creator": false,
+                        "left": false,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": false,
+                        "slowmode_enabled": false,
+                        "id": 1289424496,
+                        "access_hash": 8749010901541877783,
+                        "title": "Test group",
+                        "username": "asfaefegw",
+                        "photo": {
+                            "_": "chatPhotoEmpty"
+                        },
+                        "date": 1578489375,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 132096,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": false,
+                            "send_gifs": false,
+                            "send_games": false,
+                            "send_inline": false,
+                            "embed_links": false,
+                            "send_polls": false,
+                            "change_info": true,
+                            "invite_users": false,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": null
+                    },
+                    {
+                        "_": "chat",
+                        "flags": 96,
+                        "creator": false,
+                        "kicked": false,
+                        "left": false,
+                        "deactivated": true,
+                        "id": 354099730,
+                        "title": "Test group",
+                        "photo": {
+                            "_": "chatPhotoEmpty"
+                        },
+                        "participants_count": 0,
+                        "date": 1576680797,
+                        "version": 5,
+                        "migrated_to": {
+                            "_": "inputChannel",
+                            "channel_id": 1289424496,
+                            "access_hash": 8749010901541877783
+                        },
+                        "admin_rights": null,
+                        "default_banned_rights": null
+                    }
+                ],
+                "users": []
+            },
+            "record-timestamp": 1578928828.9521868
+        }
+    ]
+}

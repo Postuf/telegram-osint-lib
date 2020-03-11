@@ -1,0 +1,479 @@
+{
+    "trace-timestamp": 1579086324.122255,
+    "records": [
+        {
+            "record-type": "boolTrue",
+            "message": {
+                "_": "boolTrue"
+            },
+            "record-timestamp": 1579086324.3722548
+        },
+        {
+            "record-type": "contacts.resolvedPeer",
+            "message": {
+                "_": "contacts.resolvedPeer",
+                "peer": {
+                    "_": "peerChannel",
+                    "channel_id": 1289424496
+                },
+                "chats": [
+                    {
+                        "_": "channel",
+                        "flags": 270656,
+                        "creator": false,
+                        "left": false,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": false,
+                        "slowmode_enabled": false,
+                        "id": 1289424496,
+                        "access_hash": 8749010901541877783,
+                        "title": "Test group",
+                        "username": "asfaefegw",
+                        "photo": {
+                            "_": "chatPhotoEmpty"
+                        },
+                        "date": 1578489375,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 132096,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": false,
+                            "send_gifs": false,
+                            "send_games": false,
+                            "send_inline": false,
+                            "embed_links": false,
+                            "send_polls": false,
+                            "change_info": true,
+                            "invite_users": false,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": null
+                    }
+                ],
+                "users": []
+            },
+            "record-timestamp": 1579086324.322255
+        },
+        {
+            "record-type": "contacts.resolvedPeer",
+            "message": {
+                "_": "contacts.resolvedPeer",
+                "peer": {
+                    "_": "peerUser",
+                    "user_id": 634017
+                },
+                "chats": [],
+                "users": [
+                    {
+                        "_": "user",
+                        "flags": 91,
+                        "self": false,
+                        "contact": false,
+                        "mutual_contact": false,
+                        "deleted": false,
+                        "bot": false,
+                        "bot_chat_history": false,
+                        "bot_nochats": false,
+                        "verified": false,
+                        "restricted": false,
+                        "min": false,
+                        "bot_inline_geo": false,
+                        "support": false,
+                        "scam": false,
+                        "id": 634017,
+                        "access_hash": 567116482653754431,
+                        "first_name": "Stanislav",
+                        "last_name": null,
+                        "username": "ntlvikhhjofnekge",
+                        "phone": "79060994567",
+                        "photo": null,
+                        "status": {
+                            "_": "userStatusRecently"
+                        },
+                        "bot_info_version": null,
+                        "restriction_reason": null,
+                        "bot_inline_placeholder": null,
+                        "lang_code": null
+                    }
+                ]
+            },
+            "record-timestamp": 1579086324.4222548
+        },
+        {
+            "record-type": "messages.channelMessages",
+            "message": {
+                "_": "messages.channelMessages",
+                "flags": 0,
+                "inexact": false,
+                "pts": 4,
+                "count": 3,
+                "messages": [
+                    {
+                        "_": "message",
+                        "flags": 768,
+                        "out": false,
+                        "mentioned": false,
+                        "media_unread": false,
+                        "silent": false,
+                        "post": false,
+                        "from_scheduled": false,
+                        "legacy": false,
+                        "edit_hide": false,
+                        "id": 3,
+                        "from_id": 634017,
+                        "to_id": {
+                            "_": "peerChannel",
+                            "channel_id": 1289424496
+                        },
+                        "fwd_from": null,
+                        "via_bot_id": null,
+                        "reply_to_msg_id": null,
+                        "date": 1578649867,
+                        "message": "",
+                        "media": {
+                            "_": "messageMediaPhoto",
+                            "flags": 1,
+                            "photo": {
+                                "_": "photo",
+                                "flags": 0,
+                                "has_stickers": false,
+                                "id": 5244680068494633967,
+                                "access_hash": -5773909563565492066,
+                                "file_reference": "024cdb0e70000000035e1ef1f441eadeece9683ece7114c4ff1d8bf20c",
+                                "date": 1578649867,
+                                "sizes": [
+                                    {
+                                        "_": "photoStrippedSize",
+                                        "type": "i",
+                                        "bytes": "011f28ba34fb66ce13f534bfd9b6dff3cfff001e34c3a9db024176c8f6a3fb56dbfbcdff007cd02ba1ff00d9b6bff3ccff00df46a26b5d3c310c0023afcc69ff00dab6bfde6ffbe6b22f3fe3f26ff7cd3b0366a8b4d388fe0ffbefff00af4561514585cc4927fad6fad467ad3e4ff5adf5a61a64854f79ff001f937fbc6a0ae9cdbc2c72d0c649ee547340d2b9cc515d3fd96dff00e7845ff7c0a295c7ca7f"
+                                    },
+                                    {
+                                        "_": "photoSize",
+                                        "type": "m",
+                                        "location": {
+                                            "_": "fileLocationToBeDeprecated",
+                                            "volume_id": 247526612,
+                                            "local_id": 84916
+                                        },
+                                        "w": 320,
+                                        "h": 250,
+                                        "size": 16544
+                                    },
+                                    {
+                                        "_": "photoSize",
+                                        "type": "x",
+                                        "location": {
+                                            "_": "fileLocationToBeDeprecated",
+                                            "volume_id": 247526612,
+                                            "local_id": 84917
+                                        },
+                                        "w": 800,
+                                        "h": 624,
+                                        "size": 60005
+                                    },
+                                    {
+                                        "_": "photoSize",
+                                        "type": "y",
+                                        "location": {
+                                            "_": "fileLocationToBeDeprecated",
+                                            "volume_id": 247526612,
+                                            "local_id": 84914
+                                        },
+                                        "w": 1280,
+                                        "h": 999,
+                                        "size": 123127
+                                    }
+                                ],
+                                "dc_id": 2
+                            },
+                            "ttl_seconds": null
+                        },
+                        "reply_markup": null,
+                        "entities": null,
+                        "views": null,
+                        "edit_date": null,
+                        "post_author": null,
+                        "grouped_id": null,
+                        "restriction_reason": null
+                    },
+                    {
+                        "_": "message",
+                        "flags": 768,
+                        "out": false,
+                        "mentioned": false,
+                        "media_unread": false,
+                        "silent": false,
+                        "post": false,
+                        "from_scheduled": false,
+                        "legacy": false,
+                        "edit_hide": false,
+                        "id": 2,
+                        "from_id": 634017,
+                        "to_id": {
+                            "_": "peerChannel",
+                            "channel_id": 1289424496
+                        },
+                        "fwd_from": null,
+                        "via_bot_id": null,
+                        "reply_to_msg_id": null,
+                        "date": 1578494852,
+                        "message": "qweq",
+                        "media": {
+                            "_": "messageMediaPhoto",
+                            "flags": 1,
+                            "photo": {
+                                "_": "photo",
+                                "flags": 0,
+                                "has_stickers": false,
+                                "id": 5237777884251270240,
+                                "access_hash": -6883771488669588601,
+                                "file_reference": "024cdb0e70000000025e1ef1f43b6f73557df0212ff94ba0456be9ccf4",
+                                "date": 1578494852,
+                                "sizes": [
+                                    {
+                                        "_": "photoStrippedSize",
+                                        "type": "i",
+                                        "bytes": "011c2888233319186501f989fe54924c659098c88d7a702895870abbb1d0293c7d696de22e5514fcc4939f4a9374892de033cbb70401f78e7a7b7d69e55925fb331fdda36481d48ed5621b88e041188df804fcbce7048cfe38a8af1a394aca80e540ddc7183d0e4714584a57761ec66b2c1de1e23d013cd14d68da20972ffbce7e607b0f6a281a49f4b9436e01c91b8a8fc05588a30e8cee06d1b467d33fce96ea048e411ae4293eb48d1288e46e491c8cf4a04a49abdc8982ec039e383cfcb5344b2c80c4adc30e4601071ef5193d781c203fa5289de07263206588e948d395bd8b3124ccc6d8cdb420c11b4734516b23497e58e0164c9c51549184a4e2ec8f"
+                                    },
+                                    {
+                                        "_": "photoSize",
+                                        "type": "m",
+                                        "location": {
+                                            "_": "fileLocationToBeDeprecated",
+                                            "volume_id": 247531606,
+                                            "local_id": 80797
+                                        },
+                                        "w": 320,
+                                        "h": 226,
+                                        "size": 32216
+                                    },
+                                    {
+                                        "_": "photoSize",
+                                        "type": "x",
+                                        "location": {
+                                            "_": "fileLocationToBeDeprecated",
+                                            "volume_id": 247531606,
+                                            "local_id": 80798
+                                        },
+                                        "w": 800,
+                                        "h": 565,
+                                        "size": 105650
+                                    },
+                                    {
+                                        "_": "photoSize",
+                                        "type": "y",
+                                        "location": {
+                                            "_": "fileLocationToBeDeprecated",
+                                            "volume_id": 247531606,
+                                            "local_id": 80795
+                                        },
+                                        "w": 960,
+                                        "h": 678,
+                                        "size": 140179
+                                    }
+                                ],
+                                "dc_id": 2
+                            },
+                            "ttl_seconds": null
+                        },
+                        "reply_markup": null,
+                        "entities": null,
+                        "views": null,
+                        "edit_date": null,
+                        "post_author": null,
+                        "grouped_id": null,
+                        "restriction_reason": null
+                    },
+                    {
+                        "_": "messageService",
+                        "flags": 256,
+                        "out": false,
+                        "mentioned": false,
+                        "media_unread": false,
+                        "silent": false,
+                        "post": false,
+                        "legacy": false,
+                        "id": 1,
+                        "from_id": 634017,
+                        "to_id": {
+                            "_": "peerChannel",
+                            "channel_id": 1289424496
+                        },
+                        "reply_to_msg_id": null,
+                        "date": 1578489376,
+                        "action": {
+                            "_": "messageActionChannelMigrateFrom",
+                            "title": "Test group",
+                            "chat_id": 354099730
+                        }
+                    }
+                ],
+                "chats": [
+                    {
+                        "_": "channel",
+                        "flags": 270656,
+                        "creator": false,
+                        "left": false,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": false,
+                        "slowmode_enabled": false,
+                        "id": 1289424496,
+                        "access_hash": 8749010901541877783,
+                        "title": "Test group",
+                        "username": "asfaefegw",
+                        "photo": {
+                            "_": "chatPhotoEmpty"
+                        },
+                        "date": 1578489375,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 132096,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": false,
+                            "send_gifs": false,
+                            "send_games": false,
+                            "send_inline": false,
+                            "embed_links": false,
+                            "send_polls": false,
+                            "change_info": true,
+                            "invite_users": false,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": null
+                    },
+                    {
+                        "_": "chat",
+                        "flags": 96,
+                        "creator": false,
+                        "kicked": false,
+                        "left": false,
+                        "deactivated": true,
+                        "id": 354099730,
+                        "title": "Test group",
+                        "photo": {
+                            "_": "chatPhotoEmpty"
+                        },
+                        "participants_count": 0,
+                        "date": 1576680797,
+                        "version": 5,
+                        "migrated_to": {
+                            "_": "inputChannel",
+                            "channel_id": 1289424496,
+                            "access_hash": 8749010901541877783
+                        },
+                        "admin_rights": null,
+                        "default_banned_rights": null
+                    },
+                    {
+                        "_": "channel",
+                        "flags": 270656,
+                        "creator": false,
+                        "left": false,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": false,
+                        "slowmode_enabled": false,
+                        "id": 1289424496,
+                        "access_hash": 8749010901541877783,
+                        "title": "Test group",
+                        "username": "asfaefegw",
+                        "photo": {
+                            "_": "chatPhotoEmpty"
+                        },
+                        "date": 1578489375,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 132096,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": false,
+                            "send_gifs": false,
+                            "send_games": false,
+                            "send_inline": false,
+                            "embed_links": false,
+                            "send_polls": false,
+                            "change_info": true,
+                            "invite_users": false,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": null
+                    }
+                ],
+                "users": [
+                    {
+                        "_": "user",
+                        "flags": 91,
+                        "self": false,
+                        "contact": false,
+                        "mutual_contact": false,
+                        "deleted": false,
+                        "bot": false,
+                        "bot_chat_history": false,
+                        "bot_nochats": false,
+                        "verified": false,
+                        "restricted": false,
+                        "min": false,
+                        "bot_inline_geo": false,
+                        "support": false,
+                        "scam": false,
+                        "id": 634017,
+                        "access_hash": 567116482653754431,
+                        "first_name": "Stanislav",
+                        "last_name": null,
+                        "username": "ntlvikhhjofnekge",
+                        "phone": "79060994567",
+                        "photo": null,
+                        "status": {
+                            "_": "userStatusRecently"
+                        },
+                        "bot_info_version": null,
+                        "restriction_reason": null,
+                        "bot_inline_placeholder": null,
+                        "lang_code": null
+                    }
+                ]
+            },
+            "record-timestamp": 1579086324.4722548
+        }
+    ]
+}

@@ -54,6 +54,20 @@ class AnonymousMessageMock implements AnonymousMessage
     }
 
     /**
+     * Return array of scalars under the $name from current object
+     *
+     * @param string $name
+     *
+     * @throws TGException
+     *
+     * @return array
+     */
+    public function getScalars(string $name): array
+    {
+        return $this->impl->getScalars($name);
+    }
+
+    /**
      * Get message name
      *
      * @return string
