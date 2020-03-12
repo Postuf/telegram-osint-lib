@@ -297,7 +297,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger implements SocketMessen
         // salt change
         elseif(BadServerSalt::isIt($message)){
             $badServerSalt = new BadServerSalt($message);
-            $this->reSendWithUpdatedSalt($badServerSalt->getNewServerSalt(), $badServerSalt->getBadMsdId());
+            $this->reSendWithUpdatedSalt($badServerSalt->getNewServerSalt(), (string) $badServerSalt->getBadMsgId());
         }
 
         elseif(UpdatesTooLong::isIt($message)){
