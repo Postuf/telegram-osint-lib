@@ -1,0 +1,1237 @@
+{
+    "trace-timestamp": 1580457917.950045,
+    "records": [
+        {
+            "record-type": "new_session_created",
+            "message": {
+                "_": "new_session_created",
+                "first_msg_id": 6788015070514592560,
+                "unique_id": 6308555063874830972,
+                "server_salt": -247057158814871547
+            },
+            "record-timestamp": 1580457918.000045
+        },
+        {
+            "record-type": "updates",
+            "message": {
+                "_": "updates",
+                "updates": [
+                    {
+                        "_": "updatePeerLocated",
+                        "peers": [
+                            {
+                                "_": "peerLocated",
+                                "peer": {
+                                    "_": "peerChannel",
+                                    "channel_id": 1238915000
+                                },
+                                "expires": 2147483647,
+                                "distance": 350
+                            },
+                            {
+                                "_": "peerLocated",
+                                "peer": {
+                                    "_": "peerChannel",
+                                    "channel_id": 1426230938
+                                },
+                                "expires": 2147483647,
+                                "distance": 222
+                            },
+                            {
+                                "_": "peerLocated",
+                                "peer": {
+                                    "_": "peerChannel",
+                                    "channel_id": 1413350119
+                                },
+                                "expires": 2147483647,
+                                "distance": 371
+                            },
+                            {
+                                "_": "peerLocated",
+                                "peer": {
+                                    "_": "peerChannel",
+                                    "channel_id": 1401868973
+                                },
+                                "expires": 2147483647,
+                                "distance": 84
+                            },
+                            {
+                                "_": "peerLocated",
+                                "peer": {
+                                    "_": "peerChannel",
+                                    "channel_id": 1206936812
+                                },
+                                "expires": 2147483647,
+                                "distance": 95
+                            },
+                            {
+                                "_": "peerLocated",
+                                "peer": {
+                                    "_": "peerChannel",
+                                    "channel_id": 1449177380
+                                },
+                                "expires": 2147483647,
+                                "distance": 123
+                            },
+                            {
+                                "_": "peerLocated",
+                                "peer": {
+                                    "_": "peerChannel",
+                                    "channel_id": 1456911761
+                                },
+                                "expires": 2147483647,
+                                "distance": 126
+                            },
+                            {
+                                "_": "peerLocated",
+                                "peer": {
+                                    "_": "peerChannel",
+                                    "channel_id": 1219013852
+                                },
+                                "expires": 2147483647,
+                                "distance": 152
+                            }
+                        ]
+                    }
+                ],
+                "users": [],
+                "chats": [
+                    {
+                        "_": "channel",
+                        "flags": 2498884,
+                        "creator": false,
+                        "left": true,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": true,
+                        "slowmode_enabled": false,
+                        "id": 1238915000,
+                        "access_hash": -5394902305658895116,
+                        "title": "CRAFT DEPOT FEST",
+                        "username": "craftdepotfest",
+                        "photo": {
+                            "_": "chatPhotoEmpty"
+                        },
+                        "date": 1566641602,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 164864,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": false,
+                            "send_gifs": false,
+                            "send_games": false,
+                            "send_inline": false,
+                            "embed_links": false,
+                            "send_polls": false,
+                            "change_info": true,
+                            "invite_users": true,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": 12
+                    },
+                    {
+                        "_": "channel",
+                        "flags": 2498884,
+                        "creator": false,
+                        "left": true,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": true,
+                        "slowmode_enabled": false,
+                        "id": 1426230938,
+                        "access_hash": -1060843936924418708,
+                        "title": "\u0412\u0438\u043d\u0437\u0430\u0432\u043e\u0434 (\u0433\u0435\u043e\u0447\u0430\u0442 \u0434\u043b\u044f \u043e\u0431\u0449\u0435\u043d\u0438\u044f)",
+                        "username": "vinzavodec",
+                        "photo": {
+                            "_": "chatPhoto",
+                            "photo_small": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 257020443,
+                                "local_id": 318603
+                            },
+                            "photo_big": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 257020443,
+                                "local_id": 318605
+                            },
+                            "dc_id": 2
+                        },
+                        "date": 1561323399,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 164864,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": false,
+                            "send_gifs": false,
+                            "send_games": false,
+                            "send_inline": false,
+                            "embed_links": false,
+                            "send_polls": false,
+                            "change_info": true,
+                            "invite_users": true,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": 4
+                    },
+                    {
+                        "_": "channel",
+                        "flags": 2498820,
+                        "creator": false,
+                        "left": true,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": true,
+                        "slowmode_enabled": false,
+                        "id": 1413350119,
+                        "access_hash": 5966202682525906631,
+                        "title": "Symposy Wine and tapas",
+                        "username": null,
+                        "photo": {
+                            "_": "chatPhoto",
+                            "photo_small": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 263714145,
+                                "local_id": 23948
+                            },
+                            "photo_big": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 263714145,
+                                "local_id": 23950
+                            },
+                            "dc_id": 2
+                        },
+                        "date": 1561653574,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 164864,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": false,
+                            "send_gifs": false,
+                            "send_games": false,
+                            "send_inline": false,
+                            "embed_links": false,
+                            "send_polls": false,
+                            "change_info": true,
+                            "invite_users": true,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": 5
+                    },
+                    {
+                        "_": "channel",
+                        "flags": 2498820,
+                        "creator": false,
+                        "left": true,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": true,
+                        "slowmode_enabled": false,
+                        "id": 1401868973,
+                        "access_hash": -6148205758946607534,
+                        "title": "\u041f\u0440\u0438\u043a\u043e\u043b\u044b \u041a\u0443\u0440\u0441\u043a\u043e\u0433\u043e \u0432\u043e\u043a\u0437\u0430\u043b\u0430",
+                        "username": null,
+                        "photo": {
+                            "_": "chatPhoto",
+                            "photo_small": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 257130314,
+                                "local_id": 318057
+                            },
+                            "photo_big": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 257130314,
+                                "local_id": 318059
+                            },
+                            "dc_id": 2
+                        },
+                        "date": 1561316554,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 164864,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": false,
+                            "send_gifs": false,
+                            "send_games": false,
+                            "send_inline": false,
+                            "embed_links": false,
+                            "send_polls": false,
+                            "change_info": true,
+                            "invite_users": true,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": 4
+                    },
+                    {
+                        "_": "channel",
+                        "flags": 2498820,
+                        "creator": false,
+                        "left": true,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": true,
+                        "slowmode_enabled": false,
+                        "id": 1206936812,
+                        "access_hash": -3526526892499074405,
+                        "title": "\u041a\u0443\u0440\u0441\u043a\u0438\u0439 \u0432\u043e\u043a\u0437\u0430\u043b. \u041e\u0431\u0441\u0443\u0436\u0434\u0435\u043d\u0438\u0435 \u044d\u043b\u0435\u043a\u0442\u0440\u0438\u0447\u0435\u043a",
+                        "username": null,
+                        "photo": {
+                            "_": "chatPhotoEmpty"
+                        },
+                        "date": 1568918761,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 164864,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": false,
+                            "send_gifs": false,
+                            "send_games": false,
+                            "send_inline": false,
+                            "embed_links": false,
+                            "send_polls": false,
+                            "change_info": true,
+                            "invite_users": true,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": 1
+                    },
+                    {
+                        "_": "channel",
+                        "flags": 2498820,
+                        "creator": false,
+                        "left": true,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": true,
+                        "slowmode_enabled": false,
+                        "id": 1449177380,
+                        "access_hash": 8145558911364292471,
+                        "title": "Pokemon GO \u043a\u0443\u0440\u0441\u043a\u0430\u044f",
+                        "username": null,
+                        "photo": {
+                            "_": "chatPhoto",
+                            "photo_small": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 260327463,
+                                "local_id": 158685
+                            },
+                            "photo_big": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 260327463,
+                                "local_id": 158687
+                            },
+                            "dc_id": 2
+                        },
+                        "date": 1561562176,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 164864,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": false,
+                            "send_gifs": false,
+                            "send_games": false,
+                            "send_inline": false,
+                            "embed_links": false,
+                            "send_polls": false,
+                            "change_info": true,
+                            "invite_users": true,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": 1
+                    },
+                    {
+                        "_": "channel",
+                        "flags": 2498820,
+                        "creator": false,
+                        "left": true,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": true,
+                        "slowmode_enabled": false,
+                        "id": 1456911761,
+                        "access_hash": 1061335549127676649,
+                        "title": "\u041e\u0431\u0449\u0430\u0433\u0430",
+                        "username": null,
+                        "photo": {
+                            "_": "chatPhoto",
+                            "photo_small": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 247536910,
+                                "local_id": 91788
+                            },
+                            "photo_big": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 247536910,
+                                "local_id": 91790
+                            },
+                            "dc_id": 2
+                        },
+                        "date": 1578848423,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 164864,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": false,
+                            "send_gifs": false,
+                            "send_games": false,
+                            "send_inline": false,
+                            "embed_links": false,
+                            "send_polls": false,
+                            "change_info": true,
+                            "invite_users": true,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": 1
+                    },
+                    {
+                        "_": "channel",
+                        "flags": 2498884,
+                        "creator": false,
+                        "left": true,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": true,
+                        "slowmode_enabled": false,
+                        "id": 1219013852,
+                        "access_hash": 1262910100838066450,
+                        "title": "HPWU_KUROK",
+                        "username": "hpwu_kurok",
+                        "photo": {
+                            "_": "chatPhoto",
+                            "photo_small": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 257014103,
+                                "local_id": 326247
+                            },
+                            "photo_big": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 257014103,
+                                "local_id": 326249
+                            },
+                            "dc_id": 2
+                        },
+                        "date": 1561565996,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 164864,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": false,
+                            "send_gifs": false,
+                            "send_games": false,
+                            "send_inline": false,
+                            "embed_links": false,
+                            "send_polls": false,
+                            "change_info": true,
+                            "invite_users": true,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": 6
+                    }
+                ],
+                "date": 1580457917,
+                "seq": 0
+            },
+            "record-timestamp": 1580457918.3000448
+        },
+        {
+            "record-type": "updates",
+            "message": {
+                "_": "updates",
+                "updates": [
+                    {
+                        "_": "updatePeerLocated",
+                        "peers": [
+                            {
+                                "_": "peerLocated",
+                                "peer": {
+                                    "_": "peerChannel",
+                                    "channel_id": 1351181733
+                                },
+                                "expires": 2147483647,
+                                "distance": 512
+                            },
+                            {
+                                "_": "peerLocated",
+                                "peer": {
+                                    "_": "peerChannel",
+                                    "channel_id": 1168561883
+                                },
+                                "expires": 2147483647,
+                                "distance": 295
+                            },
+                            {
+                                "_": "peerLocated",
+                                "peer": {
+                                    "_": "peerChannel",
+                                    "channel_id": 1396436597
+                                },
+                                "expires": 2147483647,
+                                "distance": 453
+                            },
+                            {
+                                "_": "peerLocated",
+                                "peer": {
+                                    "_": "peerChannel",
+                                    "channel_id": 1241540549
+                                },
+                                "expires": 2147483647,
+                                "distance": 345
+                            },
+                            {
+                                "_": "peerLocated",
+                                "peer": {
+                                    "_": "peerChannel",
+                                    "channel_id": 1211826903
+                                },
+                                "expires": 2147483647,
+                                "distance": 47
+                            },
+                            {
+                                "_": "peerLocated",
+                                "peer": {
+                                    "_": "peerChannel",
+                                    "channel_id": 1253387010
+                                },
+                                "expires": 2147483647,
+                                "distance": 58
+                            },
+                            {
+                                "_": "peerLocated",
+                                "peer": {
+                                    "_": "peerChannel",
+                                    "channel_id": 1282913482
+                                },
+                                "expires": 2147483647,
+                                "distance": 75
+                            },
+                            {
+                                "_": "peerLocated",
+                                "peer": {
+                                    "_": "peerChannel",
+                                    "channel_id": 1404414249
+                                },
+                                "expires": 2147483647,
+                                "distance": 80
+                            },
+                            {
+                                "_": "peerLocated",
+                                "peer": {
+                                    "_": "peerChannel",
+                                    "channel_id": 1404180655
+                                },
+                                "expires": 2147483647,
+                                "distance": 84
+                            }
+                        ]
+                    }
+                ],
+                "users": [],
+                "chats": [
+                    {
+                        "_": "channel",
+                        "flags": 6693188,
+                        "creator": false,
+                        "left": true,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": true,
+                        "slowmode_enabled": true,
+                        "id": 1351181733,
+                        "access_hash": -4758596816824462292,
+                        "title": "Zaryadye Dating (\u0445\u0440\u0435\u043d\u043e\u0432\u044b\u0439 \u0442\u044b\u043d\u0434\u0435\u0440)",
+                        "username": "MoscowDating18",
+                        "photo": {
+                            "_": "chatPhoto",
+                            "photo_small": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 260325611,
+                                "local_id": 153265
+                            },
+                            "photo_big": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 260325611,
+                                "local_id": 153267
+                            },
+                            "dc_id": 2
+                        },
+                        "date": 1561322046,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 132096,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": false,
+                            "send_gifs": false,
+                            "send_games": false,
+                            "send_inline": false,
+                            "embed_links": false,
+                            "send_polls": false,
+                            "change_info": true,
+                            "invite_users": false,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": 860
+                    },
+                    {
+                        "_": "channel",
+                        "flags": 2498884,
+                        "creator": false,
+                        "left": true,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": true,
+                        "slowmode_enabled": false,
+                        "id": 1168561883,
+                        "access_hash": -305986690617959417,
+                        "title": "The PR World GEO \ud83d\udccd",
+                        "username": "ThePRWorld",
+                        "photo": {
+                            "_": "chatPhoto",
+                            "photo_small": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 250739946,
+                                "local_id": 53715
+                            },
+                            "photo_big": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 250739946,
+                                "local_id": 53717
+                            },
+                            "dc_id": 2
+                        },
+                        "date": 1561364438,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 132096,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": false,
+                            "send_gifs": false,
+                            "send_games": false,
+                            "send_inline": false,
+                            "embed_links": false,
+                            "send_polls": false,
+                            "change_info": true,
+                            "invite_users": false,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": 453
+                    },
+                    {
+                        "_": "channel",
+                        "flags": 2499332,
+                        "creator": false,
+                        "left": true,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": true,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": true,
+                        "slowmode_enabled": false,
+                        "id": 1396436597,
+                        "access_hash": 248720543699463656,
+                        "title": "t.me\/Moskovskij_Chat \u043d\u043e\u0432\u044b\u0439 \u0430\u0434\u0440\u0435\u0441",
+                        "username": null,
+                        "photo": {
+                            "_": "chatPhoto",
+                            "photo_small": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 264337392,
+                                "local_id": 216133
+                            },
+                            "photo_big": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 264337392,
+                                "local_id": 216135
+                            },
+                            "dc_id": 2
+                        },
+                        "date": 1568333006,
+                        "version": 0,
+                        "restriction_reason": [
+                            {
+                                "_": "restrictionReason",
+                                "platform": "ios",
+                                "reason": "porn",
+                                "text": "This group can\u2019t be displayed because it was used to spread pornographic content."
+                            }
+                        ],
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 132604,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": true,
+                            "send_stickers": true,
+                            "send_gifs": true,
+                            "send_games": true,
+                            "send_inline": true,
+                            "embed_links": true,
+                            "send_polls": true,
+                            "change_info": true,
+                            "invite_users": false,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": 515
+                    },
+                    {
+                        "_": "channel",
+                        "flags": 2498884,
+                        "creator": false,
+                        "left": true,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": true,
+                        "slowmode_enabled": false,
+                        "id": 1241540549,
+                        "access_hash": 6544654359109950633,
+                        "title": "\u0427\u0430\u0442 \u041c\u043e\u0441\u043a\u0432\u0430",
+                        "username": "mskgeochat",
+                        "photo": {
+                            "_": "chatPhoto",
+                            "photo_small": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 250739292,
+                                "local_id": 35547
+                            },
+                            "photo_big": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 250739292,
+                                "local_id": 35549
+                            },
+                            "dc_id": 2
+                        },
+                        "date": 1561626348,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 165368,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": true,
+                            "send_gifs": true,
+                            "send_games": true,
+                            "send_inline": true,
+                            "embed_links": true,
+                            "send_polls": true,
+                            "change_info": true,
+                            "invite_users": true,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": 520
+                    },
+                    {
+                        "_": "channel",
+                        "flags": 2498884,
+                        "creator": false,
+                        "left": true,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": true,
+                        "slowmode_enabled": false,
+                        "id": 1211826903,
+                        "access_hash": 3349636382763730337,
+                        "title": "Russians in Russia",
+                        "username": "russia_geo",
+                        "photo": {
+                            "_": "chatPhoto",
+                            "photo_small": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 260327387,
+                                "local_id": 155385
+                            },
+                            "photo_big": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 260327387,
+                                "local_id": 155387
+                            },
+                            "dc_id": 2
+                        },
+                        "date": 1561477986,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 164864,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": false,
+                            "send_gifs": false,
+                            "send_games": false,
+                            "send_inline": false,
+                            "embed_links": false,
+                            "send_polls": false,
+                            "change_info": true,
+                            "invite_users": true,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": 6
+                    },
+                    {
+                        "_": "channel",
+                        "flags": 2498820,
+                        "creator": false,
+                        "left": true,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": true,
+                        "slowmode_enabled": false,
+                        "id": 1253387010,
+                        "access_hash": -4856358884259908628,
+                        "title": "\u0422\u0415\u041c\u042b \u041c\u041e\u0421\u041a\u0412\u0410",
+                        "username": null,
+                        "photo": {
+                            "_": "chatPhoto",
+                            "photo_small": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 263714761,
+                                "local_id": 133869
+                            },
+                            "photo_big": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 263714761,
+                                "local_id": 133871
+                            },
+                            "dc_id": 2
+                        },
+                        "date": 1565266696,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 164864,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": false,
+                            "send_gifs": false,
+                            "send_games": false,
+                            "send_inline": false,
+                            "embed_links": false,
+                            "send_polls": false,
+                            "change_info": true,
+                            "invite_users": true,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": 1
+                    },
+                    {
+                        "_": "channel",
+                        "flags": 2498820,
+                        "creator": false,
+                        "left": true,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": true,
+                        "slowmode_enabled": false,
+                        "id": 1282913482,
+                        "access_hash": -2105876130897418255,
+                        "title": "Moscow Taxi Drivers",
+                        "username": null,
+                        "photo": {
+                            "_": "chatPhotoEmpty"
+                        },
+                        "date": 1561327401,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 164864,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": false,
+                            "send_gifs": false,
+                            "send_games": false,
+                            "send_inline": false,
+                            "embed_links": false,
+                            "send_polls": false,
+                            "change_info": true,
+                            "invite_users": true,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": 1
+                    },
+                    {
+                        "_": "channel",
+                        "flags": 2498820,
+                        "creator": false,
+                        "left": true,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": true,
+                        "slowmode_enabled": false,
+                        "id": 1404414249,
+                        "access_hash": -3610185642664463600,
+                        "title": "\u042d\u0434\u0432\u0430\u0440\u0434 \u044e\u0438\u043b",
+                        "username": null,
+                        "photo": {
+                            "_": "chatPhotoEmpty"
+                        },
+                        "date": 1573477857,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 164864,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": false,
+                            "send_gifs": false,
+                            "send_games": false,
+                            "send_inline": false,
+                            "embed_links": false,
+                            "send_polls": false,
+                            "change_info": true,
+                            "invite_users": true,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": 0
+                    },
+                    {
+                        "_": "channel",
+                        "flags": 2498820,
+                        "creator": false,
+                        "left": true,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": true,
+                        "slowmode_enabled": false,
+                        "id": 1404180655,
+                        "access_hash": -105941562116318371,
+                        "title": "\u0424\u0440\u0435\u043d\u0434\u043e\u0432\u0441\u043a\u0430\u044f",
+                        "username": null,
+                        "photo": {
+                            "_": "chatPhoto",
+                            "photo_small": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 263703663,
+                                "local_id": 244159
+                            },
+                            "photo_big": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 263703663,
+                                "local_id": 244161
+                            },
+                            "dc_id": 2
+                        },
+                        "date": 1568698271,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 164864,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": false,
+                            "send_gifs": false,
+                            "send_games": false,
+                            "send_inline": false,
+                            "embed_links": false,
+                            "send_polls": false,
+                            "change_info": true,
+                            "invite_users": true,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": 1
+                    }
+                ],
+                "date": 1580313605,
+                "seq": 0
+            },
+            "record-timestamp": 1580313605.6877787
+        },
+        {
+            "record-type": "channels.channelParticipants",
+            "message": {
+                "_": "channels.channelParticipants",
+                "count": 0,
+                "participants": [],
+                "users": []
+            },
+            "record-timestamp": 1580313605.7377787
+        },
+        {
+            "record-type": "channels.channelParticipants",
+            "message": {
+                "_": "channels.channelParticipants",
+                "count": 0,
+                "participants": [],
+                "users": []
+            },
+            "record-timestamp": 1580457918.3500447
+        },
+        {
+            "record-type": "channels.channelParticipants",
+            "message": {
+                "_": "channels.channelParticipants",
+                "count": 0,
+                "participants": [],
+                "users": []
+            },
+            "record-timestamp": 1580457918.4500446
+        },
+        {
+            "record-type": "channels.channelParticipants",
+            "message": {
+                "_": "channels.channelParticipants",
+                "count": 1,
+                "participants": [
+                    {
+                        "_": "channelParticipantCreator",
+                        "flags": 0,
+                        "user_id": 139618949,
+                        "rank": null
+                    }
+                ],
+                "users": [
+                    {
+                        "_": "user",
+                        "flags": 79,
+                        "self": false,
+                        "contact": false,
+                        "mutual_contact": false,
+                        "deleted": false,
+                        "bot": false,
+                        "bot_chat_history": false,
+                        "bot_nochats": false,
+                        "verified": false,
+                        "restricted": false,
+                        "min": false,
+                        "bot_inline_geo": false,
+                        "support": false,
+                        "scam": false,
+                        "id": 139618949,
+                        "access_hash": -982950980019338296,
+                        "first_name": "Rostislav",
+                        "last_name": "U",
+                        "username": "rostislav_u",
+                        "phone": null,
+                        "photo": null,
+                        "status": {
+                            "_": "userStatusRecently"
+                        },
+                        "bot_info_version": null,
+                        "restriction_reason": null,
+                        "bot_inline_placeholder": null,
+                        "lang_code": null
+                    }
+                ]
+            },
+            "record-timestamp": 1580457918.5000446
+        },
+        {
+            "record-type": "channels.channelParticipants",
+            "message": {
+                "_": "channels.channelParticipants",
+                "count": 0,
+                "participants": [],
+                "users": []
+            },
+            "record-timestamp": 1580457918.5500445
+        },
+        {
+            "record-type": "channels.channelParticipants",
+            "message": {
+                "_": "channels.channelParticipants",
+                "count": 0,
+                "participants": [],
+                "users": []
+            },
+            "record-timestamp": 1580457918.6000445
+        }
+    ]
+}

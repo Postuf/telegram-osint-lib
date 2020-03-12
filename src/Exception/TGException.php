@@ -57,6 +57,7 @@ class TGException extends Exception
     const ERR_TL_MESSAGE_FIELD_NOT_EXISTS                                      = 500000;
     const ERR_TL_MESSAGE_FIELD_BAD_NODE                                        = 501000;
     const ERR_TL_MESSAGE_UNEXPECTED_OBJECT                                     = 502000;
+    const ERR_TL_MESSAGE_FIELD_BAD_SCALARS                                     = 503000;
 
     // registration errors
     const ERR_REG_REQUEST_SMS_CODE_FIRST                                       = 600000;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Helpers;
 
+use InvalidArgumentException;
 use TelegramOSINT\Client\AuthKey\AuthKey;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\MTSerialization\OwnImplementation\OwnAnonymousMessage;
@@ -11,7 +12,6 @@ use TelegramOSINT\TGConnection\SocketMessenger\EncryptedSocketMessenger;
 use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\ping_delay_disconnect;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
-use Throwable;
 
 class TraceSocketMessenger extends EncryptedSocketMessenger
 {
@@ -39,6 +39,30 @@ class TraceSocketMessenger extends EncryptedSocketMessenger
         $this->trace = $trace;
     }
 
+    /**
+     * @param string $serialized
+     *
+     * @throws InvalidArgumentException
+     *
+     * @return AnonymousMessage
+     */
+    public static function unserializeAnonymousMessage(string $serialized): AnonymousMessage
+    {
+        $messageOrFalse = unserialize(PhpSerializationFixer::replaceNamespace(
+            $serialized,
+            'MTSerialization\\\\',
+            'TelegramOSINT\\MTSerialization\\'
+        ));
+        if ($messageOrFalse === false) {
+            throw new InvalidArgumentException('Cannot unserialize message');
+        }
+        if (!($messageOrFalse instanceof AnonymousMessage)) {
+            throw new InvalidArgumentException('Input value is not `'.AnonymousMessage::class.'`.');
+        }
+
+        return $messageOrFalse;
+    }
+
     protected function writeIdentifiedMessage(TLClientMessage $payload, $messageId)
     {
         if ($payload->getName() === 'update_status') {
@@ -48,7 +72,6 @@ class TraceSocketMessenger extends EncryptedSocketMessenger
         $this->msgs[] = $payload;
     }
 
-    /** @noinspection SpellCheckingInspection */
     protected function readMessageFromSocket(): ?AnonymousMessage
     {
         if (!$this->trace[1]) {
@@ -56,44 +79,8 @@ class TraceSocketMessenger extends EncryptedSocketMessenger
         }
 
         foreach ($this->trace[1] as $k => $v) {
-            // do not return message if not ready in time
-            if (microtime(true) - $this->timeOffset <= $v[1]) {
-                return null;
-            }
             /** @var AnonymousMessage $msg */
-            $unhexed = $orig = hex2bin($v[1]);
-            $replaces = [
-                //'TLMessage\\\\',
-                'MTSerialization\\\\',
-            ];
-            foreach ($replaces as $repl) {
-                $replacerGen = function ($prefix1) {
-                    return function ($matches) use ($prefix1) {
-                        $prefix = 'TelegramOSINT\\';
-                        $matches[2] = (int) $matches[2];
-                        $matches[2] += strlen($prefix);
-                        $matches[3] = $prefix.$matches[3];
-
-                        return "{$matches[1]}:{$matches[2]}:$prefix1{$matches[3]}";
-                    };
-                };
-                $prefix3 = '"';
-                $rx1 = '/(O):(\d+):'.$prefix3.'('.$repl.')/';
-                $unhexed = preg_replace_callback($rx1, $replacerGen($prefix3), $unhexed);
-                $prefix3 = '"'."\1\1\1";
-                $rx2 = '/(s):(\d+):'.$prefix3.'('.$repl.')/';
-                $search = '"'."\0";
-                $unhexed = str_replace($search, $prefix3, $unhexed);
-                $unhexed = preg_replace_callback($rx2, $replacerGen($prefix3), $unhexed);
-                $unhexed = str_replace($prefix3, $search, $unhexed);
-
-                try {
-                    $msg = unserialize($unhexed);
-                } catch (Throwable $e) {
-                    /** @noinspection PhpUnhandledExceptionInspection */
-                    throw $e;
-                }
-            }
+            $msg = static::unserializeAnonymousMessage(hex2bin($v[1]));
             $arrMsg = (array) $msg;
             $arrMsg = reset($arrMsg);
 

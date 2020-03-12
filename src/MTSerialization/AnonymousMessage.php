@@ -25,6 +25,15 @@ interface AnonymousMessage
     public function getNodes(string $name): array;
 
     /**
+     * Return array of scalars under the $name from current object
+     *
+     * @param string $name
+     *
+     * @return array
+     */
+    public function getScalars(string $name): array;
+
+    /**
      * Get message name
      *
      * @return string

@@ -1,0 +1,575 @@
+{
+    "trace-timestamp": 1580139908.669327,
+    "records": [
+        {
+            "record-type": "config",
+            "message": {
+                "_": "config",
+                "flags": 8014,
+                "phonecalls_enabled": true,
+                "default_p2p_contacts": true,
+                "preload_featured_stickers": false,
+                "ignore_phone_entities": false,
+                "revoke_pm_inbox": true,
+                "blocked_mode": true,
+                "pfs_enabled": false,
+                "date": 1580139908,
+                "expires": 1580143543,
+                "test_mode": {
+                    "_": "boolFalse"
+                },
+                "this_dc": 2,
+                "dc_options": [
+                    {
+                        "_": "dcOption",
+                        "flags": 0,
+                        "ipv6": false,
+                        "media_only": false,
+                        "tcpo_only": false,
+                        "cdn": false,
+                        "static": false,
+                        "id": 1,
+                        "ip_address": "149.154.175.55",
+                        "port": 443,
+                        "secret": null
+                    },
+                    {
+                        "_": "dcOption",
+                        "flags": 16,
+                        "ipv6": false,
+                        "media_only": false,
+                        "tcpo_only": false,
+                        "cdn": false,
+                        "static": true,
+                        "id": 1,
+                        "ip_address": "149.154.175.55",
+                        "port": 443,
+                        "secret": null
+                    },
+                    {
+                        "_": "dcOption",
+                        "flags": 1,
+                        "ipv6": true,
+                        "media_only": false,
+                        "tcpo_only": false,
+                        "cdn": false,
+                        "static": false,
+                        "id": 1,
+                        "ip_address": "2001:0b28:f23d:f001:0000:0000:0000:000a",
+                        "port": 443,
+                        "secret": null
+                    },
+                    {
+                        "_": "dcOption",
+                        "flags": 0,
+                        "ipv6": false,
+                        "media_only": false,
+                        "tcpo_only": false,
+                        "cdn": false,
+                        "static": false,
+                        "id": 2,
+                        "ip_address": "149.154.167.51",
+                        "port": 443,
+                        "secret": null
+                    },
+                    {
+                        "_": "dcOption",
+                        "flags": 0,
+                        "ipv6": false,
+                        "media_only": false,
+                        "tcpo_only": false,
+                        "cdn": false,
+                        "static": false,
+                        "id": 2,
+                        "ip_address": "149.154.167.50",
+                        "port": 443,
+                        "secret": null
+                    },
+                    {
+                        "_": "dcOption",
+                        "flags": 16,
+                        "ipv6": false,
+                        "media_only": false,
+                        "tcpo_only": false,
+                        "cdn": false,
+                        "static": true,
+                        "id": 2,
+                        "ip_address": "149.154.167.51",
+                        "port": 443,
+                        "secret": null
+                    },
+                    {
+                        "_": "dcOption",
+                        "flags": 2,
+                        "ipv6": false,
+                        "media_only": true,
+                        "tcpo_only": false,
+                        "cdn": false,
+                        "static": false,
+                        "id": 2,
+                        "ip_address": "149.154.167.151",
+                        "port": 443,
+                        "secret": null
+                    },
+                    {
+                        "_": "dcOption",
+                        "flags": 1,
+                        "ipv6": true,
+                        "media_only": false,
+                        "tcpo_only": false,
+                        "cdn": false,
+                        "static": false,
+                        "id": 2,
+                        "ip_address": "2001:067c:04e8:f002:0000:0000:0000:000a",
+                        "port": 443,
+                        "secret": null
+                    },
+                    {
+                        "_": "dcOption",
+                        "flags": 3,
+                        "ipv6": true,
+                        "media_only": true,
+                        "tcpo_only": false,
+                        "cdn": false,
+                        "static": false,
+                        "id": 2,
+                        "ip_address": "2001:067c:04e8:f002:0000:0000:0000:000b",
+                        "port": 443,
+                        "secret": null
+                    },
+                    {
+                        "_": "dcOption",
+                        "flags": 0,
+                        "ipv6": false,
+                        "media_only": false,
+                        "tcpo_only": false,
+                        "cdn": false,
+                        "static": false,
+                        "id": 3,
+                        "ip_address": "149.154.175.100",
+                        "port": 443,
+                        "secret": null
+                    },
+                    {
+                        "_": "dcOption",
+                        "flags": 16,
+                        "ipv6": false,
+                        "media_only": false,
+                        "tcpo_only": false,
+                        "cdn": false,
+                        "static": true,
+                        "id": 3,
+                        "ip_address": "149.154.175.100",
+                        "port": 443,
+                        "secret": null
+                    },
+                    {
+                        "_": "dcOption",
+                        "flags": 1,
+                        "ipv6": true,
+                        "media_only": false,
+                        "tcpo_only": false,
+                        "cdn": false,
+                        "static": false,
+                        "id": 3,
+                        "ip_address": "2001:0b28:f23d:f003:0000:0000:0000:000a",
+                        "port": 443,
+                        "secret": null
+                    },
+                    {
+                        "_": "dcOption",
+                        "flags": 0,
+                        "ipv6": false,
+                        "media_only": false,
+                        "tcpo_only": false,
+                        "cdn": false,
+                        "static": false,
+                        "id": 4,
+                        "ip_address": "149.154.167.92",
+                        "port": 443,
+                        "secret": null
+                    },
+                    {
+                        "_": "dcOption",
+                        "flags": 16,
+                        "ipv6": false,
+                        "media_only": false,
+                        "tcpo_only": false,
+                        "cdn": false,
+                        "static": true,
+                        "id": 4,
+                        "ip_address": "149.154.167.92",
+                        "port": 443,
+                        "secret": null
+                    },
+                    {
+                        "_": "dcOption",
+                        "flags": 1,
+                        "ipv6": true,
+                        "media_only": false,
+                        "tcpo_only": false,
+                        "cdn": false,
+                        "static": false,
+                        "id": 4,
+                        "ip_address": "2001:067c:04e8:f004:0000:0000:0000:000a",
+                        "port": 443,
+                        "secret": null
+                    },
+                    {
+                        "_": "dcOption",
+                        "flags": 2,
+                        "ipv6": false,
+                        "media_only": true,
+                        "tcpo_only": false,
+                        "cdn": false,
+                        "static": false,
+                        "id": 4,
+                        "ip_address": "149.154.164.250",
+                        "port": 443,
+                        "secret": null
+                    },
+                    {
+                        "_": "dcOption",
+                        "flags": 3,
+                        "ipv6": true,
+                        "media_only": true,
+                        "tcpo_only": false,
+                        "cdn": false,
+                        "static": false,
+                        "id": 4,
+                        "ip_address": "2001:067c:04e8:f004:0000:0000:0000:000b",
+                        "port": 443,
+                        "secret": null
+                    },
+                    {
+                        "_": "dcOption",
+                        "flags": 1,
+                        "ipv6": true,
+                        "media_only": false,
+                        "tcpo_only": false,
+                        "cdn": false,
+                        "static": false,
+                        "id": 5,
+                        "ip_address": "2001:0b28:f23f:f005:0000:0000:0000:000a",
+                        "port": 443,
+                        "secret": null
+                    },
+                    {
+                        "_": "dcOption",
+                        "flags": 16,
+                        "ipv6": false,
+                        "media_only": false,
+                        "tcpo_only": false,
+                        "cdn": false,
+                        "static": true,
+                        "id": 5,
+                        "ip_address": "91.108.56.140",
+                        "port": 443,
+                        "secret": null
+                    },
+                    {
+                        "_": "dcOption",
+                        "flags": 0,
+                        "ipv6": false,
+                        "media_only": false,
+                        "tcpo_only": false,
+                        "cdn": false,
+                        "static": false,
+                        "id": 5,
+                        "ip_address": "91.108.56.136",
+                        "port": 443,
+                        "secret": null
+                    }
+                ],
+                "dc_txt_domain_name": "apv3.stel.com",
+                "chat_size_max": 200,
+                "megagroup_size_max": 200000,
+                "forwarded_count_max": 100,
+                "online_update_period_ms": 210000,
+                "offline_blur_timeout_ms": 5000,
+                "offline_idle_timeout_ms": 30000,
+                "online_cloud_timeout_ms": 300000,
+                "notify_cloud_delay_ms": 30000,
+                "notify_default_delay_ms": 1500,
+                "push_chat_period_ms": 60000,
+                "push_chat_limit": 2,
+                "saved_gifs_limit": 200,
+                "edit_time_limit": 172800,
+                "revoke_time_limit": 2147483647,
+                "revoke_pm_time_limit": 2147483647,
+                "rating_e_decay": 2419200,
+                "stickers_recent_limit": 200,
+                "stickers_faved_limit": 5,
+                "channels_read_media_period": 604800,
+                "tmp_sessions": null,
+                "pinned_dialogs_count_max": 5,
+                "pinned_infolder_count_max": 100,
+                "call_receive_timeout_ms": 20000,
+                "call_ring_timeout_ms": 90000,
+                "call_connect_timeout_ms": 30000,
+                "call_packet_timeout_ms": 10000,
+                "me_url_prefix": "https:\/\/t.me\/",
+                "autoupdate_url_prefix": null,
+                "gif_search_username": "gif",
+                "venue_search_username": "foursquare",
+                "img_search_username": "bing",
+                "static_maps_provider": "telegram,google:AIzaSyB0y3zA4LbA04ZPaHKsr_Xt5ZQWbMftj8I",
+                "caption_length_max": 1024,
+                "message_length_max": 4096,
+                "webfile_dc_id": 4,
+                "suggested_lang_code": "en",
+                "lang_pack_version": 807341,
+                "base_lang_pack_version": 0
+            },
+            "record-timestamp": 1580139908.719327
+        },
+        {
+            "record-type": "contacts.resolvedPeer",
+            "message": {
+                "_": "contacts.resolvedPeer",
+                "peer": {
+                    "_": "peerChannel",
+                    "channel_id": 1289424496
+                },
+                "chats": [
+                    {
+                        "_": "channel",
+                        "flags": 270660,
+                        "creator": false,
+                        "left": true,
+                        "broadcast": false,
+                        "verified": false,
+                        "megagroup": true,
+                        "restricted": false,
+                        "signatures": false,
+                        "min": false,
+                        "scam": false,
+                        "has_link": false,
+                        "has_geo": false,
+                        "slowmode_enabled": false,
+                        "id": 1289424496,
+                        "access_hash": -2560172735114524764,
+                        "title": "Test group",
+                        "username": "asfaefegw",
+                        "photo": {
+                            "_": "chatPhotoEmpty"
+                        },
+                        "date": 1578489376,
+                        "version": 0,
+                        "restriction_reason": null,
+                        "admin_rights": null,
+                        "banned_rights": null,
+                        "default_banned_rights": {
+                            "_": "chatBannedRights",
+                            "flags": 132096,
+                            "view_messages": false,
+                            "send_messages": false,
+                            "send_media": false,
+                            "send_stickers": false,
+                            "send_gifs": false,
+                            "send_games": false,
+                            "send_inline": false,
+                            "embed_links": false,
+                            "send_polls": false,
+                            "change_info": true,
+                            "invite_users": false,
+                            "pin_messages": true,
+                            "until_date": 2147483647
+                        },
+                        "participants_count": null
+                    }
+                ],
+                "users": []
+            },
+            "record-timestamp": 1580139908.769327
+        },
+        {
+            "record-type": "msgs_ack",
+            "message": {
+                "_": "msgs_ack",
+                "msg_ids": [
+                    6786649227968300548
+                ]
+            },
+            "record-timestamp": 1580139908.8193269
+        },
+        {
+            "record-type": "contacts.resolvedPeer",
+            "message": {
+                "_": "contacts.resolvedPeer",
+                "peer": {
+                    "_": "peerUser",
+                    "user_id": 634117
+                },
+                "chats": [],
+                "users": [
+                    {
+                        "_": "user",
+                        "flags": 75,
+                        "self": false,
+                        "contact": false,
+                        "mutual_contact": false,
+                        "deleted": false,
+                        "bot": false,
+                        "bot_chat_history": false,
+                        "bot_nochats": false,
+                        "verified": false,
+                        "restricted": false,
+                        "min": false,
+                        "bot_inline_geo": false,
+                        "support": false,
+                        "scam": false,
+                        "id": 634117,
+                        "access_hash": -101135895947215636,
+                        "first_name": "Stanislav",
+                        "last_name": null,
+                        "username": "ntlvikhhjofnekge",
+                        "phone": null,
+                        "photo": null,
+                        "status": {
+                            "_": "userStatusRecently"
+                        },
+                        "bot_info_version": null,
+                        "restriction_reason": null,
+                        "bot_inline_placeholder": null,
+                        "lang_code": null
+                    }
+                ]
+            },
+            "record-timestamp": 1580139908.8693268
+        },
+        {
+            "record-type": "channels.channelParticipants",
+            "message": {
+                "_": "channels.channelParticipants",
+                "count": 3,
+                "participants": [
+                    {
+                        "_": "channelParticipantCreator",
+                        "flags": 0,
+                        "user_id": 634017,
+                        "rank": null
+                    },
+                    {
+                        "_": "channelParticipant",
+                        "user_id": 1026487023,
+                        "date": 1578489375
+                    },
+                    {
+                        "_": "channelParticipant",
+                        "user_id": 692428450,
+                        "date": 1578489375
+                    }
+                ],
+                "users": [
+                    {
+                        "_": "user",
+                        "flags": 75,
+                        "self": false,
+                        "contact": false,
+                        "mutual_contact": false,
+                        "deleted": false,
+                        "bot": false,
+                        "bot_chat_history": false,
+                        "bot_nochats": false,
+                        "verified": false,
+                        "restricted": false,
+                        "min": false,
+                        "bot_inline_geo": false,
+                        "support": false,
+                        "scam": false,
+                        "id": 634017,
+                        "access_hash": -101135895947215636,
+                        "first_name": "Stanislav",
+                        "last_name": null,
+                        "username": "ntlvikhhjofnekge",
+                        "phone": null,
+                        "photo": null,
+                        "status": {
+                            "_": "userStatusRecently"
+                        },
+                        "bot_info_version": null,
+                        "restriction_reason": null,
+                        "bot_inline_placeholder": null,
+                        "lang_code": null
+                    },
+                    {
+                        "_": "user",
+                        "flags": 71,
+                        "self": false,
+                        "contact": false,
+                        "mutual_contact": false,
+                        "deleted": false,
+                        "bot": false,
+                        "bot_chat_history": false,
+                        "bot_nochats": false,
+                        "verified": false,
+                        "restricted": false,
+                        "min": false,
+                        "bot_inline_geo": false,
+                        "support": false,
+                        "scam": false,
+                        "id": 1026487023,
+                        "access_hash": 7087708732555080828,
+                        "first_name": "Pearson",
+                        "last_name": "Tse",
+                        "username": null,
+                        "phone": null,
+                        "photo": null,
+                        "status": {
+                            "_": "userStatusOffline",
+                            "was_online": 1579796380
+                        },
+                        "bot_info_version": null,
+                        "restriction_reason": null,
+                        "bot_inline_placeholder": null,
+                        "lang_code": null
+                    },
+                    {
+                        "_": "user",
+                        "flags": 71,
+                        "self": false,
+                        "contact": false,
+                        "mutual_contact": false,
+                        "deleted": false,
+                        "bot": false,
+                        "bot_chat_history": false,
+                        "bot_nochats": false,
+                        "verified": false,
+                        "restricted": false,
+                        "min": false,
+                        "bot_inline_geo": false,
+                        "support": false,
+                        "scam": false,
+                        "id": 692428450,
+                        "access_hash": 2716887936856101454,
+                        "first_name": "Younglove",
+                        "last_name": "Patrizia",
+                        "username": null,
+                        "phone": null,
+                        "photo": null,
+                        "status": {
+                            "_": "userStatusOffline",
+                            "was_online": 1579707775
+                        },
+                        "bot_info_version": null,
+                        "restriction_reason": null,
+                        "bot_inline_placeholder": null,
+                        "lang_code": null
+                    }
+                ]
+            },
+            "record-timestamp": 1580139908.9193268
+        },
+        {
+            "record-type": "channels.channelParticipants",
+            "message": {
+                "_": "channels.channelParticipants",
+                "count": 3,
+                "participants": [],
+                "users": []
+            },
+            "record-timestamp": 1580139908.9693267
+        }
+    ]
+}
