@@ -27,7 +27,7 @@ class BadServerSalt extends TLServerMessage
         return Packer::packLong($newSalt);
     }
 
-    public function getBadMsdId(): string
+    public function getBadMsgId(): int
     {
         return $this->getTlMessage()->getValue('bad_msg_id');
     }
