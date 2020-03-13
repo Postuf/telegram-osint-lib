@@ -22,32 +22,32 @@ class RpcError extends TLServerMessage
 
     public function getErrorString(): string
     {
-        return $this->getTlMessage()->getValue('error_message');
+        return (string) $this->getTlMessage()->getValue('error_message');
     }
 
     public function isNetworkMigrateError(): bool
     {
-        return strstr($this->getErrorString(), 'NETWORK_MIGRATE_');
+        return (bool) strstr($this->getErrorString(), 'NETWORK_MIGRATE_');
     }
 
     public function isPhoneMigrateError(): bool
     {
-        return strstr($this->getErrorString(), 'PHONE_MIGRATE_');
+        return (bool) strstr($this->getErrorString(), 'PHONE_MIGRATE_');
     }
 
     public function isFloodError(): bool
     {
-        return strstr($this->getErrorString(), 'FLOOD_WAIT_');
+        return (bool) strstr($this->getErrorString(), 'FLOOD_WAIT_');
     }
 
     public function isUserDeactivated(): bool
     {
-        return strstr($this->getErrorString(), 'USER_DEACTIVATED');
+        return (bool) strstr($this->getErrorString(), 'USER_DEACTIVATED');
     }
 
     public function isPhoneBanned(): bool
     {
-        return strstr($this->getErrorString(), 'PHONE_NUMBER_BANNED');
+        return (bool) strstr($this->getErrorString(), 'PHONE_NUMBER_BANNED');
     }
 
     /**
@@ -55,22 +55,22 @@ class RpcError extends TLServerMessage
      */
     public function isPhoneNumberUnoccupied(): bool
     {
-        return strstr($this->getErrorString(), 'PHONE_NUMBER_UNOCCUPIED');
+        return (bool) strstr($this->getErrorString(), 'PHONE_NUMBER_UNOCCUPIED');
     }
 
     public function isAuthKeyDuplicated(): bool
     {
-        return strstr($this->getErrorString(), 'AUTH_KEY_DUPLICATED');
+        return (bool) strstr($this->getErrorString(), 'AUTH_KEY_DUPLICATED');
     }
 
     public function isAuthKeyUnregistered(): bool
     {
-        return strstr($this->getErrorString(), 'AUTH_KEY_UNREGISTERED');
+        return (bool) strstr($this->getErrorString(), 'AUTH_KEY_UNREGISTERED');
     }
 
     public function isSessionRevoked(): bool
     {
-        return strstr($this->getErrorString(), 'SESSION_REVOKED');
+        return (bool) strstr($this->getErrorString(), 'SESSION_REVOKED');
     }
 
     /**
