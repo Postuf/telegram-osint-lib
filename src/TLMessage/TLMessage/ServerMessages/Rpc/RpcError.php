@@ -81,7 +81,7 @@ class RpcError extends TLServerMessage
     protected function throwIfIncorrectType(AnonymousMessage $anonymousMessage): void
     {
         if(!static::isIt($anonymousMessage)) {
-            $msg = $anonymousMessage->getType().' with error "'.$this->getErrorString().'" instead of '.get_called_class().' class';
+            $msg = $anonymousMessage->getType().'" instead of '.get_called_class().' class';
 
             throw new TGException(TGException::ERR_TL_MESSAGE_UNEXPECTED_OBJECT, $msg);
         }
