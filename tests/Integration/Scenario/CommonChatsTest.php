@@ -35,7 +35,7 @@ class CommonChatsTest extends TestCase
             'znakomstva_chats'        => ['знакомства'],
             'phuketrusa'              => ['путешествия', 'пхукет'],
         ];
-        $phone = '79265558802';
+        $phone = '79261111111';
 
         $scenario = new CommonChatsScenario(
             $generator,
