@@ -53,8 +53,8 @@ abstract class TLServerMessage
     {
         if(!static::isIt($anonymousMessage)) {
             $msg = $anonymousMessage->getType().' instead of '.get_called_class().' class';
-            if ($anonymousMessage instanceof RpcError) {
-                $msg .= ' with error '.$anonymousMessage->getErrorString();
+            if (RpcError::isIt($anonymousMessage)) {
+                $msg .= ' with error '.$anonymousMessage->getValue('error_message');
             }
 
             throw new TGException(TGException::ERR_TL_MESSAGE_UNEXPECTED_OBJECT, $msg);
