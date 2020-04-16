@@ -5359,7 +5359,7 @@
         },
         {
             "id": "763976820",
-            "predicate": "channelFull",
+            "predicate": "channelFull_105",
             "params": [
                 {
                     "name": "flags",
@@ -8344,7 +8344,7 @@
         },
         {
             "id": "-2054908813",
-            "predicate": "webPageNotModified",
+            "predicate": "webPageNotModified_105",
             "params": [],
             "type": "WebPage"
         },
@@ -9463,7 +9463,7 @@
         },
         {
             "id": "-1564789301",
-            "predicate": "phoneCallProtocol",
+            "predicate": "phoneCallProtocol_105",
             "params": [
                 {
                     "name": "flags",
@@ -12229,7 +12229,7 @@
         },
         {
             "id": "-1366746132",
-            "predicate": "page",
+            "predicate": "page_105",
             "params": [
                 {
                     "name": "flags",

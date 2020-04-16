@@ -73,7 +73,7 @@
             "message": {
                 "_": "messages.chatFull",
                 "full_chat": {
-                    "_": "channelFull",
+                    "_": "channelFull_105",
                     "flags": 8217,
                     "can_view_participants": true,
                     "can_set_username": false,
