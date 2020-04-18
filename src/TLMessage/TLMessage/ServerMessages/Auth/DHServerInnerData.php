@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Auth;
 
 use TelegramOSINT\MTSerialization\AnonymousMessage;
-use TelegramOSINT\TLMessage\TLMessage\Packer;
 use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
 class DHServerInnerData extends TLServerMessage
@@ -24,7 +23,7 @@ class DHServerInnerData extends TLServerMessage
     {
         $g = $this->getTlMessage()->getValue('g');
 
-        return Packer::packIntAsBytesLittleEndian($g);
+        return strrev(pack('I', $g));
     }
 
     /**
