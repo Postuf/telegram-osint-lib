@@ -14,7 +14,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class init_connection implements TLClientMessage
 {
-    const CONSTRUCTOR = 2018609336; // 0x785188B8
+    const CONSTRUCTOR = 3251461801; // 0xC1CD5EA9
 
     /**
      * @var AccountInfo

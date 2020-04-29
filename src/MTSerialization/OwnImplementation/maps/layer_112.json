@@ -1,0 +1,344 @@
+{
+    "constructors": [
+        {
+            "id": 261416433,
+            "predicate": "inputMediaPoll",
+            "params": [
+                {
+                    "name": "flags",
+                    "type": "#"
+                },
+                {
+                    "name": "poll",
+                    "type": "Poll"
+                },
+                {
+                    "name": "correct_answers",
+                    "type": "flags.0?Vector<bytes>"
+                },
+                {
+                    "name": "solution",
+                    "type": "flags.1?string"
+                },
+                {
+                    "name": "solution_entities",
+                    "type": "flags.1?Vector<MessageEntity>"
+                }
+            ],
+            "type": "InputMedia"
+        },
+        {
+            "id": 1065280907,
+            "predicate": "messageMediaDice",
+            "params": [
+                {
+                    "name": "value",
+                    "type": "int"
+                },
+                {
+                    "name": "emoticon",
+                    "type": "string"
+                }
+            ],
+            "type": "MessageMedia"
+        },
+        {
+            "id": 2262925665,
+            "predicate": "poll",
+            "params": [
+                {
+                    "name": "id",
+                    "type": "long"
+                },
+                {
+                    "name": "flags",
+                    "type": "#"
+                },
+                {
+                    "name": "closed",
+                    "type": "flags.0?true"
+                },
+                {
+                    "name": "public_voters",
+                    "type": "flags.1?true"
+                },
+                {
+                    "name": "multiple_choice",
+                    "type": "flags.2?true"
+                },
+                {
+                    "name": "quiz",
+                    "type": "flags.3?true"
+                },
+                {
+                    "name": "question",
+                    "type": "string"
+                },
+                {
+                    "name": "answers",
+                    "type": "Vector<PollAnswer>"
+                },
+                {
+                    "name": "close_period",
+                    "type": "flags.4?int"
+                },
+                {
+                    "name": "close_date",
+                    "type": "flags.5?int"
+                }
+            ],
+            "type": "Poll"
+        },
+        {
+            "id": 3064709953,
+            "predicate": "messages.featuredStickers",
+            "params": [
+                {
+                    "name": "hash",
+                    "type": "int"
+                },
+                {
+                    "name": "count",
+                    "type": "int"
+                },
+                {
+                    "name": "sets",
+                    "type": "Vector<StickerSetCovered>"
+                },
+                {
+                    "name": "unread",
+                    "type": "Vector<long>"
+                }
+            ],
+            "type": "messages.FeaturedStickers"
+        },
+        {
+            "id": 3135029667,
+            "predicate": "pollResults",
+            "params": [
+                {
+                    "name": "flags",
+                    "type": "#"
+                },
+                {
+                    "name": "min",
+                    "type": "flags.0?true"
+                },
+                {
+                    "name": "results",
+                    "type": "flags.1?Vector<PollAnswerVoters>"
+                },
+                {
+                    "name": "total_voters",
+                    "type": "flags.2?int"
+                },
+                {
+                    "name": "recent_voters",
+                    "type": "flags.3?Vector<int>"
+                },
+                {
+                    "name": "solution",
+                    "type": "flags.4?string"
+                },
+                {
+                    "name": "solution_entities",
+                    "type": "flags.4?Vector<MessageEntity>"
+                }
+            ],
+            "type": "PollResults"
+        },
+        {
+            "id": 3336309862,
+            "predicate": "messages.featuredStickersNotModified",
+            "params": [
+                {
+                    "name": "count",
+                    "type": "int"
+                }
+            ],
+            "type": "messages.FeaturedStickers"
+        },
+        {
+            "id": 3866083195,
+            "predicate": "inputMediaDice",
+            "params": [
+                {
+                    "name": "emoticon",
+                    "type": "string"
+                }
+            ],
+            "type": "InputMedia"
+        },
+        {
+            "id": 3867103758,
+            "predicate": "inputStickerSetDice",
+            "params": [
+                {
+                    "name": "emoticon",
+                    "type": "string"
+                }
+            ],
+            "type": "InputStickerSet"
+        }
+    ],
+    "methods": [
+        {
+            "id": 1608974939,
+            "method": "messages.getOldFeaturedStickers",
+            "params": [
+                {
+                    "name": "offset",
+                    "type": "int"
+                },
+                {
+                    "name": "limit",
+                    "type": "int"
+                },
+                {
+                    "name": "hash",
+                    "type": "int"
+                }
+            ],
+            "type": "messages.FeaturedStickers"
+        },
+        {
+            "id": 2153596662,
+            "method": "bots.setBotCommands",
+            "params": [
+                {
+                    "name": "commands",
+                    "type": "Vector<BotCommand>"
+                }
+            ],
+            "type": "Bool"
+        },
+        {
+            "id": 2587250224,
+            "method": "stickers.setStickerSetThumb",
+            "params": [
+                {
+                    "name": "stickerset",
+                    "type": "InputStickerSet"
+                },
+                {
+                    "name": "thumb",
+                    "type": "InputDocument"
+                }
+            ],
+            "type": "messages.StickerSet"
+        },
+        {
+            "id": 3251461801,
+            "method": "initConnection",
+            "params": [
+                {
+                    "name": "flags",
+                    "type": "#"
+                },
+                {
+                    "name": "api_id",
+                    "type": "int"
+                },
+                {
+                    "name": "device_model",
+                    "type": "string"
+                },
+                {
+                    "name": "system_version",
+                    "type": "string"
+                },
+                {
+                    "name": "app_version",
+                    "type": "string"
+                },
+                {
+                    "name": "system_lang_code",
+                    "type": "string"
+                },
+                {
+                    "name": "lang_pack",
+                    "type": "string"
+                },
+                {
+                    "name": "lang_code",
+                    "type": "string"
+                },
+                {
+                    "name": "proxy",
+                    "type": "flags.0?InputClientProxy"
+                },
+                {
+                    "name": "params",
+                    "type": "flags.1?JSONValue"
+                },
+                {
+                    "name": "query",
+                    "type": "!X"
+                }
+            ],
+            "type": "X"
+        },
+        {
+            "id": 3861908922,
+            "method": "stats.getBroadcastStats",
+            "params": [
+                {
+                    "name": "flags",
+                    "type": "#"
+                },
+                {
+                    "name": "dark",
+                    "type": "flags.0?true"
+                },
+                {
+                    "name": "channel",
+                    "type": "InputChannel"
+                },
+                {
+                    "name": "tz_offset",
+                    "type": "int"
+                }
+            ],
+            "type": "stats.BroadcastStats"
+        },
+        {
+            "id": 4043532160,
+            "method": "stickers.createStickerSet",
+            "params": [
+                {
+                    "name": "flags",
+                    "type": "#"
+                },
+                {
+                    "name": "masks",
+                    "type": "flags.0?true"
+                },
+                {
+                    "name": "animated",
+                    "type": "flags.1?true"
+                },
+                {
+                    "name": "user_id",
+                    "type": "InputUser"
+                },
+                {
+                    "name": "title",
+                    "type": "string"
+                },
+                {
+                    "name": "short_name",
+                    "type": "string"
+                },
+                {
+                    "name": "thumb",
+                    "type": "flags.2?InputDocument"
+                },
+                {
+                    "name": "stickers",
+                    "type": "Vector<InputStickerSetItem>"
+                }
+            ],
+            "type": "messages.StickerSet"
+        }
+    ]
+}
