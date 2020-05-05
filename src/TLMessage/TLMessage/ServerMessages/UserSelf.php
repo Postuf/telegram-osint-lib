@@ -6,10 +6,11 @@ namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages;
 
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TLMessage\TLMessage\MessageWithUserId;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Custom\UserStatus;
 use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
-class UserSelf extends TLServerMessage
+class UserSelf extends TLServerMessage implements MessageWithUserId
 {
     /**
      * @param AnonymousMessage $tlMessage

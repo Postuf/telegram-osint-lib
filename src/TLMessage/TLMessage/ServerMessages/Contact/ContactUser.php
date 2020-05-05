@@ -6,6 +6,7 @@ namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact;
 
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TLMessage\TLMessage\MessageWithUserId;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\ChatPhoto;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Custom\UserStatus;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\PhotoInterface;
@@ -15,7 +16,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 /**
  * @see https://core.telegram.org/type/User
  */
-class ContactUser extends TLServerMessage
+class ContactUser extends TLServerMessage implements MessageWithUserId
 {
     /**
      * @param AnonymousMessage $tlMessage
@@ -70,7 +71,7 @@ class ContactUser extends TLServerMessage
 
     public function getUserId(): int
     {
-        return $this->getTlMessage()->getValue('id');
+        return (int) $this->getTlMessage()->getValue('id');
     }
 
     public function getPhone(): ?string

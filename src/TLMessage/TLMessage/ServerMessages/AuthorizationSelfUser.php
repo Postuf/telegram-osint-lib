@@ -6,6 +6,8 @@ namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages;
 
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
+use TelegramOSINT\TLMessage\TLMessage\MessageWithUserId;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
 class AuthorizationSelfUser extends TLServerMessage
@@ -23,12 +25,14 @@ class AuthorizationSelfUser extends TLServerMessage
     /**
      * @throws TGException
      *
-     * @return UserSelf
+     * @return ContactUser
      */
-    public function getUser(): UserSelf
+    public function getUser(): MessageWithUserId
     {
         $self = $this->getTlMessage()->getNode('user');
 
-        return new UserSelf($self);
+        return ContactUser::isIt($self)
+            ? new ContactUser($self)
+            : new UserSelf($self);
     }
 }
