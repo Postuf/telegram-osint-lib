@@ -47,15 +47,6 @@ class UserContactsScenario extends InfoClientScenario
     {
         $this->login();
 
-        /* info by username */
-        $this->infoClient->getInfoByUsername('asen_17', $this->withPhoto, $this->largePhoto, function ($userInfoModel) {
-            if ($userInfoModel->photo)
-                file_put_contents(
-                    $userInfoModel->username.'.'.$userInfoModel->photo->format,
-                    $userInfoModel->photo->bytes
-                );
-        });
-
         $this->parseNumbers($this->phones, $this->withPhoto, $this->largePhoto);
     }
 

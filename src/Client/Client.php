@@ -12,10 +12,11 @@ interface Client
      * @param AuthKey       $authKey
      * @param Proxy         $proxy
      * @param callable|null $cb      function()
+     * @param bool          $foreign
      *
      * @return void
      */
-    public function login(AuthKey $authKey, Proxy $proxy = null, callable $cb = null);
+    public function login(AuthKey $authKey, Proxy $proxy = null, callable $cb = null, bool $foreign = false);
 
     /**
      * @return void

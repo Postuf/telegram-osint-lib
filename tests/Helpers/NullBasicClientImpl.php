@@ -27,7 +27,7 @@ class NullBasicClientImpl extends BasicClientImpl
         return new NullSocket();
     }
 
-    protected function getSocketMessenger(): SocketMessenger
+    protected function getSocketMessenger(bool $foreign): SocketMessenger
     {
         if (!$this->socketMessenger) {
             $this->socketMessenger = new TraceSocketMessenger($this->traceArray, $this->getAuthKey(), $this);

@@ -83,12 +83,13 @@ class InfoClient implements InfoObtainingClient
      * @param AuthKey       $authKey
      * @param Proxy         $proxy
      * @param callable|null $cb      function()
+     * @param bool          $foreign
      *
      * @return void
      */
-    public function login(AuthKey $authKey, Proxy $proxy = null, ?callable $cb = null)
+    public function login(AuthKey $authKey, Proxy $proxy = null, ?callable $cb = null, bool $foreign = false)
     {
-        $this->basicClient->login($authKey, $proxy, $cb);
+        $this->basicClient->login($authKey, $proxy, $cb, $foreign);
     }
 
     /**
@@ -498,7 +499,7 @@ class InfoClient implements InfoObtainingClient
             $dcId = $photo->getDcId();
         }
 
-        $this->readPicture($photoLocation, $dcId, $onPictureLoaded);
+       $this->readPicture($photoLocation, $dcId, $onPictureLoaded);
     }
 
     /**
@@ -616,7 +617,7 @@ class InfoClient implements InfoObtainingClient
                         // login in foreign dc
                         $clientKey = count($this->otherDcClients);
                         $this->otherDcClients[$clientKey] = $this->generator->generate();
-                        $this->otherDcClients[$clientKey]->login($authKey);
+                        $this->otherDcClients[$clientKey]->login($authKey, null, null, true);
 
                         // export current authorization to foreign dc
                         $exportAuthRequest = new export_authorization($dc->getDcId());

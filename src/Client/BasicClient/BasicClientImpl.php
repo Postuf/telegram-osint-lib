@@ -20,6 +20,7 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\init_connection;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\invoke_with_layer;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\ping_delay_disconnect;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\update_status;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Rpc\RpcError;
 use TelegramOSINT\Tools\Proxy;
 
 class BasicClientImpl implements BasicClient, MessageListener
@@ -80,9 +81,14 @@ class BasicClientImpl implements BasicClient, MessageListener
         }
     }
 
-    protected function getSocketMessenger(): SocketMessenger
+    protected function getSocketMessenger(bool $foreign): SocketMessenger
     {
-        return new EncryptedSocketMessenger($this->socket, $this->authKey, $this);
+        $ignoreErrors = [];
+        if ($foreign) {
+            $ignoreErrors[RpcError::AUTH_KEY_UNREGISTERED] = true;
+        }
+
+        return new EncryptedSocketMessenger($this->socket, $this->authKey, $this, $ignoreErrors);
     }
 
     final protected function getAuthKey(): ?AuthKey
@@ -94,20 +100,20 @@ class BasicClientImpl implements BasicClient, MessageListener
      * @param AuthKey       $authKey
      * @param Proxy|null    $proxy
      * @param callable|null $cb      function()
+     * @param bool          $foreign
      *
      * @throws TGException
      *
      * @return void
-     * @return void
      */
-    public function login(AuthKey $authKey, ?Proxy $proxy = null, callable $cb = null)
+    public function login(AuthKey $authKey, ?Proxy $proxy = null, callable $cb = null, bool $foreign = false)
     {
         if($this->isLoggedIn())
             throw new TGException(TGException::ERR_CLIENT_ALREADY_LOGGED_IN, $this->getUserId());
         $dc = $authKey->getAttachedDC();
-        $postSocket = function () use ($authKey) {
+        $postSocket = function () use ($authKey, $foreign) {
             $this->authKey = $authKey;
-            $this->connection = $this->getSocketMessenger();
+            $this->connection = $this->getSocketMessenger($foreign);
             $this->isLoggedIn = true;
 
             $this->bumpProtocolVersion();

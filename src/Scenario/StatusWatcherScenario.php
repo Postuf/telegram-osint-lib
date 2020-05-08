@@ -115,6 +115,7 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
             $this->pollClientCycle($this->client);
 
             if(time() - $start > 10000000) {
+                echo "terminating due to timeout\n";
                 $this->client->terminate();
                 break;
             }

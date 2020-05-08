@@ -10,6 +10,8 @@ use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
 class RpcError extends TLServerMessage
 {
+    public const AUTH_KEY_UNREGISTERED = 'AUTH_KEY_UNREGISTERED';
+
     /**
      * @param AnonymousMessage $tlMessage
      *
@@ -65,7 +67,7 @@ class RpcError extends TLServerMessage
 
     public function isAuthKeyUnregistered(): bool
     {
-        return (bool) strstr($this->getErrorString(), 'AUTH_KEY_UNREGISTERED');
+        return (bool) strstr($this->getErrorString(), self::AUTH_KEY_UNREGISTERED);
     }
 
     public function isSessionRevoked(): bool

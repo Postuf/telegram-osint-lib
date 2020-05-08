@@ -95,13 +95,16 @@ class EncryptedSocketMessenger extends TgSocketMessenger implements SocketMessen
      * @var AnonymousMessage[]
      */
     private $messagesToBeProcessedQueue = [];
+    /** @var array */
+    private $ignoreErrors = [];
 
     /**
      * @param Socket          $socket
      * @param AuthKey         $authKey
      * @param MessageListener $callback
+     * @param array           $ignoreErrors string => bool
      */
-    public function __construct(Socket $socket, AuthKey $authKey, MessageListener $callback)
+    public function __construct(Socket $socket, AuthKey $authKey, MessageListener $callback, array $ignoreErrors = [])
     {
         parent::__construct($socket);
         $this->messageReceiptCallback = $callback;
@@ -118,6 +121,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger implements SocketMessen
         $this->outerHeaderWrapper = new OuterHeaderWrapper();
         $this->msgIdGenerator = new MessageIdGenerator();
         $this->deserializer = new OwnDeserializer();
+        $this->ignoreErrors = $ignoreErrors;
     }
 
     /**
@@ -336,8 +340,11 @@ class EncryptedSocketMessenger extends TgSocketMessenger implements SocketMessen
             throw new TGException(TGException::ERR_MSG_FLOOD, (new FloodWait($rpcError))->getWaitTimeSec());
         if($rpcError->isUserDeactivated())
             throw new TGException(TGException::ERR_MSG_USER_BANNED, "User $userId banned");
-        if($rpcError->isAuthKeyUnregistered())
-            throw new TGException(TGException::ERR_MSG_USER_BANNED, "User $userId unregistered");
+        if($rpcError->isAuthKeyUnregistered()) {
+            if (!isset($this->ignoreErrors[RpcError::AUTH_KEY_UNREGISTERED])) {
+                throw new TGException(TGException::ERR_MSG_USER_BANNED, "User $userId unregistered");
+            }
+        }
         if($rpcError->isPhoneBanned())
             throw new TGException(TGException::ERR_MSG_PHONE_BANNED, "User $userId phone banned");
         if($rpcError->isAuthKeyDuplicated())
