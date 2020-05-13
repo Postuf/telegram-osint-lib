@@ -11,6 +11,8 @@ use TelegramOSINT\Client\StatusWatcherClient\Models\HiddenStatus;
 use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
 use TelegramOSINT\Client\StatusWatcherClient\Models\User;
 use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\LibConfig;
+use TelegramOSINT\Logger\ClientDebugLogger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
@@ -46,15 +48,21 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
      *            Format: id=>id
      */
     private $currentlyOfflineUsers;
+    /** @var ClientDebugLogger|null */
+    private $logger;
 
     /**
      * @param StatusWatcherCallbacks $callbacks
+     * @param ClientDebugLogger|null $logger
      *
      * @throws TGException
      */
-    public function __construct(StatusWatcherCallbacks $callbacks)
+    public function __construct(StatusWatcherCallbacks $callbacks, ?ClientDebugLogger $logger = null)
     {
-        $this->basicClient = new BasicClientImpl();
+        $this->basicClient = new BasicClientImpl(
+            LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC,
+            $logger
+        );
         $this->userCallbacks = $callbacks;
         $this->currentlyOnlineUsers = [];
         $this->currentlyOfflineUsers = [];
@@ -62,6 +70,7 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
         $this->basicClient->setMessageListener($this);
         $this->messageAnalyzer = new StatusWatcherAnalyzer($this);
         $this->contactKeeper = new ContactsKeeper($this->basicClient);
+        $this->logger = $logger;
     }
 
     /**
