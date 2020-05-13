@@ -9,6 +9,7 @@ use function microtime;
 use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
 use TelegramOSINT\Client\InfoObtainingClient\InfoClient;
 use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\Tools\Proxy;
 use function usleep;
 
 abstract class InfoClientScenario implements ScenarioInterface
@@ -21,13 +22,15 @@ abstract class InfoClientScenario implements ScenarioInterface
     private $authKey;
     /** @var ClientGeneratorInterface */
     private $generator;
+    /** @var Proxy|null */
+    private $proxy;
 
     /**
      * @param ClientGeneratorInterface|null $clientGenerator
      *
      * @throws TGException
      */
-    public function __construct(ClientGeneratorInterface $clientGenerator = null)
+    public function __construct(ClientGeneratorInterface $clientGenerator = null, ?Proxy $proxy = null)
     {
         if (!$clientGenerator) {
             $clientGenerator = new ClientGenerator();
@@ -35,6 +38,7 @@ abstract class InfoClientScenario implements ScenarioInterface
         $this->generator = $clientGenerator;
         $this->infoClient = $clientGenerator->getInfoClient();
         $this->authKey = $clientGenerator->getAuthKey();
+        $this->proxy = $proxy;
     }
 
     public function setTimeout(float $timeout): void
@@ -49,7 +53,7 @@ abstract class InfoClientScenario implements ScenarioInterface
     {
         $authKey = AuthKeyCreator::createFromString($this->authKey);
         if (!$this->infoClient->isLoggedIn()) {
-            $this->infoClient->login($authKey);
+            $this->infoClient->login($authKey, $this->proxy);
         }
     }
 

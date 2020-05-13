@@ -8,6 +8,7 @@ use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ResolvedPeer;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Peer\PeerChannel;
+use TelegramOSINT\Tools\Proxy;
 
 abstract class AbstractGroupScenario extends InfoClientScenario implements ScenarioInterface
 {
@@ -26,9 +27,9 @@ abstract class AbstractGroupScenario extends InfoClientScenario implements Scena
         $this->deepLink = $deepLink;
     }
 
-    public function __construct(?ClientGeneratorInterface $generator = null)
+    public function __construct(?ClientGeneratorInterface $generator = null, ?Proxy $proxy = null)
     {
-        parent::__construct($generator);
+        parent::__construct($generator, $proxy);
     }
 
     /**
