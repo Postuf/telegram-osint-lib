@@ -16,6 +16,7 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_all_chats;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_history;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ResolvedPeer;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Peer\PeerUser;
+use TelegramOSINT\Tools\Proxy;
 
 /**
  * Downloading group photos
@@ -38,12 +39,15 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
     private $username;
     /** @var int|null */
     private $userId;
+    /** @var Proxy|null */
+    private $proxy;
 
     /**
      * @param OptionalDateRange             $dateRange
      * @param string|null                   $username
      * @param callable|null                 $saveHandler function(PictureModel $model, int $id)
      * @param ClientGeneratorInterface|null $generator
+     * @param Proxy|null                    $proxy
      *
      * @throws TGException
      */
@@ -51,9 +55,10 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
         OptionalDateRange $dateRange,
         ?string $username = null,
         ?callable $saveHandler = null,
-        ?ClientGeneratorInterface $generator = null
+        ?ClientGeneratorInterface $generator = null,
+        ?Proxy $proxy = null
     ) {
-        parent::__construct($generator);
+        parent::__construct($generator, $proxy);
         $this->since = $dateRange->getSince();
         $this->to = $dateRange->getTo();
         $this->saveHandler = $saveHandler;

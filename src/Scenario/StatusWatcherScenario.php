@@ -121,7 +121,6 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
 
             if($lastContactsCleaningTime > 0 && time() - $lastContactsCleaningTime > 5) {
                 // remove contact by name
-                $this->client->delUser('ASEN_17', function () {});
                 $lastContactsCleaningTime = time();
             }
         }
