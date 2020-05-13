@@ -9,6 +9,7 @@ use TelegramOSINT\Auth\AES\AES;
 use TelegramOSINT\Auth\AES\PhpSecLibAES;
 use TelegramOSINT\Client\AuthKey\AuthKey;
 use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\Logger\ClientDebugLogger;
 use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\MTSerialization\MTDeserializer;
@@ -95,14 +96,21 @@ class EncryptedSocketMessenger extends TgSocketMessenger implements SocketMessen
      * @var AnonymousMessage[]
      */
     private $messagesToBeProcessedQueue = [];
+    /** @var ClientDebugLogger|null */
+    private $logger;
 
     /**
-     * @param Socket          $socket
-     * @param AuthKey         $authKey
-     * @param MessageListener $callback
+     * @param Socket                 $socket
+     * @param AuthKey                $authKey
+     * @param MessageListener        $callback
+     * @param ClientDebugLogger|null $logger
      */
-    public function __construct(Socket $socket, AuthKey $authKey, MessageListener $callback)
-    {
+    public function __construct(
+        Socket $socket,
+        AuthKey $authKey,
+        MessageListener $callback,
+        ?ClientDebugLogger $logger = null
+    ) {
         parent::__construct($socket);
         $this->messageReceiptCallback = $callback;
 
@@ -118,6 +126,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger implements SocketMessen
         $this->outerHeaderWrapper = new OuterHeaderWrapper();
         $this->msgIdGenerator = new MessageIdGenerator();
         $this->deserializer = new OwnDeserializer();
+        $this->logger = $logger;
     }
 
     /**
@@ -234,6 +243,15 @@ class EncryptedSocketMessenger extends TgSocketMessenger implements SocketMessen
         $this->writeMessage(new msgs_ack([$msgId]));
     }
 
+    private function log(string $code, string $message): void
+    {
+        if ($this->logger) {
+            $this->logger->debugLibLog($code, $message);
+        } else {
+            Logger::log($code, $message);
+        }
+    }
+
     /**
      * @param string $payload
      *
@@ -243,9 +261,9 @@ class EncryptedSocketMessenger extends TgSocketMessenger implements SocketMessen
      */
     private function deserializePayload(string $payload)
     {
-        Logger::log('Read_Message_Binary', bin2hex($payload));
+        $this->log('Read_Message_Binary', bin2hex($payload));
         $deserializedMessage = $this->deserializer->deserialize($payload);
-        Logger::log('Read_Message_TL', $deserializedMessage->getDebugPrintable());
+        $this->log('Read_Message_TL', $deserializedMessage->getDebugPrintable());
 
         return $deserializedMessage;
     }
@@ -391,9 +409,9 @@ class EncryptedSocketMessenger extends TgSocketMessenger implements SocketMessen
      */
     protected function writeIdentifiedMessage(TLClientMessage $payload, $messageId)
     {
-        Logger::log('Write_Message_Binary', bin2hex($payload->toBinary()));
-        Logger::log('Write_Message_ID', $messageId);
-        Logger::log('Write_Message_TL', $this->deserializer->deserialize($payload->toBinary())->getDebugPrintable());
+        $this->log('Write_Message_Binary', bin2hex($payload->toBinary()));
+        $this->log('Write_Message_ID', (string) $messageId);
+        $this->log('Write_Message_TL', $this->deserializer->deserialize($payload->toBinary())->getDebugPrintable());
 
         $binaryPayload = $this->outerHeaderWrapper->wrap(
             $this->wrapEncryptedContainer(
