@@ -64,6 +64,7 @@ echo "Phone\t|\tUsername\t|\tFirst name\t|\tLast name\t|\tPhoto\t|\tAbout\t|\tCo
 /** @noinspection PhpUnhandledExceptionInspection */
 $client = new UserContactsScenario(
     $numbers,
+    [],
     $onComplete
 );
 /* @noinspection PhpUnhandledExceptionInspection */

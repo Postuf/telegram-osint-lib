@@ -29,7 +29,7 @@ $numbers = explode(',', $argsOrFalse['n'] ?? $argsOrFalse['numbers']);
 // avatars are saved to current directory
 
 /** @noinspection PhpUnhandledExceptionInspection */
-(new UserContactsScenario($numbers, function () use ($numbers) {
+(new UserContactsScenario($numbers, [], function () use ($numbers) {
     (new StatusWatcherScenario($numbers, [], new ClientGenerator()))
         ->startActions(false);
 }))->startActions();

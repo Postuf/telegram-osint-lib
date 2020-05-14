@@ -21,9 +21,12 @@ class UserContactsScenario extends InfoClientScenario
     private $withPhoto;
     /** @var bool */
     private $largePhoto;
+    /** @var string[] */
+    private $usernames = [];
 
     /**
      * @param string[]                      $phones
+     * @param array                         $usernames
      * @param callable|null                 $cb              function()
      * @param ClientGeneratorInterface|null $clientGenerator
      * @param bool                          $withPhoto
@@ -31,13 +34,14 @@ class UserContactsScenario extends InfoClientScenario
      *
      * @throws TGException
      */
-    public function __construct(array $phones, ?callable $cb = null, ClientGeneratorInterface $clientGenerator = null, bool $withPhoto = true, bool $largePhoto = true)
+    public function __construct(array $phones, array $usernames = [], ?callable $cb = null, ClientGeneratorInterface $clientGenerator = null, bool $withPhoto = true, bool $largePhoto = true)
     {
         parent::__construct($clientGenerator);
         $this->cb = $cb;
         $this->phones = $phones;
         $this->withPhoto = $withPhoto;
         $this->largePhoto = $largePhoto;
+        $this->usernames = $usernames;
     }
 
     /**
@@ -48,13 +52,15 @@ class UserContactsScenario extends InfoClientScenario
         $this->login();
 
         /* info by username */
-        $this->infoClient->getInfoByUsername('asen_17', $this->withPhoto, $this->largePhoto, function ($userInfoModel) {
-            if ($userInfoModel->photo)
-                file_put_contents(
-                    $userInfoModel->username.'.'.$userInfoModel->photo->format,
-                    $userInfoModel->photo->bytes
-                );
-        });
+        foreach ($this->usernames as $username) {
+            $this->infoClient->getInfoByUsername($username, $this->withPhoto, $this->largePhoto, function ($userInfoModel) {
+                if ($userInfoModel->photo)
+                    file_put_contents(
+                        $userInfoModel->username.'.'.$userInfoModel->photo->format,
+                        $userInfoModel->photo->bytes
+                    );
+            });
+        }
 
         $this->parseNumbers($this->phones, $this->withPhoto, $this->largePhoto);
     }

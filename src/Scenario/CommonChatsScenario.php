@@ -152,7 +152,7 @@ class CommonChatsScenario extends InfoClientScenario
      */
     public function getCommonChats(?callable $callback = null)
     {
-        $client = new UserContactsScenario([$this->phone], function (UserInfoModel $user) use ($callback) {
+        $client = new UserContactsScenario([$this->phone], [], function (UserInfoModel $user) use ($callback) {
             $this->infoClient->getCommonChats($user->id, $user->accessHash, 100, 0, function (AnonymousMessage $message) use ($callback) {
                 if (!Chats::isIt($message)) {
                     return;
