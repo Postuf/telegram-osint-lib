@@ -19,6 +19,10 @@ use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
  */
 class ResolvedPeer extends TLServerMessage
 {
+    private const PEER_USER = 'peerUser';
+    private const PEER_CHAT = 'peerChat';
+    private const PEER_CHANNEL = 'peerChannel';
+
     /**
      * {@inheritdoc}
      */
@@ -36,11 +40,11 @@ class ResolvedPeer extends TLServerMessage
     {
         $peer = $this->getTlMessage()->getNode('peer');
         switch ($peer->getType()) {
-            case 'peerUser':
+            case self::PEER_USER:
                 return new PeerUser($peer->getValue('user_id'));
-            case 'peerChat':
+            case self::PEER_CHAT:
                 return new PeerChat($peer->getValue('chat_id'));
-            case 'peerChannel':
+            case self::PEER_CHANNEL:
                 return new PeerChannel($peer->getValue('channel_id'));
         }
 
@@ -58,6 +62,7 @@ class ResolvedPeer extends TLServerMessage
             $user = new UserInfoModel();
             $user->id = $id;
             $user->username = $userNode->getValue('username');
+            $user->accessHash = $userNode->getValue('access_hash');
             $users[] = $user;
         }
 

@@ -90,6 +90,7 @@ class SearchUserScenario extends InfoClientScenario
             $userResolver = new UserResolveScenario(
                 $this->username,
                 $onUserResolve,
+                false,
                 $this->getGenerator()
             );
             $userResolver->startActions(false);

@@ -17,19 +17,23 @@ class UserResolveScenario extends InfoClientScenario
     private $userId;
     /** @var callable */
     private $cb;
+    /** @var bool */
+    private $standalone;
 
     /**
      * @param string                        $username
-     * @param callable                      $cb              function(int|null $userId)
+     * @param callable                      $cb              function(int|null $userId, int|null $accessHash)
+     * @param bool                          $standalone
      * @param ClientGeneratorInterface|null $clientGenerator
      *
      * @throws TGException
      */
-    public function __construct(string $username, callable $cb, ClientGeneratorInterface $clientGenerator = null)
+    public function __construct(string $username, callable $cb, bool $standalone = true, ClientGeneratorInterface $clientGenerator = null)
     {
         parent::__construct($clientGenerator);
         $this->username = $username;
         $this->cb = $cb;
+        $this->standalone = $standalone;
     }
 
     /**
@@ -39,10 +43,17 @@ class UserResolveScenario extends InfoClientScenario
      */
     public function startActions(bool $pollAndTerminate = true): void
     {
-        $this->infoClient->resolveUsername($this->username, $this->getUserResolveHandler($this->cb));
+        $action = function () use ($pollAndTerminate) {
+            $this->infoClient->resolveUsername($this->username, $this->getUserResolveHandler($this->cb));
 
-        if ($pollAndTerminate) {
-            $this->pollAndTerminate();
+            if ($pollAndTerminate) {
+                $this->pollAndTerminate();
+            }
+        };
+        if ($this->standalone) {
+            $this->authAndPerformActions($action, $pollAndTerminate);
+        } else {
+            $action();
         }
     }
 
@@ -60,11 +71,11 @@ class UserResolveScenario extends InfoClientScenario
                 $user = $peer->getUsers()[0];
                 $this->userId = $user->id;
                 Logger::log(__CLASS__, "resolved user {$this->username} to {$this->userId}");
-                $cb($this->userId);
+                $cb($this->userId, $user->accessHash);
 
                 return;
             }
-            $cb(null);
+            $cb(null, null);
         };
     }
 }
