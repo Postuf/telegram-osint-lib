@@ -22,6 +22,8 @@ use TelegramOSINT\Tools\Proxy;
 
 class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, StatusWatcherCallbacksMiddleware, MessageListener
 {
+    private const RELOAD_CONTACTS_EVERY_SECONDS = 20;
+
     /**
      * @var BasicClient
      */
@@ -50,6 +52,8 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
     private $currentlyOfflineUsers;
     /** @var ClientDebugLogger|null */
     private $logger;
+    /** @var int */
+    private $lastContactsReloaded = 0;
 
     /**
      * @param StatusWatcherCallbacks $callbacks
@@ -115,8 +119,18 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
     public function pollMessage()
     {
         $this->onPeriodAvailable();
+        $this->reloadContactsIfNeeded();
 
         return $this->basicClient->pollMessage();
+    }
+
+    private function reloadContactsIfNeeded(): void
+    {
+        $time = time();
+        if ($time > $this->lastContactsReloaded + self::RELOAD_CONTACTS_EVERY_SECONDS) {
+            $this->contactKeeper->reloadCurrentContacts(function () {});
+            $this->lastContactsReloaded = $time;
+        }
     }
 
     public function onPeriodAvailable(): void
@@ -153,7 +167,8 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
     public function reloadNumbers(array $numbers, callable $onComplete)
     {
         $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactKeeper->getCurrentContacts(function (array $contacts) use ($numbers, $onComplete) {
+        $this->lastContactsReloaded = time();
+        $this->contactKeeper->reloadCurrentContacts(function (array $contacts) use ($numbers, $onComplete) {
 
             $currentPhones = [];
             $currentUserNames = [];

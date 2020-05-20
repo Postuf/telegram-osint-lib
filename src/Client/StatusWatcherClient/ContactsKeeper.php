@@ -330,13 +330,11 @@ class ContactsKeeper
      */
     protected function contactsLoaded(callable $onLoadedCallback): bool
     {
-        if(!$this->contactsLoaded){
-
-            if($this->contactsLoading){
+        if (!$this->contactsLoaded) {
+            if ($this->contactsLoading) {
                 $this->contactsLoadedQueue[] = $onLoadedCallback;
             } else {
                 $this->reloadCurrentContacts($onLoadedCallback);
-                $this->contactsLoading = true;
             }
         }
 
@@ -344,11 +342,12 @@ class ContactsKeeper
     }
 
     /**
-     * @param callable $onReloaded function()
+     * @param callable $onReloaded function(ContactUser[] $users)
      */
-    protected function reloadCurrentContacts(callable $onReloaded)
+    public function reloadCurrentContacts(callable $onReloaded)
     {
         $this->contactsLoadedQueue[] = $onReloaded;
+        $this->contactsLoading = true;
 
         $this->client->getConnection()->getResponseAsync(new get_contacts(), function (AnonymousMessage $message) {
             $users = new CurrentContacts($message);
@@ -366,7 +365,7 @@ class ContactsKeeper
             $errors = [];
 
             foreach ($this->contactsLoadedQueue as $pendingCallback) {
-                try {$pendingCallback(); } /* @noinspection PhpRedundantCatchClauseInspection */ catch (TGException $e){$errors[] = $e; }
+                try {$pendingCallback($this->contacts); } /* @noinspection PhpRedundantCatchClauseInspection */ catch (TGException $e){$errors[] = $e; }
             }
 
             $this->contactsLoadedQueue = [];

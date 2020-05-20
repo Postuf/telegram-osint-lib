@@ -240,6 +240,7 @@ class InfoClient implements InfoObtainingClient
      * @param callable $onComplete
      *
      * @throws TGException
+     * @noinspection DuplicatedCode
      */
     public function reloadNumbers(array $numbers, callable $onComplete)
     {
