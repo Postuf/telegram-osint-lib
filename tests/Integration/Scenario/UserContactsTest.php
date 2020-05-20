@@ -55,6 +55,7 @@ class UserContactsTest extends TestCase
 
         $scenario = new UserContactsScenario(
             $numbers,
+            ['test'],
             $callback,
             $generator
         );
