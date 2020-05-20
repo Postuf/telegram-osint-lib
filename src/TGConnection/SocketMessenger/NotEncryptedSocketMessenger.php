@@ -5,6 +5,7 @@ namespace TelegramOSINT\TGConnection\SocketMessenger;
 use LogicException;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\LibConfig;
+use TelegramOSINT\Logger\ClientDebugLogger;
 use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\MTSerialization\MTDeserializer;
@@ -29,16 +30,29 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger implements SocketMes
      * @var MTDeserializer
      */
     private $deserializer;
+    /** @var ClientDebugLogger|null */
+    private $logger;
 
     /**
-     * @param Socket $socket
+     * @param Socket                 $socket
+     * @param ClientDebugLogger|null $logger
      */
-    public function __construct(Socket $socket)
+    public function __construct(Socket $socket, ?ClientDebugLogger $logger = null)
     {
         parent::__construct($socket);
         $this->outerHeaderWrapper = new OuterHeaderWrapper();
         $this->msgIdGenerator = new MessageIdGenerator();
         $this->deserializer = new OwnDeserializer();
+        $this->logger = $logger;
+    }
+
+    private function log(string $code, string $message): void
+    {
+        if ($this->logger) {
+            $this->logger->debugLibLog($code, $message);
+        } else {
+            Logger::log($code, $message);
+        }
     }
 
     /**
@@ -53,13 +67,13 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger implements SocketMes
             return null;
         }
 
-        Logger::log('Read_Message_Binary', bin2hex($packet));
+        $this->log('Read_Message_Binary', bin2hex($packet));
 
         $decoded = $this->decodePayload($this->outerHeaderWrapper->unwrap($packet));
         $deserialized = $this->deserializer->deserialize($decoded);
 
-        Logger::log('Read_Message_Binary', bin2hex($decoded));
-        Logger::log('Read_Message_TL', $deserialized->getDebugPrintable());
+        $this->log('Read_Message_Binary', bin2hex($decoded));
+        $this->log('Read_Message_TL', $deserialized->getDebugPrintable());
 
         return $deserialized;
     }
@@ -96,8 +110,8 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger implements SocketMes
 
         $this->socket->writeBinary($payloadStr);
 
-        Logger::log('Write_Message_Binary', bin2hex($payload->toBinary()));
-        Logger::log('Write_Message_TL', $this->deserializer->deserialize($payload->toBinary())->getDebugPrintable());
+        $this->log('Write_Message_Binary', bin2hex($payload->toBinary()));
+        $this->log('Write_Message_TL', $this->deserializer->deserialize($payload->toBinary())->getDebugPrintable());
     }
 
     /**

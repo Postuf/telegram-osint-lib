@@ -5,6 +5,7 @@ namespace TelegramOSINT\Client\BasicClient;
 use TelegramOSINT\Client\AuthKey\AuthKey;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\LibConfig;
+use TelegramOSINT\Logger\ClientDebugLogger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\Registration\AccountInfo;
 use TelegramOSINT\TGConnection\DataCentre;
@@ -56,14 +57,19 @@ class BasicClientImpl implements BasicClient, MessageListener
     private $socket;
     /** @var int seconds */
     private $proxyTimeout;
+    /** @var ClientDebugLogger|null */
+    private $logger;
 
-    public function __construct(int $proxyTimeout = LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC)
-    {
+    public function __construct(
+        int $proxyTimeout = LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC,
+        ?ClientDebugLogger $logger = null
+    ) {
         $this->lastPingTime = 0;
         $this->lastIncomingMessageReceiptTime = time();
         $this->lastStatusOnlineSet = 0;
         $this->isLoggedIn = false;
         $this->proxyTimeout = $proxyTimeout;
+        $this->logger = $logger;
     }
 
     /**
@@ -82,7 +88,12 @@ class BasicClientImpl implements BasicClient, MessageListener
 
     protected function getSocketMessenger(): SocketMessenger
     {
-        return new EncryptedSocketMessenger($this->socket, $this->authKey, $this);
+        return new EncryptedSocketMessenger(
+            $this->socket,
+            $this->authKey,
+            $this,
+            $this->logger
+        );
     }
 
     final protected function getAuthKey(): ?AuthKey
