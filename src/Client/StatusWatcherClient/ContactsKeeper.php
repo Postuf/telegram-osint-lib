@@ -349,13 +349,16 @@ class ContactsKeeper
         $this->contactsLoadedQueue[] = $onReloaded;
         $this->contactsLoading = true;
 
-        $this->client->getConnection()->getResponseAsync(new get_contacts(), function (AnonymousMessage $message) {
-            $users = new CurrentContacts($message);
-            $this->onContactsAdded($users->getUsers());
-            $this->contactsLoading = false;
-            $this->contactsLoaded = true;
-            $this->callOnContactsLoadedCallbacks();
-        });
+        $conn = $this->client->getConnection();
+        if ($conn) {
+            $conn->getResponseAsync(new get_contacts(), function (AnonymousMessage $message) {
+                $users = new CurrentContacts($message);
+                $this->onContactsAdded($users->getUsers());
+                $this->contactsLoading = false;
+                $this->contactsLoaded = true;
+                $this->callOnContactsLoadedCallbacks();
+            });
+        }
     }
 
     private function callOnContactsLoadedCallbacks()
