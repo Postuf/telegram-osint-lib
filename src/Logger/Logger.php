@@ -23,12 +23,12 @@ class Logger
      * @param string $label
      * @param string $log
      */
-    public static function log($label, $log)
+    public static function log($label, $log): void
     {
         global $argv;
         if(LibConfig::LOGGER_ENABLED) {
-            $hasDebugFlag = isset($argv[count($argv) - 1]) && $argv[count($argv) - 1] == '--debug';
-            $hasInfoFlag = isset($argv[count($argv) - 1]) && $argv[count($argv) - 1] == '--info';
+            $hasDebugFlag = isset($argv[count($argv) - 1]) && $argv[count($argv) - 1] === '--debug';
+            $hasInfoFlag = isset($argv[count($argv) - 1]) && $argv[count($argv) - 1] === '--info';
             $isDebug = (LibConfig::LOG_LEVEL === 'debug' || $hasDebugFlag) && !$hasInfoFlag;
             if (!$isDebug && in_array($label, self::DEBUG_LABELS, true)) {
                 return;
@@ -37,13 +37,11 @@ class Logger
         }
     }
 
-    /**
-     * @return ClientDebugLogger
-     */
-    private static function getLogger()
+    private static function getLogger(): ClientDebugLogger
     {
-        if(!(self::$logger instanceof ClientDebugLogger))
+        if(!(self::$logger instanceof ClientDebugLogger)) {
             self::setupLogger(new DefaultLogger());
+        }
 
         return  self::$logger;
     }
@@ -51,7 +49,7 @@ class Logger
     /**
      * @param ClientDebugLogger $logger
      */
-    public static function setupLogger(ClientDebugLogger $logger)
+    public static function setupLogger(ClientDebugLogger $logger): void
     {
         self::$logger = $logger;
     }

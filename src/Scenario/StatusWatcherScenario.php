@@ -14,7 +14,6 @@ use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherClient;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\LibConfig;
 use TelegramOSINT\Logger\ClientDebugLogger;
-use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\Tools\Proxy;
 
 /**
@@ -24,6 +23,10 @@ use TelegramOSINT\Tools\Proxy;
  */
 class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger, ScenarioInterface
 {
+    private const DEFAULT_TTL = 1000000;
+    private const INITIAL_POLL_CYCLE_COUNT = 10;
+    private const SLEEP_MICRO_SECONDS = 50000;
+
     /**
      * @var StatusWatcherClient
      */
@@ -40,12 +43,18 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
     private $numbers;
     /** @var string[] */
     private $users;
+    /** @var int */
+    private $stopAfter;
+    /** @var ClientDebugLogger|null */
+    private $logger;
 
     /**
      * @param string[]                      $numbers
      * @param array                         $users
      * @param ClientGeneratorInterface|null $generator
      * @param Proxy|null                    $proxy
+     * @param int                           $stopAfter
+     * @param ClientDebugLogger|null        $logger
      *
      * @throws TGException
      */
@@ -53,10 +62,10 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
         array $numbers,
         array $users = [],
         ?ClientGeneratorInterface $generator = null,
-        ?Proxy $proxy = null
+        ?Proxy $proxy = null,
+        int $stopAfter = self::DEFAULT_TTL,
+        ClientDebugLogger $logger = null
     ) {
-        Logger::setupLogger($this);
-
         if (!$generator) {
             $generator = new ClientGenerator(LibConfig::ENV_AUTHKEY, $proxy);
         }
@@ -67,6 +76,8 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
 
         $this->client = $generator->getStatusWatcherClient($this);
         $this->proxy = $proxy;
+        $this->stopAfter = $stopAfter;
+        $this->logger = $logger;
     }
 
     /**
@@ -78,6 +89,13 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
     {
         if ($pollAndTerminate) {
             $this->monitorPhones();
+        }
+    }
+
+    private function log(string $message): void
+    {
+        if ($this->logger) {
+            $this->logger->debugLibLog(__CLASS__, $message);
         }
     }
 
@@ -94,17 +112,19 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
         $lastContactsCleaningTime = 0;
         $this->client->reloadNumbers($monitoringPhones, function (ImportResult $result) use (&$lastContactsCleaningTime) {
             $lastContactsCleaningTime = time();
-            echo 'Contacts imported total:'.count($result->importedPhones)."\n";
-            echo 'Replaced phones:'.print_r($result->replacedPhones, true)."\n";
+            $this->log('Contacts imported total:'.count($result->importedPhones).PHP_EOL);
+            $this->log('Replaced phones:'.print_r($result->replacedPhones, true).PHP_EOL);
         });
 
         // wait a little between operations in order to get possible exceptions
         // it is preferable only once after first call of import/add contacts
-        for($i = 0; $i < 10; $i++) $this->pollClientCycle($this->client);
+        for($i = 0; $i < self::INITIAL_POLL_CYCLE_COUNT; $i++) {
+            $this->pollClientCycle($this->client);
+        }
 
         /* add via user names */
         foreach ($this->users as $user) {
-            $this->client->addUser($user, function (bool $addResult) {
+            $this->client->addUser($user, static function (bool $addResult) {
             });
         }
 
@@ -114,7 +134,7 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
 
             $this->pollClientCycle($this->client);
 
-            if(time() - $start > 10000000) {
+            if(time() - $start > $this->stopAfter) {
                 $this->client->terminate();
                 break;
             }
@@ -126,7 +146,7 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
         }
 
         $this->client->cleanMonitoringBook(function () {
-            echo "Contacts cleaned\n";
+            $this->log('Contacts cleaned'.PHP_EOL);
         });
     }
 
@@ -140,63 +160,64 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
         try {
             $client->pollMessage();
         } catch (TGException $e) {
-            if($e->getCode() == TGException::ERR_CLIENT_ADD_USERNAME_ALREADY_IN_ADDRESS_BOOK)
-
-                echo 'Error: '.$e->getMessage().PHP_EOL;
-            else
+            if ($e->getCode() === TGException::ERR_CLIENT_ADD_USERNAME_ALREADY_IN_ADDRESS_BOOK) {
+                $this->log('Error: '.$e->getMessage().PHP_EOL);
+            } else {
                 throw $e;
+            }
         }
 
         // save some CPU in infinite cycles
-        usleep(50000);
+        usleep(self::SLEEP_MICRO_SECONDS);
     }
 
-    public function onUserOnline(User $user, int $expires)
+    public function onUserOnline(User $user, int $expires): void
     {
-        echo "=======================\n";
-        echo 'User '.$user->getPhone().'|'.$user->getUsername().' now online. Expires= '.date('d/m/Y H:i:s', $expires)."\n";
-        echo "=======================\n";
+        $this->log('======================='.PHP_EOL);
+        $this->log('User '.$user->getPhone().'|'.$user->getUsername().' now online. Expires= '.date('d/m/Y H:i:s', $expires).PHP_EOL);
+        $this->log('======================='.PHP_EOL);
     }
 
-    public function onUserOffline(User $user, int $wasOnline)
+    public function onUserOffline(User $user, int $wasOnline): void
     {
-        echo "=======================\n";
-        echo 'User '.$user->getPhone().'|'.$user->getUsername().' now offline. Last seen = '.date('d/m/Y H:i:s', $wasOnline)."\n";
-        echo "=======================\n";
+        $this->log('======================='.PHP_EOL);
+        $this->log('User '.$user->getPhone().'|'.$user->getUsername().' now offline. Last seen = '.date('d/m/Y H:i:s', $wasOnline).PHP_EOL);
+        $this->log('======================='.PHP_EOL);
     }
 
     /**
      * @param User         $user
      * @param HiddenStatus $hiddenStatusState
      */
-    public function onUserHidStatus(User $user, HiddenStatus $hiddenStatusState)
+    public function onUserHidStatus(User $user, HiddenStatus $hiddenStatusState): void
     {
+        $hiddenStatusStr = 'unknown';
         switch ($hiddenStatusState){
             case HiddenStatus::HIDDEN_SEEN_LAST_MONTH:
-                $hiddenStatusState = 'last month';
+                $hiddenStatusStr = 'last month';
                 break;
             case HiddenStatus::HIDDEN_SEEN_LAST_WEEK:
-                $hiddenStatusState = 'last week';
+                $hiddenStatusStr = 'last week';
                 break;
             case HiddenStatus::HIDDEN_SEEN_RECENTLY:
-                $hiddenStatusState = 'today or yesterday';
+                $hiddenStatusStr = 'today or yesterday';
                 break;
             case HiddenStatus::HIDDEN_EMPTY:
-                $hiddenStatusState = 'unknown';
+                $hiddenStatusStr = 'unknown';
                 break;
             case HiddenStatus::HIDDEN_SEEN_LONG_AGO:
-                $hiddenStatusState = 'long ago';
+                $hiddenStatusStr = 'long ago';
                 break;
         }
 
-        echo "=======================\n";
-        echo 'User '.$user->getPhone().'/'.$user->getUsername()." hid his status\n";
-        echo 'Hidden status info: '.$hiddenStatusState."\n";
-        echo "=======================\n";
+        $this->log('======================='.PHP_EOL);
+        $this->log('User '.$user->getPhone().'/'.$user->getUsername().' hid his status'.PHP_EOL);
+        $this->log('Hidden status info: '.$hiddenStatusStr.PHP_EOL);
+        $this->log('======================='.PHP_EOL);
     }
 
     public function debugLibLog(string $dbgLabel, string $dbgMessage)
     {
-        echo date('d.m.Y H:i:s').' | '.$dbgLabel.': '.$dbgMessage."\n";
+        $this->log(date('d.m.Y H:i:s').' | '.$dbgLabel.': '.$dbgMessage.PHP_EOL);
     }
 }
