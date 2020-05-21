@@ -138,7 +138,7 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
         $this->checkOnlineStatusesExpired();
     }
 
-    protected function checkOnlineStatusesExpired()
+    protected function checkOnlineStatusesExpired(): void
     {
         foreach ($this->currentlyOnlineUsers as $userId => $expires) {
             if (time() > $expires)

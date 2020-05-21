@@ -28,7 +28,7 @@ class StatusWatcherClientMock extends StatusWatcherClient
     /**
      * @var ContactUser[]
      */
-    public function loadMockContacts(array $contacts)
+    public function loadMockContacts(array $contacts): void
     {
         $this->mockContacts = $contacts;
         $this->contactKeeper->loadContacts($contacts);
@@ -39,7 +39,7 @@ class StatusWatcherClientMock extends StatusWatcherClient
         $this->checkOnlineStatusesExpired();
     }
 
-    protected function checkOnlineStatusesExpired()
+    protected function checkOnlineStatusesExpired(): void
     {
         parent::checkOnlineStatusesExpired();
         $this->isUserExpirationChecks++;
