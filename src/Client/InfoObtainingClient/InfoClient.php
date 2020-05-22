@@ -71,6 +71,8 @@ class InfoClient implements InfoObtainingClient
     private $contactsKeeper;
     /** @var BasicClientGeneratorInterface */
     private $generator;
+    /** @var Proxy|null */
+    private $proxy = null;
 
     public function __construct(BasicClientGeneratorInterface $generator)
     {
@@ -80,15 +82,17 @@ class InfoClient implements InfoObtainingClient
     }
 
     /**
-     * @param AuthKey       $authKey
-     * @param Proxy         $proxy
-     * @param callable|null $cb      function()
+     * @param AuthKey $authKey
+     * @param Proxy $proxy
+     * @param callable|null $cb function()
      *
+     * @param bool $updateStatus
      * @return void
      */
-    public function login(AuthKey $authKey, Proxy $proxy = null, ?callable $cb = null)
+    public function login(AuthKey $authKey, Proxy $proxy = null, ?callable $cb = null, bool $updateStatus = true)
     {
-        $this->basicClient->login($authKey, $proxy, $cb);
+        $this->proxy = $proxy;
+        $this->basicClient->login($authKey, $proxy, $cb, $updateStatus);
     }
 
     /**
@@ -189,7 +193,7 @@ class InfoClient implements InfoObtainingClient
         $request = new get_full_user($channelId, $accessHash, $msgId, $userId);
         $cbUnpacker = function (AnonymousMessage $msg) use ($onComplete) {
             /** @see https://core.telegram.org/constructor/userFull */
-            if ($msg->getType() != 'userFull') {
+            if ($msg->getType() !== 'userFull') {
                 $onComplete(null);
 
                 return;
@@ -617,7 +621,7 @@ class InfoClient implements InfoObtainingClient
                         // login in foreign dc
                         $clientKey = count($this->otherDcClients);
                         $this->otherDcClients[$clientKey] = $this->generator->generate();
-                        $this->otherDcClients[$clientKey]->login($authKey);
+                        $this->otherDcClients[$clientKey]->login($authKey, $this->proxy, null, false);
 
                         // export current authorization to foreign dc
                         $exportAuthRequest = new export_authorization($dc->getDcId());
