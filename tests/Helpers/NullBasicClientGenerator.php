@@ -18,7 +18,7 @@ class NullBasicClientGenerator implements BasicClientGeneratorInterface
         $this->traceArray = $traceArray;
     }
 
-    public function generate(bool $trace = false): BasicClient
+    public function generate(bool $trace = false, bool $auxiliary = false): BasicClient
     {
         return new NullBasicClientImpl($this->traceArray);
     }

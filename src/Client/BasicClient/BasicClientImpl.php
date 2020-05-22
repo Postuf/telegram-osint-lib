@@ -20,13 +20,10 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_config;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\init_connection;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\invoke_with_layer;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\ping_delay_disconnect;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\update_status;
 use TelegramOSINT\Tools\Proxy;
 
 class BasicClientImpl implements BasicClient, MessageListener
 {
-    private const ONLINE_STATUS_UPDATE_TIME_SEC = 4 * 60 - 10;
-
     /**
      * @var SocketMessenger
      */
@@ -43,10 +40,6 @@ class BasicClientImpl implements BasicClient, MessageListener
      * @var int
      */
     private $lastIncomingMessageReceiptTime;
-    /**
-     * @var int
-     */
-    private $lastStatusOnlineSet;
     /**
      * @var MessageListener
      */
@@ -66,7 +59,6 @@ class BasicClientImpl implements BasicClient, MessageListener
     ) {
         $this->lastPingTime = 0;
         $this->lastIncomingMessageReceiptTime = time();
-        $this->lastStatusOnlineSet = 0;
         $this->isLoggedIn = false;
         $this->proxyTimeout = $proxyTimeout;
         $this->logger = $logger;
@@ -108,7 +100,6 @@ class BasicClientImpl implements BasicClient, MessageListener
      *
      * @throws TGException
      *
-     * @return void
      * @return void
      */
     public function login(AuthKey $authKey, ?Proxy $proxy = null, callable $cb = null)
@@ -203,7 +194,6 @@ class BasicClientImpl implements BasicClient, MessageListener
         }
         $this->checkConnectionAlive();
         $this->pingIfNeeded();
-        $this->setOnlineStatusIfExpired();
 
         return $this->getConnection()->readMessage();
     }
@@ -271,15 +261,6 @@ class BasicClientImpl implements BasicClient, MessageListener
         }
     }
 
-    private function setOnlineStatusIfExpired()
-    {
-        $elapsedTimeSinceLastUpdate = time() - $this->lastStatusOnlineSet;
-        if($elapsedTimeSinceLastUpdate >= self::ONLINE_STATUS_UPDATE_TIME_SEC){
-            $this->getConnection()->writeMessage(new update_status(true));
-            $this->lastStatusOnlineSet = time();
-        }
-    }
-
     /**
      * @param MessageListener $messageCallback
      *
@@ -297,7 +278,6 @@ class BasicClientImpl implements BasicClient, MessageListener
     public function terminate()
     {
         if($this->getConnection()) {
-            $this->getConnection()->writeMessage(new update_status(false));
             $this->getConnection()->terminate();
         }
     }
