@@ -34,7 +34,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 /**
  * Encrypted Telegram-specific socket
  */
-class EncryptedSocketMessenger extends TgSocketMessenger implements SocketMessenger
+class EncryptedSocketMessenger extends TgSocketMessenger
 {
     /**
      * @var int
@@ -104,6 +104,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger implements SocketMessen
      * @param AuthKey                $authKey
      * @param MessageListener        $callback
      * @param ClientDebugLogger|null $logger
+     * @param bool                   $updateStatus
      */
     public function __construct(
         Socket $socket,

@@ -59,6 +59,8 @@ class BasicClientImpl implements BasicClient, MessageListener
     private $proxyTimeout;
     /** @var ClientDebugLogger|null */
     private $logger;
+    /** @var bool */
+    private $updateStatus = false;
 
     public function __construct(
         int $proxyTimeout = LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC,
@@ -104,14 +106,14 @@ class BasicClientImpl implements BasicClient, MessageListener
     /**
      * @param AuthKey       $authKey
      * @param Proxy|null    $proxy
-     * @param callable|null $cb      function()
+     * @param callable|null $cb           function()
+     * @param bool          $updateStatus
      *
      * @throws TGException
      *
      * @return void
-     * @return void
      */
-    public function login(AuthKey $authKey, ?Proxy $proxy = null, callable $cb = null)
+    public function login(AuthKey $authKey, ?Proxy $proxy = null, callable $cb = null, bool $updateStatus = false)
     {
         if($this->isLoggedIn())
             throw new TGException(TGException::ERR_CLIENT_ALREADY_LOGGED_IN, $this->getUserId());
@@ -123,6 +125,7 @@ class BasicClientImpl implements BasicClient, MessageListener
 
             $this->bumpProtocolVersion();
         };
+        $this->updateStatus = $updateStatus;
         $this->socket = $this->pickSocket($dc, $proxy, $cb ? function () use ($cb, $postSocket) {
             $postSocket();
             $cb();
@@ -274,7 +277,7 @@ class BasicClientImpl implements BasicClient, MessageListener
     private function setOnlineStatusIfExpired()
     {
         $elapsedTimeSinceLastUpdate = time() - $this->lastStatusOnlineSet;
-        if($elapsedTimeSinceLastUpdate >= self::ONLINE_STATUS_UPDATE_TIME_SEC){
+        if($this->updateStatus && $elapsedTimeSinceLastUpdate >= self::ONLINE_STATUS_UPDATE_TIME_SEC){
             $this->getConnection()->writeMessage(new update_status(true));
             $this->lastStatusOnlineSet = time();
         }
@@ -297,7 +300,9 @@ class BasicClientImpl implements BasicClient, MessageListener
     public function terminate()
     {
         if($this->getConnection()) {
-            $this->getConnection()->writeMessage(new update_status(false));
+            if ($this->updateStatus) {
+                $this->getConnection()->writeMessage(new update_status(false));
+            }
             $this->getConnection()->terminate();
         }
     }
