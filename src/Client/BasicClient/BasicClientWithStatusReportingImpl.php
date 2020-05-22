@@ -7,7 +7,7 @@ namespace TelegramOSINT\Client\BasicClient;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\update_status;
 
-class BasicClientWithOnlineImpl extends BasicClientImpl
+class BasicClientWithStatusReportingImpl extends BasicClientImpl
 {
     private const ONLINE_STATUS_UPDATE_TIME_SEC = 4 * 60 - 10;
     /**
