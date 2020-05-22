@@ -27,8 +27,11 @@ class BasicClientWithStatusReportingImpl extends BasicClientImpl
     {
         $elapsedTimeSinceLastUpdate = time() - $this->lastStatusOnlineSet;
         if($elapsedTimeSinceLastUpdate >= self::ONLINE_STATUS_UPDATE_TIME_SEC){
-            $this->getConnection()->writeMessage(new update_status(true));
-            $this->lastStatusOnlineSet = time();
+            $conn = $this->getConnection();
+            if ($conn) {
+                $conn->writeMessage(new update_status(true));
+                $this->lastStatusOnlineSet = time();
+            }
         }
     }
 
