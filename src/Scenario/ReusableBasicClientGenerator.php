@@ -11,10 +11,10 @@ class ReusableBasicClientGenerator extends BasicClientGenerator
     /** @var BasicClient */
     private $instance;
 
-    public function generate(bool $trace = false): BasicClient
+    public function generate(bool $trace = false, bool $aux = false): BasicClient
     {
         if (!$this->instance) {
-            $this->instance = parent::generate($trace);
+            $this->instance = parent::generate($trace, $aux);
         }
 
         return $this->instance;
