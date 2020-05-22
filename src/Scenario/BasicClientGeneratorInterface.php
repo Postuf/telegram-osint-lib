@@ -7,7 +7,7 @@ use TelegramOSINT\Tools\Proxy;
 
 interface BasicClientGeneratorInterface
 {
-    public function generate(bool $trace = false): BasicClient;
+    public function generate(bool $trace = false, bool $auxiliary = false): BasicClient;
 
     public function getProxy(): ?Proxy;
 }
