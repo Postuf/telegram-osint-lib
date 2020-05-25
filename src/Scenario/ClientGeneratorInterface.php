@@ -12,10 +12,7 @@ use TelegramOSINT\Tools\Proxy;
 
 interface ClientGeneratorInterface
 {
-    /**
-     * @return InfoClient
-     */
-    public function getInfoClient();
+    public function getInfoClient(): InfoClient;
 
     /**
      * @param StatusWatcherCallbacks $callbacks
@@ -24,7 +21,7 @@ interface ClientGeneratorInterface
      *
      * @return StatusWatcherClient
      */
-    public function getStatusWatcherClient(StatusWatcherCallbacks $callbacks);
+    public function getStatusWatcherClient(StatusWatcherCallbacks $callbacks): StatusWatcherClient;
 
     public function getAuthKey(): string;
 

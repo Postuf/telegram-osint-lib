@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\Client\BasicClient;
 
 use TelegramOSINT\Client\Client;
@@ -8,22 +10,9 @@ use TelegramOSINT\TGConnection\SocketMessenger\SocketMessenger;
 
 interface BasicClient extends Client
 {
-    /**
-     * @return SocketMessenger
-     */
-    public function getConnection();
+    public function getConnection(): ?SocketMessenger;
 
-    /**
-     * @param string $message
-     *
-     * @return void
-     */
-    public function throwIfNotLoggedIn(string $message = '');
+    public function throwIfNotLoggedIn(string $message = ''): void;
 
-    /**
-     * @param MessageListener $messageCallback
-     *
-     * @return void
-     */
-    public function setMessageListener(MessageListener $messageCallback);
+    public function setMessageListener(MessageListener $messageCallback): void;
 }

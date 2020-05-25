@@ -32,6 +32,8 @@ class PresenceMonitoringScenario implements ScenarioInterface, StatusWatcherCall
      * @var PresenceMonitoringCallbacks
      */
     private $callbacks;
+    /** @var ClientGenerator */
+    private $generator;
 
     /**
      * @param array                       $numbers
@@ -49,6 +51,7 @@ class PresenceMonitoringScenario implements ScenarioInterface, StatusWatcherCall
         $this->authKey = $clientGenerator->getAuthKey();
         $this->numbers = $numbers;
         $this->callbacks = $callbacks;
+        $this->generator = $clientGenerator;
     }
 
     /**
@@ -58,7 +61,7 @@ class PresenceMonitoringScenario implements ScenarioInterface, StatusWatcherCall
      */
     public function startActions(bool $pollAndTerminate = true): void
     {
-        $this->client->login(AuthKeyCreator::createFromString($this->authKey));
+        $this->client->login(AuthKeyCreator::createFromString($this->authKey), $this->generator->getProxy());
         $this->client->reloadNumbers($this->numbers, function (ImportResult $result) {});
     }
 
