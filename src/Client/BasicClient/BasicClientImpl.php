@@ -143,7 +143,7 @@ class BasicClientImpl implements BasicClient, MessageListener
      *
      * @return void
      */
-    public function throwIfNotLoggedIn(string $message = '')
+    public function throwIfNotLoggedIn(string $message = ''): void
     {
         if(!$this->isLoggedIn())
             throw new TGException(TGException::ERR_CLIENT_NOT_LOGGED_IN, $message);
@@ -173,7 +173,7 @@ class BasicClientImpl implements BasicClient, MessageListener
     /**
      * @return SocketMessenger
      */
-    public function getConnection()
+    public function getConnection(): ?SocketMessenger
     {
         return $this->connection;
     }
@@ -266,7 +266,7 @@ class BasicClientImpl implements BasicClient, MessageListener
      *
      * @return void
      */
-    public function setMessageListener(MessageListener $messageCallback)
+    public function setMessageListener(MessageListener $messageCallback): void
     {
         if($this->messageHandler)
             throw new TGException(TGException::ERR_ASSERT_LISTENER_ALREADY_SET, $this->getUserId());

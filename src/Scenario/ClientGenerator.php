@@ -11,6 +11,8 @@ use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherCallbacks;
 use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherClient;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\LibConfig;
+use TelegramOSINT\Logger\ClientDebugLogger;
+use TelegramOSINT\Logger\DefaultLogger;
 use TelegramOSINT\Tools\Proxy;
 
 class ClientGenerator implements ClientGeneratorInterface
@@ -19,21 +21,27 @@ class ClientGenerator implements ClientGeneratorInterface
     private $envName;
     /** @var Proxy|null */
     private $proxy;
+    /** @var ClientDebugLogger|null */
+    private $logger;
 
-    public function __construct(string $envName = LibConfig::ENV_AUTHKEY, ?Proxy $proxy = null)
+    public function __construct(string $envName = LibConfig::ENV_AUTHKEY, ?Proxy $proxy = null, ?ClientDebugLogger $logger = null)
     {
         $this->envName = $envName;
         $this->proxy = $proxy;
+        if (!$logger) {
+            $logger = new DefaultLogger();
+        }
+        $this->logger = $logger;
     }
 
-    public function getInfoClient()
+    public function getInfoClient(): InfoClient
     {
-        return new InfoClient(new BasicClientGenerator());
+        return new InfoClient(new BasicClientGenerator($this->proxy, $this->logger));
     }
 
-    public function getStatusWatcherClient(StatusWatcherCallbacks $callbacks)
+    public function getStatusWatcherClient(StatusWatcherCallbacks $callbacks): StatusWatcherClient
     {
-        return new StatusWatcherClient($callbacks);
+        return new StatusWatcherClient($callbacks, $this->logger);
     }
 
     /**

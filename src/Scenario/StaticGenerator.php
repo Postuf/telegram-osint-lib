@@ -22,12 +22,12 @@ class StaticGenerator implements ClientGeneratorInterface
         $this->proxy = $proxy;
     }
 
-    public function getInfoClient()
+    public function getInfoClient(): InfoClient
     {
         return new InfoClient(new BasicClientGenerator());
     }
 
-    public function getStatusWatcherClient(StatusWatcherCallbacks $callbacks)
+    public function getStatusWatcherClient(StatusWatcherCallbacks $callbacks): StatusWatcherClient
     {
         return new StatusWatcherClient($callbacks);
     }

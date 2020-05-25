@@ -74,7 +74,6 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
         $this->basicClient->setMessageListener($this);
         $this->messageAnalyzer = new StatusWatcherAnalyzer($this);
         $this->contactKeeper = new ContactsKeeper($this->basicClient);
-        $this->logger = $logger;
     }
 
     /**

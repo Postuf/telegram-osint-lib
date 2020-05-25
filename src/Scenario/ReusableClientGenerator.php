@@ -26,7 +26,7 @@ class ReusableClientGenerator extends ClientGenerator
             : parent::getAuthKey();
     }
 
-    public function getInfoClient()
+    public function getInfoClient(): InfoClient
     {
         if (!$this->instance) {
             $this->setInstance();

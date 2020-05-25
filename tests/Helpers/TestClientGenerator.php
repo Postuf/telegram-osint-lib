@@ -6,6 +6,7 @@ namespace Helpers;
 
 use TelegramOSINT\Client\InfoObtainingClient\InfoClient;
 use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherCallbacks;
+use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherClient;
 use TelegramOSINT\Scenario\BasicClientGeneratorInterface;
 use TelegramOSINT\Scenario\ClientGeneratorInterface;
 use TelegramOSINT\Tools\Proxy;
@@ -28,7 +29,7 @@ class TestClientGenerator implements ClientGeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function getInfoClient()
+    public function getInfoClient(): InfoClient
     {
         if (!$this->client) {
             $this->client = new InfoClient($this->generator);
@@ -40,9 +41,9 @@ class TestClientGenerator implements ClientGeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function getStatusWatcherClient(StatusWatcherCallbacks $callbacks)
+    public function getStatusWatcherClient(StatusWatcherCallbacks $callbacks): StatusWatcherClient
     {
-        return null;
+        return new StatusWatcherClient();
     }
 
     public function getAuthKey(): string
