@@ -35,7 +35,7 @@ class BasicClientWithStatusReportingImpl extends BasicClientImpl
         }
     }
 
-    public function terminate()
+    public function terminate(): void
     {
         if($this->getConnection()) {
             $this->getConnection()->writeMessage(new update_status(false));

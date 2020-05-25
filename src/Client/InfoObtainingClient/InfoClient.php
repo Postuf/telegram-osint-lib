@@ -88,16 +88,13 @@ class InfoClient implements InfoObtainingClient
      *
      * @return void
      */
-    public function login(AuthKey $authKey, Proxy $proxy = null, ?callable $cb = null)
+    public function login(AuthKey $authKey, Proxy $proxy = null, ?callable $cb = null): void
     {
         $this->proxy = $proxy;
         $this->basicClient->login($authKey, $proxy, $cb);
     }
 
-    /**
-     * @return bool
-     */
-    public function isLoggedIn()
+    public function isLoggedIn(): bool
     {
         return $this->basicClient->isLoggedIn();
     }
@@ -107,7 +104,7 @@ class InfoClient implements InfoObtainingClient
      *
      * @return bool
      */
-    public function pollMessage()
+    public function pollMessage(): bool
     {
         $otherDcMessagePolled = false;
         foreach ($this->otherDcClients as $otherDcClient)
@@ -661,10 +658,7 @@ class InfoClient implements InfoObtainingClient
         return preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/', $dc->getIp());
     }
 
-    /**
-     * @return void
-     */
-    public function terminate()
+    public function terminate(): void
     {
         $this->basicClient->terminate();
     }

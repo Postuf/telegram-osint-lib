@@ -15,22 +15,22 @@ interface Client
      *
      * @return void
      */
-    public function login(AuthKey $authKey, Proxy $proxy = null, callable $cb = null);
+    public function login(AuthKey $authKey, Proxy $proxy = null, callable $cb = null): void;
 
     /**
      * @return void
      */
-    public function terminate();
+    public function terminate(): void;
 
     /**
      * @return bool
      */
-    public function isLoggedIn();
+    public function isLoggedIn(): bool;
 
     /**
      * @throws TGException
      *
      * @return bool
      */
-    public function pollMessage();
+    public function pollMessage(): bool;
 }

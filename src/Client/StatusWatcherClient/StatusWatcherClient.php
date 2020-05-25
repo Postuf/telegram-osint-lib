@@ -86,15 +86,12 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
      *
      * @return void
      */
-    public function login(AuthKey $authKey, Proxy $proxy = null, ?callable $cb = null)
+    public function login(AuthKey $authKey, Proxy $proxy = null, ?callable $cb = null): void
     {
         $this->basicClient->login($authKey, $proxy, $cb);
     }
 
-    /**
-     * @return bool
-     */
-    public function isLoggedIn()
+    public function isLoggedIn(): bool
     {
         return $this->basicClient->isLoggedIn();
     }
@@ -116,7 +113,7 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
      *
      * @return bool
      */
-    public function pollMessage()
+    public function pollMessage(): bool
     {
         $this->onPeriodAvailable();
         $this->reloadContactsIfNeeded();
@@ -383,7 +380,7 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
     /**
      * @return void
      */
-    public function terminate()
+    public function terminate(): void
     {
         $this->basicClient->terminate();
     }
