@@ -10,7 +10,7 @@ use TelegramOSINT\Auth\AES\PhpSecLibAES;
 use TelegramOSINT\Client\AuthKey\AuthKey;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Logger\ClientDebugLogger;
-use TelegramOSINT\Logger\Logger;
+use TelegramOSINT\Logger\NullLogger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\MTSerialization\MTDeserializer;
 use TelegramOSINT\MTSerialization\OwnImplementation\OwnDeserializer;
@@ -96,7 +96,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
      * @var AnonymousMessage[]
      */
     private $messagesToBeProcessedQueue = [];
-    /** @var ClientDebugLogger|null */
+    /** @var ClientDebugLogger */
     private $logger;
 
     /**
@@ -104,7 +104,6 @@ class EncryptedSocketMessenger extends TgSocketMessenger
      * @param AuthKey                $authKey
      * @param MessageListener        $callback
      * @param ClientDebugLogger|null $logger
-     * @param bool                   $updateStatus
      */
     public function __construct(
         Socket $socket,
@@ -114,6 +113,9 @@ class EncryptedSocketMessenger extends TgSocketMessenger
     ) {
         parent::__construct($socket);
         $this->messageReceiptCallback = $callback;
+        if ($logger === null) {
+            $logger = new NullLogger();
+        }
 
         $this->msg_seqno = 0;
 
@@ -246,11 +248,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
 
     private function log(string $code, string $message): void
     {
-        if ($this->logger) {
-            $this->logger->debugLibLog($code, $message);
-        } else {
-            Logger::log($code, $message);
-        }
+        $this->logger->debugLibLog($code, $message);
     }
 
     /**
@@ -260,7 +258,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
      *
      * @return AnonymousMessage
      */
-    private function deserializePayload(string $payload)
+    private function deserializePayload(string $payload): AnonymousMessage
     {
         $this->log('Read_Message_Binary', bin2hex($payload));
         $deserializedMessage = $this->deserializer->deserialize($payload);

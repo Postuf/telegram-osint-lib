@@ -17,7 +17,7 @@ class CallbackMessageListener implements MessageListener
         $this->callback = $onMessage;
     }
 
-    public function onMessage(AnonymousMessage $message)
+    public function onMessage(AnonymousMessage $message): void
     {
         ($this->callback)($message);
     }

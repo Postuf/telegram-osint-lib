@@ -31,11 +31,11 @@ class BasicClientImpl implements BasicClient, MessageListener
     /**
      * @var bool
      */
-    private $isLoggedIn;
+    private $isLoggedIn = false;
     /**
      * @var int
      */
-    private $lastPingTime;
+    private $lastPingTime = 0;
     /**
      * @var int
      */
@@ -57,9 +57,7 @@ class BasicClientImpl implements BasicClient, MessageListener
         int $proxyTimeout = LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC,
         ?ClientDebugLogger $logger = null
     ) {
-        $this->lastPingTime = 0;
         $this->lastIncomingMessageReceiptTime = time();
-        $this->isLoggedIn = false;
         $this->proxyTimeout = $proxyTimeout;
         $this->logger = $logger;
     }
@@ -102,7 +100,7 @@ class BasicClientImpl implements BasicClient, MessageListener
      *
      * @return void
      */
-    public function login(AuthKey $authKey, ?Proxy $proxy = null, callable $cb = null)
+    public function login(AuthKey $authKey, ?Proxy $proxy = null, callable $cb = null): void
     {
         if($this->isLoggedIn())
             throw new TGException(TGException::ERR_CLIENT_ALREADY_LOGGED_IN, $this->getUserId());
@@ -133,7 +131,7 @@ class BasicClientImpl implements BasicClient, MessageListener
     /**
      * @return bool
      */
-    public function isLoggedIn()
+    public function isLoggedIn(): bool
     {
         return $this->isLoggedIn;
     }
@@ -203,11 +201,11 @@ class BasicClientImpl implements BasicClient, MessageListener
      *
      * @return bool
      */
-    public function pollMessage()
+    public function pollMessage(): bool
     {
         $readMessage = $this->prePollMessage();
 
-        return $readMessage != null;
+        return $readMessage !== null;
     }
 
     /**
@@ -275,7 +273,7 @@ class BasicClientImpl implements BasicClient, MessageListener
         $this->messageHandler = $messageCallback;
     }
 
-    public function terminate()
+    public function terminate(): void
     {
         if($this->getConnection()) {
             $this->getConnection()->terminate();

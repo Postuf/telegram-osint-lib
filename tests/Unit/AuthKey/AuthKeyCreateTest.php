@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Unit\AuthKey;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Auth\Protocol\AppAuthorization;
 use TelegramOSINT\Client\AuthKey\AuthKey;
@@ -12,8 +11,6 @@ use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
 use TelegramOSINT\Client\AuthKey\Versions\AuthKey_v2;
 use TelegramOSINT\Client\BasicClient\BasicClientImpl;
 use TelegramOSINT\Exception\TGException;
-use TelegramOSINT\Logger\ClientDebugLogger;
-use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TGConnection\DataCentre;
 use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
@@ -28,10 +25,6 @@ class AuthKeyCreateTest extends TestCase implements MessageListener
      */
     public function test_generate_auth_key(): void
     {
-        /** @var ClientDebugLogger|MockObject $logger */
-        $logger = $this->createMock(ClientDebugLogger::class);
-        Logger::setupLogger($logger);
-
         $dc = DataCentre::getDefault();
         // perform several retries in case of failure
         for ($i = 0; $i < 5; $i++) {
@@ -39,7 +32,7 @@ class AuthKeyCreateTest extends TestCase implements MessageListener
                 $this->performAuth($dc);
                 break;
             } catch (TGException $e) {
-                Logger::log(__CLASS__, $e->getMessage());
+                //
             }
 
             sleep(1);
@@ -49,14 +42,15 @@ class AuthKeyCreateTest extends TestCase implements MessageListener
     /**
      * @param AnonymousMessage $message
      */
-    public function onMessage(AnonymousMessage $message)
+    public function onMessage(AnonymousMessage $message): void
     {
-        if($message->getType() == 'msg_container') {
+        if($message->getType() === 'msg_container') {
             $message = $message->getNodes('messages')[0];
         }
 
-        if($message->getType() == 'new_session_created')
+        if($message->getType() === 'new_session_created') {
             $this->sessionCreated = true;
+        }
     }
 
     /**
@@ -74,7 +68,7 @@ class AuthKeyCreateTest extends TestCase implements MessageListener
             $authKey = AuthKeyCreator::createFromString($serializedKey);
 
             // check if key in good format
-            $this->assertTrue($authKey instanceof AuthKey_v2);
+            $this->assertInstanceOf(AuthKey_v2::class, $authKey);
 
             $client = new BasicClientImpl();
             $client->setMessageListener($this);

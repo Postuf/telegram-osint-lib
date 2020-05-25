@@ -34,9 +34,11 @@ class StatusWatcherClientMock extends StatusWatcherClient
         $this->contactKeeper->loadContacts($contacts);
     }
 
-    public function pollMessage()
+    public function pollMessage(): bool
     {
         $this->checkOnlineStatusesExpired();
+
+        return true;
     }
 
     protected function checkOnlineStatusesExpired(): void
