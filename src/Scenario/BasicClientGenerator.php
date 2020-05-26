@@ -34,7 +34,7 @@ class BasicClientGenerator implements BasicClientGeneratorInterface
             return new TracingBasicClientImpl();
         }
         if ($auxiliary) {
-            return new BasicClientImpl();
+            return new BasicClientImpl(LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC, $this->logger);
         }
 
         return new BasicClientWithStatusReportingImpl(LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC, $this->logger);

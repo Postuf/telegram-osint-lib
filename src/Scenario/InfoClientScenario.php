@@ -27,6 +27,7 @@ abstract class InfoClientScenario implements ScenarioInterface
 
     /**
      * @param ClientGeneratorInterface|null $clientGenerator
+     * @param Proxy|null                    $proxy
      *
      * @throws TGException
      */
@@ -38,7 +39,7 @@ abstract class InfoClientScenario implements ScenarioInterface
         $this->generator = $clientGenerator;
         $this->infoClient = $clientGenerator->getInfoClient();
         $this->authKey = $clientGenerator->getAuthKey();
-        $this->proxy = $proxy;
+        $this->proxy = $proxy ?: $clientGenerator->getProxy();
     }
 
     public function setTimeout(float $timeout): void
