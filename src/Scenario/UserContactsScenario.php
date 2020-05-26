@@ -22,7 +22,7 @@ class UserContactsScenario extends InfoClientScenario
     /** @var bool */
     private $largePhoto;
     /** @var string[] */
-    private $usernames = [];
+    private $usernames;
 
     /**
      * @param string[]                      $phones

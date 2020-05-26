@@ -610,7 +610,7 @@ class InfoClient implements InfoObtainingClient
 
                     // create authKey in foreign dc
                     $dc = new DataCentre($dc->getIp(), $dc->getId(), $dc->getPort());
-                    $auth = new AppAuthorization($dc);
+                    $auth = new AppAuthorization($dc, $this->proxy);
                     $auth->createAuthKey(function ($authKey) use ($onPictureLoaded, $dc, $location) {
 
                         // login in foreign dc
