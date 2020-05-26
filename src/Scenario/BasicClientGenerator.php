@@ -8,8 +8,8 @@ use TelegramOSINT\Client\BasicClient\BasicClientWithStatusReportingImpl;
 use TelegramOSINT\Client\BasicClient\TracingBasicClientImpl;
 use TelegramOSINT\LibConfig;
 use TelegramOSINT\Logger\ClientDebugLogger;
-use TelegramOSINT\Logger\DefaultLogger;
 use TelegramOSINT\Logger\Logger;
+use TelegramOSINT\Logger\NullLogger;
 use TelegramOSINT\Tools\Proxy;
 
 class BasicClientGenerator implements BasicClientGeneratorInterface
@@ -23,7 +23,7 @@ class BasicClientGenerator implements BasicClientGeneratorInterface
     {
         $this->proxy = $proxy;
         if (!$logger) {
-            $logger = new DefaultLogger();
+            $logger = new NullLogger();
         }
         $this->logger = $logger;
     }
