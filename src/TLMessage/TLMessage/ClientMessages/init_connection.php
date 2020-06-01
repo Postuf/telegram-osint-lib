@@ -42,7 +42,7 @@ class init_connection implements TLClientMessage
 
     public function toBinary(): string
     {
-        $flags = 0x0;
+        $flags = 1026;
 
         return
             Packer::packConstructor(self::CONSTRUCTOR).
@@ -54,6 +54,25 @@ class init_connection implements TLClientMessage
             Packer::packString($this->account->getDeviceLang()).
             Packer::packString(LibConfig::APP_DEFAULT_LANG_PACK).
             Packer::packString($this->account->getAppLang()).
+            $this->getParams()->toBinary().
             Packer::packBytes($this->query->toBinary());
+    }
+
+    private function getParams(): json_object
+    {
+        $data = new json_object_value(
+            'data',
+            new json_object_value_string(LibConfig::APP_CERT_SHA256)
+        );
+        $tz_offset = new json_object_value(
+            'tz_offset',
+            new json_object_value_number(LibConfig::APP_TZ_START)
+        );
+
+        return new json_object([
+            $data,
+            $tz_offset,
+        ]);
+
     }
 }

@@ -39,10 +39,8 @@ class LibConfig
     // Official App
     public const APP_API_HASH = '014b35b6184100b085b0d0572f9b5103';
     public const APP_API_ID = 4;
-
-    //  Any Custom App
-    public const OWN_API_HASH = '1fe17cda7d355166cdaa71f04122873c';
-    public const OWN_API_ID = 25628;
+    public const APP_CERT_SHA256 = '49C1522548EBACD46CE322B6FD47F6092BB745D0F88082145CAF35E14DCC38E1';
+    public const APP_TZ_START = 0;
 
     /* ================================================================  Default client info */
 
