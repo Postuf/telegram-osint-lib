@@ -22,7 +22,7 @@ use TelegramOSINT\Tools\Proxy;
 
 class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, StatusWatcherCallbacksMiddleware, MessageListener
 {
-    private const RELOAD_CONTACTS_EVERY_SECONDS = 20;
+    private const RELOAD_CONTACTS_EVERY_SECONDS = 50;
 
     /**
      * @var BasicClient
