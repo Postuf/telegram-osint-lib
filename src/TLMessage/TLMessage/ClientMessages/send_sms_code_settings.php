@@ -21,7 +21,7 @@ class send_sms_code_settings implements TLClientMessage
 
     public function toBinary(): string
     {
-        $bitMask = 16;
+        $bitMask = 0;
 
         return
             Packer::packConstructor(self::CONSTRUCTOR).
