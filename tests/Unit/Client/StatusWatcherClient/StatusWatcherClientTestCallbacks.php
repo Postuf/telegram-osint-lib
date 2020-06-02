@@ -88,4 +88,12 @@ class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
     {
         return isset($this->hidRecords[$phone]) ? $this->hidRecords[$phone] : 0;
     }
+
+    public function onUserPhoneChange(User $user, string $phone)
+    {
+    }
+
+    public function onUserNameChange(User $user, string $username)
+    {
+    }
 }

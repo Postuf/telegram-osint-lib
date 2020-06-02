@@ -279,7 +279,7 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
     {
         if(($expires - time()) / 60 > 25)
             throw new TGException(TGException::ERR_ASSERT_UPDATE_EXPIRES_TIME_LONG, 'userId: '.$userId.'; (expires-now) sec: '.($expires - time()));
-        $isUserStillOnline = in_array($userId, array_keys($this->currentlyOnlineUsers));
+        $isUserStillOnline = array_key_exists($userId, $this->currentlyOnlineUsers);
         unset($this->currentlyOfflineUsers[$userId]);
         $this->currentlyOnlineUsers[$userId] = $expires;
 
@@ -382,5 +382,33 @@ class StatusWatcherClient implements StatusMonitoringClient, PeriodicClient, Sta
     public function terminate(): void
     {
         $this->basicClient->terminate();
+    }
+
+    public function onUserPhoneChange(int $userId, string $phone)
+    {
+        $this->contactKeeper->getUserById($userId, function ($user) use ($userId) {
+            // arbitrary user
+            if (!($user instanceof ContactUser))
+                return;
+
+            $phone = $user->getPhone();
+            $userName = $user->getUsername();
+
+            $this->userCallbacks->onUserPhoneChange(new User($phone, $userName, $user->getUserId()), $phone);
+        });
+    }
+
+    public function onUserNameChange(int $userId, string $username)
+    {
+        $this->contactKeeper->getUserById($userId, function ($user) use ($userId) {
+            // arbitrary user
+            if (!($user instanceof ContactUser))
+                return;
+
+            $phone = $user->getPhone();
+            $userName = $user->getUsername();
+
+            $this->userCallbacks->onUserNameChange(new User($phone, $userName, $user->getUserId()), $userName);
+        });
     }
 }

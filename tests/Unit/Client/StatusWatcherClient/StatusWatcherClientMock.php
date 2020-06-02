@@ -59,4 +59,12 @@ class StatusWatcherClientMock extends StatusWatcherClient
     {
 
     }
+
+    public function onUserPhoneChange(int $userId, string $phone)
+    {
+    }
+
+    public function onUserNameChange(int $userId, string $username)
+    {
+    }
 }

@@ -25,6 +25,42 @@ class Updates extends TLServerMessage
     /**
      * @throws TGException
      *
+     * @return UpdateUserName[]
+     */
+    public function getNameUpdates(): array
+    {
+        $updates = $this->getTlMessage()->getNodes('updates');
+        $updateObjects = [];
+        foreach ($updates as $update) {
+            if (UpdateUserName::isIt($update)) {
+                $updateObjects[] = new UpdateUserName($update);
+            }
+        }
+
+        return $updateObjects;
+    }
+
+    /**
+     * @throws TGException
+     *
+     * @return UpdateUserPhone[]
+     */
+    public function getPhoneUpdates(): array
+    {
+        $updates = $this->getTlMessage()->getNodes('updates');
+        $updateObjects = [];
+        foreach ($updates as $update) {
+            if (UpdateUserPhone::isIt($update)) {
+                $updateObjects[] = new UpdateUserPhone($update);
+            }
+        }
+
+        return $updateObjects;
+    }
+
+    /**
+     * @throws TGException
+     *
      * @return ContactUser[]
      */
     public function getUsers(): array
