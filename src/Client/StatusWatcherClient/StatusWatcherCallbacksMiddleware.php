@@ -29,4 +29,8 @@ interface StatusWatcherCallbacksMiddleware
      * @param ImportedContacts $contactsObject
      */
     public function onContactsImported(ImportedContacts $contactsObject);
+
+    public function onUserPhoneChange(int $userId, string $phone);
+
+    public function onUserNameChange(int $userId, string $username);
 }

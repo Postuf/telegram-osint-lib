@@ -108,4 +108,12 @@ class PresenceMonitoringScenario implements ScenarioInterface, StatusWatcherCall
             $this->callbacks->onHidden($phone);
         }
     }
+
+    public function onUserPhoneChange(User $user, string $phone)
+    {
+    }
+
+    public function onUserNameChange(User $user, string $username)
+    {
+    }
 }

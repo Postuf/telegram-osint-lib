@@ -44,6 +44,7 @@ class messages_search implements TLClientMessage
     public function toBinary(): string
     {
         $flags = 0x0; // 0b00000001; 0x3
+
         return
             Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packInt($flags).

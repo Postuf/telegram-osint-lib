@@ -24,4 +24,8 @@ interface StatusWatcherCallbacks
      * @param HiddenStatus $hiddenStatusState
      */
     public function onUserHidStatus(User $user, HiddenStatus $hiddenStatusState);
+
+    public function onUserPhoneChange(User $user, string $phone);
+
+    public function onUserNameChange(User $user, string $username);
 }

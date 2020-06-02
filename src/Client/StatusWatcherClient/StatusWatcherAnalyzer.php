@@ -49,8 +49,9 @@ class StatusWatcherAnalyzer implements Analyzer
             $this->analyzeUpdates(new Updates($message));
         }
 
-        if(CurrentContacts::isIt($message))
+        if(CurrentContacts::isIt($message)) {
             $this->analyzeCurrentStatuses($message);
+        }
     }
 
     /**
@@ -58,12 +59,13 @@ class StatusWatcherAnalyzer implements Analyzer
      *
      * @throws TGException
      */
-    private function onUpdateShort(UpdateShort $shortUpdate)
+    private function onUpdateShort(UpdateShort $shortUpdate): void
     {
         $update = $shortUpdate->getUpdate();
 
-        if(UpdateUserStatus::isIt($update))
+        if(UpdateUserStatus::isIt($update)) {
             $this->onUserStatusChanged(new UpdateUserStatus($update));
+        }
     }
 
     /**
@@ -71,7 +73,7 @@ class StatusWatcherAnalyzer implements Analyzer
      *
      * @throws TGException
      */
-    private function onUserStatusChanged(UpdateUserStatus $newUserStatus)
+    private function onUserStatusChanged(UpdateUserStatus $newUserStatus): void
     {
         $this->performStatusReaction($newUserStatus->getUserId(), $newUserStatus->getStatus());
     }
@@ -81,10 +83,11 @@ class StatusWatcherAnalyzer implements Analyzer
      *
      * @throws TGException
      */
-    private function analyzeImportedContactsStatus(ImportedContacts $importedContacts)
+    private function analyzeImportedContactsStatus(ImportedContacts $importedContacts): void
     {
-        foreach ($importedContacts->getImportedUsers() as $user)
+        foreach ($importedContacts->getImportedUsers() as $user) {
             $this->performStatusReaction($user->getUserId(), $user->getStatus());
+        }
     }
 
     /**
@@ -92,10 +95,17 @@ class StatusWatcherAnalyzer implements Analyzer
      *
      * @throws TGException
      */
-    private function analyzeUpdates(Updates $updates)
+    private function analyzeUpdates(Updates $updates): void
     {
-        foreach ($updates->getUsers() as $user)
+        foreach ($updates->getUsers() as $user) {
             $this->performStatusReaction($user->getUserId(), $user->getStatus());
+        }
+        foreach ($updates->getNameUpdates() as $nameUpdate) {
+            $this->notifier->onUserNameChange($nameUpdate->getUserId(), $nameUpdate->getUsername());
+        }
+        foreach ($updates->getPhoneUpdates() as $phoneUpdate) {
+            $this->notifier->onUserPhoneChange($phoneUpdate->getUserId(), $phoneUpdate->getPhone());
+        }
     }
 
     /**
@@ -103,11 +113,12 @@ class StatusWatcherAnalyzer implements Analyzer
      *
      * @throws TGException
      */
-    private function analyzeCurrentStatuses(AnonymousMessage $message)
+    private function analyzeCurrentStatuses(AnonymousMessage $message): void
     {
         $contacts = new CurrentContacts($message);
-        foreach ($contacts->getUsers() as $user)
+        foreach ($contacts->getUsers() as $user) {
             $this->performStatusReaction($user->getUserId(), $user->getStatus());
+        }
     }
 
     /**
@@ -116,7 +127,7 @@ class StatusWatcherAnalyzer implements Analyzer
      *
      * @throws TGException
      */
-    private function performStatusReaction(int $userId, $status)
+    private function performStatusReaction(int $userId, $status): void
     {
         if(!$status) {
             $this->notifier->onUserHidStatus($userId, new HiddenStatus(HiddenStatus::HIDDEN_SEEN_LONG_AGO));
@@ -124,13 +135,16 @@ class StatusWatcherAnalyzer implements Analyzer
             return;
         }
 
-        if($status->isHidden())
+        if($status->isHidden()) {
             $this->notifier->onUserHidStatus($userId, $status->getHiddenState());
+        }
 
-        if($status->isOnline())
+        if($status->isOnline()) {
             $this->notifier->onUserOnline($userId, $status->getExpires());
+        }
 
-        if($status->isOffline())
+        if($status->isOffline()) {
             $this->notifier->onUserOffline($userId, $status->getWasOnline());
+        }
     }
 }
