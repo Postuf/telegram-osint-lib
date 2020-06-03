@@ -53,7 +53,7 @@ class LibConfig
     // arm64-v8a for android 6+ has 5th digit always "7"
     public const APP_DEFAULT_VERSION_CODE = '19477';
     public const APP_DEFAULT_LANG_PACK = 'android';
-    public const APP_DEFAULT_TL_LAYER_VERSION = 113;
+    public const APP_DEFAULT_TL_LAYER_VERSION = 114;
 
     public const ENV_AUTHKEY = 'BOT'; // env variable for authkey path
 }
