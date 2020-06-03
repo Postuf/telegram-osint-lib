@@ -10,6 +10,8 @@ use TelegramOSINT\Client\AuthKey\AuthKey;
 use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\LibConfig;
+use TelegramOSINT\Logger\ClientDebugLogger;
+use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TGConnection\DataCentre;
 use TelegramOSINT\TGConnection\Socket\ProxySocket;
@@ -77,15 +79,19 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
      * @var bool
      */
     private $isSmsRequested = false;
+    /** @var Logger */
+    private $logger;
 
     /**
+     * @param Proxy|null $proxy
      * @param AccountInfo|null $accountInfo
-     * @param Proxy|null       $proxy
+     * @param ClientDebugLogger|null $logger
      */
-    public function __construct(Proxy $proxy = null, AccountInfo $accountInfo = null)
+    public function __construct(Proxy $proxy = null, AccountInfo $accountInfo = null, ClientDebugLogger $logger = null)
     {
         $this->accountInfo = $accountInfo ? $accountInfo : AccountInfo::generate();
         $this->proxy = $proxy;
+        $this->logger = $logger;
     }
 
     /**
@@ -157,7 +163,7 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
             new ProxySocket($this->proxy, DataCentre::getDefault()) :
             new TcpSocket(DataCentre::getDefault());
 
-        $this->socketMessenger = new EncryptedSocketMessenger($socket, $this->blankAuthKey, $this);
+        $this->socketMessenger = new EncryptedSocketMessenger($socket, $this->blankAuthKey, $this, $this->logger);
     }
 
     /**
