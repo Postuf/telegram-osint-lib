@@ -83,8 +83,8 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
     private $logger;
 
     /**
-     * @param Proxy|null $proxy
-     * @param AccountInfo|null $accountInfo
+     * @param Proxy|null             $proxy
+     * @param AccountInfo|null       $accountInfo
      * @param ClientDebugLogger|null $logger
      */
     public function __construct(Proxy $proxy = null, AccountInfo $accountInfo = null, ClientDebugLogger $logger = null)
