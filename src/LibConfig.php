@@ -15,7 +15,7 @@ class LibConfig
     /* ================================================================ Socks proxy params  */
 
     // connection to proxy timeout
-    public const CONN_SOCKET_PROXY_TIMEOUT_SEC = 30;
+    public const CONN_SOCKET_PROXY_TIMEOUT_SEC = 5;
 
     /* ================================================================ Telegram socket params */
 
