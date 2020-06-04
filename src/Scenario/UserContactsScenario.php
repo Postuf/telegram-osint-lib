@@ -34,8 +34,14 @@ class UserContactsScenario extends InfoClientScenario
      *
      * @throws TGException
      */
-    public function __construct(array $phones, array $usernames = [], ?callable $cb = null, ClientGeneratorInterface $clientGenerator = null, bool $withPhoto = true, bool $largePhoto = true)
-    {
+    public function __construct(
+        array $phones,
+        array $usernames = [],
+        ?callable $cb = null,
+        ClientGeneratorInterface $clientGenerator = null,
+        bool $withPhoto = true,
+        bool $largePhoto = true
+    ) {
         parent::__construct($clientGenerator);
         $this->cb = $cb;
         $this->phones = $phones;
@@ -53,12 +59,13 @@ class UserContactsScenario extends InfoClientScenario
 
         /* info by username */
         foreach ($this->usernames as $username) {
-            $this->infoClient->getInfoByUsername($username, $this->withPhoto, $this->largePhoto, function ($userInfoModel) {
-                if ($userInfoModel->photo)
+            $this->infoClient->getInfoByUsername($username, $this->withPhoto, $this->largePhoto, static function ($userInfoModel) {
+                if ($userInfoModel->photo) {
                     file_put_contents(
                         $userInfoModel->username.'.'.$userInfoModel->photo->format,
                         $userInfoModel->photo->bytes
                     );
+                }
             });
         }
 
@@ -73,14 +80,12 @@ class UserContactsScenario extends InfoClientScenario
     public function parseNumbers(array $numbers, bool $withPhoto = false, bool $largePhoto = false): void
     {
         $this->callQueue[] = function () use ($numbers, $withPhoto, $largePhoto) {
-            $models = [];
             $rememberedContacts = [];
             $this->infoClient->reloadNumbers($numbers, function (ImportResult $result) use (
-                                                &$models, &$rememberedContacts, $withPhoto, $largePhoto) {
+                                                &$rememberedContacts, $withPhoto, $largePhoto) {
 
                 foreach ($result->importedPhones as $importedPhone) {
-                    $this->infoClient->getContactByPhone($importedPhone, function (ContactUser $user) use (
-                        &$models, &$rememberedContacts, $withPhoto, $largePhoto) {
+                    $this->infoClient->getContactByPhone($importedPhone, static function (ContactUser $user) use (&$rememberedContacts) {
                         $rememberedContacts[] = $user;
                     });
                 }
@@ -91,6 +96,12 @@ class UserContactsScenario extends InfoClientScenario
                             $user
                         ) {
                             $fullModel->phone = $user->getPhone();
+                            if ($fullModel->photo) {
+                                file_put_contents(
+                                    ($fullModel->username ?: $fullModel->phone).'.'.$fullModel->photo->format,
+                                    $fullModel->photo->bytes
+                                );
+                            }
                             if ($this->cb) {
                                 $callback = $this->cb;
                                 $callback($fullModel);

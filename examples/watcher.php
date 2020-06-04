@@ -8,7 +8,7 @@ use TelegramOSINT\Tools\Proxy;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-$argsOrFalse = getopt('n:p:h', ['numbers:', 'proxy:', 'help']);
+$argsOrFalse = getopt('n:p:f:h', ['numbers:', 'proxy:', 'photo:', 'help']);
 if ($argsOrFalse === false
     || (array_key_exists('h', $argsOrFalse) || array_key_exists('help', $argsOrFalse))
     || (!array_key_exists('n', $argsOrFalse) && !array_key_exists('numbers', $argsOrFalse))
@@ -20,6 +20,7 @@ Usage:
 
    -n, --numbers                Comma separated phone number list (e.g. 79061231231,79061231232).
    -p, --proxy                  Proxy to use.
+   -f, --photo                  Fetch photos (off by default).
    -h, --help                   Display this help message.
 
 EOT;
@@ -31,6 +32,7 @@ $proxyStr = $argsOrFalse['p'] ?? $argsOrFalse['proxy'] ?? null;
 if ($proxyStr) {
     $proxyStr = trim($proxyStr, "'");
 }
+$fetchPhoto = (bool) ($argsOrFalse['f'] ?? $argsOrFalse['photo'] ?? false);
 /** @noinspection PhpUnhandledExceptionInspection */
 $generator = new ClientGenerator(LibConfig::ENV_AUTHKEY, $proxyStr ? new Proxy($proxyStr) : null);
 
@@ -41,4 +43,4 @@ $generator = new ClientGenerator(LibConfig::ENV_AUTHKEY, $proxyStr ? new Proxy($
 (new UserContactsScenario($numbers, [], static function () use ($numbers) {
     (new StatusWatcherScenario($numbers, [], new ClientGenerator()))
         ->startActions(false);
-}, $generator))->startActions();
+}, $generator, $fetchPhoto))->startActions();
