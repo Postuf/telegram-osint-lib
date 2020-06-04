@@ -220,4 +220,12 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
     {
         $this->log(date('d.m.Y H:i:s').' | '.$dbgLabel.': '.$dbgMessage.PHP_EOL);
     }
+
+    public function onUserPhoneChange(User $user, string $phone)
+    {
+    }
+
+    public function onUserNameChange(User $user, string $username)
+    {
+    }
 }

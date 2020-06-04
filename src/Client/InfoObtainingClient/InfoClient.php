@@ -424,7 +424,7 @@ class InfoClient implements InfoObtainingClient
      *
      * @throws TGException
      */
-    private function buildUserInfoModel(ContactUser $user, bool $withPhoto, bool $largePhoto, callable $onComplete)
+    private function buildUserInfoModel(ContactUser $user, bool $withPhoto, bool $largePhoto, callable $onComplete): void
     {
         $userModel = new UserInfoModel();
         $userModel->id = $user->getUserId();
