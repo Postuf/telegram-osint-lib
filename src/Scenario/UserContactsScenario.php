@@ -23,6 +23,8 @@ class UserContactsScenario extends InfoClientScenario
     private $largePhoto;
     /** @var string[] */
     private $usernames;
+    /** @var callable|null */
+    private $saveCallback;
 
     /**
      * @param string[]                      $phones
@@ -31,6 +33,7 @@ class UserContactsScenario extends InfoClientScenario
      * @param ClientGeneratorInterface|null $clientGenerator
      * @param bool                          $withPhoto
      * @param bool                          $largePhoto
+     * @param callable|null                 $saveCallback    function(string $path, string $bytes)
      *
      * @throws TGException
      */
@@ -40,7 +43,8 @@ class UserContactsScenario extends InfoClientScenario
         ?callable $cb = null,
         ClientGeneratorInterface $clientGenerator = null,
         bool $withPhoto = true,
-        bool $largePhoto = true
+        bool $largePhoto = true,
+        callable $saveCallback = null
     ) {
         parent::__construct($clientGenerator);
         $this->cb = $cb;
@@ -48,6 +52,7 @@ class UserContactsScenario extends InfoClientScenario
         $this->withPhoto = $withPhoto;
         $this->largePhoto = $largePhoto;
         $this->usernames = $usernames;
+        $this->saveCallback = $saveCallback;
     }
 
     /**
@@ -59,9 +64,10 @@ class UserContactsScenario extends InfoClientScenario
 
         /* info by username */
         foreach ($this->usernames as $username) {
-            $this->infoClient->getInfoByUsername($username, $this->withPhoto, $this->largePhoto, static function ($userInfoModel) {
-                if ($userInfoModel->photo) {
-                    file_put_contents(
+            $this->infoClient->getInfoByUsername($username, $this->withPhoto, $this->largePhoto, function ($userInfoModel) {
+                if ($userInfoModel->photo && $this->saveCallback) {
+                    $cb = $this->saveCallback;
+                    $cb(
                         $userInfoModel->username.'.'.$userInfoModel->photo->format,
                         $userInfoModel->photo->bytes
                     );
@@ -96,8 +102,9 @@ class UserContactsScenario extends InfoClientScenario
                             $user
                         ) {
                             $fullModel->phone = $user->getPhone();
-                            if ($fullModel->photo) {
-                                file_put_contents(
+                            if ($fullModel->photo && $this->saveCallback) {
+                                $cb = $this->saveCallback;
+                                $cb(
                                     ($fullModel->username ?: $fullModel->phone).'.'.$fullModel->photo->format,
                                     $fullModel->photo->bytes
                                 );

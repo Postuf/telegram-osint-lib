@@ -13,7 +13,7 @@ class UserProfilePhoto extends TLServerMessage implements PhotoInterface
     /**
      * @var bool
      */
-    private $v1 = false;
+    private $v1;
 
     /**
      * @param AnonymousMessage $tlMessage
@@ -74,7 +74,7 @@ class UserProfilePhoto extends TLServerMessage implements PhotoInterface
         return $this->getTlMessage()->getValue('dc_id');
     }
 
-    public function isV2()
+    public function isV2(): bool
     {
         return !$this->v1;
     }
@@ -84,7 +84,8 @@ class UserProfilePhoto extends TLServerMessage implements PhotoInterface
      */
     private function throwIfNotV2(): void
     {
-        if(!$this->isV2())
+        if(!$this->isV2()) {
             throw new TGException(TGException::ERR_TL_MESSAGE_FIELD_NOT_EXISTS, 'Deprecated node!');
+        }
     }
 }
