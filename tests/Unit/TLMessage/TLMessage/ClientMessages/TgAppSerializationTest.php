@@ -52,8 +52,8 @@ class TgAppSerializationTest extends TestCase
     public function test_invoke_with_layer_serialization(): void
     {
         $this->assertEquals(
-            bin2hex((new invoke_with_layer(82, new get_config()))->toBinary()),
-            '0d0d9bda520000006b18f9c4'
+            '0d0d9bda520000006b18f9c4',
+            bin2hex((new invoke_with_layer(82, new get_config()))->toBinary())
         );
     }
 
@@ -68,15 +68,15 @@ class TgAppSerializationTest extends TestCase
     public function test_input_file_location_serialization(): void
     {
         $this->assertEquals(
-            bin2hex((new reset_saved_contacts())->toBinary()),
-            'f1379587'
+            'f1379587',
+            bin2hex((new reset_saved_contacts())->toBinary())
         );
     }
 
     public function test_send_sms_code_serialization(): void
     {
         $this->assertStringStartsWith(
-            '4f2477a60a33323533323435333432000400000020303134623335623631383431303062303835623064303537326639623531303300000083bebede10000000',
+            '4f2477a60a33323533323435333432000400000020303134623335623631383431303062303835623064303537326639623531303300000083bebede00000000',
             bin2hex((new send_sms_code('3253245342'))->toBinary())
         );
     }

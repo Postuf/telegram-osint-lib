@@ -5,6 +5,8 @@ namespace TelegramOSINT\Client\InfoObtainingClient;
 use TelegramOSINT\Auth\Protocol\AppAuthorization;
 use TelegramOSINT\Client\AuthKey\AuthKey;
 use TelegramOSINT\Client\BasicClient\BasicClient;
+use TelegramOSINT\Client\ContactKeepingClient;
+use TelegramOSINT\Client\Helpers\ReloadContactsHandler;
 use TelegramOSINT\Client\InfoObtainingClient;
 use TelegramOSINT\Client\InfoObtainingClient\Models\FileModel;
 use TelegramOSINT\Client\InfoObtainingClient\Models\PictureModel;
@@ -48,11 +50,11 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\DcOption;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\ExportedAuthorization;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UploadedFile;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserFull;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserProfilePhoto;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
-use TelegramOSINT\Tools\Phone;
 use TelegramOSINT\Tools\Proxy;
 
-class InfoClient implements InfoObtainingClient
+class InfoClient implements InfoObtainingClient, ContactKeepingClient
 {
     private const READ_LIMIT_BYTES = 1024 * 32;  // must be the power of 2 (4096, 8192, 16384 ...)
 
@@ -72,7 +74,7 @@ class InfoClient implements InfoObtainingClient
     /** @var BasicClientGeneratorInterface */
     private $generator;
     /** @var Proxy|null */
-    private $proxy = null;
+    private $proxy;
 
     public function __construct(BasicClientGeneratorInterface $generator)
     {
@@ -107,62 +109,79 @@ class InfoClient implements InfoObtainingClient
     public function pollMessage(): bool
     {
         $otherDcMessagePolled = false;
-        foreach ($this->otherDcClients as $otherDcClient)
+        foreach ($this->otherDcClients as $otherDcClient) {
             $otherDcMessagePolled |= $otherDcClient->pollMessage();
+        }
 
         return $this->basicClient->pollMessage() || $otherDcMessagePolled;
     }
 
-    public function getChatMembers(int $id, callable $onComplete) {
+    public function getChatMembers(int $id, callable $onComplete): void
+    {
+        /** @noinspection NullPointerExceptionInspection */
         $this->basicClient->getConnection()->getResponseAsync(new get_full_chat($id), $onComplete);
     }
 
-    public function getChannelMembers(int $id, int $accessHash, callable $onComplete) {
-        $this->basicClient->getConnection()->getResponseAsync(new get_full_channel($id, $accessHash), $onComplete);
-    }
-
-    public function getFullChannel(int $id, int $accessHash, callable $onComplete) {
-        $this->basicClient->getConnection()->getResponseAsync(new get_full_channel($id, $accessHash), $onComplete);
-    }
-
-    public function getChatMessages(int $id, int $limit, ?int $since, ?int $lastId, callable $onComplete) {
-        $request = new get_history($id, $limit, (int) $since, (int) $lastId);
-        $this->basicClient->getConnection()->getResponseAsync(
-            $request,
-            $onComplete
-        );
-    }
-
-    public function getChannelMessages(int $id, int $accessHash, int $limit, ?int $since, ?int $lastId, callable $onComplete) {
-        $request = new get_history($id, $limit, (int) $since, (int) $lastId, $accessHash);
-        $this->basicClient->getConnection()->getResponseAsync(
-            $request,
-            $onComplete
-        );
-    }
-
-    public function getChannelLinks(int $id, int $limit, int $accessHash, ?int $since, ?int $lastId, callable $onComplete) {
-        $request = new messages_search($id, $limit, $accessHash, (int) $since, (int) $lastId);
-        $this->basicClient->getConnection()->getResponseAsync(
-            $request,
-            $onComplete
-        );
-    }
-
-    public function getCommonChats(int $id, int $accessHash, int $limit, int $max_id, callable $onComplete)
+    public function getChannelMembers(int $id, int $accessHash, callable $onComplete): void
     {
+        /** @noinspection NullPointerExceptionInspection */
+        $this->basicClient->getConnection()->getResponseAsync(new get_full_channel($id, $accessHash), $onComplete);
+    }
+
+    /** @noinspection PhpUnused */
+    public function getFullChannel(int $id, int $accessHash, callable $onComplete): void
+    {
+        /** @noinspection NullPointerExceptionInspection */
+        $this->basicClient->getConnection()->getResponseAsync(new get_full_channel($id, $accessHash), $onComplete);
+    }
+
+    public function getChatMessages(int $id, int $limit, ?int $since, ?int $lastId, callable $onComplete): void
+    {
+        $request = new get_history($id, $limit, (int) $since, (int) $lastId);
+        /** @noinspection NullPointerExceptionInspection */
+        $this->basicClient->getConnection()->getResponseAsync(
+            $request,
+            $onComplete
+        );
+    }
+
+    public function getChannelMessages(int $id, int $accessHash, int $limit, ?int $since, ?int $lastId, callable $onComplete): void
+    {
+        $request = new get_history($id, $limit, (int) $since, (int) $lastId, $accessHash);
+        /** @noinspection NullPointerExceptionInspection */
+        $this->basicClient->getConnection()->getResponseAsync(
+            $request,
+            $onComplete
+        );
+    }
+
+    public function getChannelLinks(int $id, int $limit, int $accessHash, ?int $since, ?int $lastId, callable $onComplete): void
+    {
+        $request = new messages_search($id, $limit, $accessHash, (int) $since, (int) $lastId);
+        /** @noinspection NullPointerExceptionInspection */
+        $this->basicClient->getConnection()->getResponseAsync(
+            $request,
+            $onComplete
+        );
+    }
+
+    public function getCommonChats(int $id, int $accessHash, int $limit, int $max_id, callable $onComplete): void
+    {
+        /** @noinspection NullPointerExceptionInspection */
         $this->basicClient->getConnection()->getResponseAsync(new get_common_chats($id, $accessHash, $limit, $max_id), $onComplete);
     }
 
     public function getParticipants(int $id, int $accessHash, int $offset, callable $onComplete): void
     {
         $channel = new input_channel($id, $accessHash);
+        /** @noinspection NullPointerExceptionInspection */
         $this->basicClient->getConnection()->getResponseAsync(new get_participants($channel, $offset), $onComplete);
     }
 
     public function getParticipantsSearch(int $id, int $accessHash, string $username, callable $onComplete): void
     {
         $channel = new input_channel($id, $accessHash);
+        /** @noinspection NullPointerExceptionInspection */
         $this->basicClient->getConnection()->getResponseAsync(new get_participants($channel, 0, $username), $onComplete);
     }
 
@@ -174,6 +193,7 @@ class InfoClient implements InfoObtainingClient
     public function getLocated(float $latitude, float $longitude, callable $onComplete): void
     {
         $request = new contacts_get_located($latitude, $longitude);
+        /** @noinspection NullPointerExceptionInspection */
         $this->basicClient->getConnection()->getResponseAsync($request, $onComplete);
     }
 
@@ -183,11 +203,12 @@ class InfoClient implements InfoObtainingClient
      * @param int      $msgId
      * @param int      $userId
      * @param callable $onComplete function(?UserInfoModel $model)
+     * @noinspection PhpUnused
      */
     public function getFullUser(int $channelId, int $accessHash, int $msgId, int $userId, callable $onComplete): void
     {
         $request = new get_full_user($channelId, $accessHash, $msgId, $userId);
-        $cbUnpacker = function (AnonymousMessage $msg) use ($onComplete) {
+        $cbUnpacker = static function (AnonymousMessage $msg) use ($onComplete) {
             if (UserFull::isIt($msg)) {
                 $onComplete(null);
 
@@ -198,6 +219,7 @@ class InfoClient implements InfoObtainingClient
             $user->username = $msg->getValue('username');
             $onComplete($user);
         };
+        /** @noinspection NullPointerExceptionInspection */
         $this->basicClient->getConnection()->getResponseAsync($request, $cbUnpacker);
     }
 
@@ -207,14 +229,17 @@ class InfoClient implements InfoObtainingClient
      */
     public function resolveUsername(string $username, callable $onComplete): void
     {
+        /** @noinspection NullPointerExceptionInspection */
         $this->basicClient->getConnection()->getResponseAsync(new contacts_resolve_username($username), $onComplete);
     }
 
     /**
      * @param string   $deepLink
      * @param callable $onComplete function(AnonymousMessage $msg)
+     * @noinspection PhpUnused
      */
     public function getByDeepLink(string $deepLink, callable $onComplete): void {
+        /** @noinspection NullPointerExceptionInspection */
         $this->basicClient->getConnection()->getResponseAsync(new get_deeplink_info($deepLink), $onComplete);
     }
 
@@ -224,6 +249,7 @@ class InfoClient implements InfoObtainingClient
      * @param callable $onComplete
      */
     public function joinChannel(int $id, int $accessHash, callable $onComplete): void {
+        /** @noinspection NullPointerExceptionInspection */
         $this->basicClient->getConnection()->getResponseAsync(new join_channel($id, $accessHash), $onComplete);
     }
 
@@ -231,6 +257,7 @@ class InfoClient implements InfoObtainingClient
      * @param callable $onComplete function(AnonymousMessage $msg)
      */
     public function getAllChats(callable $onComplete): void {
+        /** @noinspection NullPointerExceptionInspection */
         $this->basicClient->getConnection()->getResponseAsync(new get_all_chats(), $onComplete);
     }
 
@@ -240,54 +267,17 @@ class InfoClient implements InfoObtainingClient
      *
      * @throws TGException
      * @noinspection DuplicatedCode
+     * @noinspection PhpDocRedundantThrowsInspection
      */
-    public function reloadNumbers(array $numbers, callable $onComplete)
+    public function reloadNumbers(array $numbers, callable $onComplete): void
     {
-        $this->contactsKeeper->getCurrentContacts(function (array $contacts) use ($numbers, $onComplete) {
-            $currentPhones = [];
-            $currentUserNames = [];
-
-            /** @var ContactUser[] $contacts */
-            foreach ($contacts as $contact){
-                if ($contact->getPhone())
-                    $currentPhones[] = Phone::convertToTelegramView($contact->getPhone());
-                if ($contact->getUsername())
-                    $currentUserNames[] = $contact->getUsername();
-            }
-
-            foreach ($numbers as $key => $number) {
-                $numbers[$key] = Phone::convertToTelegramView($number);
-            }
-
-            $existingNumbers = array_intersect($currentPhones, $numbers);
-            $obsoleteNumbers = array_diff($currentPhones, $numbers);
-            $newNumbers = array_diff($numbers, $currentPhones);
-
-            $addNumbersFunc = function () use ($newNumbers, $onComplete, $existingNumbers) {
-                if (!empty($newNumbers)) {
-                    $this->addNumbers($newNumbers, function (ImportResult $result) use ($onComplete, $existingNumbers) {
-                        $result->importedPhones = array_merge($result->importedPhones, $existingNumbers);
-                        $onComplete($result);
-                    });
-                } else {
-                    $importResult = new ImportResult();
-                    $importResult->importedPhones = $existingNumbers;
-                    $onComplete($importResult);
-                }
-            };
-
-            if (!empty($obsoleteNumbers)) {
-                $this->delNumbers($obsoleteNumbers, function () use ($addNumbersFunc) { $addNumbersFunc(); });
-            } else {
-                $addNumbersFunc();
-            }
-        });
+        $this->contactsKeeper->getCurrentContacts(ReloadContactsHandler::getHandler($this, $numbers, $onComplete));
     }
 
     /**
      * @param callable $onComplete
      */
-    public function cleanContacts(callable $onComplete)
+    public function cleanContacts(callable $onComplete): void
     {
         $this->contactsKeeper->cleanContacts($onComplete);
     }
@@ -298,7 +288,7 @@ class InfoClient implements InfoObtainingClient
      *
      * @throws TGException
      */
-    public function addNumbers(array $numbers, callable $onComplete)
+    public function addNumbers(array $numbers, callable $onComplete): void
     {
         $this->contactsKeeper->addNumbers($numbers, $onComplete);
     }
@@ -307,7 +297,7 @@ class InfoClient implements InfoObtainingClient
      * @param array    $numbers
      * @param callable $onComplete
      */
-    public function delNumbers(array $numbers, callable $onComplete)
+    public function delNumbers(array $numbers, callable $onComplete): void
     {
         $this->contactsKeeper->delNumbers($numbers, $onComplete);
     }
@@ -316,7 +306,7 @@ class InfoClient implements InfoObtainingClient
      * @param string   $number
      * @param callable $onComplete
      */
-    public function getContactByPhone(string $number, callable $onComplete)
+    public function getContactByPhone(string $number, callable $onComplete): void
     {
         $this->contactsKeeper->getUserByPhone($number, $onComplete);
     }
@@ -327,7 +317,7 @@ class InfoClient implements InfoObtainingClient
      * @param bool     $largePhoto
      * @param callable $onComplete function(?UserInfoModel $model)
      */
-    public function getInfoByPhone(string $phone, bool $withPhoto, bool $largePhoto, callable $onComplete)
+    public function getInfoByPhone(string $phone, bool $withPhoto, bool $largePhoto, callable $onComplete): void
     {
         $this->contactsKeeper->getUserByPhone($phone, function ($user) use ($phone, $withPhoto, $largePhoto, $onComplete) {
             if($user instanceof ContactUser) {
@@ -346,17 +336,19 @@ class InfoClient implements InfoObtainingClient
      * @param bool     $largePhoto
      * @param callable $onComplete function(?UserInfoModel $model)
      */
-    public function getInfoByUsername(string $userName, bool $withPhoto, bool $largePhoto, callable $onComplete)
+    public function getInfoByUsername(string $userName, bool $withPhoto, bool $largePhoto, callable $onComplete): void
     {
+        /** @noinspection NullPointerExceptionInspection */
         $this->basicClient->getConnection()->getResponseAsync(
             new contacts_search($userName, 3),
             function (AnonymousMessage $message) use ($userName, $withPhoto, $largePhoto, $onComplete) {
 
                 $object = new ContactFound($message);
 
-                $onModelBuilt = function (UserInfoModel $model) use ($userName, $onComplete) {
-                    if(strcasecmp(trim($userName), trim($model->username)) === 0)
+                $onModelBuilt = static function (UserInfoModel $model) use ($userName, $onComplete) {
+                    if(strcasecmp(trim($userName), trim($model->username)) === 0) {
                         $onComplete($model);
+                    }
                 };
 
                 foreach ($object->getUsers() as $user){
@@ -373,9 +365,10 @@ class InfoClient implements InfoObtainingClient
      * @param bool        $largePhoto
      * @param callable    $onComplete
      */
-    public function getFullUserInfo(ContactUser $user, bool $withPhoto, bool $largePhoto, callable $onComplete)
+    public function getFullUserInfo(ContactUser $user, bool $withPhoto, bool $largePhoto, callable $onComplete): void
     {
         $fullUserRequest = new get_full_user($user->getUserId(), $user->getAccessHash());
+        /** @noinspection NullPointerExceptionInspection */
         $this->basicClient->getConnection()->getResponseAsync($fullUserRequest, function (AnonymousMessage $message) use ($withPhoto, $largePhoto, $onComplete) {
             $userFull = new UserFull($message);
             $this->buildUserInfoModel($userFull->getUser(), $withPhoto, $largePhoto, function (UserInfoModel $model) use ($onComplete, $userFull) {
@@ -391,7 +384,7 @@ class InfoClient implements InfoObtainingClient
      * @param bool     $largePhoto
      * @param callable $onComplete function(?UserInfoModel $model)
      */
-    private function onContactReady(string $phone, bool $withPhoto, bool $largePhoto, callable $onComplete)
+    private function onContactReady(string $phone, bool $withPhoto, bool $largePhoto, callable $onComplete): void
     {
         $this->contactsKeeper->getUserByPhone($phone, function ($user) use ($onComplete, $withPhoto, $largePhoto, $phone) {
             if($user instanceof ContactUser){
@@ -401,14 +394,7 @@ class InfoClient implements InfoObtainingClient
                         $this->getInfoByUsername($username, $withPhoto, $largePhoto, $onComplete);
                     });
                 } else {
-                    $fullUserRequest = new get_full_user($user->getUserId(), $user->getAccessHash());
-                    $this->basicClient->getConnection()->getResponseAsync($fullUserRequest, function (AnonymousMessage $message) use ($withPhoto, $largePhoto, $onComplete) {
-                        $userFull = new UserFull($message);
-                        $this->buildUserInfoModel($userFull->getUser(), $withPhoto, $largePhoto, function (UserInfoModel $model) use ($onComplete, $userFull) {
-                            $this->extendUserInfoModel($model, $userFull);
-                            $onComplete($model);
-                        });
-                    });
+                    $this->getFullUserInfo($user, $withPhoto, $largePhoto, $onComplete);
                 }
             } else {
                 $onComplete($user);
@@ -437,7 +423,7 @@ class InfoClient implements InfoObtainingClient
         $userModel->langCode = $user->getLangCode();
 
         if($withPhoto){
-            $this->createUserPictureModel($user, $largePhoto, function ($photo) use ($userModel, $onComplete) {
+            $this->createUserPictureModel($user, $largePhoto, static function ($photo) use ($userModel, $onComplete) {
                 $userModel->photo = $photo;
                 $onComplete($userModel);
             });
@@ -446,7 +432,7 @@ class InfoClient implements InfoObtainingClient
         }
     }
 
-    private function extendUserInfoModel(UserInfoModel $model, UserFull $userFull)
+    private function extendUserInfoModel(UserInfoModel $model, UserFull $userFull): UserInfoModel
     {
         $model->bio = $userFull->getAbout();
         $model->commonChatsCount = $userFull->getCommonChatsCount();
@@ -461,7 +447,7 @@ class InfoClient implements InfoObtainingClient
      *
      * @throws TGException
      */
-    private function createUserPictureModel(ContactUser $user, bool $largePhotos, callable $onPictureLoaded)
+    private function createUserPictureModel(ContactUser $user, bool $largePhotos, callable $onPictureLoaded): void
     {
         $profilePhoto = $user->getPhoto();
         if(!$profilePhoto) {
@@ -477,7 +463,7 @@ class InfoClient implements InfoObtainingClient
         $photoLocation = null;
         $dcId = null;
 
-        if($profilePhoto->isV2()){
+        if($profilePhoto instanceof UserProfilePhoto && $profilePhoto->isV2()){
             $photoLocation = new input_peer_photofilelocation(
                 new input_peer_user(
                     $user->getUserId(),
@@ -506,10 +492,11 @@ class InfoClient implements InfoObtainingClient
      *
      * @return UserStatusModel
      */
-    private function createUserStatusModel($userStatus)
+    private function createUserStatusModel($userStatus): ?UserStatusModel
     {
-        if(!$userStatus)
+        if(!$userStatus) {
             return null;
+        }
 
         $statusModel = new UserStatusModel();
         $statusModel->is_online = $userStatus->isOnline();
@@ -547,11 +534,14 @@ class InfoClient implements InfoObtainingClient
      */
     private function readPicture(TLClientMessage $fileLocation, int $photoDcId, callable $onPictureLoaded): void
     {
-        $isCurrentDc = $photoDcId == $this->basicClient->getConnection()->getDCInfo()->getDcId();
-        if($isCurrentDc)
+        /** @noinspection NullPointerExceptionInspection */
+        $isCurrentDc = $photoDcId === $this->basicClient->getConnection()->getDCInfo()->getDcId();
+        if($isCurrentDc) {
             $this->readPictureFromCurrentDC($this->basicClient->getConnection(), $fileLocation, $onPictureLoaded);
-        else
+        }
+        else {
             $this->readPictureFromForeignDC($fileLocation, $photoDcId, $onPictureLoaded);
+        }
     }
 
     /**
@@ -567,17 +557,19 @@ class InfoClient implements InfoObtainingClient
         callable $onPictureLoaded,
         $picModel = null,
         int $offset = 0
-    )
+    ): void
     {
-        if(!$picModel)
+        if(!$picModel) {
             $picModel = $picModel = new PictureModel();
+        }
 
         $request = new get_file($location, $offset, self::READ_LIMIT_BYTES);
         $basicClient->getResponseAsync($request, function (AnonymousMessage $message) use ($basicClient, $location, $onPictureLoaded, $picModel) {
 
             $response = new UploadedFile($message);
-            if(!$response->isJpeg())
+            if(!$response->isJpeg()) {
                 throw new TGException(TGException::ERR_CLIENT_USER_PIC_UNKNOWN_FORMAT);
+            }
             $readBytes = $response->getBytes();
             $readBytesCount = strlen($readBytes);
 
@@ -585,10 +577,11 @@ class InfoClient implements InfoObtainingClient
             $picModel->modificationTime = $response->getModificationTs();
             $picModel->format = $response->getFormatName();
 
-            if($readBytesCount < self::READ_LIMIT_BYTES)
+            if($readBytesCount < self::READ_LIMIT_BYTES) {
                 $onPictureLoaded($picModel);
-            else
+            } else {
                 $this->readPictureFromCurrentDC($basicClient, $location, $onPictureLoaded, $picModel, strlen($picModel->bytes));
+            }
         });
     }
 
@@ -597,14 +590,15 @@ class InfoClient implements InfoObtainingClient
      * @param int             $photoDcId
      * @param callable        $onPictureLoaded function(?PictureModel $model)
      */
-    private function readPictureFromForeignDC(TLClientMessage $location, int $photoDcId, callable $onPictureLoaded)
+    private function readPictureFromForeignDC(TLClientMessage $location, int $photoDcId, callable $onPictureLoaded): void
     {
+        /** @noinspection NullPointerExceptionInspection */
         $this->basicClient->getConnection()->getResponseAsync(new get_config(), function (AnonymousMessage $message) use ($location, $photoDcId, $onPictureLoaded) {
             $dcConfigs = new DcConfigApp($message);
 
             $dcFound = false;
             foreach ($dcConfigs->getDataCenters() as $dc) {
-                if ($dc->getId() == $photoDcId && $this->isDcAppropriate($dc)) {
+                if ($dc->getId() === $photoDcId && $this->isDcAppropriate($dc)) {
 
                     $dcFound = true;
 
@@ -620,6 +614,7 @@ class InfoClient implements InfoObtainingClient
 
                         // export current authorization to foreign dc
                         $exportAuthRequest = new export_authorization($dc->getDcId());
+                        /** @noinspection NullPointerExceptionInspection */
                         $this->basicClient->getConnection()->getResponseAsync($exportAuthRequest, function (AnonymousMessage $message) use ($clientKey, $location, $onPictureLoaded) {
                             $exportedAuthResponse = new ExportedAuthorization($message);
 
@@ -628,10 +623,12 @@ class InfoClient implements InfoObtainingClient
                                 $exportedAuthResponse->getUserId(),
                                 $exportedAuthResponse->getTransferKey()
                             );
+                            /** @noinspection NullPointerExceptionInspection */
                             $this->otherDcClients[$clientKey]->getConnection()->getResponseAsync($importAuthRequest, function (AnonymousMessage $message) use ($exportedAuthResponse, $clientKey, $location, $onPictureLoaded) {
                                 $authorization = new AuthorizationSelfUser($message);
-                                if($authorization->getUser()->getUserId() != $exportedAuthResponse->getUserId())
+                                if($authorization->getUser()->getUserId() !== $exportedAuthResponse->getUserId()) {
                                     throw new TGException(TGException::ERR_AUTH_EXPORT_FAILED);
+                                }
                                 // make foreign dc current and get the picture
                                 $this->readPictureFromCurrentDC($this->otherDcClients[$clientKey]->getConnection(), $location, function ($picture) use ($clientKey, $onPictureLoaded) {
                                     $this->otherDcClients[$clientKey]->terminate();
@@ -648,14 +645,15 @@ class InfoClient implements InfoObtainingClient
                 }
             }
 
-            if(!$dcFound)
+            if(!$dcFound) {
                 throw new TGException(TGException::ERR_CLIENT_PICTURE_ON_UNREACHABLE_DC);
+            }
         });
     }
 
-    private function isDcAppropriate(DcOption $dc)
+    private function isDcAppropriate(DcOption $dc): bool
     {
-        return preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/', $dc->getIp());
+        return (bool) preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/', $dc->getIp());
     }
 
     public function terminate(): void

@@ -11,10 +11,6 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 class StatusWatcherClientMock extends StatusWatcherClient
 {
     /**
-     * @var ContactUser[]
-     */
-    private $mockContacts;
-    /**
      * @var int
      */
     private $isUserExpirationChecks = 0;
@@ -30,7 +26,6 @@ class StatusWatcherClientMock extends StatusWatcherClient
      */
     public function loadMockContacts(array $contacts): void
     {
-        $this->mockContacts = $contacts;
         $this->contactKeeper->loadContacts($contacts);
     }
 
@@ -50,21 +45,21 @@ class StatusWatcherClientMock extends StatusWatcherClient
     /**
      * @return int
      */
-    public function getUserExpirationChecks()
+    public function getUserExpirationChecks(): int
     {
         return $this->isUserExpirationChecks;
     }
 
-    protected function throwIfNotLoggedIn(string $message)
+    protected function throwIfNotLoggedIn(string $message): void
     {
 
     }
 
-    public function onUserPhoneChange(int $userId, string $phone)
+    public function onUserPhoneChange(int $userId, string $phone): void
     {
     }
 
-    public function onUserNameChange(int $userId, string $username)
+    public function onUserNameChange(int $userId, string $username): void
     {
     }
 }

@@ -9,5 +9,5 @@ interface MessageListener
     /**
      * @param AnonymousMessage $message
      */
-    public function onMessage(AnonymousMessage $message);
+    public function onMessage(AnonymousMessage $message): void;
 }

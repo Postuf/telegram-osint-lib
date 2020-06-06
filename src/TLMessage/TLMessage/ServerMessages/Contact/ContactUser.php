@@ -56,16 +56,19 @@ class ContactUser extends TLServerMessage implements MessageWithUserId
 
             if (TLServerMessage::checkType($photo, 'userProfilePhoto')) {
                 return new UserProfilePhoto($photo);
-            } elseif (TLServerMessage::checkType($photo, 'chatPhoto')) {
-                return new ChatPhoto($photo);
-            } else {
-                throw new TGException(TGException::ERR_DESERIALIZER_UNKNOWN_OBJECT);
             }
+
+            if (TLServerMessage::checkType($photo, 'chatPhoto')) {
+                return new ChatPhoto($photo);
+            }
+
+            throw new TGException(TGException::ERR_DESERIALIZER_UNKNOWN_OBJECT);
         } catch (TGException $e){
-            if($e->getCode() == TGException::ERR_TL_MESSAGE_FIELD_BAD_NODE)
+            if($e->getCode() === TGException::ERR_TL_MESSAGE_FIELD_BAD_NODE) {
                 return null;
-            else
-                throw $e;
+            }
+
+            throw $e;
         }
     }
 

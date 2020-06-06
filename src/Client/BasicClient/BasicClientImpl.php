@@ -71,8 +71,9 @@ class BasicClientImpl implements BasicClient, MessageListener
         try {
             $this->terminate();
         } catch (TGException $e){
-            if($e->getCode() != TGException::ERR_CONNECTION_SOCKET_TERMINATED)
+            if($e->getCode() !== TGException::ERR_CONNECTION_SOCKET_TERMINATED) {
                 throw $e;
+            }
         }
     }
 
@@ -102,8 +103,9 @@ class BasicClientImpl implements BasicClient, MessageListener
      */
     public function login(AuthKey $authKey, ?Proxy $proxy = null, callable $cb = null): void
     {
-        if($this->isLoggedIn())
+        if($this->isLoggedIn()) {
             throw new TGException(TGException::ERR_CLIENT_ALREADY_LOGGED_IN, $this->getUserId());
+        }
         $dc = $authKey->getAttachedDC();
         $postSocket = function () use ($authKey) {
             $this->authKey = $authKey;
@@ -112,7 +114,7 @@ class BasicClientImpl implements BasicClient, MessageListener
 
             $this->bumpProtocolVersion();
         };
-        $this->socket = $this->pickSocket($dc, $proxy, $cb ? function () use ($cb, $postSocket) {
+        $this->socket = $this->pickSocket($dc, $proxy, $cb ? static function () use ($cb, $postSocket) {
             $postSocket();
             $cb();
         } : null);
@@ -125,7 +127,8 @@ class BasicClientImpl implements BasicClient, MessageListener
     {
         $initConnection = new init_connection(AccountInfo::generate(), new get_config());
         $requestWithLayer = new invoke_with_layer(LibConfig::APP_DEFAULT_TL_LAYER_VERSION, $initConnection);
-        $this->getConnection()->getResponseAsync($requestWithLayer, function (AnonymousMessage $response) {});
+        /** @noinspection NullPointerExceptionInspection */
+        $this->getConnection()->getResponseAsync($requestWithLayer, static function (AnonymousMessage $response) {});
     }
 
     /**
@@ -145,8 +148,9 @@ class BasicClientImpl implements BasicClient, MessageListener
      */
     public function throwIfNotLoggedIn(string $message = ''): void
     {
-        if(!$this->isLoggedIn())
+        if(!$this->isLoggedIn()) {
             throw new TGException(TGException::ERR_CLIENT_NOT_LOGGED_IN, $message);
+        }
     }
 
     /**
@@ -160,11 +164,10 @@ class BasicClientImpl implements BasicClient, MessageListener
      */
     protected function pickSocket(DataCentre $dc, Proxy $proxy = null, callable $cb = null): Socket
     {
-        if($proxy instanceof Proxy){
-            if($proxy->getType() == Proxy::TYPE_SOCKS5)
-                return $cb
-                    ? new NonBlockingProxySocket($proxy, $dc, $cb, $this->proxyTimeout)
-                    : new ProxySocket($proxy, $dc, $this->proxyTimeout);
+        if(($proxy instanceof Proxy) && $proxy->getType() === Proxy::TYPE_SOCKS5) {
+            return $cb
+                ? new NonBlockingProxySocket($proxy, $dc, $cb, $this->proxyTimeout)
+                : new ProxySocket($proxy, $dc, $this->proxyTimeout);
         }
 
         return new TcpSocket($dc);
@@ -193,6 +196,7 @@ class BasicClientImpl implements BasicClient, MessageListener
         $this->checkConnectionAlive();
         $this->pingIfNeeded();
 
+        /** @noinspection NullPointerExceptionInspection */
         return $this->getConnection()->readMessage();
     }
 
@@ -211,11 +215,12 @@ class BasicClientImpl implements BasicClient, MessageListener
     /**
      * @param AnonymousMessage $message
      */
-    public function onMessage(AnonymousMessage $message)
+    public function onMessage(AnonymousMessage $message): void
     {
         $this->lastIncomingMessageReceiptTime = time();
-        if($this->messageHandler)
+        if($this->messageHandler) {
             $this->messageHandler->onMessage($message);
+        }
     }
 
     private function getUserId() {
@@ -231,22 +236,24 @@ class BasicClientImpl implements BasicClient, MessageListener
     /**
      * @throws TGException
      */
-    private function checkConnectionAlive()
+    private function checkConnectionAlive(): void
     {
-        if($this->lastIncomingMessageReceiptTime == 0)
+        if($this->lastIncomingMessageReceiptTime === 0) {
             $this->lastIncomingMessageReceiptTime = time();
+        }
 
         $elapsedSinceLastMessage = time() - $this->lastIncomingMessageReceiptTime;
         $allowedIdleTimeSec = 5;
 
-        if($elapsedSinceLastMessage >= LibConfig::CONN_PING_INTERVAL_SEC + $allowedIdleTimeSec)
+        if($elapsedSinceLastMessage >= LibConfig::CONN_PING_INTERVAL_SEC + $allowedIdleTimeSec) {
             throw new TGException(TGException::ERR_CONNECTION_SHUTDOWN, $this->getUserId());
+        }
     }
 
     /**
      * @throws TGException
      */
-    private function pingIfNeeded()
+    private function pingIfNeeded(): void
     {
         $elapsedSinceLastPing = time() - $this->lastPingTime;
         if($elapsedSinceLastPing >= LibConfig::CONN_PING_INTERVAL_SEC){
@@ -254,6 +261,7 @@ class BasicClientImpl implements BasicClient, MessageListener
             if(ping_delay_disconnect::getDisconnectTimeoutSec() <= LibConfig::CONN_PING_INTERVAL_SEC) {
                 throw new TGException(TGException::ERR_CONNECTION_BAD_PING_COMBINATION, 'delay < ping for '.$this->getUserId());
             }
+            /** @noinspection NullPointerExceptionInspection */
             $this->getConnection()->writeMessage(new ping_delay_disconnect());
             $this->lastPingTime = time();
         }
@@ -268,8 +276,9 @@ class BasicClientImpl implements BasicClient, MessageListener
      */
     public function setMessageListener(MessageListener $messageCallback): void
     {
-        if($this->messageHandler)
+        if($this->messageHandler) {
             throw new TGException(TGException::ERR_ASSERT_LISTENER_ALREADY_SET, $this->getUserId());
+        }
         $this->messageHandler = $messageCallback;
     }
 
