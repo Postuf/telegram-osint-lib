@@ -89,7 +89,7 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
      */
     public function __construct(Proxy $proxy = null, AccountInfo $accountInfo = null, ClientDebugLogger $logger = null)
     {
-        $this->accountInfo = $accountInfo ? $accountInfo : AccountInfo::generate();
+        $this->accountInfo = $accountInfo ?: AccountInfo::generate();
         $this->proxy = $proxy;
         $this->logger = $logger;
     }
@@ -114,8 +114,9 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
                 $this->socketMessenger->getResponseAsync($request, function (AnonymousMessage $smsSentResponse) use ($cb) {
                     $smsSentResponseObj = new SentCodeApp($smsSentResponse);
 
-                    if(!$smsSentResponseObj->isSentCodeTypeSms())
+                    if(!$smsSentResponseObj->isSentCodeTypeSms()) {
                         throw new TGException(TGException::ERR_REG_USER_ALREADY_EXISTS, $smsSentResponse);
+                    }
                     $this->phoneHash = $smsSentResponseObj->getPhoneCodeHash();
                     $this->isSmsRequested = true;
                     $cb();
@@ -145,8 +146,9 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
             $this->socketMessenger->getResponseAsync($getLanguages, function (AnonymousMessage $languages) use ($onLastMessageReceived) {
                 $languagesResponse = new Languages($languages);
 
-                if($languagesResponse->getCount() < 5)
+                if($languagesResponse->getCount() < 5) {
                     throw new TGException(TGException::ERR_REG_NOT_OFFICIAL_USER);
+                }
                 // get language strings
                 $getLangPack = new get_langpack($this->accountInfo->getAppLang());
                 $this->socketMessenger->getResponseAsync($getLangPack, $onLastMessageReceived);
@@ -187,8 +189,9 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
     {
         $smsCode = trim($smsCode);
 
-        if(!$this->isSmsRequested)
+        if(!$this->isSmsRequested) {
             throw new TGException(TGException::ERR_REG_REQUEST_SMS_CODE_FIRST);
+        }
         $this->signInFailed($smsCode, function () use ($onAuthKeyReady) {
             sleep(5);
             $this->signUp(function () use ($onAuthKeyReady) {
@@ -275,19 +278,19 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
      */
     private function checkSigningResponse(AuthorizationContactUser $response): void
     {
-        if(!Phone::equal($response->getUser()->getPhone(), $this->phone))
+        if(!Phone::equal($response->getUser()->getPhone(), $this->phone)) {
             throw new TGException(TGException::ERR_REG_FAILED);
+        }
     }
 
     /**
      * @param AnonymousMessage $message
      */
-    public function onMessage(AnonymousMessage $message)
+    public function onMessage(AnonymousMessage $message): void
     {
-
     }
 
-    public function pollMessages()
+    public function pollMessages(): void
     {
         while(true) {
             $this->socketMessenger->readMessage();

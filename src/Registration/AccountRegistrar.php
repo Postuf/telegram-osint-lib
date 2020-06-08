@@ -26,7 +26,7 @@ class AccountRegistrar implements RegisterInterface
         $this->reg = new RegistrationFromTgApp($proxy, $accountInfo, $logger ?: new DefaultLogger());
     }
 
-    public function pollMessages() {
+    public function pollMessages(): void {
         $this->reg->pollMessages();
     }
 
