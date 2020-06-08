@@ -18,5 +18,5 @@ interface RegisterInterface
      */
     public function confirmPhoneWithSmsCode(string $smsCode, callable $onAuthKeyReady): void;
 
-    public function pollMessages();
+    public function pollMessages(): void;
 }
