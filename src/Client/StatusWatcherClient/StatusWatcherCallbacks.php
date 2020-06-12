@@ -11,21 +11,21 @@ interface StatusWatcherCallbacks
      * @param User $user
      * @param int  $expires
      */
-    public function onUserOnline(User $user, int $expires);
+    public function onUserOnline(User $user, int $expires): void;
 
     /**
      * @param User $user
      * @param int  $wasOnline
      */
-    public function onUserOffline(User $user, int $wasOnline);
+    public function onUserOffline(User $user, int $wasOnline): void;
 
     /**
      * @param User         $user
      * @param HiddenStatus $hiddenStatusState
      */
-    public function onUserHidStatus(User $user, HiddenStatus $hiddenStatusState);
+    public function onUserHidStatus(User $user, HiddenStatus $hiddenStatusState): void;
 
-    public function onUserPhoneChange(User $user, string $phone);
+    public function onUserPhoneChange(User $user, string $phone): void;
 
-    public function onUserNameChange(User $user, string $username);
+    public function onUserNameChange(User $user, string $username): void;
 }

@@ -62,13 +62,13 @@ class PresenceMonitoringScenario implements ScenarioInterface, StatusWatcherCall
     public function startActions(bool $pollAndTerminate = true): void
     {
         $this->client->login(AuthKeyCreator::createFromString($this->authKey), $this->generator->getProxy());
-        $this->client->reloadNumbers($this->numbers, function (ImportResult $result) {});
+        $this->client->reloadNumbers($this->numbers, static function (ImportResult $result) {});
     }
 
     /**
      * @throws TGException
      */
-    public function poll()
+    public function poll(): void
     {
         $this->client->pollMessage();
     }
@@ -77,7 +77,7 @@ class PresenceMonitoringScenario implements ScenarioInterface, StatusWatcherCall
      * @param User $user
      * @param int  $expires
      */
-    public function onUserOnline(User $user, int $expires)
+    public function onUserOnline(User $user, int $expires): void
     {
         $phone = $user->getPhone();
         if($phone) {
@@ -89,7 +89,7 @@ class PresenceMonitoringScenario implements ScenarioInterface, StatusWatcherCall
      * @param User $user
      * @param int  $wasOnline
      */
-    public function onUserOffline(User $user, int $wasOnline)
+    public function onUserOffline(User $user, int $wasOnline): void
     {
         $phone = $user->getPhone();
         if($phone) {
@@ -101,7 +101,7 @@ class PresenceMonitoringScenario implements ScenarioInterface, StatusWatcherCall
      * @param User         $user
      * @param HiddenStatus $hiddenStatusState
      */
-    public function onUserHidStatus(User $user, HiddenStatus $hiddenStatusState)
+    public function onUserHidStatus(User $user, HiddenStatus $hiddenStatusState): void
     {
         $phone = $user->getPhone();
         if($phone) {
@@ -109,11 +109,11 @@ class PresenceMonitoringScenario implements ScenarioInterface, StatusWatcherCall
         }
     }
 
-    public function onUserPhoneChange(User $user, string $phone)
+    public function onUserPhoneChange(User $user, string $phone): void
     {
     }
 
-    public function onUserNameChange(User $user, string $username)
+    public function onUserNameChange(User $user, string $username): void
     {
     }
 }
