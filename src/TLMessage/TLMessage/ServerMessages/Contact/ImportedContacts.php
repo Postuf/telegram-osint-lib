@@ -29,8 +29,9 @@ class ImportedContacts extends TLServerMessage
     {
         $users = $this->getTlMessage()->getNodes('users');
         $userObjects = [];
-        foreach ($users as $user)
+        foreach ($users as $user) {
             $userObjects[] = new ContactUser($user);
+        }
 
         return $userObjects;
     }
@@ -44,8 +45,9 @@ class ImportedContacts extends TLServerMessage
     {
         $clients = $this->getTlMessage()->getNodes('imported');
         $clientObjects = [];
-        foreach ($clients as $client)
+        foreach ($clients as $client) {
             $clientObjects[] = new ContactClient($client);
+        }
 
         return $clientObjects;
     }

@@ -10,8 +10,11 @@ use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherCallbacks;
 
 class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
 {
+    /** @var int[] */
     private $onlineRecords = [];
+    /** @var int[] */
     private $offlineRecords = [];
+    /** @var int[] */
     private $hidRecords = [];
 
     /**
@@ -20,13 +23,14 @@ class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
      *
      * @return void
      */
-    public function onUserOnline(User $user, int $expires)
+    public function onUserOnline(User $user, int $expires): void
     {
         $phone = $user->getPhone();
-        if(isset($this->onlineRecords[$phone]))
+        if(isset($this->onlineRecords[$phone])) {
             $this->onlineRecords[$phone]++;
-        else
+        } else {
             $this->onlineRecords[$phone] = 1;
+        }
     }
 
     /**
@@ -35,13 +39,14 @@ class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
      *
      * @return void
      */
-    public function onUserOffline(User $user, int $wasOnline)
+    public function onUserOffline(User $user, int $wasOnline): void
     {
         $phone = $user->getPhone();
-        if(isset($this->offlineRecords[$phone]))
+        if(isset($this->offlineRecords[$phone])) {
             $this->offlineRecords[$phone]++;
-        else
+        } else {
             $this->offlineRecords[$phone] = 1;
+        }
     }
 
     /**
@@ -50,13 +55,14 @@ class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
      *
      * @return void
      */
-    public function onUserHidStatus(User $user, HiddenStatus $hiddenStatus)
+    public function onUserHidStatus(User $user, HiddenStatus $hiddenStatus): void
     {
         $phone = $user->getPhone();
-        if(isset($this->hidRecords[$phone]))
+        if(isset($this->hidRecords[$phone])) {
             $this->hidRecords[$phone]++;
-        else
+        } else {
             $this->hidRecords[$phone] = 1;
+        }
     }
 
     /**
@@ -64,9 +70,9 @@ class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
      *
      * @return int
      */
-    public function getOnlineTriggersCntFor(string $phone)
+    public function getOnlineTriggersCntFor(string $phone): int
     {
-        return isset($this->onlineRecords[$phone]) ? $this->onlineRecords[$phone] : 0;
+        return $this->onlineRecords[$phone] ?? 0;
     }
 
     /**
@@ -74,9 +80,9 @@ class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
      *
      * @return int
      */
-    public function getOfflineTriggersCntFor(string $phone)
+    public function getOfflineTriggersCntFor(string $phone): int
     {
-        return isset($this->offlineRecords[$phone]) ? $this->offlineRecords[$phone] : 0;
+        return $this->offlineRecords[$phone] ?? 0;
     }
 
     /**
@@ -84,16 +90,16 @@ class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
      *
      * @return int
      */
-    public function getHidTriggersCntFor(string $phone)
+    public function getHidTriggersCntFor(string $phone): int
     {
-        return isset($this->hidRecords[$phone]) ? $this->hidRecords[$phone] : 0;
+        return $this->hidRecords[$phone] ?? 0;
     }
 
-    public function onUserPhoneChange(User $user, string $phone)
+    public function onUserPhoneChange(User $user, string $phone): void
     {
     }
 
-    public function onUserNameChange(User $user, string $username)
+    public function onUserNameChange(User $user, string $username): void
     {
     }
 }

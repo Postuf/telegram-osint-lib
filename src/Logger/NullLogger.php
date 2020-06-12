@@ -6,7 +6,7 @@ namespace TelegramOSINT\Logger;
 
 class NullLogger implements ClientDebugLogger
 {
-    public function debugLibLog(string $dbgLabel, string $dbgMessage)
+    public function debugLibLog(string $dbgLabel, string $dbgMessage): void
     {
     }
 }
