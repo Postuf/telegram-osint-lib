@@ -21,7 +21,12 @@ class SentCodeApp extends TLServerMessage
 
     public function isSentCodeTypeSms(): bool
     {
-        return $this->getTlMessage()->getNode('type')->getType() == 'auth.sentCodeTypeSms';
+        return $this->getTlMessage()->getNode('type')->getType() === 'auth.sentCodeTypeSms';
+    }
+
+    public function isSentCodeTypeApp(): bool
+    {
+        return $this->getTlMessage()->getNode('type')->getType() === 'auth.sentCodeTypeApp';
     }
 
     public function getPhoneCodeHash(): string

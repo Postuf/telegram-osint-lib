@@ -32,25 +32,27 @@ class AccountRegistrar implements RegisterInterface
 
     /**
      * @param string   $phoneNumber
-     * @param callable $cb          function()
+     * @param callable $cb          function(bool $reReg)
+     * @param bool     $allowReReg
      *
      * @throws TGException
      */
-    public function requestCodeForPhone(string $phoneNumber, callable $cb): void
+    public function requestCodeForPhone(string $phoneNumber, callable $cb, bool $allowReReg = false): void
     {
         $phoneNumber = trim($phoneNumber);
-        $this->reg->requestCodeForPhone($phoneNumber, $cb);
+        $this->reg->requestCodeForPhone($phoneNumber, $cb, $allowReReg);
     }
 
     /**
      * @param string   $smsCode
      * @param callable $onAuthKeyReady function(AuthKey $authKey)
+     * @param bool     $reReg
      *
      * @throws TGException
      */
-    public function confirmPhoneWithSmsCode(string $smsCode, callable $onAuthKeyReady): void
+    public function confirmPhoneWithSmsCode(string $smsCode, callable $onAuthKeyReady, bool $reReg = false): void
     {
         $smsCode = trim($smsCode);
-        $this->reg->confirmPhoneWithSmsCode($smsCode, $onAuthKeyReady);
+        $this->reg->confirmPhoneWithSmsCode($smsCode, $onAuthKeyReady, $reReg);
     }
 }

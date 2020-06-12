@@ -29,8 +29,9 @@ class CurrentContacts extends TLServerMessage
     {
         $users = $this->getTlMessage()->getNodes('users');
         $userObjects = [];
-        foreach ($users as $user)
+        foreach ($users as $user) {
             $userObjects[] = new ContactUser($user);
+        }
 
         return $userObjects;
     }
