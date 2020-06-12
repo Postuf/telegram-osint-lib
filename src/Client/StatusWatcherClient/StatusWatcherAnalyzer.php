@@ -116,9 +116,13 @@ class StatusWatcherAnalyzer implements Analyzer
     private function analyzeCurrentStatuses(AnonymousMessage $message): void
     {
         $contacts = new CurrentContacts($message);
+        $prevContacts = $this->notifier->getCurrentContacts();
         foreach ($contacts->getUsers() as $user) {
             $this->performStatusReaction($user->getUserId(), $user->getStatus());
-            $this->notifier->onUserNameChange($user->getUserId(), $user->getUsername());
+            if (isset($prevContacts[$user->getUserId()])
+                && $prevContacts[$user->getUserId()]->getUsername() !== $user->getUsername()) {
+                $this->notifier->onUserNameChange($user->getUserId(), $user->getUsername());
+            }
         }
     }
 

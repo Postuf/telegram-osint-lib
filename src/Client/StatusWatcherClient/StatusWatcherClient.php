@@ -376,4 +376,12 @@ class StatusWatcherClient implements
             $this->userCallbacks->onUserNameChange(new User($phone, $userName, $user->getUserId()), $userName);
         });
     }
+
+    /**
+     * @return ContactUser[]
+     */
+    public function getCurrentContacts(): array
+    {
+        return $this->contactKeeper->getContacts();
+    }
 }
