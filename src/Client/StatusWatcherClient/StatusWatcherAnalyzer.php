@@ -33,7 +33,7 @@ class StatusWatcherAnalyzer implements Analyzer
      *
      * @throws TGException
      */
-    public function analyzeMessage(AnonymousMessage $message)
+    public function analyzeMessage(AnonymousMessage $message): void
     {
         if(UpdateShort::isIt($message)) {
             $this->onUpdateShort(new UpdateShort($message));
@@ -118,6 +118,7 @@ class StatusWatcherAnalyzer implements Analyzer
         $contacts = new CurrentContacts($message);
         foreach ($contacts->getUsers() as $user) {
             $this->performStatusReaction($user->getUserId(), $user->getStatus());
+            $this->notifier->onUserNameChange($user->getUserId(), $user->getUsername());
         }
     }
 
