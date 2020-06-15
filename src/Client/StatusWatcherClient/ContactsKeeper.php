@@ -66,11 +66,13 @@ class ContactsKeeper
     private $contactsLoadedQueue = [];
 
     /**
-     * @param BasicClient $client
+     * @param BasicClient   $client
+     * @param ContactUser[] $startContacts
      */
-    public function __construct(BasicClient $client)
+    public function __construct(BasicClient $client, array $startContacts = [])
     {
         $this->client = $client;
+        $this->contacts = $startContacts;
     }
 
     /**
@@ -303,6 +305,7 @@ class ContactsKeeper
             return;
 
         // reset contacts
+        /** @noinspection NullPointerExceptionInspection */
         $this->client->getConnection()->getResponseAsync(
             new reset_saved_contacts(),
             function (/* @noinspection PhpUnusedParameterInspection */ AnonymousMessage $message) use ($onComplete) {
