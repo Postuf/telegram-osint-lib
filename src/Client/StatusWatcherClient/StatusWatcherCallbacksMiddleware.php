@@ -3,6 +3,7 @@
 namespace TelegramOSINT\Client\StatusWatcherClient;
 
 use TelegramOSINT\Client\StatusWatcherClient\Models\HiddenStatus;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
 
 interface StatusWatcherCallbacksMiddleware
@@ -33,4 +34,9 @@ interface StatusWatcherCallbacksMiddleware
     public function onUserPhoneChange(int $userId, string $phone): void;
 
     public function onUserNameChange(int $userId, string $username): void;
+
+    /**
+     * @return ContactUser[]
+     */
+    public function getCurrentContacts(): array;
 }

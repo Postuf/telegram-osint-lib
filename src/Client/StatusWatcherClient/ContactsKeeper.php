@@ -66,11 +66,13 @@ class ContactsKeeper
     private $contactsLoadedQueue = [];
 
     /**
-     * @param BasicClient $client
+     * @param BasicClient   $client
+     * @param ContactUser[] $startContacts
      */
-    public function __construct(BasicClient $client)
+    public function __construct(BasicClient $client, array $startContacts = [])
     {
         $this->client = $client;
+        $this->contacts = $startContacts;
     }
 
     /**
@@ -237,8 +239,9 @@ class ContactsKeeper
     private function checkLimitsExceeded(ImportedContacts $results)
     {
         $retryCount = count($results->getRetryContacts());
-        if($retryCount > 0)
+        if($retryCount > 0) {
             throw new TGException(TGException::ERR_MSG_IMPORT_CONTACTS_LIMIT_EXCEEDED, 'Count: '.$retryCount);
+        }
     }
 
     /**
@@ -249,11 +252,20 @@ class ContactsKeeper
     {
         $this->getUsersByPhones($numbers, function (array $contacts) use ($numbers, $onComplete) {
             // if all current contacts to be deleted
-            if(count($contacts) == count($this->contacts))
+            if(count($contacts) === count($this->contacts)) {
                 $this->cleanContacts($onComplete);
-            else
+            } else {
                 $this->delContacts($contacts, $onComplete);
+            }
         });
+    }
+
+    /**
+     * @return ContactUser[]
+     */
+    public function getContacts(): array
+    {
+        return $this->contacts;
     }
 
     /**
@@ -293,6 +305,7 @@ class ContactsKeeper
             return;
 
         // reset contacts
+        /** @noinspection NullPointerExceptionInspection */
         $this->client->getConnection()->getResponseAsync(
             new reset_saved_contacts(),
             function (/* @noinspection PhpUnusedParameterInspection */ AnonymousMessage $message) use ($onComplete) {

@@ -9,5 +9,5 @@ interface Analyzer
     /**
      * @param AnonymousMessage $message
      */
-    public function analyzeMessage(AnonymousMessage $message);
+    public function analyzeMessage(AnonymousMessage $message): void;
 }

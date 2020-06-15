@@ -61,10 +61,11 @@ class StatusWatcherClient implements
     /**
      * @param StatusWatcherCallbacks $callbacks
      * @param ClientDebugLogger|null $logger
+     * @param ContactUser[]          $startContacts
      *
      * @throws TGException
      */
-    public function __construct(StatusWatcherCallbacks $callbacks, ?ClientDebugLogger $logger = null)
+    public function __construct(StatusWatcherCallbacks $callbacks, ?ClientDebugLogger $logger = null, array $startContacts = [])
     {
         $this->basicClient = new BasicClientImpl(
             LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC,
@@ -76,7 +77,7 @@ class StatusWatcherClient implements
 
         $this->basicClient->setMessageListener($this);
         $this->messageAnalyzer = new StatusWatcherAnalyzer($this);
-        $this->contactKeeper = new ContactsKeeper($this->basicClient);
+        $this->contactKeeper = new ContactsKeeper($this->basicClient, $startContacts);
     }
 
     /**
@@ -375,5 +376,13 @@ class StatusWatcherClient implements
 
             $this->userCallbacks->onUserNameChange(new User($phone, $userName, $user->getUserId()), $userName);
         });
+    }
+
+    /**
+     * @return ContactUser[]
+     */
+    public function getCurrentContacts(): array
+    {
+        return $this->contactKeeper->getContacts();
     }
 }
