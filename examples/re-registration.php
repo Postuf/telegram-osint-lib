@@ -15,13 +15,13 @@ $phone = fgets(STDIN);
 
 $reg = new AccountRegistrar(/* $proxy */);
 /* @noinspection PhpUnhandledExceptionInspection */
-$reg->requestCodeForPhone($phone, static function () use ($reg) {
+$reg->requestCodeForPhone($phone, static function (bool $reReg) use ($reg) {
     echo 'SMS code: ';
     $code = fgets(STDIN);
 
     $reg->confirmPhoneWithSmsCode($code, static function (AuthKey $authKey) {
         echo 'AuthKey: '.$authKey->getSerializedAuthKey().PHP_EOL;
         die();
-    });
-});
+    }, $reReg);
+}, true);
 $reg->pollMessages();

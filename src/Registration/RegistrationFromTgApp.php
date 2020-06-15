@@ -97,29 +97,31 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
     /**
      * @param string   $phoneNumber
      * @param callable $cb          function()
+     * @param bool     $allowReReg
      *
      * @throws TGException
      */
-    public function requestCodeForPhone(string $phoneNumber, callable $cb): void
+    public function requestCodeForPhone(string $phoneNumber, callable $cb, bool $allowReReg = false): void
     {
         $phoneNumber = trim($phoneNumber);
 
         $this->phone = $phoneNumber;
-        $this->requestBlankAuthKey(function (AuthKey $authKey) use ($phoneNumber, $cb) {
+        $this->requestBlankAuthKey(function (AuthKey $authKey) use ($phoneNumber, $cb, $allowReReg) {
             $this->blankAuthKey = $authKey;
 
             $this->initSocketMessenger();
-            $this->initSocketAsOfficialApp(function () use ($phoneNumber, $cb) {
+            $this->initSocketAsOfficialApp(function () use ($phoneNumber, $cb, $allowReReg) {
                 $request = new send_sms_code($phoneNumber);
-                $this->socketMessenger->getResponseAsync($request, function (AnonymousMessage $smsSentResponse) use ($cb) {
+                $this->socketMessenger->getResponseAsync($request, function (AnonymousMessage $smsSentResponse) use ($cb, $allowReReg) {
                     $smsSentResponseObj = new SentCodeApp($smsSentResponse);
 
-                    if(!$smsSentResponseObj->isSentCodeTypeSms()) {
+                    $isReReg = $allowReReg && ($smsSentResponseObj->isSentCodeTypeApp() || $smsSentResponseObj->isSentCodeTypeSms());
+                    if(!$isReReg && !$smsSentResponseObj->isSentCodeTypeSms()) {
                         throw new TGException(TGException::ERR_REG_USER_ALREADY_EXISTS, $smsSentResponse);
                     }
                     $this->phoneHash = $smsSentResponseObj->getPhoneCodeHash();
                     $this->isSmsRequested = true;
-                    $cb();
+                    $cb($isReReg);
                 });
 
             });
@@ -182,29 +184,39 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
     /**
      * @param string   $smsCode
      * @param callable $onAuthKeyReady function(AuthKey $authKey)
+     * @param bool     $reReg
      *
      * @throws TGException
      */
-    public function confirmPhoneWithSmsCode(string $smsCode, callable $onAuthKeyReady): void
+    public function confirmPhoneWithSmsCode(string $smsCode, callable $onAuthKeyReady, bool $reReg = false): void
     {
         $smsCode = trim($smsCode);
 
         if(!$this->isSmsRequested) {
             throw new TGException(TGException::ERR_REG_REQUEST_SMS_CODE_FIRST);
         }
-        $this->signInFailed($smsCode, function () use ($onAuthKeyReady) {
+        $this->signInFailed($smsCode, function () use ($onAuthKeyReady, $reReg) {
             sleep(5);
-            $this->signUp(function () use ($onAuthKeyReady) {
-                $this->performLoginWorkFlow(function () use ($onAuthKeyReady) {
-                    $this->socketMessenger->terminate();
+            if (!$reReg) {
+                $this->signUp(function () use ($onAuthKeyReady) {
+                    $this->performLoginWorkFlow(function () use ($onAuthKeyReady) {
+                        $this->socketMessenger->terminate();
 
-                    $authInfo = (new AuthInfo())
-                        ->setPhone($this->phone)
-                        ->setAccountInfo($this->accountInfo);
+                        $authInfo = (new AuthInfo())
+                            ->setPhone($this->phone)
+                            ->setAccountInfo($this->accountInfo);
 
-                    $onAuthKeyReady(AuthKeyCreator::attachAuthInfo($this->blankAuthKey, $authInfo));
+                        $onAuthKeyReady(AuthKeyCreator::attachAuthInfo($this->blankAuthKey, $authInfo));
+                    });
                 });
-            });
+            } else {
+                $this->socketMessenger->terminate();
+                $authInfo = (new AuthInfo())
+                    ->setPhone($this->phone)
+                    ->setAccountInfo($this->accountInfo);
+
+                $onAuthKeyReady(AuthKeyCreator::attachAuthInfo($this->blankAuthKey, $authInfo));
+            }
         });
     }
 
