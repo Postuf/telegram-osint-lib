@@ -15,7 +15,10 @@ class ContactsKeeperMock extends ContactsKeeper
      */
     private $contacts;
 
-    /* @noinspection PhpMissingParentConstructorInspection */
+    /* @noinspection PhpMissingParentConstructorInspection
+     * @noinspection MagicMethodsValidityInspection
+     * @param BasicClient|null $client
+     */
     public function __construct(?BasicClient $client)
     {
         //parent::__construct($client);
@@ -24,16 +27,18 @@ class ContactsKeeperMock extends ContactsKeeper
     /**
      * @param ContactUser[] $contacts
      */
-    public function loadContacts(array $contacts)
+    public function loadContacts(array $contacts): void
     {
         $this->contacts = $contacts;
     }
 
-    public function getUserById(int $userId, callable $onSuccess)
+    public function getUserById(int $userId, callable $onSuccess): void
     {
-        foreach ($this->contacts as $contact)
-            if($contact->getUserId() == $userId)
+        foreach ($this->contacts as $contact) {
+            if ($contact->getUserId() === $userId) {
                 $onSuccess($contact);
+            }
+        }
     }
 
     protected function contactsLoaded(callable $onLoadedCallback): bool

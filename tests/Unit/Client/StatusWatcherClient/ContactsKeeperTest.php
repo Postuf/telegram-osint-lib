@@ -19,8 +19,6 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class ContactsKeeperTest extends TestCase
 {
-    /** @var BasicClient|MockObject */
-    private $basicClientMock;
     /** @var SocketMessenger|MockObject */
     private $socketMessengerMock;
     /** @var ContactsKeeper */
@@ -30,12 +28,12 @@ class ContactsKeeperTest extends TestCase
     {
         parent::setUp();
 
-        $this->basicClientMock = $this->createMock(BasicClient::class);
+        $basicClientMock = $this->createMock(BasicClient::class);
         $this->socketMessengerMock = $this->createMock(SocketMessenger::class);
-        $this->basicClientMock
+        $basicClientMock
             ->method('getConnection')
             ->willReturn($this->socketMessengerMock);
-        $this->keeper = new ContactsKeeper($this->basicClientMock);
+        $this->keeper = new ContactsKeeper($basicClientMock);
     }
 
     public function test_contacts_add(): void {
@@ -43,10 +41,10 @@ class ContactsKeeperTest extends TestCase
         $importedPhones = [];
         $runCount = 0;
         $calls = [];
-        $responseCb = function (
+        $responseCb = static function (
             TLClientMessage $message,
             callable $onAsyncResponse
-        ) use ($numbers, &$runCount, &$calls) {
+        ) use (&$runCount, &$calls) {
             if ($message instanceof import_contacts) {
                 $runCount++;
                 $result = new AnonymousMessageMock([
@@ -95,7 +93,7 @@ class ContactsKeeperTest extends TestCase
             ->willReturnCallback($responseCb);
 
         $returnedUsers = [];
-        $this->keeper->getUserByPhone('123', function ($user) use (&$returnedUsers) {
+        $this->keeper->getUserByPhone('123', static function ($user) use (&$returnedUsers) {
             if ($user) {
                 $returnedUsers[] = $user;
             }
@@ -107,10 +105,10 @@ class ContactsKeeperTest extends TestCase
                 unset($calls[$k]);
             }
         }
-        $this->assertEquals(count($returnedUsers), 0);
+        $this->assertCount(0, $returnedUsers);
 
         /* @noinspection PhpUnhandledExceptionInspection */
-        $this->keeper->addNumbers($numbers, function (ImportResult $result) use (&$importedPhones) {
+        $this->keeper->addNumbers($numbers, static function (ImportResult $result) use (&$importedPhones) {
             foreach ($result->importedPhones as $importedPhone) {
                 $importedPhones[] = $importedPhone;
             }
@@ -131,10 +129,10 @@ class ContactsKeeperTest extends TestCase
         $numbers = ['123'];
         $runCount = 0;
         $calls = [];
-        $responseCb = function (
+        $responseCb = static function (
             TLClientMessage $message,
             callable $onAsyncResponse
-        ) use ($numbers, &$runCount, &$calls) {
+        ) use (&$runCount, &$calls) {
             if ($message instanceof delete_contacts) {
                 $result = new AnonymousMessageMock([
                     '_'     => 'updates',
@@ -183,7 +181,7 @@ class ContactsKeeperTest extends TestCase
             ->willReturnCallback($responseCb);
 
         $returnedUsers = [];
-        $this->keeper->getUserByPhone('123', function ($user) use (&$returnedUsers) {
+        $this->keeper->getUserByPhone('123', static function ($user) use (&$returnedUsers) {
             if ($user) {
                 $returnedUsers[] = $user;
             }
@@ -195,7 +193,7 @@ class ContactsKeeperTest extends TestCase
                 unset($calls[$k]);
             }
         }
-        $this->assertEquals(count($returnedUsers), 1);
+        $this->assertCount(1, $returnedUsers);
 
         while ($calls) {
             foreach ($calls as $k => $call) {
@@ -205,7 +203,7 @@ class ContactsKeeperTest extends TestCase
             }
         }
 
-        $this->keeper->delNumbers($numbers, function () { });
+        $this->keeper->delNumbers($numbers, static function () { });
         while ($calls) {
             foreach ($calls as $k => $call) {
                 $callFunc = $call[0];
@@ -215,7 +213,7 @@ class ContactsKeeperTest extends TestCase
         }
 
         $cc = [];
-        $this->keeper->getCurrentContacts(function (array $contacts) use (&$cc) {
+        $this->keeper->getCurrentContacts(static function (array $contacts) use (&$cc) {
             if ($contacts) {
                 $cc[] = 1;
             }
@@ -229,7 +227,7 @@ class ContactsKeeperTest extends TestCase
             }
         }
 
-        $this->assertEquals(count($cc), 0);
+        $this->assertCount(0, $cc);
     }
 
     /**
@@ -240,10 +238,10 @@ class ContactsKeeperTest extends TestCase
         $importedPhones = [];
         $runCount = 0;
         $calls = [];
-        $responseCb = function (
+        $responseCb = static function (
             TLClientMessage $message,
             callable $onAsyncResponse
-        ) use ($numbers, &$runCount, &$calls) {
+        ) use (&$runCount, &$calls) {
             if ($message instanceof import_contacts) {
                 $runCount++;
                 $result = new AnonymousMessageMock([
@@ -297,7 +295,7 @@ class ContactsKeeperTest extends TestCase
             ->willReturnCallback($responseCb);
 
         /* @noinspection PhpUnhandledExceptionInspection */
-        $this->keeper->addNumbers($numbers, function (ImportResult $result) use (&$importedPhones) {
+        $this->keeper->addNumbers($numbers, static function (ImportResult $result) use (&$importedPhones) {
             foreach ($result->importedPhones as $importedPhone) {
                 $importedPhones[] = $importedPhone;
             }

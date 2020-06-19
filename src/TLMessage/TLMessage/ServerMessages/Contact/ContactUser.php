@@ -82,9 +82,16 @@ class ContactUser extends TLServerMessage implements MessageWithUserId
         return $this->getTlMessage()->getValue('phone');
     }
 
+    /**
+     * @see https://core.telegram.org/constructor/user
+     *
+     * @return string|null
+     */
     public function getUsername(): ?string
     {
-        return $this->getTlMessage()->getValue('username');
+        return $this->getTlMessage()->hasNode('username')
+            ? $this->getTlMessage()->getValue('username')
+            : null;
     }
 
     public function getAccessHash(): int

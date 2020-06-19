@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Unit\TLMessage\TLMessage\ServerMessages;
 
+use JsonException;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\MTSerialization\OwnImplementation\OwnAnonymousMessage;
@@ -92,6 +93,8 @@ class AnonymousMessageMock implements AnonymousMessage
     }
 
     /**
+     * @throws JsonException
+     *
      * @return string
      */
     public function getPrintable(): string
@@ -105,5 +108,10 @@ class AnonymousMessageMock implements AnonymousMessage
     public function getDebugPrintable(): string
     {
         return $this->impl->getDebugPrintable();
+    }
+
+    public function hasNode(string $name): bool
+    {
+        return true;
     }
 }

@@ -215,6 +215,35 @@ class StatusWatcherClient implements
     }
 
     /**
+     * @param string[] $userNames
+     * @param callable $onComplete function()
+     *
+     * @throws TGException
+     */
+    public function delUsers(array $userNames, callable $onComplete): void
+    {
+        $this->throwIfNotLoggedIn(__METHOD__);
+        $this->contactKeeper->delUsers($userNames, static function () use ($onComplete) {
+            $onComplete();
+        });
+    }
+
+    /**
+     * @param array    $numbers
+     * @param string[] $userNames
+     * @param callable $onComplete function()
+     *
+     * @throws TGException
+     */
+    public function delNumbersAndUsers(array $numbers, array $userNames, callable $onComplete): void
+    {
+        $this->throwIfNotLoggedIn(__METHOD__);
+        $this->contactKeeper->delNumbersAndUsers($numbers, $userNames, static function () use ($onComplete) {
+            $onComplete();
+        });
+    }
+
+    /**
      * @param callable $onComplete function()
      *
      * @throws TGException

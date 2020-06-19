@@ -103,9 +103,9 @@ class TraceSocketMessenger extends EncryptedSocketMessenger
                     'req_msg_id' => $reqMsgId,
                     'result'     => $arrMsg,
                 ]);
-            } else {
-                return null;
             }
+
+            return null;
         }
 
         return null;
