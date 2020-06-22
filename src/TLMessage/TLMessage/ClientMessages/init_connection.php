@@ -42,7 +42,7 @@ class init_connection implements TLClientMessage
 
     public function toBinary(): string
     {
-        $flags = 1026;
+        $flags = 2;
 
         return
             Packer::packConstructor(self::CONSTRUCTOR).
