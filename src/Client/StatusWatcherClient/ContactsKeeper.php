@@ -378,7 +378,9 @@ class ContactsKeeper
     {
         foreach ($contacts as $contact) {
             $this->contacts[$contact->getUserId()] = $contact;
-            $this->contactsByPhone[Phone::convertToTelegramView($contact->getPhone())] = $contact;
+            if ($contact->getPhone()) {
+                $this->contactsByPhone[Phone::convertToTelegramView($contact->getPhone())] = $contact;
+            }
             if ($contact->getUsername()) {
                 $this->contactsByUsername[$contact->getUsername()] = $contact;
             }

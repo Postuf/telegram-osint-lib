@@ -13,7 +13,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class add_contact implements TLClientMessage
 {
-    const CONSTRUCTOR = -386636848; // 0xE8F463D0
+    private const CONSTRUCTOR = -386636848; // 0xE8F463D0
 
     /**
      * @var int

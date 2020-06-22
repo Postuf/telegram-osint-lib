@@ -79,7 +79,9 @@ class ContactUser extends TLServerMessage implements MessageWithUserId
 
     public function getPhone(): ?string
     {
-        return $this->getTlMessage()->getValue('phone');
+        return $this->getTlMessage()->hasNode('phone')
+            ? $this->getTlMessage()->getValue('phone')
+            : null;
     }
 
     /**
@@ -96,17 +98,23 @@ class ContactUser extends TLServerMessage implements MessageWithUserId
 
     public function getAccessHash(): int
     {
-        return $this->getTlMessage()->getValue('access_hash');
+        return $this->getTlMessage()->hasNode('access_hash')
+            ? $this->getTlMessage()->getValue('access_hash')
+            : 0;
     }
 
     public function getFirstName(): ?string
     {
-        return $this->getTlMessage()->getValue('first_name');
+        return $this->getTlMessage()->hasNode('first_name')
+            ? $this->getTlMessage()->getValue('first_name')
+            : null;
     }
 
     public function getLastName(): ?string
     {
-        return $this->getTlMessage()->getValue('last_name');
+        return $this->getTlMessage()->hasNode('last_name')
+            ? $this->getTlMessage()->getValue('last_name')
+            : null;
     }
 
     public function getLangCode(): ?string

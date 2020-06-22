@@ -12,9 +12,9 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class delete_contacts implements TLClientMessage
 {
-    const CONSTRUCTOR = 157945344; // 0x96A0E00
+    private const CONSTRUCTOR = 157945344; // 0x96A0E00
     /** @see https://core.telegram.org/type/InputUser */
-    const INPUT_USER_CONSTRUCTOR = -668391402; // 0xD8292816
+    private const INPUT_USER_CONSTRUCTOR = -668391402; // 0xD8292816
 
     /**
      * @param array
@@ -33,6 +33,11 @@ class delete_contacts implements TLClientMessage
         ];
     }
 
+    public function getContactsToDelete(): array
+    {
+        return $this->contactsToDelete;
+    }
+
     public function getName(): string
     {
         return 'delete_contacts';
@@ -47,7 +52,7 @@ class delete_contacts implements TLClientMessage
 
     private function getElementGenerator(): callable
     {
-        return function ($userData) {
+        return static function ($userData) {
             return
                 Packer::packConstructor(self::INPUT_USER_CONSTRUCTOR).
                 Packer::packInt($userData['user_id']).
