@@ -111,14 +111,13 @@ class ContactsKeeper
     /**
      * @param string   $userName
      * @param callable $onComplete function(bool)
-     * @param bool     $throw
      */
-    public function addUser(string $userName, callable $onComplete, bool $throw = false): void
+    public function addUser(string $userName, callable $onComplete): void
     {
         /** @noinspection NullPointerExceptionInspection */
         $this->client->getConnection()->getResponseAsync(
             new contacts_search($userName, 1),
-            function (AnonymousMessage $message) use ($userName, $onComplete, $throw) {
+            function (AnonymousMessage $message) use ($userName, $onComplete) {
                 $object = new ContactFound($message);
                 $users = $object->getUsers();
                 if(empty($users)){
@@ -137,7 +136,22 @@ class ContactsKeeper
                     return;
                 }
 
-                $this->addUserByUsernameHash($id, $hash, $username, $onComplete, $throw);
+                $this->getUserById($id, function ($contact) use ($id, $hash, $username, $onComplete) {
+
+                    if($contact) {
+                        throw new TGException(TGException::ERR_CLIENT_ADD_USERNAME_ALREADY_IN_ADDRESS_BOOK, $username);
+                    }
+                    /** @noinspection NullPointerExceptionInspection */
+                    $this->client->getConnection()->getResponseAsync(
+                        new add_contact($id, $hash),
+                        function (AnonymousMessage $message) use ($onComplete) {
+                            $updates = new Updates($message);
+                            $users = $updates->getUsers();
+                            $this->onContactsAdded($users);
+                            $onComplete(true);
+                        }
+                    );
+                });
             }
         );
     }
@@ -541,37 +555,5 @@ class ContactsKeeper
             /** @noinspection NullPointerExceptionInspection */
             $this->client->getConnection()->getResponseAsync($request, $callback);
         }
-    }
-
-    /**
-     * @param int         $id
-     * @param int         $hash
-     * @param string|null $username
-     * @param callable    $onComplete
-     * @param bool        $throw
-     */
-    private function addUserByUsernameHash(int $id, int $hash, ?string $username, callable $onComplete, bool $throw = false): void
-    {
-        $this->getUserById($id, function ($contact) use ($id, $hash, $username, $onComplete, $throw) {
-            if ($contact) {
-                if ($throw) {
-                    throw new TGException(TGException::ERR_CLIENT_ADD_USERNAME_ALREADY_IN_ADDRESS_BOOK, $username);
-                }
-
-                $onComplete(true);
-
-                return;
-            }
-            /** @noinspection NullPointerExceptionInspection */
-            $this->client->getConnection()->getResponseAsync(
-                new add_contact($id, $hash),
-                function (AnonymousMessage $message) use ($onComplete) {
-                    $updates = new Updates($message);
-                    $users = $updates->getUsers();
-                    $this->onContactsAdded($users);
-                    $onComplete(true);
-                }
-            );
-        });
     }
 }

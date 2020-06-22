@@ -83,16 +83,15 @@ class StatusWatcherClient implements
     /**
      * @param AuthKey       $authKey
      * @param Proxy         $proxy
-     * @param callable|null $cb           function()
-     * @param bool          $updateStatus
+     * @param callable|null $cb      function()
      *
      * @throws TGException
      *
      * @return void
      */
-    public function login(AuthKey $authKey, Proxy $proxy = null, ?callable $cb = null, bool $updateStatus = true): void
+    public function login(AuthKey $authKey, Proxy $proxy = null, ?callable $cb = null): void
     {
-        $this->basicClient->login($authKey, $proxy, $cb, $updateStatus);
+        $this->basicClient->login($authKey, $proxy, $cb);
     }
 
     public function isLoggedIn(): bool
