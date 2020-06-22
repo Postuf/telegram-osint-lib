@@ -38,6 +38,11 @@ class ContactsKeeperTest extends TestCase
         $this->keeper = new ContactsKeeper($basicClientMock);
     }
 
+    /**
+     * Check that contacts are added by phone
+     *
+     * @throws TGException
+     */
     public function test_contacts_add(): void
     {
         $numbers = ['123', '456'];
@@ -116,6 +121,9 @@ class ContactsKeeperTest extends TestCase
         $this->assertEquals($importedPhones, $numbers);
     }
 
+    /**
+     * Check that contact is added by username
+     */
     public function test_contacts_add_username(): void
     {
         $runCount = 0;
@@ -175,6 +183,9 @@ class ContactsKeeperTest extends TestCase
         $this->processCalls($calls);
     }
 
+    /**
+     * Check that contact can be deleted by phone
+     */
     public function test_contacts_del(): void
     {
         $numbers = ['123'];
@@ -256,6 +267,9 @@ class ContactsKeeperTest extends TestCase
         $this->assertCount(0, $cc);
     }
 
+    /**
+     * Check that contact can be deleted by username
+     */
     public function test_contacts_del_username(): void
     {
         $runCount = 0;
@@ -290,6 +304,9 @@ class ContactsKeeperTest extends TestCase
         $this->assertCount(0, $cc);
     }
 
+    /**
+     * Check that contact can be deleted by new phone after phone update
+     */
     public function test_contacts_update_phone(): void
     {
         $runCount = 0;
@@ -325,6 +342,9 @@ class ContactsKeeperTest extends TestCase
         $this->assertCount(0, $cc);
     }
 
+    /**
+     * Check that contact can be deleted by new username after username update
+     */
     public function test_contacts_update_username(): void
     {
         $runCount = 0;
@@ -360,6 +380,9 @@ class ContactsKeeperTest extends TestCase
         $this->assertCount(0, $cc);
     }
 
+    /**
+     * Check that deleting contact both by phone number and username deletes it once
+     */
     public function test_contacts_del_username_and_number(): void
     {
         $runCount = 0;
@@ -451,6 +474,9 @@ class ContactsKeeperTest extends TestCase
         $this->assertCount(1, $cc);
     }
 
+    /**
+     * Check that deleting contacts in several consequent calls leads to exception
+     */
     public function test_contacts_del_frequent(): void
     {
         $runCount = 0;
@@ -476,6 +502,8 @@ class ContactsKeeperTest extends TestCase
     }
 
     /**
+     * Check that adding same contact twice leads to exception
+     *
      * @throws TGException
      */
     public function test_contacts_add_exception(): void
