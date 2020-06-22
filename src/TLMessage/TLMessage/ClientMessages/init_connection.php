@@ -14,7 +14,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class init_connection implements TLClientMessage
 {
-    const CONSTRUCTOR = 3251461801; // 0xC1CD5EA9
+    private const CONSTRUCTOR = 3251461801; // 0xC1CD5EA9
 
     /**
      * @var AccountInfo
@@ -42,7 +42,7 @@ class init_connection implements TLClientMessage
 
     public function toBinary(): string
     {
-        $flags = 1026;
+        $flags = 2050;
 
         return
             Packer::packConstructor(self::CONSTRUCTOR).
