@@ -18,6 +18,11 @@ use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
  */
 class ContactUser extends TLServerMessage implements MessageWithUserId
 {
+    /** @var string|null */
+    private $phone;
+    /** @var string|null */
+    private $username;
+
     /**
      * @param AnonymousMessage $tlMessage
      *
@@ -79,12 +84,21 @@ class ContactUser extends TLServerMessage implements MessageWithUserId
 
     public function getPhone(): ?string
     {
-        return $this->getTlMessage()->getValue('phone');
+        return $this->phone ?? ($this->getTlMessage()->hasNode('phone')
+            ? $this->getTlMessage()->getValue('phone')
+            : null);
     }
 
+    /**
+     * @see https://core.telegram.org/constructor/user
+     *
+     * @return string|null
+     */
     public function getUsername(): ?string
     {
-        return $this->getTlMessage()->getValue('username');
+        return $this->username ?? ($this->getTlMessage()->hasNode('username')
+            ? $this->getTlMessage()->getValue('username')
+            : null);
     }
 
     public function getAccessHash(): int
@@ -94,16 +108,30 @@ class ContactUser extends TLServerMessage implements MessageWithUserId
 
     public function getFirstName(): ?string
     {
-        return $this->getTlMessage()->getValue('first_name');
+        return $this->getTlMessage()->hasNode('first_name')
+            ? $this->getTlMessage()->getValue('first_name')
+            : null;
     }
 
     public function getLastName(): ?string
     {
-        return $this->getTlMessage()->getValue('last_name');
+        return $this->getTlMessage()->hasNode('last_name')
+            ? $this->getTlMessage()->getValue('last_name')
+            : null;
     }
 
     public function getLangCode(): ?string
     {
         return $this->getTlMessage()->getValue('lang_code');
+    }
+
+    public function setPhone(?string $phone): void
+    {
+        $this->phone = $phone;
+    }
+
+    public function setUsername(?string $username): void
+    {
+        $this->username = $username;
     }
 }

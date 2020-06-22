@@ -334,4 +334,9 @@ class AnonymousMessageMock implements AnonymousMessage
             ],
         ]);
     }
+
+    public function hasNode(string $name): bool
+    {
+        return true;
+    }
 }

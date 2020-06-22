@@ -7,6 +7,7 @@ namespace Integration\Scenario;
 use Helpers\NullBasicClientGenerator;
 use Helpers\TestClientGenerator;
 use Helpers\TraceConverter\TraceConverterJsonToText;
+use JsonException;
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Client\InfoObtainingClient\Models\UserInfoModel;
 use TelegramOSINT\Exception\TGException;
@@ -18,12 +19,12 @@ class UserContactsTest extends TestCase
     private const TRACE_PATH = '/traces/user-contacts-scenario.json';
 
     /**
-     * @throws TGException
+     * @throws TGException|JsonException
      */
     public function test_get_users_first_name(): void
     {
         $file = TraceConverterJsonToText::fromFile(__DIR__.self::TRACE_PATH);
-        $baseGenerator = new NullBasicClientGenerator(json_decode($file, true));
+        $baseGenerator = new NullBasicClientGenerator(json_decode($file, true, 512, JSON_THROW_ON_ERROR));
         $generator = new TestClientGenerator($baseGenerator, self::DEFAULT_AUTHKEY);
 
         $numbers_parsed = 0;

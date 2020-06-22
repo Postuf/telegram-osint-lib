@@ -8,6 +8,9 @@ use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
+/**
+ * @see https://core.telegram.org/constructor/contacts.found
+ */
 class ContactFound extends TLServerMessage
 {
     /**
@@ -29,8 +32,9 @@ class ContactFound extends TLServerMessage
     {
         $users = $this->getTlMessage()->getNodes('users');
         $userObjects = [];
-        foreach ($users as $user)
+        foreach ($users as $user) {
             $userObjects[] = new ContactUser($user);
+        }
 
         return $userObjects;
     }

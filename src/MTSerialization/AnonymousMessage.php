@@ -16,6 +16,15 @@ interface AnonymousMessage
     public function getNode(string $name): self;
 
     /**
+     * Return if named node from current object exists
+     *
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function hasNode(string $name): bool;
+
+    /**
      * Return array of nodes under the $name from current object
      *
      * @param string $name

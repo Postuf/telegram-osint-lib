@@ -10,17 +10,20 @@ require_once __DIR__.'/../vendor/autoload.php';
 // here we get contact list and get contact online status
 // avatars are saved to current directory
 
-$argsOrFalse = getopt('n:h', ['numbers:', 'help']);
+$argsOrFalse = getopt('n:u:h', ['numbers:', 'users:', 'help']);
 if ($argsOrFalse === false
     || (array_key_exists('h', $argsOrFalse) || array_key_exists('help', $argsOrFalse))
-    || (!array_key_exists('n', $argsOrFalse) && !array_key_exists('numbers', $argsOrFalse))
+    || ((!array_key_exists('n', $argsOrFalse) && !array_key_exists('numbers', $argsOrFalse))
+        && (!array_key_exists('u', $argsOrFalse) && !array_key_exists('users', $argsOrFalse)))
 ) {
     echo <<<'EOT'
 Usage:
-    php parseNumbers.php -n numbers
+    php parseNumbers.php -n numbers [ -u users ]
     php parseNumbers.php --numbers numbers
+    php parseNumbers.php --users users
 
    -n, --numbers                Comma separated phone number list (e.g. 79061231231,79061231232).
+   -u, --users                  Comma separated username list (e.g. aaa,bbb).
    -h, --help                   Display this help message.
 
 EOT;
@@ -28,6 +31,7 @@ EOT;
 }
 
 $numbers = explode(',', $argsOrFalse['n'] ?? $argsOrFalse['numbers']);
+$users = array_filter(explode(',', $argsOrFalse['u'] ?? $argsOrFalse['users'] ?? ''));
 
 $onComplete = function (UserInfoModel $model) {
     $photo_file = '';
@@ -64,7 +68,7 @@ echo "Phone\t|\tUsername\t|\tFirst name\t|\tLast name\t|\tPhoto\t|\tAbout\t|\tCo
 /** @noinspection PhpUnhandledExceptionInspection */
 $client = new UserContactsScenario(
     $numbers,
-    [],
+    $users,
     $onComplete
 );
 /* @noinspection PhpUnhandledExceptionInspection */

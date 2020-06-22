@@ -13,9 +13,9 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class import_contacts implements TLClientMessage
 {
-    const CONSTRUCTOR = 746589157; // 0x2C800BE5
+    public const CONSTRUCTOR = 746589157; // 0x2C800BE5
     /** @see https://core.telegram.org/constructor/inputPhoneContact */
-    const INPUT_PHONE_CONTACT_CONSTRUCTOR = -208488460; // 0xf392b7f4
+    public const INPUT_PHONE_CONTACT_CONSTRUCTOR = -208488460; // 0xf392b7f4
 
     /**
      * @var string[]

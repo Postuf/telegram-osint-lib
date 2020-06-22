@@ -4,7 +4,7 @@ namespace TelegramOSINT\Client\StatusWatcherClient;
 
 use TelegramOSINT\Client\AuthKey\AuthKey;
 use TelegramOSINT\Client\BasicClient\BasicClient;
-use TelegramOSINT\Client\BasicClient\BasicClientImpl;
+use TelegramOSINT\Client\BasicClient\BasicClientWithStatusReportingImpl;
 use TelegramOSINT\Client\ContactKeepingClient;
 use TelegramOSINT\Client\Helpers\ReloadContactsHandler;
 use TelegramOSINT\Client\PeriodicClient;
@@ -67,7 +67,7 @@ class StatusWatcherClient implements
      */
     public function __construct(StatusWatcherCallbacks $callbacks, ?ClientDebugLogger $logger = null, array $startContacts = [])
     {
-        $this->basicClient = new BasicClientImpl(
+        $this->basicClient = new BasicClientWithStatusReportingImpl(
             LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC,
             $logger
         );
@@ -201,15 +201,30 @@ class StatusWatcherClient implements
     }
 
     /**
-     * @param string   $userName
+     * @param string[] $userNames
      * @param callable $onComplete function()
      *
      * @throws TGException
      */
-    public function delUser(string $userName, callable $onComplete): void
+    public function delUsers(array $userNames, callable $onComplete): void
     {
         $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactKeeper->delUser($userName, static function () use ($onComplete) {
+        $this->contactKeeper->delUsers($userNames, static function () use ($onComplete) {
+            $onComplete();
+        });
+    }
+
+    /**
+     * @param array    $numbers
+     * @param string[] $userNames
+     * @param callable $onComplete function()
+     *
+     * @throws TGException
+     */
+    public function delNumbersAndUsers(array $numbers, array $userNames, callable $onComplete): void
+    {
+        $this->throwIfNotLoggedIn(__METHOD__);
+        $this->contactKeeper->delNumbersAndUsers($numbers, $userNames, static function () use ($onComplete) {
             $onComplete();
         });
     }
@@ -359,6 +374,9 @@ class StatusWatcherClient implements
             $phone = $user->getPhone();
             $userName = $user->getUsername();
 
+            if (!empty($phone)) {
+                $this->contactKeeper->updatePhone($user->getUserId(), $user->getPhone());
+            }
             $this->userCallbacks->onUserPhoneChange(new User($phone, $userName, $user->getUserId()), $phone);
         });
     }
@@ -374,6 +392,7 @@ class StatusWatcherClient implements
             $phone = $user->getPhone();
             $userName = $user->getUsername();
 
+            $this->contactKeeper->updateUsername($user->getUserId(), $user->getUsername());
             $this->userCallbacks->onUserNameChange(new User($phone, $userName, $user->getUserId()), $userName);
         });
     }

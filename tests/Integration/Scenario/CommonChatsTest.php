@@ -7,6 +7,7 @@ namespace Integration\Scenario;
 use Helpers\NullBasicClientGenerator;
 use Helpers\TestClientGenerator;
 use Helpers\TraceConverter\TraceConverterJsonToText;
+use JsonException;
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Scenario\CommonChatsScenario;
@@ -19,15 +20,16 @@ class CommonChatsTest extends TestCase
 
     /**
      * @throws TGException
+     * @throws JsonException
      */
     public function test_get_interests(): void
     {
         @unlink(__DIR__.'/../../../src/Scenario/CommonChatsScenario.php.tmp');
         $file = TraceConverterJsonToText::fromFile(__DIR__.self::TRACE_PATH);
-        $baseGenerator = new NullBasicClientGenerator(json_decode($file, true));
+        $baseGenerator = new NullBasicClientGenerator(json_decode($file, true, 512, JSON_THROW_ON_ERROR));
         $interests = 0;
-        $callback = function (array $iterestAr) use (&$interests) {
-            $interests = count($iterestAr);
+        $callback = static function (array $interestAr) use (&$interests) {
+            $interests = count($interestAr);
         };
         $generator = new TestClientGenerator($baseGenerator, self::DEFAULT_AUTHKEY);
 

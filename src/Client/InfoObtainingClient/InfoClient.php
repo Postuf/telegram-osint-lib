@@ -13,7 +13,6 @@ use TelegramOSINT\Client\InfoObtainingClient\Models\PictureModel;
 use TelegramOSINT\Client\InfoObtainingClient\Models\UserInfoModel;
 use TelegramOSINT\Client\InfoObtainingClient\Models\UserStatusModel;
 use TelegramOSINT\Client\StatusWatcherClient\ContactsKeeper;
-use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\Scenario\BasicClientGeneratorInterface;
@@ -340,7 +339,7 @@ class InfoClient implements InfoObtainingClient, ContactKeepingClient
     {
         /** @noinspection NullPointerExceptionInspection */
         $this->basicClient->getConnection()->getResponseAsync(
-            new contacts_search($userName, 3),
+            new contacts_search($userName, 1),
             function (AnonymousMessage $message) use ($userName, $withPhoto, $largePhoto, $onComplete) {
 
                 $object = new ContactFound($message);
