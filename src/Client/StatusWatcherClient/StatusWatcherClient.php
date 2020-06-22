@@ -201,20 +201,6 @@ class StatusWatcherClient implements
     }
 
     /**
-     * @param string   $userName
-     * @param callable $onComplete function()
-     *
-     * @throws TGException
-     */
-    public function delUser(string $userName, callable $onComplete): void
-    {
-        $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactKeeper->delUser($userName, static function () use ($onComplete) {
-            $onComplete();
-        });
-    }
-
-    /**
      * @param string[] $userNames
      * @param callable $onComplete function()
      *

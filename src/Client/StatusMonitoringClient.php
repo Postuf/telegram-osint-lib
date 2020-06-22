@@ -37,14 +37,6 @@ interface StatusMonitoringClient extends Client
     public function addUser(string $userName, callable $onComplete): void;
 
     /**
-     * Removes single username from monitoring book
-     *
-     * @param string   $userName
-     * @param callable $onComplete function()
-     */
-    public function delUser(string $userName, callable $onComplete): void;
-
-    /**
      * Removes multiple usernames from monitoring book
      *
      * @param string[] $userNames

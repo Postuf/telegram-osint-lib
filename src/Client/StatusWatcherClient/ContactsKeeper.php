@@ -157,19 +157,6 @@ class ContactsKeeper
     }
 
     /**
-     * @param string   $userName
-     * @param callable $onComplete function()
-     */
-    public function delUser(string $userName, callable $onComplete): void
-    {
-        $this->getUserByName($userName, function ($contact) use ($onComplete) {
-            if($contact instanceof ContactUser) {
-                $this->delContacts([$contact], $onComplete);
-            }
-        });
-    }
-
-    /**
      * @param array    $userNames
      * @param callable $onComplete function()
      */
@@ -483,24 +470,6 @@ class ContactsKeeper
         $this->getUsersByPhones([$phone], static function ($users) use ($onSuccess) {
             $onSuccess(empty($users) ? null : $users[0]);
         });
-    }
-
-    /**
-     * @param string   $username
-     * @param callable $onSuccess function(ContactUser $user)
-     */
-    private function getUserByName(string $username, callable $onSuccess): void
-    {
-        if(!$this->contactsLoaded(function () use ($username, $onSuccess) {$this->getUserByName($username, $onSuccess); })) {
-            return;
-        }
-
-        foreach ($this->contacts as $contact) {
-            if(Username::equal($contact->getUsername(), $username)) {
-                $onSuccess($contact);
-                break;
-            }
-        }
     }
 
     /**
