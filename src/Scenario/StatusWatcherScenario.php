@@ -116,16 +116,16 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
             $this->log('Replaced phones:'.print_r($result->replacedPhones, true).PHP_EOL);
         });
 
-        // wait a little between operations in order to get possible exceptions
-        // it is preferable only once after first call of import/add contacts
-        for($i = 0; $i < self::INITIAL_POLL_CYCLE_COUNT; $i++) {
-            $this->pollClientCycle($this->client);
-        }
-
         /* add via user names */
         foreach ($this->users as $user) {
             $this->client->addUser($user, static function (bool $addResult) {
             });
+        }
+
+        // wait a little between operations in order to get possible exceptions
+        // it is preferable only once after first call of import/add contacts
+        for($i = 0; $i < self::INITIAL_POLL_CYCLE_COUNT; $i++) {
+            $this->pollClientCycle($this->client);
         }
 
         $start = time();

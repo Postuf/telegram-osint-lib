@@ -109,7 +109,7 @@ class ContactsKeeper
     }
 
     /**
-     * @param string   $userName
+     * @param string $userName
      * @param callable $onComplete function(bool)
      */
     public function addUser(string $userName, callable $onComplete): void

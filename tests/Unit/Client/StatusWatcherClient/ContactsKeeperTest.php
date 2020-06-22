@@ -51,28 +51,28 @@ class ContactsKeeperTest extends TestCase
             if ($message instanceof import_contacts) {
                 $runCount++;
                 $result = new AnonymousMessageMock([
-                    '_' => 'contacts.importedContacts',
+                    '_'        => 'contacts.importedContacts',
                     'imported' => [
                         [
-                            '_' => 'importedContact',
-                            'user_id' => 1,
+                            '_'         => 'importedContact',
+                            'user_id'   => 1,
                             'client_id' => 1123,
                         ],
                         [
-                            '_' => 'importedContact',
-                            'user_id' => 2,
+                            '_'         => 'importedContact',
+                            'user_id'   => 2,
                             'client_id' => 1456,
                         ],
                     ],
                     'users' => [
                         [
-                            '_' => 'user',
-                            'id' => 1,
+                            '_'     => 'user',
+                            'id'    => 1,
                             'phone' => '123',
                         ],
                         [
-                            '_' => 'user',
-                            'id' => 2,
+                            '_'     => 'user',
+                            'id'    => 2,
                             'phone' => '456',
                         ],
                     ],
@@ -80,7 +80,7 @@ class ContactsKeeperTest extends TestCase
                 ]);
             } elseif ($message instanceof get_contacts) {
                 $result = new AnonymousMessageMock([
-                    '_' => 'contacts.contacts',
+                    '_'     => 'contacts.contacts',
                     'users' => [
                     ],
                 ]);
@@ -127,30 +127,30 @@ class ContactsKeeperTest extends TestCase
             if ($message instanceof contacts_search) {
                 $runCount++;
                 $result = new AnonymousMessageMock([
-                    '_' => 'contacts.found',
+                    '_'     => 'contacts.found',
                     'users' => [
                         [
-                            '_' => 'user',
-                            'id' => 1,
+                            '_'           => 'user',
+                            'id'          => 1,
                             'access_hash' => 2135235215,
-                            'phone' => '123',
-                            'username' => 'aaa',
+                            'phone'       => '123',
+                            'username'    => 'aaa',
                         ],
                     ],
                 ]);
             } elseif ($message instanceof get_contacts) {
                 $result = new AnonymousMessageMock([
-                    '_' => 'contacts.contacts',
+                    '_'     => 'contacts.contacts',
                     'users' => [
                     ],
                 ]);
             } elseif ($message instanceof add_contact) {
                 $result = new AnonymousMessageMock([
-                    '_' => 'updates',
+                    '_'     => 'updates',
                     'users' => [
                         [
-                            '_' => 'user',
-                            'id' => 1,
+                            '_'        => 'user',
+                            'id'       => 1,
                             'username' => 'aaa',
                         ],
                     ],
@@ -186,10 +186,10 @@ class ContactsKeeperTest extends TestCase
         ) use (&$runCount, &$calls) {
             if ($message instanceof delete_contacts) {
                 $result = new AnonymousMessageMock([
-                    '_' => 'updates',
+                    '_'     => 'updates',
                     'users' => [
                         [
-                            '_' => 'user',
+                            '_'  => 'user',
                             'id' => 1,
                         ],
                     ],
@@ -197,17 +197,17 @@ class ContactsKeeperTest extends TestCase
             } elseif ($message instanceof get_contacts) {
                 if ($runCount) {
                     $result = new AnonymousMessageMock([
-                        '_' => 'contacts.contacts',
+                        '_'     => 'contacts.contacts',
                         'users' => [],
                     ]);
                 } else {
                     $result = new AnonymousMessageMock([
-                        '_' => 'contacts.contacts',
+                        '_'     => 'contacts.contacts',
                         'users' => [
                             [
-                                '_' => 'user',
-                                'id' => 1,
-                                'phone' => '123',
+                                '_'           => 'user',
+                                'id'          => 1,
+                                'phone'       => '123',
                                 'access_hash' => 1,
                             ],
                         ],
@@ -266,10 +266,10 @@ class ContactsKeeperTest extends TestCase
         ) use (&$runCount, &$calls) {
             if ($message instanceof delete_contacts) {
                 $result = new AnonymousMessageMock([
-                    '_' => 'updates',
+                    '_'     => 'updates',
                     'users' => [
                         [
-                            '_' => 'user',
+                            '_'  => 'user',
                             'id' => 1,
                         ],
                     ],
@@ -277,19 +277,19 @@ class ContactsKeeperTest extends TestCase
             } elseif ($message instanceof get_contacts) {
                 if ($runCount) {
                     $result = new AnonymousMessageMock([
-                        '_' => 'contacts.contacts',
+                        '_'     => 'contacts.contacts',
                         'users' => [],
                     ]);
                 } else {
                     $result = new AnonymousMessageMock([
-                        '_' => 'contacts.contacts',
+                        '_'     => 'contacts.contacts',
                         'users' => [
                             [
-                                '_' => 'user',
-                                'id' => 1,
-                                'phone' => '123',
+                                '_'           => 'user',
+                                'id'          => 1,
+                                'phone'       => '123',
                                 'access_hash' => 1,
-                                'username' => 'aaa',
+                                'username'    => 'aaa',
                             ],
                         ],
                     ]);
@@ -350,10 +350,10 @@ class ContactsKeeperTest extends TestCase
                 // expect contacts to be merged before del
                 $this->assertCount(1, $message->getContactsToDelete());
                 $result = new AnonymousMessageMock([
-                    '_' => 'updates',
+                    '_'     => 'updates',
                     'users' => [
                         [
-                            '_' => 'user',
+                            '_'  => 'user',
                             'id' => 1,
                         ],
                     ],
@@ -361,26 +361,26 @@ class ContactsKeeperTest extends TestCase
             } elseif ($message instanceof get_contacts) {
                 if ($runCount) {
                     $result = new AnonymousMessageMock([
-                        '_' => 'contacts.contacts',
+                        '_'     => 'contacts.contacts',
                         'users' => [],
                     ]);
                 } else {
                     $result = new AnonymousMessageMock([
-                        '_' => 'contacts.contacts',
+                        '_'     => 'contacts.contacts',
                         'users' => [
                             [
-                                '_' => 'user',
-                                'id' => 1,
-                                'phone' => '123',
+                                '_'           => 'user',
+                                'id'          => 1,
+                                'phone'       => '123',
                                 'access_hash' => 1,
-                                'username' => 'aaa',
+                                'username'    => 'aaa',
                             ],
                             [
-                                '_' => 'user',
-                                'id' => 2,
-                                'phone' => '124',
+                                '_'           => 'user',
+                                'id'          => 2,
+                                'phone'       => '124',
                                 'access_hash' => 3,
-                                'username' => 'aaabb',
+                                'username'    => 'aaabb',
                             ],
                         ],
                     ]);
@@ -439,10 +439,10 @@ class ContactsKeeperTest extends TestCase
         ) use (&$runCount, &$calls) {
             if ($message instanceof delete_contacts) {
                 $result = new AnonymousMessageMock([
-                    '_' => 'updates',
+                    '_'     => 'updates',
                     'users' => [
                         [
-                            '_' => 'user',
+                            '_'  => 'user',
                             'id' => 1,
                         ],
                     ],
@@ -450,19 +450,19 @@ class ContactsKeeperTest extends TestCase
             } elseif ($message instanceof get_contacts) {
                 if ($runCount) {
                     $result = new AnonymousMessageMock([
-                        '_' => 'contacts.contacts',
+                        '_'     => 'contacts.contacts',
                         'users' => [],
                     ]);
                 } else {
                     $result = new AnonymousMessageMock([
-                        '_' => 'contacts.contacts',
+                        '_'     => 'contacts.contacts',
                         'users' => [
                             [
-                                '_' => 'user',
-                                'id' => 1,
-                                'phone' => '123',
+                                '_'           => 'user',
+                                'id'          => 1,
+                                'phone'       => '123',
                                 'access_hash' => 1,
-                                'username' => 'aaa',
+                                'username'    => 'aaa',
                             ],
                         ],
                     ]);
@@ -517,28 +517,28 @@ class ContactsKeeperTest extends TestCase
             if ($message instanceof import_contacts) {
                 $runCount++;
                 $result = new AnonymousMessageMock([
-                    '_' => 'contacts.importedContacts',
+                    '_'        => 'contacts.importedContacts',
                     'imported' => [
                         [
-                            '_' => 'importedContact',
-                            'user_id' => 1,
+                            '_'         => 'importedContact',
+                            'user_id'   => 1,
                             'client_id' => 1123,
                         ],
                         [
-                            '_' => 'importedContact',
-                            'user_id' => 2,
+                            '_'         => 'importedContact',
+                            'user_id'   => 2,
                             'client_id' => 1456,
                         ],
                     ],
                     'users' => [
                         [
-                            '_' => 'user',
-                            'id' => 1,
+                            '_'     => 'user',
+                            'id'    => 1,
                             'phone' => '123',
                         ],
                         [
-                            '_' => 'user',
-                            'id' => 2,
+                            '_'     => 'user',
+                            'id'    => 2,
                             'phone' => '456',
                         ],
                     ],
@@ -546,11 +546,11 @@ class ContactsKeeperTest extends TestCase
                 ]);
             } elseif ($message instanceof get_contacts) {
                 $result = new AnonymousMessageMock([
-                    '_' => 'contacts.contacts',
+                    '_'     => 'contacts.contacts',
                     'users' => [
                         [
-                            '_' => 'user',
-                            'id' => 1,
+                            '_'     => 'user',
+                            'id'    => 1,
                             'phone' => '123',
                         ],
                     ],

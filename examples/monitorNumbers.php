@@ -14,7 +14,6 @@ $argsOrFalse = getopt('n:f:p:h', ['numbers:', 'output-file:', 'proxy:', 'help'])
 if ($argsOrFalse === false
     || (array_key_exists('h', $argsOrFalse) || array_key_exists('help', $argsOrFalse))
     || (!array_key_exists('n', $argsOrFalse) && !array_key_exists('numbers', $argsOrFalse))
-    || (!array_key_exists('f', $argsOrFalse) && !array_key_exists('output-file', $argsOrFalse))
 ) {
     echo <<<'EOT'
 Usage:
@@ -33,7 +32,7 @@ EOT;
 $numbers = explode(',', $argsOrFalse['n'] ?? $argsOrFalse['numbers']);
 $count = count($numbers);
 echo "$count numbers to monitor".PHP_EOL;
-$file = $argsOrFalse['f'] ?? $argsOrFalse['output-file'];
+$file = $argsOrFalse['f'] ?? $argsOrFalse['output-file'] ?? '/tmp/some-file-tg';
 $proxyStr = $argsOrFalse['p'] ?? $argsOrFalse['proxy'] ?? null;
 if ($proxyStr) {
     $proxyStr = trim($proxyStr, "'");

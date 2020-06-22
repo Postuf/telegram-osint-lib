@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TelegramOSINT\Scenario;
 
-use function call_user_func;
 use function microtime;
 use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
 use TelegramOSINT\Client\InfoObtainingClient\InfoClient;
@@ -69,6 +68,7 @@ abstract class InfoClientScenario implements ScenarioInterface
      */
     protected function pollAndTerminate(float $timeout = 0.0, bool $terminate = true): void
     {
+        /** @noinspection TypeUnsafeComparisonInspection */
         if ($timeout == 0.0) {
             $timeout = $this->timeout;
         }
@@ -79,8 +79,9 @@ abstract class InfoClientScenario implements ScenarioInterface
                 $lastMsg = microtime(true);
             }
 
-            if (microtime(true) - $lastMsg > $timeout)
+            if (microtime(true) - $lastMsg > $timeout) {
                 break;
+            }
 
             usleep(10000);
         }
@@ -110,7 +111,7 @@ abstract class InfoClientScenario implements ScenarioInterface
     ): void {
         $this->login();
 
-        call_user_func($actions);
+        $actions();
 
         if ($pollAndTerminate) {
             $this->pollAndTerminate($timeout, $terminate);
