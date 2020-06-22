@@ -18,6 +18,11 @@ use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
  */
 class ContactUser extends TLServerMessage implements MessageWithUserId
 {
+    /** @var string|null */
+    private $phone;
+    /** @var string|null */
+    private $username;
+
     /**
      * @param AnonymousMessage $tlMessage
      *
@@ -79,9 +84,9 @@ class ContactUser extends TLServerMessage implements MessageWithUserId
 
     public function getPhone(): ?string
     {
-        return $this->getTlMessage()->hasNode('phone')
+        return $this->phone ?? ($this->getTlMessage()->hasNode('phone')
             ? $this->getTlMessage()->getValue('phone')
-            : null;
+            : null);
     }
 
     /**
@@ -91,9 +96,9 @@ class ContactUser extends TLServerMessage implements MessageWithUserId
      */
     public function getUsername(): ?string
     {
-        return $this->getTlMessage()->hasNode('username')
+        return $this->username ?? ($this->getTlMessage()->hasNode('username')
             ? $this->getTlMessage()->getValue('username')
-            : null;
+            : null);
     }
 
     public function getAccessHash(): int
@@ -120,5 +125,15 @@ class ContactUser extends TLServerMessage implements MessageWithUserId
     public function getLangCode(): ?string
     {
         return $this->getTlMessage()->getValue('lang_code');
+    }
+
+    public function setPhone(?string $phone): void
+    {
+        $this->phone = $phone;
+    }
+
+    public function setUsername(?string $username): void
+    {
+        $this->username = $username;
     }
 }

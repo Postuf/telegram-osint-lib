@@ -260,55 +260,7 @@ class ContactsKeeperTest extends TestCase
     {
         $runCount = 0;
         $calls = [];
-        $responseCb = static function (
-            TLClientMessage $message,
-            callable $onAsyncResponse
-        ) use (&$runCount, &$calls) {
-            if ($message instanceof delete_contacts) {
-                $result = new AnonymousMessageMock([
-                    '_'     => 'updates',
-                    'users' => [
-                        [
-                            '_'  => 'user',
-                            'id' => 1,
-                        ],
-                    ],
-                ]);
-            } elseif ($message instanceof get_contacts) {
-                if ($runCount) {
-                    $result = new AnonymousMessageMock([
-                        '_'     => 'contacts.contacts',
-                        'users' => [],
-                    ]);
-                } else {
-                    $result = new AnonymousMessageMock([
-                        '_'     => 'contacts.contacts',
-                        'users' => [
-                            [
-                                '_'           => 'user',
-                                'id'          => 1,
-                                'phone'       => '123',
-                                'access_hash' => 1,
-                                'username'    => 'aaa',
-                            ],
-                        ],
-                    ]);
-                }
-                $runCount++;
-            } elseif ($message instanceof reset_saved_contacts) {
-                $result = new AnonymousMessageMock([
-                    '_' => 'success',
-                ]);
-            } else {
-                $result = new AnonymousMessageMock([
-                    '_' => 'error',
-                ]);
-            }
-            $calls[] = [$onAsyncResponse, $result];
-        };
-        $this->socketMessengerMock
-            ->method('getResponseAsync')
-            ->willReturnCallback($responseCb);
+        $calls = $this->prepareResponseWithOneUserForDel($runCount, $calls);
 
         $returnedUsers = [];
         $this->keeper->getUserByPhone('123', static function ($user) use (&$returnedUsers) {
@@ -323,6 +275,76 @@ class ContactsKeeperTest extends TestCase
 
         // should be ok even if username not exists
         $this->keeper->delUsers(['aaa', 'bbb'], static function () {
+        });
+        $this->processCalls($calls);
+
+        $cc = [];
+        $this->keeper->getCurrentContacts(static function (array $contacts) use (&$cc) {
+            if ($contacts) {
+                $cc[] = 1;
+            }
+        });
+
+        $this->processCalls($calls);
+
+        $this->assertCount(0, $cc);
+    }
+
+    public function test_contacts_update_phone(): void
+    {
+        $runCount = 0;
+        $calls = [];
+        $calls = $this->prepareResponseWithOneUserForDel($runCount, $calls);
+
+        $returnedUsers = [];
+        $this->keeper->getUserByPhone('123', static function ($user) use (&$returnedUsers) {
+            if ($user) {
+                $returnedUsers[] = $user;
+            }
+        });
+        $this->processCalls($calls);
+        $this->assertCount(1, $returnedUsers);
+
+        $this->processCalls($calls);
+
+        $this->keeper->updatePhone(1, '124');
+
+        $this->keeper->delNumbers(['124'], static function () {
+        });
+        $this->processCalls($calls);
+
+        $cc = [];
+        $this->keeper->getCurrentContacts(static function (array $contacts) use (&$cc) {
+            if ($contacts) {
+                $cc[] = 1;
+            }
+        });
+
+        $this->processCalls($calls);
+
+        $this->assertCount(0, $cc);
+    }
+
+    public function test_contacts_update_username(): void
+    {
+        $runCount = 0;
+        $calls = [];
+        $calls = $this->prepareResponseWithOneUserForDel($runCount, $calls);
+
+        $returnedUsers = [];
+        $this->keeper->getUserByPhone('123', static function ($user) use (&$returnedUsers) {
+            if ($user) {
+                $returnedUsers[] = $user;
+            }
+        });
+        $this->processCalls($calls);
+        $this->assertCount(1, $returnedUsers);
+
+        $this->processCalls($calls);
+
+        $this->keeper->updateUsername(1, 'bbb');
+
+        $this->keeper->delUsers(['bbb'], static function () {
         });
         $this->processCalls($calls);
 
@@ -433,55 +455,7 @@ class ContactsKeeperTest extends TestCase
     {
         $runCount = 0;
         $calls = [];
-        $responseCb = static function (
-            TLClientMessage $message,
-            callable $onAsyncResponse
-        ) use (&$runCount, &$calls) {
-            if ($message instanceof delete_contacts) {
-                $result = new AnonymousMessageMock([
-                    '_'     => 'updates',
-                    'users' => [
-                        [
-                            '_'  => 'user',
-                            'id' => 1,
-                        ],
-                    ],
-                ]);
-            } elseif ($message instanceof get_contacts) {
-                if ($runCount) {
-                    $result = new AnonymousMessageMock([
-                        '_'     => 'contacts.contacts',
-                        'users' => [],
-                    ]);
-                } else {
-                    $result = new AnonymousMessageMock([
-                        '_'     => 'contacts.contacts',
-                        'users' => [
-                            [
-                                '_'           => 'user',
-                                'id'          => 1,
-                                'phone'       => '123',
-                                'access_hash' => 1,
-                                'username'    => 'aaa',
-                            ],
-                        ],
-                    ]);
-                }
-                $runCount++;
-            } elseif ($message instanceof reset_saved_contacts) {
-                $result = new AnonymousMessageMock([
-                    '_' => 'success',
-                ]);
-            } else {
-                $result = new AnonymousMessageMock([
-                    '_' => 'error',
-                ]);
-            }
-            $calls[] = [$onAsyncResponse, $result];
-        };
-        $this->socketMessengerMock
-            ->method('getResponseAsync')
-            ->willReturnCallback($responseCb);
+        $calls = $this->prepareResponseWithOneUserForDel($runCount, $calls);
 
         $returnedUsers = [];
         $this->keeper->getUserByPhone('123', static function ($user) use (&$returnedUsers) {
@@ -590,5 +564,66 @@ class ContactsKeeperTest extends TestCase
                 unset($calls[$k]);
             }
         }
+    }
+
+    /**
+     * @param int   $runCount
+     * @param array $calls
+     *
+     * @return array
+     */
+    private function prepareResponseWithOneUserForDel(int &$runCount, array &$calls): array
+    {
+        $responseCb = static function (
+            TLClientMessage $message,
+            callable $onAsyncResponse
+        ) use (&$runCount, &$calls) {
+            if ($message instanceof delete_contacts) {
+                $result = new AnonymousMessageMock([
+                    '_'     => 'updates',
+                    'users' => [
+                        [
+                            '_'  => 'user',
+                            'id' => 1,
+                        ],
+                    ],
+                ]);
+            } elseif ($message instanceof get_contacts) {
+                if ($runCount) {
+                    $result = new AnonymousMessageMock([
+                        '_'     => 'contacts.contacts',
+                        'users' => [],
+                    ]);
+                } else {
+                    $result = new AnonymousMessageMock([
+                        '_'     => 'contacts.contacts',
+                        'users' => [
+                            [
+                                '_'           => 'user',
+                                'id'          => 1,
+                                'phone'       => '123',
+                                'access_hash' => 1,
+                                'username'    => 'aaa',
+                            ],
+                        ],
+                    ]);
+                }
+                $runCount++;
+            } elseif ($message instanceof reset_saved_contacts) {
+                $result = new AnonymousMessageMock([
+                    '_' => 'success',
+                ]);
+            } else {
+                $result = new AnonymousMessageMock([
+                    '_' => 'error',
+                ]);
+            }
+            $calls[] = [$onAsyncResponse, $result];
+        };
+        $this->socketMessengerMock
+            ->method('getResponseAsync')
+            ->willReturnCallback($responseCb);
+
+        return $calls;
     }
 }

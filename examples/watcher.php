@@ -3,7 +3,6 @@
 use TelegramOSINT\LibConfig;
 use TelegramOSINT\Scenario\ClientGenerator;
 use TelegramOSINT\Scenario\StatusWatcherScenario;
-use TelegramOSINT\Scenario\UserContactsScenario;
 use TelegramOSINT\Tools\Proxy;
 
 require_once __DIR__.'/../vendor/autoload.php';

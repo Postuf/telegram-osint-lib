@@ -109,7 +109,7 @@ class ContactsKeeper
     }
 
     /**
-     * @param string $userName
+     * @param string   $userName
      * @param callable $onComplete function(bool)
      */
     public function addUser(string $userName, callable $onComplete): void
@@ -232,6 +232,40 @@ class ContactsKeeper
     {
         foreach ($imported->getImportedUsers() as $importedUser) {
             $importResult->importedPhones[] = $importedUser->getPhone();
+        }
+    }
+
+    public function updatePhone(int $userId, string $phone): void
+    {
+        if (!isset($this->contacts[$userId])) {
+            return;
+        }
+
+        $contact = $this->contacts[$userId];
+        if ($contact->getPhone() && isset($this->contactsByPhone[$contact->getPhone()])) {
+            unset($this->contactsByPhone[$contact->getPhone()]);
+        }
+
+        $contact->setPhone($phone);
+        if ($phone) {
+            $this->contactsByPhone[$contact->getPhone()] = $contact;
+        }
+    }
+
+    public function updateUsername(int $userId, ?string $username): void
+    {
+        if (!isset($this->contacts[$userId])) {
+            return;
+        }
+
+        $contact = $this->contacts[$userId];
+        if ($contact->getUsername() && isset($this->contactsByUsername[$contact->getUsername()])) {
+            unset($this->contactsByUsername[$contact->getUsername()]);
+        }
+
+        $contact->setUsername($username);
+        if ($username) {
+            $this->contactsByUsername[$contact->getUsername()] = $contact;
         }
     }
 

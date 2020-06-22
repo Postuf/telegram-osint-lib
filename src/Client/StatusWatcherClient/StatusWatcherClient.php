@@ -374,6 +374,9 @@ class StatusWatcherClient implements
             $phone = $user->getPhone();
             $userName = $user->getUsername();
 
+            if (!empty($phone)) {
+                $this->contactKeeper->updatePhone($user->getUserId(), $user->getPhone());
+            }
             $this->userCallbacks->onUserPhoneChange(new User($phone, $userName, $user->getUserId()), $phone);
         });
     }
@@ -389,6 +392,7 @@ class StatusWatcherClient implements
             $phone = $user->getPhone();
             $userName = $user->getUsername();
 
+            $this->contactKeeper->updateUsername($user->getUserId(), $user->getUsername());
             $this->userCallbacks->onUserNameChange(new User($phone, $userName, $user->getUserId()), $userName);
         });
     }
