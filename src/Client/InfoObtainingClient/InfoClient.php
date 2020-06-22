@@ -86,14 +86,15 @@ class InfoClient implements InfoObtainingClient, ContactKeepingClient
     /**
      * @param AuthKey       $authKey
      * @param Proxy         $proxy
-     * @param callable|null $cb      function()
+     * @param callable|null $cb           function()
+     * @param bool          $updateStatus
      *
      * @return void
      */
-    public function login(AuthKey $authKey, Proxy $proxy = null, ?callable $cb = null): void
+    public function login(AuthKey $authKey, Proxy $proxy = null, ?callable $cb = null, bool $updateStatus = true): void
     {
         $this->proxy = $proxy;
-        $this->basicClient->login($authKey, $proxy, $cb);
+        $this->basicClient->login($authKey, $proxy, $cb, $updateStatus);
     }
 
     public function isLoggedIn(): bool
@@ -610,7 +611,7 @@ class InfoClient implements InfoObtainingClient, ContactKeepingClient
                         // login in foreign dc
                         $clientKey = count($this->otherDcClients);
                         $this->otherDcClients[$clientKey] = $this->generator->generate(false, true);
-                        $this->otherDcClients[$clientKey]->login($authKey, $this->proxy, null);
+                        $this->otherDcClients[$clientKey]->login($authKey, $this->proxy, null, false);
 
                         // export current authorization to foreign dc
                         $exportAuthRequest = new export_authorization($dc->getDcId());

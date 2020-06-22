@@ -20,10 +20,15 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_config;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\init_connection;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\invoke_with_layer;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\ping_delay_disconnect;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\update_status;
 use TelegramOSINT\Tools\Proxy;
 
 class BasicClientImpl implements BasicClient, MessageListener
 {
+    private const ONLINE_STATUS_UPDATE_TIME_SEC = 4 * 60 - 10;
+
+    /** @var bool */
+    private $updateStatus = false;
     /**
      * @var SocketMessenger
      */
@@ -52,6 +57,8 @@ class BasicClientImpl implements BasicClient, MessageListener
     private $proxyTimeout;
     /** @var ClientDebugLogger|null */
     private $logger;
+    /** @var int */
+    private $lastStatusOnlineSet = 0;
 
     public function __construct(
         int $proxyTimeout = LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC,
@@ -95,18 +102,20 @@ class BasicClientImpl implements BasicClient, MessageListener
     /**
      * @param AuthKey       $authKey
      * @param Proxy|null    $proxy
-     * @param callable|null $cb      function()
+     * @param callable|null $cb           function()
+     * @param bool          $updateStatus
      *
      * @throws TGException
      *
      * @return void
      */
-    public function login(AuthKey $authKey, ?Proxy $proxy = null, callable $cb = null): void
+    public function login(AuthKey $authKey, ?Proxy $proxy = null, callable $cb = null, bool $updateStatus = true): void
     {
         if($this->isLoggedIn()) {
             throw new TGException(TGException::ERR_CLIENT_ALREADY_LOGGED_IN, $this->getUserId());
         }
         $dc = $authKey->getAttachedDC();
+        $this->updateStatus = $updateStatus;
         $postSocket = function () use ($authKey) {
             $this->authKey = $authKey;
             $this->connection = $this->getSocketMessenger();
@@ -195,9 +204,20 @@ class BasicClientImpl implements BasicClient, MessageListener
         }
         $this->checkConnectionAlive();
         $this->pingIfNeeded();
+        $this->setOnlineStatusIfExpired();
 
         /** @noinspection NullPointerExceptionInspection */
         return $this->getConnection()->readMessage();
+    }
+
+    private function setOnlineStatusIfExpired(): void
+    {
+        $elapsedTimeSinceLastUpdate = time() - $this->lastStatusOnlineSet;
+        if($this->updateStatus && $elapsedTimeSinceLastUpdate >= self::ONLINE_STATUS_UPDATE_TIME_SEC){
+            /** @noinspection NullPointerExceptionInspection */
+            $this->getConnection()->writeMessage(new update_status(true));
+            $this->lastStatusOnlineSet = time();
+        }
     }
 
     /**
@@ -285,6 +305,9 @@ class BasicClientImpl implements BasicClient, MessageListener
     public function terminate(): void
     {
         if($this->getConnection()) {
+            if ($this->updateStatus) {
+                $this->getConnection()->writeMessage(new update_status(false));
+            }
             $this->getConnection()->terminate();
         }
     }
