@@ -103,9 +103,7 @@ class ContactUser extends TLServerMessage implements MessageWithUserId
 
     public function getAccessHash(): int
     {
-        return $this->getTlMessage()->hasNode('access_hash')
-            ? $this->getTlMessage()->getValue('access_hash')
-            : 0;
+        return $this->getTlMessage()->getValue('access_hash');
     }
 
     public function getFirstName(): ?string
