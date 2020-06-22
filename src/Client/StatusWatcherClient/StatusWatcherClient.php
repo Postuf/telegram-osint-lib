@@ -4,7 +4,7 @@ namespace TelegramOSINT\Client\StatusWatcherClient;
 
 use TelegramOSINT\Client\AuthKey\AuthKey;
 use TelegramOSINT\Client\BasicClient\BasicClient;
-use TelegramOSINT\Client\BasicClient\BasicClientImpl;
+use TelegramOSINT\Client\BasicClient\BasicClientWithStatusReportingImpl;
 use TelegramOSINT\Client\ContactKeepingClient;
 use TelegramOSINT\Client\Helpers\ReloadContactsHandler;
 use TelegramOSINT\Client\PeriodicClient;
@@ -67,7 +67,7 @@ class StatusWatcherClient implements
      */
     public function __construct(StatusWatcherCallbacks $callbacks, ?ClientDebugLogger $logger = null, array $startContacts = [])
     {
-        $this->basicClient = new BasicClientImpl(
+        $this->basicClient = new BasicClientWithStatusReportingImpl(
             LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC,
             $logger
         );
