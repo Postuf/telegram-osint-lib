@@ -11,6 +11,7 @@ class channel_participants_filter implements TLClientMessage
 {
     public const PARTICIPANTS_RECENT = -566281095; // 0xde3f3c79
     public const PARTICIPANTS_SEARCH = 106343499; // 0x0656ac4b
+    public const PARTICIPANTS_ADMINS = -1268741783; // 0xb4608969
 
     /** @var int */
     private $constructor;
@@ -32,7 +33,7 @@ class channel_participants_filter implements TLClientMessage
     {
         $prefix = Packer::packConstructor($this->constructor);
 
-        return $this->constructor == self::PARTICIPANTS_RECENT
+        return $this->constructor === self::PARTICIPANTS_RECENT
             ? $prefix
             : $prefix.Packer::packString($this->query);
     }

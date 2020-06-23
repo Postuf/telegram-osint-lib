@@ -23,7 +23,7 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_full_chat;
  * @see get_all_chats
  * @see get_full_chat
  */
-class GroupMembersScenario extends AbstractGroupScenario implements ScenarioInterface
+class GroupMembersScenario extends AbstractGroupScenario
 {
     private const PAGE_LIMIT = 100;
 
@@ -68,7 +68,7 @@ class GroupMembersScenario extends AbstractGroupScenario implements ScenarioInte
             Logger::log(__CLASS__, "got $chatCount chats");
             foreach ($chats as $chatNode) {
                 $id = (int) $chatNode->getValue('id');
-                if ($chatNode->getType() != 'chat') {
+                if ($chatNode->getType() !== 'chat') {
                     Logger::log(__CLASS__, 'Skipped node of type '.$chatNode->getType());
                     continue;
                 }
@@ -98,7 +98,21 @@ class GroupMembersScenario extends AbstractGroupScenario implements ScenarioInte
                         $id = (int) $chat['id'];
                         Logger::log(__CLASS__, "getting channel members for channel $id");
                         /** @var array $chat */
-                        $this->infoClient->getChannelMembers($id, $chat['access_hash'], $this->makeChatMemberHandler($id));
+                        if ($this->username) {
+                            Logger::log(__CLASS__, "searching chat $id participants for {$this->username}");
+                            $this->infoClient->getParticipantsSearch(
+                                $id,
+                                $chat['access_hash'],
+                                $this->username,
+                                $this->makeChatMemberHandler(
+                                    $id,
+                                    0,
+                                    true
+                                )
+                            );
+                        } else {
+                            $this->infoClient->getChannelMembers($id, $chat['access_hash'], $this->makeChatMemberHandler($id));
+                        }
                     }
                 };
 
