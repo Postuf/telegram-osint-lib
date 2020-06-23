@@ -50,9 +50,9 @@ php examples/registration.php
 
 When you get AuthKey in registration script, you can use it the following way:
 ```
-docker exec  --env BOT=your-auth-key -i tg-osint-lib php examples/monitorNumbers.php 123123123
+docker exec  --env BOT=your-auth-key -i tg-osint-lib php examples/monitorNumbers.php -n 123123123
 # if you save key to file
-docker exec  --env BOT=@auth-key-filename-in-docker -i tg-osint-lib php examples/monitorNumbers.php 123123123
+docker exec  --env BOT=@auth-key-filename-in-docker -i tg-osint-lib php examples/monitorNumbers.php -n 123123123
 ```
 
 # Limitations
