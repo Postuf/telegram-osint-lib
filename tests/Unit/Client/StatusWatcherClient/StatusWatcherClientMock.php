@@ -18,7 +18,7 @@ class StatusWatcherClientMock extends StatusWatcherClient
     public function __construct(StatusWatcherCallbacks $callbacks)
     {
         parent::__construct($callbacks);
-        $this->contactKeeper = new ContactsKeeperMock(null);
+        $this->contactsKeeper = new ContactsKeeperMock(null);
     }
 
     /**
@@ -26,7 +26,7 @@ class StatusWatcherClientMock extends StatusWatcherClient
      */
     public function loadMockContacts(array $contacts): void
     {
-        $this->contactKeeper->loadContacts($contacts);
+        $this->contactsKeeper->loadContacts($contacts);
     }
 
     public function pollMessage(): bool

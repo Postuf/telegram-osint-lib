@@ -44,7 +44,7 @@ class StatusWatcherClient implements
     /**
      * @var ContactsKeeper
      */
-    protected $contactKeeper;
+    protected $contactsKeeper;
     /**
      * @var array
      *            Format: id=>expires
@@ -77,7 +77,7 @@ class StatusWatcherClient implements
 
         $this->basicClient->setMessageListener($this);
         $this->messageAnalyzer = new StatusWatcherAnalyzer($this);
-        $this->contactKeeper = new ContactsKeeper($this->basicClient, $startContacts);
+        $this->contactsKeeper = new ContactsKeeper($this->basicClient, $startContacts);
     }
 
     /**
@@ -128,7 +128,7 @@ class StatusWatcherClient implements
     {
         $time = time();
         if ($time > $this->lastContactsReloaded + self::RELOAD_CONTACTS_EVERY_SECONDS) {
-            $this->contactKeeper->reloadCurrentContacts(static function () {});
+            $this->contactsKeeper->reloadCurrentContacts(static function () {});
             $this->lastContactsReloaded = $time;
         }
     }
@@ -156,7 +156,7 @@ class StatusWatcherClient implements
     public function addNumbers(array $numbers, callable $onComplete): void
     {
         $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactKeeper->addNumbers($numbers, $onComplete);
+        $this->contactsKeeper->addNumbers($numbers, $onComplete);
     }
 
     /**
@@ -169,7 +169,7 @@ class StatusWatcherClient implements
     {
         $this->throwIfNotLoggedIn(__METHOD__);
         $this->lastContactsReloaded = time();
-        $this->contactKeeper->reloadCurrentContacts(ReloadContactsHandler::getHandler($this, $numbers, $onComplete));
+        $this->contactsKeeper->reloadCurrentContacts(ReloadContactsHandler::getHandler($this, $numbers, $onComplete));
     }
 
     /**
@@ -181,7 +181,7 @@ class StatusWatcherClient implements
     public function delNumbers(array $numbers, callable $onComplete): void
     {
         $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactKeeper->delNumbers($numbers, function () use ($onComplete) {
+        $this->contactsKeeper->delNumbers($numbers, function () use ($onComplete) {
             $this->currentlyOnlineUsers = [];
             $this->currentlyOfflineUsers = [];
             $onComplete();
@@ -197,7 +197,7 @@ class StatusWatcherClient implements
     public function addUser(string $userName, callable $onComplete): void
     {
         $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactKeeper->addUser($userName, $onComplete);
+        $this->contactsKeeper->addUser($userName, $onComplete);
     }
 
     /**
@@ -209,7 +209,7 @@ class StatusWatcherClient implements
     public function delUsers(array $userNames, callable $onComplete): void
     {
         $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactKeeper->delUsers($userNames, static function () use ($onComplete) {
+        $this->contactsKeeper->delUsers($userNames, static function () use ($onComplete) {
             $onComplete();
         });
     }
@@ -224,7 +224,7 @@ class StatusWatcherClient implements
     public function delNumbersAndUsers(array $numbers, array $userNames, callable $onComplete): void
     {
         $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactKeeper->delNumbersAndUsers($numbers, $userNames, static function () use ($onComplete) {
+        $this->contactsKeeper->delNumbersAndUsers($numbers, $userNames, static function () use ($onComplete) {
             $onComplete();
         });
     }
@@ -237,7 +237,7 @@ class StatusWatcherClient implements
     public function cleanMonitoringBook(callable $onComplete): void
     {
         $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactKeeper->cleanContacts($onComplete);
+        $this->contactsKeeper->cleanContacts($onComplete);
     }
 
     /**
@@ -267,7 +267,7 @@ class StatusWatcherClient implements
 
         // notification for user
         if(!$isUserStillOnline){
-            $this->contactKeeper->getUserById($userId, function ($user) use ($userId, $expires) {
+            $this->contactsKeeper->getUserById($userId, function ($user) use ($userId, $expires) {
                 // arbitrary user
                 if(!($user instanceof ContactUser)) {
                     return;
@@ -297,7 +297,7 @@ class StatusWatcherClient implements
 
         // notification for user
         if(!$isUserOffline) {
-            $this->contactKeeper->getUserById($userId, function ($user) use ($userId, $wasOnline) {
+            $this->contactsKeeper->getUserById($userId, function ($user) use ($userId, $wasOnline) {
                 // arbitrary user
                 if(!($user instanceof ContactUser)) {
                     return;
@@ -324,7 +324,7 @@ class StatusWatcherClient implements
         unset($this->currentlyOnlineUsers[$userId], $this->currentlyOfflineUsers[$userId]);
 
         // notification for user
-        $this->contactKeeper->getUserById($userId, function ($user) use ($userId, $hiddenStatusState) {
+        $this->contactsKeeper->getUserById($userId, function ($user) use ($userId, $hiddenStatusState) {
             // arbitrary user
             if(!($user instanceof ContactUser)) {
                 return;
@@ -365,7 +365,7 @@ class StatusWatcherClient implements
 
     public function onUserPhoneChange(int $userId, string $phone): void
     {
-        $this->contactKeeper->getUserById($userId, function ($user) {
+        $this->contactsKeeper->getUserById($userId, function ($user) {
             // arbitrary user
             if (!($user instanceof ContactUser)) {
                 return;
@@ -375,7 +375,7 @@ class StatusWatcherClient implements
             $userName = $user->getUsername();
 
             if (!empty($phone)) {
-                $this->contactKeeper->updatePhone($user->getUserId(), $user->getPhone());
+                $this->contactsKeeper->updatePhone($user->getUserId(), $user->getPhone());
             }
             $this->userCallbacks->onUserPhoneChange(new User($phone, $userName, $user->getUserId()), $phone);
         });
@@ -383,7 +383,7 @@ class StatusWatcherClient implements
 
     public function onUserNameChange(int $userId, string $username): void
     {
-        $this->contactKeeper->getUserById($userId, function ($user) {
+        $this->contactsKeeper->getUserById($userId, function ($user) {
             // arbitrary user
             if (!($user instanceof ContactUser)) {
                 return;
@@ -392,7 +392,7 @@ class StatusWatcherClient implements
             $phone = $user->getPhone();
             $userName = $user->getUsername();
 
-            $this->contactKeeper->updateUsername($user->getUserId(), $user->getUsername());
+            $this->contactsKeeper->updateUsername($user->getUserId(), $user->getUsername());
             $this->userCallbacks->onUserNameChange(new User($phone, $userName, $user->getUserId()), $userName);
         });
     }
@@ -402,6 +402,6 @@ class StatusWatcherClient implements
      */
     public function getCurrentContacts(): array
     {
-        return $this->contactKeeper->getContacts();
+        return $this->contactsKeeper->getContacts();
     }
 }

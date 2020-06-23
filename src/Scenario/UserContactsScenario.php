@@ -62,20 +62,24 @@ class UserContactsScenario extends InfoClientScenario
     {
         $this->login();
 
-        /* info by username */
-        foreach ($this->usernames as $username) {
-            $this->infoClient->getInfoByUsername($username, $this->withPhoto, $this->largePhoto, function ($userInfoModel) {
-                if ($userInfoModel->photo && $this->saveCallback) {
-                    $cb = $this->saveCallback;
-                    $cb(
-                        $userInfoModel->username.'.'.$userInfoModel->photo->format,
-                        $userInfoModel->photo->bytes
-                    );
-                }
-            });
-        }
-
         $this->parseNumbers($this->phones, $this->withPhoto, $this->largePhoto);
+
+        /* info by username */
+        $counter = 1;
+        foreach ($this->usernames as $username) {
+            $this->defer(function () use ($username) {
+                $this->infoClient->getInfoByUsername($username, $this->withPhoto, $this->largePhoto, function (?UserInfoModel $userInfoModel) {
+                    if ($userInfoModel && $userInfoModel->photo && $this->saveCallback) {
+                        $cb = $this->saveCallback;
+                        $cb(
+                            $userInfoModel->username.'.'.$userInfoModel->photo->format,
+                            $userInfoModel->photo->bytes
+                        );
+                    }
+                });
+            }, $counter);
+            $counter++;
+        }
     }
 
     /**
@@ -85,6 +89,9 @@ class UserContactsScenario extends InfoClientScenario
      */
     public function parseNumbers(array $numbers, bool $withPhoto = false, bool $largePhoto = false): void
     {
+        if (!$numbers) {
+            return;
+        }
         $this->callQueue[] = function () use ($numbers, $withPhoto, $largePhoto) {
             $rememberedContacts = [];
             $this->infoClient->reloadNumbers($numbers, function (ImportResult $result) use (

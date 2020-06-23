@@ -21,7 +21,7 @@ use TelegramOSINT\Tools\Proxy;
  *
  * Subscribes to a bunch of accounts and then
  */
-class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger, ScenarioInterface
+class StatusWatcherScenario extends DeferredScenario implements StatusWatcherCallbacks, ClientDebugLogger, ScenarioInterface
 {
     private const DEFAULT_TTL = 1000000;
     private const INITIAL_POLL_CYCLE_COUNT = 10;
@@ -117,9 +117,14 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
         });
 
         /* add via user names */
+        $deferTime = 1;
         foreach ($this->users as $user) {
-            $this->client->addUser($user, static function (bool $addResult) {
-            });
+            $this->defer(function () use ($user) {
+                $this->client->addUser($user, function (bool $addResult) use ($user) {
+                    $this->log("$user added: $addResult");
+                });
+            }, $deferTime);
+            $deferTime++;
         }
 
         // wait a little between operations in order to get possible exceptions
@@ -134,7 +139,7 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
 
             $this->pollClientCycle($this->client);
 
-            if(time() - $start > $this->stopAfter) {
+            if(time() - $start > $this->stopAfter && !$this->hasDeferredCalls()) {
                 $this->client->terminate();
                 break;
             }
@@ -159,6 +164,7 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
     {
         try {
             $client->pollMessage();
+            $this->processDeferredQueue();
         } catch (TGException $e) {
             if ($e->getCode() === TGException::ERR_CLIENT_ADD_USERNAME_ALREADY_IN_ADDRESS_BOOK) {
                 $this->log('Error: '.$e->getMessage().PHP_EOL);

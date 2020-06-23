@@ -293,6 +293,15 @@ class InfoClient implements InfoObtainingClient, ContactKeepingClient
     }
 
     /**
+     * @param string   $userName
+     * @param callable $onComplete function(bool)
+     */
+    public function addUser(string $userName, callable $onComplete): void
+    {
+        $this->contactsKeeper->addUser($userName, $onComplete);
+    }
+
+    /**
      * @param array    $numbers
      * @param callable $onComplete
      */

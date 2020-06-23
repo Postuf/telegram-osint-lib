@@ -11,7 +11,7 @@ use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Tools\Proxy;
 use function usleep;
 
-abstract class InfoClientScenario implements ScenarioInterface
+abstract class InfoClientScenario extends DeferredScenario implements ScenarioInterface
 {
     /** @var InfoClient */
     protected $infoClient;
@@ -78,8 +78,9 @@ abstract class InfoClientScenario implements ScenarioInterface
             if ($this->infoClient->pollMessage()) {
                 $lastMsg = microtime(true);
             }
+            $this->processDeferredQueue();
 
-            if (microtime(true) - $lastMsg > $timeout) {
+            if (microtime(true) - $lastMsg > $timeout && !$this->hasDeferredCalls()) {
                 break;
             }
 
