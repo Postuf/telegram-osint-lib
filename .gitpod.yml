@@ -1,0 +1,6 @@
+image:
+  file: Dockerfile
+
+tasks:
+  - init: 'composer install'
+    command: 'echo "run php examples/registration.php to register new account; php examples/re-registration.php to reuse existing account"'
