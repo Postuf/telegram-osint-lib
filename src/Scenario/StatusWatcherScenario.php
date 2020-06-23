@@ -113,7 +113,7 @@ class StatusWatcherScenario extends DeferredClient implements StatusWatcherCallb
         $monitoringPhones = $this->numbers;
         $lastContactsCleaningTime = 0;
         $this->client->reloadNumbers($monitoringPhones, function (ImportResult $result) use (&$lastContactsCleaningTime) {
-            $lastContactsCleaningTime = time();
+            $lastContactsCleaningTime = $this->clock->time();
             $this->log('Contacts imported total:'.count($result->importedPhones).PHP_EOL);
             $this->log('Replaced phones:'.print_r($result->replacedPhones, true).PHP_EOL);
         });
@@ -135,20 +135,20 @@ class StatusWatcherScenario extends DeferredClient implements StatusWatcherCallb
             $this->pollClientCycle($this->client);
         }
 
-        $start = time();
+        $start = $this->clock->time();
 
         while(true){
 
             $this->pollClientCycle($this->client);
 
-            if(time() - $start > $this->stopAfter && !$this->hasDeferredCalls()) {
+            if($this->clock->time() - $start > $this->stopAfter && !$this->hasDeferredCalls()) {
                 $this->client->terminate();
                 break;
             }
 
-            if($lastContactsCleaningTime > 0 && time() - $lastContactsCleaningTime > 5) {
+            if($lastContactsCleaningTime > 0 && $this->clock->time() - $lastContactsCleaningTime > 5) {
                 // remove contact by name
-                $lastContactsCleaningTime = time();
+                $lastContactsCleaningTime = $this->clock->time();
             }
         }
 

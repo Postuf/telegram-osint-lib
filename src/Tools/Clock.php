@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace TelegramOSINT\Tools;
 
 /**
- * Абстракция часов для удобства тестирования
+ * Clock abstraction
  */
 interface Clock
 {
     /**
-     * Вернуть UNIX timestamp
+     * Return UNIX timestamp
      *
      * @return int
      */
     public function time(): int;
 
     /**
-     * Вернуть UNIX timestamp с микросекундами
+     * Return UNIX timestamp with microseconds
      *
      * @param bool $returnAsFloat
      *

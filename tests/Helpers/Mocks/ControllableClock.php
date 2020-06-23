@@ -6,9 +6,6 @@ namespace Helpers\Mocks;
 
 use TelegramOSINT\Tools\Clock;
 
-/**
- * Управляемые часы
- */
 class ControllableClock implements Clock
 {
     public const SECONDS_MS = 1000000;
@@ -23,6 +20,7 @@ class ControllableClock implements Clock
         $this->currentTime = time();
     }
 
+    /** @noinspection PhpUnused */
     public function setTime(int $time): void
     {
         $this->currentTime = $time;
