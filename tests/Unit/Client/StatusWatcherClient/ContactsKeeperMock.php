@@ -15,13 +15,14 @@ class ContactsKeeperMock extends ContactsKeeper
      */
     private $contacts;
 
-    /* @noinspection PhpMissingParentConstructorInspection
-     * @noinspection MagicMethodsValidityInspection
+    /**
      * @param BasicClient|null $client
      */
     public function __construct(?BasicClient $client)
     {
-        //parent::__construct($client);
+        if ($client) {
+            parent::__construct($client);
+        }
     }
 
     /**

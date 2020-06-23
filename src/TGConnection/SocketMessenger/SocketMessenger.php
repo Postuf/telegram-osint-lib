@@ -14,7 +14,7 @@ interface SocketMessenger
     /**
      * @return AnonymousMessage
      */
-    public function readMessage();
+    public function readMessage(): ?AnonymousMessage;
 
     public function terminate();
 
@@ -27,7 +27,7 @@ interface SocketMessenger
      * @param TLClientMessage $message
      * @param callable        $onAsyncResponse function(AnonymousMessage $message)
      */
-    public function getResponseAsync(TLClientMessage $message, callable $onAsyncResponse);
+    public function getResponseAsync(TLClientMessage $message, callable $onAsyncResponse): void;
 
     /**
      * @param TLClientMessage[] $messages

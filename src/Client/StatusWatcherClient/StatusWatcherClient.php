@@ -19,6 +19,7 @@ use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
+use TelegramOSINT\Tools\Clock;
 use TelegramOSINT\Tools\Proxy;
 
 class StatusWatcherClient extends DeferredClient implements
@@ -29,6 +30,7 @@ class StatusWatcherClient extends DeferredClient implements
     ContactKeepingClient
 {
     private const RELOAD_CONTACTS_EVERY_SECONDS = 20;
+    private const ADD_USER_PAUSE_SECONDS = 1;
 
     /**
      * @var BasicClient
@@ -58,21 +60,29 @@ class StatusWatcherClient extends DeferredClient implements
     private $currentlyOfflineUsers;
     /** @var int */
     private $lastContactsReloaded = 0;
+    /** @var int */
+    private $lastUsedAddedTime = 0;
+    /** @var int */
+    private $userAddQueueSize = 0;
 
     /**
      * @param StatusWatcherCallbacks $callbacks
      * @param ClientDebugLogger|null $logger
      * @param ContactUser[]          $startContacts
+     * @param Clock|null             $clock
+     * @param BasicClient|null       $basicClient
      *
      * @throws TGException
      */
     public function __construct(
         StatusWatcherCallbacks $callbacks,
         ?ClientDebugLogger $logger = null,
-        array $startContacts = []
+        array $startContacts = [],
+        ?Clock $clock = null,
+        ?BasicClient $basicClient = null
     ) {
-        parent::__construct();
-        $this->basicClient = new BasicClientWithStatusReportingImpl(
+        parent::__construct($clock);
+        $this->basicClient = $basicClient ?: new BasicClientWithStatusReportingImpl(
             LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC,
             $logger
         );
@@ -197,13 +207,23 @@ class StatusWatcherClient extends DeferredClient implements
     /**
      * @param string   $userName
      * @param callable $onComplete function(bool)
-     *
-     * @throws TGException
      */
     public function addUser(string $userName, callable $onComplete): void
     {
-        $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactsKeeper->addUser($userName, $onComplete);
+        $this->userAddQueueSize++;
+        $cb = function () use ($userName, $onComplete) {
+            $this->lastUsedAddedTime = $this->clock->time();
+            $this->userAddQueueSize--;
+            $this->throwIfNotLoggedIn(__METHOD__);
+            $this->contactsKeeper->addUser($userName, $onComplete);
+        };
+
+        $time = $this->clock->time();
+        if ($time - $this->lastUsedAddedTime >= self::ADD_USER_PAUSE_SECONDS) {
+            $cb();
+        } else {
+            $this->defer($cb, $this->userAddQueueSize);
+        }
     }
 
     /**

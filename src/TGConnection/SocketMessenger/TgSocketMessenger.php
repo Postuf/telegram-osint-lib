@@ -43,7 +43,7 @@ abstract class TgSocketMessenger implements SocketMessenger
                 return null;
             }
             if ($readLength !== self::HEADER_LENGTH_BYTES) {
-                throw new TGException(TGException::ERR_DESERIALIZER_BROKEN_BINARY_READ, self::HEADER_LENGTH_BYTES . '!=' . $readLength);
+                throw new TGException(TGException::ERR_DESERIALIZER_BROKEN_BINARY_READ, self::HEADER_LENGTH_BYTES.'!='.$readLength);
             }
             // data
             $payloadLength = unpack('I', $lengthValue)[1] - self::HEADER_LENGTH_BYTES;
@@ -56,16 +56,17 @@ abstract class TgSocketMessenger implements SocketMessenger
         $lengthToRead = $payloadLength - $this->readState->getCurrentLength();
         $newPayload = $this->socket->readBinary($lengthToRead);
         /** @noinspection UnnecessaryCastingInspection */
-        if ((string)$newPayload !== '') {
+        if ((string) $newPayload !== '') {
             $this->readState->addRead($newPayload);
         }
         if (!$this->readState->ready()) {
             $timeDiff = 1000.0 * (microtime(true) - $this->readState->getTimeStart());
             if ($timeDiff > LibConfig::CONN_SOCKET_TIMEOUT_PERSISTENT_READ_MS) {
                 $timeDiffFormatted = number_format($timeDiff, 2);
+
                 throw new TGException(
                     TGException::ERR_CONNECTION_SOCKET_READ_TIMEOUT,
-                    "timeout of $timeDiffFormatted ms > " . LibConfig::CONN_SOCKET_TIMEOUT_PERSISTENT_READ_MS
+                    "timeout of $timeDiffFormatted ms > ".LibConfig::CONN_SOCKET_TIMEOUT_PERSISTENT_READ_MS
                 );
             }
 

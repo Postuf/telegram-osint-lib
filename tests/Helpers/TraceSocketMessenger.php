@@ -15,9 +15,6 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class TraceSocketMessenger extends EncryptedSocketMessenger
 {
-    /** @var float */
-    private $timeOffset;
-
     /** @var array */
     private $trace;
 
@@ -35,7 +32,6 @@ class TraceSocketMessenger extends EncryptedSocketMessenger
     public function __construct(array $trace, AuthKey $authKey, MessageListener $callback)
     {
         parent::__construct(new NullSocket(), $authKey, $callback);
-        $this->timeOffset = microtime(true) - $trace[0];
         $this->trace = $trace;
     }
 
@@ -48,6 +44,7 @@ class TraceSocketMessenger extends EncryptedSocketMessenger
      */
     public static function unserializeAnonymousMessage(string $serialized): AnonymousMessage
     {
+        /** @noinspection UnserializeExploitsInspection */
         $messageOrFalse = unserialize(PhpSerializationFixer::replaceNamespace(
             $serialized,
             'MTSerialization\\\\',
@@ -63,7 +60,7 @@ class TraceSocketMessenger extends EncryptedSocketMessenger
         return $messageOrFalse;
     }
 
-    protected function writeIdentifiedMessage(TLClientMessage $payload, $messageId)
+    protected function writeIdentifiedMessage(TLClientMessage $payload, $messageId): void
     {
         if ($payload->getName() === 'update_status') {
             return;
@@ -78,8 +75,8 @@ class TraceSocketMessenger extends EncryptedSocketMessenger
             return null;
         }
 
+        /** @noinspection LoopWhichDoesNotLoopInspection */
         foreach ($this->trace[1] as $k => $v) {
-            /** @var AnonymousMessage $msg */
             $msg = static::unserializeAnonymousMessage(hex2bin($v[1]));
             $arrMsg = (array) $msg;
             $arrMsg = reset($arrMsg);
