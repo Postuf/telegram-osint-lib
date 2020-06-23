@@ -121,9 +121,9 @@ class StatusWatcherScenario extends DeferredClient implements StatusWatcherCallb
         /* add via user names */
         $deferTime = 1;
         foreach ($this->users as $user) {
-            $this->defer(function () use ($user) {
-                $this->client->addUser($user, function (bool $addResult) use ($user) {
-                    $this->log("$user added: $addResult");
+            $this->defer(function () use ($user, $deferTime) {
+                $this->client->addUser($user, function (bool $addResult) use ($user, $deferTime) {
+                    $this->log("$user added: $addResult at $deferTime");
                 });
             }, $deferTime);
             $deferTime++;
