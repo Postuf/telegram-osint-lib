@@ -6,6 +6,7 @@ use TelegramOSINT\Client\AuthKey\AuthKey;
 use TelegramOSINT\Client\BasicClient\BasicClient;
 use TelegramOSINT\Client\BasicClient\BasicClientWithStatusReportingImpl;
 use TelegramOSINT\Client\ContactKeepingClient;
+use TelegramOSINT\Client\DeferredClient;
 use TelegramOSINT\Client\Helpers\ReloadContactsHandler;
 use TelegramOSINT\Client\PeriodicClient;
 use TelegramOSINT\Client\StatusMonitoringClient;
@@ -20,7 +21,7 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
 use TelegramOSINT\Tools\Proxy;
 
-class StatusWatcherClient implements
+class StatusWatcherClient extends DeferredClient implements
     StatusMonitoringClient,
     PeriodicClient,
     StatusWatcherCallbacksMiddleware,
@@ -65,8 +66,12 @@ class StatusWatcherClient implements
      *
      * @throws TGException
      */
-    public function __construct(StatusWatcherCallbacks $callbacks, ?ClientDebugLogger $logger = null, array $startContacts = [])
-    {
+    public function __construct(
+        StatusWatcherCallbacks $callbacks,
+        ?ClientDebugLogger $logger = null,
+        array $startContacts = []
+    ) {
+        parent::__construct();
         $this->basicClient = new BasicClientWithStatusReportingImpl(
             LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC,
             $logger
@@ -120,6 +125,7 @@ class StatusWatcherClient implements
     {
         $this->onPeriodAvailable();
         $this->reloadContactsIfNeeded();
+        $this->processDeferredQueue();
 
         return $this->basicClient->pollMessage();
     }

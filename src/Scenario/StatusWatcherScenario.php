@@ -6,6 +6,7 @@ namespace TelegramOSINT\Scenario;
 
 use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
 use TelegramOSINT\Client\Client;
+use TelegramOSINT\Client\DeferredClient;
 use TelegramOSINT\Client\StatusWatcherClient\Models\HiddenStatus;
 use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
 use TelegramOSINT\Client\StatusWatcherClient\Models\User;
@@ -21,7 +22,7 @@ use TelegramOSINT\Tools\Proxy;
  *
  * Subscribes to a bunch of accounts and then
  */
-class StatusWatcherScenario extends DeferredScenario implements StatusWatcherCallbacks, ClientDebugLogger, ScenarioInterface
+class StatusWatcherScenario extends DeferredClient implements StatusWatcherCallbacks, ClientDebugLogger, ScenarioInterface
 {
     private const DEFAULT_TTL = 1000000;
     private const INITIAL_POLL_CYCLE_COUNT = 10;
@@ -66,6 +67,7 @@ class StatusWatcherScenario extends DeferredScenario implements StatusWatcherCal
         int $stopAfter = self::DEFAULT_TTL,
         ClientDebugLogger $logger = null
     ) {
+        parent::__construct();
         if (!$generator) {
             $generator = new ClientGenerator(LibConfig::ENV_AUTHKEY, $proxy);
         }

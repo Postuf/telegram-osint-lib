@@ -65,9 +65,9 @@ class UserContactsScenario extends InfoClientScenario
         $this->parseNumbers($this->phones, $this->withPhoto, $this->largePhoto);
 
         /* info by username */
-        $counter = 1;
+        $counter = 0;
         foreach ($this->usernames as $username) {
-            $this->defer(function () use ($username) {
+            $cb = function () use ($username) {
                 $this->infoClient->getInfoByUsername($username, $this->withPhoto, $this->largePhoto, function (?UserInfoModel $userInfoModel) {
                     if ($userInfoModel && $userInfoModel->photo && $this->saveCallback) {
                         $cb = $this->saveCallback;
@@ -77,7 +77,12 @@ class UserContactsScenario extends InfoClientScenario
                         );
                     }
                 });
-            }, $counter);
+            };
+            if ($counter) {
+                $this->defer($cb, $counter);
+            } else {
+                $cb();
+            }
             $counter++;
         }
     }

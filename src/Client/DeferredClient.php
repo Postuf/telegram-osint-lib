@@ -2,16 +2,30 @@
 
 declare(strict_types=1);
 
-namespace TelegramOSINT\Scenario;
+namespace TelegramOSINT\Client;
 
-abstract class DeferredScenario
+use TelegramOSINT\Tools\Clock;
+use TelegramOSINT\Tools\DefaultClock;
+
+abstract class DeferredClient
 {
+    protected $clock;
+
+    public function __construct(?Clock $clock = null)
+    {
+        if (!$clock) {
+            $clock = new DefaultClock();
+        }
+
+        $this->clock = $clock;
+    }
+
     /** @var array */
     private $deferredQueue = [];
 
     protected function defer(callable $cb, int $timeOffset = 0): void
     {
-        $this->deferredQueue[] = [time() + $timeOffset, $cb];
+        $this->deferredQueue[] = [$this->clock->time() + $timeOffset, $cb];
         $this->sortDeferredQueue();
     }
 
@@ -24,7 +38,11 @@ abstract class DeferredScenario
 
     protected function processDeferredQueue(): void
     {
-        $time = time();
+        if (empty($this->deferredQueue)) {
+            return;
+        }
+
+        $time = $this->clock->time();
         /** @noinspection LoopWhichDoesNotLoopInspection */
         foreach ($this->deferredQueue as $key => $item) {
             $timeStart = $item[0];

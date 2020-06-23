@@ -6,6 +6,7 @@ use TelegramOSINT\Auth\Protocol\AppAuthorization;
 use TelegramOSINT\Client\AuthKey\AuthKey;
 use TelegramOSINT\Client\BasicClient\BasicClient;
 use TelegramOSINT\Client\ContactKeepingClient;
+use TelegramOSINT\Client\DeferredClient;
 use TelegramOSINT\Client\Helpers\ReloadContactsHandler;
 use TelegramOSINT\Client\InfoObtainingClient;
 use TelegramOSINT\Client\InfoObtainingClient\Models\FileModel;
@@ -53,7 +54,7 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserProfilePhoto;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 use TelegramOSINT\Tools\Proxy;
 
-class InfoClient implements InfoObtainingClient, ContactKeepingClient
+class InfoClient extends DeferredClient implements InfoObtainingClient, ContactKeepingClient
 {
     private const READ_LIMIT_BYTES = 1024 * 32;  // must be the power of 2 (4096, 8192, 16384 ...)
 
@@ -77,6 +78,7 @@ class InfoClient implements InfoObtainingClient, ContactKeepingClient
 
     public function __construct(BasicClientGeneratorInterface $generator)
     {
+        parent::__construct();
         $this->generator = $generator;
         $this->basicClient = $generator->generate();
         $this->contactsKeeper = new ContactsKeeper($this->basicClient);
@@ -111,6 +113,8 @@ class InfoClient implements InfoObtainingClient, ContactKeepingClient
         foreach ($this->otherDcClients as $otherDcClient) {
             $otherDcMessagePolled |= $otherDcClient->pollMessage();
         }
+
+        $this->processDeferredQueue();
 
         return $this->basicClient->pollMessage() || $otherDcMessagePolled;
     }
@@ -290,15 +294,6 @@ class InfoClient implements InfoObtainingClient, ContactKeepingClient
     public function addNumbers(array $numbers, callable $onComplete): void
     {
         $this->contactsKeeper->addNumbers($numbers, $onComplete);
-    }
-
-    /**
-     * @param string   $userName
-     * @param callable $onComplete function(bool)
-     */
-    public function addUser(string $userName, callable $onComplete): void
-    {
-        $this->contactsKeeper->addUser($userName, $onComplete);
     }
 
     /**
