@@ -222,7 +222,7 @@ class StatusWatcherClient extends DeferredClient implements
         if ($time - $this->lastUsedAddedTime >= self::ADD_USER_PAUSE_SECONDS) {
             $cb();
         } else {
-            $this->defer($cb, $this->userAddQueueSize);
+            $this->defer($cb, max($this->userAddQueueSize, 1));
         }
     }
 
@@ -421,6 +421,11 @@ class StatusWatcherClient extends DeferredClient implements
             $this->contactsKeeper->updateUsername($user->getUserId(), $user->getUsername());
             $this->userCallbacks->onUserNameChange(new User($phone, $userName, $user->getUserId()), $userName);
         });
+    }
+
+    public function hasDeferredCalls(): bool
+    {
+        return parent::hasDeferredCalls();
     }
 
     /**

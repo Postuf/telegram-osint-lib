@@ -136,21 +136,21 @@ class ContactsKeeper
                     return;
                 }
 
-                $this->getUserById($id, function ($contact) use ($id, $hash, $username, $onComplete) {
-
+                $this->getUserById($id, function ($contact) use ($id, $hash, $onComplete) {
                     if($contact) {
-                        throw new TGException(TGException::ERR_CLIENT_ADD_USERNAME_ALREADY_IN_ADDRESS_BOOK, $username);
+                        $onComplete(true);
+                    } else {
+                        /** @noinspection NullPointerExceptionInspection */
+                        $this->client->getConnection()->getResponseAsync(
+                            new add_contact($id, $hash),
+                            function (AnonymousMessage $message) use ($onComplete) {
+                                $updates = new Updates($message);
+                                $users = $updates->getUsers();
+                                $this->onContactsAdded($users);
+                                $onComplete(true);
+                            }
+                        );
                     }
-                    /** @noinspection NullPointerExceptionInspection */
-                    $this->client->getConnection()->getResponseAsync(
-                        new add_contact($id, $hash),
-                        function (AnonymousMessage $message) use ($onComplete) {
-                            $updates = new Updates($message);
-                            $users = $updates->getUsers();
-                            $this->onContactsAdded($users);
-                            $onComplete(true);
-                        }
-                    );
                 });
             }
         );

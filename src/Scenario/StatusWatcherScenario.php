@@ -6,7 +6,6 @@ namespace TelegramOSINT\Scenario;
 
 use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
 use TelegramOSINT\Client\Client;
-use TelegramOSINT\Client\DeferredClient;
 use TelegramOSINT\Client\StatusWatcherClient\Models\HiddenStatus;
 use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
 use TelegramOSINT\Client\StatusWatcherClient\Models\User;
@@ -15,6 +14,8 @@ use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherClient;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\LibConfig;
 use TelegramOSINT\Logger\ClientDebugLogger;
+use TelegramOSINT\Tools\Clock;
+use TelegramOSINT\Tools\DefaultClock;
 use TelegramOSINT\Tools\Proxy;
 
 /**
@@ -22,7 +23,7 @@ use TelegramOSINT\Tools\Proxy;
  *
  * Subscribes to a bunch of accounts and then
  */
-class StatusWatcherScenario extends DeferredClient implements StatusWatcherCallbacks, ClientDebugLogger, ScenarioInterface
+class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger, ScenarioInterface
 {
     private const DEFAULT_TTL = 1000000;
     private const INITIAL_POLL_CYCLE_COUNT = 10;
@@ -48,6 +49,8 @@ class StatusWatcherScenario extends DeferredClient implements StatusWatcherCallb
     private $stopAfter;
     /** @var ClientDebugLogger|null */
     private $logger;
+    /** @var Clock */
+    private $clock;
 
     /**
      * @param string[]                      $numbers
@@ -67,7 +70,6 @@ class StatusWatcherScenario extends DeferredClient implements StatusWatcherCallb
         int $stopAfter = self::DEFAULT_TTL,
         ClientDebugLogger $logger = null
     ) {
-        parent::__construct();
         if (!$generator) {
             $generator = new ClientGenerator(LibConfig::ENV_AUTHKEY, $proxy);
         }
@@ -80,6 +82,7 @@ class StatusWatcherScenario extends DeferredClient implements StatusWatcherCallb
         $this->proxy = $proxy;
         $this->stopAfter = $stopAfter;
         $this->logger = $logger;
+        $this->clock = new DefaultClock();
     }
 
     /**
@@ -119,14 +122,11 @@ class StatusWatcherScenario extends DeferredClient implements StatusWatcherCallb
         });
 
         /* add via user names */
-        $deferTime = 1;
         foreach ($this->users as $user) {
-            $this->defer(function () use ($user, $deferTime) {
-                $this->client->addUser($user, function (bool $addResult) use ($user, $deferTime) {
-                    $this->log("$user added: $addResult at $deferTime");
-                });
-            }, $deferTime);
-            $deferTime++;
+            $this->client->addUser($user, function (bool $addResult) use ($user) {
+                $time = time();
+                $this->log("$user added: $addResult at $time");
+            });
         }
 
         // wait a little between operations in order to get possible exceptions
@@ -141,7 +141,7 @@ class StatusWatcherScenario extends DeferredClient implements StatusWatcherCallb
 
             $this->pollClientCycle($this->client);
 
-            if($this->clock->time() - $start > $this->stopAfter && !$this->hasDeferredCalls()) {
+            if($this->clock->time() - $start > $this->stopAfter && !$this->client->hasDeferredCalls()) {
                 $this->client->terminate();
                 break;
             }
@@ -166,7 +166,6 @@ class StatusWatcherScenario extends DeferredClient implements StatusWatcherCallb
     {
         try {
             $client->pollMessage();
-            $this->processDeferredQueue();
         } catch (TGException $e) {
             if ($e->getCode() === TGException::ERR_CLIENT_ADD_USERNAME_ALREADY_IN_ADDRESS_BOOK) {
                 $this->log('Error: '.$e->getMessage().PHP_EOL);
