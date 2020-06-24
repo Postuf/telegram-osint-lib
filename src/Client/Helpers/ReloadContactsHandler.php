@@ -11,8 +11,12 @@ use TelegramOSINT\Tools\Phone;
 
 class ReloadContactsHandler
 {
-    public static function getHandler(ContactKeepingClient $client, array $numbers, array $usernames, callable $onComplete): callable
-    {
+    public static function getHandler(
+        ContactKeepingClient $client,
+        array $numbers,
+        array $usernames,
+        callable $onComplete
+    ): callable {
         return static function (array $contacts) use ($client, $numbers, $usernames, $onComplete) {
             $currentPhones = [];
             $usernames = array_combine($usernames, $usernames);
@@ -21,8 +25,10 @@ class ReloadContactsHandler
             }
             $numbersCombined = array_combine($numbers, $numbers);
 
+            $currentUsernames = [];
+
             /** @var ContactUser[] $contacts */
-            foreach ($contacts as $contact){
+            foreach ($contacts as $contact) {
                 if ($contact->getPhone()) {
                     $phone = Phone::convertToTelegramView($contact->getPhone());
                     if (isset($numbersCombined[$phone])
@@ -31,10 +37,18 @@ class ReloadContactsHandler
                     }
                 }
             }
+            foreach ($contacts as $contact) {
+                if ($contact->getUsername() && !isset($currentPhones[$contact->getPhone()])) {
+                    $currentUsernames[$contact->getUsername()] = $contact->getUsername();
+                }
+            }
 
             $existingNumbers = array_intersect($currentPhones, $numbers);
             $obsoleteNumbers = array_diff($currentPhones, $numbers);
             $newNumbers = array_diff($numbers, $currentPhones);
+
+            $obsoleteUsernames = array_diff($currentUsernames, $usernames);
+            $newUsernames = array_diff($usernames, $currentUsernames);
 
             $addNumbersFunc = static function () use ($client, $newNumbers, $onComplete, $existingNumbers) {
                 if (!empty($newNumbers)) {
@@ -52,8 +66,12 @@ class ReloadContactsHandler
                 }
             };
 
-            if (!empty($obsoleteNumbers)) {
-                $client->delNumbers($obsoleteNumbers, static function () use ($addNumbersFunc) { $addNumbersFunc(); });
+            foreach ($newUsernames as $username) {
+                $client->addUser($username, static function (bool $added) {});
+            }
+
+            if (!empty($obsoleteNumbers) || !empty($obsoleteUsernames)) {
+                $client->delNumbersAndUsers($obsoleteNumbers, $obsoleteUsernames, static function () use ($addNumbersFunc) { $addNumbersFunc(); });
             } else {
                 $addNumbersFunc();
             }

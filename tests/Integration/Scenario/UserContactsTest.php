@@ -27,11 +27,11 @@ class UserContactsTest extends TestCase
         $baseGenerator = new NullBasicClientGenerator(json_decode($file, true, 512, JSON_THROW_ON_ERROR));
         $generator = new TestClientGenerator($baseGenerator, self::DEFAULT_AUTHKEY);
 
-        $numbers_parsed = 0;
+        $numbersParsed = 0;
 
-        $callback = function (UserInfoModel $model) use (&$numbers_parsed) {
+        $callback = function (UserInfoModel $model) use (&$numbersParsed) {
             if ($model) {
-                $numbers_parsed++;
+                $numbersParsed++;
 
                 switch ($model->phone){
                     case '79857877977':
@@ -62,6 +62,6 @@ class UserContactsTest extends TestCase
         );
         $scenario->startActions();
 
-        $this->assertEquals(3, $numbers_parsed);
+        $this->assertEquals(3, $numbersParsed);
     }
 }

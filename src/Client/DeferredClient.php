@@ -55,7 +55,7 @@ abstract class DeferredClient
         }
     }
 
-    protected function hasDeferredCalls(): bool
+    public function hasDeferredCalls(): bool
     {
         return count($this->deferredQueue) > 0;
     }

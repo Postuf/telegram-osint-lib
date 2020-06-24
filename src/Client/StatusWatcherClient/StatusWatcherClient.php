@@ -28,7 +28,6 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
     MessageListener
 {
     private const RELOAD_CONTACTS_EVERY_SECONDS = 20;
-    private const ADD_USER_PAUSE_SECONDS = 1;
 
     /**
      * @var StatusWatcherAnalyzer
@@ -50,10 +49,6 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
     private $currentlyOfflineUsers;
     /** @var int */
     private $lastContactsReloaded = 0;
-    /** @var int */
-    private $lastUsedAddedTime = 0;
-    /** @var int */
-    private $userAddQueueSize = 0;
 
     /**
      * @param StatusWatcherCallbacks $callbacks
@@ -156,67 +151,17 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
 
     /**
      * @param array    $numbers
+     * @param array    $users
      * @param callable $onComplete function()
      *
      * @throws TGException
      */
-    public function delNumbers(array $numbers, callable $onComplete): void
+    public function delNumbersAndUsers(array $numbers, array $users, callable $onComplete): void
     {
         $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactsKeeper->delNumbers($numbers, function () use ($onComplete) {
+        $this->contactsKeeper->delNumbersAndUsers($numbers, $users, function () use ($onComplete) {
             $this->currentlyOnlineUsers = [];
             $this->currentlyOfflineUsers = [];
-            $onComplete();
-        });
-    }
-
-    /**
-     * @param string   $userName
-     * @param callable $onComplete function(bool)
-     */
-    public function addUser(string $userName, callable $onComplete): void
-    {
-        $this->userAddQueueSize++;
-        $cb = function () use ($userName, $onComplete) {
-            $this->lastUsedAddedTime = $this->clock->time();
-            $this->userAddQueueSize--;
-            $this->throwIfNotLoggedIn(__METHOD__);
-            $this->contactsKeeper->addUser($userName, $onComplete);
-        };
-
-        $time = $this->clock->time();
-        if ($time - $this->lastUsedAddedTime >= self::ADD_USER_PAUSE_SECONDS) {
-            $cb();
-        } else {
-            $this->defer($cb, max($this->userAddQueueSize, 1));
-        }
-    }
-
-    /**
-     * @param string[] $userNames
-     * @param callable $onComplete function()
-     *
-     * @throws TGException
-     */
-    public function delUsers(array $userNames, callable $onComplete): void
-    {
-        $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactsKeeper->delUsers($userNames, static function () use ($onComplete) {
-            $onComplete();
-        });
-    }
-
-    /**
-     * @param array    $numbers
-     * @param string[] $userNames
-     * @param callable $onComplete function()
-     *
-     * @throws TGException
-     */
-    public function delNumbersAndUsers(array $numbers, array $userNames, callable $onComplete): void
-    {
-        $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactsKeeper->delNumbersAndUsers($numbers, $userNames, static function () use ($onComplete) {
             $onComplete();
         });
     }

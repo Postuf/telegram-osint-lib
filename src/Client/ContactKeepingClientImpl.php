@@ -12,6 +12,12 @@ use TelegramOSINT\Tools\Clock;
 
 abstract class ContactKeepingClientImpl extends DeferredClient implements ContactKeepingClient
 {
+    private const ADD_USER_PAUSE_SECONDS = 1;
+    /** @var int */
+    private $lastUsedAddedTime = 0;
+    /** @var int */
+    private $userAddQueueSize = 0;
+
     /** @var BasicClient */
     protected $basicClient;
     /**
@@ -39,15 +45,38 @@ abstract class ContactKeepingClientImpl extends DeferredClient implements Contac
     }
 
     /**
+     * @param string   $userName
+     * @param callable $onComplete function(bool)
+     */
+    public function addUser(string $userName, callable $onComplete): void
+    {
+        $this->userAddQueueSize++;
+        $cb = function () use ($userName, $onComplete) {
+            $this->lastUsedAddedTime = $this->clock->time();
+            $this->userAddQueueSize--;
+            $this->throwIfNotLoggedIn(__METHOD__);
+            $this->contactsKeeper->addUser($userName, $onComplete);
+        };
+
+        $time = $this->clock->time();
+        if ($time - $this->lastUsedAddedTime >= self::ADD_USER_PAUSE_SECONDS) {
+            $cb();
+        } else {
+            $this->defer($cb, max($this->userAddQueueSize, 1));
+        }
+    }
+
+    /**
      * @param array    $numbers
+     * @param array    $users
      * @param callable $onComplete function()
      *
      * @throws TGException
      */
-    public function delNumbers(array $numbers, callable $onComplete): void
+    public function delNumbersAndUsers(array $numbers, array $users, callable $onComplete): void
     {
         $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactsKeeper->delNumbers($numbers, static function () use ($onComplete) {
+        $this->contactsKeeper->delNumbersAndUsers($numbers, $users, static function () use ($onComplete) {
             $onComplete();
         });
     }

@@ -8,7 +8,20 @@ interface ContactKeepingClient
 {
     public function addNumbers(array $numbers, callable $onComplete): void;
 
-    public function delNumbers(array $numbers, callable $onComplete): void;
+    /**
+     * Adds single username in monitoring book
+     *
+     * @param string   $userName
+     * @param callable $onComplete function(bool)
+     */
+    public function addUser(string $userName, callable $onComplete): void;
+
+    /**
+     * @param array    $numbers
+     * @param string[] $users
+     * @param callable $onComplete
+     */
+    public function delNumbersAndUsers(array $numbers, array $users, callable $onComplete): void;
 
     public function reloadContacts(array $numbers, array $usernames, callable $onComplete): void;
 

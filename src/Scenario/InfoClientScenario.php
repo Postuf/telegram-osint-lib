@@ -6,13 +6,12 @@ namespace TelegramOSINT\Scenario;
 
 use function microtime;
 use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
-use TelegramOSINT\Client\DeferredClient;
 use TelegramOSINT\Client\InfoObtainingClient\InfoClient;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Tools\Proxy;
 use function usleep;
 
-abstract class InfoClientScenario extends DeferredClient implements ScenarioInterface
+abstract class InfoClientScenario implements ScenarioInterface
 {
     /** @var InfoClient */
     protected $infoClient;
@@ -33,7 +32,6 @@ abstract class InfoClientScenario extends DeferredClient implements ScenarioInte
      */
     public function __construct(ClientGeneratorInterface $clientGenerator = null, ?Proxy $proxy = null)
     {
-        parent::__construct();
         if (!$clientGenerator) {
             $clientGenerator = new ClientGenerator();
         }
@@ -77,12 +75,11 @@ abstract class InfoClientScenario extends DeferredClient implements ScenarioInte
         $lastMsg = microtime(true);
         while (true) {
 
-            $this->processDeferredQueue();
             if ($this->infoClient->pollMessage()) {
                 $lastMsg = microtime(true);
             }
 
-            if (microtime(true) - $lastMsg > $timeout && !$this->hasDeferredCalls()) {
+            if (microtime(true) - $lastMsg > $timeout && !$this->infoClient->hasDeferredCalls()) {
                 break;
             }
 
