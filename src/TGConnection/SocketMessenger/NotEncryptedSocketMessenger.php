@@ -16,7 +16,7 @@ use TelegramOSINT\TGConnection\SocketMessenger\MessengerTools\MessageIdGenerator
 use TelegramOSINT\TGConnection\SocketMessenger\MessengerTools\OuterHeaderWrapper;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
-class NotEncryptedSocketMessenger extends TgSocketMessenger implements SocketMessenger
+class NotEncryptedSocketMessenger extends TgSocketMessenger
 {
     /**
      * @var OuterHeaderWrapper
@@ -60,7 +60,7 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger implements SocketMes
      *
      * @return AnonymousMessage
      */
-    public function readMessage()
+    public function readMessage(): ?AnonymousMessage
     {
         $packet = $this->readPacket();
         if (!$packet) {
@@ -90,7 +90,7 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger implements SocketMes
         $auth_key_id = unpack('V', substr($payload, 0, 8))[1];
 
         // must be 0 because it is unencrypted messaging
-        if($auth_key_id != 0)
+        if($auth_key_id !== 0)
             throw new TGException(TGException::ERR_TL_CONTAINER_BAD_AUTHKEY_ID_MUST_BE_0);
         $message_data_length = unpack('V', substr($payload, 16, 4))[1];
 
@@ -147,7 +147,7 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger implements SocketMes
      *
      * @throws TGException
      */
-    public function getResponseAsync(TLClientMessage $message, callable $cb)
+    public function getResponseAsync(TLClientMessage $message, callable $cb): void
     {
         // Dummy impl
         $this->writeMessage($message);

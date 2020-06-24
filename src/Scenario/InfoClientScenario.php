@@ -79,7 +79,7 @@ abstract class InfoClientScenario implements ScenarioInterface
                 $lastMsg = microtime(true);
             }
 
-            if (microtime(true) - $lastMsg > $timeout) {
+            if (microtime(true) - $lastMsg > $timeout && !$this->infoClient->hasDeferredCalls()) {
                 break;
             }
 

@@ -119,6 +119,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
 
         $this->msg_seqno = 0;
 
+        /** @noinspection  */
         $this->salt = openssl_random_pseudo_bytes(8);
         $this->sessionId = openssl_random_pseudo_bytes(8);
         $this->authKey = $authKey->getRawAuthKey();
@@ -135,9 +136,9 @@ class EncryptedSocketMessenger extends TgSocketMessenger
     /**
      * @throws TGException
      *
-     * @return AnonymousMessage
+     * @return AnonymousMessage|null
      */
-    public function readMessage()
+    public function readMessage(): ?AnonymousMessage
     {
         if (!empty($this->messagesToBeProcessedQueue)) {
             $this->processServiceMessage(array_shift($this->messagesToBeProcessedQueue));
@@ -177,7 +178,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
      *
      * @throws TGException
      */
-    public function getResponseAsync(TLClientMessage $message, callable $onAsyncResponse)
+    public function getResponseAsync(TLClientMessage $message, callable $onAsyncResponse): void
     {
         $messageId = $this->msgIdGenerator->generateNext();
         $this->writeIdentifiedMessage($message, $messageId);
@@ -191,20 +192,24 @@ class EncryptedSocketMessenger extends TgSocketMessenger
      *
      * @return string
      */
-    private function decryptPayload(string $payload)
+    private function decryptPayload(string $payload): string
     {
         $authKeyId = substr($payload, 0, 8);
         $msgKey = substr($payload, 8, 16);
         $payload = substr($payload, 24);
 
-        if(strcmp($authKeyId, $this->authKeyId) != 0)
+        /** @noinspection TypeUnsafeComparisonInspection */
+        if(strcmp($authKeyId, $this->authKeyId) != 0) {
             throw new TGException(TGException::ERR_TL_CONTAINER_BAD_AUTHKEY_ID);
-        list($aes_key, $aes_iv) = $this->aes_calculate($msgKey, $this->authKey, false);
+        }
+        [$aes_key, $aes_iv] = $this->aes_calculate($msgKey, $this->authKey, false);
         $decryptedPayload = $this->aes->decryptIgeMode($payload, $aes_key, $aes_iv);
 
         $myMsgKey = substr(hash('sha256', substr($this->authKey, 96, 32).$decryptedPayload, true), 8, 16);
-        if(strcmp($msgKey, $myMsgKey) != 0)
+        /** @noinspection TypeUnsafeComparisonInspection */
+        if(strcmp($msgKey, $myMsgKey) != 0) {
             throw new TGException(TGException::ERR_TL_CONTAINER_BAD_MSG_KEY);
+        }
 
         return $decryptedPayload;
     }
@@ -267,14 +272,12 @@ class EncryptedSocketMessenger extends TgSocketMessenger
         return $deserializedMessage;
     }
 
-    /**
-     * @return AnonymousMessage|null
-     */
-    private function reportMessageToSubscriber()
+    private function reportMessageToSubscriber(): ?AnonymousMessage
     {
         $message = array_shift($this->reportableMessageQueue);
-        if($message)
+        if($message) {
             $this->messageReceiptCallback->onMessage($message);
+        }
 
         return $message;
     }
@@ -284,7 +287,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
      *
      * @throws TGException
      */
-    final private function processServiceMessage(AnonymousMessage $message)
+    private function processServiceMessage(AnonymousMessage $message): void
     {
         // rpc
         if(RpcResult::isIt($message)) {
@@ -292,8 +295,9 @@ class EncryptedSocketMessenger extends TgSocketMessenger
             $msgRequestId = $rpcResult->getRequestMsgId();
             $result = $rpcResult->getResult();
 
-            if(RpcError::isIt($result))
+            if(RpcError::isIt($result)) {
                 $this->analyzeRpcError(new RpcError($result));
+            }
 
             if (isset($this->rpcMessages[$msgRequestId])) {
                 $callback = $this->rpcMessages[$msgRequestId];
@@ -340,27 +344,35 @@ class EncryptedSocketMessenger extends TgSocketMessenger
      *
      * @throws TGException
      */
-    private function analyzeRpcError(RpcError $rpcError)
+    private function analyzeRpcError(RpcError $rpcError): void
     {
         $parts = explode(':', $this->authKeyObj->getSerializedAuthKey());
         $userId = $parts[0];
 
-        if($rpcError->isNetworkMigrateError())
+        if($rpcError->isNetworkMigrateError()) {
             throw new TGException(TGException::ERR_MSG_NETWORK_MIGRATE, "reconnection to another DataCenter needed for $userId");
-        if($rpcError->isPhoneMigrateError())
+        }
+        if($rpcError->isPhoneMigrateError()) {
             throw new TGException(TGException::ERR_MSG_PHONE_MIGRATE, "phone $userId already used in another DataCenter");
-        if($rpcError->isFloodError())
+        }
+        if($rpcError->isFloodError()) {
             throw new TGException(TGException::ERR_MSG_FLOOD, (new FloodWait($rpcError))->getWaitTimeSec());
-        if($rpcError->isUserDeactivated())
+        }
+        if($rpcError->isUserDeactivated()) {
             throw new TGException(TGException::ERR_MSG_USER_BANNED, "User $userId banned");
-        if($rpcError->isAuthKeyUnregistered())
+        }
+        if($rpcError->isAuthKeyUnregistered()) {
             throw new TGException(TGException::ERR_MSG_USER_BANNED, "User $userId unregistered");
-        if($rpcError->isPhoneBanned())
+        }
+        if($rpcError->isPhoneBanned()) {
             throw new TGException(TGException::ERR_MSG_PHONE_BANNED, "User $userId phone banned");
-        if($rpcError->isAuthKeyDuplicated())
+        }
+        if($rpcError->isAuthKeyDuplicated()) {
             throw new TGException(TGException::ERR_MSG_BANNED_AUTHKEY_DUPLICATED, "relogin with phone number needed $userId");
-        if($rpcError->isSessionRevoked())
+        }
+        if($rpcError->isSessionRevoked()) {
             throw new TGException(TGException::ERR_MSG_BANNED_SESSION_STOLEN, "bot stolen by revoking session $userId");
+        }
     }
 
     /**
@@ -406,7 +418,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
      *
      * @throws TGException
      */
-    protected function writeIdentifiedMessage(TLClientMessage $payload, $messageId)
+    protected function writeIdentifiedMessage(TLClientMessage $payload, $messageId): void
     {
         $this->log('Write_Message_Binary', bin2hex($payload->toBinary()));
         $this->log('Write_Message_ID', (string) $messageId);

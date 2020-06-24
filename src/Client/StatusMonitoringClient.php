@@ -9,24 +9,18 @@ interface StatusMonitoringClient extends Client
      *
      * @param string[] $numbers
      * @param callable $onComplete function(ImportResult $result)
+     * @noinspection PhpUnused
      */
     public function addNumbers(array $numbers, callable $onComplete): void;
-
-    /**
-     * Removes single number from monitoring book
-     *
-     * @param string[] $numbers
-     * @param callable $onComplete function()
-     */
-    public function delNumbers(array $numbers, callable $onComplete): void;
 
     /**
      * Leaves only $numbers in monitoring book, removes any other contacts
      *
      * @param string[] $numbers
+     * @param array    $usernames
      * @param callable $onComplete function(ImportResult $result)
      */
-    public function reloadNumbers(array $numbers, callable $onComplete): void;
+    public function reloadContacts(array $numbers, array $usernames, callable $onComplete): void;
 
     /**
      * Adds single username in monitoring book
@@ -35,14 +29,6 @@ interface StatusMonitoringClient extends Client
      * @param callable $onComplete function(bool)
      */
     public function addUser(string $userName, callable $onComplete): void;
-
-    /**
-     * Removes multiple usernames from monitoring book
-     *
-     * @param string[] $userNames
-     * @param callable $onComplete function()
-     */
-    public function delUsers(array $userNames, callable $onComplete): void;
 
     /**
      * Removes multiple usernames from monitoring book
@@ -60,5 +46,5 @@ interface StatusMonitoringClient extends Client
      *
      * @return void
      */
-    public function cleanMonitoringBook(callable $onComplete): void;
+    public function cleanContactsBook(callable $onComplete): void;
 }

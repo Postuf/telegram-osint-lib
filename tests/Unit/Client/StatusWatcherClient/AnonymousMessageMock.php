@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Unit\Client\StatusWatcherClient;
 
+use JsonException;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\MTSerialization\OwnImplementation\OwnAnonymousMessage;
@@ -92,6 +93,8 @@ class AnonymousMessageMock implements AnonymousMessage
     }
 
     /**
+     * @throws JsonException
+     *
      * @return string
      */
     public function getPrintable(): string
@@ -306,7 +309,7 @@ class AnonymousMessageMock implements AnonymousMessage
                     'access_hash' => 2811936216873835544,
                     'first_name'  => 'name_89169904863',
                     'last_name'   => 'l_1abe970cb9',
-                    'username'    => 'AseN_17',
+                    'username'    => 'username',
                     'phone'       => $userPhone,
                     'photo'       => [
                         '_'           => 'userProfilePhoto',

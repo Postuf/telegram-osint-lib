@@ -5,14 +5,12 @@ namespace TelegramOSINT\Client\InfoObtainingClient;
 use TelegramOSINT\Auth\Protocol\AppAuthorization;
 use TelegramOSINT\Client\AuthKey\AuthKey;
 use TelegramOSINT\Client\BasicClient\BasicClient;
-use TelegramOSINT\Client\ContactKeepingClient;
-use TelegramOSINT\Client\Helpers\ReloadContactsHandler;
+use TelegramOSINT\Client\ContactKeepingClientImpl;
 use TelegramOSINT\Client\InfoObtainingClient;
 use TelegramOSINT\Client\InfoObtainingClient\Models\FileModel;
 use TelegramOSINT\Client\InfoObtainingClient\Models\PictureModel;
 use TelegramOSINT\Client\InfoObtainingClient\Models\UserInfoModel;
 use TelegramOSINT\Client\InfoObtainingClient\Models\UserStatusModel;
-use TelegramOSINT\Client\StatusWatcherClient\ContactsKeeper;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\Scenario\BasicClientGeneratorInterface;
@@ -53,23 +51,14 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserProfilePhoto;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 use TelegramOSINT\Tools\Proxy;
 
-class InfoClient implements InfoObtainingClient, ContactKeepingClient
+class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
 {
     private const READ_LIMIT_BYTES = 1024 * 32;  // must be the power of 2 (4096, 8192, 16384 ...)
-
-    /**
-     * @var BasicClient
-     */
-    private $basicClient;
 
     /**
      * @var BasicClient[]
      */
     private $otherDcClients = [];
-    /**
-     * @var ContactsKeeper
-     */
-    private $contactsKeeper;
     /** @var BasicClientGeneratorInterface */
     private $generator;
     /** @var Proxy|null */
@@ -79,7 +68,7 @@ class InfoClient implements InfoObtainingClient, ContactKeepingClient
     {
         $this->generator = $generator;
         $this->basicClient = $generator->generate();
-        $this->contactsKeeper = new ContactsKeeper($this->basicClient);
+        parent::__construct(null, $this->basicClient);
     }
 
     /**
@@ -111,6 +100,8 @@ class InfoClient implements InfoObtainingClient, ContactKeepingClient
         foreach ($this->otherDcClients as $otherDcClient) {
             $otherDcMessagePolled |= $otherDcClient->pollMessage();
         }
+
+        $this->processDeferredQueue();
 
         return $this->basicClient->pollMessage() || $otherDcMessagePolled;
     }
@@ -258,47 +249,6 @@ class InfoClient implements InfoObtainingClient, ContactKeepingClient
     public function getAllChats(callable $onComplete): void {
         /** @noinspection NullPointerExceptionInspection */
         $this->basicClient->getConnection()->getResponseAsync(new get_all_chats(), $onComplete);
-    }
-
-    /**
-     * @param array    $numbers
-     * @param callable $onComplete
-     *
-     * @throws TGException
-     * @noinspection DuplicatedCode
-     * @noinspection PhpDocRedundantThrowsInspection
-     */
-    public function reloadNumbers(array $numbers, callable $onComplete): void
-    {
-        $this->contactsKeeper->getCurrentContacts(ReloadContactsHandler::getHandler($this, $numbers, $onComplete));
-    }
-
-    /**
-     * @param callable $onComplete
-     */
-    public function cleanContacts(callable $onComplete): void
-    {
-        $this->contactsKeeper->cleanContacts($onComplete);
-    }
-
-    /**
-     * @param array    $numbers
-     * @param callable $onComplete function(ImportResult $result)
-     *
-     * @throws TGException
-     */
-    public function addNumbers(array $numbers, callable $onComplete): void
-    {
-        $this->contactsKeeper->addNumbers($numbers, $onComplete);
-    }
-
-    /**
-     * @param array    $numbers
-     * @param callable $onComplete
-     */
-    public function delNumbers(array $numbers, callable $onComplete): void
-    {
-        $this->contactsKeeper->delNumbers($numbers, $onComplete);
     }
 
     /**

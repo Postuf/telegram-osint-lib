@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Unit\Client\StatusWatcherClient;
 
+use TelegramOSINT\Client\BasicClient\BasicClient;
 use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherCallbacks;
 use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherClient;
+use TelegramOSINT\Logger\ClientDebugLogger;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
+use TelegramOSINT\Tools\Clock;
 
 class StatusWatcherClientMock extends StatusWatcherClient
 {
@@ -14,11 +17,19 @@ class StatusWatcherClientMock extends StatusWatcherClient
      * @var int
      */
     private $isUserExpirationChecks = 0;
+    /** @var BasicClient|null */
+    private $curClient;
 
-    public function __construct(StatusWatcherCallbacks $callbacks)
-    {
-        parent::__construct($callbacks);
-        $this->contactKeeper = new ContactsKeeperMock(null);
+    public function __construct(
+        StatusWatcherCallbacks $callbacks,
+        ?ClientDebugLogger $logger = null,
+        array $startContacts = [],
+        ?Clock $clock = null,
+        ?BasicClient $basicClient = null
+    ) {
+        parent::__construct($callbacks, $logger, $startContacts, $clock, $basicClient);
+        $this->curClient = $basicClient;
+        $this->contactsKeeper = new ContactsKeeperMock($this->basicClient);
     }
 
     /**
@@ -26,11 +37,14 @@ class StatusWatcherClientMock extends StatusWatcherClient
      */
     public function loadMockContacts(array $contacts): void
     {
-        $this->contactKeeper->loadContacts($contacts);
+        $this->contactsKeeper->loadContacts($contacts);
     }
 
     public function pollMessage(): bool
     {
+        if ($this->curClient) {
+            return parent::pollMessage();
+        }
         $this->checkOnlineStatusesExpired();
 
         return true;

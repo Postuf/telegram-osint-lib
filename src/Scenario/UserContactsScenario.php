@@ -62,10 +62,11 @@ class UserContactsScenario extends InfoClientScenario
     {
         $this->login();
 
-        /* info by username */
+        $this->parseNumbers($this->phones, $this->withPhoto, $this->largePhoto);
+
         foreach ($this->usernames as $username) {
-            $this->infoClient->getInfoByUsername($username, $this->withPhoto, $this->largePhoto, function ($userInfoModel) {
-                if ($userInfoModel->photo && $this->saveCallback) {
+            $this->infoClient->getInfoByUsername($username, $this->withPhoto, $this->largePhoto, function (?UserInfoModel $userInfoModel) {
+                if ($userInfoModel && $userInfoModel->photo && $this->saveCallback) {
                     $cb = $this->saveCallback;
                     $cb(
                         $userInfoModel->username.'.'.$userInfoModel->photo->format,
@@ -74,8 +75,6 @@ class UserContactsScenario extends InfoClientScenario
                 }
             });
         }
-
-        $this->parseNumbers($this->phones, $this->withPhoto, $this->largePhoto);
     }
 
     /**
@@ -85,9 +84,12 @@ class UserContactsScenario extends InfoClientScenario
      */
     public function parseNumbers(array $numbers, bool $withPhoto = false, bool $largePhoto = false): void
     {
+        if (!$numbers) {
+            return;
+        }
         $this->callQueue[] = function () use ($numbers, $withPhoto, $largePhoto) {
             $rememberedContacts = [];
-            $this->infoClient->reloadNumbers($numbers, function (ImportResult $result) use (
+            $this->infoClient->reloadContacts($numbers, $this->usernames, function (ImportResult $result) use (
                                                 &$rememberedContacts, $withPhoto, $largePhoto) {
 
                 foreach ($result->importedPhones as $importedPhone) {
@@ -95,7 +97,7 @@ class UserContactsScenario extends InfoClientScenario
                         $rememberedContacts[] = $user;
                     });
                 }
-                $this->infoClient->cleanContacts(function () use ($rememberedContacts, $withPhoto, $largePhoto) {
+                $this->infoClient->cleanContactsBook(function () use ($rememberedContacts, $withPhoto, $largePhoto) {
                     /** @var ContactUser $user */
                     foreach ($rememberedContacts as $user) {
                         $this->infoClient->getFullUserInfo($user, $withPhoto, $largePhoto, function (UserInfoModel $fullModel) use (

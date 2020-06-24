@@ -36,11 +36,15 @@ abstract class TgSocketMessenger implements SocketMessenger
         if (!$this->readState->getLength()) {
             // header
             $lengthValue = $this->socket->readBinary(self::HEADER_LENGTH_BYTES);
+            /** @noinspection UnnecessaryCastingInspection */
             $readLength = strlen((string) $lengthValue);
-            if ($readLength == 0)
+            /** @noinspection TypeUnsafeComparisonInspection */
+            if ($readLength == 0) {
                 return null;
-            if ($readLength != self::HEADER_LENGTH_BYTES)
+            }
+            if ($readLength !== self::HEADER_LENGTH_BYTES) {
                 throw new TGException(TGException::ERR_DESERIALIZER_BROKEN_BINARY_READ, self::HEADER_LENGTH_BYTES.'!='.$readLength);
+            }
             // data
             $payloadLength = unpack('I', $lengthValue)[1] - self::HEADER_LENGTH_BYTES;
             $this->readState->setLengthValue($lengthValue);
@@ -51,13 +55,19 @@ abstract class TgSocketMessenger implements SocketMessenger
         }
         $lengthToRead = $payloadLength - $this->readState->getCurrentLength();
         $newPayload = $this->socket->readBinary($lengthToRead);
-        if (strlen((string) $newPayload)) {
+        /** @noinspection UnnecessaryCastingInspection */
+        if ((string) $newPayload !== '') {
             $this->readState->addRead($newPayload);
         }
         if (!$this->readState->ready()) {
             $timeDiff = 1000.0 * (microtime(true) - $this->readState->getTimeStart());
             if ($timeDiff > LibConfig::CONN_SOCKET_TIMEOUT_PERSISTENT_READ_MS) {
-                throw new TGException(TGException::ERR_CONNECTION_SOCKET_READ_TIMEOUT);
+                $timeDiffFormatted = number_format($timeDiff, 2);
+
+                throw new TGException(
+                    TGException::ERR_CONNECTION_SOCKET_READ_TIMEOUT,
+                    "timeout of $timeDiffFormatted ms > ".LibConfig::CONN_SOCKET_TIMEOUT_PERSISTENT_READ_MS
+                );
             }
 
             return null;

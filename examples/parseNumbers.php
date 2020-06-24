@@ -30,7 +30,7 @@ EOT;
     exit(1);
 }
 
-$numbers = explode(',', $argsOrFalse['n'] ?? $argsOrFalse['numbers']);
+$numbers = array_filter(explode(',', $argsOrFalse['n'] ?? $argsOrFalse['numbers'] ?? ''));
 $users = array_filter(explode(',', $argsOrFalse['u'] ?? $argsOrFalse['users'] ?? ''));
 
 $onComplete = function (UserInfoModel $model) {
@@ -69,7 +69,10 @@ echo "Phone\t|\tUsername\t|\tFirst name\t|\tLast name\t|\tPhoto\t|\tAbout\t|\tCo
 $client = new UserContactsScenario(
     $numbers,
     $users,
-    $onComplete
+    $onComplete,
+    null,
+    false,
+    false
 );
 /* @noinspection PhpUnhandledExceptionInspection */
 $client->startActions();

@@ -5,7 +5,7 @@ namespace TelegramOSINT\Client\StatusWatcherClient;
 use TelegramOSINT\Client\AuthKey\AuthKey;
 use TelegramOSINT\Client\BasicClient\BasicClient;
 use TelegramOSINT\Client\BasicClient\BasicClientWithStatusReportingImpl;
-use TelegramOSINT\Client\ContactKeepingClient;
+use TelegramOSINT\Client\ContactKeepingClientImpl;
 use TelegramOSINT\Client\Helpers\ReloadContactsHandler;
 use TelegramOSINT\Client\PeriodicClient;
 use TelegramOSINT\Client\StatusMonitoringClient;
@@ -18,21 +18,17 @@ use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
+use TelegramOSINT\Tools\Clock;
 use TelegramOSINT\Tools\Proxy;
 
-class StatusWatcherClient implements
+class StatusWatcherClient extends ContactKeepingClientImpl implements
     StatusMonitoringClient,
     PeriodicClient,
     StatusWatcherCallbacksMiddleware,
-    MessageListener,
-    ContactKeepingClient
+    MessageListener
 {
     private const RELOAD_CONTACTS_EVERY_SECONDS = 20;
 
-    /**
-     * @var BasicClient
-     */
-    private $basicClient;
     /**
      * @var StatusWatcherAnalyzer
      */
@@ -41,10 +37,6 @@ class StatusWatcherClient implements
      * @var StatusWatcherCallbacks
      */
     private $userCallbacks;
-    /**
-     * @var ContactsKeeper
-     */
-    protected $contactKeeper;
     /**
      * @var array
      *            Format: id=>expires
@@ -62,22 +54,29 @@ class StatusWatcherClient implements
      * @param StatusWatcherCallbacks $callbacks
      * @param ClientDebugLogger|null $logger
      * @param ContactUser[]          $startContacts
+     * @param Clock|null             $clock
+     * @param BasicClient|null       $basicClient
      *
      * @throws TGException
      */
-    public function __construct(StatusWatcherCallbacks $callbacks, ?ClientDebugLogger $logger = null, array $startContacts = [])
-    {
-        $this->basicClient = new BasicClientWithStatusReportingImpl(
+    public function __construct(
+        StatusWatcherCallbacks $callbacks,
+        ?ClientDebugLogger $logger = null,
+        array $startContacts = [],
+        ?Clock $clock = null,
+        ?BasicClient $basicClient = null
+    ) {
+        $this->basicClient = $basicClient ?: new BasicClientWithStatusReportingImpl(
             LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC,
             $logger
         );
+        parent::__construct($clock, $this->basicClient, $startContacts);
         $this->userCallbacks = $callbacks;
         $this->currentlyOnlineUsers = [];
         $this->currentlyOfflineUsers = [];
 
         $this->basicClient->setMessageListener($this);
         $this->messageAnalyzer = new StatusWatcherAnalyzer($this);
-        $this->contactKeeper = new ContactsKeeper($this->basicClient, $startContacts);
     }
 
     /**
@@ -100,18 +99,6 @@ class StatusWatcherClient implements
     }
 
     /**
-     * @param string $message
-     *
-     * @throws TGException
-     *
-     * @return void
-     */
-    protected function throwIfNotLoggedIn(string $message): void
-    {
-        $this->basicClient->throwIfNotLoggedIn($message);
-    }
-
-    /**
      * @throws TGException
      *
      * @return bool
@@ -120,15 +107,16 @@ class StatusWatcherClient implements
     {
         $this->onPeriodAvailable();
         $this->reloadContactsIfNeeded();
+        $this->processDeferredQueue();
 
         return $this->basicClient->pollMessage();
     }
 
     private function reloadContactsIfNeeded(): void
     {
-        $time = time();
+        $time = $this->clock->time();
         if ($time > $this->lastContactsReloaded + self::RELOAD_CONTACTS_EVERY_SECONDS) {
-            $this->contactKeeper->reloadCurrentContacts(static function () {});
+            $this->contactsKeeper->reloadCurrentContacts(static function () {});
             $this->lastContactsReloaded = $time;
         }
     }
@@ -141,7 +129,7 @@ class StatusWatcherClient implements
     protected function checkOnlineStatusesExpired(): void
     {
         foreach ($this->currentlyOnlineUsers as $userId => $expires) {
-            if (time() > $expires) {
+            if ($this->clock->time() > $expires) {
                 $this->onUserOffline($userId, $expires);
             }
         }
@@ -149,95 +137,33 @@ class StatusWatcherClient implements
 
     /**
      * @param array    $numbers
+     * @param array    $usernames
      * @param callable $onComplete function(ImportResult $result)
      *
      * @throws TGException
      */
-    public function addNumbers(array $numbers, callable $onComplete): void
+    public function reloadContacts(array $numbers, array $usernames, callable $onComplete): void
     {
         $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactKeeper->addNumbers($numbers, $onComplete);
+        $this->lastContactsReloaded = $this->clock->time();
+        $this->contactsKeeper->reloadCurrentContacts(ReloadContactsHandler::getHandler($this, $numbers, $usernames, $onComplete));
     }
 
     /**
      * @param array    $numbers
-     * @param callable $onComplete function(ImportResult $result)
-     *
-     * @throws TGException
-     */
-    public function reloadNumbers(array $numbers, callable $onComplete): void
-    {
-        $this->throwIfNotLoggedIn(__METHOD__);
-        $this->lastContactsReloaded = time();
-        $this->contactKeeper->reloadCurrentContacts(ReloadContactsHandler::getHandler($this, $numbers, $onComplete));
-    }
-
-    /**
-     * @param array    $numbers
+     * @param array    $users
      * @param callable $onComplete function()
      *
      * @throws TGException
      */
-    public function delNumbers(array $numbers, callable $onComplete): void
+    public function delNumbersAndUsers(array $numbers, array $users, callable $onComplete): void
     {
         $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactKeeper->delNumbers($numbers, function () use ($onComplete) {
+        $this->contactsKeeper->delNumbersAndUsers($numbers, $users, function () use ($onComplete) {
             $this->currentlyOnlineUsers = [];
             $this->currentlyOfflineUsers = [];
             $onComplete();
         });
-    }
-
-    /**
-     * @param string   $userName
-     * @param callable $onComplete function(bool)
-     *
-     * @throws TGException
-     */
-    public function addUser(string $userName, callable $onComplete): void
-    {
-        $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactKeeper->addUser($userName, $onComplete);
-    }
-
-    /**
-     * @param string[] $userNames
-     * @param callable $onComplete function()
-     *
-     * @throws TGException
-     */
-    public function delUsers(array $userNames, callable $onComplete): void
-    {
-        $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactKeeper->delUsers($userNames, static function () use ($onComplete) {
-            $onComplete();
-        });
-    }
-
-    /**
-     * @param array    $numbers
-     * @param string[] $userNames
-     * @param callable $onComplete function()
-     *
-     * @throws TGException
-     */
-    public function delNumbersAndUsers(array $numbers, array $userNames, callable $onComplete): void
-    {
-        $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactKeeper->delNumbersAndUsers($numbers, $userNames, static function () use ($onComplete) {
-            $onComplete();
-        });
-    }
-
-    /**
-     * @param callable $onComplete function()
-     *
-     * @throws TGException
-     */
-    public function cleanMonitoringBook(callable $onComplete): void
-    {
-        $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactKeeper->cleanContacts($onComplete);
     }
 
     /**
@@ -258,8 +184,8 @@ class StatusWatcherClient implements
      */
     public function onUserOnline(int $userId, int $expires): void
     {
-        if(($expires - time()) / 60 > 25) {
-            throw new TGException(TGException::ERR_ASSERT_UPDATE_EXPIRES_TIME_LONG, 'userId: '.$userId.'; (expires-now) sec: '.($expires - time()));
+        if(($expires - $this->clock->time()) / 60 > 25) {
+            throw new TGException(TGException::ERR_ASSERT_UPDATE_EXPIRES_TIME_LONG, 'userId: '.$userId.'; (expires-now) sec: '.($expires - $this->clock->time()));
         }
         $isUserStillOnline = array_key_exists($userId, $this->currentlyOnlineUsers);
         unset($this->currentlyOfflineUsers[$userId]);
@@ -267,7 +193,7 @@ class StatusWatcherClient implements
 
         // notification for user
         if(!$isUserStillOnline){
-            $this->contactKeeper->getUserById($userId, function ($user) use ($userId, $expires) {
+            $this->contactsKeeper->getUserById($userId, function ($user) use ($userId, $expires) {
                 // arbitrary user
                 if(!($user instanceof ContactUser)) {
                     return;
@@ -297,7 +223,7 @@ class StatusWatcherClient implements
 
         // notification for user
         if(!$isUserOffline) {
-            $this->contactKeeper->getUserById($userId, function ($user) use ($userId, $wasOnline) {
+            $this->contactsKeeper->getUserById($userId, function ($user) use ($userId, $wasOnline) {
                 // arbitrary user
                 if(!($user instanceof ContactUser)) {
                     return;
@@ -324,7 +250,7 @@ class StatusWatcherClient implements
         unset($this->currentlyOnlineUsers[$userId], $this->currentlyOfflineUsers[$userId]);
 
         // notification for user
-        $this->contactKeeper->getUserById($userId, function ($user) use ($userId, $hiddenStatusState) {
+        $this->contactsKeeper->getUserById($userId, function ($user) use ($userId, $hiddenStatusState) {
             // arbitrary user
             if(!($user instanceof ContactUser)) {
                 return;
@@ -365,7 +291,7 @@ class StatusWatcherClient implements
 
     public function onUserPhoneChange(int $userId, string $phone): void
     {
-        $this->contactKeeper->getUserById($userId, function ($user) {
+        $this->contactsKeeper->getUserById($userId, function ($user) {
             // arbitrary user
             if (!($user instanceof ContactUser)) {
                 return;
@@ -375,7 +301,7 @@ class StatusWatcherClient implements
             $userName = $user->getUsername();
 
             if (!empty($phone)) {
-                $this->contactKeeper->updatePhone($user->getUserId(), $user->getPhone());
+                $this->contactsKeeper->updatePhone($user->getUserId(), $user->getPhone());
             }
             $this->userCallbacks->onUserPhoneChange(new User($phone, $userName, $user->getUserId()), $phone);
         });
@@ -383,7 +309,7 @@ class StatusWatcherClient implements
 
     public function onUserNameChange(int $userId, string $username): void
     {
-        $this->contactKeeper->getUserById($userId, function ($user) {
+        $this->contactsKeeper->getUserById($userId, function ($user) {
             // arbitrary user
             if (!($user instanceof ContactUser)) {
                 return;
@@ -392,9 +318,14 @@ class StatusWatcherClient implements
             $phone = $user->getPhone();
             $userName = $user->getUsername();
 
-            $this->contactKeeper->updateUsername($user->getUserId(), $user->getUsername());
+            $this->contactsKeeper->updateUsername($user->getUserId(), $user->getUsername());
             $this->userCallbacks->onUserNameChange(new User($phone, $userName, $user->getUserId()), $userName);
         });
+    }
+
+    public function hasDeferredCalls(): bool
+    {
+        return parent::hasDeferredCalls();
     }
 
     /**
@@ -402,6 +333,6 @@ class StatusWatcherClient implements
      */
     public function getCurrentContacts(): array
     {
-        return $this->contactKeeper->getContacts();
+        return $this->contactsKeeper->getContacts();
     }
 }
