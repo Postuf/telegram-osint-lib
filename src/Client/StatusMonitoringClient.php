@@ -9,6 +9,7 @@ interface StatusMonitoringClient extends Client
      *
      * @param string[] $numbers
      * @param callable $onComplete function(ImportResult $result)
+     * @noinspection PhpUnused
      */
     public function addNumbers(array $numbers, callable $onComplete): void;
 
@@ -24,9 +25,10 @@ interface StatusMonitoringClient extends Client
      * Leaves only $numbers in monitoring book, removes any other contacts
      *
      * @param string[] $numbers
+     * @param array    $usernames
      * @param callable $onComplete function(ImportResult $result)
      */
-    public function reloadNumbers(array $numbers, callable $onComplete): void;
+    public function reloadContacts(array $numbers, array $usernames, callable $onComplete): void;
 
     /**
      * Adds single username in monitoring book
@@ -60,5 +62,5 @@ interface StatusMonitoringClient extends Client
      *
      * @return void
      */
-    public function cleanMonitoringBook(callable $onComplete): void;
+    public function cleanContactsBook(callable $onComplete): void;
 }

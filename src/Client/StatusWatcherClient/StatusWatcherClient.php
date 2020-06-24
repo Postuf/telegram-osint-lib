@@ -5,8 +5,7 @@ namespace TelegramOSINT\Client\StatusWatcherClient;
 use TelegramOSINT\Client\AuthKey\AuthKey;
 use TelegramOSINT\Client\BasicClient\BasicClient;
 use TelegramOSINT\Client\BasicClient\BasicClientWithStatusReportingImpl;
-use TelegramOSINT\Client\ContactKeepingClient;
-use TelegramOSINT\Client\DeferredClient;
+use TelegramOSINT\Client\ContactKeepingClientImpl;
 use TelegramOSINT\Client\Helpers\ReloadContactsHandler;
 use TelegramOSINT\Client\PeriodicClient;
 use TelegramOSINT\Client\StatusMonitoringClient;
@@ -22,20 +21,15 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
 use TelegramOSINT\Tools\Clock;
 use TelegramOSINT\Tools\Proxy;
 
-class StatusWatcherClient extends DeferredClient implements
+class StatusWatcherClient extends ContactKeepingClientImpl implements
     StatusMonitoringClient,
     PeriodicClient,
     StatusWatcherCallbacksMiddleware,
-    MessageListener,
-    ContactKeepingClient
+    MessageListener
 {
     private const RELOAD_CONTACTS_EVERY_SECONDS = 20;
     private const ADD_USER_PAUSE_SECONDS = 1;
 
-    /**
-     * @var BasicClient
-     */
-    private $basicClient;
     /**
      * @var StatusWatcherAnalyzer
      */
@@ -44,10 +38,6 @@ class StatusWatcherClient extends DeferredClient implements
      * @var StatusWatcherCallbacks
      */
     private $userCallbacks;
-    /**
-     * @var ContactsKeeper
-     */
-    protected $contactsKeeper;
     /**
      * @var array
      *            Format: id=>expires
@@ -81,18 +71,17 @@ class StatusWatcherClient extends DeferredClient implements
         ?Clock $clock = null,
         ?BasicClient $basicClient = null
     ) {
-        parent::__construct($clock);
         $this->basicClient = $basicClient ?: new BasicClientWithStatusReportingImpl(
             LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC,
             $logger
         );
+        parent::__construct($clock, $this->basicClient, $startContacts);
         $this->userCallbacks = $callbacks;
         $this->currentlyOnlineUsers = [];
         $this->currentlyOfflineUsers = [];
 
         $this->basicClient->setMessageListener($this);
         $this->messageAnalyzer = new StatusWatcherAnalyzer($this);
-        $this->contactsKeeper = new ContactsKeeper($this->basicClient, $startContacts);
     }
 
     /**
@@ -112,18 +101,6 @@ class StatusWatcherClient extends DeferredClient implements
     public function isLoggedIn(): bool
     {
         return $this->basicClient->isLoggedIn();
-    }
-
-    /**
-     * @param string $message
-     *
-     * @throws TGException
-     *
-     * @return void
-     */
-    protected function throwIfNotLoggedIn(string $message): void
-    {
-        $this->basicClient->throwIfNotLoggedIn($message);
     }
 
     /**
@@ -165,27 +142,16 @@ class StatusWatcherClient extends DeferredClient implements
 
     /**
      * @param array    $numbers
+     * @param array    $usernames
      * @param callable $onComplete function(ImportResult $result)
      *
      * @throws TGException
      */
-    public function addNumbers(array $numbers, callable $onComplete): void
-    {
-        $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactsKeeper->addNumbers($numbers, $onComplete);
-    }
-
-    /**
-     * @param array    $numbers
-     * @param callable $onComplete function(ImportResult $result)
-     *
-     * @throws TGException
-     */
-    public function reloadNumbers(array $numbers, callable $onComplete): void
+    public function reloadContacts(array $numbers, array $usernames, callable $onComplete): void
     {
         $this->throwIfNotLoggedIn(__METHOD__);
         $this->lastContactsReloaded = $this->clock->time();
-        $this->contactsKeeper->reloadCurrentContacts(ReloadContactsHandler::getHandler($this, $numbers, $onComplete));
+        $this->contactsKeeper->reloadCurrentContacts(ReloadContactsHandler::getHandler($this, $numbers, $usernames, $onComplete));
     }
 
     /**
@@ -253,17 +219,6 @@ class StatusWatcherClient extends DeferredClient implements
         $this->contactsKeeper->delNumbersAndUsers($numbers, $userNames, static function () use ($onComplete) {
             $onComplete();
         });
-    }
-
-    /**
-     * @param callable $onComplete function()
-     *
-     * @throws TGException
-     */
-    public function cleanMonitoringBook(callable $onComplete): void
-    {
-        $this->throwIfNotLoggedIn(__METHOD__);
-        $this->contactsKeeper->cleanContacts($onComplete);
     }
 
     /**

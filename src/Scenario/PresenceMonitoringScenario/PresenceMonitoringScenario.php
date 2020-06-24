@@ -62,7 +62,7 @@ class PresenceMonitoringScenario implements ScenarioInterface, StatusWatcherCall
     public function startActions(bool $pollAndTerminate = true): void
     {
         $this->client->login(AuthKeyCreator::createFromString($this->authKey), $this->generator->getProxy());
-        $this->client->reloadNumbers($this->numbers, static function (ImportResult $result) {});
+        $this->client->reloadContacts($this->numbers, [], static function (ImportResult $result) {});
     }
 
     /**

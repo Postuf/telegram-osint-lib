@@ -115,7 +115,7 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
         /* add via phone numbers */
         $monitoringPhones = $this->numbers;
         $lastContactsCleaningTime = 0;
-        $this->client->reloadNumbers($monitoringPhones, function (ImportResult $result) use (&$lastContactsCleaningTime) {
+        $this->client->reloadContacts($monitoringPhones, $this->users, function (ImportResult $result) use (&$lastContactsCleaningTime) {
             $lastContactsCleaningTime = $this->clock->time();
             $this->log('Contacts imported total:'.count($result->importedPhones).PHP_EOL);
             $this->log('Replaced phones:'.print_r($result->replacedPhones, true).PHP_EOL);
@@ -152,7 +152,7 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
             }
         }
 
-        $this->client->cleanMonitoringBook(function () {
+        $this->client->cleanContactsBook(function () {
             $this->log('Contacts cleaned'.PHP_EOL);
         });
     }

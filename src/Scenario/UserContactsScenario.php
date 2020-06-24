@@ -99,7 +99,7 @@ class UserContactsScenario extends InfoClientScenario
         }
         $this->callQueue[] = function () use ($numbers, $withPhoto, $largePhoto) {
             $rememberedContacts = [];
-            $this->infoClient->reloadNumbers($numbers, function (ImportResult $result) use (
+            $this->infoClient->reloadContacts($numbers, $this->usernames, function (ImportResult $result) use (
                                                 &$rememberedContacts, $withPhoto, $largePhoto) {
 
                 foreach ($result->importedPhones as $importedPhone) {
@@ -107,7 +107,7 @@ class UserContactsScenario extends InfoClientScenario
                         $rememberedContacts[] = $user;
                     });
                 }
-                $this->infoClient->cleanContacts(function () use ($rememberedContacts, $withPhoto, $largePhoto) {
+                $this->infoClient->cleanContactsBook(function () use ($rememberedContacts, $withPhoto, $largePhoto) {
                     /** @var ContactUser $user */
                     foreach ($rememberedContacts as $user) {
                         $this->infoClient->getFullUserInfo($user, $withPhoto, $largePhoto, function (UserInfoModel $fullModel) use (
