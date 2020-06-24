@@ -182,7 +182,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
     {
         $messageId = $this->msgIdGenerator->generateNext();
         $this->writeIdentifiedMessage($message, $messageId);
-        $this->rpcMessages[$messageId] = new CallbackMessageListener($onAsyncResponse, $message->getName());
+        $this->rpcMessages[$messageId] = new CallbackMessageListener($onAsyncResponse);
     }
 
     /**

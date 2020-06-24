@@ -15,6 +15,9 @@ use Unit\Client\StatusWatcherClient\AnonymousMessageMock;
 
 class ReloadContactsHandlerTest extends TestCase
 {
+    private const METHOD_DEL_NUMBERS_AND_USERS = 'delNumbersAndUsers';
+    private const METHOD_ADD_NUMBERS = 'addNumbers';
+    private const METHOD_ADD_USER = 'addUser';
     /** @var MockObject|ContactKeepingClient */
     private $keeperMock;
 
@@ -25,11 +28,11 @@ class ReloadContactsHandlerTest extends TestCase
     }
 
     /**
-     * Test that we add numbers if no contacts are imported
+     * Test that we add numbers if no contacts are currently imported
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function test_reload_numbers_empty(): void
+    public function test_reload_numbers_add_phone(): void
     {
         $complete = false;
         $cb = static function (ImportResult $result) use (&$complete) {
@@ -38,7 +41,7 @@ class ReloadContactsHandlerTest extends TestCase
         $handler = ReloadContactsHandler::getHandler($this->keeperMock, ['123'], [], $cb);
         $this->keeperMock
             ->expects($this->once())
-            ->method('addNumbers')
+            ->method(self::METHOD_ADD_NUMBERS)
             ->willReturnCallback(function (array $numbers, callable $onComplete) {
                 $this->assertEquals(['123'], $numbers);
                 $onComplete(new ImportResult());
@@ -46,7 +49,73 @@ class ReloadContactsHandlerTest extends TestCase
 
         $this->keeperMock
             ->expects($this->never())
-            ->method('delNumbers');
+            ->method(self::METHOD_DEL_NUMBERS_AND_USERS);
+
+        // we get empty contacts imported
+        $handler([]);
+        $this->assertTrue($complete);
+    }
+
+    /**
+     * Test that we add username if no contacts are currently imported
+     *
+     * @noinspection PhpUnusedParameterInspection
+     */
+    public function test_reload_numbers_add_user(): void
+    {
+        $complete = false;
+        $cb = static function (ImportResult $result) use (&$complete) {
+            $complete = true;
+        };
+        $handler = ReloadContactsHandler::getHandler($this->keeperMock, [], ['aaa'], $cb);
+        $this->keeperMock
+            ->expects($this->once())
+            ->method(self::METHOD_ADD_USER)
+            ->willReturnCallback(function (string $username, callable $onComplete) {
+                $this->assertEquals('aaa', $username);
+                $onComplete(true);
+            });
+
+        $this->keeperMock
+            ->expects($this->never())
+            ->method(self::METHOD_DEL_NUMBERS_AND_USERS);
+
+        // we get empty contacts imported
+        $handler([]);
+        $this->assertTrue($complete);
+    }
+
+    /**
+     * Test that we add username and number if no contacts are currently imported
+     *
+     * @noinspection PhpUnusedParameterInspection
+     */
+    public function test_reload_numbers_add_user_and_phone(): void
+    {
+        $complete = false;
+        $cb = static function (ImportResult $result) use (&$complete) {
+            $complete = true;
+        };
+        $handler = ReloadContactsHandler::getHandler($this->keeperMock, ['123'], ['aaa'], $cb);
+        $this->keeperMock
+            ->expects($this->once())
+            ->method(self::METHOD_ADD_NUMBERS)
+            ->willReturnCallback(function (array $numbers, callable $onComplete) {
+                $this->assertEquals(['123'], $numbers);
+                $onComplete(new ImportResult());
+            });
+
+        $this->keeperMock
+            ->expects($this->once())
+            ->method(self::METHOD_ADD_USER)
+            ->willReturnCallback(function (string $username, callable $onComplete) {
+                $this->assertEquals('aaa', $username);
+                $onComplete(true);
+            });
+
+        $this->keeperMock
+            ->expects($this->never())
+            ->method(self::METHOD_DEL_NUMBERS_AND_USERS);
 
         // we get empty contacts imported
         $handler([]);
@@ -58,7 +127,7 @@ class ReloadContactsHandlerTest extends TestCase
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function test_reload_numbers_del(): void
+    public function test_reload_numbers_del_number(): void
     {
         $complete = false;
         $cb = static function (ImportResult $result) use (&$complete) {
@@ -67,18 +136,52 @@ class ReloadContactsHandlerTest extends TestCase
         $handler = ReloadContactsHandler::getHandler($this->keeperMock, [], [], $cb);
         $this->keeperMock
             ->expects($this->never())
-            ->method('addNumbers');
+            ->method(self::METHOD_ADD_NUMBERS);
 
         $this->keeperMock
             ->expects($this->once())
-            ->method('delNumbers')
-            ->willReturnCallback(static function (array $numbers, callable $onComplete) {
+            ->method(self::METHOD_DEL_NUMBERS_AND_USERS)
+            ->willReturnCallback(function (array $numbers, array $users, callable $onComplete) {
+                $this->assertEquals(['456'], array_values($numbers));
+                // we delete by number only if specified
+                $this->assertEquals([], $users);
                 $onComplete(new ImportResult());
             });
 
         // we get empty contacts imported
         /** @noinspection PhpUnhandledExceptionInspection */
-        $handler([$this->createContact('456')]);
+        $handler([$this->createContact('456', 'cerw')]);
+        $this->assertTrue($complete);
+    }
+
+    /**
+     * Test that we remove usernames if they are not in list
+     *
+     * @noinspection PhpUnusedParameterInspection
+     */
+    public function test_reload_numbers_del_username(): void
+    {
+        $complete = false;
+        $cb = static function (ImportResult $result) use (&$complete) {
+            $complete = true;
+        };
+        $handler = ReloadContactsHandler::getHandler($this->keeperMock, [], [], $cb);
+        $this->keeperMock
+            ->expects($this->never())
+            ->method(self::METHOD_ADD_NUMBERS);
+
+        $this->keeperMock
+            ->expects($this->once())
+            ->method(self::METHOD_DEL_NUMBERS_AND_USERS)
+            ->willReturnCallback(function (array $numbers, array $users, callable $onComplete) {
+                $this->assertEquals([], $numbers);
+                $this->assertEquals(['ccc'], array_values($users));
+                $onComplete(new ImportResult());
+            });
+
+        // we get empty contacts imported
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $handler([$this->createContact('', 'ccc')]);
         $this->assertTrue($complete);
     }
 
@@ -96,11 +199,11 @@ class ReloadContactsHandlerTest extends TestCase
         $handler = ReloadContactsHandler::getHandler($this->keeperMock, ['123'], [], $cb);
         $this->keeperMock
             ->expects($this->never())
-            ->method('addNumbers');
+            ->method(self::METHOD_ADD_NUMBERS);
 
         $this->keeperMock
             ->expects($this->never())
-            ->method('delNumbers');
+            ->method(''.self::METHOD_DEL_NUMBERS_AND_USERS.'');
 
         // we get contacts already imported
         /** @noinspection PhpUnhandledExceptionInspection */
@@ -122,11 +225,11 @@ class ReloadContactsHandlerTest extends TestCase
         $handler = ReloadContactsHandler::getHandler($this->keeperMock, ['123'], ['aaa'], $cb);
         $this->keeperMock
             ->expects($this->never())
-            ->method('addNumbers');
+            ->method(self::METHOD_ADD_NUMBERS);
 
         $this->keeperMock
             ->expects($this->never())
-            ->method('delNumbers');
+            ->method(self::METHOD_DEL_NUMBERS_AND_USERS);
 
         // we get contacts already imported
         /** @noinspection PhpUnhandledExceptionInspection */
@@ -151,16 +254,45 @@ class ReloadContactsHandlerTest extends TestCase
         $handler = ReloadContactsHandler::getHandler($this->keeperMock, ['123'], ['aaa'], $cb);
         $this->keeperMock
             ->expects($this->never())
-            ->method('addNumbers');
+            ->method(self::METHOD_ADD_NUMBERS);
 
         $this->keeperMock
             ->expects($this->never())
-            ->method('delNumbers');
+            ->method(self::METHOD_DEL_NUMBERS_AND_USERS);
 
         // we get contacts already imported
         /** @noinspection PhpUnhandledExceptionInspection */
         $handler([
             $this->createContact('123', 'aaa'),
+        ]);
+        $this->assertTrue($complete);
+    }
+
+    /**
+     * Test that we skip number and username if already loaded
+     *
+     * @noinspection PhpUnusedParameterInspection
+     */
+    public function test_reload_numbers_with_username_and_phone(): void
+    {
+        $complete = false;
+        $cb = static function (ImportResult $result) use (&$complete) {
+            $complete = true;
+        };
+        $handler = ReloadContactsHandler::getHandler($this->keeperMock, ['123'], ['aaa'], $cb);
+        $this->keeperMock
+            ->expects($this->never())
+            ->method(self::METHOD_ADD_NUMBERS);
+
+        $this->keeperMock
+            ->expects($this->never())
+            ->method(self::METHOD_DEL_NUMBERS_AND_USERS);
+
+        // we get contacts already imported
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $handler([
+            $this->createContact('123', 'bbb'),
+            $this->createContact('456', 'aaa'),
         ]);
         $this->assertTrue($complete);
     }
@@ -179,11 +311,11 @@ class ReloadContactsHandlerTest extends TestCase
         $handler = ReloadContactsHandler::getHandler($this->keeperMock, [], ['aaa'], $cb);
         $this->keeperMock
             ->expects($this->never())
-            ->method('addNumbers');
+            ->method(self::METHOD_ADD_NUMBERS);
 
         $this->keeperMock
             ->expects($this->never())
-            ->method('delNumbers');
+            ->method(self::METHOD_DEL_NUMBERS_AND_USERS);
 
         // we get contacts already imported
         /** @noinspection PhpUnhandledExceptionInspection */
