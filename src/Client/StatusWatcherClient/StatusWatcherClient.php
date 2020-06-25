@@ -289,7 +289,7 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
         $this->basicClient->terminate();
     }
 
-    public function onUserPhoneChange(int $userId, string $phone): void
+    public function onUserPhoneChange(int $userId, ?string $phone): void
     {
         $this->contactsKeeper->getUserById($userId, function ($user) {
             // arbitrary user
@@ -307,7 +307,7 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
         });
     }
 
-    public function onUserNameChange(int $userId, string $username): void
+    public function onUserNameChange(int $userId, ?string $username): void
     {
         $this->contactsKeeper->getUserById($userId, function ($user) {
             // arbitrary user
@@ -321,11 +321,6 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
             $this->contactsKeeper->updateUsername($user->getUserId(), $user->getUsername());
             $this->userCallbacks->onUserNameChange(new User($phone, $userName, $user->getUserId()), $userName);
         });
-    }
-
-    public function hasDeferredCalls(): bool
-    {
-        return parent::hasDeferredCalls();
     }
 
     /**
