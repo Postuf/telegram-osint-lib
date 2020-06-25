@@ -11,6 +11,8 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Custom\UserStatus;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update\Updates;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update\UpdateShort;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update\UpdateUserName;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update\UpdateUserPhone;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update\UpdateUserStatus;
 
 class StatusWatcherAnalyzer implements Analyzer
@@ -65,6 +67,12 @@ class StatusWatcherAnalyzer implements Analyzer
 
         if(UpdateUserStatus::isIt($update)) {
             $this->onUserStatusChanged(new UpdateUserStatus($update));
+        } elseif (UpdateUserName::isIt($update)) {
+            $nameUpdate = new UpdateUserName($update);
+            $this->notifier->onUserNameChange($nameUpdate->getUserId(), $nameUpdate->getUsername());
+        } elseif (UpdateUserPhone::isIt($update)) {
+            $phoneUpdate = new UpdateUserPhone($update);
+            $this->notifier->onUserPhoneChange($phoneUpdate->getUserId(), $phoneUpdate->getPhone());
         }
     }
 

@@ -230,9 +230,11 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
 
     public function onUserPhoneChange(User $user, string $phone): void
     {
+        $this->log("{$user->getPhone()} (id {$user->getUserId()}) phone changed to $phone");
     }
 
     public function onUserNameChange(User $user, string $username): void
     {
+        $this->log("{$user->getUsername()} (id {$user->getUserId()}) username changed to $username");
     }
 }
