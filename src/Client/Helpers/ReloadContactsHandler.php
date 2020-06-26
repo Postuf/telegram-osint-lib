@@ -15,9 +15,13 @@ class ReloadContactsHandler
         ContactKeepingClient $client,
         array $numbers,
         array $usernames,
-        callable $onComplete
+        callable $onComplete,
+        ?callable $compare = null
     ): callable {
-        return static function (array $contacts) use ($client, $numbers, $usernames, $onComplete) {
+        return static function (array $contacts) use ($client, $numbers, $usernames, $onComplete, $compare) {
+            if ($compare) {
+                $compare($contacts);
+            }
             $currentPhones = [];
             $usernames = array_combine($usernames, $usernames);
             foreach ($numbers as $key => $number) {
