@@ -299,35 +299,35 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
 
     public function onUserPhoneChange(int $userId, ?string $phone): void
     {
-        $this->contactsKeeper->getUserById($userId, function ($user) {
+        $this->contactsKeeper->getUserById($userId, function ($user) use ($phone) {
             // arbitrary user
             if (!($user instanceof ContactUser)) {
                 return;
             }
 
-            $phone = $user->getPhone();
+            $phoneOld = $user->getPhone();
             $userName = $user->getUsername();
 
             if (!empty($phone)) {
                 $this->contactsKeeper->updatePhone($user->getUserId(), $user->getPhone());
             }
-            $this->userCallbacks->onUserPhoneChange(new User($phone, $userName, $user->getUserId()), $phone);
+            $this->userCallbacks->onUserPhoneChange(new User($phoneOld, $userName, $user->getUserId()), $phone);
         });
     }
 
     public function onUserNameChange(int $userId, ?string $username): void
     {
-        $this->contactsKeeper->getUserById($userId, function ($user) {
+        $this->contactsKeeper->getUserById($userId, function ($user) use ($username) {
             // arbitrary user
             if (!($user instanceof ContactUser)) {
                 return;
             }
 
             $phone = $user->getPhone();
-            $userName = $user->getUsername();
+            $userNameOld = $user->getUsername();
 
             $this->contactsKeeper->updateUsername($user->getUserId(), $user->getUsername());
-            $this->userCallbacks->onUserNameChange(new User($phone, $userName, $user->getUserId()), $userName);
+            $this->userCallbacks->onUserNameChange(new User($phone, $userNameOld, $user->getUserId()), $username);
         });
     }
 
