@@ -146,8 +146,21 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
     {
         $this->throwIfNotLoggedIn(__METHOD__);
         $this->lastContactsReloaded = $this->clock->time();
+        $savedContacts = $this->contactsKeeper->getContacts();
+        $compare = function ($contacts) use ($savedContacts) {
+            foreach ($contacts as $contact) {
+                /** @var ContactUser $contact */
+                if (isset($savedContacts[$contact->getUserId()])) {
+                    $savedContact = $savedContacts[$contact->getUserId()];
+                    /** @noinspection TypeUnsafeComparisonInspection */
+                    if ($savedContact->getUsername() != $contact->getUsername()) {
+                        $this->onUserNameChange($savedContact->getUserId(), $contact->getUsername());
+                    }
+                }
+            }
+        };
         $this->contactsKeeper->reloadCurrentContacts(
-            ReloadContactsHandler::getHandler($this, $numbers, $usernames, $onComplete)
+            ReloadContactsHandler::getHandler($this, $numbers, $usernames, $onComplete, $compare)
         );
     }
 
