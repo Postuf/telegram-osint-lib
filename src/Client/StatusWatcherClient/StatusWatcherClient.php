@@ -146,7 +146,22 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
     {
         $this->throwIfNotLoggedIn(__METHOD__);
         $this->lastContactsReloaded = $this->clock->time();
-        $this->contactsKeeper->reloadCurrentContacts(ReloadContactsHandler::getHandler($this, $numbers, $usernames, $onComplete));
+        $savedContacts = $this->contactsKeeper->getContacts();
+        $compare = function ($contacts) use ($savedContacts) {
+            foreach ($contacts as $contact) {
+                /** @var ContactUser $contact */
+                if (isset($savedContacts[$contact->getUserId()])) {
+                    $savedContact = $savedContacts[$contact->getUserId()];
+                    /** @noinspection TypeUnsafeComparisonInspection */
+                    if ($savedContact->getUsername() != $contact->getUsername()) {
+                        $this->onUserNameChange($savedContact->getUserId(), $contact->getUsername());
+                    }
+                }
+            }
+        };
+        $this->contactsKeeper->reloadCurrentContacts(
+            ReloadContactsHandler::getHandler($this, $numbers, $usernames, $onComplete, $compare)
+        );
     }
 
     /**
@@ -185,7 +200,10 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
     public function onUserOnline(int $userId, int $expires): void
     {
         if(($expires - $this->clock->time()) / 60 > 25) {
-            throw new TGException(TGException::ERR_ASSERT_UPDATE_EXPIRES_TIME_LONG, 'userId: '.$userId.'; (expires-now) sec: '.($expires - $this->clock->time()));
+            throw new TGException(
+                TGException::ERR_ASSERT_UPDATE_EXPIRES_TIME_LONG,
+                'userId: '.$userId.'; (expires-now) sec: '.($expires - $this->clock->time())
+            );
         }
         $isUserStillOnline = array_key_exists($userId, $this->currentlyOnlineUsers);
         unset($this->currentlyOfflineUsers[$userId]);
@@ -205,7 +223,10 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
                 if($phone || $userName) {
                     $this->userCallbacks->onUserOnline(new User($phone, $userName), $expires);
                 } else {
-                    throw new TGException(TGException::ERR_ASSERT_UPDATE_USER_UNIDENTIFIED, 'userId: '.$userId.'; userObj='.print_r($user, true));
+                    throw new TGException(
+                        TGException::ERR_ASSERT_UPDATE_USER_UNIDENTIFIED,
+                        'userId: '.$userId.'; userObj='.print_r($user, true)
+                    );
                 }
             });
         }
@@ -289,43 +310,38 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
         $this->basicClient->terminate();
     }
 
-    public function onUserPhoneChange(int $userId, string $phone): void
+    public function onUserPhoneChange(int $userId, ?string $phone): void
     {
-        $this->contactsKeeper->getUserById($userId, function ($user) {
+        $this->contactsKeeper->getUserById($userId, function ($user) use ($phone) {
             // arbitrary user
             if (!($user instanceof ContactUser)) {
                 return;
             }
 
-            $phone = $user->getPhone();
+            $phoneOld = $user->getPhone();
             $userName = $user->getUsername();
 
             if (!empty($phone)) {
                 $this->contactsKeeper->updatePhone($user->getUserId(), $user->getPhone());
             }
-            $this->userCallbacks->onUserPhoneChange(new User($phone, $userName, $user->getUserId()), $phone);
+            $this->userCallbacks->onUserPhoneChange(new User($phoneOld, $userName, $user->getUserId()), $phone);
         });
     }
 
-    public function onUserNameChange(int $userId, string $username): void
+    public function onUserNameChange(int $userId, ?string $username): void
     {
-        $this->contactsKeeper->getUserById($userId, function ($user) {
+        $this->contactsKeeper->getUserById($userId, function ($user) use ($username) {
             // arbitrary user
             if (!($user instanceof ContactUser)) {
                 return;
             }
 
             $phone = $user->getPhone();
-            $userName = $user->getUsername();
+            $userNameOld = $user->getUsername();
 
             $this->contactsKeeper->updateUsername($user->getUserId(), $user->getUsername());
-            $this->userCallbacks->onUserNameChange(new User($phone, $userName, $user->getUserId()), $userName);
+            $this->userCallbacks->onUserNameChange(new User($phone, $userNameOld, $user->getUserId()), $username);
         });
-    }
-
-    public function hasDeferredCalls(): bool
-    {
-        return parent::hasDeferredCalls();
     }
 
     /**
