@@ -7,7 +7,7 @@ use TelegramOSINT\Registration\AccountRegistrar;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-echo 'Number: ';
+echo 'Phone number: ';
 $phone = fgets(STDIN);
 
 // Only Europe/CIS IP/proxy allowed, Telegram DC requires that.
