@@ -237,4 +237,8 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
     {
         $this->log("{$user->getUsername()} (id {$user->getUserId()}) username changed to $username");
     }
+
+    public function onReloadContacts(array $users): void
+    {
+    }
 }

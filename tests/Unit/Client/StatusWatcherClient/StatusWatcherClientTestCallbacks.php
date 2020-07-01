@@ -102,4 +102,8 @@ class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
     public function onUserNameChange(User $user, string $username): void
     {
     }
+
+    public function onReloadContacts(array $users): void
+    {
+    }
 }

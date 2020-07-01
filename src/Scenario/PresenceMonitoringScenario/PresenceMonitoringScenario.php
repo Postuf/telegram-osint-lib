@@ -116,4 +116,8 @@ class PresenceMonitoringScenario implements ScenarioInterface, StatusWatcherCall
     public function onUserNameChange(User $user, string $username): void
     {
     }
+
+    public function onReloadContacts(array $users): void
+    {
+    }
 }

@@ -116,7 +116,9 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
     {
         $time = $this->clock->time();
         if ($time > $this->lastContactsReloaded + self::RELOAD_CONTACTS_EVERY_SECONDS) {
-            $this->contactsKeeper->reloadCurrentContacts(static function () {});
+            $this->contactsKeeper->reloadCurrentContacts(function ($users) {
+                $this->userCallbacks->onReloadContacts($users);
+            });
             $this->lastContactsReloaded = $time;
         }
     }
