@@ -90,8 +90,9 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
         $auth_key_id = unpack('V', substr($payload, 0, 8))[1];
 
         // must be 0 because it is unencrypted messaging
-        if($auth_key_id !== 0)
+        if($auth_key_id !== 0) {
             throw new TGException(TGException::ERR_TL_CONTAINER_BAD_AUTHKEY_ID_MUST_BE_0);
+        }
         $message_data_length = unpack('V', substr($payload, 16, 4))[1];
 
         return substr($payload, 20, $message_data_length);
@@ -102,7 +103,7 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
      *
      * @throws TGException
      */
-    public function writeMessage(TLClientMessage $payload)
+    public function writeMessage(TLClientMessage $payload): void
     {
         $payloadStr = $this->outerHeaderWrapper->wrap(
             $this->wrapPayloadWithMessageId($payload->toBinary())
@@ -119,7 +120,7 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
      *
      * @return string
      */
-    private function wrapPayloadWithMessageId(string $payload)
+    private function wrapPayloadWithMessageId(string $payload): string
     {
         $msg_id = $this->msgIdGenerator->generateNext();
         $length = strlen($payload);
@@ -131,12 +132,12 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
     /**
      * @return DataCentre
      */
-    public function getDCInfo()
+    public function getDCInfo(): DataCentre
     {
         return $this->socket->getDCInfo();
     }
 
-    public function terminate()
+    public function terminate(): void
     {
         $this->socket->terminate();
     }
@@ -162,8 +163,9 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
             }
 
             $currentTimeMs = microtime(true) * 1000;
-            if(($currentTimeMs - $startTimeMs) > LibConfig::CONN_SOCKET_TIMEOUT_WAIT_RESPONSE_MS)
+            if(($currentTimeMs - $startTimeMs) > LibConfig::CONN_SOCKET_TIMEOUT_WAIT_RESPONSE_MS) {
                 break;
+            }
 
             usleep(LibConfig::CONN_SOCKET_RESPONSE_DELAY_MICROS);
         }
@@ -171,7 +173,7 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
         throw new TGException(TGException::ERR_MSG_RESPONSE_TIMEOUT);
     }
 
-    public function getResponseConsecutive(array $messages, callable $onLastResponse)
+    public function getResponseConsecutive(array $messages, callable $onLastResponse): void
     {
         throw new LogicException('not implemented '.__METHOD__);
     }

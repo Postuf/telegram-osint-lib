@@ -16,12 +16,12 @@ interface SocketMessenger
      */
     public function readMessage(): ?AnonymousMessage;
 
-    public function terminate();
+    public function terminate(): void;
 
     /**
      * @param TLClientMessage $payload
      */
-    public function writeMessage(TLClientMessage $payload);
+    public function writeMessage(TLClientMessage $payload): void;
 
     /**
      * @param TLClientMessage $message
@@ -33,10 +33,7 @@ interface SocketMessenger
      * @param TLClientMessage[] $messages
      * @param callable          $onLastResponse function(AnonymousMessage $message)
      */
-    public function getResponseConsecutive(array $messages, callable $onLastResponse);
+    public function getResponseConsecutive(array $messages, callable $onLastResponse): void;
 
-    /**
-     * @return DataCentre
-     */
-    public function getDCInfo();
+    public function getDCInfo(): DataCentre;
 }

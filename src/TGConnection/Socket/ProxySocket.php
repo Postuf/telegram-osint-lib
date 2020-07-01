@@ -16,9 +16,7 @@ class ProxySocket implements Socket
      *
      * @var resource
      */
-    protected $socksSocket = null;
-    /** @var Socks5Socket|null */
-    private $socketObject = null;
+    protected $socksSocket;
     /**
      * @var DataCentre
      */
@@ -32,7 +30,7 @@ class ProxySocket implements Socket
      */
     private $isTerminated = false;
     /** @var callable|null */
-    protected $cbOnConnected = null;
+    protected $cbOnConnected;
 
     /**
      * @param Proxy      $proxy
@@ -46,15 +44,16 @@ class ProxySocket implements Socket
         DataCentre $dc,
         int $timeout = LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC
     ) {
-        if(!in_array($proxy->getType(), [Proxy::TYPE_SOCKS5]))
+        if($proxy->getType() !== Proxy::TYPE_SOCKS5) {
             throw new TGException(TGException::ERR_PROXY_WRONG_PROXY_TYPE);
+        }
         $this->dc = $dc;
         $this->proxy = $proxy;
 
-        $this->socketObject = new Socks5Socket($this->proxy, $timeout);
+        $socketObject = new Socks5Socket($this->proxy, $timeout);
 
         try {
-            $this->socksSocket = $this->socketObject->createConnected($this->dc->getDcIp(), $this->dc->getDcPort());
+            $this->socksSocket = $socketObject->createConnected($this->dc->getDcIp(), $this->dc->getDcPort());
             socket_set_nonblock($this->socksSocket);
         } catch (SocksException $e) {
             $this->wrapSocksLibException($e);
@@ -66,7 +65,7 @@ class ProxySocket implements Socket
      *
      * @throws TGException
      */
-    private function wrapSocksLibException(SocksException $e)
+    private function wrapSocksLibException(SocksException $e): void
     {
         switch ($e->getCode()) {
             case SocksException::UNREACHABLE_PROXY:
@@ -94,12 +93,13 @@ class ProxySocket implements Socket
      *
      * @throws TGException
      *
-     * @return string
+     * @return string|false
      */
     public function readBinary(int $length)
     {
-        if($this->isTerminated)
+        if($this->isTerminated) {
             throw new TGException(TGException::ERR_CONNECTION_SOCKET_TERMINATED);
+        }
 
         return @socket_read($this->socksSocket, $length);
     }
@@ -109,12 +109,13 @@ class ProxySocket implements Socket
      *
      * @throws TGException
      *
-     * @return int
+     * @return int|false
      */
     public function writeBinary(string $payload)
     {
-        if($this->isTerminated)
+        if($this->isTerminated) {
             throw new TGException(TGException::ERR_CONNECTION_SOCKET_TERMINATED);
+        }
 
         return @socket_write($this->socksSocket, $payload);
     }
@@ -122,15 +123,12 @@ class ProxySocket implements Socket
     /**
      * @return DataCentre
      */
-    public function getDCInfo()
+    public function getDCInfo(): DataCentre
     {
         return $this->dc;
     }
 
-    /**
-     * @return void
-     */
-    public function terminate()
+    public function terminate(): void
     {
         if (is_resource($this->socksSocket)) {
             @socket_shutdown($this->socksSocket, 2);

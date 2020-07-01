@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpUnused */
+
 namespace TelegramOSINT\Client;
 
 interface StatusMonitoringClient extends Client

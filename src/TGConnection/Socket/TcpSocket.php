@@ -61,12 +61,13 @@ class TcpSocket implements Socket
      *
      * @throws TGException
      *
-     * @return string
+     * @return string|false
      */
     public function readBinary(int $length)
     {
-        if($this->isTerminated)
+        if($this->isTerminated) {
             throw new TGException(TGException::ERR_CONNECTION_SOCKET_TERMINATED);
+        }
 
         return @fread($this->socket, $length);
     }
@@ -76,12 +77,13 @@ class TcpSocket implements Socket
      *
      * @throws TGException
      *
-     * @return int
+     * @return int|false
      */
     public function writeBinary(string $payload)
     {
-        if($this->isTerminated)
+        if($this->isTerminated) {
             throw new TGException(TGException::ERR_CONNECTION_SOCKET_TERMINATED);
+        }
 
         return @fwrite($this->socket, $payload);
     }
@@ -89,12 +91,12 @@ class TcpSocket implements Socket
     /**
      * @return DataCentre
      */
-    public function getDCInfo()
+    public function getDCInfo(): DataCentre
     {
         return $this->dc;
     }
 
-    public function terminate()
+    public function terminate(): void
     {
         @stream_socket_shutdown($this->socket, STREAM_SHUT_RDWR);
         @socket_close($this->socket);

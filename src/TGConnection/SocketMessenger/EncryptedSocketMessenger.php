@@ -36,6 +36,38 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class EncryptedSocketMessenger extends TgSocketMessenger
 {
+    private const NO_CONTENT_RELATED_NAMES = [
+        'rpc_result',
+        //'rpc_error',
+        'rpc_drop_answer',
+        'rpc_answer_unknown',
+        'rpc_answer_dropped_running',
+        'rpc_answer_dropped',
+        'get_future_salts',
+        'future_salt',
+        'future_salts',
+        'ping',
+        'pong',
+        'ping_delay_disconnect',
+        'destroy_session',
+        'destroy_session_ok',
+        'destroy_session_none',
+        //'new_session_created',
+        'usual_msg_container_deserialization',
+        'msg_copy',
+        'gzip_packed',
+        'http_wait',
+        'msgs_ack',
+        'bad_msg_notification',
+        'bad_server_salt',
+        'msgs_state_req',
+        'msgs_state_info',
+        'msgs_all_info',
+        'msg_detailed_info',
+        'msg_new_detailed_info',
+        'msg_resend_req',
+        'msg_resend_ans_req',
+    ];
     /**
      * @var int
      */
@@ -104,6 +136,8 @@ class EncryptedSocketMessenger extends TgSocketMessenger
      * @param AuthKey                $authKey
      * @param MessageListener        $callback
      * @param ClientDebugLogger|null $logger
+     *
+     * @throws TGException
      */
     public function __construct(
         Socket $socket,
@@ -119,9 +153,16 @@ class EncryptedSocketMessenger extends TgSocketMessenger
 
         $this->msg_seqno = 0;
 
-        /** @noinspection  */
-        $this->salt = openssl_random_pseudo_bytes(8);
-        $this->sessionId = openssl_random_pseudo_bytes(8);
+        /** @noinspection CryptographicallySecureRandomnessInspection */
+        $this->salt = openssl_random_pseudo_bytes(8, $strong);
+        if ($this->salt === false || $strong === false) {
+            throw new TGException(TGException::ERR_CRYPTO_INVALID);
+        }
+        /** @noinspection CryptographicallySecureRandomnessInspection */
+        $this->sessionId = openssl_random_pseudo_bytes(8, $strong);
+        if ($this->sessionId === false || $strong === false) {
+            throw new TGException(TGException::ERR_CRYPTO_INVALID);
+        }
         $this->authKey = $authKey->getRawAuthKey();
         $this->authKeyId = substr(sha1($this->authKey, true), -8);
         $this->authKeyObj = $authKey;
@@ -226,15 +267,17 @@ class EncryptedSocketMessenger extends TgSocketMessenger
         // we do not use this salt, we request new one every time
         // $server_salt = substr($decryptedPayload, 0, 8);
         $session_id = substr($decryptedPayload, 8, 8);
-        if(strcmp($session_id, $this->sessionId) != 0)
+        if(strcmp($session_id, $this->sessionId) !== 0) {
             throw new TGException(TGException::ERR_TL_CONTAINER_BAD_SESSION_ID);
+        }
         $msg_id = substr($decryptedPayload, 16, 8);
         $msg_id = unpack('Q', $msg_id)[1];
         $seq_no = substr($decryptedPayload, 24, self::HEADER_LENGTH_BYTES);
         $seq_no = unpack('I', $seq_no);
 
-        if($seq_no % 2 == 1)
+        if($seq_no % 2 === 1) {
             $this->acknowledgeReceipt($msg_id);
+        }
 
         $message_data_length = unpack('V', substr($decryptedPayload, 28, self::HEADER_LENGTH_BYTES))[1];
 
@@ -246,7 +289,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
      *
      * @throws TGException
      */
-    private function acknowledgeReceipt($msgId)
+    private function acknowledgeReceipt($msgId): void
     {
         $this->writeMessage(new msgs_ack([$msgId]));
     }
@@ -328,7 +371,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
                     $updatesState->getPts(),
                     $updatesState->getQts(),
                     $updatesState->getDate()
-                ), function (AnonymousMessage $message) {
+                ), static function (AnonymousMessage $message) {
                     //
                 });
             });
@@ -353,7 +396,10 @@ class EncryptedSocketMessenger extends TgSocketMessenger
             throw new TGException(TGException::ERR_MSG_NETWORK_MIGRATE, "reconnection to another DataCenter needed for $userId");
         }
         if($rpcError->isPhoneMigrateError()) {
-            throw new TGException(TGException::ERR_MSG_PHONE_MIGRATE, "phone $userId already used in another DataCenter");
+            throw new TGException(
+                TGException::ERR_MSG_PHONE_MIGRATE,
+                "phone $userId already used in another DataCenter: ".$rpcError->getErrorString()
+            );
         }
         if($rpcError->isFloodError()) {
             throw new TGException(TGException::ERR_MSG_FLOOD, (new FloodWait($rpcError))->getWaitTimeSec());
@@ -385,8 +431,9 @@ class EncryptedSocketMessenger extends TgSocketMessenger
     {
         $this->salt = $new_salt;
 
-        if(!isset($this->sentMessages[$badMessageId]))
+        if(!isset($this->sentMessages[$badMessageId])) {
             throw new TGException(TGException::ERR_MSG_RESEND_IMPOSSIBLE);
+        }
         $badMessage = $this->sentMessages[$badMessageId];
         $newMessageId = $this->msgIdGenerator->generateNext();
 
@@ -406,7 +453,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
      *
      * @throws TGException
      */
-    public function writeMessage(TLClientMessage $payload)
+    public function writeMessage(TLClientMessage $payload): void
     {
         $messageId = $this->msgIdGenerator->generateNext();
         $this->writeIdentifiedMessage($payload, $messageId);
@@ -434,40 +481,9 @@ class EncryptedSocketMessenger extends TgSocketMessenger
         $this->sentMessages[$messageId] = $payload;
     }
 
-    private function isContentRelatedPayload(TLClientMessage $payload)
+    private function isContentRelatedPayload(TLClientMessage $payload): bool
     {
-        $nonContentRelatedNames = [
-            'rpc_result',
-            //'rpc_error',
-            'rpc_drop_answer',
-            'rpc_answer_unknown',
-            'rpc_answer_dropped_running',
-            'rpc_answer_dropped',
-            'get_future_salts',
-            'future_salt',
-            'future_salts',
-            'ping',
-            'pong',
-            'ping_delay_disconnect',
-            'destroy_session',
-            'destroy_session_ok',
-            'destroy_session_none',
-            //'new_session_created',
-            'usual_msg_container_deserialization',
-            'msg_copy',
-            'gzip_packed',
-            'http_wait',
-            'msgs_ack',
-            'bad_msg_notification',
-            'bad_server_salt',
-            'msgs_state_req',
-            'msgs_state_info',
-            'msgs_all_info',
-            'msg_detailed_info',
-            'msg_new_detailed_info',
-            'msg_resend_req',
-            'msg_resend_ans_req',
-        ];
+        $nonContentRelatedNames = self::NO_CONTENT_RELATED_NAMES;
 
         return !in_array($payload->getName(), $nonContentRelatedNames);
     }
@@ -477,28 +493,34 @@ class EncryptedSocketMessenger extends TgSocketMessenger
      * @param int             $messageId
      * @param bool            $contentRelated
      *
+     * @throws TGException
+     *
      * @return string
      */
-    private function wrapEncryptedData(TLClientMessage $payload, $messageId, $contentRelated)
+    private function wrapEncryptedData(TLClientMessage $payload, $messageId, $contentRelated): string
     {
         $seq_no = $this->generate_msg_seqno($contentRelated);
 
-        $payload = $payload->toBinary();
-        $length = strlen($payload);
+        $payloadStr = $payload->toBinary();
+        $length = strlen($payloadStr);
 
         $padding = $this->calcRemainder(-$length, 16);
         if ($padding < 12) {
             $padding += 16;
         }
-        $padding = openssl_random_pseudo_bytes($padding);
+        /** @noinspection CryptographicallySecureRandomnessInspection */
+        $paddingBytes = openssl_random_pseudo_bytes($padding, $strong);
+        if ($paddingBytes === false || $strong === false) {
+            throw new TGException(TGException::ERR_CRYPTO_INVALID);
+        }
 
         return
             $this->salt.
             $this->sessionId.
             pack('Q', $messageId).
             pack('VV', $seq_no, $length).
-            $payload.
-            $padding;
+            $payloadStr.
+            $paddingBytes;
     }
 
     /**
@@ -510,13 +532,21 @@ class EncryptedSocketMessenger extends TgSocketMessenger
     private function calcRemainder(int $a, int $b)
     {
         $remainder = $a % $b;
-        if ($remainder < 0)
+        if ($remainder < 0) {
             $remainder += abs($b);
+        }
 
         return $remainder;
     }
 
-    private function aes_calculate($msg_key, $auth_key, $to_server = true)
+    /**
+     * @param string $msg_key
+     * @param string $auth_key
+     * @param bool   $to_server
+     *
+     * @return string[]
+     */
+    private function aes_calculate(string $msg_key, string $auth_key, bool $to_server = true): array
     {
         $x = $to_server ? 0 : 8;
         $sha256_a = hash('sha256', $msg_key.substr($auth_key, $x, 36), true);
@@ -534,12 +564,12 @@ class EncryptedSocketMessenger extends TgSocketMessenger
      *
      * @return string
      */
-    private function wrapEncryptedContainer($payload)
+    private function wrapEncryptedContainer($payload): string
     {
         $msg_key_large = hash('sha256', substr($this->authKey, 88, 32).$payload, true);
         $msgKey = substr($msg_key_large, 8, 16);
 
-        list($aes_key, $aes_iv) = $this->aes_calculate($msgKey, $this->authKey);
+        [$aes_key, $aes_iv] = $this->aes_calculate($msgKey, $this->authKey);
         $encryptedPayload = $this->aes->encryptIgeMode($payload, $aes_key, $aes_iv);
 
         return
@@ -565,10 +595,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
         return $value;
     }
 
-    /**
-     * @return DataCentre
-     */
-    public function getDCInfo()
+    public function getDCInfo(): DataCentre
     {
         return $this->socket->getDCInfo();
     }
@@ -576,7 +603,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
     /**
      * @return void
      */
-    public function terminate()
+    public function terminate(): void
     {
         $this->socket->terminate();
     }
@@ -585,7 +612,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
      * @param TLClientMessage[] $messages
      * @param callable          $onLastResponse function(AnonymousMessage $message)
      */
-    public function getResponseConsecutive(array $messages, callable $onLastResponse)
+    public function getResponseConsecutive(array $messages, callable $onLastResponse): void
     {
         $messages = array_reverse($messages);
         if (!$messages) {

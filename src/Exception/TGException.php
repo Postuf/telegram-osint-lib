@@ -105,15 +105,18 @@ class TGException extends Exception
     public const ERR_PROXY_AUTH_FAILED                                                = 1006000;
     public const ERR_PROXY_LONG_STEP                                                  = 1007000;
 
+    public const ERR_CRYPTO_INVALID                                                   = 1100000;
+
     /**
      * TGException constructor.
      * @param int $code
-     * @param string $clarification
+     * @param string|object $clarification
      */
     public function __construct(int $code = 0, $clarification = "")
     {
-        if(is_object($clarification) || is_array($clarification))
+        if(is_object($clarification) || is_array($clarification)) {
             $clarification = print_r($clarification, true);
+        }
 
         $clarification = $this->getMessageByCode($code) . ': ' . $clarification;
         parent::__construct($clarification, $code);
