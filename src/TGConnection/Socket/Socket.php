@@ -13,10 +13,7 @@ interface Socket
      */
     public function readBinary(int $length);
 
-    /**
-     * @return void
-     */
-    public function terminate();
+    public function terminate(): void;
 
     /**
      * @param string $payload
@@ -25,10 +22,7 @@ interface Socket
      */
     public function writeBinary(string $payload);
 
-    /**
-     * @return DataCentre
-     */
-    public function getDCInfo();
+    public function getDCInfo(): DataCentre;
 
     public function poll(): void;
 

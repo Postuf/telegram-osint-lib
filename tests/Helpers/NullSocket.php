@@ -22,10 +22,7 @@ class NullSocket implements Socket
         return '';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function terminate()
+    public function terminate(): void
     {
     }
 
@@ -40,7 +37,7 @@ class NullSocket implements Socket
     /**
      * {@inheritdoc}
      */
-    public function getDCInfo()
+    public function getDCInfo(): DataCentre
     {
         return DataCentre::getDefault();
     }
