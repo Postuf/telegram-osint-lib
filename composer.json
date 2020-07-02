@@ -28,11 +28,5 @@
             "": ["tests/", "examples/"]
         }
     },
-    "prefer-stable": true,
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/Postuf/SocksProxyAsync"
-        }
-    ]
+    "prefer-stable": true
 }
