@@ -15,7 +15,7 @@ class ImportedPhoneValidator implements Validator
 
         return
             $numberInt &&
-            $numberInt != 0 &&
-            strlen(str_replace('+', '', $value)) == strlen((string) $numberInt);
+            $numberInt !== 0 &&
+            strlen(str_replace('+', '', $value)) === strlen((string) $numberInt);
     }
 }

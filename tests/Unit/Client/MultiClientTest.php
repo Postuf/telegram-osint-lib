@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Client;
+namespace Unit\Client;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

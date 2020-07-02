@@ -14,12 +14,8 @@ class GroupResolverScenario extends InfoClientScenario
 {
     /** @var GroupRequest */
     private $groupRequest;
-    /** @var int|null */
-    private $groupId;
     /** @var callable|null */
     private $onReady;
-    /** @var ClientGeneratorInterface */
-    private $generator;
 
     /**
      * @param GroupRequest             $request
@@ -32,11 +28,7 @@ class GroupResolverScenario extends InfoClientScenario
     {
         parent::__construct($generator);
         $this->groupRequest = $request;
-        if ($this->groupRequest->getGroupId()) {
-            $this->groupId = $this->groupRequest->getGroupId();
-        }
         $this->onReady = $onReady;
-        $this->generator = $generator;
     }
 
     /**
@@ -62,6 +54,7 @@ class GroupResolverScenario extends InfoClientScenario
             if (ResolvedPeer::isIt($message)
                 && ($resolvedPeer = new ResolvedPeer($message))
                 && ($chats = $resolvedPeer->getChats())) {
+                /** @noinspection LoopWhichDoesNotLoopInspection */
                 foreach ($chats as $chat) {
                     $id = (int) $chat->id;
                     $accessHash = (int) $chat->accessHash;

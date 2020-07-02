@@ -17,7 +17,7 @@ class Certificate
      * @param int    $fingerPrint
      * @param string $publicKey
      */
-    public function __construct($fingerPrint, $publicKey)
+    public function __construct(int $fingerPrint, string $publicKey)
     {
         $this->publicKey = $publicKey;
         $this->fingerPrint = $fingerPrint;
@@ -26,7 +26,7 @@ class Certificate
     /**
      * @return string
      */
-    public function getPublicKey()
+    public function getPublicKey(): string
     {
         return $this->publicKey;
     }
@@ -34,7 +34,7 @@ class Certificate
     /**
      * @return int
      */
-    public function getFingerPrint()
+    public function getFingerPrint(): int
     {
         return $this->fingerPrint;
     }
@@ -44,11 +44,13 @@ class Certificate
      *
      * @return Certificate|null
      */
-    public static function getCertificateByFingerPrint($fingerPrint)
+    public static function getCertificateByFingerPrint(int $fingerPrint): ?self
     {
-        foreach (CertificateStorage::getKnownCertificates() as $certificate)
-            if($certificate->getFingerPrint() == $fingerPrint)
+        foreach (CertificateStorage::getKnownCertificates() as $certificate) {
+            if ($certificate->getFingerPrint() === $fingerPrint) {
                 return $certificate;
+            }
+        }
 
         return null;
     }

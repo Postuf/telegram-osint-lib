@@ -4,11 +4,11 @@ namespace TelegramOSINT\Client\StatusWatcherClient\Models;
 
 class HiddenStatus
 {
-    const HIDDEN_EMPTY = 'empty';
-    const HIDDEN_SEEN_RECENTLY = 'recently';
-    const HIDDEN_SEEN_LAST_WEEK = 'last_week';
-    const HIDDEN_SEEN_LAST_MONTH = 'last_month';
-    const HIDDEN_SEEN_LONG_AGO = 'long_ago';
+    public const HIDDEN_EMPTY = 'empty';
+    public const HIDDEN_SEEN_RECENTLY = 'recently';
+    public const HIDDEN_SEEN_LAST_WEEK = 'last_week';
+    public const HIDDEN_SEEN_LAST_MONTH = 'last_month';
+    public const HIDDEN_SEEN_LONG_AGO = 'long_ago';
 
     /**
      * @var string

@@ -12,12 +12,12 @@ class MessageIdGenerator
     /**
      * @return int
      */
-    public function generateNext()
+    public function generateNext(): int
     {
-        [$msec,$sec] = explode(' ', microtime());
+        [$msec, $sec] = explode(' ', microtime());
 
-        $msec *= pow(10, 6); // microseconds to whole number
-        $msec = $msec << 2; // multiply by 4
+        $msec *= 10 ** 6; // microseconds to whole number
+        $msec <<= 2; // multiply by 4
 
         $msgId = ($sec << 32) | $msec; // apply bitwise OR to microseconds and sec * 2^32
 

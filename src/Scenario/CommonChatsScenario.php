@@ -42,6 +42,7 @@ class CommonChatsScenario extends InfoClientScenario
      * @param callable|null            $handler
      *
      * @throws TGException
+     * @noinspection PhpDocMissingThrowsInspection
      */
     public function __construct(
         ClientGeneratorInterface $clientGenerator,
@@ -53,6 +54,7 @@ class CommonChatsScenario extends InfoClientScenario
         $this->handler = $handler;
         $this->groupMap = $groupMap;
         $this->phone = $phone;
+        /** @noinspection PhpUnhandledExceptionInspection */
         $this->resolveCache = new CacheMap(__FILE__.'.tmp');
     }
 
@@ -88,16 +90,16 @@ class CommonChatsScenario extends InfoClientScenario
      * @param callable $onComplete function()
      * @noinspection PhpUnusedParameterInspection
      */
-    public function subscribeToChats(callable $onComplete)
+    public function subscribeToChats(callable $onComplete): void
     {
         $callback = function () use ($onComplete) {
             Logger::log('DEBUG', 'Run user resolver...');
             $joinCnt = count($this->resolvedGroups);
             foreach ($this->resolvedGroups as $group) {
-                $this->joinGroup($group['id'], $group['accessHash'], function (AnonymousMessage $message) use ($group, &$joinCnt, $onComplete) {
+                $this->joinGroup($group['id'], $group['accessHash'], static function (AnonymousMessage $message) use ($group, &$joinCnt, $onComplete) {
                     $joinCnt--;
                     Logger::log(__CLASS__, 'subscribe to channel '.$group['title']);
-                    if ($joinCnt == 0) {
+                    if ($joinCnt === 0) {
                         $onComplete();
                     }
                 });
@@ -118,6 +120,7 @@ class CommonChatsScenario extends InfoClientScenario
                     if (ResolvedPeer::isIt($message)
                         && ($resolvedPeer = new ResolvedPeer($message))
                         && $resolvedPeer->getChats()) {
+                        /** @noinspection LoopWhichDoesNotLoopInspection */
                         foreach ($resolvedPeer->getChats() as $chat) {
                             $id = (int) $chat->id;
                             $accessHash = (int) $chat->accessHash;
@@ -131,7 +134,7 @@ class CommonChatsScenario extends InfoClientScenario
                             break;
                         }
                     }
-                    if ($groupsCnt == 0) {
+                    if ($groupsCnt === 0) {
                         $completedFlag = true;
                         $callback();
                     }
@@ -139,7 +142,7 @@ class CommonChatsScenario extends InfoClientScenario
                 usleep(710000);
             }
 
-            if ($groupsCnt == 0 && !$completedFlag) {
+            if ($groupsCnt === 0 && !$completedFlag) {
                 $callback();
             }
         }
@@ -150,7 +153,7 @@ class CommonChatsScenario extends InfoClientScenario
      *
      * @throws TGException
      */
-    public function getCommonChats(?callable $callback = null)
+    public function getCommonChats(?callable $callback = null): void
     {
         $client = new UserContactsScenario([$this->phone], [], function (UserInfoModel $user) use ($callback) {
             $this->infoClient->getCommonChats($user->id, $user->accessHash, 100, 0, function (AnonymousMessage $message) use ($callback) {
@@ -177,7 +180,7 @@ class CommonChatsScenario extends InfoClientScenario
      * @param int|null      $accessHash
      * @param callable|null $callback   function(AnonymousMessage $message)
      */
-    private function joinGroup(int $groupId, ?int $accessHash, ?callable $callback)
+    private function joinGroup(int $groupId, ?int $accessHash, ?callable $callback): void
     {
         $this->infoClient->joinChannel($groupId, $accessHash, $callback);
     }

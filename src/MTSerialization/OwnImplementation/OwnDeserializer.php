@@ -2,6 +2,7 @@
 
 namespace TelegramOSINT\MTSerialization\OwnImplementation;
 
+use JsonException;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\MTSerialization\MTDeserializer;
@@ -50,7 +51,7 @@ class OwnDeserializer implements MTDeserializer
     /**
      * @param string $mapContents
      */
-    protected function extendMap(string $mapContents)
+    protected function extendMap(string $mapContents): void
     {
         $entities = [];
         foreach ($this->decodeMap($mapContents) as $scope => $_entities) {
@@ -76,9 +77,13 @@ class OwnDeserializer implements MTDeserializer
      *
      * @return array
      */
-    private function decodeMap(string $map)
+    private function decodeMap(string $map): array
     {
-        return json_decode($map, true);
+        try {
+            return json_decode($map, true, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+            return [];
+        }
     }
 
     /**
@@ -102,7 +107,7 @@ class OwnDeserializer implements MTDeserializer
      *
      * @return array
      */
-    private function deserializeInternal(string $data)
+    private function deserializeInternal(string $data): array
     {
         $this->stream = new ByteStream($data);
 
@@ -120,7 +125,7 @@ class OwnDeserializer implements MTDeserializer
      *
      * @return array
      */
-    private function readObject()
+    private function readObject(): array
     {
         $id = $this->readId();
 
@@ -158,24 +163,24 @@ class OwnDeserializer implements MTDeserializer
      *
      * @return array
      */
-    private function createObject(array $object)
+    private function createObject(array $object): array
     {
         $name = $object['name'];
 
         $bundle = [];
         $bundle['_'] = $name;
 
-        if ($name == 'msg_container') {
+        if ($name === 'msg_container') {
             return array_merge($bundle, $this->readMsgContainer());
         }
 
-        if ($name == 'vector') {
+        if ($name === 'vector') {
             return array_merge($bundle, $this->readVectorAsObject());
         }
 
         $this->readObjectFields($object, $bundle);
 
-        if ($name == 'gzip_packed') {
+        if ($name === 'gzip_packed') {
             $bundle = $this->deserializeInternal(gzdecode($bundle['packed_data']));
         }
 
@@ -188,7 +193,7 @@ class OwnDeserializer implements MTDeserializer
      *
      * @throws TGException
      */
-    private function readObjectFields(array $object, array &$bundle)
+    private function readObjectFields(array $object, array &$bundle): void
     {
         foreach ($object['args'] as $objectArg) {
             $this->readObjectField($objectArg, $bundle);
@@ -201,7 +206,7 @@ class OwnDeserializer implements MTDeserializer
      *
      * @throws TGException
      */
-    private function readObjectField(array $objectArg, array &$bundle)
+    private function readObjectField(array $objectArg, array &$bundle): void
     {
         $isObjectArgOptional = $this->isObjectArgOptional($objectArg);
 
@@ -229,7 +234,7 @@ class OwnDeserializer implements MTDeserializer
      */
     private function isObjectArgOptional(array $arg): bool
     {
-        return substr($arg['type'], 0, 5) === 'flags';
+        return strpos($arg['type'], 'flags') === 0;
     }
 
     /**
@@ -242,14 +247,17 @@ class OwnDeserializer implements MTDeserializer
      */
     private function readOptionalField(array $fieldBit, int $bitMask)
     {
-        list($bitIndex, $type) = $this->readFlagInfoForOptionalField($fieldBit);
+        [$bitIndex, $type] = $this->readFlagInfoForOptionalField($fieldBit);
 
         $bitToCheck = 1 << $bitIndex;
         $flag = 0 !== ($bitMask & $bitToCheck);
         $isFlagField = strstr($fieldBit['type'], '?true');
 
-        return $isFlagField ?
-            $flag : ($flag ? $this->readTypedField($type) : null);
+        if ($isFlagField) {
+            return $flag;
+        }
+
+        return $flag ? $this->readTypedField($type) : null;
     }
 
     /**
@@ -259,7 +267,7 @@ class OwnDeserializer implements MTDeserializer
      */
     private function readFlagInfoForOptionalField(array $fieldBit): array
     {
-        list($objectArgFlagInfo, $objectArgType) = explode('?', $fieldBit['type']);
+        [$objectArgFlagInfo, $objectArgType] = explode('?', $fieldBit['type']);
 
         $flagInfo = explode('.', $objectArgFlagInfo);
 
@@ -271,7 +279,7 @@ class OwnDeserializer implements MTDeserializer
      *
      * @return array
      */
-    private function readMsgContainer()
+    private function readMsgContainer(): array
     {
         $msgCount = $this->readInt();
         $bundle['declared_count'] = $msgCount;
@@ -323,7 +331,7 @@ class OwnDeserializer implements MTDeserializer
                 return $this->readDouble();
         }
 
-        if (strstr($type, 'Vector')) {
+        if (strpos($type, 'Vector') !== false) {
             return $this->readVectorAsParam($type);
         }
 
@@ -337,13 +345,13 @@ class OwnDeserializer implements MTDeserializer
      *
      * @return array
      */
-    private function readVectorAsParam(string $type)
+    private function readVectorAsParam(string $type): array
     {
         preg_match('/.*<(.*)>.*/', $type, $matches);
         $type = $matches[1];
 
         $id = $this->readId();
-        if ($id != 0x1cb5c415) {
+        if ($id !== 0x1cb5c415) {
             throw new TGException(TGException::ERR_DESERIALIZER_VECTOR_EXPECTED, 'vector expected! got: '.$id);
         }
 
@@ -362,7 +370,7 @@ class OwnDeserializer implements MTDeserializer
      *
      * @return array
      */
-    private function readVectorAsObject()
+    private function readVectorAsObject(): array
     {
         $length = $this->readInt();
         $objects = [];
@@ -379,7 +387,7 @@ class OwnDeserializer implements MTDeserializer
      *
      * @return int
      */
-    private function readId()
+    private function readId(): int
     {
         $a = $this->stream->read(4);
         $a = unpack('I', $a)[1];
@@ -392,7 +400,7 @@ class OwnDeserializer implements MTDeserializer
      *
      * @return int
      */
-    protected function readLong()
+    protected function readLong(): int
     {
         $value = $this->stream->read(8);
         $value = unpack('Q', $value)[1];
@@ -403,9 +411,9 @@ class OwnDeserializer implements MTDeserializer
     /**
      * @throws TGException
      *
-     * @return int
+     * @return float
      */
-    protected function readDouble()
+    protected function readDouble(): float
     {
         $value = $this->stream->read(8);
         $value = unpack('e', $value)[1];
@@ -418,7 +426,7 @@ class OwnDeserializer implements MTDeserializer
      *
      * @return int
      */
-    private function readInt()
+    private function readInt(): int
     {
         $a = $this->stream->read(4);
         $a = unpack('I', $a)[1];
@@ -431,7 +439,7 @@ class OwnDeserializer implements MTDeserializer
      *
      * @return string
      */
-    private function readInt128()
+    private function readInt128(): string
     {
         return $this->stream->read(16);
     }
@@ -441,7 +449,7 @@ class OwnDeserializer implements MTDeserializer
      *
      * @return string
      */
-    private function readInt256()
+    private function readInt256(): string
     {
         return $this->stream->read(32);
     }
@@ -451,13 +459,13 @@ class OwnDeserializer implements MTDeserializer
      *
      * @return string
      */
-    private function readString()
+    private function readString(): string
     {
         $lengthValue = $this->stream->read(1);
         $len = unpack('C', $lengthValue)[1];
         $padding = $this->posmod(-($len + 1), 4);
 
-        if ($len == 254) {
+        if ($len === 254) {
             $lengthValue = $this->stream->read(3);
             $len = unpack('I', $lengthValue.pack('x'))[1];
             $padding = $this->posmod(-($len), 4);

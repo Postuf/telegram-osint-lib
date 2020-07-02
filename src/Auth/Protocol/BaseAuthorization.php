@@ -96,8 +96,16 @@ abstract class BaseAuthorization implements Authorization
         $this->aes = new PhpSecLibAES();
         $this->powMod = new PhpSecLibPowMod();
 
-        $this->oldClientNonce = openssl_random_pseudo_bytes(16);
-        $this->newClientNonce = openssl_random_pseudo_bytes(32);
+        /** @noinspection CryptographicallySecureRandomnessInspection */
+        $this->oldClientNonce = openssl_random_pseudo_bytes(16, $strong);
+        if ($strong === false || $this->oldClientNonce === false) {
+            throw new TGException(TGException::ERR_CRYPTO_INVALID);
+        }
+        /** @noinspection CryptographicallySecureRandomnessInspection */
+        $this->newClientNonce = openssl_random_pseudo_bytes(32, $strong);
+        if ($strong === false || $this->newClientNonce === false) {
+            throw new TGException(TGException::ERR_CRYPTO_INVALID);
+        }
     }
 
     /**
@@ -110,14 +118,14 @@ abstract class BaseAuthorization implements Authorization
      *
      * @return TLClientMessage
      */
-    abstract protected function getPqInnerDataMessage($pq, $p, $q, $oldClientNonce, $serverNonce, $newClientNonce);
+    abstract protected function getPqInnerDataMessage($pq, $p, $q, $oldClientNonce, $serverNonce, $newClientNonce): TLClientMessage;
 
     /**
      * @param callable $onAuthKeyReady function(AuthKey $authKey)
      *
      * @throws TGException
      */
-    public function createAuthKey(callable $onAuthKeyReady)
+    public function createAuthKey(callable $onAuthKeyReady): void
     {
         $this->requestForPQ(function (ResPQ $pqResponse) use ($onAuthKeyReady) {
             $primes = $this->findPrimes($pqResponse->getPq());
@@ -143,16 +151,18 @@ abstract class BaseAuthorization implements Authorization
      *
      * @throws TGException
      */
-    private function requestForPQ(callable $cb)
+    private function requestForPQ(callable $cb): void
     {
         $request = new req_pq_multi($this->oldClientNonce);
         $this->socketContainer->getResponseAsync($request, function ($response) use ($cb) {
             $pqResponse = new ResPQ($response);
 
-            if(strcmp($pqResponse->getClientNonce(), $this->oldClientNonce) != 0)
+            if(strcmp($pqResponse->getClientNonce(), $this->oldClientNonce) !== 0) {
                 throw new TGException(TGException::ERR_AUTH_INCORRECT_CLIENT_NONCE);
-            if(strlen($pqResponse->getServerNonce()) != 16)
+            }
+            if(strlen($pqResponse->getServerNonce()) !== 16) {
                 throw new TGException(TGException::ERR_AUTH_INCORRECT_SERVER_NONCE);
+            }
             $this->obtainedServerNonce = $pqResponse->getServerNonce();
             $cb($pqResponse);
         });
@@ -165,7 +175,7 @@ abstract class BaseAuthorization implements Authorization
      *
      * @throws TGException
      */
-    private function requestDHParams(PQ $pq, ResPQ $pqData, callable $cb)
+    private function requestDHParams(PQ $pq, ResPQ $pqData, callable $cb): void
     {
         // prepare object
         $data = $this->getPqInnerDataMessage($pqData->getPq(), $pq->getP(), $pq->getQ(), $this->oldClientNonce, $pqData->getServerNonce(), $this->newClientNonce);
@@ -176,7 +186,12 @@ abstract class BaseAuthorization implements Authorization
 
         $data_with_hash = sha1($data, true).$data;
         $paddingSize = 255 - strlen($data_with_hash);
-        $data_with_hash .= openssl_random_pseudo_bytes($paddingSize);
+        /** @noinspection CryptographicallySecureRandomnessInspection */
+        $randomBytes = openssl_random_pseudo_bytes($paddingSize, $strong);
+        if ($strong === false || $randomBytes === false) {
+            throw new TGException(TGException::ERR_CRYPTO_INVALID);
+        }
+        $data_with_hash .= $randomBytes;
         $encryptedData = $this->rsa->encrypt($data_with_hash, $certificate->getPublicKey());
 
         // send object
@@ -184,10 +199,12 @@ abstract class BaseAuthorization implements Authorization
         $this->socketContainer->getResponseAsync($request, function (AnonymousMessage $response) use ($cb) {
             $dhResponse = new DHReq($response);
 
-            if(strcmp($dhResponse->getClientNonce(), $this->oldClientNonce) != 0)
+            if(strcmp($dhResponse->getClientNonce(), $this->oldClientNonce) !== 0) {
                 throw new TGException(TGException::ERR_AUTH_INCORRECT_CLIENT_NONCE);
-            if(strcmp($dhResponse->getServerNonce(), $this->obtainedServerNonce) != 0)
+            }
+            if(strcmp($dhResponse->getServerNonce(), $this->obtainedServerNonce) !== 0) {
                 throw new TGException(TGException::ERR_AUTH_INCORRECT_SERVER_NONCE);
+            }
             $cb($dhResponse->getEncryptedAnswer());
         });
     }
@@ -199,7 +216,7 @@ abstract class BaseAuthorization implements Authorization
      *
      * @return Certificate
      */
-    private function getCertificate(array $receivedFingerPrints)
+    private function getCertificate(array $receivedFingerPrints): Certificate
     {
         foreach ($receivedFingerPrints as $fingerPrint) {
             $certificate = Certificate::getCertificateByFingerPrint($fingerPrint);
@@ -223,7 +240,7 @@ abstract class BaseAuthorization implements Authorization
      *
      * @return PQ
      */
-    private function findPrimes(int $pq)
+    private function findPrimes(int $pq): PQ
     {
         Logger::log('Factorize', $pq);
 
@@ -238,7 +255,7 @@ abstract class BaseAuthorization implements Authorization
      *
      * @return DHServerInnerData
      */
-    private function decryptDHResponse(string $encryptedAnswer, ResPQ $pqResponse)
+    private function decryptDHResponse(string $encryptedAnswer, ResPQ $pqResponse): DHServerInnerData
     {
         $material1 = $this->newClientNonce.$pqResponse->getServerNonce();
         $material2 = $pqResponse->getServerNonce().$this->newClientNonce;
@@ -260,7 +277,7 @@ abstract class BaseAuthorization implements Authorization
      *
      * @return DHServerInnerData
      */
-    private function createDHInnerDataObject(string $decryptedResponse)
+    private function createDHInnerDataObject(string $decryptedResponse): DHServerInnerData
     {
         $messageWithoutHeaders = substr($decryptedResponse, 20, -8);
         $deserializer = new OwnDeserializer();
@@ -276,33 +293,46 @@ abstract class BaseAuthorization implements Authorization
      *
      * @throws TGException
      */
-    private function setClientDHParams(DHServerInnerData $dhParams, ResPQ $pqParams, callable $cb)
+    private function setClientDHParams(DHServerInnerData $dhParams, ResPQ $pqParams, callable $cb): void
     {
-        $b = openssl_random_pseudo_bytes(256);
+        /** @noinspection CryptographicallySecureRandomnessInspection */
+        $b = openssl_random_pseudo_bytes(256, $strong);
+        if ($strong === false || $b === false) {
+            throw new TGException(TGException::ERR_CRYPTO_INVALID);
+        }
         $g_b = $this->powMod->powMod($dhParams->getG(), $b, $dhParams->getDhPrime());
 
         $data = new client_dh_inner_data($this->oldClientNonce, $pqParams->getServerNonce(), 0, $g_b);
         $data = $data->toBinary();
         $data_with_hash = sha1($data, true).$data;
         $paddingSize = 16 - strlen($data_with_hash) % 16;
-        $data_with_hash .= openssl_random_pseudo_bytes($paddingSize);
+        /** @noinspection CryptographicallySecureRandomnessInspection */
+        $randomBytes = openssl_random_pseudo_bytes($paddingSize, $strong);
+        if ($strong === false || $randomBytes === false) {
+            throw new TGException(TGException::ERR_CRYPTO_INVALID);
+        }
+        $data_with_hash .= $randomBytes;
         $encrypted_data = $this->aes->encryptIgeMode($data_with_hash, $this->tmpAesKey, $this->tmpAesIV);
 
         $request = new set_client_dh_params($this->oldClientNonce, $pqParams->getServerNonce(), $encrypted_data);
-        $this->socketContainer->getResponseAsync($request, function ($response) use ($cb, $dhParams, $pqParams, $b) {
+        $this->socketContainer->getResponseAsync($request, function ($response) use ($cb, $dhParams, $b) {
             $dh_params_answer = new DHGenOk($response);
 
-            if(strcmp($dh_params_answer->getClientNonce(), $this->oldClientNonce) != 0)
+            if(strcmp($dh_params_answer->getClientNonce(), $this->oldClientNonce) !== 0) {
                 throw new TGException(TGException::ERR_AUTH_INCORRECT_CLIENT_NONCE);
-            if(strcmp($dh_params_answer->getServerNonce(), $this->obtainedServerNonce) != 0)
+            }
+            if(strcmp($dh_params_answer->getServerNonce(), $this->obtainedServerNonce) !== 0) {
                 throw new TGException(TGException::ERR_AUTH_INCORRECT_SERVER_NONCE);
+            }
             $initialServerSalt = substr($this->newClientNonce, 0, 8) ^ substr($this->obtainedServerNonce, 0, 8);
             $authKey = $this->powMod->powMod($dhParams->getGA(), $b, $dhParams->getDhPrime());
 
-            if(strlen($authKey) != 256)
+            if(strlen($authKey) !== 256) {
                 throw new TGException(TGException::ERR_AUTH_KEY_BAD_LENGTH, bin2hex($authKey));
-            if(strlen($initialServerSalt) != 8)
+            }
+            if(strlen($initialServerSalt) !== 8) {
                 throw new TGException(TGException::ERR_AUTH_SALT_BAD_LENGTH, bin2hex($initialServerSalt));
+            }
             $cb(new AuthParams($authKey, $initialServerSalt));
         });
     }

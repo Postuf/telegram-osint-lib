@@ -22,7 +22,6 @@ class ByteStream
     {
         $this->stream = $binaryData;
         $this->len = strlen($this->stream);
-        $this->pointer = 0;
     }
 
     /**
@@ -36,8 +35,9 @@ class ByteStream
     {
         $data = substr($this->stream, $this->pointer, $length);
 
-        if($this->pointer + $length > $this->len)
+        if($this->pointer + $length > $this->len) {
             throw new TGException(TGException::ERR_DESERIALIZER_BROKEN_BINARY_READ);
+        }
         $this->pointer += $length;
 
         return $data;
@@ -49,7 +49,7 @@ class ByteStream
             return '';
         }
 
-        $data = substr($this->stream, $this->pointer, strlen($this->stream) - $this->pointer);
+        $data = substr($this->stream, $this->pointer);
         $this->pointer = strlen($this->stream);
 
         return $data;
@@ -57,11 +57,11 @@ class ByteStream
 
     public function isEmpty(): bool
     {
-        return $this->pointer == $this->len;
+        return $this->pointer === $this->len;
     }
 
     public function __toString()
     {
-        return substr($this->stream, $this->pointer);
+        return (string) substr($this->stream, $this->pointer);
     }
 }

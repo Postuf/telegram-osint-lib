@@ -6,7 +6,7 @@ use phpseclib\Math\BigInteger;
 
 class PhpSecLibPowMod implements PowMod
 {
-    const BASE = 256;
+    public const BASE = 256;
 
     /**
      * @param string $base
@@ -14,6 +14,7 @@ class PhpSecLibPowMod implements PowMod
      * @param string $modulus
      *
      * @return string
+     * @noinspection ReturnTypeCanBeDeclaredInspection
      */
     public function powMod(string $base, string $power, string $modulus)
     {

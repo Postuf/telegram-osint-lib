@@ -20,25 +20,20 @@ class NameResource
     public function __construct()
     {
         if (!self::$names) {
-            self::$names = json_decode(file_get_contents(__DIR__.'/names.json'), true);
+            /** @noinspection PhpUnhandledExceptionInspection */
+            self::$names = json_decode(file_get_contents(__DIR__.'/names.json'), true, 512, JSON_THROW_ON_ERROR);
         }
 
         $this->name = self::$names[array_rand(self::$names)];
         $this->lastName = self::$names[array_rand(self::$names)];
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
-    public function getLastName()
+    public function getLastName(): string
     {
         return $this->lastName;
     }

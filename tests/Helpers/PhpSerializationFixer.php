@@ -23,8 +23,8 @@ class PhpSerializationFixer
         $toLength = strlen($to);
         $slashCount = substr_count($from, '\\\\');
 
-        $replacerGen = function (string $prefix) use ($from, $to, $fromLength, $toLength, $slashCount): callable {
-            return function (array $matches) use ($prefix, $from, $to, $fromLength, $toLength, $slashCount): string {
+        $replacerGen = static function (string $prefix) use ($to, $fromLength, $toLength, $slashCount): callable {
+            return static function (array $matches) use ($prefix, $to, $fromLength, $toLength, $slashCount): string {
                 $oldLength = (int) $matches[2];
                 $newLength = $oldLength - $fromLength + $toLength + $slashCount;
 
@@ -34,6 +34,7 @@ class PhpSerializationFixer
 
         $prefix3 = '"';
         $rx1 = '/(O):(\d+):'.$prefix3.'('.$from.')/';
+        /** @var string $serialized */
         $serialized = preg_replace_callback($rx1, $replacerGen($prefix3), $serialized);
         $prefix3 = '"'."\1\1\1";
         $rx2 = '/(s):(\d+):'.$prefix3.'('.$from.')/';

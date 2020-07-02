@@ -6,6 +6,7 @@ namespace Helpers;
 
 use InvalidArgumentException;
 use TelegramOSINT\Client\AuthKey\AuthKey;
+use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\MTSerialization\OwnImplementation\OwnAnonymousMessage;
 use TelegramOSINT\TGConnection\SocketMessenger\EncryptedSocketMessenger;
@@ -28,6 +29,8 @@ class TraceSocketMessenger extends EncryptedSocketMessenger
      * @param array           $trace    see tests/Integration/Scenario for
      * @param AuthKey         $authKey
      * @param MessageListener $callback
+     *
+     * @throws TGException
      */
     public function __construct(array $trace, AuthKey $authKey, MessageListener $callback)
     {

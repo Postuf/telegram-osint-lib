@@ -26,7 +26,7 @@ class AuthParams
     /**
      * @return string binary
      */
-    public function getAuthKey()
+    public function getAuthKey(): string
     {
         return $this->authKey;
     }
@@ -34,7 +34,7 @@ class AuthParams
     /**
      * @return string binary
      */
-    public function getServerSalt()
+    public function getServerSalt(): string
     {
         return $this->serverSalt;
     }

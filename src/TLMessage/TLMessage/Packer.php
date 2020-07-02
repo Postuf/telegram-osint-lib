@@ -120,8 +120,9 @@ class Packer
             self::packInt(481674261).
             self::packInt(count($array));
 
-        foreach ($array as $element)
+        foreach ($array as $element) {
             $vector .= $elementGeneratorCallback($element);
+        }
 
         return $vector;
     }
@@ -148,8 +149,9 @@ class Packer
     private static function calcRemainder(int $a, int $b): int
     {
         $remainder = $a % $b;
-        if ($remainder < 0)
+        if ($remainder < 0) {
             $remainder += abs($b);
+        }
 
         return $remainder;
     }

@@ -31,6 +31,8 @@ class SearchUserScenario extends InfoClientScenario
      * @param string[]                 $groupnames
      * @param string                   $username
      * @param callable|null            $handler         function(int $groupId, string $title)
+     *
+     * @throws TGException
      */
     public function __construct(
         ClientGeneratorInterface $clientGenerator,
@@ -67,7 +69,7 @@ class SearchUserScenario extends InfoClientScenario
                 $accessHash = $this->resolvedHashes[$key];
                 $handler = function (array $users) use ($id) {
                     foreach ($users as $user) {
-                        if ($user->id == $this->userId) {
+                        if ($user->id === $this->userId) {
                             Logger::log(__CLASS__, "found user in group $id ({$this->groupnamesById[$id]})");
                             $handler = $this->handler;
                             if ($handler) {

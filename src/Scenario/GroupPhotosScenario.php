@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace TelegramOSINT\Scenario;
 
 use Closure;
-use Exception;
+use RuntimeException;
 use TelegramOSINT\Client\InfoObtainingClient\Models\FileModel;
 use TelegramOSINT\Client\InfoObtainingClient\Models\PictureModel;
 use TelegramOSINT\Exception\TGException;
@@ -24,7 +24,7 @@ use TelegramOSINT\Tools\Proxy;
  * @see get_all_chats
  * @see get_history
  */
-class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInterface
+class GroupPhotosScenario extends AbstractGroupScenario
 {
     private const FIELD_MESSAGE_DATE = 'date';
     private const FIELD_MESSAGE_MEDIA = 'media';
@@ -39,8 +39,6 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
     private $username;
     /** @var int|null */
     private $userId;
-    /** @var Proxy|null */
-    private $proxy;
 
     /**
      * @param OptionalDateRange             $dateRange
@@ -80,13 +78,13 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
      *
      * @throws TGException
      */
-    public function listChats(?string $type = null)
+    public function listChats(?string $type = null): void
     {
         $pollAndTerminate = true;
 
         $this->authAndPerformActions(function () use ($type): void {
             Logger::log(__CLASS__, 'listing all chats');
-            $this->infoClient->getAllChats(function (AnonymousMessage $message) use ($type) {
+            $this->infoClient->getAllChats(static function (AnonymousMessage $message) use ($type) {
                 /** @see https://core.telegram.org/constructor/messages.chats */
                 $chats = $message->getNodes('chats');
                 $chatCount = count($chats);
@@ -94,7 +92,7 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
                 foreach ($chats as $chatNode) {
                     $id = (int) $chatNode->getValue('id');
                     $currentType = $chatNode->getType();
-                    if ($type && $type != $currentType) {
+                    if ($type && $type !== $currentType) {
                         continue;
                     }
                     $title = $chatNode->getValue('title');
@@ -112,7 +110,7 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
      */
     private function getFile(FileModel $model, callable $saveFile): void
     {
-        $this->infoClient->loadFile($model, function (PictureModel $pictureModel) use ($model, $saveFile) {
+        $this->infoClient->loadFile($model, static function (PictureModel $pictureModel) use ($model, $saveFile) {
             $id = $model->getId();
             $saveFile($pictureModel, $id);
         });
@@ -128,17 +126,17 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
             Logger::log(__CLASS__, "got $chatCount chats");
             foreach ($chats as $chatNode) {
                 $id = (int) $chatNode->getValue('id');
-                if ($this->groupId && $this->groupId != $id) {
+                if ($this->groupId && $this->groupId !== $id) {
                     continue;
                 }
 
-                if ($chatNode->getType() != 'chat' && !$this->groupId) {
+                if (!$this->groupId && $chatNode->getType() !== 'chat') {
                     continue;
                 }
 
                 $handler = $this->makeChatMessagesHandler($id, $limit);
                 Logger::log(__CLASS__, "parsing {$chatNode->getType()} $id with limit $limit");
-                if ($chatNode->getType() == 'chat') {
+                if ($chatNode->getType() === 'chat') {
                     $this->infoClient->getChatMessages(
                         $id,
                         $limit,
@@ -183,7 +181,6 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
                         $id = (int) $chat['id'];
                         $handler = $this->makeChatMessagesHandler($id, $limit);
                         /** @var array $chat */
-                        Logger::log(__CLASS__, "getting channel messages with limit $limit");
                         $this->infoClient->getChannelMessages(
                             (int) $chat['id'],
                             (int) $chat['access_hash'],
@@ -213,7 +210,7 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
                             return;
                         }
 
-                        $this->userId = (int) $peer->getId();
+                        $this->userId = $peer->getId();
 
                         $this->infoClient->resolveUsername($groupname, $this->getResolveHandler($afterGroupResolve));
                     };
@@ -257,7 +254,7 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
                 /** @see https://core.telegram.org/constructor/message */
                 $lastId = (int) $node->getValue('id');
 
-                if ($node->getType() !== 'message' || !($hasMedia = $node->getValue(self::FIELD_MESSAGE_MEDIA))) {
+                if ($node->getType() !== 'message' || !($node->getValue(self::FIELD_MESSAGE_MEDIA))) {
                     Logger::log(
                         __CLASS__,
                         $node->getType() !== 'message'
@@ -267,7 +264,7 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
                     continue;
                 }
 
-                if ($this->userId && $node->getValue('from_id') != $this->userId) {
+                if ($this->userId && $node->getValue('from_id') !== $this->userId) {
                     continue;
                 }
 
@@ -292,17 +289,17 @@ class GroupPhotosScenario extends AbstractGroupScenario implements ScenarioInter
                 $types = ['photoStrippedSize', 'photoSize'];
                 foreach ($types as $type) {
                     foreach ($photo['sizes'] as $size) {
-                        if ($type == $size['_']) {
+                        if ($type === $size['_']) {
                             $sizeId = $size['type'];
                         }
                     }
                 }
                 if (!$sizeId) {
-                    throw new Exception('Invalid photo: no sizes: '.json_encode($photo));
+                    throw new RuntimeException('Invalid photo: no sizes: '.json_encode($photo, JSON_THROW_ON_ERROR));
                 }
                 usleep(10000);
                 Logger::log(__CLASS__, 'getting file '.$photo['id']);
-                $saveHandler = $this->saveHandler ?: function (PictureModel $pictureModel, int $id) {
+                $saveHandler = $this->saveHandler ?: static function (PictureModel $pictureModel, int $id) {
                     $filename = "$id.".$pictureModel->format;
                     file_put_contents($filename, $pictureModel->bytes);
                     Logger::log(

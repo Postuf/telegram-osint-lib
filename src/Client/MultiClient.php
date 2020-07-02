@@ -59,7 +59,7 @@ class MultiClient
                     $phone = $parts[0];
                     Logger::log(__CLASS__, $phone.' connected');
                     $this->connectedCount++;
-                    if ($this->connectedCount == count($this->clients)) {
+                    if ($this->connectedCount === count($this->clients)) {
                         $timeDiff = microtime(true) - $this->startTime;
                         $timeDiffStr = number_format($timeDiff, 3);
                         Logger::log(__CLASS__, "all clients connected after $timeDiffStr sec");

@@ -36,7 +36,6 @@ abstract class TgSocketMessenger implements SocketMessenger
         if (!$this->readState->getLength()) {
             // header
             $lengthValue = $this->socket->readBinary(self::HEADER_LENGTH_BYTES);
-            /** @noinspection UnnecessaryCastingInspection */
             $readLength = strlen((string) $lengthValue);
             /** @noinspection TypeUnsafeComparisonInspection */
             if ($readLength == 0) {
@@ -55,7 +54,6 @@ abstract class TgSocketMessenger implements SocketMessenger
         }
         $lengthToRead = $payloadLength - $this->readState->getCurrentLength();
         $newPayload = $this->socket->readBinary($lengthToRead);
-        /** @noinspection UnnecessaryCastingInspection */
         if ((string) $newPayload !== '') {
             $this->readState->addRead($newPayload);
         }
