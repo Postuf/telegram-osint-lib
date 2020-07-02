@@ -2,7 +2,6 @@
 
 namespace TelegramOSINT\TGConnection\SocketMessenger;
 
-use LogicException;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\LibConfig;
 use TelegramOSINT\Logger\ClientDebugLogger;
@@ -14,6 +13,9 @@ use TelegramOSINT\TGConnection\DataCentre;
 use TelegramOSINT\TGConnection\Socket\Socket;
 use TelegramOSINT\TGConnection\SocketMessenger\MessengerTools\MessageIdGenerator;
 use TelegramOSINT\TGConnection\SocketMessenger\MessengerTools\OuterHeaderWrapper;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_config;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\DcConfigApp;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\DcOption;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class NotEncryptedSocketMessenger extends TgSocketMessenger
@@ -32,6 +34,8 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
     private $deserializer;
     /** @var ClientDebugLogger|null */
     private $logger;
+    /** @var AnonymousMessage|null */
+    private $config;
 
     /**
      * @param Socket                 $socket
@@ -150,6 +154,18 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
      */
     public function getResponseAsync(TLClientMessage $message, callable $cb): void
     {
+        $callback = $cb;
+        if ($message instanceof get_config) {
+            if ($this->config) {
+                $cb($this->config);
+
+                return;
+            }
+            $callback = function (AnonymousMessage $message) use ($cb) {
+                $this->config = $message;
+                $cb($message);
+            };
+        }
         // Dummy impl
         $this->writeMessage($message);
         $startTimeMs = microtime(true) * 1000;
@@ -157,7 +173,7 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
         while(true){
             $response = $this->readMessage();
             if($response) {
-                $cb($response);
+                $callback($response);
 
                 return;
             }
@@ -173,8 +189,42 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
         throw new TGException(TGException::ERR_MSG_RESPONSE_TIMEOUT);
     }
 
+    /**
+     * @param array    $messages
+     * @param callable $onLastResponse
+     *
+     * @throws TGException
+     */
     public function getResponseConsecutive(array $messages, callable $onLastResponse): void
     {
-        throw new LogicException('not implemented '.__METHOD__);
+        $lastResponse = null;
+        foreach ($messages as $message) {
+            // assumes getResponseAsync is sync in fact
+            $this->getResponseAsync($message, static function (AnonymousMessage $message) use (&$lastResponse) {
+                $lastResponse = $message;
+            });
+        }
+        if ($lastResponse) {
+            $onLastResponse($lastResponse);
+        }
+    }
+
+    public function isDcAppropriate(DcOption $dc): bool
+    {
+        return (bool) preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/', $dc->getIp());
+    }
+
+    /**
+     * @throws TGException
+     *
+     * @return DcConfigApp|null
+     */
+    public function getDCConfig(): ?DcConfigApp
+    {
+        if ($this->config) {
+            return new DcConfigApp($this->config);
+        }
+
+        return null;
     }
 }

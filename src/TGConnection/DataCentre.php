@@ -48,4 +48,13 @@ class DataCentre
     {
         return $this->dcPort;
     }
+
+    public static function getUS(): self
+    {
+        return new self(
+            '149.154.175.58',
+            1,
+            LibConfig::DC_DEFAULT_PORT
+        );
+    }
 }
