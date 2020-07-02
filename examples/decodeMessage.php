@@ -31,4 +31,5 @@ $message = $argsOrFalse['m'] ?? $argsOrFalse['message'];
 $deserializer = new OwnDeserializer();
 /** @noinspection PhpUnhandledExceptionInspection */
 $unserialized = $deserializer->deserialize(hex2bin($message));
+/** @noinspection ForgottenDebugOutputInspection */
 print_r($unserialized);

@@ -1,14 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\Auth\RSA;
 
 interface RSA
 {
-    /**
-     * @param string $data
-     * @param string $key
-     *
-     * @return string
-     */
-    public function encrypt($data, $key);
+    public function encrypt(string $data, string $key): string;
 }

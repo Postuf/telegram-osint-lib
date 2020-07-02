@@ -107,6 +107,8 @@ class TGException extends Exception
 
     public const ERR_CRYPTO_INVALID                                                   = 1100000;
 
+    public const ERR_JSON_ERROR                                                       = 1200000;
+
     /**
      * TGException constructor.
      * @param int $code

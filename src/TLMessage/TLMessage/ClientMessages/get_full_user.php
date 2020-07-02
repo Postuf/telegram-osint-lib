@@ -12,9 +12,9 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_full_user implements TLClientMessage
 {
-    const CONSTRUCTOR = -902781519; // 0xCA30A5B1
+    public const CONSTRUCTOR = -902781519; // 0xCA30A5B1
     /** @see https://core.telegram.org/type/InputUser */
-    const CONSTRUCTOR_INPUT_USER = -668391402; // 0xD8292816
+    public const CONSTRUCTOR_INPUT_USER = -668391402; // 0xD8292816
     /**
      * @var int
      */

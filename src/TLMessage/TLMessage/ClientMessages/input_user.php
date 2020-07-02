@@ -10,7 +10,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 /** @see https://core.telegram.org/constructor/inputUser */
 class input_user implements TLClientMessage
 {
-    const CONSTRUCTOR = -668391402; // 0xd8292816
+    public const CONSTRUCTOR = -668391402; // 0xd8292816
 
     /**
      * @var int

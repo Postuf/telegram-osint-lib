@@ -27,9 +27,6 @@ class TestClientGenerator implements ClientGeneratorInterface
         $this->authKey = $authKey;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getInfoClient(): InfoClient
     {
         if (!$this->client) {

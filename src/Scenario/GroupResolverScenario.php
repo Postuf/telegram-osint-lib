@@ -43,7 +43,6 @@ class GroupResolverScenario extends InfoClientScenario
         return $this->onReady === null;
     }
 
-    /** @noinspection DuplicatedCode */
     private function getGroupResolveHandler(): callable
     {
         return function (AnonymousMessage $message) {

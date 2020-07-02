@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class input_photofilelocation implements TLClientMessage
 {
-    const CONSTRUCTOR = 1075322878; // 0x40181ffe
+    public const CONSTRUCTOR = 1075322878; // 0x40181ffe
 
     /**
      * @var int

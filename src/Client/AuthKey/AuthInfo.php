@@ -15,12 +15,7 @@ class AuthInfo
      */
     private $account;
 
-    /**
-     * @param string $phone
-     *
-     * @return AuthInfo
-     */
-    public function setPhone(string $phone)
+    public function setPhone(string $phone): self
     {
         $this->phone = $phone;
 
@@ -32,10 +27,7 @@ class AuthInfo
         return $this->phone;
     }
 
-    /**
-     * @return AccountInfo
-     */
-    public function getAccount()
+    public function getAccount(): AccountInfo
     {
         return $this->account;
     }
@@ -45,7 +37,7 @@ class AuthInfo
      *
      * @return AuthInfo
      */
-    public function setAccountInfo(AccountInfo $account)
+    public function setAccountInfo(AccountInfo $account): self
     {
         $this->account = $account;
 

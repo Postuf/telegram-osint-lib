@@ -48,11 +48,13 @@ class UserSelf extends TLServerMessage implements MessageWithUserId
         $photo = $this->getTlMessage()->getNode('photo');
         if (TLServerMessage::checkType($photo, 'userProfilePhoto')) {
             return new UserProfilePhoto($photo);
-        } elseif (TLServerMessage::checkType($photo, 'chatPhoto')) {
-            return new ChatPhoto($photo);
-        } else {
-            throw new TGException(TGException::ERR_DESERIALIZER_UNKNOWN_OBJECT);
         }
+
+        if (TLServerMessage::checkType($photo, 'chatPhoto')) {
+            return new ChatPhoto($photo);
+        }
+
+        throw new TGException(TGException::ERR_DESERIALIZER_UNKNOWN_OBJECT);
     }
 
     public function getUserId(): int

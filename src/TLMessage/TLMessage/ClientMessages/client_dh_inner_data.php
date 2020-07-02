@@ -9,7 +9,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class client_dh_inner_data implements TLClientMessage
 {
-    const CONSTRUCTOR = 0x6643b654;
+    private const CONSTRUCTOR = 0x6643b654;
 
     /**
      * @var string

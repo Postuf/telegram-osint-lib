@@ -11,7 +11,7 @@ use TelegramOSINT\TLMessage\TLMessage\Packer;
  */
 class input_peer_photofilelocation extends input_peer
 {
-    const CONSTRUCTOR = 668375447; // 0x27D69997
+    public const CONSTRUCTOR = 668375447; // 0x27D69997
 
     /**
      * @var input_peer

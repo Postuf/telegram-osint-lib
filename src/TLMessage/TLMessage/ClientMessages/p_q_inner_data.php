@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class p_q_inner_data implements TLClientMessage
 {
-    const CONSTRUCTOR = 0x83C95AEC;
+    private const CONSTRUCTOR = 0x83C95AEC;
 
     /**
      * @var int
@@ -59,7 +59,7 @@ class p_q_inner_data implements TLClientMessage
         $this->newClientNonce = $newClientNonce;
 
         assert($this->p < $this->q);
-        assert($this->p * $this->q == $this->pq);
+        assert($this->p * $this->q === $this->pq);
 
     }
 

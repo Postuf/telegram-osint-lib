@@ -58,32 +58,26 @@ $request = $groupId !== null
     : GroupRequest::ofUserName($deepLink);
 
 $result = [];
-$parseLinks = function (
+$parseLinks = static function (
     /** @noinspection PhpUnusedParameterInspection */
     ?MessageModel $messageModel = null,
     ?array $messageRaw = null,
     int $endFlag = -1
 ) use (&$result) {
-    if ($endFlag == -1){
+    if ($endFlag === -1){
         arsort($result, SORT_NUMERIC);
 
         echo "\tSite\t|\tLinks count\t\n";
         foreach ($result as $site => $count) {
             echo $site."\t|\t".$count."\n";
         }
-    } else {
-        if (!empty($messageRaw['message'])) {
-            if (preg_match('/http[s]?:\/\/([\w.\-_\d]*)/', $messageRaw['message'], $matches)) {
-                if (!empty($matches[1])) {
-                    $domain = $matches[1];
-                    $result[$domain] = !empty($result[$domain]) ? $result[$domain] + 1 : 1;
-                }
-            }
-        }
+    } elseif (!empty($messageRaw['message']) && preg_match('/http[s]?:\/\/([\w.\-_]*)/', $messageRaw['message'], $matches) && !empty($matches[1])) {
+        $domain = $matches[1];
+        $result[$domain] = !empty($result[$domain]) ? $result[$domain] + 1 : 1;
     }
 };
 
-$onGroupReady = function (
+$onGroupReady = static function (
     ?int $groupId = null,
     ?int $accessHash = null
 ) use ($timestampStart, $timestampEnd, $generator, $parseLinks) {

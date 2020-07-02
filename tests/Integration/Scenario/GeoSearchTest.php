@@ -7,6 +7,7 @@ namespace Integration\Scenario;
 use Helpers\NullBasicClientGenerator;
 use Helpers\TestClientGenerator;
 use Helpers\TraceConverter\TraceConverterJsonToText;
+use JsonException;
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Client\InfoObtainingClient\Models\GeoChannelModel;
 use TelegramOSINT\Exception\TGException;
@@ -22,14 +23,14 @@ class GeoSearchTest extends TestCase
     /**
      * php geoSearch.php 55.75639,37.661931 rostislav_u 5
      *
-     * @throws TGException
+     * @throws TGException|JsonException
      */
     public function test_geo_search(): void
     {
         $file = TraceConverterJsonToText::fromFile(__DIR__.self::TRACE_PATH);
-        $baseGenerator = new NullBasicClientGenerator(json_decode($file, true));
+        $baseGenerator = new NullBasicClientGenerator(json_decode($file, true, 512, JSON_THROW_ON_ERROR));
         $count = 0;
-        $handler = function ($arg = null) use (&$count) {
+        $handler = static function ($arg = null) use (&$count) {
             if ($arg) {
                 $count++;
             }
@@ -38,7 +39,7 @@ class GeoSearchTest extends TestCase
 
         $finders = [];
         $username = 'rostislav_u';
-        $groupHandler = function (GeoChannelModel $model) use (&$generator, &$finders, $username, &$handler) {
+        $groupHandler = static function (GeoChannelModel $model) use (&$generator, &$finders, $username, &$handler) {
             $membersFinder = new GroupMembersScenario(
                 $model->getGroupId(),
                 $handler,
@@ -52,10 +53,8 @@ class GeoSearchTest extends TestCase
             $finders[] = $membersFinder;
         };
         $points = [[55.75393, 37.615714], [55.75639, 37.661931]];
-        /* @noinspection PhpUnhandledExceptionInspection */
         $search = new GeoSearchScenario($points, $groupHandler, $generator, 5);
         $search->setTimeout(self::TIMEOUT);
-        /* @noinspection PhpUnhandledExceptionInspection */
         $search->startActions();
 
         $this->assertEquals(1, $count);

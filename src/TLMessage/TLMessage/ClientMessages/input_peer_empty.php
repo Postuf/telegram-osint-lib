@@ -11,7 +11,7 @@ use TelegramOSINT\TLMessage\TLMessage\Packer;
  */
 class input_peer_empty extends input_peer
 {
-    const CONSTRUCTOR = 2134579434; // 0x7f3b18ea
+    public const CONSTRUCTOR = 2134579434; // 0x7f3b18ea
 
     public function getName(): string
     {

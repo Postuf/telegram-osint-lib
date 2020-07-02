@@ -9,7 +9,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class msgs_ack implements TLClientMessage
 {
-    const CONSTRUCTOR = 0x62d6b459;
+    private const CONSTRUCTOR = 0x62d6b459;
 
     /**
      * @param array $msgIds
@@ -39,9 +39,9 @@ class msgs_ack implements TLClientMessage
     /**
      * @return callable
      */
-    private function getElementGenerator()
+    private function getElementGenerator(): callable
     {
-        return function ($messageId) {
+        return static function ($messageId) {
             return Packer::packLong($messageId);
         };
     }

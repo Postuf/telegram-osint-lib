@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Unit\MTSerialization\OwnImplementation;
 
-use JsonException;
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\MTDeserializer;
@@ -24,7 +23,6 @@ class OwnDeserializerTest extends TestCase
     /**
      * @param $serialized
      *
-     * @throws JsonException
      * @throws TGException
      *
      * @return string
@@ -32,14 +30,12 @@ class OwnDeserializerTest extends TestCase
     private function deserializeIntoComparableObject($serialized): string
     {
         $serialized = hex2bin($serialized);
-        /** @noinspection PhpUnhandledExceptionInspection */
         $object = $this->deserializer->deserialize($serialized);
 
         return $object->getPrintable();
     }
 
     /**
-     * @throws JsonException
      * @throws TGException
      */
     public function test_usual_msg_container_deserialization(): void
@@ -51,7 +47,6 @@ class OwnDeserializerTest extends TestCase
     }
 
     /**
-     * @throws JsonException
      * @throws TGException
      */
     public function test_rpc_result_with_object_response(): void
@@ -64,7 +59,6 @@ class OwnDeserializerTest extends TestCase
     }
 
     /**
-     * @throws JsonException
      * @throws TGException
      */
     public function test_rpc_result_with_vector_response(): void
@@ -76,7 +70,6 @@ class OwnDeserializerTest extends TestCase
     }
 
     /**
-     * @throws JsonException
      * @throws TGException
      */
     public function test_msg_container_with_msgs_acks_message_with_vector_of_long_response(): void
@@ -88,7 +81,6 @@ class OwnDeserializerTest extends TestCase
     }
 
     /**
-     * @throws JsonException
      * @throws TGException
      */
     public function test_get_config(): void
@@ -100,7 +92,6 @@ class OwnDeserializerTest extends TestCase
     }
 
     /**
-     * @throws JsonException
      * @throws TGException
      */
     public function test_gzipped_content(): void
@@ -112,7 +103,6 @@ class OwnDeserializerTest extends TestCase
     }
 
     /**
-     * @throws JsonException
      * @throws TGException
      */
     public function test_ack_msgs(): void
@@ -124,7 +114,6 @@ class OwnDeserializerTest extends TestCase
     }
 
     /**
-     * @throws JsonException
      * @throws TGException
      */
     public function test_foreign_user(): void
@@ -136,7 +125,6 @@ class OwnDeserializerTest extends TestCase
     }
 
     /**
-     * @throws JsonException
      * @throws TGException
      */
     public function test_updates(): void
@@ -148,7 +136,6 @@ class OwnDeserializerTest extends TestCase
     }
 
     /**
-     * @throws JsonException
      * @throws TGException
      */
     public function test_update_user_new_photo(): void
@@ -160,7 +147,6 @@ class OwnDeserializerTest extends TestCase
     }
 
     /**
-     * @throws JsonException
      * @throws TGException
      */
     public function test_update_user_new_photo_2(): void
@@ -172,7 +158,6 @@ class OwnDeserializerTest extends TestCase
     }
 
     /**
-     * @throws JsonException
      * @throws TGException
      */
     public function test_user_object_tg_app(): void
@@ -184,7 +169,6 @@ class OwnDeserializerTest extends TestCase
     }
 
     /**
-     * @throws JsonException
      * @throws TGException
      */
     public function test_update_link_tg_app(): void
@@ -196,7 +180,6 @@ class OwnDeserializerTest extends TestCase
     }
 
     /**
-     * @throws JsonException
      * @throws TGException
      */
     public function test_update_contacts_reset_tg_app(): void
@@ -208,7 +191,6 @@ class OwnDeserializerTest extends TestCase
     }
 
     /**
-     * @throws JsonException
      * @throws TGException
      */
     public function test_sent_code_tg_app(): void
@@ -223,7 +205,6 @@ class OwnDeserializerTest extends TestCase
     }
 
     /**
-     * @throws JsonException
      * @throws TGException
      */
     public function test_update_new_channel_message(): void
@@ -237,7 +218,6 @@ class OwnDeserializerTest extends TestCase
     /**
      * instead of config_tg_app (expected_objects/get_config)
      *
-     * @throws JsonException
      * @throws TGException
      */
     public function test_schema_json_optional_arguments_using_flags_tg_app(): void
@@ -257,7 +237,6 @@ class OwnDeserializerTest extends TestCase
     }
 
     /**
-     * @throws JsonException
      * @throws TGException
      */
     public function test_user_full_old(): void
@@ -270,7 +249,6 @@ class OwnDeserializerTest extends TestCase
     }
 
     /**
-     * @throws JsonException
      * @throws TGException
      */
     public function test_user_full_old_2(): void
@@ -283,7 +261,6 @@ class OwnDeserializerTest extends TestCase
     }
 
     /**
-     * @throws JsonException
      * @throws TGException
      */
     public function test_old_channel(): void
@@ -296,7 +273,6 @@ class OwnDeserializerTest extends TestCase
     }
 
     /**
-     * @throws JsonException
      * @throws TGException
      */
     public function test_old_channel_2(): void

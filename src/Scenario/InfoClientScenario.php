@@ -64,7 +64,6 @@ abstract class InfoClientScenario implements ScenarioInterface
      * @param bool  $terminate
      *
      * @throws TGException
-     * @noinspection DuplicatedCode
      */
     protected function pollAndTerminate(float $timeout = 0.0, bool $terminate = true): void
     {

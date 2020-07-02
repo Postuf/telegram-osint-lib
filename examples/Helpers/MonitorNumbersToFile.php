@@ -44,7 +44,7 @@ class MonitorNumbersToFile implements PresenceMonitoringCallbacks
         $this->setupNumber($number, self::STATUS_OFFLINE);
     }
 
-    public function tick()
+    public function tick(): void
     {
         foreach ($this->statuses as $number => $status) {
             switch ($status) {
@@ -60,7 +60,7 @@ class MonitorNumbersToFile implements PresenceMonitoringCallbacks
         file_put_contents($this->fileName, implode(PHP_EOL, $this->lines));
     }
 
-    private function setupNumber(string $number, int $status)
+    private function setupNumber(string $number, int $status): void
     {
         if (!isset($this->lines[$number])) {
             $this->lines[$number] = str_pad($number, 15).': ';

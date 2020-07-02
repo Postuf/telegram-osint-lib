@@ -13,7 +13,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_langpack implements TLClientMessage
 {
-    const CONSTRUCTOR = -1699363442; // 0x9AB5C58E
+    public const CONSTRUCTOR = -1699363442; // 0x9AB5C58E
 
     /**
      * @var string

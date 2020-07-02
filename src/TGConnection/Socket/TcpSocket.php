@@ -33,8 +33,9 @@ class TcpSocket implements Socket
         $this->dc = $dc;
 
         $this->socket = $this->getSocketResource($dc->getDcIp(), $dc->getDcPort());
-        if(!$this->socket)
+        if(!$this->socket) {
             throw new TGException(TGException::ERR_CANT_CONNECT);
+        }
         stream_set_blocking($this->socket, false);
     }
 

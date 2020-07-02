@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_languages implements TLClientMessage
 {
-    const CONSTRUCTOR = -2146445955; // 0x800FD57D
+    public const CONSTRUCTOR = -2146445955; // 0x800FD57D
 
     public function getName(): string
     {

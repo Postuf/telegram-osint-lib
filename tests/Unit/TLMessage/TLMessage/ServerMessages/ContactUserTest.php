@@ -134,10 +134,10 @@ class ContactUserTest extends TestCase
         $asAnonymous = $this->getObjectOnLine();
         $userContact = new ContactUser($asAnonymous);
 
-        $this->assertEquals($userContact->getUsername(), 'AseN_17');
-        $this->assertEquals($userContact->getPhone(), '79169904855');
-        $this->assertEquals($userContact->getUserId(), 438562352);
-        $this->assertEquals($userContact->getAccessHash(), 2811936216873835544);
+        $this->assertEquals('AseN_17', $userContact->getUsername());
+        $this->assertEquals('79169904855', $userContact->getPhone());
+        $this->assertEquals(438562352, $userContact->getUserId());
+        $this->assertEquals(2811936216873835544, $userContact->getAccessHash());
 
     }
 
@@ -147,13 +147,12 @@ class ContactUserTest extends TestCase
     public function test_user_online(): void
     {
         $asAnonymous = $this->getObjectOnLine();
-        /** @noinspection PhpUnhandledExceptionInspection */
         $userContact = new ContactUser($asAnonymous);
 
         $this->assertTrue($userContact->getStatus()->isOnline());
         $this->assertFalse($userContact->getStatus()->isOffline());
         $this->assertFalse($userContact->getStatus()->isHidden());
-        $this->assertEquals($userContact->getStatus()->getExpires(), 1533377307);
+        $this->assertEquals(1533377307, $userContact->getStatus()->getExpires());
 
     }
 
@@ -163,13 +162,12 @@ class ContactUserTest extends TestCase
     public function test_user_offline(): void
     {
         $asAnonymous = $this->getObjectOffLine();
-        /** @noinspection PhpUnhandledExceptionInspection */
         $userContact = new ContactUser($asAnonymous);
 
         $this->assertFalse($userContact->getStatus()->isOnline());
         $this->assertTrue($userContact->getStatus()->isOffline());
         $this->assertFalse($userContact->getStatus()->isHidden());
-        $this->assertEquals($userContact->getStatus()->getWasOnline(), 1533377309);
+        $this->assertEquals(1533377309, $userContact->getStatus()->getWasOnline());
 
     }
 
@@ -179,7 +177,6 @@ class ContactUserTest extends TestCase
     public function test_user_empty(): void
     {
         $asAnonymous = $this->getObjectHidden();
-        /** @noinspection PhpUnhandledExceptionInspection */
         $userContact = new ContactUser($asAnonymous);
 
         $this->assertFalse($userContact->getStatus()->isOnline());

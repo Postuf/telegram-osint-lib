@@ -7,6 +7,7 @@ namespace Integration\Scenario;
 use Helpers\NullBasicClientGenerator;
 use Helpers\TestClientGenerator;
 use Helpers\TraceConverter\TraceConverterJsonToText;
+use JsonException;
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Scenario\ReusableClientGenerator;
@@ -22,14 +23,15 @@ class SearchMembersScenarioTest extends TestCase
     /**
      * Test members search positive (user found)
      *
-     * @throws TGException
+     * @throws TGException|JsonException
+     * @noinspection SpellCheckingInspection
      */
     public function test_members_search(): void
     {
         $file = TraceConverterJsonToText::fromFile(__DIR__.self::TRACE_PATH);
-        $baseGenerator = new NullBasicClientGenerator(json_decode($file, true));
+        $baseGenerator = new NullBasicClientGenerator(json_decode($file, true, 512, JSON_THROW_ON_ERROR));
         $count = 0;
-        $handler = function () use (&$count) {
+        $handler = static function () use (&$count) {
             $count++;
         };
         $client = new SearchUserScenario(
@@ -46,14 +48,15 @@ class SearchMembersScenarioTest extends TestCase
     /**
      * Test members search negative (user not found)
      *
-     * @throws TGException
+     * @throws TGException|JsonException
+     * @noinspection SpellCheckingInspection
      */
     public function test_members_search_negative(): void
     {
         $file = TraceConverterJsonToText::fromFile(__DIR__.self::TRACE_PATH_NOT_FOUND);
-        $baseGenerator = new NullBasicClientGenerator(json_decode($file, true));
+        $baseGenerator = new NullBasicClientGenerator(json_decode($file, true, 512, JSON_THROW_ON_ERROR));
         $count = 0;
-        $handler = function () use (&$count) {
+        $handler = static function () use (&$count) {
             $count++;
         };
         $client = new SearchUserScenario(

@@ -45,6 +45,7 @@ foreach ($lines as $k => &$line) {
         unset($lines[$k]);
     }
 }
+unset($line);
 
 $logLabel = 'multiClient';
 
@@ -59,7 +60,7 @@ if ($proxyStr !== null) {
 }
 
 try {
-    $clientCreator = function () {
+    $clientCreator = static function () {
         return new InfoClient(new BasicClientGenerator());
     };
     $mc = new MultiClient($lines, $clientCreator);

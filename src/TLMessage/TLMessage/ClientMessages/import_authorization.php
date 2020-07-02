@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class import_authorization implements TLClientMessage
 {
-    const CONSTRUCTOR = -470837741; // 0xE3EF9613
+    public const CONSTRUCTOR = -470837741; // 0xE3EF9613
 
     /**
      * @var int

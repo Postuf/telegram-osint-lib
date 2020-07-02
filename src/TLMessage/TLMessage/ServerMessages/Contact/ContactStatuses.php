@@ -24,8 +24,9 @@ class ContactStatuses extends TLServerMessage
 
     /**
      * @return ContactStatus[]
+     * @noinspection PhpUnused
      */
-    public function getStatuses()
+    public function getStatuses(): array
     {
         $index = 0;
         $statuses = [];

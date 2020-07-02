@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class sign_in implements TLClientMessage
 {
-    const CONSTRUCTOR = -1126886015; // 0xbcd51581
+    public const CONSTRUCTOR = -1126886015; // 0xbcd51581
 
     /**
      * @var string

@@ -33,7 +33,7 @@ EOT;
 $numbers = array_filter(explode(',', $argsOrFalse['n'] ?? $argsOrFalse['numbers'] ?? ''));
 $users = array_filter(explode(',', $argsOrFalse['u'] ?? $argsOrFalse['users'] ?? ''));
 
-$onComplete = function (UserInfoModel $model) {
+$onComplete = static function (UserInfoModel $model) {
     $photo_file = '';
     if ($model->photo){
         $photo_file = $model->phone.'.'.$model->photo->format;
@@ -54,14 +54,18 @@ $onComplete = function (UserInfoModel $model) {
         '',
     ]);
 
-    if ($model->status->was_online)
+    if ($model->status->was_online) {
         echo date('Y-m-d H:i:s', $model->status->was_online)."\n";
-    elseif ($model->status->is_hidden)
+    }
+    elseif ($model->status->is_hidden) {
         echo "Hidden\n";
-    elseif ($model->status->is_online)
+    }
+    elseif ($model->status->is_online) {
         echo "Online\n";
-    else
+    }
+    else {
         echo "\n";
+    }
 };
 
 echo "Phone\t|\tUsername\t|\tFirst name\t|\tLast name\t|\tPhoto\t|\tAbout\t|\tCommon chats\t|\tLang\t|\tWas online\n\n";

@@ -10,7 +10,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 /** @see https://core.telegram.org/method/help.getInviteText */
 class get_invite_text implements TLClientMessage
 {
-    const CONSTRUCTOR = 1295590211; // 0x4D392343
+    public const CONSTRUCTOR = 1295590211; // 0x4D392343
 
     public function getName(): string
     {

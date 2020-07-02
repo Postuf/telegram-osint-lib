@@ -44,6 +44,7 @@ $since = $argsOrFalse['f'] ?? $argsOrFalse['date-from'] ?? null;
 $to = $argsOrFalse['t'] ?? $argsOrFalse['date-to'] ?? null;
 $username = $argsOrFalse['u'] ?? $argsOrFalse['user'] ?? null;
 
+/** @noinspection PhpUnhandledExceptionInspection */
 $photosClient = new GroupPhotosScenario(
     new OptionalDateRange(
         DateParser::parse($since),

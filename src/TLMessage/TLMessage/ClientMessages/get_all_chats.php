@@ -14,7 +14,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_all_chats implements TLClientMessage
 {
-    const CONSTRUCTOR = -341307408; // 0xeba80ff0
+    private const CONSTRUCTOR = -341307408; // 0xeba80ff0
 
     /** @var int[] */
     private $exceptIds;
@@ -34,7 +34,7 @@ class get_all_chats implements TLClientMessage
 
     private function getElementGenerator(): callable
     {
-        return function ($exceptId) {
+        return static function ($exceptId) {
             return Packer::packInt((int) $exceptId);
         };
     }

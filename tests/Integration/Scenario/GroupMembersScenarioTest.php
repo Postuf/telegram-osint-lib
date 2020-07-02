@@ -7,6 +7,7 @@ namespace Integration\Scenario;
 use Helpers\NullBasicClientGenerator;
 use Helpers\TestClientGenerator;
 use Helpers\TraceConverter\TraceConverterJsonToText;
+use JsonException;
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Scenario\GroupMembersScenario;
@@ -20,14 +21,14 @@ class GroupMembersScenarioTest extends TestCase
     /**
      * Get member list for a chat with deep link and ensured it is received.
      *
-     * @throws TGException
+     * @throws TGException|JsonException
      */
     public function test_members_list(): void
     {
         $file = TraceConverterJsonToText::fromFile(__DIR__.self::TRACE_PATH);
-        $baseGenerator = new NullBasicClientGenerator(json_decode($file, true));
+        $baseGenerator = new NullBasicClientGenerator(json_decode($file, true, 512, JSON_THROW_ON_ERROR));
         $count = 0;
-        $handler = function () use (&$count) {
+        $handler = static function () use (&$count) {
             $count++;
         };
         $client = new GroupMembersScenario(

@@ -32,7 +32,7 @@ class ProxySocketTest extends TestCase
         $socket = new NonBlockingProxySocket(
             new Proxy('127.0.0.1:1080'),
             DataCentre::getDefault(),
-            function () use (&$isReady) {
+            static function () use (&$isReady) {
                 $isReady = true;
             }
         );

@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 
+use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\TLMessage\TLMessage\Packer;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class ping_delay_disconnect implements TLClientMessage
 {
-    const CONSTRUCTOR = 0xf3427b8c;
+    private const CONSTRUCTOR = 0xf3427b8c;
 
     /**
      * @var string
@@ -21,13 +22,13 @@ class ping_delay_disconnect implements TLClientMessage
     private $disconnectDelay;
 
     /**
-     * ping constructor.
-     *
      * @param string|null $pingId
+     *
+     * @throws TGException
      */
     public function __construct(string $pingId = null)
     {
-        $this->pingId = $pingId ? $pingId : self::createPingId();
+        $this->pingId = $pingId ?: self::createPingId();
         $this->disconnectDelay = self::getDisconnectTimeoutSec();
     }
 
@@ -42,9 +43,20 @@ class ping_delay_disconnect implements TLClientMessage
         return 35;
     }
 
+    /**
+     * @throws TGException
+     *
+     * @return string
+     */
     public static function createPingId(): string
     {
-        return openssl_random_pseudo_bytes(8);
+        /** @noinspection CryptographicallySecureRandomnessInspection */
+        $id = openssl_random_pseudo_bytes(8, $strong);
+        if ($id === false || $strong === false) {
+            throw new TGException(TGException::ERR_CRYPTO_INVALID);
+        }
+
+        return $id;
     }
 
     public function getName(): string

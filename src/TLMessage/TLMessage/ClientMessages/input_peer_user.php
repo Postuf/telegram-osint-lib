@@ -9,7 +9,7 @@ use TelegramOSINT\TLMessage\TLMessage\Packer;
 /** @see https://core.telegram.org/constructor/inputPeerUser */
 class input_peer_user extends input_peer
 {
-    const CONSTRUCTOR = 2072935910; // 0x7B8E7DE6
+    public const CONSTRUCTOR = 2072935910; // 0x7B8E7DE6
 
     /**
      * @var int

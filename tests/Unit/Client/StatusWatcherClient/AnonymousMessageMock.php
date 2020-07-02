@@ -285,7 +285,6 @@ class AnonymousMessageMock implements AnonymousMessage
                 break;
         }
 
-        /* @noinspection PhpUnhandledExceptionInspection */
         return new self([
             '_'        => 'contacts.importedContacts',
             'imported' => [

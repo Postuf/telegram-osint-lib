@@ -13,7 +13,6 @@ class FactorizationTest extends TestCase
     private const P = 1033421369;
     private const Q = 1500615377;
 
-    /** @noinspection SpellCheckingInspection */
     public function test_gmp_factorizer(): void
     {
         /** @noinspection PhpUnhandledExceptionInspection */

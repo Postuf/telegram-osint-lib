@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_blocked_contacts implements TLClientMessage
 {
-    const CONSTRUCTOR = -176409329; // 0xF57C350F
+    private const CONSTRUCTOR = -176409329; // 0xF57C350F
 
     public function getName(): string
     {

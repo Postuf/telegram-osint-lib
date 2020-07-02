@@ -10,7 +10,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 /** @see https://core.telegram.org/method/updates.getState */
 class get_state implements TLClientMessage
 {
-    const CONSTRUCTOR = -304838614; // 0xEDD4882A
+    public const CONSTRUCTOR = -304838614; // 0xEDD4882A
 
     public function getName(): string
     {

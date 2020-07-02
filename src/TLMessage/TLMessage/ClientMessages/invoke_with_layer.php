@@ -9,7 +9,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class invoke_with_layer implements TLClientMessage
 {
-    const CONSTRUCTOR = 0xda9b0d0d;
+    public const CONSTRUCTOR = 0xda9b0d0d;
 
     /**
      * @var int

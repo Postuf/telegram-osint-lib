@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Helpers\TraceConverter;
 
 use Helpers\PhpSerializationFixer;
+use JsonException;
 use TelegramOSINT\Exception\TGException;
 
 class TraceConverterJsonToText
@@ -27,7 +28,7 @@ class TraceConverterJsonToText
      *
      * @param string $pathToJsonFile
      *
-     * @throws TGException
+     * @throws TGException|JsonException
      *
      * @return string
      */
@@ -50,7 +51,7 @@ class TraceConverterJsonToText
             ];
         }
 
-        return json_encode([$trace->getTimeStamp(), $encodedRecords], JSON_PRETTY_PRINT);
+        return json_encode([$trace->getTimeStamp(), $encodedRecords], JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
     }
 
     /**
@@ -58,6 +59,7 @@ class TraceConverterJsonToText
      *
      * @param string $pathToJsonFile
      *
+     * @throws JsonException
      * @throws TGException
      *
      * @return string

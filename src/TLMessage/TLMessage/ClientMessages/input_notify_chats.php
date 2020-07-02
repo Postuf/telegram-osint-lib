@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class input_notify_chats implements TLClientMessage
 {
-    const CONSTRUCTOR = 1251338318; // 0x4A95E84E
+    public const CONSTRUCTOR = 1251338318; // 0x4A95E84E
 
     public function getName(): string
     {

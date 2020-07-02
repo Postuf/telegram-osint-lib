@@ -19,17 +19,24 @@ if (!isset($argv[2])) {
     exit(1);
 }
 
-$isRaw = (isset($argv[3]) && $argv[3] == ARG_RAW)
-    || (isset($argv[4]) && $argv[4] == ARG_RAW);
-$isDebug = (isset($argv[3]) && $argv[3] == ARG_DEBUG)
-    || (isset($argv[4]) && $argv[4] == ARG_DEBUG);
+$isRaw = (isset($argv[3]) && $argv[3] === ARG_RAW)
+    || (isset($argv[4]) && $argv[4] === ARG_RAW);
+$isDebug = (isset($argv[3]) && $argv[3] === ARG_DEBUG)
+    || (isset($argv[4]) && $argv[4] === ARG_DEBUG);
 
+/**
+ * @param $filename
+ *
+ * @throws JsonException
+ *
+ * @return mixed
+ */
 function getJson($filename) {
     global $isDebug;
     if ($isDebug) {
         echo "load $filename\n";
     }
-    $json = json_decode(file_get_contents($filename), true);
+    $json = json_decode(file_get_contents($filename), true, 512, JSON_THROW_ON_ERROR);
     if (!$json) {
         fprintf(STDERR, "invalid json $filename\n");
         exit(1);
@@ -55,7 +62,7 @@ function getJson($filename) {
 }
 
 $json1 = [];
-$processJson = function ($filename, bool $isRaw = false) use (&$json1, $isDebug) {
+$processJson = static function ($filename, bool $isRaw = false) use (&$json1, $isDebug) {
     if ($isDebug) {
         $countConst = count($json1[CONSTRUCTORS]);
         $countMethod = count($json1[METHODS]);
@@ -86,20 +93,22 @@ $processJson = function ($filename, bool $isRaw = false) use (&$json1, $isDebug)
         echo "after filter (json2): $countConst constructors, $countMethod methods\n";
     }
 
-    die(json_encode($json2, JSON_PRETTY_PRINT));
+    die(json_encode($json2, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
 };
 
 $json1 = [];
 if (is_dir($argv[1])) {
     $dir = new DirectoryIterator($argv[1]);
-    foreach ($dir as $fileinfo) {
-        if ($fileinfo->isDot() || $fileinfo->isDir()) {
+    foreach ($dir as $fileInfo) {
+        if ($fileInfo->isDot() || $fileInfo->isDir()) {
             continue;
         }
-        if (strpos($fileinfo->getFilename(), '.swp') !== false) {
+        if (strpos($fileInfo->getFilename(), '.swp') !== false) {
             continue;
         }
-        $partJson = getJson($argv[1].DIRECTORY_SEPARATOR.$fileinfo->getFilename());
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $partJson = getJson($argv[1].DIRECTORY_SEPARATOR.$fileInfo->getFilename());
+        /** @noinspection SlowArrayOperationsInLoopInspection */
         $json1 = array_replace_recursive($json1, $partJson);
     }
     if ($isDebug) {
@@ -108,10 +117,11 @@ if (is_dir($argv[1])) {
         echo "loaded total: $countConst constructors, $countMethod methods\n";
     }
 } else {
+    /** @noinspection PhpUnhandledExceptionInspection */
     $json1 = getJson($argv[1]);
 }
 
-$checkPredicates = function ($json) {
+$checkPredicates = static function ($json) {
     $predicatesByType = [];
     foreach ($json[CONSTRUCTORS] as $constructor) {
         if (!isset($constructor['type'])) {

@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_common_chats implements TLClientMessage
 {
-    const CONSTRUCTOR = 218777796; // 0xd0a48c4
+    private const CONSTRUCTOR = 218777796; // 0xd0a48c4
 
     /** @var int */
     private $user_id;

@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class input_file_location implements TLClientMessage
 {
-    const CONSTRUCTOR = -539317279; // 0xDFDAABE1
+    public const CONSTRUCTOR = -539317279; // 0xDFDAABE1
 
     /**
      * @var int

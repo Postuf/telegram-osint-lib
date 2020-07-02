@@ -93,7 +93,7 @@ class OwnDeserializer implements MTDeserializer
      *
      * @return AnonymousMessage
      */
-    public function deserialize(string $data)
+    public function deserialize(string $data): AnonymousMessage
     {
         $object = $this->deserializeInternal($data);
 

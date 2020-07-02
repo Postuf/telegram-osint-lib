@@ -63,7 +63,7 @@ $request = $groupId !== null
  * @param int|null $groupId
  * @param int|null $accessHash
  */
-$onGroupReady = function (
+$onGroupReady = static function (
     ?int $groupId,
     ?int $accessHash = null
 ) use ($timestampStart, $timestampEnd, $username, $generator): void {
