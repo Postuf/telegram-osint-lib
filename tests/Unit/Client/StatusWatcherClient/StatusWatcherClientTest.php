@@ -106,7 +106,6 @@ class StatusWatcherClientTest extends TestCase
      */
     public function test_online_trigger_works(): void
     {
-        /* @noinspection PhpUnhandledExceptionInspection */
         $this->watcherClient->onMessage(AnonymousMessageMock::getUserOnline(self::USER_ID1));
 
         $this->assertStatusTriggerCount(self::PHONE1, [1, 0, 0]);
@@ -369,9 +368,7 @@ class StatusWatcherClientTest extends TestCase
     private function prepareClientWithTrace(): StatusWatcherClientMock
     {
         $file = TraceConverterJsonToText::fromFile(__DIR__.self::TRACE_PATH);
-        /** @noinspection PhpUnhandledExceptionInspection */
         $trace = json_decode($file, true, 512, JSON_THROW_ON_ERROR);
-        /** @noinspection PhpUnhandledExceptionInspection */
         $watcherClient = new StatusWatcherClientMock(
             $this->callbacks,
             null,
@@ -380,7 +377,6 @@ class StatusWatcherClientTest extends TestCase
             new NullBasicClientImpl($trace)
         );
         $watcherClient->login(AuthKeyCreator::createFromString(self::DEFAULT_AUTHKEY));
-        /* @noinspection PhpUnhandledExceptionInspection */
         $watcherClient->loadMockContacts([
             new ContactUser(AnonymousMessageMock::getContact(self::USER_ID1, self::PHONE1)),
             new ContactUser(AnonymousMessageMock::getContact(self::USER_ID2, self::PHONE2)),

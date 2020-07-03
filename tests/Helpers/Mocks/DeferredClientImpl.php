@@ -13,11 +13,6 @@ class DeferredClientImpl extends DeferredClient
         parent::processDeferredQueue();
     }
 
-    public function hasDeferredCalls(): bool
-    {
-        return parent::hasDeferredCalls();
-    }
-
     public function defer(callable $cb, int $timeOffset = 0): void
     {
         parent::defer($cb, $timeOffset);

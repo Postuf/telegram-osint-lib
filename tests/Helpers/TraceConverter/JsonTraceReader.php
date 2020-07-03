@@ -8,6 +8,7 @@ use Helpers\TraceConverter\Contracts\TraceInterface;
 use Helpers\TraceConverter\Traces\Trace;
 use Helpers\TraceConverter\Traces\TraceRecord;
 use InvalidArgumentException;
+use JsonException;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\OwnImplementation\OwnAnonymousMessage;
 
@@ -16,7 +17,7 @@ class JsonTraceReader
     /**
      * @param string $pathToJson
      *
-     * @throws TGException
+     * @throws TGException|JsonException
      *
      * @return TraceInterface
      */
@@ -31,7 +32,7 @@ class JsonTraceReader
             throw new InvalidArgumentException("Trace file `$pathToJson` is not readable.");
         }
 
-        $decodedFileContent = json_decode($fileContentOrFalse);
+        $decodedFileContent = json_decode($fileContentOrFalse, false, 512, JSON_THROW_ON_ERROR);
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new InvalidArgumentException("Trace file `$pathToJson` does not look like a valid JSON file.");
         }
@@ -52,7 +53,7 @@ class JsonTraceReader
         $trace = new Trace($traceTimestamp, $traceRecords);
 
         // sanity check: if we encode the trace we should get exactly the original JSON
-        assert(json_encode($trace) === json_encode($decodedFileContent));
+        assert(json_encode($trace, JSON_THROW_ON_ERROR) === json_encode($decodedFileContent, JSON_THROW_ON_ERROR));
 
         return $trace;
     }

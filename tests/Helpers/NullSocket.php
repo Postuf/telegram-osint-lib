@@ -34,9 +34,6 @@ class NullSocket implements Socket
         return 0;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDCInfo(): DataCentre
     {
         return DataCentre::getDefault();

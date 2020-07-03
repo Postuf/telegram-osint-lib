@@ -42,10 +42,11 @@ class AuthKey_v2_Authorized implements AuthorizedAuthKey
     {
         try{
             $parts = explode(':', $serializedAuthKey);
-            if(count($parts) < 3)
+            if(count($parts) < 3) {
                 throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
+            }
             $this->serialized = $serializedAuthKey;
-            $this->phone = $parts[0];
+            $this->phone = (string) $parts[0];
             $this->account = AccountInfo::deserializeFromJson(@hex2bin($parts[1]));
             $this->innerAuthKey = new AuthKey_v2(implode(':', array_slice($parts, 2)));
 
@@ -64,7 +65,7 @@ class AuthKey_v2_Authorized implements AuthorizedAuthKey
      *
      * @return AuthKey_v2_Authorized
      */
-    public static function serialize(AuthKey_v2 $authKey, AuthInfo $authInfo)
+    public static function serialize(AuthKey_v2 $authKey, AuthInfo $authInfo): self
     {
         $serialized =
             trim($authInfo->getPhone()).':'.
@@ -74,42 +75,32 @@ class AuthKey_v2_Authorized implements AuthorizedAuthKey
         return new self($serialized);
     }
 
-    /**
-     * @return string
-     */
-    public function getSerializedAuthKey()
+    public function getSerializedAuthKey(): string
     {
         return $this->serialized;
     }
 
-    /**
-     * @return string
-     */
-    public function getRawAuthKey()
+    public function getRawAuthKey(): string
     {
         return $this->innerAuthKey->getRawAuthKey();
     }
 
     /**
+     * @throws TGException
+     *
      * @return DataCentre
      */
-    public function getAttachedDC()
+    public function getAttachedDC(): DataCentre
     {
         return $this->innerAuthKey->getAttachedDC();
     }
 
-    /**
-     * @return string
-     */
-    public function getPhone()
+    public function getPhone(): string
     {
         return $this->phone;
     }
 
-    /**
-     * @return AccountInfo
-     */
-    public function getAccountInfo()
+    public function getAccountInfo(): AccountInfo
     {
         return $this->account;
     }

@@ -11,7 +11,7 @@ class Phone
      *
      * @return string
      */
-    public static function convertToTelegramView(?string $phone)
+    public static function convertToTelegramView(?string $phone): string
     {
         // remove all non-digits
         $digital = preg_replace("/\D/u", '', $phone);
@@ -27,7 +27,7 @@ class Phone
      *
      * @return bool
      */
-    public static function equal(?string $phone1, ?string $phone2)
+    public static function equal(?string $phone1, ?string $phone2): bool
     {
         $code = (!$phone1 && !$phone2)
             ? -1
@@ -36,6 +36,6 @@ class Phone
                 self::convertToTelegramView($phone2)
             );
 
-        return $code == 0;
+        return $code === 0;
     }
 }

@@ -87,7 +87,6 @@ abstract class ContactKeepingClientImpl extends DeferredClient implements Contac
      * @param callable $onComplete
      *
      * @throws TGException
-     * @noinspection DuplicatedCode
      */
     public function reloadContacts(array $numbers, array $usernames, callable $onComplete): void
     {

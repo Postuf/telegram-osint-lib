@@ -77,6 +77,11 @@ class BasicClientImpl implements BasicClient, MessageListener
         }
     }
 
+    /**
+     * @throws TGException
+     *
+     * @return SocketMessenger
+     */
     protected function getSocketMessenger(): SocketMessenger
     {
         return new EncryptedSocketMessenger(

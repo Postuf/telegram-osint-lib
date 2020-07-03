@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_full_chat implements TLClientMessage
 {
-    const CONSTRUCTOR = 998448230; // 0x3b831c66
+    public const CONSTRUCTOR = 998448230; // 0x3b831c66
 
     /** @var int */
     private $chatId;

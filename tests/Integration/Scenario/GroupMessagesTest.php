@@ -9,6 +9,7 @@ namespace Integration\Scenario;
 use Helpers\NullBasicClientGenerator;
 use Helpers\TestClientGenerator;
 use Helpers\TraceConverter\TraceConverterJsonToText;
+use JsonException;
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Client\InfoObtainingClient\Models\MessageModel;
 use TelegramOSINT\Exception\TGException;
@@ -33,13 +34,13 @@ class GroupMessagesTest extends TestCase
     /**
      * {@inheritdoc}
      *
-     * @throws TGException
+     * @throws TGException|JsonException
      */
     public function setUp(): void
     {
         parent::setUp();
         $file = TraceConverterJsonToText::fromFile(__DIR__.self::TRACE_PATH);
-        $baseGenerator = new NullBasicClientGenerator(json_decode($file, true));
+        $baseGenerator = new NullBasicClientGenerator(json_decode($file, true, 512, JSON_THROW_ON_ERROR));
         $this->clientGenerator = new ReusableClientGenerator(
             new TestClientGenerator($baseGenerator, self::DEFAULT_AUTHKEY)
         );
@@ -55,10 +56,10 @@ class GroupMessagesTest extends TestCase
     {
         $resolver = new GroupResolverScenario($request, $this->clientGenerator, $onGroupReady);
         $resolver->setTimeout(self::TIMEOUT);
-        /** @noinspection PhpUnhandledExceptionInspection */
         $resolver->startActions(false);
         /** @noinspection PhpStatementHasEmptyBodyInspection */
-        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @noinspection LoopWhichDoesNotLoopInspection */
+        /** @noinspection MissingOrEmptyGroupStatementInspection */
         do { } while(!$resolver->poll());
     }
 

@@ -13,7 +13,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class contacts_resolve_username implements TLClientMessage
 {
-    const CONSTRUCTOR = -113456221; // 0xf93ccba3
+    private const CONSTRUCTOR = -113456221; // 0xf93ccba3
 
     /** @var string */
     private $username;

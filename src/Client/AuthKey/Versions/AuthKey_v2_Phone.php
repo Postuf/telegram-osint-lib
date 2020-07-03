@@ -29,8 +29,9 @@ class AuthKey_v2_Phone implements AuthKey
     public function __construct(string $serializedAuthKey)
     {
         $parts = explode(':', $serializedAuthKey);
-        if(count($parts) < 2)
+        if(count($parts) < 2) {
             throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
+        }
         $this->phone = $parts[0];
         $this->innerAuthKey = new AuthKey_v2(implode(':', array_slice($parts, 1)));
     }
@@ -43,33 +44,29 @@ class AuthKey_v2_Phone implements AuthKey
      *
      * @return AuthKey_v2_Phone
      */
-    public static function serialize(AuthKey_v2 $authKey, AuthInfo $authInfo)
+    public static function serialize(AuthKey_v2 $authKey, AuthInfo $authInfo): self
     {
         $serialized = trim($authInfo->getPhone()).':'.$authKey->getSerializedAuthKey();
 
         return new self($serialized);
     }
 
-    /**
-     * @return string
-     */
-    public function getSerializedAuthKey()
+    public function getSerializedAuthKey(): string
     {
         return trim($this->phone).':'.$this->innerAuthKey->getSerializedAuthKey();
     }
 
-    /**
-     * @return string
-     */
-    public function getRawAuthKey()
+    public function getRawAuthKey(): string
     {
         return $this->innerAuthKey->getRawAuthKey();
     }
 
     /**
+     * @throws TGException
+     *
      * @return DataCentre
      */
-    public function getAttachedDC()
+    public function getAttachedDC(): DataCentre
     {
         return $this->innerAuthKey->getAttachedDC();
     }

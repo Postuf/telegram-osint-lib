@@ -29,8 +29,6 @@ class GroupMessagesScenario extends InfoClientScenario
     private $endTimestamp;
     /** @var GroupId */
     private $groupIdObj;
-    /** @var ClientGeneratorInterface */
-    private $generator;
     /** @var int */
     private $callLimit;
     /** @var bool */
@@ -64,7 +62,6 @@ class GroupMessagesScenario extends InfoClientScenario
         $this->endTimestamp = $dateRange->getTo();
         $this->username = $username;
         $this->groupIdObj = $groupId;
-        $this->generator = $generator;
         $this->callLimit = $callLimit;
         $this->resolveUsernames = $resolveUsernames;
     }
@@ -159,7 +156,7 @@ class GroupMessagesScenario extends InfoClientScenario
     private function makeMessagesHandler(int $id, int $accessHash, int $limit): callable
     {
         return function (AnonymousMessage $anonymousMessage) use ($id, $accessHash, $limit) {
-            if ($anonymousMessage->getType() != 'messages.channelMessages') {
+            if ($anonymousMessage->getType() !== 'messages.channelMessages') {
                 Logger::log(__CLASS__, "incorrect message type {$anonymousMessage->getType()}");
 
                 return;
@@ -186,7 +183,7 @@ class GroupMessagesScenario extends InfoClientScenario
                 if (!$message['message']) {
                     continue;
                 }
-                if ($this->userId && $message[self::FIELD_MSG_FROM_ID] != $this->userId) {
+                if ($this->userId && $message[self::FIELD_MSG_FROM_ID] !== $this->userId) {
                     continue;
                 }
                 if ($this->endTimestamp && $message['date'] > $this->endTimestamp) {
@@ -207,7 +204,7 @@ class GroupMessagesScenario extends InfoClientScenario
                     return;
                 }
 
-                $fnLog = function ($message, $from = null) {
+                $fnLog = static function ($message, $from = null) {
                     $body = $message['message'];
                     $body = str_replace("\n", ' \\\\ ', $body);
                     if (!$from) {

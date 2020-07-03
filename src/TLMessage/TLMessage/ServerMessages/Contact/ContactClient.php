@@ -9,11 +9,6 @@ use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
 class ContactClient extends TLServerMessage
 {
-    public function __construct(AnonymousMessage $tlMessage)
-    {
-        parent::__construct($tlMessage);
-    }
-
     /**
      * @param AnonymousMessage $tlMessage
      *

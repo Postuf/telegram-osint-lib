@@ -26,16 +26,21 @@ class UserStatus extends TLServerMessage
     {
         parent::__construct($tlMessage);
 
-        if(UserStatusOnline::isIt($tlMessage))
+        if(UserStatusOnline::isIt($tlMessage)) {
             $this->status = new UserStatusOnline($tlMessage);
-        if(UserStatusOffline::isIt($tlMessage))
+        }
+        if(UserStatusOffline::isIt($tlMessage)) {
             $this->status = new UserStatusOffline($tlMessage);
-        if(UserStatusEmpty::isIt($tlMessage))
+        }
+        if(UserStatusEmpty::isIt($tlMessage)) {
             $this->status = new UserStatusEmpty($tlMessage);
-        if(UserStatusRecently::isIt($tlMessage))
+        }
+        if(UserStatusRecently::isIt($tlMessage)) {
             $this->status = new UserStatusRecently($tlMessage);
-        if(UserStatusLastWeek::isIt($tlMessage))
+        }
+        if(UserStatusLastWeek::isIt($tlMessage)) {
             $this->status = new UserStatusLastWeek($tlMessage);
+        }
     }
 
     /**
@@ -80,17 +85,21 @@ class UserStatus extends TLServerMessage
      */
     public function getHiddenState(): HiddenStatus
     {
-        if(UserStatusRecently::isIt($this->getTlMessage()))
+        if(UserStatusRecently::isIt($this->getTlMessage())) {
             return new HiddenStatus(HiddenStatus::HIDDEN_SEEN_RECENTLY);
+        }
 
-        if(UserStatusLastWeek::isIt($this->getTlMessage()))
+        if(UserStatusLastWeek::isIt($this->getTlMessage())) {
             return new HiddenStatus(HiddenStatus::HIDDEN_SEEN_LAST_WEEK);
+        }
 
-        if(UserStatusLastMonth::isIt($this->getTlMessage()))
+        if(UserStatusLastMonth::isIt($this->getTlMessage())) {
             return new HiddenStatus(HiddenStatus::HIDDEN_SEEN_LAST_MONTH);
+        }
 
-        if(UserStatusEmpty::isIt($this->getTlMessage()))
+        if(UserStatusEmpty::isIt($this->getTlMessage())) {
             return new HiddenStatus(HiddenStatus::HIDDEN_EMPTY);
+        }
 
         throw new TGException(TGException::ERR_ASSERT_UNKNOWN_HIDDEN_STATUS);
     }

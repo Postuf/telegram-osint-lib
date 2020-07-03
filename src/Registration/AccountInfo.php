@@ -2,6 +2,7 @@
 
 namespace TelegramOSINT\Registration;
 
+use JsonException;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\LibConfig;
 use TelegramOSINT\Registration\DeviceGenerator\DeviceResource;
@@ -39,7 +40,7 @@ class AccountInfo
     /**
      * @return AccountInfo
      */
-    public static function generate()
+    public static function generate(): self
     {
         $acc = new self();
 
@@ -65,7 +66,7 @@ class AccountInfo
     /**
      * @return string
      */
-    public function serializeToJson()
+    public function serializeToJson(): string
     {
         $bundle = [];
         $bundle['device'] = $this->device;
@@ -78,7 +79,11 @@ class AccountInfo
         $bundle['appVersionCode'] = $this->appVersionCode;
         $bundle['layerVersion'] = $this->layerVersion;
 
-        return json_encode($bundle);
+        try {
+            return json_encode($bundle, JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+            return '{}';
+        }
     }
 
     /**
@@ -88,12 +93,17 @@ class AccountInfo
      *
      * @return AccountInfo
      */
-    public static function deserializeFromJson(string $serialized)
+    public static function deserializeFromJson(string $serialized): self
     {
-        $bundle = json_decode($serialized, true);
-
-        if(!$bundle)
+        try {
+            $bundle = json_decode($serialized, true, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
             throw new TGException(TGException::ERR_AUTH_KEY_BAD_ACCOUNT_INFO);
+        }
+
+        if(!$bundle) {
+            throw new TGException(TGException::ERR_AUTH_KEY_BAD_ACCOUNT_INFO);
+        }
         $accountInfo = new self();
         $accountInfo->device = $bundle['device'];
         $accountInfo->androidSdkVersion = $bundle['androidSdkVersion'];
@@ -108,90 +118,65 @@ class AccountInfo
         return $accountInfo;
     }
 
-    /**
-     * @return string
-     */
-    public function getDevice()
+    public function getDevice(): string
     {
         return $this->device;
     }
 
-    /**
-     * @return string
-     */
-    public function getAndroidSdkVersion()
+    public function getAndroidSdkVersion(): string
     {
         return $this->androidSdkVersion;
     }
 
-    /**
-     * @return string
-     */
-    public function getFirstName()
+    public function getFirstName(): string
     {
         return $this->firstName;
     }
 
-    /**
-     * @return string
-     */
-    public function getLastName()
+    public function getLastName(): string
     {
         return $this->lastName;
     }
 
-    /**
-     * @return string
-     */
-    public function getDeviceLang()
+    public function getDeviceLang(): string
     {
         return $this->deviceLang;
     }
 
-    /**
-     * @return string
-     */
-    public function getAppLang()
+    public function getAppLang(): string
     {
         return $this->appLang;
     }
 
-    /**
-     * @return string
-     */
-    public function getAppVersion()
+    public function getAppVersion(): string
     {
         return $this->appVersion;
     }
 
-    /**
-     * @return string
-     */
-    public function getAppVersionCode()
+    public function getAppVersionCode(): string
     {
         return $this->appVersionCode;
     }
 
-    /**
-     * @return int
-     */
-    public function getLayerVersion()
+    public function getLayerVersion(): int
     {
         return $this->layerVersion;
     }
 
     /**
      * @param string $firstName
+     * @noinspection PhpUnused
      */
-    public function setFirstName($firstName)
+    public function setFirstName($firstName): void
     {
         $this->firstName = $firstName;
     }
 
     /**
      * @param string $lastName
+     * @noinspection PhpUnused
      */
-    public function setLastName($lastName)
+    public function setLastName($lastName): void
     {
         $this->lastName = $lastName;
     }

@@ -36,6 +36,6 @@ class send_message implements TLClientMessage
             Packer::packInt(0). // flags not implemented
             $this->inputPeer->toBinary().
             Packer::packString($this->message).
-            Packer::packLong(rand());
+            Packer::packLong(mt_rand());
     }
 }

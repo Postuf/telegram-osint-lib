@@ -10,6 +10,7 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update\UpdateUserStatus;
 
 class UpdateStatusTest extends TestCase
 {
+    /** @noinspection PhpUnhandledExceptionInspection */
     public function test_update_status_online(): void
     {
         /** @noinspection PhpUnhandledExceptionInspection */
@@ -32,14 +33,15 @@ class UpdateStatusTest extends TestCase
         /** @noinspection PhpUnhandledExceptionInspection */
         $updateUserStatus = new UpdateUserStatus($updateShort->getUpdate());
 
-        $this->assertEquals($updateUserStatus->getUserId(), 5001011);
+        $this->assertEquals(5001011, $updateUserStatus->getUserId());
         $this->assertTrue($updateUserStatus->getStatus()->isOnline());
         $this->assertFalse($updateUserStatus->getStatus()->isOffline());
         $this->assertFalse($updateUserStatus->getStatus()->isHidden());
-        $this->assertEquals($updateUserStatus->getStatus()->getExpires(), 378256982);
+        $this->assertEquals(378256982, $updateUserStatus->getStatus()->getExpires());
 
     }
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     public function test_update_status_offline(): void
     {
         /** @noinspection PhpUnhandledExceptionInspection */
@@ -62,13 +64,14 @@ class UpdateStatusTest extends TestCase
         /** @noinspection PhpUnhandledExceptionInspection */
         $updateUserStatus = new UpdateUserStatus($updateShort->getUpdate());
 
-        $this->assertEquals($updateUserStatus->getUserId(), 987436509243);
+        $this->assertEquals(987436509243, $updateUserStatus->getUserId());
         $this->assertFalse($updateUserStatus->getStatus()->isOnline());
         $this->assertTrue($updateUserStatus->getStatus()->isOffline());
         $this->assertFalse($updateUserStatus->getStatus()->isHidden());
-        $this->assertEquals($updateUserStatus->getStatus()->getWasOnline(), 784358232);
+        $this->assertEquals(784358232, $updateUserStatus->getStatus()->getWasOnline());
     }
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     public function test_update_status_hidden(): void
     {
         /** @noinspection PhpUnhandledExceptionInspection */
@@ -90,7 +93,7 @@ class UpdateStatusTest extends TestCase
         /** @noinspection PhpUnhandledExceptionInspection */
         $updateUserStatus = new UpdateUserStatus($updateShort->getUpdate());
 
-        $this->assertEquals($updateUserStatus->getUserId(), 50000300);
+        $this->assertEquals(50000300, $updateUserStatus->getUserId());
         $this->assertFalse($updateUserStatus->getStatus()->isOnline());
         $this->assertFalse($updateUserStatus->getStatus()->isOffline());
         $this->assertTrue($updateUserStatus->getStatus()->isHidden());

@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_full_channel implements TLClientMessage
 {
-    const CONSTRUCTOR = 141781513; // 0x8736a09
+    public const CONSTRUCTOR = 141781513; // 0x8736a09
 
     /** @var int */
     private $channelId;

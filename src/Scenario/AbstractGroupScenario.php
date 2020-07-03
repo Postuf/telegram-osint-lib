@@ -10,7 +10,7 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ResolvedPeer;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Peer\PeerChannel;
 use TelegramOSINT\Tools\Proxy;
 
-abstract class AbstractGroupScenario extends InfoClientScenario implements ScenarioInterface
+abstract class AbstractGroupScenario extends InfoClientScenario
 {
     /** @var int|null */
     protected $groupId;
@@ -39,7 +39,7 @@ abstract class AbstractGroupScenario extends InfoClientScenario implements Scena
      */
     protected function getResolveHandler(callable $onChannelFound): callable
     {
-        return function (AnonymousMessage $message) use ($onChannelFound) {
+        return static function (AnonymousMessage $message) use ($onChannelFound) {
             if (!ResolvedPeer::isIt($message)) {
                 Logger::log(__CLASS__, 'got unexpected response of type '.$message->getType());
 

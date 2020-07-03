@@ -9,7 +9,7 @@ class CertificateStorage
     /**
      * @return Certificate[]
      */
-    public static function getKnownCertificates()
+    public static function getKnownCertificates(): array
     {
         return [
 

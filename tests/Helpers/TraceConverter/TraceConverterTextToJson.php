@@ -9,6 +9,7 @@ use Helpers\TraceConverter\Traces\Trace;
 use Helpers\TraceConverter\Traces\TraceRecord;
 use Helpers\TraceSocketMessenger;
 use InvalidArgumentException;
+use JsonException;
 
 class TraceConverterTextToJson
 {
@@ -17,13 +18,15 @@ class TraceConverterTextToJson
      *
      * @param string $pathToTxtFile
      *
+     * @throws JsonException
+     *
      * @return string
      */
     public function convert(string $pathToTxtFile): string
     {
         $trace = $this->readTraceFromTextFile($pathToTxtFile);
 
-        $jsonOrFalse = json_encode($trace, JSON_PRETTY_PRINT);
+        $jsonOrFalse = json_encode($trace, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
         if ($jsonOrFalse === false) {
             throw new InvalidArgumentException("Failed to decode `$pathToTxtFile`.");
         }
@@ -33,6 +36,8 @@ class TraceConverterTextToJson
 
     /**
      * @param string $filePath
+     *
+     * @throws JsonException
      *
      * @return TraceInterface
      */
@@ -47,7 +52,7 @@ class TraceConverterTextToJson
             throw new InvalidArgumentException("Trace file `$filePath` is not readable.");
         }
 
-        $decodedFileContent = json_decode($fileContentOrFalse);
+        $decodedFileContent = json_decode($fileContentOrFalse, false, 512, JSON_THROW_ON_ERROR);
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new InvalidArgumentException("Trace file `$filePath` does not look like a valid JSON file.");
         }

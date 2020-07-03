@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\Client\StatusWatcherClient;
 
 use TelegramOSINT\Client\AuthKey\AuthKey;
@@ -256,7 +258,10 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
                 if($phone || $userName) {
                     $this->userCallbacks->onUserOffline(new User($phone, $userName), $wasOnline);
                 } else {
-                    throw new TGException(TGException::ERR_ASSERT_UPDATE_USER_UNIDENTIFIED, 'userId: '.$userId.'; userObj='.print_r($user, true));
+                    throw new TGException(
+                        TGException::ERR_ASSERT_UPDATE_USER_UNIDENTIFIED,
+                        'userId: '.$userId.'; userObj='.print_r($user, true)
+                    );
                 }
             });
         }
@@ -283,7 +288,10 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
             if($phone || $userName) {
                 $this->userCallbacks->onUserHidStatus(new User($phone, $userName), $hiddenStatusState);
             } else {
-                throw new TGException(TGException::ERR_ASSERT_UPDATE_USER_UNIDENTIFIED, 'userId: '.$userId.'; userObj='.print_r($user, true));
+                throw new TGException(
+                    TGException::ERR_ASSERT_UPDATE_USER_UNIDENTIFIED,
+                    'userId: '.$userId.'; userObj='.print_r($user, true)
+                );
             }
         });
     }

@@ -27,8 +27,9 @@ class DcConfigApp extends TLServerMessage
         $dcs = $this->getTlMessage()->getNodes('dc_options');
 
         $dcObjects = [];
-        foreach ($dcs as $dc)
+        foreach ($dcs as $dc) {
             $dcObjects[] = new DcOption($dc);
+        }
 
         return $dcObjects;
     }

@@ -12,12 +12,12 @@ class Trace implements TraceInterface, JsonSerializable
     /**
      * Field name used in JSON serialization.
      */
-    const JSON_FIELD_TIMESTAMP = 'trace-timestamp';
+    public const JSON_FIELD_TIMESTAMP = 'trace-timestamp';
 
     /**
      * Field name used in JSON serialization.
      */
-    const JSON_FIELD_RECORDS = 'records';
+    public const JSON_FIELD_RECORDS = 'records';
 
     /**
      * @var float

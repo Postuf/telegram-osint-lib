@@ -8,13 +8,7 @@ use TelegramOSINT\Auth\RSA\RSA as AuthRSA;
 
 class PhpSecLibRSA implements AuthRSA
 {
-    /**
-     * @param string $data
-     * @param string $key
-     *
-     * @return string
-     */
-    public function encrypt($data, $key)
+    public function encrypt(string $data, string $key): string
     {
         $rsa = new RSA();
         $rsa->loadKey($key);

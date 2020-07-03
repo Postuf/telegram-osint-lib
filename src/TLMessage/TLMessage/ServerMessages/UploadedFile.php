@@ -9,8 +9,8 @@ use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
 class UploadedFile extends TLServerMessage
 {
-    const FORMAT_JPEG = 'jpg';
-    const FORMAT_UNKNOWN = 'unknown';
+    private const FORMAT_JPEG = 'jpg';
+    private const FORMAT_UNKNOWN = 'unknown';
 
     /**
      * @param AnonymousMessage $tlMessage
@@ -39,13 +39,10 @@ class UploadedFile extends TLServerMessage
 
     public function getFormatName(): string
     {
-        switch($this->getTlMessage()->getNode('type')->getType())
-        {
-            case 'storage.fileJpeg':
-                return self::FORMAT_JPEG;
-            default:
-                return self::FORMAT_UNKNOWN;
-
+        if ($this->getTlMessage()->getNode('type')->getType() === 'storage.fileJpeg') {
+            return self::FORMAT_JPEG;
         }
+
+        return self::FORMAT_UNKNOWN;
     }
 }

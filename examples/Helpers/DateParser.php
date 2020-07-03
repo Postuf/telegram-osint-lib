@@ -18,12 +18,13 @@ class DateParser
         $fmt2 = 'YYYYmmdd HH:ii:ss';
         $fmt3 = 'YYYY-mm-dd HH:ii:ss';
         $dateFormatError = "invalid date format, use $fmt1|$fmt2|$fmt3";
-        if (strlen($date) !== strlen($fmt1)
-            && strlen($date) !== strlen($fmt2)
-            && strlen($date) !== strlen($fmt3)) {
+        $dateLen = strlen($date);
+        if ($dateLen !== strlen($fmt1)
+            && $dateLen !== strlen($fmt2)
+            && $dateLen !== strlen($fmt3)) {
             throw new InvalidArgumentException($dateFormatError);
         }
-        if (strlen($date) === strlen($fmt3)) {
+        if ($dateLen === strlen($fmt3)) {
             $parts = explode(' ', $date);
             if (count($parts) !== 2) {
                 throw new InvalidArgumentException($dateFormatError);

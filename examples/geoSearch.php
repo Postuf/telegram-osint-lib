@@ -32,7 +32,7 @@ EOT;
 
 $coordinates = $argsOrFalse['c'] ?? $argsOrFalse['coordinates'];
 // explode => convert each value to float => chunk into pairs
-$points = array_chunk(array_map(function (string $value): float {
+$points = array_chunk(array_map(static function (string $value): float {
     return (float) $value;
 }, explode(',', $coordinates)), 2);
 
@@ -43,7 +43,7 @@ $limit = (int) ($argsOrFalse['l'] ?? $argsOrFalse['limit'] ?? 100);
 $generator = new ReusableClientGenerator();
 
 $finders = [];
-$groupHandler = function (GeoChannelModel $model) use (&$generator, &$finders, $username, $limit) {
+$groupHandler = static function (GeoChannelModel $model) use (&$generator, &$finders, $username, $limit) {
     $membersFinder = new GroupMembersScenario(
         $model->getGroupId(),
         null,

@@ -6,24 +6,12 @@ namespace Unit\TLMessage\TLMessage\ServerMessages;
 
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Exception\TGException;
-use TelegramOSINT\MTSerialization\MTDeserializer;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\ChatPhoto;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserProfilePhoto;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserSelf;
-use Unit\MTSerialization\OwnImplementation\OwnDeserializerMock;
 
 class UserSelfTest extends TestCase
 {
-    /**
-     * @var MTDeserializer
-     */
-    private $deserializer;
-
-    protected function setUp(): void
-    {
-        $this->deserializer = new OwnDeserializerMock();
-    }
-
     private function getObjectWithChatPhoto(): AnonymousMessageMock
     {
         /* @noinspection PhpUnhandledExceptionInspection */
@@ -103,6 +91,7 @@ class UserSelfTest extends TestCase
         $userSelfProfile = new UserSelf($this->getObjectWithUserProfilePhoto());
         $profilePhoto = $userSelfProfile->getPhoto();
         $this->assertInstanceOf(UserProfilePhoto::class, $profilePhoto);
+        /** @noinspection PhpPossiblePolymorphicInvocationInspection */
         $this->assertEquals('3476051023203772362', $profilePhoto->getPhotoId());
 
         // Check is chatPhoto
@@ -110,6 +99,5 @@ class UserSelfTest extends TestCase
         $chatPhoto = $userSelfChat->getPhoto();
         $this->assertInstanceOf(ChatPhoto::class, $chatPhoto);
         $this->assertEquals(2, $chatPhoto->getDcId());
-
     }
 }

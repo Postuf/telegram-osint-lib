@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class update_status implements TLClientMessage
 {
-    const CONSTRUCTOR = 1713919532; // 0x6628562C
+    public const CONSTRUCTOR = 1713919532; // 0x6628562C
 
     /**
      * @var bool

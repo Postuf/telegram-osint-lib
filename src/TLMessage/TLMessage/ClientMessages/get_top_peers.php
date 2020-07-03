@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_top_peers implements TLClientMessage
 {
-    const CONSTRUCTOR = -728224331; // 0xD4982DB5
+    public const CONSTRUCTOR = -728224331; // 0xD4982DB5
 
     public function getName(): string
     {

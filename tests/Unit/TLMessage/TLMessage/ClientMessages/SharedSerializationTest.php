@@ -74,8 +74,8 @@ class SharedSerializationTest extends TestCase
     public function test_get_statuses_serialization(): void
     {
         $this->assertEquals(
-            bin2hex((new get_statuses())->toBinary()),
-            'ee53a3c4'
+            'ee53a3c4',
+            bin2hex((new get_statuses())->toBinary())
         );
     }
 
@@ -114,8 +114,8 @@ class SharedSerializationTest extends TestCase
     public function test_ping_serialization(): void
     {
         $this->assertEquals(
-            bin2hex((new ping('AAAAAAAA'))->toBinary()),
-            'ec77be7a4141414141414141'
+            'ec77be7a4141414141414141',
+            bin2hex((new ping('AAAAAAAA'))->toBinary())
         );
     }
 
@@ -130,45 +130,45 @@ class SharedSerializationTest extends TestCase
     public function test_req_pq_multi_serialization(): void
     {
         $this->assertEquals(
-            bin2hex((new req_pq_multi('4578twgsrhuflyt84'))->toBinary()),
-            'f18e7ebe3435373874776773726875666c79743834'
+            'f18e7ebe3435373874776773726875666c79743834',
+            bin2hex((new req_pq_multi('4578twgsrhuflyt84'))->toBinary())
         );
     }
 
     public function test_set_client_dh_params_serialization(): void
     {
         $this->assertEquals(
-            bin2hex((new set_client_dh_params('85twghso;fihgdh', ' o827gwtsfhdug8owe', '237twgshfdghoegre'))->toBinary()),
-            '1f5f04f5383574776768736f3b666968676468206f383237677774736668647567386f7765113233377477677368666467686f656772650000'
+            '1f5f04f5383574776768736f3b666968676468206f383237677774736668647567386f7765113233377477677368666467686f656772650000',
+            bin2hex((new set_client_dh_params('85twghso;fihgdh', ' o827gwtsfhdug8owe', '237twgshfdghoegre'))->toBinary())
         );
     }
 
     public function test_sign_in_serialization(): void
     {
         $this->assertEquals(
-            bin2hex((new sign_in('938432905', '234795tyhspughrew', '34534'))->toBinary()),
-            '8115d5bc09393338343332393035000011323334373935747968737075676872657700000533343533340000'
+            '8115d5bc09393338343332393035000011323334373935747968737075676872657700000533343533340000',
+            bin2hex((new sign_in('938432905', '234795tyhspughrew', '34534'))->toBinary())
         );
     }
 
     public function test_sign_up_serialization(): void
     {
         $this->assertEquals(
-            bin2hex((new sign_up('938432905', '234795tyhspughrew', '34534', 'ertret'))->toBinary()),
-            '27e4ee80093933383433323930350000113233343739357479687370756768726577000005333435333400000665727472657400'
+            '27e4ee80093933383433323930350000113233343739357479687370756768726577000005333435333400000665727472657400',
+            bin2hex((new sign_up('938432905', '234795tyhspughrew', '34534', 'ertret'))->toBinary())
         );
     }
 
     public function test_update_status_serialization(): void
     {
         $this->assertEquals(
-            bin2hex((new update_status(true))->toBinary()),
-            '2c562866379779bc'
+            '2c562866379779bc',
+            bin2hex((new update_status(true))->toBinary())
         );
 
         $this->assertEquals(
-            bin2hex((new update_status(false))->toBinary()),
-            '2c562866b5757299'
+            '2c562866b5757299',
+            bin2hex((new update_status(false))->toBinary())
         );
     }
 }

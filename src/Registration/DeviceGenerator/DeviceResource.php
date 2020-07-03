@@ -24,7 +24,8 @@ class DeviceResource
     public function __construct()
     {
         if (!self::$devices) {
-            self::$devices = json_decode(file_get_contents(__DIR__.'/devices.json'), true);
+            /** @noinspection PhpUnhandledExceptionInspection */
+            self::$devices = json_decode(file_get_contents(__DIR__.'/devices.json'), true, 512, JSON_THROW_ON_ERROR);
         }
         $randomDevice = self::$devices[array_rand(self::$devices)];
 
@@ -35,18 +36,12 @@ class DeviceResource
         $this->sdkVersion = $sdks[array_rand($sdks)];
     }
 
-    /**
-     * @return string
-     */
-    public function getDeviceString()
+    public function getDeviceString(): string
     {
         return $this->brand.$this->model;
     }
 
-    /**
-     * @return string
-     */
-    public function getSdkString()
+    public function getSdkString(): string
     {
         return 'SDK '.$this->sdkVersion;
     }

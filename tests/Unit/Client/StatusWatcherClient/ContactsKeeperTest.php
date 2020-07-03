@@ -109,7 +109,6 @@ class ContactsKeeperTest extends TestCase
         $this->processCalls($calls);
         $this->assertCount(0, $returnedUsers);
 
-        /* @noinspection PhpUnhandledExceptionInspection */
         $this->keeper->addNumbers($numbers, static function (ImportResult $result) use (&$importedPhones) {
             foreach ($result->importedPhones as $importedPhone) {
                 $importedPhones[] = $importedPhone;
@@ -568,7 +567,6 @@ class ContactsKeeperTest extends TestCase
             ->method('getResponseAsync')
             ->willReturnCallback($responseCb);
 
-        /* @noinspection PhpUnhandledExceptionInspection */
         $this->keeper->addNumbers($numbers, static function (ImportResult $result) use (&$importedPhones) {
             foreach ($result->importedPhones as $importedPhone) {
                 $importedPhones[] = $importedPhone;

@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class updates_get_difference implements TLClientMessage
 {
-    const CONSTRUCTOR = 630429265; // 0x25939651
+    public const CONSTRUCTOR = 630429265; // 0x25939651
 
     private $qts;
     private $pts;

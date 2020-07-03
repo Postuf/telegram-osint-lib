@@ -13,7 +13,7 @@ class FileLocation extends TLServerMessage
     /**
      * @var bool
      */
-    private $deprecated = false;
+    private $deprecated;
 
     /**
      * @param AnonymousMessage $tlMessage
@@ -84,7 +84,8 @@ class FileLocation extends TLServerMessage
      */
     private function throwIfDeprecated(): void
     {
-        if($this->deprecated)
+        if($this->deprecated) {
             throw new TGException(TGException::ERR_TL_MESSAGE_FIELD_NOT_EXISTS, 'Deprecated node!');
+        }
     }
 }

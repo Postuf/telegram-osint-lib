@@ -30,41 +30,32 @@ class AuthKey_v1_Extended implements AuthKey
      *
      * @throws TGException
      */
-    private function checkSerializedAuthKey($authKey)
+    private function checkSerializedAuthKey($authKey): void
     {
-        $authKey = explode(':', $authKey);
+        $authKeyItems = explode(':', $authKey);
 
-        if(count($authKey) != 2)
+        if(count($authKeyItems) !== 2) {
             throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
-        if(strlen(base64_decode($authKey[1])) != 256 + 8)
+        }
+        if(strlen(base64_decode($authKeyItems[1])) !== 256 + 8) {
             throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
+        }
     }
 
-    /**
-     * @throws
-     *
-     * @return string
-     */
-    public function getRawAuthKey()
+    public function getRawAuthKey(): string
     {
         $authKey = explode(':', $this->serializedAuthKey)[1];
         $decoded = base64_decode($authKey);
 
-        return substr($decoded, 8);
+        return (string) substr($decoded, 8);
     }
 
-    /**
-     * @return string
-     */
-    public function getSerializedAuthKey()
+    public function getSerializedAuthKey(): string
     {
         return $this->serializedAuthKey;
     }
 
-    /**
-     * @return DataCentre
-     */
-    public function getAttachedDC()
+    public function getAttachedDC(): DataCentre
     {
         return DataCentre::getDefault();
     }

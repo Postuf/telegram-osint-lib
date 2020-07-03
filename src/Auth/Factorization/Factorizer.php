@@ -9,5 +9,5 @@ interface Factorizer
      *
      * @return PQ
      */
-    public function factorize($bigNumber);
+    public function factorize($bigNumber): PQ;
 }

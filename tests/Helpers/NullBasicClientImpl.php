@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Helpers;
 
 use TelegramOSINT\Client\BasicClient\BasicClientImpl;
+use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\TGConnection\DataCentre;
 use TelegramOSINT\TGConnection\Socket\Socket;
 use TelegramOSINT\TGConnection\SocketMessenger\SocketMessenger;
@@ -27,6 +28,11 @@ class NullBasicClientImpl extends BasicClientImpl
         return new NullSocket();
     }
 
+    /**
+     * @throws TGException
+     *
+     * @return SocketMessenger
+     */
     protected function getSocketMessenger(): SocketMessenger
     {
         if (!$this->socketMessenger) {

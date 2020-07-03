@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Registration;
+namespace Unit\Registration;
 
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Exception\TGException;

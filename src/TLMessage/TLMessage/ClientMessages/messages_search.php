@@ -12,16 +12,14 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class messages_search implements TLClientMessage
 {
-    const CONSTRUCTOR = -2045448344; //0x8614ef68
+    private const CONSTRUCTOR = -2045448344; //0x8614ef68
 
     /** @var int */
     private $chatId;
     /** var int */
     private $limit;
     /** var int */
-    private $accessHash = 0;
-    /** var string */
-    private $q = '';
+    private $accessHash;
     /** @var int */
     private $since;
     /** @var int */

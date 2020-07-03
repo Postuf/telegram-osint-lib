@@ -10,7 +10,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 /** @see https://tl.telethon.dev/constructors/p_q_inner_data_dc.html */
 class p_q_inner_data_dc implements TLClientMessage
 {
-    const CONSTRUCTOR = 0xA9F55F95;
+    private const CONSTRUCTOR = 0xA9F55F95;
 
     /**
      * @var int
@@ -61,7 +61,7 @@ class p_q_inner_data_dc implements TLClientMessage
         $this->dcId = $dcId;
 
         assert($this->p < $this->q);
-        assert($this->p * $this->q == $this->pq);
+        assert($this->p * $this->q === $this->pq);
 
     }
 

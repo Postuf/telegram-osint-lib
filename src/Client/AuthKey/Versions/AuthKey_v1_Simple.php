@@ -33,36 +33,29 @@ class AuthKey_v1_Simple implements AuthKey
      *
      * @throws TGException
      */
-    private function checkSerializedAuthKey($serializedAuthKey)
+    private function checkSerializedAuthKey($serializedAuthKey): void
     {
-        if(!base64_decode($serializedAuthKey))
+        if(!base64_decode($serializedAuthKey)) {
             throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
-        if(strlen(base64_decode($serializedAuthKey)) != 256 + self::RAW_KEY_LENGTH)
+        }
+        if(strlen(base64_decode($serializedAuthKey)) !== 256 + self::RAW_KEY_LENGTH) {
             throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
+        }
     }
 
-    /**
-     * @return string
-     */
-    public function getRawAuthKey()
+    public function getRawAuthKey(): string
     {
         $decoded = base64_decode($this->serializedAuthKey);
 
-        return substr($decoded, self::RAW_KEY_LENGTH);
+        return (string) substr($decoded, self::RAW_KEY_LENGTH);
     }
 
-    /**
-     * @return string
-     */
-    public function getSerializedAuthKey()
+    public function getSerializedAuthKey(): string
     {
         return $this->serializedAuthKey;
     }
 
-    /**
-     * @return DataCentre
-     */
-    public function getAttachedDC()
+    public function getAttachedDC(): DataCentre
     {
         return DataCentre::getDefault();
     }

@@ -29,14 +29,15 @@ class ReadState
         $this->length = $length;
     }
 
-    public function addRead(string $read) {
+    public function addRead(string $read): void
+    {
         $this->read .= $read;
         $this->readLength = strlen($this->read);
     }
 
     public function ready(): bool
     {
-        return $this->length && $this->readLength == $this->length;
+        return $this->length && $this->readLength === $this->length;
     }
 
     public function getLength(): int

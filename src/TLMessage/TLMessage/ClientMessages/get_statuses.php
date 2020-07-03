@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_statuses implements TLClientMessage
 {
-    const CONSTRUCTOR = -995929106; // 0xC4A353EE
+    public const CONSTRUCTOR = -995929106; // 0xC4A353EE
 
     public function getName(): string
     {

@@ -1,23 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\Client\AuthKey;
 
 use TelegramOSINT\TGConnection\DataCentre;
 
 interface AuthKey
 {
-    /**
-     * @return string
-     */
-    public function getRawAuthKey();
+    public function getRawAuthKey(): string;
 
-    /**
-     * @return string
-     */
-    public function getSerializedAuthKey();
+    public function getSerializedAuthKey(): string;
 
-    /**
-     * @return DataCentre
-     */
-    public function getAttachedDC();
+    public function getAttachedDC(): DataCentre;
 }

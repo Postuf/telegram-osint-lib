@@ -60,9 +60,7 @@ class AuthKeyCreateTest extends TestCase implements MessageListener
      */
     protected function performAuth(DataCentre $dc): void
     {
-        /** @noinspection PhpUnhandledExceptionInspection */
         $auth = new AppAuthorization($dc);
-        /* @noinspection PhpUnhandledExceptionInspection */
         $auth->createAuthKey(function (AuthKey $key) {
             $serializedKey = $key->getSerializedAuthKey();
             $authKey = AuthKeyCreator::createFromString($serializedKey);

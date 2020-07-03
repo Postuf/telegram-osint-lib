@@ -10,21 +10,7 @@ namespace TelegramOSINT\Auth\AES;
  */
 interface AES
 {
-    /**
-     * @param string $message
-     * @param string $key
-     * @param string $iv
-     *
-     * @return string
-     */
-    public function encryptIgeMode($message, $key, $iv);
+    public function encryptIgeMode(string $message, string $key, string $iv): string;
 
-    /**
-     * @param string $message
-     * @param string $key
-     * @param string $iv
-     *
-     * @return string
-     */
-    public function decryptIgeMode($message, $key, $iv);
+    public function decryptIgeMode(string $message, string $key, string $iv): string;
 }

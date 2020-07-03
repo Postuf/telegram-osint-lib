@@ -7,6 +7,7 @@ namespace Integration\Scenario;
 use Helpers\NullBasicClientGenerator;
 use Helpers\TestClientGenerator;
 use Helpers\TraceConverter\TraceConverterJsonToText;
+use JsonException;
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Client\InfoObtainingClient\Models\PictureModel;
 use TelegramOSINT\Exception\TGException;
@@ -32,6 +33,7 @@ class GroupPhotosScenarioTest extends TestCase
      * We expect one photo to be loaded in basic scenario without limits and without group id
      *
      * @throws TGException
+     * @throws JsonException
      * @noinspection PhpUnusedParameterInspection
      */
     public function test_basic_get_scenario(): void {
@@ -42,7 +44,7 @@ class GroupPhotosScenarioTest extends TestCase
             $this->assertEquals(1578494852, $model->modificationTime);
         };
         $file = TraceConverterJsonToText::fromFile(__DIR__.self::DEFAULT_TRACE_PATH);
-        $basicGenerator = new NullBasicClientGenerator(json_decode($file, true));
+        $basicGenerator = new NullBasicClientGenerator(json_decode($file, true, 512, JSON_THROW_ON_ERROR));
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
         $client = new GroupPhotosScenario(new OptionalDateRange(), null, $saveHandler, $testGenerator);
@@ -54,7 +56,7 @@ class GroupPhotosScenarioTest extends TestCase
     /**
      * We expect one photo to be loaded in basic scenario without limits by group id
      *
-     * @throws TGException
+     * @throws TGException|JsonException
      * @noinspection PhpUnusedParameterInspection
      */
     public function test_channel_get_scenario(): void {
@@ -65,7 +67,7 @@ class GroupPhotosScenarioTest extends TestCase
             $this->assertEquals(1578467676, $model->modificationTime);
         };
         $file = TraceConverterJsonToText::fromFile(__DIR__.self::CHANNEL_TRACE_PATH);
-        $basicGenerator = new NullBasicClientGenerator(json_decode($file, true));
+        $basicGenerator = new NullBasicClientGenerator(json_decode($file, true, 512, JSON_THROW_ON_ERROR));
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
         $client = new GroupPhotosScenario(new OptionalDateRange(), null, $saveHandler, $testGenerator);
@@ -78,7 +80,7 @@ class GroupPhotosScenarioTest extends TestCase
     /**
      * We expect one photo to be loaded in basic scenario with limits by group id
      *
-     * @throws TGException
+     * @throws TGException|JsonException
      * @noinspection PhpUnusedParameterInspection
      */
     public function test_channel_get_with_time_limit_scenario(): void {
@@ -89,7 +91,7 @@ class GroupPhotosScenarioTest extends TestCase
             $this->assertEquals(1578467676, $model->modificationTime);
         };
         $file = TraceConverterJsonToText::fromFile(__DIR__.self::CHANNEL_TRACE_PATH);
-        $basicGenerator = new NullBasicClientGenerator(json_decode($file, true));
+        $basicGenerator = new NullBasicClientGenerator(json_decode($file, true, 512, JSON_THROW_ON_ERROR));
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
         $client = new GroupPhotosScenario(
@@ -110,7 +112,7 @@ class GroupPhotosScenarioTest extends TestCase
     /**
      * We expect one photo to be loaded in basic scenario with limits by group id
      *
-     * @throws TGException
+     * @throws TGException|JsonException
      * @noinspection PhpUnusedParameterInspection
      */
     public function test_channel_get_with_time_limit_scenario_empty(): void {
@@ -121,7 +123,7 @@ class GroupPhotosScenarioTest extends TestCase
             $this->assertEquals(1578467676, $model->modificationTime);
         };
         $file = TraceConverterJsonToText::fromFile(__DIR__.self::CHANNEL_TRACE_PATH);
-        $basicGenerator = new NullBasicClientGenerator(json_decode($file, true));
+        $basicGenerator = new NullBasicClientGenerator(json_decode($file, true, 512, JSON_THROW_ON_ERROR));
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
         $client = new GroupPhotosScenario(
@@ -142,12 +144,12 @@ class GroupPhotosScenarioTest extends TestCase
     /**
      * We expect two photos to be loaded in basic scenario with chat url
      *
-     * @throws TGException
+     * @throws TGException|JsonException
      * @noinspection PhpUnusedParameterInspection
      */
     public function test_basic_get_with_group_scenario_without_limits(): void {
         $count = 0;
-        $saveHandler = function (
+        $saveHandler = static function (
             /** @noinspection PhpUnusedParameterInspection */
             PictureModel $model,
             /** @noinspection PhpUnusedParameterInspection */
@@ -156,7 +158,7 @@ class GroupPhotosScenarioTest extends TestCase
             $count++;
         };
         $file = TraceConverterJsonToText::fromFile(__DIR__.self::TRACE_PATH_BY_DEEPLINK);
-        $basicGenerator = new NullBasicClientGenerator(json_decode($file, true));
+        $basicGenerator = new NullBasicClientGenerator(json_decode($file, true, 512, JSON_THROW_ON_ERROR));
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
         $client = new GroupPhotosScenario(
@@ -174,12 +176,12 @@ class GroupPhotosScenarioTest extends TestCase
     /**
      * We expect two photos to be loaded in basic scenario with chat url
      *
-     * @throws TGException
+     * @throws TGException|JsonException
      * @noinspection PhpUnusedParameterInspection
      */
     public function test_basic_get_with_group_scenario(): void {
         $count = 0;
-        $saveHandler = function (
+        $saveHandler = static function (
             /** @noinspection PhpUnusedParameterInspection */
             PictureModel $model,
             /** @noinspection PhpUnusedParameterInspection */
@@ -188,7 +190,7 @@ class GroupPhotosScenarioTest extends TestCase
             $count++;
         };
         $file = TraceConverterJsonToText::fromFile(__DIR__.self::TRACE_PATH_BY_DEEPLINK);
-        $basicGenerator = new NullBasicClientGenerator(json_decode($file, true));
+        $basicGenerator = new NullBasicClientGenerator(json_decode($file, true, 512, JSON_THROW_ON_ERROR));
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
         $client = new GroupPhotosScenario(
@@ -206,12 +208,12 @@ class GroupPhotosScenarioTest extends TestCase
     /**
      * We expect two photos to be loaded in basic scenario with chat url and user filter
      *
-     * @throws TGException
+     * @throws TGException|JsonException
      * @noinspection PhpUnusedParameterInspection
      */
     public function test_basic_get_with_user_scenario(): void {
         $count = 0;
-        $saveHandler = function (
+        $saveHandler = static function (
             /** @noinspection PhpUnusedParameterInspection */
             PictureModel $model,
             /** @noinspection PhpUnusedParameterInspection */
@@ -220,9 +222,10 @@ class GroupPhotosScenarioTest extends TestCase
             $count++;
         };
         $file = TraceConverterJsonToText::fromFile(__DIR__.self::TRACE_PATH_BY_USER);
-        $basicGenerator = new NullBasicClientGenerator(json_decode($file, true));
+        $basicGenerator = new NullBasicClientGenerator(json_decode($file, true, 512, JSON_THROW_ON_ERROR));
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
+        /** @noinspection SpellCheckingInspection */
         $client = new GroupPhotosScenario(
             new OptionalDateRange(),
             'ntlvikhhjofnekge',
@@ -238,7 +241,7 @@ class GroupPhotosScenarioTest extends TestCase
     /**
      * We expect no photos to be loaded in basic scenario with date limits
      *
-     * @throws TGException
+     * @throws TGException|JsonException
      * @noinspection PhpUnusedParameterInspection
      */
     public function test_basic_scenario_with_date_limit_none(): void {
@@ -249,7 +252,7 @@ class GroupPhotosScenarioTest extends TestCase
             $this->assertEquals(1578494852, $model->modificationTime);
         };
         $file = TraceConverterJsonToText::fromFile(__DIR__.self::DEFAULT_TRACE_PATH);
-        $basicGenerator = new NullBasicClientGenerator(json_decode($file, true));
+        $basicGenerator = new NullBasicClientGenerator(json_decode($file, true, 512, JSON_THROW_ON_ERROR));
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
         $client = new GroupPhotosScenario(
@@ -269,12 +272,12 @@ class GroupPhotosScenarioTest extends TestCase
     /**
      * We expect one photo to be loaded in basic scenario with date limits
      *
-     * @throws TGException
+     * @throws TGException|JsonException
      * @noinspection PhpUnusedParameterInspection
      */
     public function test_basic_scenario_with_date_limit_one(): void {
         $count = 0;
-        $saveHandler = function (
+        $saveHandler = static function (
             /** @noinspection PhpUnusedParameterInspection */
             PictureModel $model,
             /** @noinspection PhpUnusedParameterInspection */
@@ -283,7 +286,7 @@ class GroupPhotosScenarioTest extends TestCase
             $count++;
         };
         $file = TraceConverterJsonToText::fromFile(__DIR__.self::DEFAULT_TRACE_PATH);
-        $basicGenerator = new NullBasicClientGenerator(json_decode($file, true));
+        $basicGenerator = new NullBasicClientGenerator(json_decode($file, true, 512, JSON_THROW_ON_ERROR));
         $authKey = self::DEFAULT_AUTHKEY;
         $testGenerator = new TestClientGenerator($basicGenerator, $authKey);
         $client = new GroupPhotosScenario(

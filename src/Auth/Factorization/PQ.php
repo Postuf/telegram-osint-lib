@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\Auth\Factorization;
 
 class PQ
 {
+    /** @var int */
     private $p;
+    /** @var int */
     private $q;
 
     public function __construct(int $p, int $q)
@@ -12,7 +16,7 @@ class PQ
         $this->p = $p <= $q ? $p : $q;
         $this->q = $p >= $q ? $p : $q;
 
-        assert((int) $this->p <= (int) $this->q);
+        assert($this->p <= $this->q);
     }
 
     /**

@@ -19,7 +19,7 @@ class PhpSecLibAES implements AES
      *
      * @return string
      */
-    public function encryptIgeMode($message, $key, $iv)
+    public function encryptIgeMode(string $message, string $key, string $iv): string
     {
         return $this->ige($message, $key, $iv, true);
     }
@@ -33,7 +33,7 @@ class PhpSecLibAES implements AES
      *
      * @return string
      */
-    public function decryptIgeMode($message, $key, $iv)
+    public function decryptIgeMode(string $message, string $key, string $iv): string
     {
         return $this->ige($message, $key, $iv, false);
     }
@@ -48,20 +48,22 @@ class PhpSecLibAES implements AES
      *
      * @return string
      */
-    private function ige(string $message, string $key, string $iv, bool $isEncrypt)
+    private function ige(string $message, string $key, string $iv, bool $isEncrypt): string
     {
         $cipher = new BaseAES(BaseAES::MODE_CBC);
         $cipher->setKey($key);
         $cipher->paddable = false;
         $blockSize = $cipher->block_size;
 
-        if ((strlen($message) % $blockSize) != 0)
+        if ((strlen($message) % $blockSize) !== 0) {
             throw new TGException(TGException::ERR_TL_ENCRYPTION_ERROR);
+        }
         $ivBlockFirstPart = substr($iv, 0, $blockSize);
         $ivBlockSecondPart = substr($iv, $blockSize);
         $result = '';
 
-        for($i = 0; $i < strlen($message); $i += $cipher->block_size) {
+        $messageLen = strlen($message);
+        for($i = 0; $i < $messageLen; $i += $cipher->block_size) {
             $block = substr($message, $i, $blockSize);
             if ($isEncrypt) {
                 $xoredBefore = $block ^ $ivBlockFirstPart;

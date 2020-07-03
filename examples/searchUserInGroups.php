@@ -47,6 +47,7 @@ foreach ($lines as $line) {
 }
 
 $generator = new ReusableClientGenerator();
+/** @noinspection PhpUnhandledExceptionInspection */
 $scenario = new SearchUserScenario($generator, $groupnames, $username);
 /** @noinspection PhpUnhandledExceptionInspection */
 $scenario->startActions();

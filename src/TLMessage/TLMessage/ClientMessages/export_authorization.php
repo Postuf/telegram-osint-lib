@@ -14,7 +14,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class export_authorization implements TLClientMessage
 {
-    const CONSTRUCTOR = -440401971; // 0xE5BFFFCD
+    private const CONSTRUCTOR = -440401971; // 0xE5BFFFCD
 
     /**
      * @var int

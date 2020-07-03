@@ -25,10 +25,7 @@ class DataCentre
         $this->dcPort = $dcPort;
     }
 
-    /**
-     * @return DataCentre
-     */
-    public static function getDefault()
+    public static function getDefault(): self
     {
         return new self(
             LibConfig::DC_DEFAULT_IP,

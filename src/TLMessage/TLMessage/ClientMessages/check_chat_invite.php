@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpUnused */
+
 declare(strict_types=1);
 
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
@@ -12,7 +14,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class check_chat_invite implements TLClientMessage
 {
-    const CONSTRUCTOR = 1051570619; // 0x3eadb1bb
+    private const CONSTRUCTOR = 1051570619; // 0x3eadb1bb
 
     /** @var string */
     private $hash;
