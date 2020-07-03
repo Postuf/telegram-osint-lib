@@ -116,7 +116,7 @@ class ContactsKeeper
     {
         /** @noinspection NullPointerExceptionInspection */
         $this->client->getConnection()->getResponseAsync(
-            new contacts_search($userName, 1),
+            new contacts_search($userName, 5),
             function (AnonymousMessage $message) use ($userName, $onComplete) {
                 $object = new ContactFound($message);
                 $users = $object->getUsers();
@@ -126,11 +126,19 @@ class ContactsKeeper
                     return;
                 }
 
-                $user = $users[0];
-                $id = $user->getUserId();
-                $hash = $user->getAccessHash();
-                $username = $user->getUsername();
-                if(!Username::equal($userName, $username)){
+                $user = null;
+                $id = 0;
+                $hash = 0;
+                foreach ($users as $currentUser) {
+                    $id = $currentUser->getUserId();
+                    $hash = $currentUser->getAccessHash();
+                    $currentUserName = $currentUser->getUsername();
+                    if (Username::equal($userName, $currentUserName)) {
+                        $user = $currentUser;
+                        break;
+                    }
+                }
+                if ($user === null) {
                     $onComplete(false);
 
                     return;
