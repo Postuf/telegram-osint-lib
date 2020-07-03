@@ -2,6 +2,7 @@
 
 namespace TelegramOSINT\TGConnection\SocketMessenger;
 
+use LogicException;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\LibConfig;
 use TelegramOSINT\Logger\ClientDebugLogger;
@@ -15,7 +16,6 @@ use TelegramOSINT\TGConnection\SocketMessenger\MessengerTools\MessageIdGenerator
 use TelegramOSINT\TGConnection\SocketMessenger\MessengerTools\OuterHeaderWrapper;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_config;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\DcConfigApp;
-use TelegramOSINT\TLMessage\TLMessage\ServerMessages\DcOption;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class NotEncryptedSocketMessenger extends TgSocketMessenger
@@ -193,25 +193,11 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
      * @param array    $messages
      * @param callable $onLastResponse
      *
-     * @throws TGException
+     * @throws LogicException
      */
     public function getResponseConsecutive(array $messages, callable $onLastResponse): void
     {
-        $lastResponse = null;
-        foreach ($messages as $message) {
-            // assumes getResponseAsync is sync in fact
-            $this->getResponseAsync($message, static function (AnonymousMessage $message) use (&$lastResponse) {
-                $lastResponse = $message;
-            });
-        }
-        if ($lastResponse) {
-            $onLastResponse($lastResponse);
-        }
-    }
-
-    public function isDcAppropriate(DcOption $dc): bool
-    {
-        return (bool) preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/', $dc->getIp());
+        throw new LogicException('Not implemented and not used');
     }
 
     /**

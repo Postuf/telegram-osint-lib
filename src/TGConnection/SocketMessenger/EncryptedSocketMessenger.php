@@ -27,7 +27,6 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\msgs_ack;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\updates_get_difference;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\BadServerSalt;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\DcConfigApp;
-use TelegramOSINT\TLMessage\TLMessage\ServerMessages\DcOption;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\MsgContainer;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Rpc\Errors\FloodWait;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Rpc\Errors\MigrateError;
@@ -198,11 +197,6 @@ class EncryptedSocketMessenger extends TgSocketMessenger
         }
 
         return $this->reportMessageToSubscriber();
-    }
-
-    public function isDcAppropriate(DcOption $dc): bool
-    {
-        return (bool) preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/', $dc->getIp());
     }
 
     /**
