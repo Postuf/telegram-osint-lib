@@ -8,6 +8,7 @@ use LogicException;
 use TelegramOSINT\Auth\AES\AES;
 use TelegramOSINT\Auth\AES\PhpSecLibAES;
 use TelegramOSINT\Client\AuthKey\AuthKey;
+use TelegramOSINT\Exception\MigrateException;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Logger\ClientDebugLogger;
 use TelegramOSINT\Logger\NullLogger;
@@ -19,12 +20,16 @@ use TelegramOSINT\TGConnection\Socket\Socket;
 use TelegramOSINT\TGConnection\SocketMessenger\EncryptedSocketCallbacks\CallbackMessageListener;
 use TelegramOSINT\TGConnection\SocketMessenger\MessengerTools\MessageIdGenerator;
 use TelegramOSINT\TGConnection\SocketMessenger\MessengerTools\OuterHeaderWrapper;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_config;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_state;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\invoke_with_layer;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\msgs_ack;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\updates_get_difference;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\BadServerSalt;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\DcConfigApp;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\MsgContainer;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Rpc\Errors\FloodWait;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Rpc\Errors\MigrateError;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Rpc\RpcError;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Rpc\RpcResult;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update\UpdatesTooLong;
@@ -130,6 +135,8 @@ class EncryptedSocketMessenger extends TgSocketMessenger
     private $messagesToBeProcessedQueue = [];
     /** @var ClientDebugLogger */
     private $logger;
+    /** @var AnonymousMessage|null */
+    private $config;
 
     /**
      * @param Socket                 $socket
@@ -221,9 +228,21 @@ class EncryptedSocketMessenger extends TgSocketMessenger
      */
     public function getResponseAsync(TLClientMessage $message, callable $onAsyncResponse): void
     {
+        $callback = $onAsyncResponse;
+        if ($message instanceof get_config || $message instanceof invoke_with_layer) {
+            if ($this->config) {
+                $onAsyncResponse($this->config);
+
+                return;
+            }
+            $callback = function (AnonymousMessage $message) use ($onAsyncResponse) {
+                $this->config = $message;
+                $onAsyncResponse($message);
+            };
+        }
         $messageId = $this->msgIdGenerator->generateNext();
         $this->writeIdentifiedMessage($message, $messageId);
-        $this->rpcMessages[$messageId] = new CallbackMessageListener($onAsyncResponse);
+        $this->rpcMessages[$messageId] = new CallbackMessageListener($callback);
     }
 
     /**
@@ -393,12 +412,23 @@ class EncryptedSocketMessenger extends TgSocketMessenger
         $userId = $parts[0];
 
         if($rpcError->isNetworkMigrateError()) {
-            throw new TGException(TGException::ERR_MSG_NETWORK_MIGRATE, "reconnection to another DataCenter needed for $userId");
+            $dcId = (new MigrateError($rpcError))->getDcId();
+
+            throw new MigrateException(
+                $dcId,
+                TGException::ERR_MSG_NETWORK_MIGRATE,
+                "reconnection to another DataCenter needed for $userId",
+                $this->selectDC($dcId)
+            );
         }
         if($rpcError->isPhoneMigrateError()) {
-            throw new TGException(
+            $dcId = (new MigrateError($rpcError))->getDcId();
+
+            throw new MigrateException(
+                $dcId,
                 TGException::ERR_MSG_PHONE_MIGRATE,
-                "phone $userId already used in another DataCenter: ".$rpcError->getErrorString()
+                "phone $userId already used in another DataCenter: ".$rpcError->getErrorString(),
+                $this->selectDC($dcId)
             );
         }
         if($rpcError->isFloodError()) {
@@ -625,5 +655,41 @@ class EncryptedSocketMessenger extends TgSocketMessenger
             };
         }
         $newFunc();
+    }
+
+    /**
+     * @param int $dcId
+     *
+     * @throws TGException
+     *
+     * @return DataCentre|null
+     */
+    private function selectDC(int $dcId): ?DataCentre
+    {
+        $config = $this->getDCConfig();
+        if (!$config) {
+            return null;
+        }
+        foreach ($config->getDataCenters() as $dc) {
+            if ($dc->getId() === $dcId && $this->isDcAppropriate($dc)) {
+                return new DataCentre($dc->getIp(), $dc->getId(), $dc->getPort());
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @throws TGException
+     *
+     * @return DcConfigApp|null
+     */
+    public function getDCConfig(): ?DcConfigApp
+    {
+        if ($this->config) {
+            return new DcConfigApp($this->config);
+        }
+
+        return null;
     }
 }

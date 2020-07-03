@@ -4,6 +4,8 @@ namespace TelegramOSINT\TGConnection\SocketMessenger;
 
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TGConnection\DataCentre;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\DcConfigApp;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\DcOption;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 /**
@@ -36,4 +38,8 @@ interface SocketMessenger
     public function getResponseConsecutive(array $messages, callable $onLastResponse): void;
 
     public function getDCInfo(): DataCentre;
+
+    public function getDCConfig(): ?DcConfigApp;
+
+    public function isDcAppropriate(DcOption $dc): bool;
 }

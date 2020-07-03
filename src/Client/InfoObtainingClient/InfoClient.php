@@ -43,7 +43,6 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactFound;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Custom\UserStatus;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\DcConfigApp;
-use TelegramOSINT\TLMessage\TLMessage\ServerMessages\DcOption;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\ExportedAuthorization;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UploadedFile;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserFull;
@@ -547,7 +546,8 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
 
             $dcFound = false;
             foreach ($dcConfigs->getDataCenters() as $dc) {
-                if ($dc->getId() === $photoDcId && $this->isDcAppropriate($dc)) {
+                /** @noinspection NullPointerExceptionInspection */
+                if ($dc->getId() === $photoDcId && $this->basicClient->getConnection()->isDcAppropriate($dc)) {
 
                     $dcFound = true;
 
@@ -598,11 +598,6 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
                 throw new TGException(TGException::ERR_CLIENT_PICTURE_ON_UNREACHABLE_DC);
             }
         });
-    }
-
-    private function isDcAppropriate(DcOption $dc): bool
-    {
-        return (bool) preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/', $dc->getIp());
     }
 
     public function terminate(): void

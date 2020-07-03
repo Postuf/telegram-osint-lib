@@ -8,7 +8,7 @@ use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\LibConfig;
 use TelegramOSINT\TGConnection\Socket\Socket;
 
-abstract class TgSocketMessenger implements SocketMessenger
+abstract class TgSocketMessenger extends BaseSocketMessenger
 {
     protected const HEADER_LENGTH_BYTES = 4;
     /**

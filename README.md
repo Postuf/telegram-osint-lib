@@ -57,4 +57,4 @@ docker exec  --env BOT=@auth-key-filename-in-docker -i tg-osint-lib php examples
 
 # Limitations
 
-We currently use Europe/CIS DC, see `src/LibConfig.php` for details/to change your DC, see also: https://core.telegram.org/method/help.getNearestDc .
+2FA not supported.

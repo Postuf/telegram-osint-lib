@@ -81,17 +81,25 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
     private $isSmsRequested = false;
     /** @var Logger */
     private $logger;
+    /** @var DataCentre */
+    private $dataCentre;
 
     /**
      * @param Proxy|null             $proxy
      * @param AccountInfo|null       $accountInfo
      * @param ClientDebugLogger|null $logger
+     * @param DataCentre|null        $dataCentre
      */
-    public function __construct(Proxy $proxy = null, AccountInfo $accountInfo = null, ClientDebugLogger $logger = null)
-    {
+    public function __construct(
+        Proxy $proxy = null,
+        AccountInfo $accountInfo = null,
+        ClientDebugLogger $logger = null,
+        ?DataCentre $dataCentre = null
+    ) {
         $this->accountInfo = $accountInfo ?: AccountInfo::generate();
         $this->proxy = $proxy;
         $this->logger = $logger;
+        $this->dataCentre = $dataCentre ?? DataCentre::getDefault();
     }
 
     /**
@@ -109,7 +117,7 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
         $this->requestBlankAuthKey(function (AuthKey $authKey) use ($phoneNumber, $cb, $allowReReg) {
             $this->blankAuthKey = $authKey;
 
-            $this->initSocketMessenger();
+            $this->initSocketMessenger($this->dataCentre);
             $this->initSocketAsOfficialApp(function () use ($phoneNumber, $cb, $allowReReg) {
                 $request = new send_sms_code($phoneNumber);
                 $this->socketMessenger->getResponseAsync($request, function (AnonymousMessage $smsSentResponse) use ($cb, $allowReReg) {
@@ -123,7 +131,6 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
                     $this->isSmsRequested = true;
                     $cb($isReReg);
                 });
-
             });
         });
     }
@@ -140,8 +147,8 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
         $initConnection = new init_connection($this->accountInfo, $getConfig);
         $invokeWithLayer = new invoke_with_layer(LibConfig::APP_DEFAULT_TL_LAYER_VERSION, $initConnection);
 
-        $this->socketMessenger->getResponseAsync($invokeWithLayer, function (AnonymousMessage $configRequest) use ($onLastMessageReceived) {
-            new DcConfigApp($configRequest);
+        $this->socketMessenger->getResponseAsync($invokeWithLayer, function (AnonymousMessage $configResponse) use ($onLastMessageReceived) {
+            new DcConfigApp($configResponse);
 
             // possible languages
             $getLanguages = new get_languages();
@@ -159,13 +166,15 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
     }
 
     /**
+     * @param DataCentre $dc
+     *
      * @throws TGException
      */
-    private function initSocketMessenger(): void
+    private function initSocketMessenger(DataCentre $dc): void
     {
         $socket = $this->proxy instanceof Proxy ?
-            new ProxySocket($this->proxy, DataCentre::getDefault()) :
-            new TcpSocket(DataCentre::getDefault());
+            new ProxySocket($this->proxy, $dc) :
+            new TcpSocket($dc);
 
         $this->socketMessenger = new EncryptedSocketMessenger($socket, $this->blankAuthKey, $this, $this->logger);
     }
@@ -177,8 +186,7 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
      */
     private function requestBlankAuthKey(callable $cb): void
     {
-        $dc = DataCentre::getDefault();
-        (new AppAuthorization($dc))->createAuthKey($cb);
+        (new AppAuthorization($this->dataCentre))->createAuthKey($cb);
     }
 
     /**
@@ -307,5 +315,10 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
         while(true) {
             $this->socketMessenger->readMessage();
         }
+    }
+
+    public function terminate(): void
+    {
+        $this->socketMessenger->terminate();
     }
 }

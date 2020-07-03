@@ -7,6 +7,7 @@ namespace TelegramOSINT\Registration;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Logger\ClientDebugLogger;
 use TelegramOSINT\Logger\DefaultLogger;
+use TelegramOSINT\TGConnection\DataCentre;
 use TelegramOSINT\Tools\Proxy;
 
 class AccountRegistrar implements RegisterInterface
@@ -20,10 +21,20 @@ class AccountRegistrar implements RegisterInterface
      * @param Proxy|null             $proxy
      * @param AccountInfo|null       $accountInfo
      * @param ClientDebugLogger|null $logger
+     * @param DataCentre|null        $dataCentre
      */
-    public function __construct(Proxy $proxy = null, AccountInfo $accountInfo = null, ClientDebugLogger $logger = null)
-    {
-        $this->reg = new RegistrationFromTgApp($proxy, $accountInfo, $logger ?: new DefaultLogger());
+    public function __construct(
+        Proxy $proxy = null,
+        AccountInfo $accountInfo = null,
+        ClientDebugLogger $logger = null,
+        ?DataCentre $dataCentre = null
+    ) {
+        $this->reg = new RegistrationFromTgApp(
+            $proxy,
+            $accountInfo,
+            $logger ?: new DefaultLogger(),
+            $dataCentre
+        );
     }
 
     public function pollMessages(): void {
@@ -54,5 +65,10 @@ class AccountRegistrar implements RegisterInterface
     {
         $smsCode = trim($smsCode);
         $this->reg->confirmPhoneWithSmsCode($smsCode, $onAuthKeyReady, $reReg);
+    }
+
+    public function terminate(): void
+    {
+        $this->reg->terminate();
     }
 }
