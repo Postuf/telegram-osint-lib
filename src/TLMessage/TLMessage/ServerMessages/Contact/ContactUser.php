@@ -85,8 +85,15 @@ class ContactUser extends TLServerMessage implements MessageWithUserId
     public function getPhone(): ?string
     {
         return $this->phone ?? ($this->getTlMessage()->hasNode('phone')
-            ? $this->getTlMessage()->getValue('phone')
-            : null);
+                ? $this->getTlMessage()->getValue('phone')
+                : null);
+    }
+
+    public function getBot(): ?bool
+    {
+        return $this->getTlMessage()->hasNode('bot')
+                ? (bool) $this->getTlMessage()->getValue('bot')
+                : null;
     }
 
     /**

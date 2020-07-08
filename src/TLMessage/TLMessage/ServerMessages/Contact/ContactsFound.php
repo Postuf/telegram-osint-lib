@@ -11,7 +11,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 /**
  * @see https://core.telegram.org/constructor/contacts.found
  */
-class ContactFound extends TLServerMessage
+class ContactsFound extends TLServerMessage
 {
     /**
      * @param AnonymousMessage $tlMessage
