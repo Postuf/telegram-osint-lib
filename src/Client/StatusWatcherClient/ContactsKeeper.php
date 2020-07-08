@@ -14,7 +14,7 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\delete_contacts;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_contacts;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\import_contacts;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\reset_saved_contacts;
-use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactFound;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactsFound;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\CurrentContacts;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
@@ -118,7 +118,7 @@ class ContactsKeeper
         $this->client->getConnection()->getResponseAsync(
             new contacts_search($userName, 5),
             function (AnonymousMessage $message) use ($userName, $onComplete) {
-                $object = new ContactFound($message);
+                $object = new ContactsFound($message);
                 $users = $object->getUsers();
                 if(empty($users)){
                     $onComplete(false);

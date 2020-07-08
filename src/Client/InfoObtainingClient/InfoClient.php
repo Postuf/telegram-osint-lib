@@ -39,7 +39,7 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_photofilelocation;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\join_channel;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\messages_search;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\AuthorizationSelfUser;
-use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactFound;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactsFound;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Custom\UserStatus;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\DcConfigApp;
@@ -49,6 +49,7 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserFull;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserProfilePhoto;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 use TelegramOSINT\Tools\Proxy;
+use TelegramOSINT\Tools\Username;
 
 class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
 {
@@ -288,21 +289,22 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
     {
         /** @noinspection NullPointerExceptionInspection */
         $this->basicClient->getConnection()->getResponseAsync(
-            new contacts_search($userName, 1),
+            new contacts_search($userName, 3),
             function (AnonymousMessage $message) use ($userName, $withPhoto, $largePhoto, $onComplete) {
 
-                $object = new ContactFound($message);
+                $object = new ContactsFound($message);
 
-                $onModelBuilt = static function (UserInfoModel $model) use ($userName, $onComplete) {
-                    if(strcasecmp(trim($userName), trim($model->username)) === 0) {
-                        $onComplete($model);
-                    }
-                };
-
+                $found = false;
                 foreach ($object->getUsers() as $user){
-                    $this->buildUserInfoModel($user, $withPhoto, $largePhoto, $onModelBuilt);
+                    if (!$user->getBot() && Username::equal($userName, $user->getUsername())) {
+                        $this->buildUserInfoModel($user, $withPhoto, $largePhoto, $onComplete);
+                        $found = true;
+                        break;
+                    }
                 }
-
+                if (!$found) {
+                    $onComplete(null);
+                }
             }
         );
     }

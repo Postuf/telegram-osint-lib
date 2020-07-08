@@ -55,20 +55,31 @@ $onComplete = static function (UserInfoModel $model) {
     ]);
 
     if ($model->status->was_online) {
-        echo date('Y-m-d H:i:s', $model->status->was_online)."\n";
+        echo date('Y-m-d H:i:s', $model->status->was_online).PHP_EOL;
     }
     elseif ($model->status->is_hidden) {
-        echo "Hidden\n";
+        echo 'Hidden'.PHP_EOL;
     }
     elseif ($model->status->is_online) {
-        echo "Online\n";
+        echo 'Online'.PHP_EOL;
     }
     else {
         echo "\n";
     }
 };
 
-echo "Phone\t|\tUsername\t|\tFirst name\t|\tLast name\t|\tPhoto\t|\tAbout\t|\tCommon chats\t|\tLang\t|\tWas online\n\n";
+$separator = "\t|\t";
+echo implode($separator, [
+    'Phone',
+    'Username',
+    'First name',
+    'Last name',
+    'Photo',
+    'About',
+    'Common chats',
+    'Lang',
+    'Was online',
+]).PHP_EOL.PHP_EOL;
 /** @noinspection PhpUnhandledExceptionInspection */
 $client = new UserContactsScenario(
     $numbers,

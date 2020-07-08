@@ -22,7 +22,7 @@ class GroupPhotosScenarioTest extends TestCase
     private const TRACE_PATH_BY_USER = '/traces/group-photos-by-user.json';
     private const CHANNEL_TRACE_PATH = '/traces/channel-photos.json';
     private const CHANNEL_ID = 1229718840;
-    private const DEFAULT_FILE_SIZE = 140179;
+    private const DEFAULT_FILE_SIZE = 1;
     private const TIMEOUT = 0.15;
     private const DEFAULT_GROUP_DEEPLINK = 'https://t.me/asfaefegw';
     private const START_TS_20190101 = 1546300800;
