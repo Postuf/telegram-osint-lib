@@ -199,6 +199,9 @@ class BasicClientImpl implements BasicClient, MessageListener
             return null;
         }
         $this->checkConnectionAlive();
+        if (!$this->connection) {
+            return null;
+        }
         $this->pingIfNeeded();
 
         /** @noinspection NullPointerExceptionInspection */
@@ -229,7 +232,7 @@ class BasicClientImpl implements BasicClient, MessageListener
     }
 
     private function getUserId() {
-        if (!$this->authKey) {
+        if ($this->authKey) {
             $parts = explode(':', $this->authKey->getSerializedAuthKey());
 
             return $parts[0];
