@@ -40,7 +40,7 @@ class StatusWatcherAnalyzerTest extends TestCase
     public function test_analyze_username_change_single(): void
     {
         $this->callbacks
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('onUserNameChange')
             ->with(1, 'yyy');
         $this->analyzer->analyzeMessage(new AnonymousMessageMock([
@@ -58,7 +58,7 @@ class StatusWatcherAnalyzerTest extends TestCase
     public function test_analyze_username_change_multiple(): void
     {
         $this->callbacks
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('onUserNameChange')
             ->with(1, 'yyy');
         $this->analyzer->analyzeMessage(new AnonymousMessageMock([

@@ -42,7 +42,7 @@ class SearchMembersScenarioTest extends TestCase
         );
         $client->setTimeout(self::TIMEOUT);
         $client->startActions();
-        $this->assertEquals(1, $count);
+        self::assertEquals(1, $count);
     }
 
     /**
@@ -67,6 +67,6 @@ class SearchMembersScenarioTest extends TestCase
         );
         $client->setTimeout(self::TIMEOUT);
         $client->startActions();
-        $this->assertEquals(0, $count);
+        self::assertEquals(0, $count);
     }
 }

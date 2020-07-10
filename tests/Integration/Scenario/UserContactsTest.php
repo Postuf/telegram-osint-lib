@@ -62,6 +62,6 @@ class UserContactsTest extends TestCase
         );
         $scenario->startActions();
 
-        $this->assertEquals(3, $numbersParsed);
+        self::assertEquals(3, $numbersParsed);
     }
 }

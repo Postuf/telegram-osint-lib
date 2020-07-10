@@ -14,6 +14,6 @@ class StaticGeneratorTest extends TestCase
     {
         $sg = new StaticGenerator('some key');
         /** @noinspection UnnecessaryAssertionInspection */
-        $this->assertInstanceOf(InfoClient::class, $sg->getInfoClient());
+        self::assertInstanceOf(InfoClient::class, $sg->getInfoClient());
     }
 }

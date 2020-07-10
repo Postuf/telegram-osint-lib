@@ -17,7 +17,7 @@ class FactorizationTest extends TestCase
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         $pq = (new GmpFactorizer())->factorize(self::PRIME);
-        $this->assertEquals(self::P, $pq->getP());
-        $this->assertEquals(self::Q, $pq->getQ());
+        self::assertEquals(self::P, $pq->getP());
+        self::assertEquals(self::Q, $pq->getQ());
     }
 }

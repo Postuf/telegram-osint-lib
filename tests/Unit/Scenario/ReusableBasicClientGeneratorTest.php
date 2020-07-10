@@ -15,6 +15,6 @@ class ReusableBasicClientGeneratorTest extends TestCase
         $rcg = new ReusableBasicClientGenerator();
         $client = $rcg->generate();
         /** @noinspection UnnecessaryAssertionInspection */
-        $this->assertInstanceOf(BasicClient::class, $client);
+        self::assertInstanceOf(BasicClient::class, $client);
     }
 }

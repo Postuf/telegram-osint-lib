@@ -33,11 +33,11 @@ class UpdateStatusTest extends TestCase
         /** @noinspection PhpUnhandledExceptionInspection */
         $updateUserStatus = new UpdateUserStatus($updateShort->getUpdate());
 
-        $this->assertEquals(5001011, $updateUserStatus->getUserId());
-        $this->assertTrue($updateUserStatus->getStatus()->isOnline());
-        $this->assertFalse($updateUserStatus->getStatus()->isOffline());
-        $this->assertFalse($updateUserStatus->getStatus()->isHidden());
-        $this->assertEquals(378256982, $updateUserStatus->getStatus()->getExpires());
+        self::assertEquals(5001011, $updateUserStatus->getUserId());
+        self::assertTrue($updateUserStatus->getStatus()->isOnline());
+        self::assertFalse($updateUserStatus->getStatus()->isOffline());
+        self::assertFalse($updateUserStatus->getStatus()->isHidden());
+        self::assertEquals(378256982, $updateUserStatus->getStatus()->getExpires());
 
     }
 
@@ -64,11 +64,11 @@ class UpdateStatusTest extends TestCase
         /** @noinspection PhpUnhandledExceptionInspection */
         $updateUserStatus = new UpdateUserStatus($updateShort->getUpdate());
 
-        $this->assertEquals(987436509243, $updateUserStatus->getUserId());
-        $this->assertFalse($updateUserStatus->getStatus()->isOnline());
-        $this->assertTrue($updateUserStatus->getStatus()->isOffline());
-        $this->assertFalse($updateUserStatus->getStatus()->isHidden());
-        $this->assertEquals(784358232, $updateUserStatus->getStatus()->getWasOnline());
+        self::assertEquals(987436509243, $updateUserStatus->getUserId());
+        self::assertFalse($updateUserStatus->getStatus()->isOnline());
+        self::assertTrue($updateUserStatus->getStatus()->isOffline());
+        self::assertFalse($updateUserStatus->getStatus()->isHidden());
+        self::assertEquals(784358232, $updateUserStatus->getStatus()->getWasOnline());
     }
 
     /** @noinspection PhpUnhandledExceptionInspection */
@@ -93,9 +93,9 @@ class UpdateStatusTest extends TestCase
         /** @noinspection PhpUnhandledExceptionInspection */
         $updateUserStatus = new UpdateUserStatus($updateShort->getUpdate());
 
-        $this->assertEquals(50000300, $updateUserStatus->getUserId());
-        $this->assertFalse($updateUserStatus->getStatus()->isOnline());
-        $this->assertFalse($updateUserStatus->getStatus()->isOffline());
-        $this->assertTrue($updateUserStatus->getStatus()->isHidden());
+        self::assertEquals(50000300, $updateUserStatus->getUserId());
+        self::assertFalse($updateUserStatus->getStatus()->isOnline());
+        self::assertFalse($updateUserStatus->getStatus()->isOffline());
+        self::assertTrue($updateUserStatus->getStatus()->isHidden());
     }
 }

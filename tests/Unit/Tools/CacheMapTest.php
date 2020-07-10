@@ -21,7 +21,7 @@ class CacheMapTest extends TestCase
         $key = 'key';
         $value = 1;
         $cacheMap->set($key, $value);
-        $this->assertEquals($value, $cacheMap->get($key));
+        self::assertEquals($value, $cacheMap->get($key));
 
         @unlink(self::PATH);
     }

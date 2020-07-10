@@ -15,7 +15,7 @@ class DateParserTest extends TestCase
     public function test_fmt1(): void
     {
         $v = DateParser::parse('20190101');
-        $this->assertEquals(1546300800, $v);
+        self::assertEquals(1546300800, $v);
     }
 
     /**
@@ -24,7 +24,7 @@ class DateParserTest extends TestCase
     public function test_fmt2(): void
     {
         $v = DateParser::parse('20190101 00:00:00');
-        $this->assertEquals(1546300800, $v);
+        self::assertEquals(1546300800, $v);
     }
 
     /**
@@ -33,6 +33,6 @@ class DateParserTest extends TestCase
     public function test_fmt3(): void
     {
         $v = DateParser::parse('20190101 00:00:00');
-        $this->assertEquals(1546300800, $v);
+        self::assertEquals(1546300800, $v);
     }
 }

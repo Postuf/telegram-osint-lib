@@ -14,6 +14,6 @@ class StatusWatcherScenarioTest extends TestCase
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         $scenario = new StatusWatcherScenario([], [], $this->createMock(ClientGeneratorInterface::class));
-        $this->assertInstanceOf(StatusWatcherScenario::class, $scenario);
+        self::assertInstanceOf(StatusWatcherScenario::class, $scenario);
     }
 }

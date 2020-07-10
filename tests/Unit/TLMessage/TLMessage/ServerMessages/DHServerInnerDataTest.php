@@ -24,6 +24,6 @@ class DHServerInnerDataTest extends TestCase
         ]);
         $dhData = new DHServerInnerData($anonymousMessage);
         $expectedG = bin2hex($dhData->getG());
-        $this->assertEquals('0000007b', $expectedG);
+        self::assertEquals('0000007b', $expectedG);
     }
 }

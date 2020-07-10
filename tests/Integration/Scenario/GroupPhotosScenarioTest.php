@@ -50,7 +50,7 @@ class GroupPhotosScenarioTest extends TestCase
         $client = new GroupPhotosScenario(new OptionalDateRange(), null, $saveHandler, $testGenerator);
         $client->setTimeout(self::TIMEOUT);
         $client->startActions();
-        $this->assertEquals(1, $count);
+        self::assertEquals(1, $count);
     }
 
     /**
@@ -74,7 +74,7 @@ class GroupPhotosScenarioTest extends TestCase
         $client->setGroupId(self::CHANNEL_ID);
         $client->setTimeout(self::TIMEOUT);
         $client->startActions();
-        $this->assertEquals(1, $count);
+        self::assertEquals(1, $count);
     }
 
     /**
@@ -106,7 +106,7 @@ class GroupPhotosScenarioTest extends TestCase
         $client->setGroupId(self::CHANNEL_ID);
         $client->setTimeout(self::TIMEOUT);
         $client->startActions();
-        $this->assertEquals(1, $count);
+        self::assertEquals(1, $count);
     }
 
     /**
@@ -138,7 +138,7 @@ class GroupPhotosScenarioTest extends TestCase
         $client->setGroupId(self::CHANNEL_ID);
         $client->setTimeout(self::TIMEOUT);
         $client->startActions();
-        $this->assertEquals(0, $count);
+        self::assertEquals(0, $count);
     }
 
     /**
@@ -170,7 +170,7 @@ class GroupPhotosScenarioTest extends TestCase
         $client->setDeepLink(self::DEFAULT_GROUP_DEEPLINK);
         $client->setTimeout(self::TIMEOUT);
         $client->startActions();
-        $this->assertEquals(2, $count);
+        self::assertEquals(2, $count);
     }
 
     /**
@@ -202,7 +202,7 @@ class GroupPhotosScenarioTest extends TestCase
         $client->setDeepLink(self::DEFAULT_GROUP_DEEPLINK);
         $client->setTimeout(self::TIMEOUT);
         $client->startActions();
-        $this->assertEquals(2, $count);
+        self::assertEquals(2, $count);
     }
 
     /**
@@ -235,7 +235,7 @@ class GroupPhotosScenarioTest extends TestCase
         $client->setDeepLink(self::DEFAULT_GROUP_DEEPLINK);
         $client->setTimeout(self::TIMEOUT);
         $client->startActions();
-        $this->assertEquals(2, $count);
+        self::assertEquals(2, $count);
     }
 
     /**
@@ -266,7 +266,7 @@ class GroupPhotosScenarioTest extends TestCase
         );
         $client->setTimeout(self::TIMEOUT);
         $client->startActions();
-        $this->assertEquals(0, $count);
+        self::assertEquals(0, $count);
     }
 
     /**
@@ -300,6 +300,6 @@ class GroupPhotosScenarioTest extends TestCase
         );
         $client->setTimeout(self::TIMEOUT);
         $client->startActions();
-        $this->assertEquals(1, $count);
+        self::assertEquals(1, $count);
     }
 }

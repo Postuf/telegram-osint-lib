@@ -48,6 +48,6 @@ class CommonChatsTest extends TestCase
         $scenario->setTimeout(self::TIMEOUT);
         $scenario->startActions();
 
-        $this->assertEquals(2, $interests);
+        self::assertEquals(2, $interests);
     }
 }

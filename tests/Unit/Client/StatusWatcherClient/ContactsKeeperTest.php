@@ -107,7 +107,7 @@ class ContactsKeeperTest extends TestCase
             }
         });
         $this->processCalls($calls);
-        $this->assertCount(0, $returnedUsers);
+        self::assertCount(0, $returnedUsers);
 
         $this->keeper->addNumbers($numbers, static function (ImportResult $result) use (&$importedPhones) {
             foreach ($result->importedPhones as $importedPhone) {
@@ -117,7 +117,7 @@ class ContactsKeeperTest extends TestCase
 
         $this->processCalls($calls);
 
-        $this->assertEquals($importedPhones, $numbers);
+        self::assertEquals($importedPhones, $numbers);
     }
 
     /**
@@ -177,7 +177,7 @@ class ContactsKeeperTest extends TestCase
             $this->assertTrue($added);
         });
         $this->processCalls($calls);
-        $this->assertCount(1, $this->keeper->getContacts());
+        self::assertCount(1, $this->keeper->getContacts());
 
         $this->processCalls($calls);
     }
@@ -246,7 +246,7 @@ class ContactsKeeperTest extends TestCase
             }
         });
         $this->processCalls($calls);
-        $this->assertCount(1, $returnedUsers);
+        self::assertCount(1, $returnedUsers);
 
         $this->processCalls($calls);
 
@@ -263,7 +263,7 @@ class ContactsKeeperTest extends TestCase
 
         $this->processCalls($calls);
 
-        $this->assertCount(0, $cc);
+        self::assertCount(0, $cc);
     }
 
     /**
@@ -282,7 +282,7 @@ class ContactsKeeperTest extends TestCase
             }
         });
         $this->processCalls($calls);
-        $this->assertCount(1, $returnedUsers);
+        self::assertCount(1, $returnedUsers);
 
         $this->processCalls($calls);
 
@@ -300,7 +300,7 @@ class ContactsKeeperTest extends TestCase
 
         $this->processCalls($calls);
 
-        $this->assertCount(0, $cc);
+        self::assertCount(0, $cc);
     }
 
     /**
@@ -319,7 +319,7 @@ class ContactsKeeperTest extends TestCase
             }
         });
         $this->processCalls($calls);
-        $this->assertCount(1, $returnedUsers);
+        self::assertCount(1, $returnedUsers);
 
         $this->processCalls($calls);
 
@@ -338,7 +338,7 @@ class ContactsKeeperTest extends TestCase
 
         $this->processCalls($calls);
 
-        $this->assertCount(0, $cc);
+        self::assertCount(0, $cc);
     }
 
     /**
@@ -357,7 +357,7 @@ class ContactsKeeperTest extends TestCase
             }
         });
         $this->processCalls($calls);
-        $this->assertCount(1, $returnedUsers);
+        self::assertCount(1, $returnedUsers);
 
         $this->processCalls($calls);
 
@@ -376,7 +376,7 @@ class ContactsKeeperTest extends TestCase
 
         $this->processCalls($calls);
 
-        $this->assertCount(0, $cc);
+        self::assertCount(0, $cc);
     }
 
     /**
@@ -452,7 +452,7 @@ class ContactsKeeperTest extends TestCase
             }
         });
         $this->processCalls($calls);
-        $this->assertCount(1, $returnedUsers);
+        self::assertCount(1, $returnedUsers);
 
         $this->processCalls($calls);
 
@@ -470,7 +470,7 @@ class ContactsKeeperTest extends TestCase
 
         $this->processCalls($calls);
 
-        $this->assertCount(1, $cc);
+        self::assertCount(1, $cc);
     }
 
     /**
@@ -489,7 +489,7 @@ class ContactsKeeperTest extends TestCase
             }
         });
         $this->processCalls($calls);
-        $this->assertCount(1, $returnedUsers);
+        self::assertCount(1, $returnedUsers);
 
         $this->processCalls($calls);
 
