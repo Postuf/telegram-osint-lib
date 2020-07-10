@@ -29,7 +29,7 @@ abstract class ContactKeepingClientImpl extends DeferredClient implements Contac
     {
         parent::__construct($clock);
         $this->basicClient = $basicClient;
-        $this->contactsKeeper = new ContactsKeeper($this->basicClient, $startContacts);
+        $this->contactsKeeper = new ContactsKeeper($this->basicClient, $this, $clock, $startContacts);
     }
 
     /**

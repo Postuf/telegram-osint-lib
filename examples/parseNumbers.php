@@ -10,7 +10,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 // here we get contact list and get contact online status
 // avatars are saved to current directory
 
-$argsOrFalse = getopt('n:u:h', ['numbers:', 'users:', 'help']);
+$argsOrFalse = getopt('n:u:hp', ['numbers:', 'users:', 'help', 'photo']);
 if ($argsOrFalse === false
     || (array_key_exists('h', $argsOrFalse) || array_key_exists('help', $argsOrFalse))
     || ((!array_key_exists('n', $argsOrFalse) && !array_key_exists('numbers', $argsOrFalse))
@@ -24,6 +24,7 @@ Usage:
 
    -n, --numbers                Comma separated phone number list (e.g. 79061231231,79061231232).
    -u, --users                  Comma separated username list (e.g. aaa,bbb).
+   -p, --photo                  Download photo.
    -h, --help                   Display this help message.
 
 EOT;
@@ -64,9 +65,14 @@ $onComplete = static function (UserInfoModel $model) {
         echo 'Online'.PHP_EOL;
     }
     else {
-        echo "\n";
+        echo PHP_EOL;
     }
 };
+
+$withPhoto = isset($argsOrFalse['p']) || isset($argsOrFalse['photo']);
+if ($withPhoto) {
+    echo 'parsing with photos'.PHP_EOL;
+}
 
 $separator = "\t|\t";
 echo implode($separator, [
@@ -86,7 +92,7 @@ $client = new UserContactsScenario(
     $users,
     $onComplete,
     null,
-    false,
+    $withPhoto,
     false
 );
 /* @noinspection PhpUnhandledExceptionInspection */
