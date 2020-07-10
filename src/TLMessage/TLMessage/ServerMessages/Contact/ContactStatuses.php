@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-/** @noinspection PhpUnused */
+/** @noinspection PhpUnused
+ * @noinspection UnknownInspectionInspection
+ */
 
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact;
 
@@ -25,6 +27,7 @@ class ContactStatuses extends TLServerMessage
     /**
      * @return ContactStatus[]
      * @noinspection PhpUnused
+     * @noinspection UnknownInspectionInspection
      */
     public function getStatuses(): array
     {

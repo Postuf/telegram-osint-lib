@@ -25,7 +25,12 @@ class NullBasicClientImpl extends BasicClientImpl
 
     protected function pickSocket(DataCentre $dc, Proxy $proxy = null, callable $cb = null): Socket
     {
-        return new NullSocket();
+        $ret = new NullSocket();
+        if ($cb) {
+            $cb();
+        }
+
+        return $ret;
     }
 
     /**

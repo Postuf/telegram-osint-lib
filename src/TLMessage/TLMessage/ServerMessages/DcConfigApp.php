@@ -36,6 +36,7 @@ class DcConfigApp extends TLServerMessage
 
     /**
      * @noinspection PhpUnused
+     * @noinspection UnknownInspectionInspection
      */
     public function getLangPackVersion(): int
     {

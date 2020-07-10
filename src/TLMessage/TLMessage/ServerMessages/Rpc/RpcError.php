@@ -52,6 +52,7 @@ class RpcError extends TLServerMessage
 
     /**
      * @noinspection PhpUnused
+     * @noinspection UnknownInspectionInspection
      */
     public function isPhoneNumberUnoccupied(): bool
     {
