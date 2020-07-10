@@ -28,6 +28,7 @@ class DHServerInnerData extends TLServerMessage
 
     /**
      * @noinspection PhpUnused
+     * @noinspection UnknownInspectionInspection
      */
     public function getDHPrime(): string
     {

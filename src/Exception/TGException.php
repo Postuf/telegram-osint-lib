@@ -1,6 +1,9 @@
 <?php
 
-/** @noinspection PhpUnused */
+/**
+ * @noinspection PhpUnused
+ * @noinspection UnknownInspectionInspection
+ */
 declare(strict_types=1);
 
 namespace TelegramOSINT\Exception;

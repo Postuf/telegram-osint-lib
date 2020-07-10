@@ -31,6 +31,7 @@ class ResPQ extends TLServerMessage
 
     /**
      * @noinspection PhpUnused
+     * @noinspection UnknownInspectionInspection
      */
     public function getPQ(): int
     {

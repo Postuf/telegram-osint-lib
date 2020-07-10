@@ -166,6 +166,7 @@ class AccountInfo
     /**
      * @param string $firstName
      * @noinspection PhpUnused
+     * @noinspection UnknownInspectionInspection
      */
     public function setFirstName($firstName): void
     {
@@ -175,6 +176,7 @@ class AccountInfo
     /**
      * @param string $lastName
      * @noinspection PhpUnused
+     * @noinspection UnknownInspectionInspection
      */
     public function setLastName($lastName): void
     {

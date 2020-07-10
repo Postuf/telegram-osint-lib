@@ -133,7 +133,6 @@ class ContactsKeeper
      */
     public function addUser(string $userName, callable $onComplete): void
     {
-        /** @noinspection NullPointerExceptionInspection */
         $this->client->getConnection()->getResponseAsync(
             new contacts_search($userName, 5),
             function (AnonymousMessage $message) use ($userName, $onComplete) {
@@ -167,7 +166,6 @@ class ContactsKeeper
                         $this->onContactsAdded([$contact]);
                         $onComplete(true);
                     } else {
-                        /** @noinspection NullPointerExceptionInspection */
                         $this->client->getConnection()->getResponseAsync(
                             new add_contact($id, $hash),
                             function (AnonymousMessage $message) use ($onComplete) {
@@ -311,7 +309,6 @@ class ContactsKeeper
 
         foreach ($results->getImportedClients() as $client){
             $expectedPhone = $source->getPhoneByClientId($client->getClientId());
-            /** @noinspection NullCoalescingOperatorCanBeUsedInspection */
             $actualPhone = isset($userMap[$client->getUserId()]) ? $userMap[$client->getUserId()] : false;
             if($expectedPhone !== false && $actualPhone !== false && (int) $expectedPhone !== (int) $actualPhone) {
                 $importResult->replacedPhones[] = $actualPhone;
@@ -379,7 +376,6 @@ class ContactsKeeper
             }
 
             // delete
-            /** @noinspection NullPointerExceptionInspection */
             $this->client->getConnection()->getResponseAsync(
                 $deleteContactsRequest,
                 function (AnonymousMessage $message) use ($onComplete, $contacts) {
@@ -411,7 +407,6 @@ class ContactsKeeper
         }
 
         // reset contacts
-        /** @noinspection NullPointerExceptionInspection */
         $this->client->getConnection()->getResponseAsync(
             new reset_saved_contacts(),
             function (/* @noinspection PhpUnusedParameterInspection */ AnonymousMessage $message) use ($onComplete) {
@@ -619,7 +614,6 @@ class ContactsKeeper
                 }
             };
 
-            /** @noinspection NullPointerExceptionInspection */
             $this->client->getConnection()->getResponseAsync($request, $callback);
         }
     }
