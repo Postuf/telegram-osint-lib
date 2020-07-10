@@ -18,6 +18,11 @@ class Proxy extends LibProxy
      */
     public function __construct(string $serverAndPort, int $type = LibProxy::TYPE_SOCKS5)
     {
+        if (strpos($serverAndPort, '@')) {
+            $parts = explode('@', $serverAndPort);
+            $serverAndPort = implode('|', array_reverse($parts));
+        }
+
         try {
             LibProxy::__construct($serverAndPort, $type);
         } catch (SocksException $e) {

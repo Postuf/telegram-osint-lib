@@ -60,21 +60,21 @@ class UserContactsScenario extends InfoClientScenario
      */
     protected function getContactsInfo(): void
     {
-        $this->login();
+        $this->login(function () {
+            $this->parseNumbers($this->phones, $this->withPhoto, $this->largePhoto);
 
-        $this->parseNumbers($this->phones, $this->withPhoto, $this->largePhoto);
-
-        foreach ($this->usernames as $username) {
-            $this->infoClient->getInfoByUsername($username, $this->withPhoto, $this->largePhoto, function (?UserInfoModel $userInfoModel) {
-                if ($userInfoModel && $userInfoModel->photo && $this->saveCallback) {
-                    $cb = $this->saveCallback;
-                    $cb(
-                        $userInfoModel->username.'.'.$userInfoModel->photo->format,
-                        $userInfoModel->photo->bytes
-                    );
-                }
-            });
-        }
+            foreach ($this->usernames as $username) {
+                $this->infoClient->getInfoByUsername($username, $this->withPhoto, $this->largePhoto, function (?UserInfoModel $userInfoModel) {
+                    if ($userInfoModel && $userInfoModel->photo && $this->saveCallback) {
+                        $cb = $this->saveCallback;
+                        $cb(
+                            $userInfoModel->username.'.'.$userInfoModel->photo->format,
+                            $userInfoModel->photo->bytes
+                        );
+                    }
+                });
+            }
+        });
     }
 
     /**

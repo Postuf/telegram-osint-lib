@@ -47,13 +47,17 @@ abstract class InfoClientScenario implements ScenarioInterface
     }
 
     /**
+     * @param callable|null $cb
+     *
      * @throws TGException
      */
-    protected function login(): void
+    protected function login(?callable $cb = null): void
     {
         $authKey = AuthKeyCreator::createFromString($this->authKey);
         if (!$this->infoClient->isLoggedIn()) {
-            $this->infoClient->login($authKey, $this->proxy);
+            $this->infoClient->login($authKey, $this->proxy, $cb);
+        } elseif ($cb) {
+            $cb();
         }
     }
 
@@ -108,9 +112,7 @@ abstract class InfoClientScenario implements ScenarioInterface
         float $timeout = 0,
         bool $terminate = true
     ): void {
-        $this->login();
-
-        $actions();
+        $this->login($actions);
 
         if ($pollAndTerminate) {
             $this->pollAndTerminate($timeout, $terminate);

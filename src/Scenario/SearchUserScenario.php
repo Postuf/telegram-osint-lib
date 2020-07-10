@@ -28,7 +28,7 @@ class SearchUserScenario extends InfoClientScenario
 
     /**
      * @param ClientGeneratorInterface $clientGenerator
-     * @param string[]                 $groupnames
+     * @param string[]                 $groupNames
      * @param string                   $username
      * @param callable|null            $handler         function(int $groupId, string $title)
      *
@@ -36,12 +36,12 @@ class SearchUserScenario extends InfoClientScenario
      */
     public function __construct(
         ClientGeneratorInterface $clientGenerator,
-        array $groupnames,
+        array $groupNames,
         string $username,
         ?callable $handler = null
     ) {
         parent::__construct($clientGenerator);
-        $this->groupnames = $groupnames;
+        $this->groupnames = $groupNames;
         $this->username = $username;
         $this->handler = $handler;
     }

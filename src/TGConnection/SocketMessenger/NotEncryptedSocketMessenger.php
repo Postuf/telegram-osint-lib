@@ -66,6 +66,11 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
      */
     public function readMessage(): ?AnonymousMessage
     {
+        if (!$this->socket->ready()) {
+            $this->socket->poll();
+
+            return null;
+        }
         $packet = $this->readPacket();
         if (!$packet) {
             return null;
@@ -167,6 +172,13 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
             };
         }
         // Dummy impl
+        if (!$this->socket->ready()) {
+            $timeStart = time();
+            do {
+                $this->socket->poll();
+                usleep(10000);
+            } while (!$this->socket->ready() || time() - $timeStart > LibConfig::CONN_SOCKET_TIMEOUT_WAIT_RESPONSE_MS);
+        }
         $this->writeMessage($message);
         $startTimeMs = microtime(true) * 1000;
 

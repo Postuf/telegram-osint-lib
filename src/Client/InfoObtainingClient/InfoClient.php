@@ -55,7 +55,7 @@ use TelegramOSINT\Tools\Username;
 
 class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
 {
-    private const READ_LIMIT_BYTES = 1024 * 32;  // must be the power of 2 (4096, 8192, 16384 ...)
+    private const READ_LIMIT_BYTES = 1024 * 256;  // must be the power of 2 (4096, 8192, 16384 ...)
 
     /**
      * @var BasicClient[]
@@ -560,39 +560,44 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
                     $dc = new DataCentre($dc->getIp(), $dc->getId(), $dc->getPort());
                     $auth = new AppAuthorization($dc, $this->proxy);
                     $auth->createAuthKey(function ($authKey) use ($onPictureLoaded, $dc, $location) {
-
                         // login in foreign dc
                         $clientKey = count($this->otherDcClients);
                         $this->otherDcClients[$clientKey] = $this->generator->generate(false, true);
-                        $this->otherDcClients[$clientKey]->login($authKey, $this->proxy, null);
+                        $this->otherDcClients[$clientKey]->login(
+                            $authKey,
+                            $this->proxy,
+                            function () use ($dc, $location, $onPictureLoaded, $clientKey) {
+                                // export current authorization to foreign dc
+                                $exportAuthRequest = new export_authorization($dc->getDcId());
+                                /** @noinspection NullPointerExceptionInspection */
+                                $this->basicClient->getConnection()->getResponseAsync(
+                                    $exportAuthRequest,
+                                    function (AnonymousMessage $message) use ($clientKey, $location, $onPictureLoaded) {
+                                        $exportedAuthResponse = new ExportedAuthorization($message);
 
-                        // export current authorization to foreign dc
-                        $exportAuthRequest = new export_authorization($dc->getDcId());
-                        /** @noinspection NullPointerExceptionInspection */
-                        $this->basicClient->getConnection()->getResponseAsync($exportAuthRequest, function (AnonymousMessage $message) use ($clientKey, $location, $onPictureLoaded) {
-                            $exportedAuthResponse = new ExportedAuthorization($message);
+                                        // import authorization on foreign dc
+                                        $importAuthRequest = new import_authorization(
+                                            $exportedAuthResponse->getUserId(),
+                                            $exportedAuthResponse->getTransferKey()
+                                        );
+                                        /** @noinspection NullPointerExceptionInspection */
+                                        $this->otherDcClients[$clientKey]->getConnection()->getResponseAsync($importAuthRequest, function (AnonymousMessage $message) use ($exportedAuthResponse, $clientKey, $location, $onPictureLoaded) {
+                                            $authorization = new AuthorizationSelfUser($message);
+                                            if ($authorization->getUser()->getUserId() !== $exportedAuthResponse->getUserId()) {
+                                                throw new TGException(TGException::ERR_AUTH_EXPORT_FAILED);
+                                            }
+                                            // make foreign dc current and get the picture
+                                            $this->readPictureFromCurrentDC($this->otherDcClients[$clientKey]->getConnection(), $location, function ($picture) use ($clientKey, $onPictureLoaded) {
+                                                $this->otherDcClients[$clientKey]->terminate();
+                                                unset($this->otherDcClients[$clientKey]);
+                                                $onPictureLoaded($picture);
+                                            });
 
-                            // import authorization on foreign dc
-                            $importAuthRequest = new import_authorization(
-                                $exportedAuthResponse->getUserId(),
-                                $exportedAuthResponse->getTransferKey()
-                            );
-                            /** @noinspection NullPointerExceptionInspection */
-                            $this->otherDcClients[$clientKey]->getConnection()->getResponseAsync($importAuthRequest, function (AnonymousMessage $message) use ($exportedAuthResponse, $clientKey, $location, $onPictureLoaded) {
-                                $authorization = new AuthorizationSelfUser($message);
-                                if($authorization->getUser()->getUserId() !== $exportedAuthResponse->getUserId()) {
-                                    throw new TGException(TGException::ERR_AUTH_EXPORT_FAILED);
-                                }
-                                // make foreign dc current and get the picture
-                                $this->readPictureFromCurrentDC($this->otherDcClients[$clientKey]->getConnection(), $location, function ($picture) use ($clientKey, $onPictureLoaded) {
-                                    $this->otherDcClients[$clientKey]->terminate();
-                                    unset($this->otherDcClients[$clientKey]);
-                                    $onPictureLoaded($picture);
-                                });
-
-                            });
-                        });
-
+                                        });
+                                    }
+                                );
+                            }
+                        );
                     });
 
                     break;
