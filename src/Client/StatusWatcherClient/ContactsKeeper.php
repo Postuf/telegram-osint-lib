@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TelegramOSINT\Client\StatusWatcherClient;
 
 use TelegramOSINT\Client\BasicClient\BasicClient;
+use TelegramOSINT\Client\DeferredClient;
 use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
@@ -19,6 +20,8 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\CurrentContacts;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update\Updates;
+use TelegramOSINT\Tools\Clock;
+use TelegramOSINT\Tools\DefaultClock;
 use TelegramOSINT\Tools\Phone;
 use TelegramOSINT\Tools\Username;
 use TelegramOSINT\Validators\ImportedPhoneValidator;
@@ -40,6 +43,10 @@ class ContactsKeeper
      * @var BasicClient
      */
     private $client;
+    /**
+     * @var DeferredClient
+     */
+    private $deferredClient;
     /**
      * @var ContactUser[]
      */
@@ -68,14 +75,26 @@ class ContactsKeeper
      * @var callable[]
      */
     private $contactsLoadedQueue = [];
+    /** @var Clock|DefaultClock */
+    private $clock;
+    /** @var int */
+    private $deleteQueueSize = 0;
 
     /**
-     * @param BasicClient   $client
-     * @param ContactUser[] $startContacts
+     * @param BasicClient    $client
+     * @param DeferredClient $deferredClient
+     * @param Clock|null     $clock
+     * @param ContactUser[]  $startContacts
      */
-    public function __construct(BasicClient $client, array $startContacts = [])
-    {
+    public function __construct(
+        BasicClient $client,
+        DeferredClient $deferredClient,
+        ?Clock $clock = null,
+        array $startContacts = []
+    ) {
         $this->client = $client;
+        $this->deferredClient = $deferredClient;
+        $this->clock = $clock ?? new DefaultClock();
         $this->contacts = $startContacts;
     }
 
@@ -340,8 +359,6 @@ class ContactsKeeper
     /**
      * @param ContactUser[] $contacts
      * @param callable      $onComplete function()
-     *
-     * @throws TGException
      */
     private function delContacts(array $contacts, callable $onComplete): void
     {
@@ -351,30 +368,37 @@ class ContactsKeeper
             return;
         }
 
-        if(time() - $this->lastDelContactsTime < self::FLOOD_FREQUENCY_LIMIT_SEC) {
-            throw new TGException(TGException::ERR_CLIENT_FLOODING_ACTIONS, 'delete_contacts too frequent');
-        }
-        $this->lastDelContactsTime = time();
+        $deleteLogic = function () use ($contacts, $onComplete) {
+            $this->deleteQueueSize--;
+            $this->lastDelContactsTime = $this->clock->time();
 
-        // prepare deletion
-        $deleteContactsRequest = new delete_contacts();
-        foreach ($contacts as $contact) {
-            $deleteContactsRequest->addToDelete($contact->getAccessHash(), $contact->getUserId());
-        }
-
-        // delete
-        /** @noinspection NullPointerExceptionInspection */
-        $this->client->getConnection()->getResponseAsync(
-            $deleteContactsRequest,
-            function (AnonymousMessage $message) use ($onComplete, $contacts) {
-                $updates = new Updates($message);
-                if(count($updates->getUsers()) !== count($contacts)) {
-                    throw new TGException(TGException::ERR_CLIENT_COULD_NOT_DELETE);
-                }
-                $this->onContactsDeleted($contacts);
-                $onComplete();
+            // prepare deletion
+            $deleteContactsRequest = new delete_contacts();
+            foreach ($contacts as $contact) {
+                $deleteContactsRequest->addToDelete($contact->getAccessHash(), $contact->getUserId());
             }
-        );
+
+            // delete
+            /** @noinspection NullPointerExceptionInspection */
+            $this->client->getConnection()->getResponseAsync(
+                $deleteContactsRequest,
+                function (AnonymousMessage $message) use ($onComplete, $contacts) {
+                    $updates = new Updates($message);
+                    if (count($updates->getUsers()) !== count($contacts)) {
+                        throw new TGException(TGException::ERR_CLIENT_COULD_NOT_DELETE);
+                    }
+                    $this->onContactsDeleted($contacts);
+                    $onComplete();
+                }
+            );
+        };
+
+        $this->deleteQueueSize++;
+        if($this->clock->time() - $this->lastDelContactsTime < self::FLOOD_FREQUENCY_LIMIT_SEC) {
+            $this->deferredClient->defer($deleteLogic, $this->deleteQueueSize * self::FLOOD_FREQUENCY_LIMIT_SEC);
+        } else {
+            $deleteLogic();
+        }
     }
 
     /**

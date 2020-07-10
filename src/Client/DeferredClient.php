@@ -23,7 +23,7 @@ abstract class DeferredClient
     /** @var array */
     private $deferredQueue = [];
 
-    protected function defer(callable $cb, int $timeOffset = 0): void
+    public function defer(callable $cb, int $timeOffset = 0): void
     {
         $this->deferredQueue[] = [$this->clock->time() + $timeOffset, $cb];
         $this->sortDeferredQueue();

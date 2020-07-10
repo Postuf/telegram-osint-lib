@@ -29,7 +29,7 @@ class StatusWatcherClientMock extends StatusWatcherClient
     ) {
         parent::__construct($callbacks, $logger, $startContacts, $clock, $basicClient);
         $this->curClient = $basicClient;
-        $this->contactsKeeper = new ContactsKeeperMock($this->basicClient);
+        $this->contactsKeeper = new ContactsKeeperMock($this->basicClient, $this, $clock);
     }
 
     /**

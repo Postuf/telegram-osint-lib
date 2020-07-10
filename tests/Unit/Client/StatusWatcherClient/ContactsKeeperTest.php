@@ -9,6 +9,7 @@ namespace Unit\Client\StatusWatcherClient;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Client\BasicClient\BasicClient;
+use TelegramOSINT\Client\DeferredClient;
 use TelegramOSINT\Client\StatusWatcherClient\ContactsKeeper;
 use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
 use TelegramOSINT\Exception\TGException;
@@ -27,6 +28,8 @@ class ContactsKeeperTest extends TestCase
     private $socketMessengerMock;
     /** @var ContactsKeeper */
     private $keeper;
+    /** @var DeferredClient */
+    private $deferredClient;
 
     protected function setUp(): void
     {
@@ -34,10 +37,11 @@ class ContactsKeeperTest extends TestCase
 
         $basicClientMock = $this->createMock(BasicClient::class);
         $this->socketMessengerMock = $this->createMock(SocketMessenger::class);
+        $this->deferredClient = $this->createMock(DeferredClient::class);
         $basicClientMock
             ->method('getConnection')
             ->willReturn($this->socketMessengerMock);
-        $this->keeper = new ContactsKeeper($basicClientMock);
+        $this->keeper = new ContactsKeeper($basicClientMock, $this->deferredClient);
     }
 
     /**
@@ -497,7 +501,9 @@ class ContactsKeeperTest extends TestCase
 
         $this->keeper->delUsers(['aaa'], static function () {
         });
-        $this->expectException(TGException::class);
+        $this->deferredClient
+            ->expects(self::once())
+            ->method('defer');
         $this->keeper->delUsers(['aaa'], static function () {
         });
     }

@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Unit\Client\StatusWatcherClient;
 
 use TelegramOSINT\Client\BasicClient\BasicClient;
+use TelegramOSINT\Client\DeferredClient;
 use TelegramOSINT\Client\StatusWatcherClient\ContactsKeeper;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
+use TelegramOSINT\Tools\Clock;
 
 class ContactsKeeperMock extends ContactsKeeper
 {
@@ -16,12 +18,14 @@ class ContactsKeeperMock extends ContactsKeeper
     private $contacts;
 
     /**
-     * @param BasicClient|null $client
+     * @param BasicClient|null    $client
+     * @param DeferredClient|null $deferredClient
+     * @param Clock|null          $clock
      */
-    public function __construct(?BasicClient $client)
+    public function __construct(?BasicClient $client, ?DeferredClient $deferredClient = null, ?Clock $clock = null)
     {
-        if ($client) {
-            parent::__construct($client);
+        if ($client && $deferredClient) {
+            parent::__construct($client, $deferredClient, $clock);
         }
     }
 
