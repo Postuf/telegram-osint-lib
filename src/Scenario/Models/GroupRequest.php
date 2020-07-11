@@ -25,7 +25,7 @@ class GroupRequest
 
         $this->groupId = $groupId;
         if ($username) {
-            if (strpos($username, '/')) {
+            if (strpos($username, '/') !== false) {
                 $parts = explode('/', $username);
                 $username = $parts[count($parts) - 1];
             }

@@ -313,6 +313,7 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
     public function pollMessages(): void
     {
         while(true) {
+            /** @noinspection UnusedFunctionResultInspection */
             $this->socketMessenger->readMessage();
         }
     }

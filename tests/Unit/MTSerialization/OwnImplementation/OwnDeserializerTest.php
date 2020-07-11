@@ -30,9 +30,8 @@ class OwnDeserializerTest extends TestCase
     private function deserializeIntoComparableObject($serialized): string
     {
         $serialized = hex2bin($serialized);
-        $object = $this->deserializer->deserialize($serialized);
 
-        return $object->getPrintable();
+        return $this->deserializer->deserialize($serialized)->getPrintable();
     }
 
     /**

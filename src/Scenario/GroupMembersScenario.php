@@ -93,8 +93,7 @@ class GroupMembersScenario extends AbstractGroupScenario
                 $parts = explode('/', $this->deepLink);
                 $groupName = $parts[count($parts) - 1];
                 $onChannelFound = function (AnonymousMessage $message) {
-                    $chats = $message->getValue('chats');
-                    foreach ($chats as $chat) {
+                    foreach ($message->getValue('chats') as $chat) {
                         $id = (int) $chat['id'];
                         Logger::log(__CLASS__, "getting channel members for channel $id");
                         /** @var array $chat */

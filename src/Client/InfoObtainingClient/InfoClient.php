@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection NullPointerExceptionInspection */
+
 namespace TelegramOSINT\Client\InfoObtainingClient;
 
 use TelegramOSINT\Auth\Protocol\AppAuthorization;
@@ -322,6 +324,7 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
         $this->basicClient->getConnection()->getResponseAsync($fullUserRequest, function (AnonymousMessage $message) use ($withPhoto, $largePhoto, $onComplete) {
             $userFull = new UserFull($message);
             $this->buildUserInfoModel($userFull->getUser(), $withPhoto, $largePhoto, function (UserInfoModel $model) use ($onComplete, $userFull) {
+                /** @noinspection UnusedFunctionResultInspection */
                 $this->extendUserInfoModel($model, $userFull);
                 $onComplete($model);
             });

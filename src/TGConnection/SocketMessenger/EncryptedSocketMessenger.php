@@ -372,9 +372,8 @@ class EncryptedSocketMessenger extends TgSocketMessenger
 
         // container of messages
         elseif (MsgContainer::isIt($message)){
-            $msgContainer = new MsgContainer($message);
             // collect messages for further processes: one message process per read
-            $this->messagesToBeProcessedQueue = $msgContainer->getMessages();
+            $this->messagesToBeProcessedQueue = (new MsgContainer($message))->getMessages();
         }
 
         // salt change
@@ -408,7 +407,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
      */
     private function analyzeRpcError(RpcError $rpcError): void
     {
-        $parts = explode(':', $this->authKeyObj->getSerializedAuthKey());
+        $parts = explode(':', $this->authKeyObj->getSerializedAuthKey(), 2);
         $userId = $parts[0];
 
         if($rpcError->isNetworkMigrateError()) {
@@ -475,6 +474,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
         $this->writeIdentifiedMessage($badMessage, $newMessageId);
         unset($this->sentMessages[$badMessageId]);
 
+        /** @noinspection UnusedFunctionResultInspection */
         $this->readMessage();
     }
 

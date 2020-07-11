@@ -85,7 +85,7 @@ class AuthKey_v2 implements AuthKey
 
     public function getRawAuthKey(): string
     {
-        $authKey = explode(':', $this->serializedAuthKey)[0];
+        $authKey = explode(':', $this->serializedAuthKey, 2)[0];
 
         return base64_decode($authKey);
     }

@@ -65,9 +65,7 @@ class GeoSearchScenario extends InfoClientScenario
                             return;
                         }
 
-                        $updates = new Updates($message);
-
-                        foreach ($updates->getChats() as $chat) {
+                        foreach ((new Updates($message))->getChats() as $chat) {
                             $this->counter++;
                             if ($this->counter > $this->limit) {
                                 break;

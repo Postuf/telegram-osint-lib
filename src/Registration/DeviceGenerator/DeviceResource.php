@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection NonSecureArrayRandUsageInspection */
+
 declare(strict_types=1);
 
 namespace TelegramOSINT\Registration\DeviceGenerator;

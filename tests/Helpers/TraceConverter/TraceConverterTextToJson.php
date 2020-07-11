@@ -43,7 +43,7 @@ class TraceConverterTextToJson
      */
     private function readTraceFromTextFile(string $filePath): TraceInterface
     {
-        if (!file_exists($filePath)) {
+        if (!is_file($filePath)) {
             throw new InvalidArgumentException("Trace file `$filePath` do not exists.");
         }
 

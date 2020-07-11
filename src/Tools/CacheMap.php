@@ -13,7 +13,7 @@ class CacheMap
 
     public function __construct(string $filename)
     {
-        if (file_exists($filename)) {
+        if (is_file($filename)) {
             /** @noinspection PhpUnhandledExceptionInspection */
             $this->map = json_decode(file_get_contents($filename), true, 512, JSON_THROW_ON_ERROR);
         }

@@ -88,15 +88,13 @@ class UserSelfTest extends TestCase
     public function test_get_photo(): void
     {
         // Check is userProfilePhoto
-        $userSelfProfile = new UserSelf($this->getObjectWithUserProfilePhoto());
-        $profilePhoto = $userSelfProfile->getPhoto();
+        $profilePhoto = (new UserSelf($this->getObjectWithUserProfilePhoto()))->getPhoto();
         self::assertInstanceOf(UserProfilePhoto::class, $profilePhoto);
         /** @noinspection PhpPossiblePolymorphicInvocationInspection */
         self::assertEquals('3476051023203772362', $profilePhoto->getPhotoId());
 
         // Check is chatPhoto
-        $userSelfChat = new UserSelf($this->getObjectWithChatPhoto());
-        $chatPhoto = $userSelfChat->getPhoto();
+        $chatPhoto = (new UserSelf($this->getObjectWithChatPhoto()))->getPhoto();
         self::assertInstanceOf(ChatPhoto::class, $chatPhoto);
         self::assertEquals(2, $chatPhoto->getDcId());
     }

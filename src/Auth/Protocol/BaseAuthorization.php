@@ -280,8 +280,7 @@ abstract class BaseAuthorization implements Authorization
     private function createDHInnerDataObject(string $decryptedResponse): DHServerInnerData
     {
         $messageWithoutHeaders = substr($decryptedResponse, 20, -8);
-        $deserializer = new OwnDeserializer();
-        $dhInnerData = $deserializer->deserialize($messageWithoutHeaders);
+        $dhInnerData = (new OwnDeserializer())->deserialize($messageWithoutHeaders);
 
         return new DHServerInnerData($dhInnerData);
     }

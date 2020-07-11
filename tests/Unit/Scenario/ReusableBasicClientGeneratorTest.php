@@ -12,8 +12,7 @@ class ReusableBasicClientGeneratorTest extends TestCase
 {
     public function test_generate(): void
     {
-        $rcg = new ReusableBasicClientGenerator();
-        $client = $rcg->generate();
+        $client = (new ReusableBasicClientGenerator())->generate();
         /** @noinspection UnnecessaryAssertionInspection */
         self::assertInstanceOf(BasicClient::class, $client);
     }

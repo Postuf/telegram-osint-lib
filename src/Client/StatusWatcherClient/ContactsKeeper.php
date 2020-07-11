@@ -118,8 +118,7 @@ class ContactsKeeper
         $this->client->getConnection()->getResponseAsync(
             new contacts_search($userName, 5),
             function (AnonymousMessage $message) use ($userName, $onComplete) {
-                $object = new ContactsFound($message);
-                $users = $object->getUsers();
+                $users = (new ContactsFound($message))->getUsers();
                 if(empty($users)){
                     $onComplete(false);
 
@@ -153,8 +152,7 @@ class ContactsKeeper
                         $this->client->getConnection()->getResponseAsync(
                             new add_contact($id, $hash),
                             function (AnonymousMessage $message) use ($onComplete) {
-                                $updates = new Updates($message);
-                                $users = $updates->getUsers();
+                                $users = (new Updates($message))->getUsers();
                                 $this->onContactsAdded($users);
                                 $onComplete(true);
                             }

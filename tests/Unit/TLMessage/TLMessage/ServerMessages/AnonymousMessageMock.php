@@ -18,8 +18,6 @@ class AnonymousMessageMock implements AnonymousMessage
 
     /**
      * @param array $message
-     *
-     * @throws TGException
      */
     public function __construct(array $message)
     {
