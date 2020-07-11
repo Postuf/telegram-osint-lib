@@ -9,7 +9,6 @@ use Helpers\TraceConverter\Traces\Trace;
 use Helpers\TraceConverter\Traces\TraceRecord;
 use InvalidArgumentException;
 use JsonException;
-use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\OwnImplementation\OwnAnonymousMessage;
 
 class JsonTraceReader
@@ -17,13 +16,13 @@ class JsonTraceReader
     /**
      * @param string $pathToJson
      *
-     * @throws TGException|JsonException
+     * @throws JsonException
      *
      * @return TraceInterface
      */
     public function read(string $pathToJson): TraceInterface
     {
-        if (!file_exists($pathToJson)) {
+        if (!is_file($pathToJson)) {
             throw new InvalidArgumentException("Trace file `$pathToJson` do not exists.");
         }
 

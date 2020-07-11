@@ -169,7 +169,7 @@ class BasicClientImpl implements BasicClient, MessageListener
      */
     protected function pickSocket(DataCentre $dc, Proxy $proxy = null, callable $cb = null): Socket
     {
-        if(($proxy instanceof Proxy) && $proxy->getType() === Proxy::TYPE_SOCKS5) {
+        if($proxy !== null && $proxy->getType() === Proxy::TYPE_SOCKS5) {
             return $cb
                 ? new NonBlockingProxySocket($proxy, $dc, $cb, $this->proxyTimeout)
                 : new ProxySocket($proxy, $dc, $this->proxyTimeout);
@@ -230,7 +230,7 @@ class BasicClientImpl implements BasicClient, MessageListener
 
     private function getUserId() {
         if (!$this->authKey) {
-            $parts = explode(':', $this->authKey->getSerializedAuthKey());
+            $parts = explode(':', $this->authKey->getSerializedAuthKey(), 2);
 
             return $parts[0];
         }

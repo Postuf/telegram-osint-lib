@@ -39,6 +39,6 @@ class GroupMembersScenarioTest extends TestCase
         $client->setDeepLink('https://t.me/asfaefegw');
         $client->setTimeout(self::TIMEOUT);
         $client->startActions();
-        $this->assertEquals(1, $count);
+        self::assertEquals(1, $count);
     }
 }

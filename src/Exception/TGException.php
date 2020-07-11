@@ -158,15 +158,9 @@ class TGException extends Exception
     public function getConstants(): array
     {
         /** @noinspection PhpUnhandledExceptionInspection */
-        $reflector = new ReflectionClass(get_class($this));
-        $constants = $reflector->getConstants();
-        $constantArray = [];
+        $constants = (new ReflectionClass(get_class($this)))->getConstants();
 
-        foreach($constants as $constant => $code) {
-            $constantArray[$code] = $constant;
-        }
-
-        return $constantArray;
+        return array_flip($constants);
     }
 
 }

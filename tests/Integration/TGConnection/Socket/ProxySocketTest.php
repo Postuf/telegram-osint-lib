@@ -19,7 +19,7 @@ class ProxySocketTest extends TestCase
     public function test_proxy_connect(): void
     {
         $socket = new ProxySocket(new Proxy('127.0.0.1:1080'), DataCentre::getDefault());
-        $this->assertEquals(true, $socket->ready());
+        self::assertEquals(true, $socket->ready());
         $socket->terminate();
     }
 
@@ -43,8 +43,8 @@ class ProxySocketTest extends TestCase
             }
             usleep(1000);
         }
-        $this->assertEquals(true, $socket->ready());
-        $this->assertEquals(true, $isReady);
+        self::assertEquals(true, $socket->ready());
+        self::assertEquals(true, $isReady);
         $socket->terminate();
     }
 }

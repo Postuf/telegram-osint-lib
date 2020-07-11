@@ -176,8 +176,7 @@ class GroupPhotosScenario extends AbstractGroupScenario
                 $groupname = $parts[count($parts) - 1];
 
                 $afterGroupResolve = function (AnonymousMessage $message) use ($limit) {
-                    $chats = $message->getValue('chats');
-                    foreach ($chats as $chat) {
+                    foreach ($message->getValue('chats') as $chat) {
                         $id = (int) $chat['id'];
                         $handler = $this->makeChatMessagesHandler($id, $limit);
                         /** @var array $chat */
@@ -200,9 +199,8 @@ class GroupPhotosScenario extends AbstractGroupScenario
                             return;
                         }
 
-                        $resolvedPeer = new ResolvedPeer($message);
                         /** @var array $peer */
-                        $peer = $resolvedPeer->getPeer();
+                        $peer = (new ResolvedPeer($message))->getPeer();
                         /** @see https://core.telegram.org/constructor/peerUser */
                         if (!($peer instanceof PeerUser)) {
                             Logger::log(__CLASS__, 'got unexpected peer type');
@@ -286,8 +284,7 @@ class GroupPhotosScenario extends AbstractGroupScenario
                 /* https://core.telegram.org/type/Photo */
                 $photo = $media['photo'];
                 $sizeId = 'x';
-                $types = ['photoStrippedSize', 'photoSize'];
-                foreach ($types as $type) {
+                foreach (['photoStrippedSize', 'photoSize'] as $type) {
                     foreach ($photo['sizes'] as $size) {
                         if ($type === $size['_']) {
                             $sizeId = $size['type'];

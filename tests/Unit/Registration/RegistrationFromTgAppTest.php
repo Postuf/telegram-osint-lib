@@ -12,6 +12,6 @@ class RegistrationFromTgAppTest extends TestCase
     public function test_construct(): void
     {
         $reg = new RegistrationFromTgApp();
-        $this->assertInstanceOf(RegistrationFromTgApp::class, $reg);
+        self::assertInstanceOf(RegistrationFromTgApp::class, $reg);
     }
 }

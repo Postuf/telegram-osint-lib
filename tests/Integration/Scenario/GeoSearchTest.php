@@ -57,7 +57,7 @@ class GeoSearchTest extends TestCase
         $search->setTimeout(self::TIMEOUT);
         $search->startActions();
 
-        $this->assertEquals(1, $count);
+        self::assertEquals(1, $count);
 
     }
 }

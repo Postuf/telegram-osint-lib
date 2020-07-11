@@ -472,6 +472,7 @@ class OwnDeserializer implements MTDeserializer
         }
 
         $result = $len > 0 ? $this->stream->read($len) : '';
+        /** @noinspection UnusedFunctionResultInspection */
         $this->stream->read($padding);
 
         return $result;

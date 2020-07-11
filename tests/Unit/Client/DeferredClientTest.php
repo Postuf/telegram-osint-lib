@@ -31,7 +31,7 @@ class DeferredClientTest extends TestCase
         $cb = static function () use (&$called) { $called = true; };
         $this->client->defer($cb);
         $this->client->processDeferredQueue();
-        $this->assertTrue($called);
+        self::assertTrue($called);
     }
 
     /**
@@ -43,7 +43,7 @@ class DeferredClientTest extends TestCase
         $cb = static function () use (&$called) { $called = true; };
         $this->client->defer($cb, 10);
         $this->client->processDeferredQueue();
-        $this->assertFalse($called);
+        self::assertFalse($called);
     }
 
     /**
@@ -60,11 +60,11 @@ class DeferredClientTest extends TestCase
 
         $this->clock->usleep(ControllableClock::SECONDS_MS);
         $this->client->processDeferredQueue();
-        $this->assertTrue($called1);
-        $this->assertFalse($called2);
+        self::assertTrue($called1);
+        self::assertFalse($called2);
 
         $this->clock->usleep(ControllableClock::SECONDS_MS);
         $this->client->processDeferredQueue();
-        $this->assertTrue($called2);
+        self::assertTrue($called2);
     }
 }

@@ -63,7 +63,7 @@ class StatusWatcherClientTest extends TestCase
             $calledUser1 = true;
         });
         $this->pollMessages($watcherClient);
-        $this->assertTrue($calledUser1);
+        self::assertTrue($calledUser1);
 
         // second user addition
         $watcherClient->addUser('test2', function () {
@@ -86,7 +86,7 @@ class StatusWatcherClientTest extends TestCase
             $calledUser1 = true;
         });
         $this->pollMessages($watcherClient);
-        $this->assertTrue($calledUser1);
+        self::assertTrue($calledUser1);
 
         // second user addition
         $calledUser2 = false;
@@ -95,10 +95,10 @@ class StatusWatcherClientTest extends TestCase
         });
 
         $this->pollMessages($watcherClient);
-        $this->assertFalse($calledUser2);
+        self::assertFalse($calledUser2);
         $this->clock->usleep(3 * ControllableClock::SECONDS_MS);
         $this->pollMessages($watcherClient);
-        $this->assertTrue($calledUser2);
+        self::assertTrue($calledUser2);
     }
 
     /**
@@ -299,7 +299,7 @@ class StatusWatcherClientTest extends TestCase
         $this->watcherClient->pollMessage();
         $this->watcherClient->pollMessage();
 
-        $this->assertEquals(3, $this->watcherClient->getUserExpirationChecks());
+        self::assertEquals(3, $this->watcherClient->getUserExpirationChecks());
 
     }
 
@@ -307,16 +307,16 @@ class StatusWatcherClientTest extends TestCase
     {
         try{
             $this->watcherClient->addNumbers(['ufheorhwewq'], static function (ImportResult $result) {});
-            $this->assertFalse(true, 'bad format not detected');
+            self::assertFalse(true, 'bad format not detected');
         } catch (TGException $e){
-            $this->assertEquals(TGException::ERR_CLIENT_BAD_NUMBER_FORMAT, $e->getCode());
+            self::assertEquals(TGException::ERR_CLIENT_BAD_NUMBER_FORMAT, $e->getCode());
         }
 
         try{
             $this->watcherClient->addNumbers(['7+9169904863'], static function (ImportResult $result) {});
-            $this->assertFalse(true, 'bad format not detected');
+            self::assertFalse(true, 'bad format not detected');
         } catch (TGException $e){
-            $this->assertEquals(TGException::ERR_CLIENT_BAD_NUMBER_FORMAT, $e->getCode());
+            self::assertEquals(TGException::ERR_CLIENT_BAD_NUMBER_FORMAT, $e->getCode());
         }
     }
 
@@ -340,9 +340,9 @@ class StatusWatcherClientTest extends TestCase
         string $phone,
         array $statuses
     ): void {
-        $this->assertEquals($statuses[0], $this->callbacks->getOnlineTriggersCntFor($phone));
-        $this->assertEquals($statuses[1], $this->callbacks->getOfflineTriggersCntFor($phone));
-        $this->assertEquals($statuses[2], $this->callbacks->getHidTriggersCntFor($phone));
+        self::assertEquals($statuses[0], $this->callbacks->getOnlineTriggersCntFor($phone));
+        self::assertEquals($statuses[1], $this->callbacks->getOfflineTriggersCntFor($phone));
+        self::assertEquals($statuses[2], $this->callbacks->getHidTriggersCntFor($phone));
     }
 
     /**

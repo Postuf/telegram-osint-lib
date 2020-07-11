@@ -160,9 +160,7 @@ class CommonChatsScenario extends InfoClientScenario
                 if (!Chats::isIt($message)) {
                     return;
                 }
-                $updates = new Chats($message);
-
-                foreach ($updates->getChats() as $chat) {
+                foreach ((new Chats($message))->getChats() as $chat) {
 
                     $this->commonChats[] = strtolower($chat->username);
                 }
@@ -189,8 +187,7 @@ class CommonChatsScenario extends InfoClientScenario
     {
         $result = [];
         foreach ($this->commonChats as $commonChat) {
-            $interests = $this->groupMap[$commonChat];
-            foreach ($interests as $interest) {
+            foreach ($this->groupMap[$commonChat] as $interest) {
                 $result[$interest] = isset($result[$interest]) ? $result[$interest] + 1 : 1;
             }
         }

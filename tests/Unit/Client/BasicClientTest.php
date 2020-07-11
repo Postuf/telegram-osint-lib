@@ -17,7 +17,7 @@ class BasicClientTest extends TestCase
     public function test_constructor(): void
     {
         $basicClient = new BasicClientImpl();
-        $this->assertInstanceOf(BasicClient::class, $basicClient);
+        self::assertInstanceOf(BasicClient::class, $basicClient);
     }
 
     /**
@@ -26,6 +26,6 @@ class BasicClientTest extends TestCase
     public function test_constructor_with_status(): void
     {
         $basicClient = new BasicClientWithStatusReportingImpl();
-        $this->assertInstanceOf(BasicClient::class, $basicClient);
+        self::assertInstanceOf(BasicClient::class, $basicClient);
     }
 }

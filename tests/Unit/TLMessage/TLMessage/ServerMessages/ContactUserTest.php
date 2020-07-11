@@ -134,10 +134,10 @@ class ContactUserTest extends TestCase
         $asAnonymous = $this->getObjectOnLine();
         $userContact = new ContactUser($asAnonymous);
 
-        $this->assertEquals('AseN_17', $userContact->getUsername());
-        $this->assertEquals('79169904855', $userContact->getPhone());
-        $this->assertEquals(438562352, $userContact->getUserId());
-        $this->assertEquals(2811936216873835544, $userContact->getAccessHash());
+        self::assertEquals('AseN_17', $userContact->getUsername());
+        self::assertEquals('79169904855', $userContact->getPhone());
+        self::assertEquals(438562352, $userContact->getUserId());
+        self::assertEquals(2811936216873835544, $userContact->getAccessHash());
 
     }
 
@@ -149,10 +149,10 @@ class ContactUserTest extends TestCase
         $asAnonymous = $this->getObjectOnLine();
         $userContact = new ContactUser($asAnonymous);
 
-        $this->assertTrue($userContact->getStatus()->isOnline());
-        $this->assertFalse($userContact->getStatus()->isOffline());
-        $this->assertFalse($userContact->getStatus()->isHidden());
-        $this->assertEquals(1533377307, $userContact->getStatus()->getExpires());
+        self::assertTrue($userContact->getStatus()->isOnline());
+        self::assertFalse($userContact->getStatus()->isOffline());
+        self::assertFalse($userContact->getStatus()->isHidden());
+        self::assertEquals(1533377307, $userContact->getStatus()->getExpires());
 
     }
 
@@ -164,10 +164,10 @@ class ContactUserTest extends TestCase
         $asAnonymous = $this->getObjectOffLine();
         $userContact = new ContactUser($asAnonymous);
 
-        $this->assertFalse($userContact->getStatus()->isOnline());
-        $this->assertTrue($userContact->getStatus()->isOffline());
-        $this->assertFalse($userContact->getStatus()->isHidden());
-        $this->assertEquals(1533377309, $userContact->getStatus()->getWasOnline());
+        self::assertFalse($userContact->getStatus()->isOnline());
+        self::assertTrue($userContact->getStatus()->isOffline());
+        self::assertFalse($userContact->getStatus()->isHidden());
+        self::assertEquals(1533377309, $userContact->getStatus()->getWasOnline());
 
     }
 
@@ -179,9 +179,9 @@ class ContactUserTest extends TestCase
         $asAnonymous = $this->getObjectHidden();
         $userContact = new ContactUser($asAnonymous);
 
-        $this->assertFalse($userContact->getStatus()->isOnline());
-        $this->assertFalse($userContact->getStatus()->isOffline());
-        $this->assertTrue($userContact->getStatus()->isHidden());
+        self::assertFalse($userContact->getStatus()->isOnline());
+        self::assertFalse($userContact->getStatus()->isOffline());
+        self::assertTrue($userContact->getStatus()->isHidden());
 
     }
 }

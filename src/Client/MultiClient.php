@@ -39,8 +39,7 @@ class MultiClient
         $this->authKeys = [];
 
         foreach ($authKeysSerialized as $keyStr) {
-            $authKey = AuthKeyCreator::createFromString($keyStr);
-            $this->authKeys[] = $authKey;
+            $this->authKeys[] = AuthKeyCreator::createFromString($keyStr);
             $this->clients[] = $clientCreator();
         }
     }
@@ -55,7 +54,7 @@ class MultiClient
             try {
                 $authKey = $this->authKeys[$k];
                 $client->login($authKey, $proxy, function () use ($authKey) {
-                    $parts = explode(':', $authKey->getSerializedAuthKey());
+                    $parts = explode(':', $authKey->getSerializedAuthKey(), 2);
                     $phone = $parts[0];
                     Logger::log(__CLASS__, $phone.' connected');
                     $this->connectedCount++;
@@ -65,7 +64,7 @@ class MultiClient
                         Logger::log(__CLASS__, "all clients connected after $timeDiffStr sec");
                     }
                 });
-                $parts = explode(':', $authKey->getSerializedAuthKey());
+                $parts = explode(':', $authKey->getSerializedAuthKey(), 2);
                 Logger::log(__CLASS__, "after login {$parts[0]}");
             } /** @noinspection PhpRedundantCatchClauseInspection */ catch (TGException $e) {
                 Logger::log(__CLASS__, $e->getMessage());

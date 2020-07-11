@@ -76,8 +76,7 @@ $processJson = static function ($filename, bool $isRaw = false) use (&$json1, $i
         echo "loaded total (json2): $countConst constructors, $countMethod methods\n";
     }
 
-    $keys = [METHODS, CONSTRUCTORS];
-    foreach ($keys as $key) {
+    foreach ([METHODS, CONSTRUCTORS] as $key) {
         foreach ($json2[$key] as $k => $constructor) {
             if (isset($json1[$key][$k])) {
                 unset($json2[$key][$k]);

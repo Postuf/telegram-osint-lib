@@ -13,13 +13,13 @@ class UsernameTest extends TestCase
     {
         $un1 = 'xxx';
         $un2 = 'xxx ';
-        $this->assertEquals(true, Username::equal($un1, $un2));
+        self::assertEquals(true, Username::equal($un1, $un2));
     }
 
     public function test_username_not_equals(): void
     {
         $un1 = 'xxx';
         $un2 = 'xxy ';
-        $this->assertEquals(false, Username::equal($un1, $un2));
+        self::assertEquals(false, Username::equal($un1, $un2));
     }
 }

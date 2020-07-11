@@ -28,8 +28,7 @@ if($argc >= 3){
  * @throws TGException
  */
 function printDeserialized($binary) {
-    $serializer = new OwnDeserializer();
-    $deserialized = $serializer->deserialize($binary);
+    $deserialized = (new OwnDeserializer())->deserialize($binary);
     /** @noinspection ForgottenDebugOutputInspection */
     print_r($deserialized);
 }
@@ -52,8 +51,6 @@ if(!$exact) {
                 printDeserialized($new);
                 break;
             }
-
-            continue;
         }
     }
 } else {

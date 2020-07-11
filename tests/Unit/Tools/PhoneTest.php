@@ -13,13 +13,13 @@ class PhoneTest extends TestCase
     {
         $ph1 = '123553';
         $ph2 = '123553';
-        $this->assertEquals(true, Phone::equal($ph1, $ph2));
+        self::assertEquals(true, Phone::equal($ph1, $ph2));
     }
 
     public function test_username_not_equals(): void
     {
         $ph1 = '123553';
         $ph2 = '123554';
-        $this->assertEquals(false, Phone::equal($ph1, $ph2));
+        self::assertEquals(false, Phone::equal($ph1, $ph2));
     }
 }

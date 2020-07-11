@@ -41,14 +41,9 @@ class OwnAnonymousMessage implements AnonymousMessage, JsonSerializable
 
     /**
      * @param array $deserializedByOwnArray
-     *
-     * @throws TGException
      */
     public function __construct(array $deserializedByOwnArray)
     {
-        if(!is_array($deserializedByOwnArray)) {
-            throw new TGException(TGException::ERR_TL_MESSAGE_FIELD_BAD_NODE);
-        }
         $this->object = $deserializedByOwnArray;
         $this->initType();
     }
@@ -155,7 +150,6 @@ class OwnAnonymousMessage implements AnonymousMessage, JsonSerializable
         //
         // NOTE: that's a list of internal properties NAMES and they MUST match.
         // If you rename internal properties please update this list.
-        /** @noinspection MagicMethodsValidityInspection */
         return ['object'];
     }
 
@@ -218,8 +212,6 @@ class OwnAnonymousMessage implements AnonymousMessage, JsonSerializable
     /**
      * @param stdClass $json
      *
-     * @throws TGException
-     *
      * @return self
      */
     public static function jsonDeserialize(stdClass $json): self
@@ -228,7 +220,7 @@ class OwnAnonymousMessage implements AnonymousMessage, JsonSerializable
         // It will recursively go through input json and convert each HEXed string back to binary one.
         // Also it will convert every stdClass to array.
         $fastSearchBinaryFieldNames = array_flip(static::BINARY_STRING_FIELD_NAMES);
-        $ownArray = static::deserializeFieldsRecursively((array) $json, $fastSearchBinaryFieldNames);
+        $ownArray = self::deserializeFieldsRecursively((array) $json, $fastSearchBinaryFieldNames);
 
         return new self($ownArray);
     }
@@ -248,9 +240,9 @@ class OwnAnonymousMessage implements AnonymousMessage, JsonSerializable
                 assert(is_string($value));
                 $fields[$name] = hex2bin($value);
             } elseif (is_array($value)) {
-                $fields[$name] = static::deserializeFieldsRecursively($value, $fastSearchBinaryFieldNames);
+                $fields[$name] = self::deserializeFieldsRecursively($value, $fastSearchBinaryFieldNames);
             } elseif ($value instanceof stdClass) {
-                $fields[$name] = static::deserializeFieldsRecursively((array) $value, $fastSearchBinaryFieldNames);
+                $fields[$name] = self::deserializeFieldsRecursively((array) $value, $fastSearchBinaryFieldNames);
             } else {
                 assert($value === null || is_scalar($value));
             }

@@ -13,14 +13,14 @@ class GeneratorTest extends TestCase
     public function test_human_name_generation(): void
     {
         $generator = new NameResource();
-        $this->assertNotSame($generator->getName(), '');
-        $this->assertNotSame($generator->getLastName(), '');
+        self::assertNotSame($generator->getName(), '');
+        self::assertNotSame($generator->getLastName(), '');
     }
 
     public function test_device_generation(): void
     {
         $generator = new DeviceResource();
-        $this->assertSame(strpos($generator->getSdkString(), 'SDK'), 0);
-        $this->assertNotSame($generator->getDeviceString(), '');
+        self::assertSame(strpos($generator->getSdkString(), 'SDK'), 0);
+        self::assertNotSame($generator->getDeviceString(), '');
     }
 }

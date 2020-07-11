@@ -32,14 +32,14 @@ class AccountInfoTest extends TestCase
 TAG
         );
         $unserializedAccountInfo = AccountInfo::deserializeFromJson($accountInfo->serializeToJson());
-        $this->assertEquals('x1', $unserializedAccountInfo->getDevice());
-        $this->assertEquals('x2', $unserializedAccountInfo->getAndroidSdkVersion());
-        $this->assertEquals('x3', $unserializedAccountInfo->getFirstName());
-        $this->assertEquals('x4', $unserializedAccountInfo->getLastName());
-        $this->assertEquals('x5', $unserializedAccountInfo->getDeviceLang());
-        $this->assertEquals('x6', $unserializedAccountInfo->getAppLang());
-        $this->assertEquals('x7', $unserializedAccountInfo->getAppVersion());
-        $this->assertEquals('x8', $unserializedAccountInfo->getAppVersionCode());
-        $this->assertEquals(105, $unserializedAccountInfo->getLayerVersion());
+        self::assertEquals('x1', $unserializedAccountInfo->getDevice());
+        self::assertEquals('x2', $unserializedAccountInfo->getAndroidSdkVersion());
+        self::assertEquals('x3', $unserializedAccountInfo->getFirstName());
+        self::assertEquals('x4', $unserializedAccountInfo->getLastName());
+        self::assertEquals('x5', $unserializedAccountInfo->getDeviceLang());
+        self::assertEquals('x6', $unserializedAccountInfo->getAppLang());
+        self::assertEquals('x7', $unserializedAccountInfo->getAppVersion());
+        self::assertEquals('x8', $unserializedAccountInfo->getAppVersionCode());
+        self::assertEquals(105, $unserializedAccountInfo->getLayerVersion());
     }
 }

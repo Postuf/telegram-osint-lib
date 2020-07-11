@@ -161,8 +161,7 @@ class GroupMessagesScenario extends InfoClientScenario
 
                 return;
             }
-            $users = $anonymousMessage->getValue('users');
-            foreach ($users as $user) {
+            foreach ($anonymousMessage->getValue('users') as $user) {
                 if (!$user['username']) {
                     continue;
                 }

@@ -56,7 +56,7 @@ class ClientGenerator implements ClientGeneratorInterface
 
         if (strpos($envPath, '@') === 0) {
             $envPath = substr($envPath, 1);
-            if (!file_exists($envPath)) {
+            if (!is_file($envPath)) {
                 throw new TGException(0, "Please set {$this->envName} env var to valid key or @filename");
             }
 
