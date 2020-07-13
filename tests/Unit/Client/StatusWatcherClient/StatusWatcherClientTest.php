@@ -22,6 +22,10 @@ class StatusWatcherClientTest extends TestCase
     private const USER_ID1 = 0x1000000;
     private const USER_ID2 = 0x1000002;
     protected const TRACE_PATH = '/../traces/user-contacts.json';
+    private const STATUS_OFFLINE = 'offline';
+    private const STATUS_RECENTLY = 'recently';
+    private const STATUS_ONLINE = 'online';
+
     /** @var StatusWatcherClientTestCallbacks */
     private $callbacks;
     /** @var ControllableClock */
@@ -205,7 +209,7 @@ class StatusWatcherClientTest extends TestCase
      */
     public function test_empty_status_importation_online_trigger_works(): void
     {
-        $this->watcherClient->onMessage(AnonymousMessageMock::getImportedContact(self::USER_ID1, self::PHONE1, 'online'));
+        $this->watcherClient->onMessage(AnonymousMessageMock::getImportedContact(self::USER_ID1, self::PHONE1, self::STATUS_ONLINE));
         $this->watcherClient->onMessage(AnonymousMessageMock::getUserOffline(self::USER_ID1));
         $this->watcherClient->onMessage(AnonymousMessageMock::getUserOnline(self::USER_ID1));
         $this->watcherClient->onMessage(AnonymousMessageMock::getUserRecently(self::USER_ID1));
@@ -219,7 +223,7 @@ class StatusWatcherClientTest extends TestCase
      */
     public function test_empty_status_importation_online_trigger_works_once(): void
     {
-        $this->watcherClient->onMessage(AnonymousMessageMock::getImportedContact(self::USER_ID1, self::PHONE1, 'online'));
+        $this->watcherClient->onMessage(AnonymousMessageMock::getImportedContact(self::USER_ID1, self::PHONE1, self::STATUS_ONLINE));
         $this->watcherClient->onMessage(AnonymousMessageMock::getUserOnline(self::USER_ID1));
 
         $this->assertStatusTriggerCount(self::PHONE1, [1, 0, 0]);
@@ -231,7 +235,7 @@ class StatusWatcherClientTest extends TestCase
      */
     public function test_empty_status_after_importation_recently_trigger_works(): void
     {
-        $this->watcherClient->onMessage(AnonymousMessageMock::getImportedContact(self::USER_ID1, self::PHONE1, 'recently'));
+        $this->watcherClient->onMessage(AnonymousMessageMock::getImportedContact(self::USER_ID1, self::PHONE1, self::STATUS_RECENTLY));
         $this->watcherClient->onMessage(AnonymousMessageMock::getUserOnline(self::USER_ID1));
 
         $this->assertStatusTriggerCount(self::PHONE1, [1, 0, 1]);
@@ -243,12 +247,23 @@ class StatusWatcherClientTest extends TestCase
      */
     public function test_empty_status_after_importation_offline_trigger_works(): void
     {
-        $this->watcherClient->onMessage(AnonymousMessageMock::getImportedContact(self::USER_ID1, self::PHONE1, 'offline'));
+        $this->watcherClient->onMessage(AnonymousMessageMock::getImportedContact(self::USER_ID1, self::PHONE1, self::STATUS_OFFLINE));
         $this->watcherClient->onMessage(AnonymousMessageMock::getUserOnline(self::USER_ID1));
         $this->watcherClient->onMessage(AnonymousMessageMock::getUserOffline(self::USER_ID1));
-
         $this->assertStatusTriggerCount(self::PHONE1, [1, 2, 0]);
         $this->assertStatusTriggerCount(self::PHONE2, [0, 0, 0]);
+    }
+
+    /**
+     * Проверка, что для importedContacts выставляется неточный статус
+     *
+     * @throws TGException
+     */
+    public function test_importation_offline_flag_works(): void
+    {
+        $this->watcherClient->onMessage(AnonymousMessageMock::getImportedContact(self::USER_ID1, self::PHONE1, self::STATUS_OFFLINE));
+
+        $this->assertStatusTriggerCount(self::PHONE1, [0, 1, 0, 1]);
     }
 
     /**
@@ -334,7 +349,7 @@ class StatusWatcherClientTest extends TestCase
 
     /**
      * @param string $phone
-     * @param array  $statuses [online, offline, hid]
+     * @param array  $statuses [online, offline, hid, ?inaccurate]
      */
     private function assertStatusTriggerCount(
         string $phone,
@@ -343,6 +358,9 @@ class StatusWatcherClientTest extends TestCase
         self::assertEquals($statuses[0], $this->callbacks->getOnlineTriggersCntFor($phone));
         self::assertEquals($statuses[1], $this->callbacks->getOfflineTriggersCntFor($phone));
         self::assertEquals($statuses[2], $this->callbacks->getHidTriggersCntFor($phone));
+        if (isset($statuses[3])) {
+            self::assertEquals($statuses[3], $this->callbacks->getPollTriggersCntFor($phone));
+        }
     }
 
     /**

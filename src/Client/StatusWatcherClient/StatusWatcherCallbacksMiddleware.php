@@ -15,10 +15,11 @@ interface StatusWatcherCallbacksMiddleware
     public function onUserOnline(int $userId, int $expires): void;
 
     /**
-     * @param int $userId
-     * @param int $wasOnline
+     * @param int  $userId
+     * @param int  $wasOnline
+     * @param bool $inaccurate
      */
-    public function onUserOffline(int $userId, int $wasOnline): void;
+    public function onUserOffline(int $userId, int $wasOnline, bool $inaccurate = false): void;
 
     /**
      * @param int          $userId

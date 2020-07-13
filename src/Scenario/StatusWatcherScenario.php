@@ -185,7 +185,7 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
         $this->log('======================='.PHP_EOL);
     }
 
-    public function onUserOffline(User $user, int $wasOnline): void
+    public function onUserOffline(User $user, int $wasOnline, bool $inaccurate = false): void
     {
         $this->log('======================='.PHP_EOL);
         $this->log('User '.$user->getPhone().'|'.$user->getUsername().' now offline. Last seen = '.date('d/m/Y H:i:s', $wasOnline).PHP_EOL);
