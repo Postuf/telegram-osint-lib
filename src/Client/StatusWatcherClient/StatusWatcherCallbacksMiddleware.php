@@ -17,8 +17,9 @@ interface StatusWatcherCallbacksMiddleware
     /**
      * @param int $userId
      * @param int $wasOnline
+     * @param bool $fromPoll
      */
-    public function onUserOffline(int $userId, int $wasOnline): void;
+    public function onUserOffline(int $userId, int $wasOnline, bool $fromPoll = false): void;
 
     /**
      * @param int          $userId

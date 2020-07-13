@@ -35,11 +35,12 @@ class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
 
     /**
      * @param User $user
-     * @param int  $wasOnline
+     * @param int $wasOnline
      *
+     * @param bool $fromPoll
      * @return void
      */
-    public function onUserOffline(User $user, int $wasOnline): void
+    public function onUserOffline(User $user, int $wasOnline, bool $fromPoll = false): void
     {
         $phone = $user->getPhone();
         if(isset($this->offlineRecords[$phone])) {

@@ -94,7 +94,7 @@ class StatusWatcherAnalyzer implements Analyzer
     private function analyzeImportedContactsStatus(ImportedContacts $importedContacts): void
     {
         foreach ($importedContacts->getImportedUsers() as $user) {
-            $this->performStatusReaction($user->getUserId(), $user->getStatus());
+            $this->performStatusReaction($user->getUserId(), $user->getStatus(), true);
         }
     }
 
@@ -126,7 +126,7 @@ class StatusWatcherAnalyzer implements Analyzer
         $contacts = new CurrentContacts($message);
         $prevContacts = $this->notifier->getCurrentContacts();
         foreach ($contacts->getUsers() as $user) {
-            $this->performStatusReaction($user->getUserId(), $user->getStatus());
+            $this->performStatusReaction($user->getUserId(), $user->getStatus(), true);
             if (isset($prevContacts[$user->getUserId()])
                 && $prevContacts[$user->getUserId()]->getUsername() !== $user->getUsername()) {
                 $this->notifier->onUserNameChange($user->getUserId(), $user->getUsername());
@@ -135,12 +135,13 @@ class StatusWatcherAnalyzer implements Analyzer
     }
 
     /**
-     * @param int             $userId
+     * @param int $userId
      * @param UserStatus|null $status
      *
+     * @param bool $fromPoll
      * @throws TGException
      */
-    private function performStatusReaction(int $userId, $status): void
+    private function performStatusReaction(int $userId, $status, bool $fromPoll = false): void
     {
         if(!$status) {
             $this->notifier->onUserHidStatus($userId, new HiddenStatus(HiddenStatus::HIDDEN_SEEN_LONG_AGO));
@@ -157,7 +158,7 @@ class StatusWatcherAnalyzer implements Analyzer
         }
 
         if($status->isOffline()) {
-            $this->notifier->onUserOffline($userId, $status->getWasOnline());
+            $this->notifier->onUserOffline($userId, $status->getWasOnline(), $fromPoll);
         }
     }
 }
