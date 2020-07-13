@@ -16,6 +16,8 @@ class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
     private $offlineRecords = [];
     /** @var int[] */
     private $hidRecords = [];
+    /** @var int[] */
+    private $inaccurate = [];
 
     /**
      * @param User $user
@@ -36,16 +38,24 @@ class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
     /**
      * @param User $user
      * @param int  $wasOnline
+     * @param bool $inaccurate
      *
      * @return void
      */
-    public function onUserOffline(User $user, int $wasOnline): void
+    public function onUserOffline(User $user, int $wasOnline, bool $inaccurate = false): void
     {
         $phone = $user->getPhone();
         if(isset($this->offlineRecords[$phone])) {
             $this->offlineRecords[$phone]++;
         } else {
             $this->offlineRecords[$phone] = 1;
+        }
+        if ($inaccurate) {
+            if (isset($this->inaccurate[$phone])) {
+                $this->inaccurate[$phone]++;
+            } else {
+                $this->inaccurate[$phone] = 1;
+            }
         }
     }
 
@@ -83,6 +93,16 @@ class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
     public function getOfflineTriggersCntFor(string $phone): int
     {
         return $this->offlineRecords[$phone] ?? 0;
+    }
+
+    /**
+     * @param string $phone
+     *
+     * @return int
+     */
+    public function getPollTriggersCntFor(string $phone): int
+    {
+        return $this->inaccurate[$phone] ?? 0;
     }
 
     /**

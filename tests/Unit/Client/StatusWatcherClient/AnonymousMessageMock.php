@@ -112,8 +112,6 @@ class AnonymousMessageMock implements AnonymousMessage
      * @param int $userId
      * @param int $expires
      *
-     * @throws TGException
-     *
      * @return AnonymousMessage
      */
     public static function getUserOnline(int $userId, int $expires = 0): AnonymousMessage
@@ -134,8 +132,6 @@ class AnonymousMessageMock implements AnonymousMessage
 
     /**
      * @param int $userId
-     *
-     * @throws TGException
      *
      * @return AnonymousMessage
      */
@@ -158,8 +154,6 @@ class AnonymousMessageMock implements AnonymousMessage
     /**
      * @param int $userId
      *
-     * @throws TGException
-     *
      * @return AnonymousMessage
      */
     public static function getUserEmpty(int $userId): AnonymousMessage
@@ -179,8 +173,6 @@ class AnonymousMessageMock implements AnonymousMessage
 
     /**
      * @param int $userId
-     *
-     * @throws TGException
      *
      * @return AnonymousMessage
      */
@@ -202,8 +194,6 @@ class AnonymousMessageMock implements AnonymousMessage
     /**
      * @param int    $id
      * @param string $phone
-     *
-     * @throws TGException
      *
      * @return AnonymousMessage
      */
@@ -249,8 +239,6 @@ class AnonymousMessageMock implements AnonymousMessage
      * @param int    $userId
      * @param string $userPhone
      * @param string $status
-     *
-     * @throws TGException
      *
      * @return AnonymousMessage
      */

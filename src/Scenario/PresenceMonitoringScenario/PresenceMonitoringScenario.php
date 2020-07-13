@@ -88,8 +88,9 @@ class PresenceMonitoringScenario implements ScenarioInterface, StatusWatcherCall
     /**
      * @param User $user
      * @param int  $wasOnline
+     * @param bool $inaccurate
      */
-    public function onUserOffline(User $user, int $wasOnline): void
+    public function onUserOffline(User $user, int $wasOnline, bool $inaccurate = false): void
     {
         $phone = $user->getPhone();
         if($phone) {
