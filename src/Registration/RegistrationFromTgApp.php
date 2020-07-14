@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TelegramOSINT\Registration;
 
 use TelegramOSINT\Auth\Protocol\AppAuthorization;
+use TelegramOSINT\Auth\Protocol\BaseAuthorization;
 use TelegramOSINT\Client\AuthKey\AuthInfo;
 use TelegramOSINT\Client\AuthKey\AuthKey;
 use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
@@ -83,6 +84,8 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
     private $logger;
     /** @var DataCentre */
     private $dataCentre;
+    /** @var BaseAuthorization|null */
+    private $baseAuth;
 
     /**
      * @param Proxy|null             $proxy
@@ -116,6 +119,7 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
         $this->phone = $phoneNumber;
         $this->requestBlankAuthKey(function (AuthKey $authKey) use ($phoneNumber, $cb, $allowReReg) {
             $this->blankAuthKey = $authKey;
+            $this->baseAuth = null;
 
             $this->initSocketMessenger($this->dataCentre);
             $this->initSocketAsOfficialApp(function () use ($phoneNumber, $cb, $allowReReg) {
@@ -186,7 +190,8 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
      */
     private function requestBlankAuthKey(callable $cb): void
     {
-        (new AppAuthorization($this->dataCentre))->createAuthKey($cb);
+        $this->baseAuth = new AppAuthorization($this->dataCentre);
+        $this->baseAuth->createAuthKey($cb);
     }
 
     /**
@@ -313,8 +318,12 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
     public function pollMessages(): void
     {
         while(true) {
-            /** @noinspection UnusedFunctionResultInspection */
-            $this->socketMessenger->readMessage();
+            if ($this->baseAuth) {
+                $this->baseAuth->poll();
+            } elseif ($this->socketMessenger) {
+                /** @noinspection UnusedFunctionResultInspection */
+                $this->socketMessenger->readMessage();
+            }
         }
     }
 

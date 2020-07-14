@@ -129,12 +129,16 @@ class UserContactsScenario extends InfoClientScenario
      */
     public function startActions(bool $pollAndTerminate = true): void
     {
-        $this->authAndPerformActions(function (): void {
-            $this->getContactsInfo();
-            foreach ($this->callQueue as $cb) {
-                $cb();
-            }
-            $this->callQueue = [];
-        }, $pollAndTerminate);
+        $this->authAndPerformActions(
+            function (): void {
+                $this->getContactsInfo();
+                foreach ($this->callQueue as $cb) {
+                    $cb();
+                }
+                $this->callQueue = [];
+            },
+            $pollAndTerminate,
+            10
+        );
     }
 }

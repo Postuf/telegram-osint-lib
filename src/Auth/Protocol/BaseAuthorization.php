@@ -336,4 +336,13 @@ abstract class BaseAuthorization implements Authorization
             $cb(new AuthParams($authKey, $initialServerSalt));
         });
     }
+
+    /**
+     * @throws TGException
+     */
+    public function poll(): void
+    {
+        /** @noinspection UnusedFunctionResultInspection */
+        $this->socketContainer->readMessage();
+    }
 }

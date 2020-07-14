@@ -4,6 +4,7 @@
 
 namespace TelegramOSINT\Client\InfoObtainingClient;
 
+use TelegramOSINT\Auth\Authorization;
 use TelegramOSINT\Auth\Protocol\AppAuthorization;
 use TelegramOSINT\Client\AuthKey\AuthKey;
 use TelegramOSINT\Client\BasicClient\BasicClient;
@@ -61,6 +62,10 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
      * @var BasicClient[]
      */
     private $otherDcClients = [];
+    /**
+     * @var Authorization[]
+     */
+    private $notEncryptedClients = [];
     /** @var BasicClientGeneratorInterface */
     private $generator;
     /** @var Proxy|null */
@@ -101,6 +106,9 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
         $otherDcMessagePolled = false;
         foreach ($this->otherDcClients as $otherDcClient) {
             $otherDcMessagePolled |= $otherDcClient->pollMessage();
+        }
+        foreach ($this->notEncryptedClients as $client) {
+            $client->poll();
         }
 
         $this->processDeferredQueue();
@@ -548,7 +556,10 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
                     // create authKey in foreign dc
                     $dc = new DataCentre($dc->getIp(), $dc->getId(), $dc->getPort());
                     $auth = new AppAuthorization($dc, $this->proxy);
-                    $auth->createAuthKey(function ($authKey) use ($onPictureLoaded, $dc, $location) {
+                    $this->notEncryptedClients[] = $auth;
+                    $lastIndex = array_key_last($this->notEncryptedClients);
+                    $auth->createAuthKey(function ($authKey) use ($onPictureLoaded, $dc, $location, $lastIndex) {
+                        unset($this->notEncryptedClients[$lastIndex]);
                         // login in foreign dc
                         $clientKey = count($this->otherDcClients);
                         $this->otherDcClients[$clientKey] = $this->generator->generate(false, true);
