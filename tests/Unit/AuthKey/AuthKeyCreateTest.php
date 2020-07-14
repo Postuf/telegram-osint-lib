@@ -61,7 +61,9 @@ class AuthKeyCreateTest extends TestCase implements MessageListener
     protected function performAuth(DataCentre $dc): void
     {
         $auth = new AppAuthorization($dc);
-        $auth->createAuthKey(function (AuthKey $key) {
+        $gotSession = false;
+        $timeStart = time();
+        $auth->createAuthKey(function (AuthKey $key) use (&$gotSession, $timeStart) {
             $serializedKey = $key->getSerializedAuthKey();
             $authKey = AuthKeyCreator::createFromString($serializedKey);
 
@@ -70,15 +72,18 @@ class AuthKeyCreateTest extends TestCase implements MessageListener
 
             $client = new BasicClientImpl();
             $client->setMessageListener($this);
-            $client->login($key);
-
-            while (!$client->pollMessage()) {
+            $client->login($key, null, static function () use (&$gotSession) {
+                $gotSession = true;
+            });
+            while (!$this->sessionCreated && time() < $timeStart + 5) {
+                $client->pollMessage();
                 usleep(100000);
-                true;
             }
-
-            // check if key login-able
             $this->assertTrue($this->sessionCreated);
         });
+        while (!$gotSession && time() < $timeStart + 5) {
+            $auth->poll();
+            usleep(10000);
+        }
     }
 }

@@ -22,13 +22,16 @@ class TcpSocket implements Socket
      * @var bool
      */
     private $isTerminated = false;
+    /** @var callable|null */
+    private $cb;
 
     /**
      * @param DataCentre $dc
+     * @param callable   $cb
      *
      * @throws TGException
      */
-    public function __construct(DataCentre $dc)
+    public function __construct(DataCentre $dc, callable $cb)
     {
         $this->dc = $dc;
 
@@ -37,6 +40,7 @@ class TcpSocket implements Socket
             throw new TGException(TGException::ERR_CANT_CONNECT);
         }
         stream_set_blocking($this->socket, false);
+        $this->cb = $cb;
     }
 
     public function __destruct()
@@ -106,11 +110,15 @@ class TcpSocket implements Socket
 
     public function poll(): void
     {
-
+        if ($this->cb) {
+            $cb = $this->cb;
+            $cb();
+            $this->cb = null;
+        }
     }
 
     public function ready(): bool
     {
-        return true;
+        return !((bool) $this->cb);
     }
 }

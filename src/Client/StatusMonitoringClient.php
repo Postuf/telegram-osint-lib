@@ -1,6 +1,9 @@
 <?php
 
-/** @noinspection PhpUnused */
+/**
+ * @noinspection PhpUnused
+ * @noinspection UnknownInspectionInspection
+ */
 
 namespace TelegramOSINT\Client;
 
@@ -12,6 +15,7 @@ interface StatusMonitoringClient extends Client
      * @param string[] $numbers
      * @param callable $onComplete function(ImportResult $result)
      * @noinspection PhpUnused
+     * @noinspection UnknownInspectionInspection
      */
     public function addNumbers(array $numbers, callable $onComplete): void;
 

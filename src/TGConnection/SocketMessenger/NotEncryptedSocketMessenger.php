@@ -36,6 +36,8 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
     private $logger;
     /** @var AnonymousMessage|null */
     private $config;
+    private $callbackQueue = [];
+    private $writeQueue = [];
 
     /**
      * @param Socket                 $socket
@@ -66,8 +68,27 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
      */
     public function readMessage(): ?AnonymousMessage
     {
+        if (!$this->socket->ready()) {
+            $this->socket->poll();
+
+            return null;
+        }
+        if ($this->writeQueue) {
+            foreach ($this->writeQueue as $item) {
+                $this->writeMessage($item);
+            }
+            $this->writeQueue = [];
+        }
         $packet = $this->readPacket();
         if (!$packet) {
+            if ($this->callbackQueue) {
+                $firstIndex = array_key_first($this->callbackQueue);
+                [, $lastTime] = $this->callbackQueue[$firstIndex];
+                if (microtime(true) - $lastTime > LibConfig::CONN_SOCKET_TIMEOUT_WAIT_RESPONSE_MS) {
+                    throw new TGException(TGException::ERR_MSG_RESPONSE_TIMEOUT);
+                }
+            }
+
             return null;
         }
 
@@ -78,6 +99,11 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
 
         $this->log('Read_Message_Binary', bin2hex($decoded));
         $this->log('Read_Message_TL', $deserialized->getDebugPrintable());
+
+        if ($this->callbackQueue) {
+            [$callback,] = array_shift($this->callbackQueue);
+            $callback($deserialized);
+        }
 
         return $deserialized;
     }
@@ -166,27 +192,13 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
                 $cb($message);
             };
         }
+        $this->callbackQueue[] = [$callback, microtime(true)];
         // Dummy impl
-        $this->writeMessage($message);
-        $startTimeMs = microtime(true) * 1000;
-
-        while(true){
-            $response = $this->readMessage();
-            if($response) {
-                $callback($response);
-
-                return;
-            }
-
-            $currentTimeMs = microtime(true) * 1000;
-            if(($currentTimeMs - $startTimeMs) > LibConfig::CONN_SOCKET_TIMEOUT_WAIT_RESPONSE_MS) {
-                break;
-            }
-
-            usleep(LibConfig::CONN_SOCKET_RESPONSE_DELAY_MICROS);
+        if ($this->socket->ready()) {
+            $this->writeMessage($message);
+        } else {
+            $this->writeQueue[] = $message;
         }
-
-        throw new TGException(TGException::ERR_MSG_RESPONSE_TIMEOUT);
     }
 
     /**

@@ -16,6 +16,13 @@ class UsernameTest extends TestCase
         self::assertEquals(true, Username::equal($un1, $un2));
     }
 
+    public function test_username_equals_null(): void
+    {
+        $un1 = 'xxx';
+        $un2 = null;
+        self::assertEquals(false, Username::equal($un1, $un2));
+    }
+
     public function test_username_not_equals(): void
     {
         $un1 = 'xxx';

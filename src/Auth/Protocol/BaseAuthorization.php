@@ -19,7 +19,7 @@ use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\MTSerialization\OwnImplementation\OwnDeserializer;
 use TelegramOSINT\TGConnection\DataCentre;
-use TelegramOSINT\TGConnection\Socket\ProxySocket;
+use TelegramOSINT\TGConnection\Socket\NonBlockingProxySocket;
 use TelegramOSINT\TGConnection\Socket\TcpSocket;
 use TelegramOSINT\TGConnection\SocketMessenger\NotEncryptedSocketMessenger;
 use TelegramOSINT\TGConnection\SocketMessenger\SocketMessenger;
@@ -85,9 +85,11 @@ abstract class BaseAuthorization implements Authorization
      */
     public function __construct(DataCentre $dc, ?Proxy $proxy = null)
     {
+        $cb = static function () {
+        };
         $socket = $proxy
-            ? new ProxySocket($proxy, $dc)
-            : new TcpSocket($dc);
+            ? new NonBlockingProxySocket($proxy, $dc, $cb)
+            : new TcpSocket($dc, $cb);
 
         $this->dc = $dc;
         $this->socketContainer = new NotEncryptedSocketMessenger($socket);
@@ -334,5 +336,14 @@ abstract class BaseAuthorization implements Authorization
             }
             $cb(new AuthParams($authKey, $initialServerSalt));
         });
+    }
+
+    /**
+     * @throws TGException
+     */
+    public function poll(): void
+    {
+        /** @noinspection UnusedFunctionResultInspection */
+        $this->socketContainer->readMessage();
     }
 }

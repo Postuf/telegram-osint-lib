@@ -3,14 +3,17 @@
 declare(strict_types=1);
 
 use TelegramOSINT\Client\InfoObtainingClient\Models\UserInfoModel;
+use TelegramOSINT\LibConfig;
+use TelegramOSINT\Scenario\ClientGenerator;
 use TelegramOSINT\Scenario\UserContactsScenario;
+use TelegramOSINT\Tools\Proxy;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
 // here we get contact list and get contact online status
 // avatars are saved to current directory
 
-$argsOrFalse = getopt('n:u:h', ['numbers:', 'users:', 'help']);
+$argsOrFalse = getopt('n:u:hwp:', ['numbers:', 'users:', 'help', 'photo', 'proxy:']);
 if ($argsOrFalse === false
     || (array_key_exists('h', $argsOrFalse) || array_key_exists('help', $argsOrFalse))
     || ((!array_key_exists('n', $argsOrFalse) && !array_key_exists('numbers', $argsOrFalse))
@@ -19,11 +22,13 @@ if ($argsOrFalse === false
     echo <<<'EOT'
 Usage:
     php parseNumbers.php -n numbers [ -u users ]
-    php parseNumbers.php --numbers numbers
-    php parseNumbers.php --users users
+    php parseNumbers.php --numbers numbers [ --photo ]
+    php parseNumbers.php --users users [ --proxy proxyString ]
 
    -n, --numbers                Comma separated phone number list (e.g. 79061231231,79061231232).
    -u, --users                  Comma separated username list (e.g. aaa,bbb).
+   -p, --proxy                  Proxy to use.
+   -w, --photo                  Download photo.
    -h, --help                   Display this help message.
 
 EOT;
@@ -68,6 +73,13 @@ $onComplete = static function (UserInfoModel $model) {
     }
 };
 
+$withPhoto = isset($argsOrFalse['w']) || isset($argsOrFalse['photo']);
+if ($withPhoto) {
+    echo 'parsing with photos'.PHP_EOL;
+}
+
+$proxyStr = $argsOrFalse['p'] ?? $argsOrFalse['proxy'] ?? null;
+
 $separator = "\t|\t";
 echo implode($separator, [
     'Phone',
@@ -85,8 +97,8 @@ $client = new UserContactsScenario(
     $numbers,
     $users,
     $onComplete,
-    null,
-    false,
+    new ClientGenerator(LibConfig::ENV_AUTHKEY, $proxyStr ? new Proxy($proxyStr) : null),
+    $withPhoto,
     false
 );
 /* @noinspection PhpUnhandledExceptionInspection */

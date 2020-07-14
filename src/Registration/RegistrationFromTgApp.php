@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TelegramOSINT\Registration;
 
 use TelegramOSINT\Auth\Protocol\AppAuthorization;
+use TelegramOSINT\Auth\Protocol\BaseAuthorization;
 use TelegramOSINT\Client\AuthKey\AuthInfo;
 use TelegramOSINT\Client\AuthKey\AuthKey;
 use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
@@ -14,7 +15,7 @@ use TelegramOSINT\Logger\ClientDebugLogger;
 use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TGConnection\DataCentre;
-use TelegramOSINT\TGConnection\Socket\ProxySocket;
+use TelegramOSINT\TGConnection\Socket\NonBlockingProxySocket;
 use TelegramOSINT\TGConnection\Socket\TcpSocket;
 use TelegramOSINT\TGConnection\SocketMessenger\EncryptedSocketMessenger;
 use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
@@ -83,6 +84,8 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
     private $logger;
     /** @var DataCentre */
     private $dataCentre;
+    /** @var BaseAuthorization|null */
+    private $baseAuth;
 
     /**
      * @param Proxy|null             $proxy
@@ -116,20 +119,22 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
         $this->phone = $phoneNumber;
         $this->requestBlankAuthKey(function (AuthKey $authKey) use ($phoneNumber, $cb, $allowReReg) {
             $this->blankAuthKey = $authKey;
+            $this->baseAuth = null;
 
-            $this->initSocketMessenger($this->dataCentre);
-            $this->initSocketAsOfficialApp(function () use ($phoneNumber, $cb, $allowReReg) {
-                $request = new send_sms_code($phoneNumber);
-                $this->socketMessenger->getResponseAsync($request, function (AnonymousMessage $smsSentResponse) use ($cb, $allowReReg) {
-                    $smsSentResponseObj = new SentCodeApp($smsSentResponse);
+            $this->initSocketMessenger($this->dataCentre, function () use ($phoneNumber, $cb, $allowReReg) {
+                $this->initSocketAsOfficialApp(function () use ($phoneNumber, $cb, $allowReReg) {
+                    $request = new send_sms_code($phoneNumber);
+                    $this->socketMessenger->getResponseAsync($request, function (AnonymousMessage $smsSentResponse) use ($cb, $allowReReg) {
+                        $smsSentResponseObj = new SentCodeApp($smsSentResponse);
 
-                    $isReReg = $allowReReg && ($smsSentResponseObj->isSentCodeTypeApp() || $smsSentResponseObj->isSentCodeTypeSms());
-                    if(!$isReReg && !$smsSentResponseObj->isSentCodeTypeSms()) {
-                        throw new TGException(TGException::ERR_REG_USER_ALREADY_EXISTS, $smsSentResponse);
-                    }
-                    $this->phoneHash = $smsSentResponseObj->getPhoneCodeHash();
-                    $this->isSmsRequested = true;
-                    $cb($isReReg);
+                        $isReReg = $allowReReg && ($smsSentResponseObj->isSentCodeTypeApp() || $smsSentResponseObj->isSentCodeTypeSms());
+                        if (!$isReReg && !$smsSentResponseObj->isSentCodeTypeSms()) {
+                            throw new TGException(TGException::ERR_REG_USER_ALREADY_EXISTS, $smsSentResponse);
+                        }
+                        $this->phoneHash = $smsSentResponseObj->getPhoneCodeHash();
+                        $this->isSmsRequested = true;
+                        $cb($isReReg);
+                    });
                 });
             });
         });
@@ -167,14 +172,15 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
 
     /**
      * @param DataCentre $dc
+     * @param callable   $cb
      *
      * @throws TGException
      */
-    private function initSocketMessenger(DataCentre $dc): void
+    private function initSocketMessenger(DataCentre $dc, callable $cb): void
     {
-        $socket = $this->proxy instanceof Proxy ?
-            new ProxySocket($this->proxy, $dc) :
-            new TcpSocket($dc);
+        $socket = $this->proxy instanceof Proxy
+            ? new NonBlockingProxySocket($this->proxy, $dc, $cb)
+            : new TcpSocket($dc, $cb);
 
         $this->socketMessenger = new EncryptedSocketMessenger($socket, $this->blankAuthKey, $this, $this->logger);
     }
@@ -186,7 +192,8 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
      */
     private function requestBlankAuthKey(callable $cb): void
     {
-        (new AppAuthorization($this->dataCentre))->createAuthKey($cb);
+        $this->baseAuth = new AppAuthorization($this->dataCentre);
+        $this->baseAuth->createAuthKey($cb);
     }
 
     /**
@@ -313,8 +320,13 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
     public function pollMessages(): void
     {
         while(true) {
-            /** @noinspection UnusedFunctionResultInspection */
-            $this->socketMessenger->readMessage();
+            if ($this->socketMessenger) {
+                /** @noinspection UnusedFunctionResultInspection */
+                $this->socketMessenger->readMessage();
+            }
+            if ($this->baseAuth) {
+                $this->baseAuth->poll();
+            }
         }
     }
 

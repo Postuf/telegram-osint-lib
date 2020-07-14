@@ -20,7 +20,12 @@ class ControllableClock implements Clock
         $this->currentTime = time();
     }
 
-    /** @noinspection PhpUnused */
+    /**
+     * @noinspection PhpUnused
+     * @noinspection UnknownInspectionInspection
+     *
+     * @param int $time
+     */
     public function setTime(int $time): void
     {
         $this->currentTime = $time;

@@ -15,7 +15,7 @@ interface Client
      *
      * @return void
      */
-    public function login(AuthKey $authKey, Proxy $proxy = null, callable $cb = null): void;
+    public function login(AuthKey $authKey, ?Proxy $proxy, callable $cb): void;
 
     /**
      * @return void

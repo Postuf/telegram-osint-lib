@@ -188,6 +188,11 @@ class EncryptedSocketMessenger extends TgSocketMessenger
      */
     public function readMessage(): ?AnonymousMessage
     {
+        if (!$this->socket->ready()) {
+            $this->socket->poll();
+
+            return null;
+        }
         if (!empty($this->messagesToBeProcessedQueue)) {
             $this->processServiceMessage(array_shift($this->messagesToBeProcessedQueue));
         } elseif (empty($this->reportableMessageQueue)) {
