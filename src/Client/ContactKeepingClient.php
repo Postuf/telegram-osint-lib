@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace TelegramOSINT\Client;
 
-interface ContactKeepingClient
+interface ContactKeepingClient extends Client
 {
     public function addNumbers(array $numbers, callable $onComplete): void;
 
