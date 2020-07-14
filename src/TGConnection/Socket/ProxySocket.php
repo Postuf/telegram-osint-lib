@@ -31,6 +31,8 @@ class ProxySocket implements Socket
     private $isTerminated = false;
     /** @var callable|null */
     protected $cbOnConnected;
+    /** @var Socks5Socket */
+    private $socketObject;
 
     /**
      * @param Proxy      $proxy
@@ -50,10 +52,11 @@ class ProxySocket implements Socket
         $this->dc = $dc;
         $this->proxy = $proxy;
 
-        $socketObject = new Socks5Socket($this->proxy, $timeout);
+        /** @noinspection UnusedConstructorDependenciesInspection */
+        $this->socketObject = new Socks5Socket($this->proxy, $timeout);
 
         try {
-            $this->socksSocket = $socketObject->createConnected($this->dc->getDcIp(), $this->dc->getDcPort());
+            $this->socksSocket = $this->socketObject->createConnected($this->dc->getDcIp(), $this->dc->getDcPort());
             socket_set_nonblock($this->socksSocket);
         } catch (SocksException $e) {
             $this->wrapSocksLibException($e);

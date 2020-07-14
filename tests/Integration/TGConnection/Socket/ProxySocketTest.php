@@ -26,6 +26,17 @@ class ProxySocketTest extends TestCase
     /**
      * @throws TGException
      */
+    public function test_socket_write(): void
+    {
+        $socket = new ProxySocket(new Proxy('127.0.0.1:1080'), DataCentre::getDefault());
+        $length = $socket->writeBinary("test");
+        self::assertEquals(4, $length);
+        $socket->terminate();
+    }
+
+    /**
+     * @throws TGException
+     */
     public function test_proxy_connect_async(): void
     {
         $isReady = false;
