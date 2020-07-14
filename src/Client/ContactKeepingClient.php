@@ -26,4 +26,6 @@ interface ContactKeepingClient
     public function reloadContacts(array $numbers, array $usernames, callable $onComplete): void;
 
     public function cleanContactsBook(callable $onComplete): void;
+
+    public function terminate(): void;
 }
