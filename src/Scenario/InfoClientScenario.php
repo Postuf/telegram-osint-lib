@@ -47,11 +47,11 @@ abstract class InfoClientScenario implements ScenarioInterface
     }
 
     /**
-     * @param callable|null $cb
+     * @param callable $cb
      *
      * @throws TGException
      */
-    protected function login(?callable $cb = null): void
+    protected function login(callable $cb): void
     {
         $authKey = AuthKeyCreator::createFromString($this->authKey);
         if (!$this->infoClient->isLoggedIn()) {

@@ -85,10 +85,11 @@ abstract class BaseAuthorization implements Authorization
      */
     public function __construct(DataCentre $dc, ?Proxy $proxy = null)
     {
+        $cb = static function () {
+        };
         $socket = $proxy
-            ? new NonBlockingProxySocket($proxy, $dc, static function () {
-            })
-            : new TcpSocket($dc);
+            ? new NonBlockingProxySocket($proxy, $dc, $cb)
+            : new TcpSocket($dc, $cb);
 
         $this->dc = $dc;
         $this->socketContainer = new NotEncryptedSocketMessenger($socket);

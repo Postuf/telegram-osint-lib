@@ -85,7 +85,7 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
      *
      * @return void
      */
-    public function login(AuthKey $authKey, Proxy $proxy = null, ?callable $cb = null): void
+    public function login(AuthKey $authKey, ?Proxy $proxy, callable $cb): void
     {
         $this->proxy = $proxy;
         $this->basicClient->login($authKey, $proxy, $cb);

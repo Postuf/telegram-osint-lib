@@ -60,11 +60,11 @@ class StatusWatcherClientTest extends TestCase
      */
     public function test_add_user_postponed(): void
     {
-        $watcherClient = $this->prepareClientWithTrace();
-
         $calledUser1 = false;
-        $watcherClient->addUser('test1', static function () use (&$calledUser1) {
-            $calledUser1 = true;
+        $watcherClient = $this->prepareClientWithTrace(static function (StatusWatcherClientMock $watcherClient) use (&$calledUser1) {
+            $watcherClient->addUser('test1', static function () use (&$calledUser1) {
+                $calledUser1 = true;
+            });
         });
         $this->pollMessages($watcherClient);
         self::assertTrue($calledUser1);
@@ -83,11 +83,11 @@ class StatusWatcherClientTest extends TestCase
      */
     public function test_add_user_called_in_time(): void
     {
-        $watcherClient = $this->prepareClientWithTrace();
-
         $calledUser1 = false;
-        $watcherClient->addUser('test1', static function () use (&$calledUser1) {
-            $calledUser1 = true;
+        $watcherClient = $this->prepareClientWithTrace(static function (StatusWatcherClientMock $watcherClient) use (&$calledUser1) {
+            $watcherClient->addUser('test1', static function () use (&$calledUser1) {
+                $calledUser1 = true;
+            });
         });
         $this->pollMessages($watcherClient);
         self::assertTrue($calledUser1);
@@ -378,12 +378,14 @@ class StatusWatcherClientTest extends TestCase
     }
 
     /**
+     * @param callable $cb function(WatcherClient $client)
+     *
      * @throws JsonException
      * @throws TGException
      *
      * @return StatusWatcherClientMock
      */
-    private function prepareClientWithTrace(): StatusWatcherClientMock
+    private function prepareClientWithTrace(callable $cb): StatusWatcherClientMock
     {
         $file = TraceConverterJsonToText::fromFile(__DIR__.self::TRACE_PATH);
         $trace = json_decode($file, true, 512, JSON_THROW_ON_ERROR);
@@ -394,11 +396,17 @@ class StatusWatcherClientTest extends TestCase
             $this->clock,
             new NullBasicClientImpl($trace)
         );
-        $watcherClient->login(AuthKeyCreator::createFromString(self::DEFAULT_AUTHKEY));
-        $watcherClient->loadMockContacts([
-            new ContactUser(AnonymousMessageMock::getContact(self::USER_ID1, self::PHONE1)),
-            new ContactUser(AnonymousMessageMock::getContact(self::USER_ID2, self::PHONE2)),
-        ]);
+        $watcherClient->login(
+            AuthKeyCreator::createFromString(self::DEFAULT_AUTHKEY),
+            null,
+            static function () use ($watcherClient, $cb) {
+                $watcherClient->loadMockContacts([
+                    new ContactUser(AnonymousMessageMock::getContact(self::USER_ID1, self::PHONE1)),
+                    new ContactUser(AnonymousMessageMock::getContact(self::USER_ID2, self::PHONE2)),
+                ]);
+                $cb($watcherClient);
+            }
+        );
 
         return $watcherClient;
     }

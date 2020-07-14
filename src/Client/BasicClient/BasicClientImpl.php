@@ -10,7 +10,6 @@ use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\Registration\AccountInfo;
 use TelegramOSINT\TGConnection\DataCentre;
 use TelegramOSINT\TGConnection\Socket\NonBlockingProxySocket;
-use TelegramOSINT\TGConnection\Socket\ProxySocket;
 use TelegramOSINT\TGConnection\Socket\Socket;
 use TelegramOSINT\TGConnection\Socket\TcpSocket;
 use TelegramOSINT\TGConnection\SocketMessenger\EncryptedSocketMessenger;
@@ -106,7 +105,7 @@ class BasicClientImpl implements BasicClient, MessageListener
      *
      * @return void
      */
-    public function login(AuthKey $authKey, ?Proxy $proxy = null, callable $cb = null): void
+    public function login(AuthKey $authKey, ?Proxy $proxy, callable $cb): void
     {
         if($this->isLoggedIn()) {
             throw new TGException(TGException::ERR_CLIENT_ALREADY_LOGGED_IN, $this->getUserId());
@@ -119,13 +118,10 @@ class BasicClientImpl implements BasicClient, MessageListener
 
             $this->bumpProtocolVersion();
         };
-        $this->socket = $this->pickSocket($dc, $proxy, $cb ? static function () use ($cb, $postSocket) {
+        $this->socket = $this->pickSocket($dc, $proxy, static function () use ($cb, $postSocket) {
             $postSocket();
             $cb();
-        } : null);
-        if (!$cb) {
-            $postSocket();
-        }
+        });
     }
 
     private function bumpProtocolVersion(): void
@@ -167,15 +163,13 @@ class BasicClientImpl implements BasicClient, MessageListener
      *
      * @return Socket
      */
-    protected function pickSocket(DataCentre $dc, Proxy $proxy = null, callable $cb = null): Socket
+    protected function pickSocket(DataCentre $dc, ?Proxy $proxy, callable $cb): Socket
     {
         if($proxy !== null && $proxy->getType() === Proxy::TYPE_SOCKS5) {
-            return $cb
-                ? new NonBlockingProxySocket($proxy, $dc, $cb, $this->proxyTimeout)
-                : new ProxySocket($proxy, $dc, $this->proxyTimeout);
+            return new NonBlockingProxySocket($proxy, $dc, $cb, $this->proxyTimeout);
         }
 
-        return new TcpSocket($dc);
+        return new TcpSocket($dc, $cb);
     }
 
     /**

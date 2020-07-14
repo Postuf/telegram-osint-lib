@@ -110,45 +110,40 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
     private function monitorPhones(): void
     {
         $authKey = AuthKeyCreator::createFromString($this->authKey);
-        $this->client->login($authKey, $this->proxy);
-
-        /* add via phone numbers */
-        $monitoringPhones = $this->numbers;
-        $lastContactsCleaningTime = 0;
-        $this->client->reloadContacts($monitoringPhones, $this->users, function (ImportResult $result) use (&$lastContactsCleaningTime) {
-            $lastContactsCleaningTime = $this->clock->time();
-            $this->log('Contacts imported total:'.count($result->importedPhones).PHP_EOL);
-            $this->log('Replaced phones:'.print_r($result->replacedPhones, true).PHP_EOL);
-        });
-
-        /* add via user names */
-        foreach ($this->users as $user) {
-            $this->client->addUser($user, function (bool $addResult) use ($user) {
-                $time = time();
-                $this->log("$user added: $addResult at $time");
+        $this->client->login($authKey, $this->proxy, function () {
+            /* add via phone numbers */
+            $monitoringPhones = $this->numbers;
+            $lastContactsCleaningTime = 0;
+            $this->client->reloadContacts($monitoringPhones, $this->users, function (ImportResult $result) use (&$lastContactsCleaningTime) {
+                $lastContactsCleaningTime = $this->clock->time();
+                $this->log('Contacts imported total:'.count($result->importedPhones).PHP_EOL);
+                $this->log('Replaced phones:'.print_r($result->replacedPhones, true).PHP_EOL);
             });
-        }
+
+            /* add via user names */
+            foreach ($this->users as $user) {
+                $this->client->addUser($user, function (bool $addResult) use ($user) {
+                    $time = time();
+                    $this->log("$user added: $addResult at $time");
+                });
+            }
+        });
 
         // wait a little between operations in order to get possible exceptions
         // it is preferable only once after first call of import/add contacts
-        for($i = 0; $i < self::INITIAL_POLL_CYCLE_COUNT; $i++) {
+        for ($i = 0; $i < self::INITIAL_POLL_CYCLE_COUNT; $i++) {
             $this->pollClientCycle($this->client);
         }
 
         $start = $this->clock->time();
 
-        while(true){
+        while (true) {
 
             $this->pollClientCycle($this->client);
 
-            if($this->clock->time() - $start > $this->stopAfter && !$this->client->hasDeferredCalls()) {
+            if ($this->clock->time() - $start > $this->stopAfter && !$this->client->hasDeferredCalls()) {
                 $this->client->terminate();
                 break;
-            }
-
-            if($lastContactsCleaningTime > 0 && $this->clock->time() - $lastContactsCleaningTime > 5) {
-                // remove contact by name
-                $lastContactsCleaningTime = $this->clock->time();
             }
         }
 
