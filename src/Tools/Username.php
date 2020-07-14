@@ -8,6 +8,9 @@ class Username
 {
     public static function equal(?string $username1, ?string $username2): bool
     {
-        return strcasecmp(trim($username1), trim($username2)) === 0;
+        return strcasecmp(
+            $username1 !== null ? trim($username1) : '',
+            $username2 !== null ? trim($username2) : ''
+        ) === 0;
     }
 }
