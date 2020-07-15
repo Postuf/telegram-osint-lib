@@ -12,6 +12,14 @@ class DiskCacheFactory implements CacheFactoryInterface
     private const PREFIX = '/tmp/';
     private const SUFFIX = '.txt';
 
+    /** @var string */
+    private $prefix;
+
+    public function __construct(string $prefix = self::PREFIX)
+    {
+        $this->prefix = $prefix;
+    }
+
     /**
      * @param AuthKey $key
      *
@@ -19,6 +27,6 @@ class DiskCacheFactory implements CacheFactoryInterface
      */
     public function generate(AuthKey $key): Cache
     {
-        return new CacheMap(self::PREFIX.md5($key->getSerializedAuthKey()).self::SUFFIX);
+        return new CacheMap($this->prefix.md5($key->getSerializedAuthKey()).self::SUFFIX);
     }
 }
