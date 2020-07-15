@@ -4,9 +4,11 @@
 
 namespace TelegramOSINT\Client\InfoObtainingClient;
 
+use Closure;
 use TelegramOSINT\Auth\Authorization;
 use TelegramOSINT\Auth\Protocol\AppAuthorization;
 use TelegramOSINT\Client\AuthKey\AuthKey;
+use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
 use TelegramOSINT\Client\BasicClient\BasicClient;
 use TelegramOSINT\Client\ContactKeepingClientImpl;
 use TelegramOSINT\Client\InfoObtainingClient;
@@ -51,6 +53,9 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UploadedFile;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserFull;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserProfilePhoto;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
+use TelegramOSINT\Tools\Cache;
+use TelegramOSINT\Tools\CacheFactoryInterface;
+use TelegramOSINT\Tools\DiskCacheFactory;
 use TelegramOSINT\Tools\Proxy;
 use TelegramOSINT\Tools\Username;
 
@@ -70,11 +75,16 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
     private $generator;
     /** @var Proxy|null */
     private $proxy;
+    /** @var CacheFactoryInterface */
+    private $cacheFactory;
+    /** @var Cache|null */
+    private $cache;
 
-    public function __construct(BasicClientGeneratorInterface $generator)
+    public function __construct(BasicClientGeneratorInterface $generator, ?CacheFactoryInterface $factory = null)
     {
         $this->generator = $generator;
         $this->basicClient = $generator->generate();
+        $this->cacheFactory = $factory ?? new DiskCacheFactory();
         parent::__construct(null, $this->basicClient);
     }
 
@@ -88,6 +98,7 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
     public function login(AuthKey $authKey, ?Proxy $proxy, callable $cb): void
     {
         $this->proxy = $proxy;
+        $this->cache = $this->cacheFactory->generate($authKey);
         $this->basicClient->login($authKey, $proxy, $cb);
     }
 
@@ -103,17 +114,32 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
      */
     public function pollMessage(): bool
     {
-        $otherDcMessagePolled = false;
-        foreach ($this->otherDcClients as $otherDcClient) {
-            $otherDcMessagePolled |= $otherDcClient->pollMessage();
-        }
-        foreach ($this->notEncryptedClients as $client) {
-            $client->poll();
-        }
+        try {
+            $otherDcMessagePolled = false;
+            foreach ($this->otherDcClients as $otherDcClient) {
+                $otherDcMessagePolled |= $otherDcClient->pollMessage();
+            }
+            foreach ($this->notEncryptedClients as $client) {
+                $client->poll();
+            }
 
-        $this->processDeferredQueue();
+            $this->processDeferredQueue();
 
-        return $this->basicClient->pollMessage() || $otherDcMessagePolled;
+            return $this->basicClient->pollMessage() || $otherDcMessagePolled;
+        } catch (TGException $e) {
+            $code = $e->getCode();
+            $banCodes = [
+                TGException::ERR_MSG_BANNED_SESSION_STOLEN,
+                TGException::ERR_MSG_BANNED_AUTHKEY_DUPLICATED,
+                TGException::ERR_MSG_PHONE_BANNED,
+                TGException::ERR_MSG_USER_BANNED,
+            ];
+            if ($this->cache && in_array($code, $banCodes, true)) {
+                $this->cache->del();
+            }
+
+            throw $e;
+        }
     }
 
     public function getChatMembers(int $id, callable $onComplete): void
@@ -555,48 +581,8 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
 
                     // create authKey in foreign dc
                     $dc = new DataCentre($dc->getIp(), $dc->getId(), $dc->getPort());
-                    $auth = new AppAuthorization($dc, $this->proxy);
-                    $this->notEncryptedClients[] = $auth;
-                    $lastIndex = array_key_last($this->notEncryptedClients);
-                    $auth->createAuthKey(function ($authKey) use ($onPictureLoaded, $dc, $location, $lastIndex) {
-                        unset($this->notEncryptedClients[$lastIndex]);
-                        // login in foreign dc
-                        $clientKey = count($this->otherDcClients);
-                        $this->otherDcClients[$clientKey] = $this->generator->generate(false, true);
-                        $this->otherDcClients[$clientKey]->login(
-                            $authKey,
-                            $this->proxy,
-                            function () use ($dc, $location, $onPictureLoaded, $clientKey) {
-                                // export current authorization to foreign dc
-                                $exportAuthRequest = new export_authorization($dc->getDcId());
-                                $this->basicClient->getConnection()->getResponseAsync(
-                                    $exportAuthRequest,
-                                    function (AnonymousMessage $message) use ($clientKey, $location, $onPictureLoaded) {
-                                        $exportedAuthResponse = new ExportedAuthorization($message);
-
-                                        // import authorization on foreign dc
-                                        $importAuthRequest = new import_authorization(
-                                            $exportedAuthResponse->getUserId(),
-                                            $exportedAuthResponse->getTransferKey()
-                                        );
-                                        $this->otherDcClients[$clientKey]->getConnection()->getResponseAsync($importAuthRequest, function (AnonymousMessage $message) use ($exportedAuthResponse, $clientKey, $location, $onPictureLoaded) {
-                                            $authorization = new AuthorizationSelfUser($message);
-                                            if ($authorization->getUser()->getUserId() !== $exportedAuthResponse->getUserId()) {
-                                                throw new TGException(TGException::ERR_AUTH_EXPORT_FAILED);
-                                            }
-                                            // make foreign dc current and get the picture
-                                            $this->readPictureFromCurrentDC($this->otherDcClients[$clientKey]->getConnection(), $location, function ($picture) use ($clientKey, $onPictureLoaded) {
-                                                $this->otherDcClients[$clientKey]->terminate();
-                                                unset($this->otherDcClients[$clientKey]);
-                                                $onPictureLoaded($picture);
-                                            });
-
-                                        });
-                                    }
-                                );
-                            }
-                        );
-                    });
+                    $onAuthKeyReady = $this->getPictureLoadingCallback($onPictureLoaded, $dc, $location);
+                    $this->getAuthKey($dc, $onAuthKeyReady);
 
                     break;
                 }
@@ -608,8 +594,81 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
         });
     }
 
+    /**
+     * @param DataCentre $dc
+     * @param callable   $cb
+     *
+     * @throws TGException
+     */
+    private function getAuthKey(DataCentre $dc, callable $cb): void
+    {
+        $cacheKey = (string) $dc->getDcId();
+        $cachedAuthKeySerialized = $this->cache->get($cacheKey);
+        if ($cachedAuthKeySerialized !== null) {
+            $cb(AuthKeyCreator::createFromString($cachedAuthKeySerialized));
+        } else {
+            $auth = new AppAuthorization($dc, $this->proxy);
+            $this->notEncryptedClients[] = $auth;
+            $lastIndex = array_key_last($this->notEncryptedClients);
+            $auth->createAuthKey(function (AuthKey $authKey) use ($cb, $lastIndex, $cacheKey) {
+                unset($this->notEncryptedClients[$lastIndex]);
+                $this->cache->set($cacheKey, $authKey->getSerializedAuthKey());
+                $cb($authKey);
+            });
+        }
+    }
+
     public function terminate(): void
     {
         $this->basicClient->terminate();
+    }
+
+    /**
+     * @param callable        $onPictureLoaded
+     * @param DataCentre      $dc
+     * @param TLClientMessage $location
+     *
+     * @return Closure
+     */
+    private function getPictureLoadingCallback(callable $onPictureLoaded, DataCentre $dc, TLClientMessage $location): Closure
+    {
+        return function (AuthKey $authKey) use ($onPictureLoaded, $dc, $location) {
+            // login in foreign dc
+            $clientKey = count($this->otherDcClients);
+            $this->otherDcClients[$clientKey] = $this->generator->generate(false, true);
+            $this->otherDcClients[$clientKey]->login(
+                $authKey,
+                $this->proxy,
+                function () use ($dc, $location, $onPictureLoaded, $clientKey) {
+                    // export current authorization to foreign dc
+                    $exportAuthRequest = new export_authorization($dc->getDcId());
+                    $this->basicClient->getConnection()->getResponseAsync(
+                        $exportAuthRequest,
+                        function (AnonymousMessage $message) use ($clientKey, $location, $onPictureLoaded) {
+                            $exportedAuthResponse = new ExportedAuthorization($message);
+
+                            // import authorization on foreign dc
+                            $importAuthRequest = new import_authorization(
+                                $exportedAuthResponse->getUserId(),
+                                $exportedAuthResponse->getTransferKey()
+                            );
+                            $this->otherDcClients[$clientKey]->getConnection()->getResponseAsync($importAuthRequest, function (AnonymousMessage $message) use ($exportedAuthResponse, $clientKey, $location, $onPictureLoaded) {
+                                $authorization = new AuthorizationSelfUser($message);
+                                if ($authorization->getUser()->getUserId() !== $exportedAuthResponse->getUserId()) {
+                                    throw new TGException(TGException::ERR_AUTH_EXPORT_FAILED);
+                                }
+                                // make foreign dc current and get the picture
+                                $this->readPictureFromCurrentDC($this->otherDcClients[$clientKey]->getConnection(), $location, function ($picture) use ($clientKey, $onPictureLoaded) {
+                                    $this->otherDcClients[$clientKey]->terminate();
+                                    unset($this->otherDcClients[$clientKey]);
+                                    $onPictureLoaded($picture);
+                                });
+
+                            });
+                        }
+                    );
+                }
+            );
+        };
     }
 }
