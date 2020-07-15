@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace TelegramOSINT\Tools;
 
-class CacheMap
+class CacheMap implements Cache
 {
     /** @var string */
     private $filename;
@@ -24,6 +24,13 @@ class CacheMap
         $this->map[$key] = $value;
         /** @noinspection PhpUnhandledExceptionInspection */
         file_put_contents($this->filename, json_encode($this->map, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
+    }
+
+    public function del(): void
+    {
+        if (is_file($this->filename)) {
+            @unlink($this->filename);
+        }
     }
 
     public function get(string $key) {
