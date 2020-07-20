@@ -6,6 +6,9 @@ namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
-interface input_sticker extends TLClientMessage
+/**
+ * @see https://core.telegram.org/type/InputStickerSet
+ */
+interface input_sticker_set extends TLClientMessage
 {
 }

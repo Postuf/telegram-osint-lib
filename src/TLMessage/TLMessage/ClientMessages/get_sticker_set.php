@@ -16,7 +16,7 @@ class get_sticker_set implements TLClientMessage
 
     private $sticker;
 
-    public function __construct(input_sticker $sticker)
+    public function __construct(input_sticker_set $sticker)
     {
         $this->sticker = $sticker;
     }

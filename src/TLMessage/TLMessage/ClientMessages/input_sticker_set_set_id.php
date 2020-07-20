@@ -6,7 +6,10 @@ namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 
 use TelegramOSINT\TLMessage\TLMessage\Packer;
 
-class input_sticker_set_id implements input_sticker
+/**
+ * @see https://core.telegram.org/constructor/inputStickerSetID
+ */
+class input_sticker_set_set_id implements input_sticker_set
 {
     private const CONSTRUCTOR = -1645763991; // 0x9de7a269
 

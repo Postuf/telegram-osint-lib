@@ -8,6 +8,9 @@ use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
+/**
+ * @see https://core.telegram.org/type/messages.FeaturedStickers
+ */
 class FeaturedStickers extends TLServerMessage
 {
     /**
