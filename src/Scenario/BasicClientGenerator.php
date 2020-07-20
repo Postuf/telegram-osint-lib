@@ -28,7 +28,7 @@ class BasicClientGenerator implements BasicClientGeneratorInterface
         $this->logger = $logger;
     }
 
-    public function generate(bool $trace = false, bool $auxiliary = false): BasicClient
+    public function generate(bool $trace = true, bool $auxiliary = false): BasicClient
     {
         if ($trace) {
             return new TracingBasicClientImpl();

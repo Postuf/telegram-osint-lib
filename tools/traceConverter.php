@@ -97,7 +97,7 @@ Usage:
     php traceConverter.php --input-pattern input-file-pattern [--output-folder output-folder]
 
    -i, --input-pattern          Input file pattern (e.g file name).
-   -o, --output-folder          Optional output folder. By default it will input file folder.
+   -o, --output-folder          Optional output folder. By default it will be input file folder.
    -h, --help                   Display this help message.
 
 EOT;
