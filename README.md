@@ -25,7 +25,10 @@ Our goal is to make a library that implements some real-life OSINT usage scenari
 * Composer
   * phpseclib
 
-## Quickstart
+## Docs
+* [Create scenario](docs/create-scenario.md)
+
+## QuickStart
 
 First of all, add library to your app user composer:
 
