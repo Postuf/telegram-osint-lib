@@ -2,6 +2,8 @@
 
 namespace TelegramOSINT\Client;
 
+use TelegramOSINT\Client\InfoObtainingClient\Models\FileModel;
+
 interface InfoObtainingClient extends Client
 {
     /**
@@ -19,4 +21,6 @@ interface InfoObtainingClient extends Client
      * @param callable $onComplete function(?UserInfoModel $model)
      */
     public function getInfoByUsername(string $userName, bool $withPhoto, bool $largePhoto, callable $onComplete): void;
+
+    public function loadFile(FileModel $model, callable $onPictureLoaded);
 }

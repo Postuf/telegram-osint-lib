@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace TelegramOSINT\Scenario;
 
 use Closure;
+use TelegramOSINT\Client\InfoObtainingClient\Models\GroupId;
 use TelegramOSINT\Client\InfoObtainingClient\Models\UserInfoModel;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
-use TelegramOSINT\Scenario\Models\GroupId;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_all_chats;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_full_chat;
 
@@ -97,11 +97,11 @@ class GroupMembersScenario extends AbstractGroupScenario
                         $id = (int) $chat['id'];
                         Logger::log(__CLASS__, "getting channel members for channel $id");
                         /** @var array $chat */
+                        $groupId = new GroupId($id, $chat['access_hash']);
                         if ($this->username) {
                             Logger::log(__CLASS__, "searching chat $id participants for {$this->username}");
                             $this->infoClient->getParticipantsSearch(
-                                $id,
-                                $chat['access_hash'],
+                                $groupId,
                                 $this->username,
                                 $this->makeChatMemberHandler(
                                     $id,
@@ -110,7 +110,7 @@ class GroupMembersScenario extends AbstractGroupScenario
                                 )
                             );
                         } else {
-                            $this->infoClient->getChannelMembers($id, $chat['access_hash'], $this->makeChatMemberHandler($id));
+                            $this->infoClient->getChannelMembers($groupId, $this->makeChatMemberHandler($id));
                         }
                     }
                 };
@@ -118,25 +118,23 @@ class GroupMembersScenario extends AbstractGroupScenario
                 $this->infoClient->resolveUsername($groupName, $this->getResolveHandler($onChannelFound));
             } elseif ($this->groupIdObj) {
                 if ($this->username) {
-                    Logger::log(__CLASS__, "searching chat {$this->groupIdObj->getGroupId()} participants for {$this->username}");
+                    Logger::log(__CLASS__, "searching chat {$this->groupIdObj->getId()} participants for {$this->username}");
                     $this->infoClient->getParticipantsSearch(
-                        $this->groupIdObj->getGroupId(),
-                        $this->groupIdObj->getAccessHash(),
+                        $this->groupIdObj,
                         $this->username,
                         $this->makeChatMemberHandler(
-                            $this->groupIdObj->getGroupId(),
+                            $this->groupIdObj->getId(),
                             0,
                             true
                         )
                     );
                 } else {
-                    Logger::log(__CLASS__, "getting chat {$this->groupIdObj->getGroupId()} participants");
+                    Logger::log(__CLASS__, "getting chat {$this->groupIdObj->getId()} participants");
                     $this->infoClient->getParticipants(
-                        $this->groupIdObj->getGroupId(),
-                        $this->groupIdObj->getAccessHash(),
+                        $this->groupIdObj,
                         0,
                         $this->makeChatMemberHandler(
-                            $this->groupIdObj->getGroupId(),
+                            $this->groupIdObj->getId(),
                             0,
                             true
                         )
@@ -196,13 +194,12 @@ class GroupMembersScenario extends AbstractGroupScenario
             if ($users && $continue) {
                 $newOffset = $offset + self::PAGE_LIMIT;
                 if ($newOffset < $this->limit) {
-                    Logger::log(__CLASS__, "getting more participants for {$this->groupIdObj->getGroupId()} starting with $newOffset");
+                    Logger::log(__CLASS__, "getting more participants for {$this->groupIdObj->getId()} starting with $newOffset");
                     $this->infoClient->getParticipants(
-                        $this->groupIdObj->getGroupId(),
-                        $this->groupIdObj->getAccessHash(),
+                        $this->groupIdObj,
                         $newOffset,
                         $this->makeChatMemberHandler(
-                            $this->groupIdObj->getGroupId(),
+                            $this->groupIdObj->getId(),
                             $newOffset,
                             true
                         )

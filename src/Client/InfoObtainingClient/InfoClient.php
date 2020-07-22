@@ -4,16 +4,21 @@
 
 namespace TelegramOSINT\Client\InfoObtainingClient;
 
+use Closure;
 use TelegramOSINT\Auth\Authorization;
 use TelegramOSINT\Auth\Protocol\AppAuthorization;
 use TelegramOSINT\Client\AuthKey\AuthKey;
+use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
 use TelegramOSINT\Client\BasicClient\BasicClient;
+use TelegramOSINT\Client\ChannelClient;
 use TelegramOSINT\Client\ContactKeepingClientImpl;
 use TelegramOSINT\Client\InfoObtainingClient;
 use TelegramOSINT\Client\InfoObtainingClient\Models\FileModel;
+use TelegramOSINT\Client\InfoObtainingClient\Models\GroupId;
 use TelegramOSINT\Client\InfoObtainingClient\Models\PictureModel;
 use TelegramOSINT\Client\InfoObtainingClient\Models\UserInfoModel;
 use TelegramOSINT\Client\InfoObtainingClient\Models\UserStatusModel;
+use TelegramOSINT\Client\UserInfoClient;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\Scenario\BasicClientGeneratorInterface;
@@ -26,7 +31,6 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\export_authorization;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_all_chats;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_common_chats;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_config;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_deeplink_info;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_file;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_full_channel;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_full_chat;
@@ -51,10 +55,16 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UploadedFile;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserFull;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserProfilePhoto;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
+use TelegramOSINT\Tools\BanInvalidator;
+use TelegramOSINT\Tools\Cache;
+use TelegramOSINT\Tools\CacheFactoryInterface;
+use TelegramOSINT\Tools\CacheInvalidator;
+use TelegramOSINT\Tools\DiskCacheFactory;
 use TelegramOSINT\Tools\Proxy;
 use TelegramOSINT\Tools\Username;
+use Unit\Client\CachingClient;
 
-class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
+class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient, CachingClient, ChannelClient, UserInfoClient
 {
     private const READ_LIMIT_BYTES = 1024 * 256;  // must be the power of 2 (4096, 8192, 16384 ...)
 
@@ -70,11 +80,24 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
     private $generator;
     /** @var Proxy|null */
     private $proxy;
+    /** @var CacheFactoryInterface */
+    private $authKeyCacheFactory;
+    /** @var Cache|null */
+    private $authKeyCache;
+    /** @var CacheInvalidator */
+    private $authKeyCacheInvalidator;
+    /** @var AuthKey|null */
+    private $authKey;
 
-    public function __construct(BasicClientGeneratorInterface $generator)
-    {
+    public function __construct(
+        BasicClientGeneratorInterface $generator,
+        ?CacheFactoryInterface $authKeyCacheFactory = null,
+        ?CacheInvalidator $invalidator = null
+    ) {
         $this->generator = $generator;
         $this->basicClient = $generator->generate();
+        $this->authKeyCacheFactory = $authKeyCacheFactory ?? new DiskCacheFactory();
+        $this->authKeyCacheInvalidator = $invalidator ?? new BanInvalidator();
         parent::__construct(null, $this->basicClient);
     }
 
@@ -88,6 +111,8 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
     public function login(AuthKey $authKey, ?Proxy $proxy, callable $cb): void
     {
         $this->proxy = $proxy;
+        $this->authKey = $authKey;
+        $this->authKeyCache = $this->authKeyCacheFactory->generate($authKey);
         $this->basicClient->login($authKey, $proxy, $cb);
     }
 
@@ -103,17 +128,25 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
      */
     public function pollMessage(): bool
     {
-        $otherDcMessagePolled = false;
-        foreach ($this->otherDcClients as $otherDcClient) {
-            $otherDcMessagePolled |= $otherDcClient->pollMessage();
-        }
-        foreach ($this->notEncryptedClients as $client) {
-            $client->poll();
-        }
+        try {
+            $otherDcMessagePolled = false;
+            foreach ($this->otherDcClients as $otherDcClient) {
+                $otherDcMessagePolled |= $otherDcClient->pollMessage();
+            }
+            foreach ($this->notEncryptedClients as $client) {
+                $client->poll();
+            }
 
-        $this->processDeferredQueue();
+            $this->processDeferredQueue();
 
-        return $this->basicClient->pollMessage() || $otherDcMessagePolled;
+            return $this->basicClient->pollMessage() || $otherDcMessagePolled;
+        } catch (TGException $e) {
+            if ($this->authKeyCache) {
+                $this->authKeyCacheInvalidator->invalidateIfNeeded($e, $this->authKeyCache);
+            }
+
+            throw $e;
+        }
     }
 
     public function getChatMembers(int $id, callable $onComplete): void
@@ -121,22 +154,27 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
         $this->basicClient->getConnection()->getResponseAsync(new get_full_chat($id), $onComplete);
     }
 
-    public function getChannelMembers(int $id, int $accessHash, callable $onComplete): void
+    public function getChannelMembers(GroupId $id, callable $onComplete): void
     {
-        $this->basicClient->getConnection()->getResponseAsync(new get_full_channel($id, $accessHash), $onComplete);
+        $this->basicClient->getConnection()->getResponseAsync(
+            new get_full_channel($id->getId(), $id->getAccessHash()),
+            $onComplete
+        );
     }
 
     /**
      * @noinspection PhpUnused
      * @noinspection UnknownInspectionInspection
      *
-     * @param int      $id
-     * @param int      $accessHash
+     * @param GroupId  $id
      * @param callable $onComplete
      */
-    public function getFullChannel(int $id, int $accessHash, callable $onComplete): void
+    public function getFullChannel(GroupId $id, callable $onComplete): void
     {
-        $this->basicClient->getConnection()->getResponseAsync(new get_full_channel($id, $accessHash), $onComplete);
+        $this->basicClient->getConnection()->getResponseAsync(
+            new get_full_channel($id->getId(), $id->getAccessHash()),
+            $onComplete
+        );
     }
 
     public function getChatMessages(int $id, int $limit, ?int $since, ?int $lastId, callable $onComplete): void
@@ -148,9 +186,9 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
         );
     }
 
-    public function getChannelMessages(int $id, int $accessHash, int $limit, ?int $since, ?int $lastId, callable $onComplete): void
+    public function getChannelMessages(GroupId $id, int $limit, ?int $since, ?int $lastId, callable $onComplete): void
     {
-        $request = new get_history($id, $limit, (int) $since, (int) $lastId, $accessHash);
+        $request = new get_history($id->getId(), $limit, (int) $since, (int) $lastId, $id->getAccessHash());
         $this->basicClient->getConnection()->getResponseAsync(
             $request,
             $onComplete
@@ -166,20 +204,23 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
         );
     }
 
-    public function getCommonChats(int $id, int $accessHash, int $limit, int $max_id, callable $onComplete): void
+    public function getCommonChats(GroupId $id, int $limit, int $max_id, callable $onComplete): void
     {
-        $this->basicClient->getConnection()->getResponseAsync(new get_common_chats($id, $accessHash, $limit, $max_id), $onComplete);
+        $this->basicClient->getConnection()->getResponseAsync(
+            new get_common_chats($id->getId(), $id->getAccessHash(), $limit, $max_id),
+            $onComplete
+        );
     }
 
-    public function getParticipants(int $id, int $accessHash, int $offset, callable $onComplete): void
+    public function getParticipants(GroupId $id, int $offset, callable $onComplete): void
     {
-        $channel = new input_channel($id, $accessHash);
+        $channel = new input_channel($id->getId(), $id->getAccessHash());
         $this->basicClient->getConnection()->getResponseAsync(new get_participants($channel, $offset), $onComplete);
     }
 
-    public function getParticipantsSearch(int $id, int $accessHash, string $username, callable $onComplete): void
+    public function getParticipantsSearch(GroupId $id, string $username, callable $onComplete): void
     {
-        $channel = new input_channel($id, $accessHash);
+        $channel = new input_channel($id->getId(), $id->getAccessHash());
         $this->basicClient->getConnection()->getResponseAsync(new get_participants($channel, 0, $username), $onComplete);
     }
 
@@ -195,17 +236,16 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
     }
 
     /**
-     * @param int      $channelId
-     * @param int      $accessHash
+     * @param GroupId  $id
      * @param int      $msgId
      * @param int      $userId
      * @param callable $onComplete function(?UserInfoModel $model)
      * @noinspection PhpUnused
      * @noinspection UnknownInspectionInspection
      */
-    public function getFullUser(int $channelId, int $accessHash, int $msgId, int $userId, callable $onComplete): void
+    public function getFullUser(GroupId $id, int $msgId, int $userId, callable $onComplete): void
     {
-        $request = new get_full_user($channelId, $accessHash, $msgId, $userId);
+        $request = new get_full_user($id->getId(), $id->getAccessHash(), $msgId, $userId);
         $cbUnpacker = static function (AnonymousMessage $msg) use ($onComplete) {
             if (UserFull::isIt($msg)) {
                 $onComplete(null);
@@ -230,22 +270,14 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
     }
 
     /**
-     * @param string   $deepLink
-     * @param callable $onComplete function(AnonymousMessage $msg)
-     * @noinspection PhpUnused
-     * @noinspection UnknownInspectionInspection
-     */
-    public function getByDeepLink(string $deepLink, callable $onComplete): void {
-        $this->basicClient->getConnection()->getResponseAsync(new get_deeplink_info($deepLink), $onComplete);
-    }
-
-    /**
-     * @param int      $id
-     * @param int      $accessHash
+     * @param GroupId  $id
      * @param callable $onComplete
      */
-    public function joinChannel(int $id, int $accessHash, callable $onComplete): void {
-        $this->basicClient->getConnection()->getResponseAsync(new join_channel($id, $accessHash), $onComplete);
+    public function joinChannel(GroupId $id, callable $onComplete): void {
+        $this->basicClient->getConnection()->getResponseAsync(
+            new join_channel($id->getId(), $id->getAccessHash()),
+            $onComplete
+        );
     }
 
     /**
@@ -253,15 +285,6 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
      */
     public function getAllChats(callable $onComplete): void {
         $this->basicClient->getConnection()->getResponseAsync(new get_all_chats(), $onComplete);
-    }
-
-    /**
-     * @param string   $number
-     * @param callable $onComplete
-     */
-    public function getContactByPhone(string $number, callable $onComplete): void
-    {
-        $this->contactsKeeper->getUserByPhone($number, $onComplete);
     }
 
     /**
@@ -537,6 +560,28 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
         });
     }
 
+    public function warmup(): void
+    {
+        if (!$this->authKeyCache || !$this->authKeyCache->empty()) {
+            return;
+        }
+        $this->basicClient->getConnection()->getResponseAsync(new get_config(), function (AnonymousMessage $message) {
+            $dcConfigs = new DcConfigApp($message);
+
+            $dcFound = [];
+            foreach ($dcConfigs->getDataCenters() as $dc) {
+                if (!isset($dcFound[$dc->getId()])
+                    && $this->basicClient->getConnection()->isDcAppropriate($dc)
+                    && $dc->getId() !== $this->authKey->getAttachedDC()->getDcId()
+                ) {
+                    $dcFound[$dc->getId()] = 1;
+                    $dc = new DataCentre($dc->getIp(), $dc->getId(), $dc->getPort());
+                    $this->getAuthKey($dc, static function () { });
+                }
+            }
+        });
+    }
+
     /**
      * @param TLClientMessage $location
      * @param int             $photoDcId
@@ -555,48 +600,8 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
 
                     // create authKey in foreign dc
                     $dc = new DataCentre($dc->getIp(), $dc->getId(), $dc->getPort());
-                    $auth = new AppAuthorization($dc, $this->proxy);
-                    $this->notEncryptedClients[] = $auth;
-                    $lastIndex = array_key_last($this->notEncryptedClients);
-                    $auth->createAuthKey(function ($authKey) use ($onPictureLoaded, $dc, $location, $lastIndex) {
-                        unset($this->notEncryptedClients[$lastIndex]);
-                        // login in foreign dc
-                        $clientKey = count($this->otherDcClients);
-                        $this->otherDcClients[$clientKey] = $this->generator->generate(false, true);
-                        $this->otherDcClients[$clientKey]->login(
-                            $authKey,
-                            $this->proxy,
-                            function () use ($dc, $location, $onPictureLoaded, $clientKey) {
-                                // export current authorization to foreign dc
-                                $exportAuthRequest = new export_authorization($dc->getDcId());
-                                $this->basicClient->getConnection()->getResponseAsync(
-                                    $exportAuthRequest,
-                                    function (AnonymousMessage $message) use ($clientKey, $location, $onPictureLoaded) {
-                                        $exportedAuthResponse = new ExportedAuthorization($message);
-
-                                        // import authorization on foreign dc
-                                        $importAuthRequest = new import_authorization(
-                                            $exportedAuthResponse->getUserId(),
-                                            $exportedAuthResponse->getTransferKey()
-                                        );
-                                        $this->otherDcClients[$clientKey]->getConnection()->getResponseAsync($importAuthRequest, function (AnonymousMessage $message) use ($exportedAuthResponse, $clientKey, $location, $onPictureLoaded) {
-                                            $authorization = new AuthorizationSelfUser($message);
-                                            if ($authorization->getUser()->getUserId() !== $exportedAuthResponse->getUserId()) {
-                                                throw new TGException(TGException::ERR_AUTH_EXPORT_FAILED);
-                                            }
-                                            // make foreign dc current and get the picture
-                                            $this->readPictureFromCurrentDC($this->otherDcClients[$clientKey]->getConnection(), $location, function ($picture) use ($clientKey, $onPictureLoaded) {
-                                                $this->otherDcClients[$clientKey]->terminate();
-                                                unset($this->otherDcClients[$clientKey]);
-                                                $onPictureLoaded($picture);
-                                            });
-
-                                        });
-                                    }
-                                );
-                            }
-                        );
-                    });
+                    $onAuthKeyReady = $this->getPictureLoadingCallback($onPictureLoaded, $dc, $location);
+                    $this->getAuthKey($dc, $onAuthKeyReady);
 
                     break;
                 }
@@ -608,8 +613,81 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
         });
     }
 
+    /**
+     * @param DataCentre $dc
+     * @param callable   $cb
+     *
+     * @throws TGException
+     */
+    private function getAuthKey(DataCentre $dc, callable $cb): void
+    {
+        $cacheKey = (string) $dc->getDcId();
+        $cachedAuthKeySerialized = $this->authKeyCache->get($cacheKey);
+        if ($cachedAuthKeySerialized !== null) {
+            $cb(AuthKeyCreator::createFromString($cachedAuthKeySerialized));
+        } else {
+            $auth = new AppAuthorization($dc, $this->proxy);
+            $this->notEncryptedClients[] = $auth;
+            $lastIndex = array_key_last($this->notEncryptedClients);
+            $auth->createAuthKey(function (AuthKey $authKey) use ($cb, $lastIndex, $cacheKey) {
+                unset($this->notEncryptedClients[$lastIndex]);
+                $this->authKeyCache->set($cacheKey, $authKey->getSerializedAuthKey());
+                $cb($authKey);
+            });
+        }
+    }
+
     public function terminate(): void
     {
         $this->basicClient->terminate();
+    }
+
+    /**
+     * @param callable        $onPictureLoaded
+     * @param DataCentre      $dc
+     * @param TLClientMessage $location
+     *
+     * @return Closure
+     */
+    private function getPictureLoadingCallback(callable $onPictureLoaded, DataCentre $dc, TLClientMessage $location): Closure
+    {
+        return function (AuthKey $authKey) use ($onPictureLoaded, $dc, $location) {
+            // login in foreign dc
+            $clientKey = count($this->otherDcClients);
+            $this->otherDcClients[$clientKey] = $this->generator->generate(false, true);
+            $this->otherDcClients[$clientKey]->login(
+                $authKey,
+                $this->proxy,
+                function () use ($dc, $location, $onPictureLoaded, $clientKey) {
+                    // export current authorization to foreign dc
+                    $exportAuthRequest = new export_authorization($dc->getDcId());
+                    $this->basicClient->getConnection()->getResponseAsync(
+                        $exportAuthRequest,
+                        function (AnonymousMessage $message) use ($clientKey, $location, $onPictureLoaded) {
+                            $exportedAuthResponse = new ExportedAuthorization($message);
+
+                            // import authorization on foreign dc
+                            $importAuthRequest = new import_authorization(
+                                $exportedAuthResponse->getUserId(),
+                                $exportedAuthResponse->getTransferKey()
+                            );
+                            $this->otherDcClients[$clientKey]->getConnection()->getResponseAsync($importAuthRequest, function (AnonymousMessage $message) use ($exportedAuthResponse, $clientKey, $location, $onPictureLoaded) {
+                                $authorization = new AuthorizationSelfUser($message);
+                                if ($authorization->getUser()->getUserId() !== $exportedAuthResponse->getUserId()) {
+                                    throw new TGException(TGException::ERR_AUTH_EXPORT_FAILED);
+                                }
+                                // make foreign dc current and get the picture
+                                $this->readPictureFromCurrentDC($this->otherDcClients[$clientKey]->getConnection(), $location, function ($picture) use ($clientKey, $onPictureLoaded) {
+                                    $this->otherDcClients[$clientKey]->terminate();
+                                    unset($this->otherDcClients[$clientKey]);
+                                    $onPictureLoaded($picture);
+                                });
+
+                            });
+                        }
+                    );
+                }
+            );
+        };
     }
 }

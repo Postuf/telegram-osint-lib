@@ -11,7 +11,7 @@ use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Tools\Proxy;
 use function usleep;
 
-abstract class InfoClientScenario implements ScenarioInterface
+abstract class InfoClientScenario implements ScenarioInterface, TimeoutScenarioInterface
 {
     /** @var InfoClient */
     protected $infoClient;

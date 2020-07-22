@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace TelegramOSINT\Client\InfoObtainingClient\Models;
 
-use TelegramOSINT\Scenario\Models\GroupId;
-
 class ChannelModel
 {
     public function __construct(int $id, int $accessHash, string $title, ?string $username = null)

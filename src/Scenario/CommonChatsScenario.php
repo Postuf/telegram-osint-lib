@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TelegramOSINT\Scenario;
 
+use TelegramOSINT\Client\InfoObtainingClient\Models\GroupId;
 use TelegramOSINT\Client\InfoObtainingClient\Models\UserInfoModel;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Logger\Logger;
@@ -96,13 +97,16 @@ class CommonChatsScenario extends InfoClientScenario
             Logger::log('DEBUG', 'Run user resolver...');
             $joinCnt = count($this->resolvedGroups);
             foreach ($this->resolvedGroups as $group) {
-                $this->joinGroup($group['id'], $group['accessHash'], static function (AnonymousMessage $message) use ($group, &$joinCnt, $onComplete) {
-                    $joinCnt--;
-                    Logger::log(__CLASS__, 'subscribe to channel '.$group['title']);
-                    if ($joinCnt === 0) {
-                        $onComplete();
+                $this->joinGroup(
+                    new GroupId($group['id'], $group['accessHash']),
+                    static function (AnonymousMessage $message) use ($group, &$joinCnt, $onComplete) {
+                        $joinCnt--;
+                        Logger::log(__CLASS__, 'subscribe to channel '.$group['title']);
+                        if ($joinCnt === 0) {
+                            $onComplete();
+                        }
                     }
-                });
+                );
                 usleep(400000);
             }
         };
@@ -156,31 +160,35 @@ class CommonChatsScenario extends InfoClientScenario
     public function getCommonChats(?callable $callback = null): void
     {
         $client = new UserContactsScenario([$this->phone], [], function (UserInfoModel $user) use ($callback) {
-            $this->infoClient->getCommonChats($user->id, $user->accessHash, 100, 0, function (AnonymousMessage $message) use ($callback) {
-                if (!Chats::isIt($message)) {
-                    return;
-                }
-                foreach ((new Chats($message))->getChats() as $chat) {
+            $this->infoClient->getCommonChats(
+                new GroupId($user->id, $user->accessHash),
+                100,
+                0,
+                function (AnonymousMessage $message) use ($callback) {
+                    if (!Chats::isIt($message)) {
+                        return;
+                    }
+                    foreach ((new Chats($message))->getChats() as $chat) {
 
-                    $this->commonChats[] = strtolower($chat->username);
-                }
+                        $this->commonChats[] = strtolower($chat->username);
+                    }
 
-                if ($callback) {
-                    $callback();
+                    if ($callback) {
+                        $callback();
+                    }
                 }
-            });
+            );
         }, $this->getGenerator(), false, false);
         $client->startActions(false);
     }
 
     /**
-     * @param int           $groupId
-     * @param int|null      $accessHash
-     * @param callable|null $callback   function(AnonymousMessage $message)
+     * @param GroupId       $id
+     * @param callable|null $callback function(AnonymousMessage $message)
      */
-    private function joinGroup(int $groupId, ?int $accessHash, ?callable $callback): void
+    private function joinGroup(GroupId $id, ?callable $callback): void
     {
-        $this->infoClient->joinChannel($groupId, $accessHash, $callback);
+        $this->infoClient->joinChannel($id, $callback);
     }
 
     private function getInterest(): void

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace TelegramOSINT\Scenario;
 
+use TelegramOSINT\Client\InfoObtainingClient\Models\GroupId;
 use TelegramOSINT\Client\InfoObtainingClient\Models\MessageModel;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
-use TelegramOSINT\Scenario\Models\GroupId;
 use TelegramOSINT\Scenario\Models\OptionalDateRange;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ResolvedPeer;
 
@@ -20,7 +20,7 @@ class GroupMessagesScenario extends InfoClientScenario
     private $handler;
 
     /** @var string|null */
-    private $username;
+    protected $username;
     /** @var int|null */
     private $userId;
     /** @var int|null */
@@ -28,7 +28,7 @@ class GroupMessagesScenario extends InfoClientScenario
     /** @var int|null */
     private $endTimestamp;
     /** @var GroupId */
-    private $groupIdObj;
+    protected $groupIdObj;
     /** @var int */
     private $callLimit;
     /** @var bool */
@@ -71,7 +71,7 @@ class GroupMessagesScenario extends InfoClientScenario
      *
      * @return callable function(AnonymousMessage $msg)
      */
-    private function getUserResolveHandler(callable $cb): callable
+    protected function getUserResolveHandler(callable $cb): callable
     {
         return function (AnonymousMessage $message) use ($cb) {
             if (ResolvedPeer::isIt($message)
@@ -96,7 +96,7 @@ class GroupMessagesScenario extends InfoClientScenario
             usleep(10000);
             $limit = 100;
             $parseMsgCallback = function () use ($limit): void {
-                $this->parseMessages($this->groupIdObj->getGroupId(), $this->groupIdObj->getAccessHash(), $limit);
+                $this->parseMessages($this->groupIdObj, $limit);
             };
             if ($this->username) {
                 $this->infoClient->resolveUsername($this->username, $this->getUserResolveHandler($parseMsgCallback));
@@ -106,56 +106,26 @@ class GroupMessagesScenario extends InfoClientScenario
         }, $pollAndTerminate);
     }
 
-    /**
-     * @param bool $pollAndTerminate
-     *
-     * @throws TGException
-     */
-    public function startLinkParse(bool $pollAndTerminate = true): void
-    {
-        $this->authAndPerformActions(function (): void {
-            usleep(10000);
-            $limit = 100;
-
-            $parseLinksCallback = function () use ($limit) {
-                $this->parseLinks($this->groupIdObj->getGroupId(), $this->groupIdObj->getAccessHash(), $limit);
-            };
-
-            if ($this->username) {
-                $this->infoClient->resolveUsername($this->username, $this->getUserResolveHandler($parseLinksCallback));
-            } else {
-                $parseLinksCallback();
-            }
-        }, $pollAndTerminate);
-    }
-
-    private function parseLinks(int $id, int $accessHash, int $limit): void
-    {
-        $this->infoClient->getChannelLinks($id, $limit, $accessHash, null, null, $this->makeMessagesHandler($id, $accessHash, $limit));
-    }
-
-    private function parseMessages(int $id, int $accessHash, int $limit): void
+    private function parseMessages(GroupId $id, int $limit): void
     {
         $this->infoClient->getChannelMessages(
             $id,
-            $accessHash,
             $limit,
             null,
             null,
-            $this->makeMessagesHandler($id, $accessHash, $limit)
+            $this->makeMessagesHandler($id, $limit)
         );
     }
 
     /**
-     * @param int $id
-     * @param int $accessHash
-     * @param int $limit
+     * @param GroupId $id
+     * @param int     $limit
      *
      * @return callable function(AnonymousMessage $message)
      */
-    private function makeMessagesHandler(int $id, int $accessHash, int $limit): callable
+    protected function makeMessagesHandler(GroupId $id, int $limit): callable
     {
-        return function (AnonymousMessage $anonymousMessage) use ($id, $accessHash, $limit) {
+        return function (AnonymousMessage $anonymousMessage) use ($id, $limit) {
             if ($anonymousMessage->getType() !== 'messages.channelMessages') {
                 Logger::log(__CLASS__, "incorrect message type {$anonymousMessage->getType()}");
 
@@ -244,11 +214,10 @@ class GroupMessagesScenario extends InfoClientScenario
                 usleep(500000);
                 $this->infoClient->getChannelMessages(
                     $id,
-                    $accessHash,
                     $limit,
                     null,
                     $lastId,
-                    $this->makeMessagesHandler($id, $accessHash, $limit)
+                    $this->makeMessagesHandler($id, $limit)
                 );
             }
         };

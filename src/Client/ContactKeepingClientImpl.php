@@ -95,6 +95,15 @@ abstract class ContactKeepingClientImpl extends DeferredClient implements Contac
     }
 
     /**
+     * @param string   $number
+     * @param callable $onComplete
+     */
+    public function getContactByPhone(string $number, callable $onComplete): void
+    {
+        $this->contactsKeeper->getUserByPhone($number, $onComplete);
+    }
+
+    /**
      * @param callable $onComplete
      *
      * @throws TGException

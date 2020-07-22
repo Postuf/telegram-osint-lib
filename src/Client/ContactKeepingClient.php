@@ -26,4 +26,6 @@ interface ContactKeepingClient extends Client
     public function reloadContacts(array $numbers, array $usernames, callable $onComplete): void;
 
     public function cleanContactsBook(callable $onComplete): void;
+
+    public function getContactByPhone(string $number, callable $onComplete): void;
 }

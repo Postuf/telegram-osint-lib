@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace TelegramOSINT\Scenario;
 
+use TelegramOSINT\Client\InfoObtainingClient\Models\GroupId;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Logger\Logger;
-use TelegramOSINT\Scenario\Models\GroupId;
 use TelegramOSINT\Scenario\Models\GroupRequest;
 
 class SearchUserScenario extends InfoClientScenario

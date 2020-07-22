@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TelegramOSINT\Scenario\Models;
+namespace TelegramOSINT\Client\InfoObtainingClient\Models;
 
 class GroupId
 {
@@ -17,7 +17,7 @@ class GroupId
         $this->accessHash = $accessHash;
     }
 
-    public function getGroupId(): int
+    public function getId(): int
     {
         return $this->groupId;
     }

@@ -10,7 +10,7 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ResolvedPeer;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Peer\PeerChannel;
 use TelegramOSINT\Tools\Proxy;
 
-abstract class AbstractGroupScenario extends InfoClientScenario
+abstract class AbstractGroupScenario extends InfoClientScenario implements GroupScenarioInterface
 {
     /** @var int|null */
     protected $groupId;
