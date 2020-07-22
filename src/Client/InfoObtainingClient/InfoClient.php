@@ -53,8 +53,10 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UploadedFile;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserFull;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserProfilePhoto;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
+use TelegramOSINT\Tools\BanInvalidator;
 use TelegramOSINT\Tools\Cache;
 use TelegramOSINT\Tools\CacheFactoryInterface;
+use TelegramOSINT\Tools\CacheInvalidator;
 use TelegramOSINT\Tools\DiskCacheFactory;
 use TelegramOSINT\Tools\Proxy;
 use TelegramOSINT\Tools\Username;
@@ -79,12 +81,18 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
     private $cacheFactory;
     /** @var Cache|null */
     private $cache;
+    /** @var CacheInvalidator */
+    private $cacheInvalidator;
 
-    public function __construct(BasicClientGeneratorInterface $generator, ?CacheFactoryInterface $factory = null)
-    {
+    public function __construct(
+        BasicClientGeneratorInterface $generator,
+        ?CacheFactoryInterface $factory = null,
+        ?CacheInvalidator $invalidator = null
+    ) {
         $this->generator = $generator;
         $this->basicClient = $generator->generate();
         $this->cacheFactory = $factory ?? new DiskCacheFactory();
+        $this->cacheInvalidator = $invalidator ?? new BanInvalidator();
         parent::__construct(null, $this->basicClient);
     }
 
@@ -127,15 +135,8 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
 
             return $this->basicClient->pollMessage() || $otherDcMessagePolled;
         } catch (TGException $e) {
-            $code = $e->getCode();
-            $banCodes = [
-                TGException::ERR_MSG_BANNED_SESSION_STOLEN,
-                TGException::ERR_MSG_BANNED_AUTHKEY_DUPLICATED,
-                TGException::ERR_MSG_PHONE_BANNED,
-                TGException::ERR_MSG_USER_BANNED,
-            ];
-            if ($this->cache && in_array($code, $banCodes, true)) {
-                $this->cache->del();
+            if ($this->cache) {
+                $this->cacheInvalidator->invalidateIfNeeded($e, $this->cache);
             }
 
             throw $e;
