@@ -25,7 +25,7 @@ interface ChannelClient
 
     public function getChannelMessages(GroupId $id, int $limit, ?int $since, ?int $lastId, callable $onComplete): void;
 
-    public function getChannelLinks(int $id, int $limit, int $accessHash, ?int $since, ?int $lastId, callable $onComplete): void;
+    public function getChannelLinks(GroupId $id, int $limit, ?int $since, ?int $lastId, callable $onComplete): void;
 
     public function getCommonChats(GroupId $id, int $limit, int $max_id, callable $onComplete): void;
 

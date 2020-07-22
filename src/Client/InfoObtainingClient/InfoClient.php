@@ -195,9 +195,9 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
         );
     }
 
-    public function getChannelLinks(int $id, int $limit, int $accessHash, ?int $since, ?int $lastId, callable $onComplete): void
+    public function getChannelLinks(GroupId $id, int $limit, ?int $since, ?int $lastId, callable $onComplete): void
     {
-        $request = new messages_search($id, $limit, $accessHash, (int) $since, (int) $lastId);
+        $request = new messages_search($id->getId(), $limit, $id->getAccessHash(), (int) $since, (int) $lastId);
         $this->basicClient->getConnection()->getResponseAsync(
             $request,
             $onComplete

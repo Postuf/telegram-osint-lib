@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TelegramOSINT\Scenario;
 
+use TelegramOSINT\Client\InfoObtainingClient\Models\GroupId;
 use TelegramOSINT\Exception\TGException;
 
 class LinkParseScenario extends GroupMessagesScenario
@@ -20,7 +21,7 @@ class LinkParseScenario extends GroupMessagesScenario
             $limit = 100;
 
             $parseLinksCallback = function () use ($limit) {
-                $this->parseLinks($this->groupIdObj->getId(), $this->groupIdObj->getAccessHash(), $limit);
+                $this->parseLinks($this->groupIdObj, $limit);
             };
 
             if ($this->username) {
@@ -31,8 +32,8 @@ class LinkParseScenario extends GroupMessagesScenario
         }, $pollAndTerminate);
     }
 
-    private function parseLinks(int $id, int $accessHash, int $limit): void
+    private function parseLinks(GroupId $id, int $limit): void
     {
-        $this->infoClient->getChannelLinks($id, $limit, $accessHash, null, null, $this->makeMessagesHandler($id, $accessHash, $limit));
+        $this->infoClient->getChannelLinks($id, $limit, null, null, $this->makeMessagesHandler($id, $limit));
     }
 }

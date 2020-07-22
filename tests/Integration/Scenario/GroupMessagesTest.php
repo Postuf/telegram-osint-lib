@@ -16,6 +16,7 @@ use TelegramOSINT\Client\InfoObtainingClient\Models\MessageModel;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Scenario\GroupMessagesScenario;
 use TelegramOSINT\Scenario\GroupResolverScenario;
+use TelegramOSINT\Scenario\LinkParseScenario;
 use TelegramOSINT\Scenario\Models\GroupRequest;
 use TelegramOSINT\Scenario\Models\OptionalDateRange;
 use TelegramOSINT\Scenario\ReusableClientGenerator;
@@ -80,6 +81,35 @@ class GroupMessagesTest extends TestCase
                 }
             };
             $client = new GroupMessagesScenario(
+                new GroupId($groupId, $accessHash),
+                $this->clientGenerator,
+                new OptionalDateRange(),
+                $handler,
+                self::USERNAME
+            );
+            $client->setTimeout(self::TIMEOUT);
+            $client->startActions();
+            $this->assertEquals(1, $count);
+        });
+    }
+
+    /**
+     * Test that we receive a message by user from specified group to parse links
+     *
+     * @throws TGException
+     */
+    public function test_links_parse(): void
+    {
+        $request = GroupRequest::ofUserName(self::DEFAULT_GROUP_DEEPLINK);
+        $this->resolve($request, function (?int $groupId, ?int $accessHash) {
+            $count = 0;
+            $handler = function (?MessageModel $message = null) use (&$count) {
+                if ($message) {
+                    $this->assertEquals('qweq', $message->getText());
+                    $count++;
+                }
+            };
+            $client = new LinkParseScenario(
                 new GroupId($groupId, $accessHash),
                 $this->clientGenerator,
                 new OptionalDateRange(),
