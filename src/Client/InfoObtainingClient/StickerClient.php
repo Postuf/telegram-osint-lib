@@ -1,12 +1,12 @@
 <?php
 
 /** @noinspection NullPointerExceptionInspection */
-/** @noinspection ContractViolationInspection */
 declare(strict_types=1);
 
 namespace TelegramOSINT\Client\InfoObtainingClient;
 
 use TelegramOSINT\Client\InfoObtainingClient\Models\StickerSetModel;
+use TelegramOSINT\Client\StickerClient as StickerClientInterface;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_featured_stickers;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_sticker_set;
@@ -14,7 +14,7 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_sticker_set_set_id;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Stickers\FeaturedStickers;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Stickers\MessagesStickerSet;
 
-class StickerClient extends InfoClient
+class StickerClient extends InfoClient implements StickerClientInterface
 {
     /**
      * @noinspection NullPointerExceptionInspection

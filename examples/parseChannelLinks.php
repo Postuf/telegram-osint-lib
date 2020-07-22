@@ -6,11 +6,11 @@ declare(strict_types=1);
 
 require_once __DIR__.'/../vendor/autoload.php';
 
+use TelegramOSINT\Client\InfoObtainingClient\Models\GroupId;
 use TelegramOSINT\Client\InfoObtainingClient\Models\MessageModel;
 use TelegramOSINT\Logger\Logger;
-use TelegramOSINT\Scenario\GroupMessagesScenario;
 use TelegramOSINT\Scenario\GroupResolverScenario;
-use TelegramOSINT\Scenario\Models\GroupId;
+use TelegramOSINT\Scenario\LinkParseScenario;
 use TelegramOSINT\Scenario\Models\GroupRequest;
 use TelegramOSINT\Scenario\Models\OptionalDateRange;
 use TelegramOSINT\Scenario\ReusableClientGenerator;
@@ -89,7 +89,7 @@ $onGroupReady = static function (
         return;
     }
 
-    $client = new GroupMessagesScenario(
+    $client = new LinkParseScenario(
         new GroupId($groupId, $accessHash),
         $generator,
         new OptionalDateRange(
@@ -98,7 +98,7 @@ $onGroupReady = static function (
         ),
         $parseLinks
     );
-    $client->startLinkParse();
+    $client->startActions();
 };
 
 /** @noinspection PhpUnhandledExceptionInspection */

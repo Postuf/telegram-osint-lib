@@ -9,7 +9,7 @@ use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 
-class UserContactsScenario extends InfoClientScenario
+class UserContactsScenario extends InfoClientScenario implements ContactsScenarioInterface
 {
     /** @var callable|null */
     private $cb;

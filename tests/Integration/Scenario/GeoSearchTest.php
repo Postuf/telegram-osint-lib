@@ -21,7 +21,7 @@ class GeoSearchTest extends TestCase
     private const TIMEOUT = 0.25;
 
     /**
-     * php geoSearch.php 55.75639,37.661931 rostislav_u 5
+     * php geoSearch.php 55.75639,37.661931 someuser 5
      *
      * @throws TGException|JsonException
      */
@@ -38,7 +38,7 @@ class GeoSearchTest extends TestCase
         $generator = new TestClientGenerator($baseGenerator, self::DEFAULT_AUTHKEY);
 
         $finders = [];
-        $username = 'rostislav_u';
+        $username = 'someuser';
         $groupHandler = static function (GeoChannelModel $model) use (&$generator, &$finders, $username, &$handler) {
             $membersFinder = new GroupMembersScenario(
                 $model->getGroupId(),

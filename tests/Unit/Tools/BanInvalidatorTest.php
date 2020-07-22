@@ -27,7 +27,7 @@ class BanInvalidatorTest extends TestCase
     }
 
     /**
-     * Проверка что кеш инвалидируется при бане бота
+     * Check cache is invalidated on ban exception
      */
     public function test_invalidate(): void
     {
@@ -38,7 +38,7 @@ class BanInvalidatorTest extends TestCase
     }
 
     /**
-     * Проверка что кеш не инвалидируется при прочих ошибках
+     * Check cache is not invalidated on regular exception
      */
     public function test_invalidate_skip(): void
     {

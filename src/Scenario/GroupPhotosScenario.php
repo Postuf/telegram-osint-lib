@@ -7,6 +7,7 @@ namespace TelegramOSINT\Scenario;
 use Closure;
 use RuntimeException;
 use TelegramOSINT\Client\InfoObtainingClient\Models\FileModel;
+use TelegramOSINT\Client\InfoObtainingClient\Models\GroupId;
 use TelegramOSINT\Client\InfoObtainingClient\Models\PictureModel;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Logger\Logger;
@@ -147,8 +148,7 @@ class GroupPhotosScenario extends AbstractGroupScenario
                 } else {
                     $accessHash = $chatNode->getValue('access_hash');
                     $this->infoClient->getChannelMessages(
-                        $id,
-                        $accessHash,
+                        new GroupId($id, $accessHash),
                         $limit,
                         0,
                         0,
@@ -181,8 +181,7 @@ class GroupPhotosScenario extends AbstractGroupScenario
                         $handler = $this->makeChatMessagesHandler($id, $limit);
                         /** @var array $chat */
                         $this->infoClient->getChannelMessages(
-                            (int) $chat['id'],
-                            (int) $chat['access_hash'],
+                            new GroupId((int) $chat['id'], (int) $chat['access_hash']),
                             $limit,
                             0,
                             0,
