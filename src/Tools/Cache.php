@@ -6,6 +6,8 @@ namespace TelegramOSINT\Tools;
 
 interface Cache
 {
+    public function empty(): bool;
+
     public function set(string $key, $value): void;
 
     public function get(string $key);

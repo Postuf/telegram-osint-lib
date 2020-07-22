@@ -83,6 +83,8 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
     private $cache;
     /** @var CacheInvalidator */
     private $cacheInvalidator;
+    /** @var AuthKey|null */
+    private $authKey;
 
     public function __construct(
         BasicClientGeneratorInterface $generator,
@@ -106,6 +108,7 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
     public function login(AuthKey $authKey, ?Proxy $proxy, callable $cb): void
     {
         $this->proxy = $proxy;
+        $this->authKey = $authKey;
         $this->cache = $this->cacheFactory->generate($authKey);
         $this->basicClient->login($authKey, $proxy, $cb);
     }
@@ -560,6 +563,28 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
                 $onPictureLoaded($picModel);
             } else {
                 $this->readPictureFromCurrentDC($basicClient, $location, $onPictureLoaded, $picModel, strlen($picModel->bytes));
+            }
+        });
+    }
+
+    public function warmup(): void
+    {
+        if (!$this->cache || !$this->cache->empty()) {
+            return;
+        }
+        $this->basicClient->getConnection()->getResponseAsync(new get_config(), function (AnonymousMessage $message) {
+            $dcConfigs = new DcConfigApp($message);
+
+            $dcFound = [];
+            foreach ($dcConfigs->getDataCenters() as $dc) {
+                if (!isset($dcFound[$dc->getId()])
+                    && $this->basicClient->getConnection()->isDcAppropriate($dc)
+                    && $dc->getId() !== $this->authKey->getAttachedDC()->getDcId()
+                ) {
+                    $dcFound[$dc->getId()] = 1;
+                    $dc = new DataCentre($dc->getIp(), $dc->getId(), $dc->getPort());
+                    $this->getAuthKey($dc, static function () { });
+                }
             }
         });
     }

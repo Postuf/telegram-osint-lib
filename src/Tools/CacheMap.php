@@ -36,4 +36,9 @@ class CacheMap implements Cache
     public function get(string $key) {
         return $this->map[$key] ?? null;
     }
+
+    public function empty(): bool
+    {
+        return count($this->map) === 0;
+    }
 }
