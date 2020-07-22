@@ -42,5 +42,5 @@ $generator = new ClientGenerator(LibConfig::ENV_AUTHKEY, $proxyStr ? new Proxy($
 // here we get contact list and get contact online status
 
 /** @noinspection PhpUnhandledExceptionInspection */
-(new StatusWatcherScenario($numbers, $users, new ClientGenerator()))
+(new StatusWatcherScenario($numbers, $users, $generator))
     ->startActions();

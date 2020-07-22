@@ -21,4 +21,6 @@ interface PresenceMonitoringCallbacks
      * @param string $number
      */
     public function onHidden(string $number): void;
+
+    public function tick(): void;
 }

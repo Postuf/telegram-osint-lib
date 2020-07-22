@@ -44,11 +44,4 @@ $monitor = new MonitorNumbersToFile($file);
 /** @noinspection PhpUnhandledExceptionInspection */
 $scenario = new PresenceMonitoringScenario($numbers, $monitor, $generator);
 /** @noinspection PhpUnhandledExceptionInspection */
-$scenario->startActions(false);
-
-while(true) {
-    /** @noinspection PhpUnhandledExceptionInspection */
-    $scenario->poll();
-    $monitor->tick();
-    sleep(1);
-}
+$scenario->startActions();

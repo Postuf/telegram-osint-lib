@@ -26,10 +26,7 @@ class ClientGenerator implements ClientGeneratorInterface
     {
         $this->envName = $envName;
         $this->proxy = $proxy;
-        if (!$logger) {
-            $logger = new DefaultLogger();
-        }
-        $this->logger = $logger;
+        $this->logger = $logger ?? new DefaultLogger();
     }
 
     public function getInfoClient(): InfoClient
@@ -39,7 +36,9 @@ class ClientGenerator implements ClientGeneratorInterface
 
     public function getStatusWatcherClient(StatusWatcherCallbacks $callbacks): StatusWatcherClient
     {
-        return new StatusWatcherClient($callbacks, $this->logger);
+        $clientGenerator = new BasicClientGenerator($this->proxy, $this->logger);
+
+        return new StatusWatcherClient($callbacks, $this->logger, [], null, $clientGenerator->generate());
     }
 
     /**

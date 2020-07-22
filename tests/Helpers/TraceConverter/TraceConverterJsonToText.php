@@ -6,7 +6,6 @@ namespace Helpers\TraceConverter;
 
 use Helpers\PhpSerializationFixer;
 use JsonException;
-use TelegramOSINT\Exception\TGException;
 
 class TraceConverterJsonToText
 {
@@ -28,7 +27,7 @@ class TraceConverterJsonToText
      *
      * @param string $pathToJsonFile
      *
-     * @throws TGException|JsonException
+     * @throws JsonException
      *
      * @return string
      */
@@ -60,7 +59,6 @@ class TraceConverterJsonToText
      * @param string $pathToJsonFile
      *
      * @throws JsonException
-     * @throws TGException
      *
      * @return string
      */

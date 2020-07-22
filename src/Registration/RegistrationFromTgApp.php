@@ -317,6 +317,9 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
     {
     }
 
+    /**
+     * @throws TGException
+     */
     public function pollMessages(): void
     {
         while(true) {
