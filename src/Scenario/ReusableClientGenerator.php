@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace TelegramOSINT\Scenario;
 
 use TelegramOSINT\Client\InfoObtainingClient\InfoClient;
+use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherCallbacks;
+use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherClient;
 
 class ReusableClientGenerator extends ClientGenerator
 {
     /** @var InfoClient */
     private $instance;
+    /** @var StatusWatcherClient */
+    private $watcherInstance;
     /** @var ClientGeneratorInterface */
     private $clientGenerator;
 
@@ -33,6 +37,17 @@ class ReusableClientGenerator extends ClientGenerator
         }
 
         return $this->instance;
+    }
+
+    public function getStatusWatcherClient(StatusWatcherCallbacks $callbacks): StatusWatcherClient
+    {
+        if (!$this->watcherInstance) {
+            $this->watcherInstance = $this->clientGenerator
+                ? $this->clientGenerator->getStatusWatcherClient($callbacks)
+                : parent::getStatusWatcherClient($callbacks);
+        }
+
+        return $this->watcherInstance;
     }
 
     private function setInstance(): void

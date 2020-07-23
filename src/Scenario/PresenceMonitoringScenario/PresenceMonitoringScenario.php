@@ -11,10 +11,13 @@ use TelegramOSINT\Client\StatusWatcherClient\Models\User;
 use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherCallbacks;
 use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherClient;
 use TelegramOSINT\Exception\TGException;
-use TelegramOSINT\Scenario\ClientGenerator;
+use TelegramOSINT\Scenario\ClientGeneratorInterface;
 use TelegramOSINT\Scenario\ScenarioInterface;
+use TelegramOSINT\Scenario\TimeoutScenarioInterface;
+use TelegramOSINT\Tools\Clock;
+use TelegramOSINT\Tools\DefaultClock;
 
-class PresenceMonitoringScenario implements ScenarioInterface, StatusWatcherCallbacks
+class PresenceMonitoringScenario implements ScenarioInterface, StatusWatcherCallbacks, TimeoutScenarioInterface
 {
     /**
      * @var StatusWatcherClient
@@ -32,26 +35,33 @@ class PresenceMonitoringScenario implements ScenarioInterface, StatusWatcherCall
      * @var PresenceMonitoringCallbacks
      */
     private $callbacks;
-    /** @var ClientGenerator */
+    /** @var ClientGeneratorInterface */
     private $generator;
+    /** @var float */
+    private $timeOut = 0.0;
+    /** @var Clock */
+    private $clock;
 
     /**
      * @param array                       $numbers
      * @param PresenceMonitoringCallbacks $callbacks
-     * @param ClientGenerator             $clientGenerator
+     * @param ClientGeneratorInterface    $clientGenerator
+     * @param Clock|null                  $clock
      *
      * @throws TGException
      */
     public function __construct(
         array $numbers,
         PresenceMonitoringCallbacks $callbacks,
-        ClientGenerator $clientGenerator
+        ClientGeneratorInterface $clientGenerator,
+        ?Clock $clock = null
     ) {
         $this->client = $clientGenerator->getStatusWatcherClient($this);
         $this->authKey = $clientGenerator->getAuthKey();
         $this->numbers = $numbers;
         $this->callbacks = $callbacks;
         $this->generator = $clientGenerator;
+        $this->clock = $clock ?? new DefaultClock();
     }
 
     /**
@@ -61,16 +71,24 @@ class PresenceMonitoringScenario implements ScenarioInterface, StatusWatcherCall
      */
     public function startActions(bool $pollAndTerminate = true): void
     {
-        $this->client->login(AuthKeyCreator::createFromString($this->authKey), $this->generator->getProxy());
-        $this->client->reloadContacts($this->numbers, [], static function (ImportResult $result) {});
-    }
-
-    /**
-     * @throws TGException
-     */
-    public function poll(): void
-    {
-        $this->client->pollMessage();
+        $this->client->login(AuthKeyCreator::createFromString($this->authKey), $this->generator->getProxy(), function () {
+            $this->client->reloadContacts($this->numbers, [], static function (ImportResult $result) {});
+        });
+        if ($pollAndTerminate) {
+            $startTime = $this->clock->microtime(true);
+            $lastMonitorTime = $this->clock->time();
+            while (true) {
+                $this->client->pollMessage();
+                if ($this->clock->time() > $lastMonitorTime) {
+                    $lastMonitorTime = $this->clock->time();
+                    $this->callbacks->tick();
+                }
+                $this->clock->usleep(50000);
+                if ($this->timeOut !== 0.0 && $this->clock->microtime() - $startTime > $this->timeOut) {
+                    break;
+                }
+            }
+        }
     }
 
     /**
@@ -116,5 +134,10 @@ class PresenceMonitoringScenario implements ScenarioInterface, StatusWatcherCall
 
     public function onUserNameChange(User $user, string $username): void
     {
+    }
+
+    public function setTimeout(float $timeout): void
+    {
+        $this->timeOut = $timeout;
     }
 }

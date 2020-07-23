@@ -41,7 +41,13 @@ class TestClientGenerator implements ClientGeneratorInterface
      */
     public function getStatusWatcherClient(StatusWatcherCallbacks $callbacks): StatusWatcherClient
     {
-        return new StatusWatcherClient(new StatusWatcherClientTestCallbacks());
+        return new StatusWatcherClient(
+            new StatusWatcherClientTestCallbacks(),
+            null,
+            [],
+            null,
+            $this->generator->generate()
+        );
     }
 
     public function getAuthKey(): string

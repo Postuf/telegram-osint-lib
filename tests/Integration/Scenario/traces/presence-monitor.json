@@ -1,0 +1,277 @@
+{
+    "trace-timestamp": 1595437673.818816,
+    "records": [
+        {
+            "record-type": "new_session_created",
+            "message": {
+                "_": "new_session_created",
+                "first_msg_id": 6852352632636338248,
+                "unique_id": -3799310973267903527,
+                "server_salt": -3693114772182550397
+            },
+            "record-timestamp": 1595437674.17528
+        },
+        {
+            "record-type": "contacts.contacts",
+            "message": {
+                "_": "contacts.contacts",
+                "contacts": [
+                    {
+                        "_": "contact",
+                        "user_id": 744390308,
+                        "mutual": {
+                            "_": "boolFalse"
+                        }
+                    }
+                ],
+                "saved_count": 0,
+                "users": [
+                    {
+                        "_": "user",
+                        "flags": 2175,
+                        "self": false,
+                        "contact": true,
+                        "mutual_contact": false,
+                        "deleted": false,
+                        "bot": false,
+                        "bot_chat_history": false,
+                        "bot_nochats": false,
+                        "verified": false,
+                        "restricted": false,
+                        "min": false,
+                        "bot_inline_geo": false,
+                        "support": false,
+                        "scam": false,
+                        "id": 744390308,
+                        "access_hash": 3072524730519785125,
+                        "first_name": "Keil",
+                        "last_name": "Belldas",
+                        "username": "muchmvm1",
+                        "phone": "79153801634",
+                        "photo": {
+                            "_": "userProfilePhoto",
+                            "photo_id": 3197132028775606185,
+                            "photo_small": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 257133578,
+                                "local_id": 75774
+                            },
+                            "photo_big": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 257133578,
+                                "local_id": 75776
+                            },
+                            "dc_id": 2
+                        },
+                        "status": {
+                            "_": "userStatusOffline",
+                            "was_online": 1595421123
+                        },
+                        "bot_info_version": null,
+                        "restriction_reason": null,
+                        "bot_inline_placeholder": null,
+                        "lang_code": null
+                    }
+                ]
+            },
+            "record-timestamp": 1595437674.398395
+        },
+        {
+            "record-type": "pong",
+            "message": {
+                "_": "pong",
+                "msg_id": 6852352632636564592,
+                "ping_id": 4284393898405380698
+            },
+            "record-timestamp": 1595437674.454157
+        },
+        {
+            "record-type": "updates",
+            "message": {
+                "_": "updates",
+                "updates": [
+                    {
+                        "_": "updatePeerSettings",
+                        "peer": {
+                            "_": "peerUser",
+                            "user_id": 744390308
+                        },
+                        "settings": {
+                            "_": "peerSettings",
+                            "flags": 0,
+                            "report_spam": false,
+                            "add_contact": false,
+                            "block_contact": false,
+                            "share_contact": false,
+                            "need_contacts_exception": false,
+                            "report_geo": false
+                        }
+                    }
+                ],
+                "users": [
+                    {
+                        "_": "user",
+                        "flags": 127,
+                        "self": false,
+                        "contact": false,
+                        "mutual_contact": false,
+                        "deleted": false,
+                        "bot": false,
+                        "bot_chat_history": false,
+                        "bot_nochats": false,
+                        "verified": false,
+                        "restricted": false,
+                        "min": false,
+                        "bot_inline_geo": false,
+                        "support": false,
+                        "scam": false,
+                        "id": 744390308,
+                        "access_hash": 3072524730519785125,
+                        "first_name": "M",
+                        "last_name": "M",
+                        "username": "m1",
+                        "phone": "79151234567",
+                        "photo": {
+                            "_": "userProfilePhoto",
+                            "photo_id": 3197132028775606185,
+                            "photo_small": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 257133578,
+                                "local_id": 75774
+                            },
+                            "photo_big": {
+                                "_": "fileLocationToBeDeprecated",
+                                "volume_id": 257133578,
+                                "local_id": 75776
+                            },
+                            "dc_id": 2
+                        },
+                        "status": {
+                            "_": "userStatusOffline",
+                            "was_online": 1595421123
+                        },
+                        "bot_info_version": null,
+                        "restriction_reason": null,
+                        "bot_inline_placeholder": null,
+                        "lang_code": null
+                    }
+                ],
+                "chats": [],
+                "date": 1595437673,
+                "seq": 0
+            },
+            "record-timestamp": 1595437674.671534
+        },
+        {
+            "record-type": "contacts.importedContacts",
+            "message": {
+                "_": "contacts.importedContacts",
+                "imported": [
+                    {
+                        "_": "importedContact",
+                        "user_id": 1090892001,
+                        "client_id": 1
+                    }
+                ],
+                "popular_invites": [],
+                "retry_contacts": [],
+                "users": [
+                    {
+                        "_": "user",
+                        "flags": 2135,
+                        "self": false,
+                        "contact": true,
+                        "mutual_contact": false,
+                        "deleted": false,
+                        "bot": false,
+                        "bot_chat_history": false,
+                        "bot_nochats": false,
+                        "verified": false,
+                        "restricted": false,
+                        "min": false,
+                        "bot_inline_geo": false,
+                        "support": false,
+                        "scam": false,
+                        "id": 1090892001,
+                        "access_hash": 886258641351441903,
+                        "first_name": "Mildred",
+                        "last_name": "Riggins",
+                        "username": null,
+                        "phone": "79173475819",
+                        "photo": null,
+                        "status": {
+                            "_": "userStatusRecently"
+                        },
+                        "bot_info_version": null,
+                        "restriction_reason": null,
+                        "bot_inline_placeholder": null,
+                        "lang_code": null
+                    }
+                ]
+            },
+            "record-timestamp": 1595437674.885198
+        },
+        {
+            "record-type": "updates",
+            "message": {
+                "_": "updates",
+                "updates": [
+                    {
+                        "_": "updatePeerSettings",
+                        "peer": {
+                            "_": "peerUser",
+                            "user_id": 1090892001
+                        },
+                        "settings": {
+                            "_": "peerSettings",
+                            "flags": 0,
+                            "report_spam": false,
+                            "add_contact": false,
+                            "block_contact": false,
+                            "share_contact": false,
+                            "need_contacts_exception": false,
+                            "report_geo": false
+                        }
+                    }
+                ],
+                "users": [
+                    {
+                        "_": "user",
+                        "flags": 2135,
+                        "self": false,
+                        "contact": true,
+                        "mutual_contact": false,
+                        "deleted": false,
+                        "bot": false,
+                        "bot_chat_history": false,
+                        "bot_nochats": false,
+                        "verified": false,
+                        "restricted": false,
+                        "min": false,
+                        "bot_inline_geo": false,
+                        "support": false,
+                        "scam": false,
+                        "id": 1090892001,
+                        "access_hash": 886258641351441903,
+                        "first_name": "Mildred",
+                        "last_name": "Riggins",
+                        "username": null,
+                        "phone": "79173475819",
+                        "photo": null,
+                        "status": {
+                            "_": "userStatusRecently"
+                        },
+                        "bot_info_version": null,
+                        "restriction_reason": null,
+                        "bot_inline_placeholder": null,
+                        "lang_code": null
+                    }
+                ],
+                "chats": [],
+                "date": 1595437673,
+                "seq": 11236
+            },
+            "record-timestamp": 1595437674.942382
+        }
+    ]
+}

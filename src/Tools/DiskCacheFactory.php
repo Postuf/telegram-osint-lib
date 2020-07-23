@@ -27,6 +27,7 @@ class DiskCacheFactory implements CacheFactoryInterface
      */
     public function generate(AuthKey $key): Cache
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
         return new CacheMap($this->prefix.md5($key->getSerializedAuthKey()).self::SUFFIX);
     }
 }
