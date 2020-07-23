@@ -20,6 +20,8 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\CurrentContacts;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update\Updates;
+use TelegramOSINT\Tools\Clock;
+use TelegramOSINT\Tools\DefaultClock;
 use TelegramOSINT\Tools\Phone;
 use TelegramOSINT\Tools\Username;
 use TelegramOSINT\Validators\ImportedPhoneValidator;
@@ -36,6 +38,7 @@ class ContactsKeeper
      * as FLOOD. In order to prevent this, there is an artificial limitation left.
      */
     private const FLOOD_FREQUENCY_LIMIT_SEC = 3;
+    private const WAIT_TIME_ON_IMPORT_LIMIT_EXCEEDED = 600;
 
     /**
      * @var BasicClient
@@ -69,15 +72,21 @@ class ContactsKeeper
      * @var callable[]
      */
     private $contactsLoadedQueue = [];
+    /**
+     * @var Clock
+     */
+    private $clock;
 
     /**
      * @param BasicClient   $client
      * @param ContactUser[] $startContacts
+     * @param Clock|null    $clock
      */
-    public function __construct(BasicClient $client, array $startContacts = [])
+    public function __construct(BasicClient $client, array $startContacts = [], ?Clock $clock = null)
     {
         $this->client = $client;
         $this->contacts = $startContacts;
+        $this->clock = $clock ?? new DefaultClock();
     }
 
     /**
@@ -301,7 +310,7 @@ class ContactsKeeper
     /**
      * @param ImportedContacts $results
      *
-     * @throws TGException
+     * @throws TimeWaitException
      */
     private function checkLimitsExceeded(ImportedContacts $results): void
     {
@@ -310,7 +319,7 @@ class ContactsKeeper
             throw new TimeWaitException(
                 TGException::ERR_MSG_IMPORT_CONTACTS_LIMIT_EXCEEDED,
                 'Count: '.$retryCount,
-                600
+                self::WAIT_TIME_ON_IMPORT_LIMIT_EXCEEDED
             );
         }
     }
@@ -353,10 +362,14 @@ class ContactsKeeper
             return;
         }
 
-        if(time() - $this->lastDelContactsTime < self::FLOOD_FREQUENCY_LIMIT_SEC) {
-            throw new TGException(TGException::ERR_CLIENT_FLOODING_ACTIONS, 'delete_contacts too frequent');
+        if($this->clock->time() - $this->lastDelContactsTime < self::FLOOD_FREQUENCY_LIMIT_SEC) {
+            throw new TimeWaitException(
+                TGException::ERR_CLIENT_FLOODING_ACTIONS,
+                'delete_contacts too frequent',
+                self::FLOOD_FREQUENCY_LIMIT_SEC + 1
+            );
         }
-        $this->lastDelContactsTime = time();
+        $this->lastDelContactsTime = $this->clock->time();
 
         // prepare deletion
         $deleteContactsRequest = new delete_contacts();
