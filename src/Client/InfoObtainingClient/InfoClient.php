@@ -10,6 +10,7 @@ use TelegramOSINT\Auth\Protocol\AppAuthorization;
 use TelegramOSINT\Client\AuthKey\AuthKey;
 use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
 use TelegramOSINT\Client\BasicClient\BasicClient;
+use TelegramOSINT\Client\CachingClient;
 use TelegramOSINT\Client\ChannelClient;
 use TelegramOSINT\Client\ContactKeepingClientImpl;
 use TelegramOSINT\Client\InfoObtainingClient;
@@ -62,7 +63,6 @@ use TelegramOSINT\Tools\CacheInvalidator;
 use TelegramOSINT\Tools\DiskCacheFactory;
 use TelegramOSINT\Tools\Proxy;
 use TelegramOSINT\Tools\Username;
-use Unit\Client\CachingClient;
 
 class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient, CachingClient, ChannelClient, UserInfoClient
 {
