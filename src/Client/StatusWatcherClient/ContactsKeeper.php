@@ -7,6 +7,7 @@ namespace TelegramOSINT\Client\StatusWatcherClient;
 use TelegramOSINT\Client\BasicClient\BasicClient;
 use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
 use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\Exception\TimeWaitException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\add_contact;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\contacts_search;
@@ -290,7 +291,7 @@ class ContactsKeeper
 
         foreach ($results->getImportedClients() as $client){
             $expectedPhone = $source->getPhoneByClientId($client->getClientId());
-            $actualPhone = isset($userMap[$client->getUserId()]) ? $userMap[$client->getUserId()] : false;
+            $actualPhone = $userMap[$client->getUserId()] ?? false;
             if($expectedPhone !== false && $actualPhone !== false && (int) $expectedPhone !== (int) $actualPhone) {
                 $importResult->replacedPhones[] = $actualPhone;
             }
@@ -306,7 +307,11 @@ class ContactsKeeper
     {
         $retryCount = count($results->getRetryContacts());
         if($retryCount > 0) {
-            throw new TGException(TGException::ERR_MSG_IMPORT_CONTACTS_LIMIT_EXCEEDED, 'Count: '.$retryCount);
+            throw new TimeWaitException(
+                TGException::ERR_MSG_IMPORT_CONTACTS_LIMIT_EXCEEDED,
+                'Count: '.$retryCount,
+                600
+            );
         }
     }
 
