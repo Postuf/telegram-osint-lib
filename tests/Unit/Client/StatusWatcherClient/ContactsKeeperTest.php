@@ -12,6 +12,7 @@ use TelegramOSINT\Client\BasicClient\BasicClient;
 use TelegramOSINT\Client\StatusWatcherClient\ContactsKeeper;
 use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
 use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\Exception\TimeWaitException;
 use TelegramOSINT\TGConnection\SocketMessenger\SocketMessenger;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\add_contact;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\contacts_search;
@@ -23,6 +24,28 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class ContactsKeeperTest extends TestCase
 {
+    /**
+     * @see https://core.telegram.org/constructor/contacts.importedContacts
+     */
+    private const NODE_CONTACTS_IMPORTED_CONTACTS = 'contacts.importedContacts';
+    /**
+     * @see https://core.telegram.org/constructor/importedContact
+     */
+    private const NODE_IMPORTED_CONTACT = 'importedContact';
+    /**
+     * @see https://core.telegram.org/constructor/contacts.contacts
+     */
+    private const NODE_CONTACTS_CONTACTS = 'contacts.contacts';
+    /**
+     * @see https://core.telegram.org/constructor/contacts.found
+     */
+    private const NODE_CONTACTS_FOUND = 'contacts.found';
+    /**
+     * @see https://core.telegram.org/constructor/updates
+     */
+    private const NODE_UPDATES = 'updates';
+    private const METHOD_GET_RESPONSE_ASYNC = 'getResponseAsync';
+
     /** @var SocketMessenger|MockObject */
     private $socketMessengerMock;
     /** @var ContactsKeeper */
@@ -58,15 +81,15 @@ class ContactsKeeperTest extends TestCase
             if ($message instanceof import_contacts) {
                 $runCount++;
                 $result = new AnonymousMessageMock([
-                    '_'        => 'contacts.importedContacts',
+                    '_'        => self::NODE_CONTACTS_IMPORTED_CONTACTS,
                     'imported' => [
                         [
-                            '_'         => 'importedContact',
+                            '_'         => self::NODE_IMPORTED_CONTACT,
                             'user_id'   => 1,
                             'client_id' => 1123,
                         ],
                         [
-                            '_'         => 'importedContact',
+                            '_'         => self::NODE_IMPORTED_CONTACT,
                             'user_id'   => 2,
                             'client_id' => 1456,
                         ],
@@ -87,7 +110,7 @@ class ContactsKeeperTest extends TestCase
                 ]);
             } elseif ($message instanceof get_contacts) {
                 $result = new AnonymousMessageMock([
-                    '_'     => 'contacts.contacts',
+                    '_'     => self::NODE_CONTACTS_CONTACTS,
                     'users' => [
                     ],
                 ]);
@@ -99,7 +122,7 @@ class ContactsKeeperTest extends TestCase
             $calls[] = [$onAsyncResponse, $result];
         };
         $this->socketMessengerMock
-            ->method('getResponseAsync')
+            ->method(self::METHOD_GET_RESPONSE_ASYNC)
             ->willReturnCallback($responseCb);
 
         $returnedUsers = [];
@@ -136,7 +159,7 @@ class ContactsKeeperTest extends TestCase
             if ($message instanceof contacts_search) {
                 $runCount++;
                 $result = new AnonymousMessageMock([
-                    '_'     => 'contacts.found',
+                    '_'     => self::NODE_CONTACTS_FOUND,
                     'users' => [
                         [
                             '_'           => 'user',
@@ -149,13 +172,13 @@ class ContactsKeeperTest extends TestCase
                 ]);
             } elseif ($message instanceof get_contacts) {
                 $result = new AnonymousMessageMock([
-                    '_'     => 'contacts.contacts',
+                    '_'     => self::NODE_CONTACTS_CONTACTS,
                     'users' => [
                     ],
                 ]);
             } elseif ($message instanceof add_contact) {
                 $result = new AnonymousMessageMock([
-                    '_'     => 'updates',
+                    '_'     => self::NODE_UPDATES,
                     'users' => [
                         [
                             '_'        => 'user',
@@ -172,7 +195,7 @@ class ContactsKeeperTest extends TestCase
             $calls[] = [$onAsyncResponse, $result];
         };
         $this->socketMessengerMock
-            ->method('getResponseAsync')
+            ->method(self::METHOD_GET_RESPONSE_ASYNC)
             ->willReturnCallback($responseCb);
 
         $this->keeper->addUser('aaa', function (bool $added) {
@@ -198,7 +221,7 @@ class ContactsKeeperTest extends TestCase
         ) use (&$runCount, &$calls) {
             if ($message instanceof delete_contacts) {
                 $result = new AnonymousMessageMock([
-                    '_'     => 'updates',
+                    '_'     => self::NODE_UPDATES,
                     'users' => [
                         [
                             '_'  => 'user',
@@ -209,12 +232,12 @@ class ContactsKeeperTest extends TestCase
             } elseif ($message instanceof get_contacts) {
                 if ($runCount) {
                     $result = new AnonymousMessageMock([
-                        '_'     => 'contacts.contacts',
+                        '_'     => self::NODE_CONTACTS_CONTACTS,
                         'users' => [],
                     ]);
                 } else {
                     $result = new AnonymousMessageMock([
-                        '_'     => 'contacts.contacts',
+                        '_'     => self::NODE_CONTACTS_CONTACTS,
                         'users' => [
                             [
                                 '_'           => 'user',
@@ -238,7 +261,7 @@ class ContactsKeeperTest extends TestCase
             $calls[] = [$onAsyncResponse, $result];
         };
         $this->socketMessengerMock
-            ->method('getResponseAsync')
+            ->method(self::METHOD_GET_RESPONSE_ASYNC)
             ->willReturnCallback($responseCb);
 
         $returnedUsers = [];
@@ -396,7 +419,7 @@ class ContactsKeeperTest extends TestCase
                 // expect contacts to be merged before del
                 $this->assertCount(1, $message->getContactsToDelete());
                 $result = new AnonymousMessageMock([
-                    '_'     => 'updates',
+                    '_'     => self::NODE_UPDATES,
                     'users' => [
                         [
                             '_'  => 'user',
@@ -407,12 +430,12 @@ class ContactsKeeperTest extends TestCase
             } elseif ($message instanceof get_contacts) {
                 if ($runCount) {
                     $result = new AnonymousMessageMock([
-                        '_'     => 'contacts.contacts',
+                        '_'     => self::NODE_CONTACTS_CONTACTS,
                         'users' => [],
                     ]);
                 } else {
                     $result = new AnonymousMessageMock([
-                        '_'     => 'contacts.contacts',
+                        '_'     => self::NODE_CONTACTS_CONTACTS,
                         'users' => [
                             [
                                 '_'           => 'user',
@@ -444,7 +467,7 @@ class ContactsKeeperTest extends TestCase
             $calls[] = [$onAsyncResponse, $result];
         };
         $this->socketMessengerMock
-            ->method('getResponseAsync')
+            ->method(self::METHOD_GET_RESPONSE_ASYNC)
             ->willReturnCallback($responseCb);
 
         $returnedUsers = [];
@@ -497,7 +520,7 @@ class ContactsKeeperTest extends TestCase
 
         $this->keeper->delUsers(['aaa'], static function () {
         });
-        $this->expectException(TGException::class);
+        $this->expectException(TimeWaitException::class);
         $this->keeper->delUsers(['aaa'], static function () {
         });
     }
@@ -520,15 +543,15 @@ class ContactsKeeperTest extends TestCase
             if ($message instanceof import_contacts) {
                 $runCount++;
                 $result = new AnonymousMessageMock([
-                    '_'        => 'contacts.importedContacts',
+                    '_'        => self::NODE_CONTACTS_IMPORTED_CONTACTS,
                     'imported' => [
                         [
-                            '_'         => 'importedContact',
+                            '_'         => self::NODE_IMPORTED_CONTACT,
                             'user_id'   => 1,
                             'client_id' => 1123,
                         ],
                         [
-                            '_'         => 'importedContact',
+                            '_'         => self::NODE_IMPORTED_CONTACT,
                             'user_id'   => 2,
                             'client_id' => 1456,
                         ],
@@ -549,7 +572,7 @@ class ContactsKeeperTest extends TestCase
                 ]);
             } elseif ($message instanceof get_contacts) {
                 $result = new AnonymousMessageMock([
-                    '_'     => 'contacts.contacts',
+                    '_'     => self::NODE_CONTACTS_CONTACTS,
                     'users' => [
                         [
                             '_'     => 'user',
@@ -566,7 +589,7 @@ class ContactsKeeperTest extends TestCase
             $calls[] = [$onAsyncResponse, $result];
         };
         $this->socketMessengerMock
-            ->method('getResponseAsync')
+            ->method(self::METHOD_GET_RESPONSE_ASYNC)
             ->willReturnCallback($responseCb);
 
         $this->keeper->addNumbers($numbers, static function (ImportResult $result) use (&$importedPhones) {
@@ -608,7 +631,7 @@ class ContactsKeeperTest extends TestCase
         ) use (&$runCount, &$calls) {
             if ($message instanceof delete_contacts) {
                 $result = new AnonymousMessageMock([
-                    '_'     => 'updates',
+                    '_'     => self::NODE_UPDATES,
                     'users' => [
                         [
                             '_'  => 'user',
@@ -619,12 +642,12 @@ class ContactsKeeperTest extends TestCase
             } elseif ($message instanceof get_contacts) {
                 if ($runCount) {
                     $result = new AnonymousMessageMock([
-                        '_'     => 'contacts.contacts',
+                        '_'     => self::NODE_CONTACTS_CONTACTS,
                         'users' => [],
                     ]);
                 } else {
                     $result = new AnonymousMessageMock([
-                        '_'     => 'contacts.contacts',
+                        '_'     => self::NODE_CONTACTS_CONTACTS,
                         'users' => [
                             [
                                 '_'           => 'user',
@@ -649,7 +672,7 @@ class ContactsKeeperTest extends TestCase
             $calls[] = [$onAsyncResponse, $result];
         };
         $this->socketMessengerMock
-            ->method('getResponseAsync')
+            ->method(self::METHOD_GET_RESPONSE_ASYNC)
             ->willReturnCallback($responseCb);
 
         return $calls;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Unit\Client;
+namespace TelegramOSINT\Client;
 
 interface CachingClient
 {
