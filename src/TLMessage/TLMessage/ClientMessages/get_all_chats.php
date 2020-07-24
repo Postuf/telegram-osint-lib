@@ -17,7 +17,7 @@ class get_all_chats implements TLClientMessage
     private const CONSTRUCTOR = -341307408; // 0xeba80ff0
 
     /** @var int[] */
-    private $exceptIds;
+    private array $exceptIds;
 
     /**
      * @param int[] $exceptIds

@@ -9,9 +9,9 @@ use TelegramOSINT\Client\InfoObtainingClient\Models\StickerSetModel;
 class StickerSetId
 {
     /** @var int */
-    private $id;
+    private int $id;
     /** @var int */
-    private $accessHash;
+    private int $accessHash;
 
     public function __construct(int $id, int $accessHash)
     {

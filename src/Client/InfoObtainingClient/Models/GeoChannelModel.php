@@ -7,9 +7,9 @@ namespace TelegramOSINT\Client\InfoObtainingClient\Models;
 class GeoChannelModel extends ChannelModel
 {
     /** @var float */
-    public $lat;
+    public float $lat;
     /** @var float */
-    public $lon;
+    public float $lon;
 
     public function __construct(int $id, int $accessHash, string $title, float $lat, float $lon)
     {

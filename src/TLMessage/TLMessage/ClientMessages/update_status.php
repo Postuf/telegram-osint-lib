@@ -14,10 +14,7 @@ class update_status implements TLClientMessage
 {
     public const CONSTRUCTOR = 1713919532; // 0x6628562C
 
-    /**
-     * @var bool
-     */
-    private $online;
+    private bool $online;
 
     /**
      * @param bool $online

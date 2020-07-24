@@ -27,11 +27,11 @@ class StatusWatcherClientTest extends TestCase
     private const STATUS_ONLINE = 'online';
 
     /** @var StatusWatcherClientTestCallbacks */
-    private $callbacks;
+    private StatusWatcherClientTestCallbacks $callbacks;
     /** @var ControllableClock */
-    private $clock;
+    private ControllableClock $clock;
     /** @var StatusWatcherClientMock */
-    private $watcherClient;
+    private StatusWatcherClientMock $watcherClient;
 
     /**
      * @throws TGException

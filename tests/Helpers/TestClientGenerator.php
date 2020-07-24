@@ -15,11 +15,11 @@ use Unit\Client\StatusWatcherClient\StatusWatcherClientTestCallbacks;
 class TestClientGenerator implements ClientGeneratorInterface
 {
     /** @var BasicClientGeneratorInterface */
-    protected $generator;
+    protected BasicClientGeneratorInterface $generator;
     /** @var string */
-    private $authKey;
+    private string $authKey;
     /** @var InfoClient */
-    protected $client;
+    protected ?InfoClient $client = null;
 
     public function __construct(BasicClientGeneratorInterface $generator, string $authKey)
     {

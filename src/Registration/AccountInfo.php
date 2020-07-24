@@ -11,26 +11,26 @@ use TelegramOSINT\Registration\NameGenerator\NameResource;
 class AccountInfo
 {
     /** @var string */
-    private $device;
+    private string $device;
     /** @var string */
-    private $androidSdkVersion;
+    private string $androidSdkVersion;
 
     /** @var string */
-    private $firstName;
+    private string $firstName;
     /** @var string */
-    private $lastName;
+    private string $lastName;
 
     /** @var string */
-    private $deviceLang;
+    private string $deviceLang;
     /** @var string */
-    private $appLang;
+    private string $appLang;
 
     /** @var string */
-    private $appVersion;
+    private string $appVersion;
     /** @var string */
-    private $appVersionCode;
+    private string $appVersionCode;
     /** @var int */
-    private $layerVersion;
+    private int $layerVersion;
 
     private function __construct()
     {

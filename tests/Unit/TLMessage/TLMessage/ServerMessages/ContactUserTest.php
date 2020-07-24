@@ -12,7 +12,6 @@ class ContactUserTest extends TestCase
 {
     private function getObjectOnLine(): AnonymousMessageMock
     {
-        /* @noinspection PhpUnhandledExceptionInspection */
         return new AnonymousMessageMock([
             '_'           => 'user',
             'id'          => 438562352,
@@ -51,7 +50,6 @@ class ContactUserTest extends TestCase
 
     private function getObjectOffLine(): AnonymousMessageMock
     {
-        /* @noinspection PhpUnhandledExceptionInspection */
         return new AnonymousMessageMock([
             '_'           => 'user',
             'id'          => 438562352,
@@ -90,7 +88,6 @@ class ContactUserTest extends TestCase
 
     private function getObjectHidden(): AnonymousMessageMock
     {
-        /* @noinspection PhpUnhandledExceptionInspection */
         return new AnonymousMessageMock([
             '_'           => 'user',
             'id'          => 438562352,

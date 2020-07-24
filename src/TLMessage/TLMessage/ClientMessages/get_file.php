@@ -14,18 +14,9 @@ class get_file implements TLClientMessage
 {
     public const CONSTRUCTOR = -1319462148; // 0xB15A9AFC
 
-    /**
-     * @var TLClientMessage
-     */
-    private $fileLocation;
-    /**
-     * @var int
-     */
-    private $offset;
-    /**
-     * @var int
-     */
-    private $limit;
+    private TLClientMessage $fileLocation;
+    private int $offset;
+    private int $limit;
 
     /**
      * @param TLClientMessage $fileLocation

@@ -17,10 +17,7 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Update\UpdateUserStatus;
 
 class StatusWatcherAnalyzer implements Analyzer
 {
-    /**
-     * @var StatusWatcherCallbacksMiddleware
-     */
-    private $notifier;
+    private StatusWatcherCallbacksMiddleware $notifier;
 
     /**
      * @param StatusWatcherCallbacksMiddleware $notifier

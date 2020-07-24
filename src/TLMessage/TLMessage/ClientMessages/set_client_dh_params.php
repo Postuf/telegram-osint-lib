@@ -14,18 +14,9 @@ class set_client_dh_params implements TLClientMessage
 {
     public const CONSTRUCTOR = 0xF5045F1F;
 
-    /**
-     * @var string
-     */
-    private $oldClientNonce;
-    /**
-     * @var string
-     */
-    private $serverNonce;
-    /**
-     * @var string
-     */
-    private $encryptedData;
+    private string $oldClientNonce;
+    private string $serverNonce;
+    private string $encryptedData;
 
     /**
      * set_client_dh_params constructor.

@@ -15,7 +15,7 @@ class json_object implements TLClientMessage
     private const CONSTRUCTOR = -1715350371; // 99c1d49d
 
     /** @var array */
-    private $objects;
+    private array $objects;
 
     public function __construct(array $objects)
     {

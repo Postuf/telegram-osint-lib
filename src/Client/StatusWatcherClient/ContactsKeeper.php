@@ -40,38 +40,35 @@ class ContactsKeeper
     private const FLOOD_FREQUENCY_LIMIT_SEC = 3;
     private const WAIT_TIME_ON_IMPORT_LIMIT_EXCEEDED = 600;
 
-    /**
-     * @var BasicClient
-     */
-    private $client;
+    private BasicClient $client;
     /**
      * @var ContactUser[]
      */
-    private $contacts;
+    private array $contacts;
     /**
      * @var ContactUser[]
      */
-    private $contactsByPhone = [];
+    private array $contactsByPhone = [];
     /**
      * @var ContactUser[]
      */
-    private $contactsByUsername = [];
+    private array $contactsByUsername = [];
     /**
      * @var int
      */
-    private $lastDelContactsTime = 0;
+    private int $lastDelContactsTime = 0;
     /**
      * @var bool
      */
-    private $contactsLoaded = false;
+    private bool $contactsLoaded = false;
     /**
      * @var bool
      */
-    private $contactsLoading = false;
+    private bool $contactsLoading = false;
     /**
      * @var callable[]
      */
-    private $contactsLoadedQueue = [];
+    private array $contactsLoadedQueue = [];
     /**
      * @var Clock
      */

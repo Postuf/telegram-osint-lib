@@ -15,7 +15,7 @@ class BanInvalidatorTest extends TestCase
     private const METHOD_DEL = 'del';
 
     /** @var BanInvalidator */
-    private $invalidator;
+    private BanInvalidator $invalidator;
     /** @var MockObject|Cache */
     private $cache;
 

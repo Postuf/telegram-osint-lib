@@ -15,11 +15,8 @@ class ping_delay_disconnect implements TLClientMessage
     /**
      * @var string
      */
-    private $pingId;
-    /**
-     * @var int
-     */
-    private $disconnectDelay;
+    private ?string $pingId;
+    private int $disconnectDelay;
 
     /**
      * @param string|null $pingId

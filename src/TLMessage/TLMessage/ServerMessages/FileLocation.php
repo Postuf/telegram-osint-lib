@@ -10,10 +10,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
 class FileLocation extends TLServerMessage
 {
-    /**
-     * @var bool
-     */
-    private $deprecated;
+    private bool $deprecated;
 
     /**
      * @param AnonymousMessage $tlMessage

@@ -13,18 +13,9 @@ class input_peer_photofilelocation extends input_peer
 {
     public const CONSTRUCTOR = 668375447; // 0x27D69997
 
-    /**
-     * @var input_peer
-     */
-    private $location;
-    /**
-     * @var int
-     */
-    private $volumeId;
-    /**
-     * @var int
-     */
-    private $localId;
+    private input_peer $location;
+    private int $volumeId;
+    private int $localId;
     /**
      * @var bool
      */

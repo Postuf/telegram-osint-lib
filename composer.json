@@ -8,6 +8,7 @@
         "phpunit/phpunit": "^9.0"
     },
     "require": {
+        "php": "^7.4",
         "phpseclib/phpseclib": "^2.0",
         "ext-dom": "*",
         "ext-gmp": "*",

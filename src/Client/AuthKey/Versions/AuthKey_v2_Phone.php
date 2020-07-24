@@ -16,10 +16,7 @@ class AuthKey_v2_Phone implements AuthKey
      * @var string
      */
     private $phone;
-    /**
-     * @var AuthKey_v2
-     */
-    private $innerAuthKey;
+    private AuthKey_v2 $innerAuthKey;
 
     /**
      * @param string $serializedAuthKey

@@ -19,7 +19,7 @@ class delete_contacts implements TLClientMessage
     /**
      * @param array
      */
-    private $contactsToDelete = [];
+    private array $contactsToDelete = [];
 
     /**
      * @param int $accessHash

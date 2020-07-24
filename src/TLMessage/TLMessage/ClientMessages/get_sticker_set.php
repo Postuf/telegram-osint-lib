@@ -14,7 +14,7 @@ class get_sticker_set implements TLClientMessage
 {
     private const CONSTRUCTOR = 639215886; // 0x2619a90e
 
-    private $sticker;
+    private input_sticker_set $sticker;
 
     public function __construct(input_sticker_set $sticker)
     {

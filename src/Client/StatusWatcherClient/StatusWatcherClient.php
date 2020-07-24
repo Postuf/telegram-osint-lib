@@ -31,26 +31,20 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
 {
     private const RELOAD_CONTACTS_EVERY_SECONDS = 20;
 
-    /**
-     * @var StatusWatcherAnalyzer
-     */
-    private $messageAnalyzer;
-    /**
-     * @var StatusWatcherCallbacks
-     */
-    private $userCallbacks;
+    private StatusWatcherAnalyzer $messageAnalyzer;
+    private StatusWatcherCallbacks $userCallbacks;
     /**
      * @var array
      *            Format: id=>expires
      */
-    private $currentlyOnlineUsers;
+    private array $currentlyOnlineUsers;
     /**
      * @var array
      *            Format: id=>id
      */
-    private $currentlyOfflineUsers;
+    private array $currentlyOfflineUsers;
     /** @var int */
-    private $lastContactsReloaded = 0;
+    private int $lastContactsReloaded = 0;
 
     /**
      * @param StatusWatcherCallbacks $callbacks
@@ -68,7 +62,7 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
         ?Clock $clock = null,
         ?BasicClient $basicClient = null
     ) {
-        $this->basicClient = $basicClient ?: new BasicClientWithStatusReportingImpl(
+        $this->basicClient = $basicClient ?? new BasicClientWithStatusReportingImpl(
             LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC,
             $logger
         );

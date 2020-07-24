@@ -17,13 +17,13 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 class TraceSocketMessenger extends EncryptedSocketMessenger
 {
     /** @var array */
-    private $trace;
+    private array $trace;
 
     /** @var int[] */
-    private $msgIds = [];
+    private array $msgIds = [];
 
     /** @var TLClientMessage[] */
-    private $msgs = [];
+    private array $msgs = [];
 
     /**
      * @param array           $trace    see tests/Integration/Scenario for

@@ -14,7 +14,7 @@ use Throwable;
  */
 class AuthKey_v2 implements AuthKey
 {
-    private $serializedAuthKey;
+    private string $serializedAuthKey;
 
     /**
      * @param string $serializedAuthKey

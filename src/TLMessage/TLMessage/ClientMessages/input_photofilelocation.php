@@ -14,22 +14,10 @@ class input_photofilelocation implements TLClientMessage
 {
     public const CONSTRUCTOR = 1075322878; // 0x40181ffe
 
-    /**
-     * @var int
-     */
-    private $id;
-    /**
-     * @var int
-     */
-    private $accessHash;
-    /**
-     * @var string
-     */
-    private $fileReference;
-    /**
-     * @var string
-     */
-    private $thumbSize;
+    private int $id;
+    private int $accessHash;
+    private string $fileReference;
+    private string $thumbSize;
 
     /**
      * @param int    $id

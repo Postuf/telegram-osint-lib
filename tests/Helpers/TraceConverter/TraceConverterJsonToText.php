@@ -9,10 +9,7 @@ use JsonException;
 
 class TraceConverterJsonToText
 {
-    /**
-     * @var JsonTraceReader
-     */
-    private $traceReader;
+    private JsonTraceReader $traceReader;
 
     /**
      * @param JsonTraceReader $traceReader

@@ -12,7 +12,7 @@ class TracingBasicClientImpl extends BasicClientImpl
     /** @var float */
     private $traceStart;
     /** @var array */
-    private $traceLog = [];
+    private array $traceLog = [];
 
     public function __construct()
     {

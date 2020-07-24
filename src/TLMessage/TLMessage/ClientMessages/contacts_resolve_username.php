@@ -16,7 +16,7 @@ class contacts_resolve_username implements TLClientMessage
     private const CONSTRUCTOR = -113456221; // 0xf93ccba3
 
     /** @var string */
-    private $username;
+    private string $username;
 
     /**
      * @param string $username

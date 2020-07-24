@@ -14,14 +14,8 @@ class import_authorization implements TLClientMessage
 {
     public const CONSTRUCTOR = -470837741; // 0xE3EF9613
 
-    /**
-     * @var int
-     */
-    private $userId;
-    /**
-     * @var string
-     */
-    private $keyBytes;
+    private int $userId;
+    private string $keyBytes;
 
     /**
      * import_authorization constructor.

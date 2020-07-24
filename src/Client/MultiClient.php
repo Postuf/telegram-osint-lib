@@ -16,16 +16,16 @@ class MultiClient
     /**
      * @var AuthKey[]
      */
-    private $authKeys;
+    private array $authKeys;
 
     /** @var InfoClient[] */
-    private $clients;
+    private array $clients;
 
     /** @var int */
-    private $connectedCount = 0;
+    private int $connectedCount = 0;
 
     /** @var float */
-    private $startTime;
+    private float $startTime;
 
     /**
      * @param string[] $authKeysSerialized

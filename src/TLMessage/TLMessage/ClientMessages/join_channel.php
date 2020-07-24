@@ -15,9 +15,9 @@ class join_channel implements TLClientMessage
     public const CONSTRUCTOR = 615851205; //0x24b524c5
 
     /** @var int */
-    private $chatId;
+    private int $chatId;
     /** @var int */
-    private $accessHash;
+    private int $accessHash;
 
     public function __construct(int $chatId, int $accessHash)
     {

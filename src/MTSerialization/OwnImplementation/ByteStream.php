@@ -9,9 +9,9 @@ use TelegramOSINT\Exception\TGException;
 class ByteStream
 {
     /** @var string */
-    private $stream;
+    private string $stream;
     /** @var int */
-    private $pointer = 0;
+    private int $pointer = 0;
     /** @var bool */
     private $len;
 

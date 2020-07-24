@@ -8,9 +8,9 @@ use TelegramOSINT\TGConnection\DataCentre;
 class MigrateException extends TGException
 {
     /** @var int */
-    private $dcId;
+    private int $dcId;
     /** @var DataCentre|null */
-    private $dc;
+    private ?DataCentre $dc;
 
     public function __construct(
         int $dcId,

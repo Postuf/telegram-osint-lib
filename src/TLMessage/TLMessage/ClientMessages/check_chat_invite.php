@@ -19,7 +19,7 @@ class check_chat_invite implements TLClientMessage
     private const CONSTRUCTOR = 1051570619; // 0x3eadb1bb
 
     /** @var string */
-    private $hash;
+    private string $hash;
 
     public function __construct(string $hash)
     {

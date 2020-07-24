@@ -13,9 +13,9 @@ class geo_point implements TLClientMessage
     private const CONSTRUCTOR = -206066487; // 0xf3b7acc9
 
     /** @var float */
-    private $lat;
+    private float $lat;
     /** @var float */
-    private $lon;
+    private float $lon;
 
     public function __construct(float $lat, float $lon)
     {

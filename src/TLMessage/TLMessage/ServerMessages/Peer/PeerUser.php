@@ -10,7 +10,7 @@ namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Peer;
 class PeerUser implements Peer
 {
     /** @var int */
-    private $userId;
+    private int $userId;
 
     public function __construct(int $userId)
     {

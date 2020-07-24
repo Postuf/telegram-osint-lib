@@ -7,7 +7,7 @@ class MessageIdGenerator
     /**
      * @var int
      */
-    private $msgId = 0;
+    private int $msgId = 0;
 
     /**
      * @return int

@@ -31,15 +31,15 @@ class GroupPhotosScenario extends AbstractGroupScenario
     private const FIELD_MESSAGE_MEDIA = 'media';
 
     /** @var int|null */
-    private $since;
+    private ?int $since;
     /** @var int|null */
-    private $to;
+    private ?int $to;
     /** @var callable */
     private $saveHandler;
     /** @var string|null */
-    private $username;
+    private ?string $username;
     /** @var int|null */
-    private $userId;
+    private ?int $userId = null;
 
     /**
      * @param OptionalDateRange             $dateRange

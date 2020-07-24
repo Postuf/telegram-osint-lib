@@ -11,9 +11,9 @@ use PHPUnit\Framework\TestCase;
 class DeferredClientTest extends TestCase
 {
     /** @var ControllableClock */
-    private $clock;
+    private ControllableClock $clock;
     /** @var DeferredClientImpl */
-    private $client;
+    private DeferredClientImpl $client;
 
     protected function setUp(): void
     {

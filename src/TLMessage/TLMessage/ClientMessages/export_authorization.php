@@ -16,10 +16,7 @@ class export_authorization implements TLClientMessage
 {
     private const CONSTRUCTOR = -440401971; // 0xE5BFFFCD
 
-    /**
-     * @var int
-     */
-    private $foreignDcId;
+    private int $foreignDcId;
 
     /**
      * export_authorization constructor.

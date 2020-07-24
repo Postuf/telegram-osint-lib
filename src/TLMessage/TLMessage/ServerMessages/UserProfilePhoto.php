@@ -10,10 +10,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
 class UserProfilePhoto extends TLServerMessage implements PhotoInterface
 {
-    /**
-     * @var bool
-     */
-    private $v1;
+    private bool $v1;
 
     /**
      * @param AnonymousMessage $tlMessage

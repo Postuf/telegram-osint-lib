@@ -13,7 +13,7 @@ class ControllableClock implements Clock
     /** @var int */
     private $currentTime;
     /** @var int microseconds */
-    private $currentAdvanceMs = 0;
+    private int $currentAdvanceMs = 0;
 
     public function __construct()
     {

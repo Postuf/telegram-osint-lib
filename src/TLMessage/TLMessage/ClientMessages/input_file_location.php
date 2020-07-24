@@ -14,22 +14,10 @@ class input_file_location implements TLClientMessage
 {
     public const CONSTRUCTOR = -539317279; // 0xDFDAABE1
 
-    /**
-     * @var int
-     */
-    private $volumeId;
-    /**
-     * @var int
-     */
-    private $localId;
-    /**
-     * @var int
-     */
-    private $secret;
-    /**
-     * @var string
-     */
-    private $reference;
+    private int $volumeId;
+    private int $localId;
+    private int $secret;
+    private string $reference;
 
     /**
      * @param int    $volumeId

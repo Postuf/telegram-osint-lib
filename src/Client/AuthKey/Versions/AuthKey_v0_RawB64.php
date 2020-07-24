@@ -12,7 +12,7 @@ use TelegramOSINT\TGConnection\DataCentre;
 class AuthKey_v0_RawB64 implements AuthKey
 {
     /** @var string */
-    private $serializedAuthKey;
+    private string $serializedAuthKey;
 
     /**
      * @param string $serializedAuthKey

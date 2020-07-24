@@ -15,10 +15,7 @@ class send_sms_code implements TLClientMessage
 {
     private const CONSTRUCTOR = -1502141361; // 0xA677244F
 
-    /**
-     * @var string
-     */
-    private $phone;
+    private string $phone;
 
     /**
      * @param string $phone

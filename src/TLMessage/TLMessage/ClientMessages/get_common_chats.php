@@ -15,13 +15,13 @@ class get_common_chats implements TLClientMessage
     private const CONSTRUCTOR = 218777796; // 0xd0a48c4
 
     /** @var int */
-    private $user_id;
+    private int $user_id;
     /** @var int */
-    private $max_id;
+    private int $max_id;
     /** @var int */
-    private $limit;
+    private int $limit;
     /** @var int */
-    private $accessHash;
+    private int $accessHash;
 
     public function __construct(int $user_id, int $accessHash, int $limit, int $max_id = 0)
     {

@@ -15,9 +15,9 @@ class json_object_value implements TLClientMessage
     private const CONSTRUCTOR = -1059185703; // 0xc0de1bd9
 
     /** @var string */
-    private $key;
+    private string $key;
     /** @var json_object_value_abstract */
-    private $value;
+    private json_object_value_abstract $value;
 
     public function __construct(string $key, json_object_value_abstract $value)
     {

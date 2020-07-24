@@ -19,26 +19,17 @@ use TelegramOSINT\Tools\DefaultClock;
 
 class PresenceMonitoringScenario implements ScenarioInterface, StatusWatcherCallbacks, TimeoutScenarioInterface
 {
-    /**
-     * @var StatusWatcherClient
-     */
-    private $client;
-    /**
-     * @var string
-     */
-    private $authKey;
+    private StatusWatcherClient $client;
+    private string $authKey;
     /**
      * @var string[]
      */
-    private $numbers;
-    /**
-     * @var PresenceMonitoringCallbacks
-     */
-    private $callbacks;
+    private array $numbers;
+    private PresenceMonitoringCallbacks $callbacks;
     /** @var ClientGeneratorInterface */
-    private $generator;
+    private ClientGeneratorInterface $generator;
     /** @var float */
-    private $timeOut = 0.0;
+    private float $timeOut = 0.0;
     /** @var Clock */
     private $clock;
 

@@ -7,7 +7,7 @@ namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages\Peer;
 class PeerChat implements Peer
 {
     /** @var int */
-    private $chatId;
+    private int $chatId;
 
     public function __construct(int $chatId)
     {

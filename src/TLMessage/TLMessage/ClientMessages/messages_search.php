@@ -15,15 +15,15 @@ class messages_search implements TLClientMessage
     private const CONSTRUCTOR = -2045448344; //0x8614ef68
 
     /** @var int */
-    private $chatId;
+    private int $chatId;
     /** var int */
-    private $limit;
+    private int $limit;
     /** var int */
-    private $accessHash;
+    private int $accessHash;
     /** @var int */
-    private $since;
+    private int $since;
     /** @var int */
-    private $lastId;
+    private int $lastId;
 
     public function __construct(int $chatId, int $limit = 100, int $accessHash = 0, int $since = 0, int $lastId = 0)
     {
