@@ -9,11 +9,11 @@ class OuterHeaderWrapper
     /**
      * @var int
      */
-    private $out_seq_no = 0;
+    private int $out_seq_no = 0;
     /**
      * @var int
      */
-    private $in_seq_no = 0;
+    private int $in_seq_no = 0;
 
     /**
      * @param string $binaryPayload

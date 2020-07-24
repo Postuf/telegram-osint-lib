@@ -15,7 +15,7 @@ class get_full_chat implements TLClientMessage
     public const CONSTRUCTOR = 998448230; // 0x3b831c66
 
     /** @var int */
-    private $chatId;
+    private int $chatId;
 
     public function __construct(int $chatId)
     {

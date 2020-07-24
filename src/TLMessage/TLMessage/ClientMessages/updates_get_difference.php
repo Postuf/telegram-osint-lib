@@ -14,9 +14,9 @@ class updates_get_difference implements TLClientMessage
 {
     public const CONSTRUCTOR = 630429265; // 0x25939651
 
-    private $qts;
-    private $pts;
-    private $date;
+    private int $qts;
+    private int $pts;
+    private int $date;
 
     /**
      * @param int $pts

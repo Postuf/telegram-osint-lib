@@ -74,14 +74,8 @@ class EncryptedSocketMessenger extends TgSocketMessenger
         'msg_resend_req',
         'msg_resend_ans_req',
     ];
-    /**
-     * @var int
-     */
-    private $msg_seqno;
-    /**
-     * @var MessageIdGenerator
-     */
-    private $msgIdGenerator;
+    private int $msg_seqno;
+    private MessageIdGenerator $msgIdGenerator;
     /**
      * @var string
      */
@@ -94,14 +88,8 @@ class EncryptedSocketMessenger extends TgSocketMessenger
      * @var string
      */
     private $authKeyId;
-    /**
-     * @var string
-     */
-    private $authKey;
-    /**
-     * @var AuthKey
-     */
-    private $authKeyObj;
+    private string $authKey;
+    private AuthKey $authKeyObj;
     /**
      * @var AES
      */
@@ -109,35 +97,29 @@ class EncryptedSocketMessenger extends TgSocketMessenger
     /**
      * @var TLClientMessage[]
      */
-    private $sentMessages = [];
+    private array $sentMessages = [];
     /**
      * @var MTDeserializer
      */
     private $deserializer;
-    /**
-     * @var OuterHeaderWrapper
-     */
-    private $outerHeaderWrapper;
-    /**
-     * @var MessageListener
-     */
-    private $messageReceiptCallback;
+    private OuterHeaderWrapper $outerHeaderWrapper;
+    private MessageListener $messageReceiptCallback;
     /**
      * @var MessageListener[]
      */
-    private $rpcMessages = [];
+    private array $rpcMessages = [];
     /**
      * @var AnonymousMessage[]
      */
-    private $reportableMessageQueue = [];
+    private array $reportableMessageQueue = [];
     /**
      * @var AnonymousMessage[]
      */
-    private $messagesToBeProcessedQueue = [];
+    private array $messagesToBeProcessedQueue = [];
     /** @var ClientDebugLogger */
     private $logger;
     /** @var AnonymousMessage|null */
-    private $config;
+    private ?AnonymousMessage $config = null;
 
     /**
      * @param Socket                 $socket

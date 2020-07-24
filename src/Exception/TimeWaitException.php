@@ -5,8 +5,7 @@ namespace TelegramOSINT\Exception;
 
 class TimeWaitException extends TGException
 {
-    /** @var int */
-    private $waitTimeSeconds;
+    private int $waitTimeSeconds;
 
     /**
      * @param int $code

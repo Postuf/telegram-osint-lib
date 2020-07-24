@@ -13,7 +13,6 @@ class UpdateStatusTest extends TestCase
     /** @noinspection PhpUnhandledExceptionInspection */
     public function test_update_status_online(): void
     {
-        /** @noinspection PhpUnhandledExceptionInspection */
         $update = new AnonymousMessageMock([
             '_'      => 'updateShort',
             'update' => [
@@ -43,7 +42,6 @@ class UpdateStatusTest extends TestCase
     /** @noinspection PhpUnhandledExceptionInspection */
     public function test_update_status_offline(): void
     {
-        /** @noinspection PhpUnhandledExceptionInspection */
         $update = new AnonymousMessageMock([
             '_'      => 'updateShort',
             'update' => [
@@ -73,7 +71,6 @@ class UpdateStatusTest extends TestCase
     /** @noinspection PhpUnhandledExceptionInspection */
     public function test_update_status_hidden(): void
     {
-        /** @noinspection PhpUnhandledExceptionInspection */
         $update = new AnonymousMessageMock([
             '_'      => 'updateShort',
             'update' => [

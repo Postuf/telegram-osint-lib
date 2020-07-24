@@ -14,16 +14,13 @@ abstract class ContactKeepingClientImpl extends DeferredClient implements Contac
 {
     private const ADD_USER_PAUSE_SECONDS = 1;
     /** @var int */
-    private $lastUsedAddedTime = 0;
+    private int $lastUsedAddedTime = 0;
     /** @var int */
-    private $userAddQueueSize = 0;
+    private int $userAddQueueSize = 0;
 
     /** @var BasicClient */
-    protected $basicClient;
-    /**
-     * @var ContactsKeeper
-     */
-    protected $contactsKeeper;
+    protected BasicClient $basicClient;
+    protected ContactsKeeper $contactsKeeper;
 
     public function __construct(?Clock $clock, BasicClient $basicClient, array $startContacts = [])
     {

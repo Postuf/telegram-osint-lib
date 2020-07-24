@@ -14,7 +14,7 @@ class json_object_value_string extends json_object_value_abstract
     private const CONSTRUCTOR = -1222740358; // 0xb71e767a
 
     /** @var string */
-    private $value;
+    private string $value;
 
     public function __construct(string $value)
     {

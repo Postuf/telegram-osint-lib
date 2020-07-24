@@ -15,13 +15,13 @@ class input_user_from_message implements TLClientMessage
     private const CONSTRUCTOR = 756118935; // 0x2d117597
 
     /** @var int */
-    private $channelId;
+    private int $channelId;
     /** @var int */
-    private $accessHash;
+    private int $accessHash;
     /** @var int */
-    private $msgId;
+    private int $msgId;
     /** @var int */
-    private $userId;
+    private int $userId;
 
     public function __construct(int $channelId, int $accessHash, int $msgId, int $userId)
     {

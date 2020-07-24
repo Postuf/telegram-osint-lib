@@ -11,12 +11,9 @@ class input_channel extends input_peer
 {
     public const CONSTRUCTOR = -1343524562; // 0xafeb712e
 
-    /**
-     * @var int
-     */
-    private $chatId;
+    private int $chatId;
     /** @var int */
-    private $accessHash;
+    private int $accessHash;
 
     /**
      * @param int $chatId

@@ -7,13 +7,13 @@ class PictureModel
     /**
      * @var int
      */
-    public $modificationTime;
+    public int $modificationTime = 0;
     /**
      * @var string
      */
-    public $format;
+    public string $format = '';
     /**
      * @var string
      */
-    public $bytes;
+    public string $bytes = '';
 }

@@ -20,24 +20,18 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class NotEncryptedSocketMessenger extends TgSocketMessenger
 {
-    /**
-     * @var OuterHeaderWrapper
-     */
-    private $outerHeaderWrapper;
-    /**
-     * @var MessageIdGenerator
-     */
-    private $msgIdGenerator;
+    private OuterHeaderWrapper $outerHeaderWrapper;
+    private MessageIdGenerator $msgIdGenerator;
     /**
      * @var MTDeserializer
      */
     private $deserializer;
     /** @var ClientDebugLogger|null */
-    private $logger;
+    private ?ClientDebugLogger $logger;
     /** @var AnonymousMessage|null */
-    private $config;
-    private $callbackQueue = [];
-    private $writeQueue = [];
+    private ?AnonymousMessage $config;
+    private array $callbackQueue = [];
+    private array $writeQueue = [];
 
     /**
      * @param Socket                 $socket

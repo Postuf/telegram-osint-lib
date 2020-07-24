@@ -14,7 +14,7 @@ class channel_participants_filter implements TLClientMessage
     public const PARTICIPANTS_ADMINS = -1268741783; // 0xb4608969
 
     /** @var int */
-    private $constructor;
+    private int $constructor;
     /** @var int|null */
     private $query;
 

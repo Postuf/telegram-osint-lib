@@ -11,13 +11,13 @@ class ReadState
      */
     private $timeStart;
     /** @var int */
-    private $length = 0;
+    private int $length = 0;
     /** @var string */
-    private $read = '';
+    private string $read = '';
     /** @var string */
-    private $lengthValue = '';
+    private string $lengthValue = '';
     /** @var int */
-    private $readLength = 0;
+    private int $readLength = 0;
 
     public function __construct()
     {

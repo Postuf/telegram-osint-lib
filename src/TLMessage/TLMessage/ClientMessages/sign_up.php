@@ -14,22 +14,10 @@ class sign_up implements TLClientMessage
 {
     public const CONSTRUCTOR = -2131827673; // 0x80EEE427
 
-    /**
-     * @var string
-     */
-    private $phone;
-    /**
-     * @var string
-     */
-    private $phoneHash;
-    /**
-     * @var string
-     */
-    private $firstName;
-    /**
-     * @var string
-     */
-    private $lastName;
+    private string $phone;
+    private string $phoneHash;
+    private string $firstName;
+    private string $lastName;
 
     /**
      * sign_up constructor.

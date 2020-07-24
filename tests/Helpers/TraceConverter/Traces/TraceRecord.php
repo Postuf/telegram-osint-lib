@@ -25,20 +25,11 @@ class TraceRecord implements TraceRecordInterface, JsonSerializable
      */
     public const JSON_FIELD_TIMESTAMP = 'record-timestamp';
 
-    /**
-     * @var string
-     */
-    private $type;
+    private string $type;
 
-    /**
-     * @var AnonymousMessage
-     */
-    private $message;
+    private AnonymousMessage $message;
 
-    /**
-     * @var float
-     */
-    private $timestamp;
+    private float $timestamp;
 
     /**
      * @param string           $type

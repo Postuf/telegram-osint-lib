@@ -16,11 +16,11 @@ class get_participants implements TLClientMessage
     private const LIMIT = 100;
 
     /** @var int */
-    private $offset;
+    private int $offset;
     /** @var input_channel */
-    private $channel;
+    private input_channel $channel;
     /** @var string|null */
-    private $query;
+    private ?string $query;
 
     public function __construct(input_channel $channel, int $offset = 0, ?string $query = null)
     {

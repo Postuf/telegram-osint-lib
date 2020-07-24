@@ -15,14 +15,8 @@ class add_contact implements TLClientMessage
 {
     private const CONSTRUCTOR = -386636848; // 0xE8F463D0
 
-    /**
-     * @var int
-     */
-    private $userId;
-    /**
-     * @var int
-     */
-    private $accessHash;
+    private int $userId;
+    private int $accessHash;
 
     /**
      * @param int $userId

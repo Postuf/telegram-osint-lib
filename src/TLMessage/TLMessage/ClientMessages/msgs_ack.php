@@ -14,7 +14,7 @@ class msgs_ack implements TLClientMessage
     /**
      * @param array $msgIds
      */
-    private $messageIds;
+    private array $messageIds;
 
     /**
      * @param int[] $msgIds

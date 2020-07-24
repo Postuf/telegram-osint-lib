@@ -12,10 +12,7 @@ use TelegramOSINT\TGConnection\DataCentre;
 class AuthKey_v1_Simple implements AuthKey
 {
     private const RAW_KEY_LENGTH = 8;
-    /**
-     * @var string
-     */
-    private $serializedAuthKey;
+    private string $serializedAuthKey;
 
     /**
      * @param string $serializedAuthKey

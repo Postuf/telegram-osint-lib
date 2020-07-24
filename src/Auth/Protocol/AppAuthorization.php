@@ -13,7 +13,7 @@ use TelegramOSINT\Tools\Proxy;
 class AppAuthorization extends BaseAuthorization
 {
     /** @var int */
-    private $dcId;
+    private int $dcId;
 
     public function __construct(DataCentre $dc, ?Proxy $proxy = null)
     {

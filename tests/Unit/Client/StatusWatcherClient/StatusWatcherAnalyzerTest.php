@@ -14,7 +14,7 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 class StatusWatcherAnalyzerTest extends TestCase
 {
     /** @var StatusWatcherAnalyzer */
-    private $analyzer;
+    private StatusWatcherAnalyzer $analyzer;
     /** @var MockObject|StatusWatcherCallbacksMiddleware */
     private $callbacks;
 

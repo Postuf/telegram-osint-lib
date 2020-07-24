@@ -13,7 +13,7 @@ class BasicClientWithStatusReportingImpl extends BasicClientImpl
     /**
      * @var int
      */
-    private $lastStatusOnlineSet;
+    private int $lastStatusOnlineSet = 0;
 
     protected function prePollMessage(): ?AnonymousMessage
     {

@@ -13,7 +13,7 @@ class ContactsKeeperMock extends ContactsKeeper
     /**
      * @var ContactUser[]
      */
-    private $contacts;
+    private array $contacts;
 
     /**
      * @param BasicClient|null $client

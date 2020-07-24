@@ -11,14 +11,8 @@ class input_peer_user extends input_peer
 {
     public const CONSTRUCTOR = 2072935910; // 0x7B8E7DE6
 
-    /**
-     * @var int
-     */
-    private $userId;
-    /**
-     * @var int
-     */
-    private $accessHash;
+    private int $userId;
+    private int $accessHash;
 
     /**
      * @param int $userId

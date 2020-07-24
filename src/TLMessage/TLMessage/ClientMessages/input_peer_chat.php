@@ -11,10 +11,7 @@ class input_peer_chat extends input_peer
 {
     public const CONSTRUCTOR = 396093539; // 0x179be863
 
-    /**
-     * @var int
-     */
-    private $chatId;
+    private int $chatId;
 
     /**
      * @param int $chatId

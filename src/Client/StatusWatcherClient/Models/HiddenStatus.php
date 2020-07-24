@@ -10,10 +10,7 @@ class HiddenStatus
     public const HIDDEN_SEEN_LAST_MONTH = 'last_month';
     public const HIDDEN_SEEN_LONG_AGO = 'long_ago';
 
-    /**
-     * @var string
-     */
-    private $statusCode;
+    private string $statusCode;
 
     /**
      * @param string $statusCode

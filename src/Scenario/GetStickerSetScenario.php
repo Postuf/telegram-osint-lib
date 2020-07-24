@@ -13,9 +13,9 @@ use TelegramOSINT\Tools\Proxy;
 class GetStickerSetScenario extends FeaturedStickerSetScenario
 {
     /** @var StickerSetId */
-    private $stickerId;
+    private StickerSetId $stickerId;
     /** @var bool */
-    private $standAlone;
+    private bool $standAlone;
 
     /**
      * @param StickerSetId                  $id

@@ -6,14 +6,8 @@ use TelegramOSINT\Registration\AccountInfo;
 
 class AuthInfo
 {
-    /**
-     * @var string
-     */
-    private $phone;
-    /**
-     * @var AccountInfo
-     */
-    private $account;
+    private string $phone;
+    private AccountInfo $account;
 
     public function setPhone(string $phone): self
     {

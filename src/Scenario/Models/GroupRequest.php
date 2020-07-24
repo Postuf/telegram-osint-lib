@@ -9,9 +9,9 @@ use InvalidArgumentException;
 class GroupRequest
 {
     /** @var int|null */
-    private $groupId;
+    private ?int $groupId;
     /** @var string|null */
-    private $username;
+    private ?string $username = null;
 
     /**
      * @param int|null    $groupId
@@ -30,6 +30,7 @@ class GroupRequest
                 $username = $parts[count($parts) - 1];
             }
 
+            /** @var string $username */
             $username = str_replace('@', '', $username);
 
             $this->username = $username;

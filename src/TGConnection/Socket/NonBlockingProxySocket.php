@@ -13,7 +13,7 @@ use TelegramOSINT\Tools\Proxy;
 class NonBlockingProxySocket extends ProxySocket
 {
     /** @var SocketAsyncTg|null */
-    private $socketObjectAsync;
+    private ?SocketAsyncTg $socketObjectAsync;
 
     /**
      * @param Proxy      $proxy

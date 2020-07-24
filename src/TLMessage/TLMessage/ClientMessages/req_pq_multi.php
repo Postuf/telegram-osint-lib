@@ -11,10 +11,7 @@ class req_pq_multi implements TLClientMessage
 {
     public const CONSTRUCTOR = 0xBE7E8EF1;
 
-    /**
-     * @var string
-     */
-    private $nonce;
+    private string $nonce;
 
     /**
      * @param string $nonce

@@ -30,11 +30,11 @@ class GroupMembersScenario extends AbstractGroupScenario
     /** @var callable|null function() */
     private $handler;
     /** @var GroupId|null */
-    private $groupIdObj;
+    private ?GroupId $groupIdObj;
     /** @var int */
-    private $limit;
+    private int $limit;
     /** @var string|null */
-    private $username;
+    private ?string $username;
 
     /**
      * @param GroupId|null                  $groupId

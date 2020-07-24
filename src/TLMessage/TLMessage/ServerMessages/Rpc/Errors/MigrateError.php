@@ -9,10 +9,7 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Rpc\RpcError;
 
 class MigrateError
 {
-    /**
-     * @var RpcError
-     */
-    private $error;
+    private RpcError $error;
 
     /**
      * MigrateError constructor.

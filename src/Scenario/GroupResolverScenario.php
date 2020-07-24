@@ -13,7 +13,7 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ResolvedPeer;
 class GroupResolverScenario extends InfoClientScenario
 {
     /** @var GroupRequest */
-    private $groupRequest;
+    private GroupRequest $groupRequest;
     /** @var callable|null */
     private $onReady;
 

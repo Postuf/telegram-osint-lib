@@ -9,10 +9,7 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Rpc\RpcError;
 
 class FloodWait
 {
-    /**
-     * @var RpcError
-     */
-    private $error;
+    private RpcError $error;
 
     /**
      * @param RpcError $rpcError

@@ -14,15 +14,15 @@ class UserContactsScenario extends InfoClientScenario implements ContactsScenari
     /** @var callable|null */
     private $cb;
     /** @var callable[] */
-    private $callQueue = [];
+    private array $callQueue = [];
     /** @var string[] */
-    private $phones;
+    private array $phones;
     /** @var bool */
-    private $withPhoto;
+    private bool $withPhoto;
     /** @var bool */
-    private $largePhoto;
+    private bool $largePhoto;
     /** @var string[] */
-    private $usernames;
+    private array $usernames;
     /** @var callable|null */
     private $saveCallback;
 

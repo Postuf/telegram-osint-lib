@@ -12,10 +12,7 @@ class get_notify_settings implements TLClientMessage
 {
     public const CONSTRUCTOR = 313765169; // 0x12B3AD31
 
-    /**
-     * @var TLClientMessage
-     */
-    private $peer;
+    private TLClientMessage $peer;
 
     public function __construct(TLClientMessage $peer)
     {

@@ -30,12 +30,12 @@ class GroupMessagesTest extends TestCase
     private const DEFAULT_GROUP_DEEPLINK = 'https://t.me/asfaefegw';
 
     /** @var ReusableClientGenerator */
-    private $clientGenerator;
+    private ReusableClientGenerator $clientGenerator;
 
     /**
      * {@inheritdoc}
      *
-     * @throws TGException|JsonException
+     * @throws JsonException
      */
     public function setUp(): void
     {

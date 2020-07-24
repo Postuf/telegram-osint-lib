@@ -13,7 +13,7 @@ class DiskCacheFactory implements CacheFactoryInterface
     private const SUFFIX = '.txt';
 
     /** @var string */
-    private $prefix;
+    private string $prefix;
 
     public function __construct(string $prefix = self::PREFIX)
     {

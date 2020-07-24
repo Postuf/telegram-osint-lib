@@ -16,14 +16,8 @@ class contacts_search implements TLClientMessage
 
     private const DEFAULT_APP_LIMIT = 50;
 
-    /**
-     * @var string
-     */
-    private $nick;
-    /**
-     * @var int
-     */
-    private $limit;
+    private string $nick;
+    private int $limit;
 
     public function __construct(string $nickName, int $limit = self::DEFAULT_APP_LIMIT)
     {

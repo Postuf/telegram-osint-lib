@@ -13,9 +13,9 @@ use TelegramOSINT\Tools\Proxy;
 abstract class AbstractGroupScenario extends InfoClientScenario implements GroupScenarioInterface
 {
     /** @var int|null */
-    protected $groupId;
+    protected ?int $groupId = null;
     /** @var string|null */
-    protected $deepLink;
+    protected ?string $deepLink = null;
 
     public function setGroupId(int $groupId): void
     {

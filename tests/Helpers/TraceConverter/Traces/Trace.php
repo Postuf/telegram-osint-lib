@@ -19,15 +19,9 @@ class Trace implements TraceInterface, JsonSerializable
      */
     public const JSON_FIELD_RECORDS = 'records';
 
-    /**
-     * @var float
-     */
-    private $timestamp;
+    private float $timestamp;
 
-    /**
-     * @var array
-     */
-    private $records;
+    private array $records;
 
     /**
      * @param float $timestamp

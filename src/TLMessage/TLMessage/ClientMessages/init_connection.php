@@ -16,14 +16,11 @@ class init_connection implements TLClientMessage
 {
     private const CONSTRUCTOR = 3251461801; // 0xC1CD5EA9
 
-    /**
-     * @var AccountInfo
-     */
-    private $account;
+    private AccountInfo $account;
     /**
      * @var TLClientMessage
      */
-    private $query;
+    private ?TLClientMessage $query;
 
     /**
      * @param AccountInfo          $authInfo

@@ -71,23 +71,23 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
     /**
      * @var BasicClient[]
      */
-    private $otherDcClients = [];
+    private array $otherDcClients = [];
     /**
      * @var Authorization[]
      */
-    private $notEncryptedClients = [];
+    private array $notEncryptedClients = [];
     /** @var BasicClientGeneratorInterface */
-    private $generator;
+    private BasicClientGeneratorInterface $generator;
     /** @var Proxy|null */
-    private $proxy;
+    private ?Proxy $proxy;
     /** @var CacheFactoryInterface */
     private $authKeyCacheFactory;
     /** @var Cache|null */
-    private $authKeyCache;
+    private ?Cache $authKeyCache;
     /** @var CacheInvalidator */
     private $authKeyCacheInvalidator;
     /** @var AuthKey|null */
-    private $authKey;
+    private ?AuthKey $authKey;
 
     public function __construct(
         BasicClientGeneratorInterface $generator,

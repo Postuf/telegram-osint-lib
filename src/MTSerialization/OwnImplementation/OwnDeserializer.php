@@ -14,13 +14,10 @@ class OwnDeserializer implements MTDeserializer
      *
      * @var array
      */
-    private static $map = [];
-    private static $mapLoaded = false;
+    private static array $map = [];
+    private static bool $mapLoaded = false;
 
-    /**
-     * @var ByteStream
-     */
-    private $stream;
+    private ByteStream $stream;
 
     public function __construct()
     {

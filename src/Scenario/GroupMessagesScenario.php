@@ -20,21 +20,21 @@ class GroupMessagesScenario extends InfoClientScenario
     private $handler;
 
     /** @var string|null */
-    protected $username;
+    protected ?string $username;
     /** @var int|null */
-    private $userId;
+    private ?int $userId;
     /** @var int|null */
-    private $startTimestamp;
+    private ?int $startTimestamp;
     /** @var int|null */
-    private $endTimestamp;
+    private ?int $endTimestamp;
     /** @var GroupId */
-    protected $groupIdObj;
+    protected GroupId $groupIdObj;
     /** @var int */
-    private $callLimit;
+    private ?int $callLimit;
     /** @var bool */
-    private $resolveUsernames;
+    private bool $resolveUsernames;
     /** @var string[] int -> string */
-    private $userMap = [];
+    private array $userMap = [];
 
     /**
      * @param GroupId                  $groupId

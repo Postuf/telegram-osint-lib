@@ -14,9 +14,9 @@ class input_sticker_set_set_id implements input_sticker_set
     private const CONSTRUCTOR = -1645763991; // 0x9de7a269
 
     /** @var int */
-    private $id;
+    private int $id;
     /** @var int */
-    private $accessHash;
+    private int $accessHash;
 
     public function __construct(int $id, int $accessHash)
     {

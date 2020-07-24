@@ -4,14 +4,8 @@ namespace TelegramOSINT\Auth;
 
 class AuthParams
 {
-    /**
-     * @var string
-     */
-    private $authKey;
-    /**
-     * @var string
-     */
-    private $serverSalt;
+    private string $authKey;
+    private string $serverSalt;
 
     /**
      * @param string $authKey

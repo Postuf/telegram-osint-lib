@@ -14,15 +14,15 @@ use function usleep;
 abstract class InfoClientScenario implements ScenarioInterface, TimeoutScenarioInterface
 {
     /** @var InfoClient */
-    protected $infoClient;
+    protected InfoClient $infoClient;
     /** @var float */
-    private $timeout = 3.0;
+    private float $timeout = 3.0;
     /** @var string */
-    private $authKey;
+    private string $authKey;
     /** @var ClientGeneratorInterface */
     private $generator;
     /** @var Proxy|null */
-    private $proxy;
+    private ?Proxy $proxy;
 
     /**
      * @param ClientGeneratorInterface|null $clientGenerator

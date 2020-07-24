@@ -18,7 +18,7 @@ use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
 class AuthKeyCreateTest extends TestCase implements MessageListener
 {
     /** @var bool */
-    private $sessionCreated = false;
+    private bool $sessionCreated = false;
 
     /**
      * Test that telegram auth key is formatted correctly.
