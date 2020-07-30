@@ -2,6 +2,8 @@ finder:
   exclude:
     src/Exception
 
+enabled:
+  - psr2_braces
+
 disabled:
-  - braces
   - phpdoc_summary

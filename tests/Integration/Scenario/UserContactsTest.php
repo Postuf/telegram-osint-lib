@@ -33,7 +33,7 @@ class UserContactsTest extends TestCase
             if ($model) {
                 $numbersParsed++;
 
-                switch ($model->phone){
+                switch ($model->phone) {
                     case '79857877977':
                         $this->assertEquals('Andrey', $model->firstName);
                         break;

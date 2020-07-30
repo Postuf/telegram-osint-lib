@@ -160,7 +160,7 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
             $this->socketMessenger->getResponseAsync($getLanguages, function (AnonymousMessage $languages) use ($onLastMessageReceived) {
                 $languagesResponse = new Languages($languages);
 
-                if($languagesResponse->getCount() < 5) {
+                if ($languagesResponse->getCount() < 5) {
                     throw new TGException(TGException::ERR_REG_NOT_OFFICIAL_USER);
                 }
                 // get language strings
@@ -207,7 +207,7 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
     {
         $smsCode = trim($smsCode);
 
-        if(!$this->isSmsRequested) {
+        if (!$this->isSmsRequested) {
             throw new TGException(TGException::ERR_REG_REQUEST_SMS_CODE_FIRST);
         }
         $this->signInFailed($smsCode, function () use ($onAuthKeyReady, $reReg) {
@@ -305,7 +305,7 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
      */
     private function checkSigningResponse(AuthorizationContactUser $response): void
     {
-        if(!Phone::equal($response->getUser()->getPhone(), $this->phone)) {
+        if (!Phone::equal($response->getUser()->getPhone(), $this->phone)) {
             throw new TGException(TGException::ERR_REG_FAILED);
         }
     }
@@ -322,7 +322,7 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
      */
     public function pollMessages(): void
     {
-        while(true) {
+        while (true) {
             if ($this->socketMessenger) {
                 /** @noinspection UnusedFunctionResultInspection */
                 $this->socketMessenger->readMessage();

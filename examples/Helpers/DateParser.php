@@ -45,6 +45,5 @@ class DateParser
         }
 
         return strtotime("$y-$m-$d $his");
-
     }
 }

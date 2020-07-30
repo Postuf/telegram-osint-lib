@@ -60,7 +60,7 @@ class OwnAnonymousMessage implements AnonymousMessage, JsonSerializable
     public function getNode(string $name): AnonymousMessage
     {
         $node = $this->getValue($name);
-        if(!is_array($node)) {
+        if (!is_array($node)) {
             throw new TGException(TGException::ERR_TL_MESSAGE_FIELD_BAD_NODE);
         }
         assert($this->doesValueLookLikeNode($node));
@@ -80,7 +80,7 @@ class OwnAnonymousMessage implements AnonymousMessage, JsonSerializable
     public function getNodes(string $name): array
     {
         $nodes = $this->getValue($name);
-        if(!is_array($nodes)) {
+        if (!is_array($nodes)) {
             throw new TGException(TGException::ERR_TL_MESSAGE_FIELD_BAD_NODE);
         }
         $objects = [];
@@ -105,7 +105,7 @@ class OwnAnonymousMessage implements AnonymousMessage, JsonSerializable
     public function getScalars(string $name): array
     {
         $scalars = $this->getValue($name);
-        if(!is_array($scalars)) {
+        if (!is_array($scalars)) {
             throw new TGException(TGException::ERR_TL_MESSAGE_FIELD_BAD_SCALARS);
         }
         assert($this->doesValueLookLikeScalars($scalars));
@@ -134,7 +134,7 @@ class OwnAnonymousMessage implements AnonymousMessage, JsonSerializable
      */
     public function getValue(string $name)
     {
-        if(!array_key_exists($name, $this->object)) {
+        if (!array_key_exists($name, $this->object)) {
             throw new TGException(TGException::ERR_TL_MESSAGE_FIELD_NOT_EXISTS);
         }
 

@@ -315,22 +315,21 @@ class StatusWatcherClientTest extends TestCase
         $this->watcherClient->pollMessage();
 
         self::assertEquals(3, $this->watcherClient->getUserExpirationChecks());
-
     }
 
     public function test_add_contacts_bad_number(): void
     {
-        try{
+        try {
             $this->watcherClient->addNumbers(['ufheorhwewq'], static function (ImportResult $result) {});
             self::assertFalse(true, 'bad format not detected');
-        } catch (TGException $e){
+        } catch (TGException $e) {
             self::assertEquals(TGException::ERR_CLIENT_BAD_NUMBER_FORMAT, $e->getCode());
         }
 
-        try{
+        try {
             $this->watcherClient->addNumbers(['7+9169904863'], static function (ImportResult $result) {});
             self::assertFalse(true, 'bad format not detected');
-        } catch (TGException $e){
+        } catch (TGException $e) {
             self::assertEquals(TGException::ERR_CLIENT_BAD_NUMBER_FORMAT, $e->getCode());
         }
     }

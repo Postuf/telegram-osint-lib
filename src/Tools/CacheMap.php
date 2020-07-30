@@ -20,7 +20,8 @@ class CacheMap implements Cache
         $this->filename = $filename;
     }
 
-    public function set(string $key, $value): void {
+    public function set(string $key, $value): void
+    {
         $this->map[$key] = $value;
         /** @noinspection PhpUnhandledExceptionInspection */
         file_put_contents($this->filename, json_encode($this->map, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
@@ -33,7 +34,8 @@ class CacheMap implements Cache
         }
     }
 
-    public function get(string $key) {
+    public function get(string $key)
+    {
         return $this->map[$key] ?? null;
     }
 

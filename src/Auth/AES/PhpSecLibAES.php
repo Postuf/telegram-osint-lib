@@ -63,7 +63,7 @@ class PhpSecLibAES implements AES
         $result = '';
 
         $messageLen = strlen($message);
-        for($i = 0; $i < $messageLen; $i += $cipher->block_size) {
+        for ($i = 0; $i < $messageLen; $i += $cipher->block_size) {
             $block = substr($message, $i, $blockSize);
             if ($isEncrypt) {
                 $xoredBefore = $block ^ $ivBlockFirstPart;

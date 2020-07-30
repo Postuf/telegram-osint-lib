@@ -60,7 +60,6 @@ class p_q_inner_data implements TLClientMessage
 
         assert($this->p < $this->q);
         assert($this->p * $this->q === $this->pq);
-
     }
 
     public function getName(): string

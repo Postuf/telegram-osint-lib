@@ -23,11 +23,11 @@ class Languages extends TLServerMessage
     public function getCount(): int
     {
         $langIdx = 0;
-        while(true){
+        while (true) {
             try {
                 $this->getTlMessage()->getNode((string) $langIdx);
                 $langIdx++;
-            } /** @noinspection PhpRedundantCatchClauseInspection */ catch (TGException $exception){
+            } /** @noinspection PhpRedundantCatchClauseInspection */ catch (TGException $exception) {
                 break;
             }
         }

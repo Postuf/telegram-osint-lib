@@ -29,7 +29,7 @@ class AuthKey_v2_Phone implements AuthKey
     public function __construct(string $serializedAuthKey)
     {
         $parts = explode(':', $serializedAuthKey);
-        if(count($parts) < 2) {
+        if (count($parts) < 2) {
             throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
         }
         $this->phone = $parts[0];

@@ -14,7 +14,8 @@ class SocketAsyncTg extends SocketAsync
     /**
      * @return resource
      */
-    public function getSocksSocket() {
+    public function getSocksSocket()
+    {
         return $this->socksSocket;
     }
 }

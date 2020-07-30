@@ -88,7 +88,6 @@ class SearchUserScenario extends InfoClientScenario
         };
         /** @var callable|null $callback */
         $callback = function () use ($onUserResolve) {
-
             $userResolver = new UserResolveScenario(
                 $this->username,
                 $onUserResolve,

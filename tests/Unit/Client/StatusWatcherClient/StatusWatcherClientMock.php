@@ -66,7 +66,6 @@ class StatusWatcherClientMock extends StatusWatcherClient
 
     protected function throwIfNotLoggedIn(string $message): void
     {
-
     }
 
     public function onUserPhoneChange(int $userId, ?string $phone): void

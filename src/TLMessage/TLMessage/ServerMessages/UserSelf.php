@@ -31,7 +31,7 @@ class UserSelf extends TLServerMessage implements MessageWithUserId
     {
         try {
             $status = $this->getTlMessage()->getNode('status');
-        } /** @noinspection PhpRedundantCatchClauseInspection */ catch (TGException $e){
+        } /** @noinspection PhpRedundantCatchClauseInspection */ catch (TGException $e) {
             return null;
         }
 

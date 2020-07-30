@@ -8,5 +8,4 @@ class ImportResult
     public $importedPhones = [];
     /** @var array */
     public $replacedPhones = [];
-
 }

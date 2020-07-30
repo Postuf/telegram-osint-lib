@@ -38,7 +38,6 @@ class UpdateStatusTest extends TestCase
         self::assertFalse($updateUserStatus->getStatus()->isOffline());
         self::assertFalse($updateUserStatus->getStatus()->isHidden());
         self::assertEquals(378256982, $updateUserStatus->getStatus()->getExpires());
-
     }
 
     /** @noinspection PhpUnhandledExceptionInspection */

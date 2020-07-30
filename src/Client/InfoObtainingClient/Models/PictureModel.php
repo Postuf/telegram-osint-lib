@@ -16,5 +16,4 @@ class PictureModel
      * @var string
      */
     public $bytes;
-
 }

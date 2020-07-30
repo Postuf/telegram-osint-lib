@@ -31,7 +31,7 @@ class NonBlockingProxySocket extends ProxySocket
         callable $onSocketReady,
         int $timeout = LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC
     ) {
-        if($proxy->getType() !== Proxy::TYPE_SOCKS5) {
+        if ($proxy->getType() !== Proxy::TYPE_SOCKS5) {
             throw new TGException(TGException::ERR_PROXY_WRONG_PROXY_TYPE);
         }
         $this->dc = $dc;
@@ -47,7 +47,6 @@ class NonBlockingProxySocket extends ProxySocket
             $this->socksSocket = $this->socketObjectAsync->getSocksSocket();
             $onSocketReady();
         };
-
     }
 
     private function runOnConnectedCallback(): void

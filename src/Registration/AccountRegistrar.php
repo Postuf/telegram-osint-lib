@@ -37,7 +37,8 @@ class AccountRegistrar implements RegisterInterface
         );
     }
 
-    public function pollMessages(): void {
+    public function pollMessages(): void
+    {
         $this->reg->pollMessages();
     }
 

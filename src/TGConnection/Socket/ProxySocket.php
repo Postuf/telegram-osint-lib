@@ -46,7 +46,7 @@ class ProxySocket implements Socket
         DataCentre $dc,
         int $timeout = LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC
     ) {
-        if($proxy->getType() !== Proxy::TYPE_SOCKS5) {
+        if ($proxy->getType() !== Proxy::TYPE_SOCKS5) {
             throw new TGException(TGException::ERR_PROXY_WRONG_PROXY_TYPE);
         }
         $this->dc = $dc;
@@ -100,7 +100,7 @@ class ProxySocket implements Socket
      */
     public function readBinary(int $length)
     {
-        if($this->isTerminated) {
+        if ($this->isTerminated) {
             throw new TGException(TGException::ERR_CONNECTION_SOCKET_TERMINATED);
         }
 
@@ -116,7 +116,7 @@ class ProxySocket implements Socket
      */
     public function writeBinary(string $payload)
     {
-        if($this->isTerminated) {
+        if ($this->isTerminated) {
             throw new TGException(TGException::ERR_CONNECTION_SOCKET_TERMINATED);
         }
 
@@ -143,7 +143,6 @@ class ProxySocket implements Socket
 
     public function poll(): void
     {
-
     }
 
     public function ready(): bool

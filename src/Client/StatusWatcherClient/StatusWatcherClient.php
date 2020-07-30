@@ -201,7 +201,7 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
      */
     public function onUserOnline(int $userId, int $expires): void
     {
-        if(($expires - $this->clock->time()) / 60 > 25) {
+        if (($expires - $this->clock->time()) / 60 > 25) {
             throw new TGException(
                 TGException::ERR_ASSERT_UPDATE_EXPIRES_TIME_LONG,
                 'userId: '.$userId.'; (expires-now) sec: '.($expires - $this->clock->time())
@@ -212,17 +212,17 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
         $this->currentlyOnlineUsers[$userId] = $expires;
 
         // notification for user
-        if(!$isUserStillOnline){
+        if (!$isUserStillOnline) {
             $this->contactsKeeper->getUserById($userId, function ($user) use ($userId, $expires) {
                 // arbitrary user
-                if(!($user instanceof ContactUser)) {
+                if (!($user instanceof ContactUser)) {
                     return;
                 }
 
                 $phone = $user->getPhone();
                 $userName = $user->getUsername();
 
-                if($phone || $userName) {
+                if ($phone || $userName) {
                     $this->userCallbacks->onUserOnline(new User($phone, $userName), $expires);
                 } else {
                     throw new TGException(
@@ -246,17 +246,17 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
         $this->currentlyOfflineUsers[$userId] = $userId;
 
         // notification for user
-        if(!$isUserOffline) {
+        if (!$isUserOffline) {
             $this->contactsKeeper->getUserById($userId, function ($user) use ($userId, $wasOnline, $inaccurate) {
                 // arbitrary user
-                if(!($user instanceof ContactUser)) {
+                if (!($user instanceof ContactUser)) {
                     return;
                 }
 
                 $phone = $user->getPhone();
                 $userName = $user->getUsername();
 
-                if($phone || $userName) {
+                if ($phone || $userName) {
                     $this->userCallbacks->onUserOffline(new User($phone, $userName), $wasOnline, $inaccurate);
                 } else {
                     throw new TGException(
@@ -279,14 +279,14 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
         // notification for user
         $this->contactsKeeper->getUserById($userId, function ($user) use ($userId, $hiddenStatusState) {
             // arbitrary user
-            if(!($user instanceof ContactUser)) {
+            if (!($user instanceof ContactUser)) {
                 return;
             }
 
             $phone = $user->getPhone();
             $userName = $user->getUsername();
 
-            if($phone || $userName) {
+            if ($phone || $userName) {
                 $this->userCallbacks->onUserHidStatus(new User($phone, $userName), $hiddenStatusState);
             } else {
                 throw new TGException(
@@ -305,7 +305,7 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
     public function onContactsImported(ImportedContacts $contactsObject): void
     {
         foreach ($contactsObject->getImportedUsers() as $user) {
-            if(!$user->getPhone()) {
+            if (!$user->getPhone()) {
                 throw new TGException(TGException::ERR_ASSERT_UPDATE_USER_UNIDENTIFIED);
             }
         }

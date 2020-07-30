@@ -99,13 +99,13 @@ class ContactsKeeper
     {
         $validator = new ImportedPhoneValidator();
         foreach ($numbers as $number) {
-            if(!$validator->validate($number)) {
+            if (!$validator->validate($number)) {
                 throw new TGException(TGException::ERR_CLIENT_BAD_NUMBER_FORMAT, 'Number: '.$number);
             }
         }
 
         $this->getUsersByPhones($numbers, function (array $contacts) use ($onComplete, $numbers) {
-            if(!empty($contacts)) {
+            if (!empty($contacts)) {
                 $phones = [];
                 foreach ($contacts as $contact) {
                     $phones[] = $contact->getPhone();
@@ -128,7 +128,7 @@ class ContactsKeeper
             new contacts_search($userName, 5),
             function (AnonymousMessage $message) use ($userName, $onComplete) {
                 $users = (new ContactsFound($message))->getUsers();
-                if(empty($users)){
+                if (empty($users)) {
                     $onComplete(false);
 
                     return;
@@ -153,7 +153,7 @@ class ContactsKeeper
                 }
 
                 $this->getUserById($id, function ($contact) use ($id, $hash, $onComplete) {
-                    if($contact) {
+                    if ($contact) {
                         $this->onContactsAdded([$contact]);
                         $onComplete(true);
                     } else {
@@ -191,7 +191,7 @@ class ContactsKeeper
     {
         $this->getUsersByPhones($numbers, function (array $contacts) use ($userNames, $onComplete) {
             // if all current contacts to be deleted
-            if(count($contacts) === count($this->contacts)) {
+            if (count($contacts) === count($this->contacts)) {
                 $this->cleanContacts($onComplete);
             } else {
                 $this->getUsersByUsernames($userNames, function ($contactsUsers) use ($contacts, $onComplete) {
@@ -298,10 +298,10 @@ class ContactsKeeper
             $userMap[$user->getUserId()] = $user->getPhone();
         }
 
-        foreach ($results->getImportedClients() as $client){
+        foreach ($results->getImportedClients() as $client) {
             $expectedPhone = $source->getPhoneByClientId($client->getClientId());
             $actualPhone = $userMap[$client->getUserId()] ?? false;
-            if($expectedPhone !== false && $actualPhone !== false && (int) $expectedPhone !== (int) $actualPhone) {
+            if ($expectedPhone !== false && $actualPhone !== false && (int) $expectedPhone !== (int) $actualPhone) {
                 $importResult->replacedPhones[] = $actualPhone;
             }
         }
@@ -315,7 +315,7 @@ class ContactsKeeper
     private function checkLimitsExceeded(ImportedContacts $results): void
     {
         $retryCount = count($results->getRetryContacts());
-        if($retryCount > 0) {
+        if ($retryCount > 0) {
             throw new TimeWaitException(
                 TGException::ERR_MSG_IMPORT_CONTACTS_LIMIT_EXCEEDED,
                 'Count: '.$retryCount,
@@ -332,7 +332,7 @@ class ContactsKeeper
     {
         $this->getUsersByPhones($numbers, function (array $contacts) use ($onComplete) {
             // if all current contacts to be deleted
-            if(count($contacts) === count($this->contacts)) {
+            if (count($contacts) === count($this->contacts)) {
                 $this->cleanContacts($onComplete);
             } else {
                 $this->delContacts($contacts, $onComplete);
@@ -362,7 +362,7 @@ class ContactsKeeper
             return;
         }
 
-        if($this->clock->time() - $this->lastDelContactsTime < self::FLOOD_FREQUENCY_LIMIT_SEC) {
+        if ($this->clock->time() - $this->lastDelContactsTime < self::FLOOD_FREQUENCY_LIMIT_SEC) {
             throw new TimeWaitException(
                 TGException::ERR_CLIENT_FLOODING_ACTIONS,
                 'delete_contacts too frequent',
@@ -383,7 +383,7 @@ class ContactsKeeper
             $deleteContactsRequest,
             function (AnonymousMessage $message) use ($onComplete, $contacts) {
                 $updates = new Updates($message);
-                if(count($updates->getUsers()) !== count($contacts)) {
+                if (count($updates->getUsers()) !== count($contacts)) {
                     throw new TGException(TGException::ERR_CLIENT_COULD_NOT_DELETE);
                 }
                 $this->onContactsDeleted($contacts);
@@ -397,7 +397,7 @@ class ContactsKeeper
      */
     public function cleanContacts(callable $onComplete): void
     {
-        if(!$this->contactsLoaded(function () use ($onComplete) {$this->cleanContacts($onComplete); })) {
+        if (!$this->contactsLoaded(function () use ($onComplete) {$this->cleanContacts($onComplete); })) {
             return;
         }
 
@@ -485,17 +485,20 @@ class ContactsKeeper
      */
     private function callOnContactsLoadedCallbacks(): void
     {
-        if($this->contactsLoaded){
-
+        if ($this->contactsLoaded) {
             $errors = [];
 
             foreach ($this->contactsLoadedQueue as $pendingCallback) {
-                try {$pendingCallback($this->contacts); } /* @noinspection PhpRedundantCatchClauseInspection */ catch (TGException $e){$errors[] = $e; }
+                try {
+                    $pendingCallback($this->contacts);
+                } /* @noinspection PhpRedundantCatchClauseInspection */ catch (TGException $e) {
+                    $errors[] = $e;
+                }
             }
 
             $this->contactsLoadedQueue = [];
 
-            if(!empty($errors)) {
+            if (!empty($errors)) {
                 throw $errors[0];
             }
         }
@@ -507,7 +510,7 @@ class ContactsKeeper
      */
     public function getUserById(int $userId, callable $onSuccess): void
     {
-        if(!$this->contactsLoaded(function () use ($userId, $onSuccess) {$this->getUserById($userId, $onSuccess); })) {
+        if (!$this->contactsLoaded(function () use ($userId, $onSuccess) {$this->getUserById($userId, $onSuccess); })) {
             return;
         }
 
@@ -520,7 +523,7 @@ class ContactsKeeper
      */
     public function getUserByPhone(string $phone, callable $onSuccess): void
     {
-        if(!$this->contactsLoaded(function () use ($phone, $onSuccess) {$this->getUserByPhone($phone, $onSuccess); })) {
+        if (!$this->contactsLoaded(function () use ($phone, $onSuccess) {$this->getUserByPhone($phone, $onSuccess); })) {
             return;
         }
 
@@ -535,7 +538,7 @@ class ContactsKeeper
      */
     private function getUsersByPhones(array $phones, callable $onSuccess): void
     {
-        if(!$this->contactsLoaded(function () use ($phones, $onSuccess) {$this->getUsersByPhones($phones, $onSuccess); })) {
+        if (!$this->contactsLoaded(function () use ($phones, $onSuccess) {$this->getUsersByPhones($phones, $onSuccess); })) {
             return;
         }
 
@@ -556,7 +559,7 @@ class ContactsKeeper
      */
     private function getUsersByUsernames(array $usernames, callable $onSuccess): void
     {
-        if(!$this->contactsLoaded(function () use ($usernames, $onSuccess) {$this->getUsersByUsernames($usernames, $onSuccess); })) {
+        if (!$this->contactsLoaded(function () use ($usernames, $onSuccess) {$this->getUsersByUsernames($usernames, $onSuccess); })) {
             return;
         }
 
@@ -575,7 +578,7 @@ class ContactsKeeper
      */
     public function getCurrentContacts(callable $onSuccess): void
     {
-        if(!$this->contactsLoaded(function () use ($onSuccess) {$this->getCurrentContacts($onSuccess); })) {
+        if (!$this->contactsLoaded(function () use ($onSuccess) {$this->getCurrentContacts($onSuccess); })) {
             return;
         }
 

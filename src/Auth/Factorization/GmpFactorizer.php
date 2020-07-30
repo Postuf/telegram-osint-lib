@@ -16,7 +16,7 @@ class GmpFactorizer implements Factorizer
      */
     public function factorize($bigNumber): PQ
     {
-        if(!extension_loaded('gmp')) {
+        if (!extension_loaded('gmp')) {
             throw new TGException(TGException::ERR_ASSERT_EXTENSION_MISSING, 'gmp');
         }
         $gmp_p = $this->gmp_pollard_rho($bigNumber);
@@ -25,7 +25,7 @@ class GmpFactorizer implements Factorizer
         $q = gmp_strval($gmp_q[0]);
         $r = gmp_strval($gmp_q[1]);
 
-        if((int) $r !== 0) {
+        if ((int) $r !== 0) {
             throw new TGException(TGException::ERR_AUTH_GMP_FACTOR_WRONG_RESULT);
         }
 
@@ -39,13 +39,12 @@ class GmpFactorizer implements Factorizer
      */
     private function gmp_pollard_rho($number): GMP
     {
-
         $one = gmp_init(1);
         $two = gmp_init(2);
 
         $n = $number instanceof GMP ? $number : gmp_init($number);
         /** @noinspection TypeUnsafeComparisonInspection */
-        if(gmp_mod($n, $two) == 0) {
+        if (gmp_mod($n, $two) == 0) {
             return $two;
         }
 
@@ -55,7 +54,7 @@ class GmpFactorizer implements Factorizer
         $g = $one;
 
         /** @noinspection TypeUnsafeComparisonInspection */
-        while($g == $one) {
+        while ($g == $one) {
             $x = gmp_mod(gmp_add(gmp_mod(gmp_mul($x, $x), $n), $c), $n);
             $y = gmp_mod(gmp_add(gmp_mod(gmp_mul($y, $y), $n), $c), $n);
             $y = gmp_mod(gmp_add(gmp_mod(gmp_mul($y, $y), $n), $c), $n);

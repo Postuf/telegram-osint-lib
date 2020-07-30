@@ -264,7 +264,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
         $payload = substr($payload, 24);
 
         /** @noinspection TypeUnsafeComparisonInspection */
-        if(strcmp($authKeyId, $this->authKeyId) != 0) {
+        if (strcmp($authKeyId, $this->authKeyId) != 0) {
             throw new TGException(TGException::ERR_TL_CONTAINER_BAD_AUTHKEY_ID);
         }
         [$aes_key, $aes_iv] = $this->aes_calculate($msgKey, $this->authKey, false);
@@ -272,7 +272,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
 
         $myMsgKey = substr(hash('sha256', substr($this->authKey, 96, 32).$decryptedPayload, true), 8, 16);
         /** @noinspection TypeUnsafeComparisonInspection */
-        if(strcmp($msgKey, $myMsgKey) != 0) {
+        if (strcmp($msgKey, $myMsgKey) != 0) {
             throw new TGException(TGException::ERR_TL_CONTAINER_BAD_MSG_KEY);
         }
 
@@ -291,7 +291,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
         // we do not use this salt, we request new one every time
         // $server_salt = substr($decryptedPayload, 0, 8);
         $session_id = substr($decryptedPayload, 8, 8);
-        if(strcmp($session_id, $this->sessionId) !== 0) {
+        if (strcmp($session_id, $this->sessionId) !== 0) {
             throw new TGException(TGException::ERR_TL_CONTAINER_BAD_SESSION_ID);
         }
         $msg_id = substr($decryptedPayload, 16, 8);
@@ -299,7 +299,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
         $seq_no = substr($decryptedPayload, 24, self::HEADER_LENGTH_BYTES);
         $seq_no = unpack('I', $seq_no);
 
-        if($seq_no % 2 === 1) {
+        if ($seq_no % 2 === 1) {
             $this->acknowledgeReceipt($msg_id);
         }
 
@@ -342,7 +342,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
     private function reportMessageToSubscriber(): ?AnonymousMessage
     {
         $message = array_shift($this->reportableMessageQueue);
-        if($message) {
+        if ($message) {
             $this->messageReceiptCallback->onMessage($message);
         }
 
@@ -357,12 +357,12 @@ class EncryptedSocketMessenger extends TgSocketMessenger
     private function processServiceMessage(AnonymousMessage $message): void
     {
         // rpc
-        if(RpcResult::isIt($message)) {
+        if (RpcResult::isIt($message)) {
             $rpcResult = new RpcResult($message);
             $msgRequestId = $rpcResult->getRequestMsgId();
             $result = $rpcResult->getResult();
 
-            if(RpcError::isIt($result)) {
+            if (RpcError::isIt($result)) {
                 $this->analyzeRpcError(new RpcError($result));
             }
 
@@ -376,18 +376,16 @@ class EncryptedSocketMessenger extends TgSocketMessenger
         }
 
         // container of messages
-        elseif (MsgContainer::isIt($message)){
+        elseif (MsgContainer::isIt($message)) {
             // collect messages for further processes: one message process per read
             $this->messagesToBeProcessedQueue = (new MsgContainer($message))->getMessages();
         }
 
         // salt change
-        elseif(BadServerSalt::isIt($message)){
+        elseif (BadServerSalt::isIt($message)) {
             $badServerSalt = new BadServerSalt($message);
             $this->reSendWithUpdatedSalt($badServerSalt->getNewServerSalt(), (string) $badServerSalt->getBadMsgId());
-        }
-
-        elseif(UpdatesTooLong::isIt($message)){
+        } elseif (UpdatesTooLong::isIt($message)) {
             $this->getResponseAsync(new get_state(), function (AnonymousMessage $response) {
                 $updatesState = new UpdatesState($response);
                 $this->getResponseAsync(new updates_get_difference(
@@ -398,9 +396,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
                     //
                 });
             });
-        }
-
-        else {
+        } else {
             $this->reportableMessageQueue[] = $message;
         }
     }
@@ -415,7 +411,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
         $parts = explode(':', $this->authKeyObj->getSerializedAuthKey(), 2);
         $userId = $parts[0];
 
-        if($rpcError->isNetworkMigrateError()) {
+        if ($rpcError->isNetworkMigrateError()) {
             $dcId = (new MigrateError($rpcError))->getDcId();
 
             throw new MigrateException(
@@ -425,7 +421,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
                 $this->selectDC($dcId)
             );
         }
-        if($rpcError->isPhoneMigrateError()) {
+        if ($rpcError->isPhoneMigrateError()) {
             $dcId = (new MigrateError($rpcError))->getDcId();
 
             throw new MigrateException(
@@ -435,22 +431,22 @@ class EncryptedSocketMessenger extends TgSocketMessenger
                 $this->selectDC($dcId)
             );
         }
-        if($rpcError->isFloodError()) {
+        if ($rpcError->isFloodError()) {
             throw new TGException(TGException::ERR_MSG_FLOOD, (new FloodWait($rpcError))->getWaitTimeSec());
         }
-        if($rpcError->isUserDeactivated()) {
+        if ($rpcError->isUserDeactivated()) {
             throw new TGException(TGException::ERR_MSG_USER_BANNED, "User $userId banned");
         }
-        if($rpcError->isAuthKeyUnregistered()) {
+        if ($rpcError->isAuthKeyUnregistered()) {
             throw new TGException(TGException::ERR_MSG_USER_BANNED, "User $userId unregistered");
         }
-        if($rpcError->isPhoneBanned()) {
+        if ($rpcError->isPhoneBanned()) {
             throw new TGException(TGException::ERR_MSG_PHONE_BANNED, "User $userId phone banned");
         }
-        if($rpcError->isAuthKeyDuplicated()) {
+        if ($rpcError->isAuthKeyDuplicated()) {
             throw new TGException(TGException::ERR_MSG_BANNED_AUTHKEY_DUPLICATED, "relogin with phone number needed $userId");
         }
-        if($rpcError->isSessionRevoked()) {
+        if ($rpcError->isSessionRevoked()) {
             throw new TGException(TGException::ERR_MSG_BANNED_SESSION_STOLEN, "bot stolen by revoking session $userId");
         }
     }
@@ -465,13 +461,13 @@ class EncryptedSocketMessenger extends TgSocketMessenger
     {
         $this->salt = $new_salt;
 
-        if(!isset($this->sentMessages[$badMessageId])) {
+        if (!isset($this->sentMessages[$badMessageId])) {
             throw new TGException(TGException::ERR_MSG_RESEND_IMPOSSIBLE);
         }
         $badMessage = $this->sentMessages[$badMessageId];
         $newMessageId = $this->msgIdGenerator->generateNext();
 
-        if(isset($this->rpcMessages[$badMessageId])){
+        if (isset($this->rpcMessages[$badMessageId])) {
             $this->rpcMessages[$newMessageId] = $this->rpcMessages[$badMessageId];
             unset($this->rpcMessages[$badMessageId]);
         }
@@ -620,7 +616,8 @@ class EncryptedSocketMessenger extends TgSocketMessenger
      *
      * @return int
      */
-    private function generate_msg_seqno($context_related) {
+    private function generate_msg_seqno($context_related)
+    {
         $in = $context_related ? 1 : 0;
         //multiply by two and add one, if context-related
         $value = ($this->msg_seqno * 2) + $in;

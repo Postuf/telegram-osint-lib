@@ -66,7 +66,7 @@ $parseLinks = static function (
     ?array $messageRaw = null,
     int $endFlag = -1
 ) use (&$result) {
-    if ($endFlag === -1){
+    if ($endFlag === -1) {
         arsort($result, SORT_NUMERIC);
 
         echo "\tSite\t|\tLinks count\t\n";

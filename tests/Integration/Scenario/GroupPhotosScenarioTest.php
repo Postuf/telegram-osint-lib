@@ -36,7 +36,8 @@ class GroupPhotosScenarioTest extends TestCase
      * @throws JsonException
      * @noinspection PhpUnusedParameterInspection
      */
-    public function test_basic_get_scenario(): void {
+    public function test_basic_get_scenario(): void
+    {
         $count = 0;
         $saveHandler = function (PictureModel $model, /** @noinspection PhpUnusedParameterInspection */ int $id) use (&$count) {
             $count++;
@@ -59,7 +60,8 @@ class GroupPhotosScenarioTest extends TestCase
      * @throws TGException|JsonException
      * @noinspection PhpUnusedParameterInspection
      */
-    public function test_channel_get_scenario(): void {
+    public function test_channel_get_scenario(): void
+    {
         $count = 0;
         $saveHandler = function (PictureModel $model, /** @noinspection PhpUnusedParameterInspection */ int $id) use (&$count) {
             $count++;
@@ -83,7 +85,8 @@ class GroupPhotosScenarioTest extends TestCase
      * @throws TGException|JsonException
      * @noinspection PhpUnusedParameterInspection
      */
-    public function test_channel_get_with_time_limit_scenario(): void {
+    public function test_channel_get_with_time_limit_scenario(): void
+    {
         $count = 0;
         $saveHandler = function (PictureModel $model, /** @noinspection PhpUnusedParameterInspection */ int $id) use (&$count) {
             $count++;
@@ -115,7 +118,8 @@ class GroupPhotosScenarioTest extends TestCase
      * @throws TGException|JsonException
      * @noinspection PhpUnusedParameterInspection
      */
-    public function test_channel_get_with_time_limit_scenario_empty(): void {
+    public function test_channel_get_with_time_limit_scenario_empty(): void
+    {
         $count = 0;
         $saveHandler = function (PictureModel $model, /** @noinspection PhpUnusedParameterInspection */ int $id) use (&$count) {
             $count++;
@@ -147,7 +151,8 @@ class GroupPhotosScenarioTest extends TestCase
      * @throws TGException|JsonException
      * @noinspection PhpUnusedParameterInspection
      */
-    public function test_basic_get_with_group_scenario_without_limits(): void {
+    public function test_basic_get_with_group_scenario_without_limits(): void
+    {
         $count = 0;
         $saveHandler = static function (
             /** @noinspection PhpUnusedParameterInspection */
@@ -179,7 +184,8 @@ class GroupPhotosScenarioTest extends TestCase
      * @throws TGException|JsonException
      * @noinspection PhpUnusedParameterInspection
      */
-    public function test_basic_get_with_group_scenario(): void {
+    public function test_basic_get_with_group_scenario(): void
+    {
         $count = 0;
         $saveHandler = static function (
             /** @noinspection PhpUnusedParameterInspection */
@@ -211,7 +217,8 @@ class GroupPhotosScenarioTest extends TestCase
      * @throws TGException|JsonException
      * @noinspection PhpUnusedParameterInspection
      */
-    public function test_basic_get_with_user_scenario(): void {
+    public function test_basic_get_with_user_scenario(): void
+    {
         $count = 0;
         $saveHandler = static function (
             /** @noinspection PhpUnusedParameterInspection */
@@ -244,7 +251,8 @@ class GroupPhotosScenarioTest extends TestCase
      * @throws TGException|JsonException
      * @noinspection PhpUnusedParameterInspection
      */
-    public function test_basic_scenario_with_date_limit_none(): void {
+    public function test_basic_scenario_with_date_limit_none(): void
+    {
         $count = 0;
         $saveHandler = function (PictureModel $model, /** @noinspection PhpUnusedParameterInspection */ int $id) use (&$count) {
             $count++;
@@ -275,7 +283,8 @@ class GroupPhotosScenarioTest extends TestCase
      * @throws TGException|JsonException
      * @noinspection PhpUnusedParameterInspection
      */
-    public function test_basic_scenario_with_date_limit_one(): void {
+    public function test_basic_scenario_with_date_limit_one(): void
+    {
         $count = 0;
         $saveHandler = static function (
             /** @noinspection PhpUnusedParameterInspection */

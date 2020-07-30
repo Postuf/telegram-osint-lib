@@ -76,7 +76,8 @@ class Packer
      *
      * @return string
      */
-    public static function packLong(int $value): string {
+    public static function packLong(int $value): string
+    {
         return pack('Q', $value);
     }
 
@@ -85,7 +86,8 @@ class Packer
      *
      * @return string
      */
-    public static function packBytes(string $value): string {
+    public static function packBytes(string $value): string
+    {
         return $value;
     }
 
@@ -94,12 +96,12 @@ class Packer
      *
      * @return string
      */
-    public static function packString(string $value): string {
+    public static function packString(string $value): string
+    {
         $l = strlen($value);
         if ($l <= 253) {
             $len = pack('C', $l);
             $padding = self::calcPadding($l + 1, 4);
-
         } else {
             $len = pack('C', 254).substr(pack('i', $l), 0, 3);
             $padding = self::calcPadding($l, 4);

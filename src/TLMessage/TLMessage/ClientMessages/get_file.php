@@ -37,7 +37,6 @@ class get_file implements TLClientMessage
         $this->fileLocation = $fileLocation;
         $this->offset = $offset;
         $this->limit = $limit;
-
     }
 
     public function getName(): string

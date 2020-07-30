@@ -40,7 +40,7 @@ $users = array_filter(explode(',', $argsOrFalse['u'] ?? $argsOrFalse['users'] ??
 
 $onComplete = static function (UserInfoModel $model) {
     $photo_file = '';
-    if ($model->photo){
+    if ($model->photo) {
         $photo_file = $model->phone.'.'.$model->photo->format;
         file_put_contents(
             $photo_file,
@@ -61,14 +61,11 @@ $onComplete = static function (UserInfoModel $model) {
 
     if ($model->status->was_online) {
         echo date('Y-m-d H:i:s', $model->status->was_online).PHP_EOL;
-    }
-    elseif ($model->status->is_hidden) {
+    } elseif ($model->status->is_hidden) {
         echo 'Hidden'.PHP_EOL;
-    }
-    elseif ($model->status->is_online) {
+    } elseif ($model->status->is_online) {
         echo 'Online'.PHP_EOL;
-    }
-    else {
+    } else {
         echo "\n";
     }
 };

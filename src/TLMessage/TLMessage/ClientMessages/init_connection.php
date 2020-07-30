@@ -73,6 +73,5 @@ class init_connection implements TLClientMessage
             $data,
             $tz_offset,
         ]);
-
     }
 }

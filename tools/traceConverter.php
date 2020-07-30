@@ -55,7 +55,8 @@ require_once __DIR__.'/../vendor/autoload.php';
      *
      * @return string
      */
-    private function composeJsonFileNameFromTextOne(string $filePath, ?string $folderPathOrNull): string {
+    private function composeJsonFileNameFromTextOne(string $filePath, ?string $folderPathOrNull): string
+    {
         assert(file_exists($filePath));
 
         ['dirname' => $folderName, 'filename' => $fileName] = pathinfo(realpath($filePath));

@@ -43,7 +43,6 @@ class input_file_location implements TLClientMessage
         $this->localId = $localId;
         $this->secret = $secret;
         $this->reference = $reference;
-
     }
 
     public function getName(): string
