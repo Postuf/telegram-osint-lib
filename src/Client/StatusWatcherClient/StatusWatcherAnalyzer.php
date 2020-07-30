@@ -37,21 +37,21 @@ class StatusWatcherAnalyzer implements Analyzer
      */
     public function analyzeMessage(AnonymousMessage $message): void
     {
-        if(UpdateShort::isIt($message)) {
+        if (UpdateShort::isIt($message)) {
             $this->onUpdateShort(new UpdateShort($message));
         }
 
-        if(ImportedContacts::isIt($message)){
+        if (ImportedContacts::isIt($message)) {
             $importedContacts = new ImportedContacts($message);
             $this->notifier->onContactsImported($importedContacts);
             $this->analyzeImportedContactsStatus($importedContacts);
         }
 
-        if(Updates::isIt($message)) {
+        if (Updates::isIt($message)) {
             $this->analyzeUpdates(new Updates($message));
         }
 
-        if(CurrentContacts::isIt($message)) {
+        if (CurrentContacts::isIt($message)) {
             $this->analyzeCurrentStatuses($message);
         }
     }
@@ -65,7 +65,7 @@ class StatusWatcherAnalyzer implements Analyzer
     {
         $update = $shortUpdate->getUpdate();
 
-        if(UpdateUserStatus::isIt($update)) {
+        if (UpdateUserStatus::isIt($update)) {
             $this->onUserStatusChanged(new UpdateUserStatus($update));
         } elseif (UpdateUserName::isIt($update)) {
             $nameUpdate = new UpdateUserName($update);
@@ -143,21 +143,21 @@ class StatusWatcherAnalyzer implements Analyzer
      */
     private function performStatusReaction(int $userId, $status, bool $inaccurate = false): void
     {
-        if(!$status) {
+        if (!$status) {
             $this->notifier->onUserHidStatus($userId, new HiddenStatus(HiddenStatus::HIDDEN_SEEN_LONG_AGO));
 
             return;
         }
 
-        if($status->isHidden()) {
+        if ($status->isHidden()) {
             $this->notifier->onUserHidStatus($userId, $status->getHiddenState());
         }
 
-        if($status->isOnline()) {
+        if ($status->isOnline()) {
             $this->notifier->onUserOnline($userId, $status->getExpires());
         }
 
-        if($status->isOffline()) {
+        if ($status->isOffline()) {
             $this->notifier->onUserOffline($userId, $status->getWasOnline(), $inaccurate);
         }
     }

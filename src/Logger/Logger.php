@@ -26,7 +26,7 @@ class Logger
     public static function log($label, $log): void
     {
         global $argv;
-        if(LibConfig::LOGGER_ENABLED) {
+        if (LibConfig::LOGGER_ENABLED) {
             $hasDebugFlag = isset($argv[count($argv) - 1]) && $argv[count($argv) - 1] === '--debug';
             $hasInfoFlag = isset($argv[count($argv) - 1]) && $argv[count($argv) - 1] === '--info';
             $isDebug = (LibConfig::LOG_LEVEL === 'debug' || $hasDebugFlag) && !$hasInfoFlag;
@@ -39,7 +39,7 @@ class Logger
 
     private static function getLogger(): ClientDebugLogger
     {
-        if(!(self::$logger instanceof ClientDebugLogger)) {
+        if (!(self::$logger instanceof ClientDebugLogger)) {
             self::setupLogger(new DefaultLogger());
         }
 

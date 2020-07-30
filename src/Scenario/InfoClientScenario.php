@@ -77,7 +77,6 @@ abstract class InfoClientScenario implements ScenarioInterface, TimeoutScenarioI
         }
         $lastMsg = microtime(true);
         while (true) {
-
             if ($this->infoClient->pollMessage()) {
                 $lastMsg = microtime(true);
             }

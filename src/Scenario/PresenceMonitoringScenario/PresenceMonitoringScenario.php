@@ -98,7 +98,7 @@ class PresenceMonitoringScenario implements ScenarioInterface, StatusWatcherCall
     public function onUserOnline(User $user, int $expires): void
     {
         $phone = $user->getPhone();
-        if($phone) {
+        if ($phone) {
             $this->callbacks->onOnline($phone);
         }
     }
@@ -111,7 +111,7 @@ class PresenceMonitoringScenario implements ScenarioInterface, StatusWatcherCall
     public function onUserOffline(User $user, int $wasOnline, bool $inaccurate = false): void
     {
         $phone = $user->getPhone();
-        if($phone) {
+        if ($phone) {
             $this->callbacks->onOffline($phone, $wasOnline);
         }
     }
@@ -123,7 +123,7 @@ class PresenceMonitoringScenario implements ScenarioInterface, StatusWatcherCall
     public function onUserHidStatus(User $user, HiddenStatus $hiddenStatusState): void
     {
         $phone = $user->getPhone();
-        if($phone) {
+        if ($phone) {
             $this->callbacks->onHidden($phone);
         }
     }

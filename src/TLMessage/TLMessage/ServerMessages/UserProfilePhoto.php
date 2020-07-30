@@ -84,7 +84,7 @@ class UserProfilePhoto extends TLServerMessage implements PhotoInterface
      */
     private function throwIfNotV2(): void
     {
-        if(!$this->isV2()) {
+        if (!$this->isV2()) {
             throw new TGException(TGException::ERR_TL_MESSAGE_FIELD_NOT_EXISTS, 'Deprecated node!');
         }
     }

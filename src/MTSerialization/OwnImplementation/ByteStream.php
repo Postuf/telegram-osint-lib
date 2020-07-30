@@ -35,7 +35,7 @@ class ByteStream
     {
         $data = substr($this->stream, $this->pointer, $length);
 
-        if($this->pointer + $length > $this->len) {
+        if ($this->pointer + $length > $this->len) {
             throw new TGException(TGException::ERR_DESERIALIZER_BROKEN_BINARY_READ);
         }
         $this->pointer += $length;

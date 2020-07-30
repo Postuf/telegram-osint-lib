@@ -61,7 +61,8 @@ class GroupMessagesTest extends TestCase
         /** @noinspection PhpStatementHasEmptyBodyInspection */
         /** @noinspection LoopWhichDoesNotLoopInspection */
         /** @noinspection MissingOrEmptyGroupStatementInspection */
-        do { } while(!$resolver->poll());
+        do {
+        } while (!$resolver->poll());
     }
 
     /**

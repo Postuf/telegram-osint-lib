@@ -273,7 +273,8 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
      * @param GroupId  $id
      * @param callable $onComplete
      */
-    public function joinChannel(GroupId $id, callable $onComplete): void {
+    public function joinChannel(GroupId $id, callable $onComplete): void
+    {
         $this->basicClient->getConnection()->getResponseAsync(
             new join_channel($id->getId(), $id->getAccessHash()),
             $onComplete
@@ -283,7 +284,8 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
     /**
      * @param callable $onComplete function(AnonymousMessage $msg)
      */
-    public function getAllChats(callable $onComplete): void {
+    public function getAllChats(callable $onComplete): void
+    {
         $this->basicClient->getConnection()->getResponseAsync(new get_all_chats(), $onComplete);
     }
 
@@ -296,7 +298,7 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
     public function getInfoByPhone(string $phone, bool $withPhoto, bool $largePhoto, callable $onComplete): void
     {
         $this->contactsKeeper->getUserByPhone($phone, function ($user) use ($phone, $withPhoto, $largePhoto, $onComplete) {
-            if($user instanceof ContactUser) {
+            if ($user instanceof ContactUser) {
                 $this->onContactReady($phone, $withPhoto, $largePhoto, $onComplete);
             } else {
                 $this->contactsKeeper->addNumbers([$phone], function () use ($phone, $withPhoto, $largePhoto, $onComplete) {
@@ -317,11 +319,10 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
         $this->basicClient->getConnection()->getResponseAsync(
             new contacts_search($userName, 3),
             function (AnonymousMessage $message) use ($userName, $withPhoto, $largePhoto, $onComplete) {
-
                 $object = new ContactsFound($message);
 
                 $found = false;
-                foreach ($object->getUsers() as $user){
+                foreach ($object->getUsers() as $user) {
                     if (!$user->getBot() && Username::equal($userName, $user->getUsername())) {
                         $this->buildUserInfoModel($user, $withPhoto, $largePhoto, $onComplete);
                         $found = true;
@@ -363,7 +364,7 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
     private function onContactReady(string $phone, bool $withPhoto, bool $largePhoto, callable $onComplete): void
     {
         $this->contactsKeeper->getUserByPhone($phone, function ($user) use ($onComplete, $withPhoto, $largePhoto, $phone) {
-            if($user instanceof ContactUser){
+            if ($user instanceof ContactUser) {
                 $username = $user->getUsername();
                 if (!empty($username)) {
                     $this->contactsKeeper->delNumbers([$phone], function () use ($username, $withPhoto, $largePhoto, $onComplete) {
@@ -398,7 +399,7 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
         $userModel->lastName = $user->getLastName();
         $userModel->langCode = $user->getLangCode();
 
-        if($withPhoto){
+        if ($withPhoto) {
             $this->createUserPictureModel($user, $largePhoto, static function ($photo) use ($userModel, $onComplete) {
                 $userModel->photo = $photo;
                 $onComplete($userModel);
@@ -426,7 +427,7 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
     private function createUserPictureModel(ContactUser $user, bool $largePhotos, callable $onPictureLoaded): void
     {
         $profilePhoto = $user->getPhoto();
-        if(!$profilePhoto) {
+        if (!$profilePhoto) {
             $onPictureLoaded(null);
 
             return;
@@ -439,7 +440,7 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
         $photoLocation = null;
         $dcId = null;
 
-        if($profilePhoto instanceof UserProfilePhoto && $profilePhoto->isV2()){
+        if ($profilePhoto instanceof UserProfilePhoto && $profilePhoto->isV2()) {
             $photoLocation = new input_peer_photofilelocation(
                 new input_peer_user(
                     $user->getUserId(),
@@ -470,7 +471,7 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
      */
     private function createUserStatusModel($userStatus): ?UserStatusModel
     {
-        if(!$userStatus) {
+        if (!$userStatus) {
             return null;
         }
 
@@ -511,10 +512,9 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
     private function readPicture(TLClientMessage $fileLocation, int $photoDcId, callable $onPictureLoaded): void
     {
         $isCurrentDc = $photoDcId === $this->basicClient->getConnection()->getDCInfo()->getDcId();
-        if($isCurrentDc) {
+        if ($isCurrentDc) {
             $this->readPictureFromCurrentDC($this->basicClient->getConnection(), $fileLocation, $onPictureLoaded);
-        }
-        else {
+        } else {
             $this->readPictureFromForeignDC($fileLocation, $photoDcId, $onPictureLoaded);
         }
     }
@@ -532,17 +532,15 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
         callable $onPictureLoaded,
         $picModel = null,
         int $offset = 0
-    ): void
-    {
-        if(!$picModel) {
+    ): void {
+        if (!$picModel) {
             $picModel = $picModel = new PictureModel();
         }
 
         $request = new get_file($location, $offset, self::READ_LIMIT_BYTES);
         $basicClient->getResponseAsync($request, function (AnonymousMessage $message) use ($basicClient, $location, $onPictureLoaded, $picModel) {
-
             $response = new UploadedFile($message);
-            if(!$response->isJpeg()) {
+            if (!$response->isJpeg()) {
                 throw new TGException(TGException::ERR_CLIENT_USER_PIC_UNKNOWN_FORMAT);
             }
             $readBytes = $response->getBytes();
@@ -552,7 +550,7 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
             $picModel->modificationTime = $response->getModificationTs();
             $picModel->format = $response->getFormatName();
 
-            if($readBytesCount < self::READ_LIMIT_BYTES) {
+            if ($readBytesCount < self::READ_LIMIT_BYTES) {
                 $onPictureLoaded($picModel);
             } else {
                 $this->readPictureFromCurrentDC($basicClient, $location, $onPictureLoaded, $picModel, strlen($picModel->bytes));
@@ -595,7 +593,6 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
             $dcFound = false;
             foreach ($dcConfigs->getDataCenters() as $dc) {
                 if ($dc->getId() === $photoDcId && $this->basicClient->getConnection()->isDcAppropriate($dc)) {
-
                     $dcFound = true;
 
                     // create authKey in foreign dc
@@ -607,7 +604,7 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
                 }
             }
 
-            if(!$dcFound) {
+            if (!$dcFound) {
                 throw new TGException(TGException::ERR_CLIENT_PICTURE_ON_UNREACHABLE_DC);
             }
         });
@@ -682,7 +679,6 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
                                     unset($this->otherDcClients[$clientKey]);
                                     $onPictureLoaded($picture);
                                 });
-
                             });
                         }
                     );

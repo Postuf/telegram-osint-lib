@@ -34,7 +34,6 @@ class AccountInfo
 
     private function __construct()
     {
-
     }
 
     /**
@@ -101,7 +100,7 @@ class AccountInfo
             throw new TGException(TGException::ERR_AUTH_KEY_BAD_ACCOUNT_INFO);
         }
 
-        if(!$bundle) {
+        if (!$bundle) {
             throw new TGException(TGException::ERR_AUTH_KEY_BAD_ACCOUNT_INFO);
         }
         $accountInfo = new self();

@@ -72,7 +72,7 @@ try {
 
 $errorCount = 0;
 $errorLimit = 100;
-while(true) {
+while (true) {
     try {
         $mc->poll();
         usleep(1000);

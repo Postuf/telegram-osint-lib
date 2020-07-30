@@ -40,19 +40,18 @@ class AuthKey_v2_Authorized implements AuthorizedAuthKey
      */
     public function __construct(string $serializedAuthKey)
     {
-        try{
+        try {
             $parts = explode(':', $serializedAuthKey);
-            if(count($parts) < 3) {
+            if (count($parts) < 3) {
                 throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
             }
             $this->serialized = $serializedAuthKey;
             $this->phone = (string) $parts[0];
             $this->account = AccountInfo::deserializeFromJson(@hex2bin($parts[1]));
             $this->innerAuthKey = new AuthKey_v2(implode(':', array_slice($parts, 2)));
-
-        } catch (TGException $tge){
+        } catch (TGException $tge) {
             throw $tge;
-        } catch (Throwable $err){
+        } catch (Throwable $err) {
             throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
         }
     }

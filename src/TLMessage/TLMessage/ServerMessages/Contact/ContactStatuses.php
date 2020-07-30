@@ -34,11 +34,11 @@ class ContactStatuses extends TLServerMessage
         $index = 0;
         $statuses = [];
 
-        while(true){
+        while (true) {
             try {
                 $statuses[] = new ContactStatus($this->getTlMessage()->getNode((string) $index));
                 $index++;
-            } catch(TGException $exception){
+            } catch (TGException $exception) {
                 break;
             }
         }

@@ -119,8 +119,7 @@ class GroupPhotosScenario extends AbstractGroupScenario
 
     private function getAllChatsHandler(int $limit): callable
     {
-        return function (AnonymousMessage $message) use ($limit)
-        {
+        return function (AnonymousMessage $message) use ($limit) {
             /** @see https://core.telegram.org/constructor/messages.chats */
             $chats = $message->getNodes('chats');
             $chatCount = count($chats);

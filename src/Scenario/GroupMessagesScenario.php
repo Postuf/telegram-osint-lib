@@ -200,7 +200,6 @@ class GroupMessagesScenario extends InfoClientScenario
                     );
                     $handler($msgModel, $message, $flagCounter);
                 }
-
             }
 
             if ($messages && $lastId !== 1) {

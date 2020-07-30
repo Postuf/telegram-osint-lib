@@ -36,7 +36,7 @@ class TcpSocket implements Socket
         $this->dc = $dc;
 
         $this->socket = $this->getSocketResource($dc->getDcIp(), $dc->getDcPort());
-        if(!$this->socket) {
+        if (!$this->socket) {
             throw new TGException(TGException::ERR_CANT_CONNECT);
         }
         stream_set_blocking($this->socket, false);
@@ -70,7 +70,7 @@ class TcpSocket implements Socket
      */
     public function readBinary(int $length)
     {
-        if($this->isTerminated) {
+        if ($this->isTerminated) {
             throw new TGException(TGException::ERR_CONNECTION_SOCKET_TERMINATED);
         }
 
@@ -86,7 +86,7 @@ class TcpSocket implements Socket
      */
     public function writeBinary(string $payload)
     {
-        if($this->isTerminated) {
+        if ($this->isTerminated) {
             throw new TGException(TGException::ERR_CONNECTION_SOCKET_TERMINATED);
         }
 

@@ -120,7 +120,7 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
         $auth_key_id = unpack('V', substr($payload, 0, 8))[1];
 
         // must be 0 because it is unencrypted messaging
-        if($auth_key_id !== 0) {
+        if ($auth_key_id !== 0) {
             throw new TGException(TGException::ERR_TL_CONTAINER_BAD_AUTHKEY_ID_MUST_BE_0);
         }
         $message_data_length = unpack('V', substr($payload, 16, 4))[1];

@@ -31,7 +31,7 @@ class json_object implements TLClientMessage
     {
         return Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packVector($this->objects, static function (json_object_value $jsonObject) {
-               return $jsonObject->toBinary();
+                return $jsonObject->toBinary();
             });
     }
 }

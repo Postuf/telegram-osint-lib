@@ -64,7 +64,6 @@ class import_contacts implements TLClientMessage
     private function getElementGenerator(): callable
     {
         return static function (array $clientIdAndPhone) {
-
             $human = new NameResource();
             $contactFirstName = $human->getName();
             $contactLastName = $human->getLastName();
@@ -83,7 +82,7 @@ class import_contacts implements TLClientMessage
     private function transformPhone(string $phone): string
     {
         $phone = trim($phone);
-        if($phone[0] !== '+') {
+        if ($phone[0] !== '+') {
             $phone = '+'.$phone;
         }
 

@@ -58,6 +58,5 @@ class GeoSearchTest extends TestCase
         $search->startActions();
 
         self::assertEquals(1, $count);
-
     }
 }

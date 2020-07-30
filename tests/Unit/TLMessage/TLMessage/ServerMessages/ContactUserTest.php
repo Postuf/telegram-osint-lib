@@ -138,7 +138,6 @@ class ContactUserTest extends TestCase
         self::assertEquals('79169904855', $userContact->getPhone());
         self::assertEquals(438562352, $userContact->getUserId());
         self::assertEquals(2811936216873835544, $userContact->getAccessHash());
-
     }
 
     /**
@@ -153,7 +152,6 @@ class ContactUserTest extends TestCase
         self::assertFalse($userContact->getStatus()->isOffline());
         self::assertFalse($userContact->getStatus()->isHidden());
         self::assertEquals(1533377307, $userContact->getStatus()->getExpires());
-
     }
 
     /**
@@ -168,7 +166,6 @@ class ContactUserTest extends TestCase
         self::assertTrue($userContact->getStatus()->isOffline());
         self::assertFalse($userContact->getStatus()->isHidden());
         self::assertEquals(1533377309, $userContact->getStatus()->getWasOnline());
-
     }
 
     /**
@@ -182,6 +179,5 @@ class ContactUserTest extends TestCase
         self::assertFalse($userContact->getStatus()->isOnline());
         self::assertFalse($userContact->getStatus()->isOffline());
         self::assertTrue($userContact->getStatus()->isHidden());
-
     }
 }

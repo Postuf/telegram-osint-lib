@@ -44,10 +44,10 @@ class AuthKey_v0_RawB64 implements AuthKey
      */
     private function checkSerializedAuthKey($serializedAuthKey): void
     {
-        if(!base64_decode($serializedAuthKey)) {
+        if (!base64_decode($serializedAuthKey)) {
             throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
         }
-        if(strlen(base64_decode($serializedAuthKey)) !== 256) {
+        if (strlen(base64_decode($serializedAuthKey)) !== 256) {
             throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
         }
     }

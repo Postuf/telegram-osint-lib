@@ -69,8 +69,8 @@ class BasicClientImpl implements BasicClient, MessageListener
     {
         try {
             $this->terminate();
-        } catch (TGException $e){
-            if($e->getCode() !== TGException::ERR_CONNECTION_SOCKET_TERMINATED) {
+        } catch (TGException $e) {
+            if ($e->getCode() !== TGException::ERR_CONNECTION_SOCKET_TERMINATED) {
                 throw $e;
             }
         }
@@ -107,7 +107,7 @@ class BasicClientImpl implements BasicClient, MessageListener
      */
     public function login(AuthKey $authKey, ?Proxy $proxy, callable $cb): void
     {
-        if($this->isLoggedIn()) {
+        if ($this->isLoggedIn()) {
             throw new TGException(TGException::ERR_CLIENT_ALREADY_LOGGED_IN, $this->getUserId());
         }
         $dc = $authKey->getAttachedDC();
@@ -149,7 +149,7 @@ class BasicClientImpl implements BasicClient, MessageListener
      */
     public function throwIfNotLoggedIn(string $message = ''): void
     {
-        if(!$this->isLoggedIn()) {
+        if (!$this->isLoggedIn()) {
             throw new TGException(TGException::ERR_CLIENT_NOT_LOGGED_IN, $message);
         }
     }
@@ -165,7 +165,7 @@ class BasicClientImpl implements BasicClient, MessageListener
      */
     protected function pickSocket(DataCentre $dc, ?Proxy $proxy, callable $cb): Socket
     {
-        if($proxy !== null && $proxy->getType() === Proxy::TYPE_SOCKS5) {
+        if ($proxy !== null && $proxy->getType() === Proxy::TYPE_SOCKS5) {
             return new NonBlockingProxySocket($proxy, $dc, $cb, $this->proxyTimeout);
         }
 
@@ -220,12 +220,13 @@ class BasicClientImpl implements BasicClient, MessageListener
     public function onMessage(AnonymousMessage $message): void
     {
         $this->lastIncomingMessageReceiptTime = time();
-        if($this->messageHandler) {
+        if ($this->messageHandler) {
             $this->messageHandler->onMessage($message);
         }
     }
 
-    private function getUserId() {
+    private function getUserId()
+    {
         if ($this->authKey) {
             $parts = explode(':', $this->authKey->getSerializedAuthKey(), 2);
 
@@ -240,14 +241,14 @@ class BasicClientImpl implements BasicClient, MessageListener
      */
     private function checkConnectionAlive(): void
     {
-        if($this->lastIncomingMessageReceiptTime === 0) {
+        if ($this->lastIncomingMessageReceiptTime === 0) {
             $this->lastIncomingMessageReceiptTime = time();
         }
 
         $elapsedSinceLastMessage = time() - $this->lastIncomingMessageReceiptTime;
         $allowedIdleTimeSec = 5;
 
-        if($elapsedSinceLastMessage >= LibConfig::CONN_PING_INTERVAL_SEC + $allowedIdleTimeSec) {
+        if ($elapsedSinceLastMessage >= LibConfig::CONN_PING_INTERVAL_SEC + $allowedIdleTimeSec) {
             throw new TGException(TGException::ERR_CONNECTION_SHUTDOWN, $this->getUserId());
         }
     }
@@ -258,9 +259,8 @@ class BasicClientImpl implements BasicClient, MessageListener
     private function pingIfNeeded(): void
     {
         $elapsedSinceLastPing = time() - $this->lastPingTime;
-        if($elapsedSinceLastPing >= LibConfig::CONN_PING_INTERVAL_SEC){
-
-            if(ping_delay_disconnect::getDisconnectTimeoutSec() <= LibConfig::CONN_PING_INTERVAL_SEC) {
+        if ($elapsedSinceLastPing >= LibConfig::CONN_PING_INTERVAL_SEC) {
+            if (ping_delay_disconnect::getDisconnectTimeoutSec() <= LibConfig::CONN_PING_INTERVAL_SEC) {
                 throw new TGException(TGException::ERR_CONNECTION_BAD_PING_COMBINATION, 'delay < ping for '.$this->getUserId());
             }
             /** @noinspection NullPointerExceptionInspection */
@@ -278,7 +278,7 @@ class BasicClientImpl implements BasicClient, MessageListener
      */
     public function setMessageListener(MessageListener $messageCallback): void
     {
-        if($this->messageHandler) {
+        if ($this->messageHandler) {
             throw new TGException(TGException::ERR_ASSERT_LISTENER_ALREADY_SET, $this->getUserId());
         }
         $this->messageHandler = $messageCallback;
@@ -286,7 +286,7 @@ class BasicClientImpl implements BasicClient, MessageListener
 
     public function terminate(): void
     {
-        if($this->getConnection()) {
+        if ($this->getConnection()) {
             $this->getConnection()->terminate();
         }
     }

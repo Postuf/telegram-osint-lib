@@ -21,7 +21,7 @@ class FloodWait
      */
     public function __construct(RpcError $rpcError)
     {
-        if(!$rpcError->isFloodError()) {
+        if (!$rpcError->isFloodError()) {
             throw new TGException(TGException::ERR_TL_MESSAGE_UNEXPECTED_OBJECT, 'not a flood error');
         }
         $this->error = $rpcError;

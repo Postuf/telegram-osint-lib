@@ -156,7 +156,8 @@ class GroupMembersScenario extends AbstractGroupScenario
      *
      * @return Closure
      */
-    private function makeChatMemberHandler(int $id, int $offset = 0, bool $continue = false): Closure {
+    private function makeChatMemberHandler(int $id, int $offset = 0, bool $continue = false): Closure
+    {
         return function (AnonymousMessage $message) use ($id, $offset, $continue) {
             /** @see https://core.telegram.org/constructor/messages.chatFull */
             /** @see https://core.telegram.org/constructor/channels.channelParticipants */
@@ -209,7 +210,8 @@ class GroupMembersScenario extends AbstractGroupScenario
         };
     }
 
-    private function userInfoHandler(?UserInfoModel $model = null): void {
+    private function userInfoHandler(?UserInfoModel $model = null): void
+    {
         if (!$model) {
             return;
         }

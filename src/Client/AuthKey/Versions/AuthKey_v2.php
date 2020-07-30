@@ -34,24 +34,24 @@ class AuthKey_v2 implements AuthKey
      */
     private function checkSerializedAuthKey($authKey): void
     {
-        try{
+        try {
             $authKeyParts = explode(':', $authKey);
-            if(count($authKeyParts) !== 2) {
+            if (count($authKeyParts) !== 2) {
                 throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
             }
             $meta = json_decode(@hex2bin($authKeyParts[1]), true, 512, JSON_THROW_ON_ERROR);
-            if(!isset($meta['created'])) {
+            if (!isset($meta['created'])) {
                 throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
             }
-            if(strlen(base64_decode($authKeyParts[0])) !== 256) {
+            if (strlen(base64_decode($authKeyParts[0])) !== 256) {
                 throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
             }
-            if(!@hex2bin($authKeyParts[1]) || !json_decode(@hex2bin($authKeyParts[1]), true, 512, JSON_THROW_ON_ERROR)) {
+            if (!@hex2bin($authKeyParts[1]) || !json_decode(@hex2bin($authKeyParts[1]), true, 512, JSON_THROW_ON_ERROR)) {
                 throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
             }
-        }catch (TGException $tge){
+        } catch (TGException $tge) {
             throw $tge;
-        } catch (Throwable $e){
+        } catch (Throwable $e) {
             throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
         }
     }
@@ -103,7 +103,7 @@ class AuthKey_v2 implements AuthKey
     public function getAttachedDC(): DataCentre
     {
         $meta = $this->getMetaInfo();
-        if(isset($meta['dc_ip'], $meta['dc_id'])) {
+        if (isset($meta['dc_ip'], $meta['dc_id'])) {
             return new DataCentre(
                 $meta['dc_ip'],
                 $meta['dc_id'],

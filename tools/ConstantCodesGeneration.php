@@ -9,9 +9,8 @@ use TelegramOSINT\Exception\TGException;
 $codeGroup = 100000;
 $localCounter = 0;
 
-foreach((new TGException())->getConstants() as $code => $constant){
-
-    if($code >= $codeGroup + 100000) {
+foreach ((new TGException())->getConstants() as $code => $constant) {
+    if ($code >= $codeGroup + 100000) {
         $codeGroup += 100000;
         $localCounter = 0;
         echo "\n";

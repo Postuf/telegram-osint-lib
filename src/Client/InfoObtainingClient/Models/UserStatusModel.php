@@ -20,5 +20,4 @@ class UserStatusModel
      * @var int
      */
     public $expires;
-
 }

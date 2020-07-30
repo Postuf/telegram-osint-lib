@@ -49,13 +49,13 @@ class OuterHeaderWrapper
 
         $fullPacketSize = strlen($length_value) + strlen($in_seq_no_value) + strlen($payload) + strlen($foreignCrc32);
 
-        if($length !== $fullPacketSize) {
+        if ($length !== $fullPacketSize) {
             throw new TGException(TGException::ERR_TL_CONTAINER_BAD_SIZE);
         }
-        if($in_seq_no !== $this->in_seq_no++) {
+        if ($in_seq_no !== $this->in_seq_no++) {
             throw new TGException(TGException::ERR_TL_CONTAINER_BAD_SEQNO);
         }
-        if(strcmp($mySrc32, $foreignCrc32) !== 0) {
+        if (strcmp($mySrc32, $foreignCrc32) !== 0) {
             throw new TGException(TGException::ERR_TL_CONTAINER_BAD_CRC32);
         }
 

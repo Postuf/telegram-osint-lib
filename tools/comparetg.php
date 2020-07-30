@@ -31,7 +31,8 @@ $isDebug = (isset($argv[3]) && $argv[3] === ARG_DEBUG)
  *
  * @return mixed
  */
-function getJson($filename) {
+function getJson($filename)
+{
     global $isDebug;
     if ($isDebug) {
         echo "load $filename\n";
@@ -92,7 +93,7 @@ $processJson = static function ($filename, bool $isRaw = false) use (&$json1, $i
         echo "after filter (json2): $countConst constructors, $countMethod methods\n";
     }
 
-    die(json_encode($json2, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
+    exit(json_encode($json2, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
 };
 
 $json1 = [];

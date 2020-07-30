@@ -26,7 +26,7 @@ class BasicClientWithStatusReportingImpl extends BasicClientImpl
     private function setOnlineStatusIfExpired(): void
     {
         $elapsedTimeSinceLastUpdate = time() - $this->lastStatusOnlineSet;
-        if($elapsedTimeSinceLastUpdate >= self::ONLINE_STATUS_UPDATE_TIME_SEC){
+        if ($elapsedTimeSinceLastUpdate >= self::ONLINE_STATUS_UPDATE_TIME_SEC) {
             $conn = $this->getConnection();
             if ($conn) {
                 $conn->writeMessage(new update_status(true));
@@ -37,7 +37,7 @@ class BasicClientWithStatusReportingImpl extends BasicClientImpl
 
     public function terminate(): void
     {
-        if($this->getConnection()) {
+        if ($this->getConnection()) {
             $this->getConnection()->writeMessage(new update_status(false));
         }
         parent::terminate();

@@ -138,7 +138,6 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
         $start = $this->clock->time();
 
         while (true) {
-
             $this->pollClientCycle($this->client);
 
             if ($this->clock->time() - $start > $this->stopAfter && !$this->client->hasDeferredCalls()) {
@@ -194,7 +193,7 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
     public function onUserHidStatus(User $user, HiddenStatus $hiddenStatusState): void
     {
         $hiddenStatusStr = 'unknown';
-        switch ($hiddenStatusState){
+        switch ($hiddenStatusState) {
             case HiddenStatus::HIDDEN_SEEN_LAST_MONTH:
                 $hiddenStatusStr = 'last month';
                 break;

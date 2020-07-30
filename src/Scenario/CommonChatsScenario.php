@@ -17,7 +17,6 @@ use TelegramOSINT\Tools\CacheMap;
  * Search common chats for user
  */
 class CommonChatsScenario extends InfoClientScenario
-
 {
     /** @var callable|null function(int, string) */
     private $handler;
@@ -169,7 +168,6 @@ class CommonChatsScenario extends InfoClientScenario
                         return;
                     }
                     foreach ((new Chats($message))->getChats() as $chat) {
-
                         $this->commonChats[] = strtolower($chat->username);
                     }
 

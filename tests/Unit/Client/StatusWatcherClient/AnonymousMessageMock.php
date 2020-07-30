@@ -246,7 +246,7 @@ class AnonymousMessageMock implements AnonymousMessage
     {
         $statusObj = '';
 
-        switch ($status){
+        switch ($status) {
             case 'offline':
                 $statusObj = [
                     '_'          => 'userStatusOffline',

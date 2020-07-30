@@ -41,7 +41,6 @@ class NullSocket implements Socket
 
     public function poll(): void
     {
-
     }
 
     public function ready(): bool

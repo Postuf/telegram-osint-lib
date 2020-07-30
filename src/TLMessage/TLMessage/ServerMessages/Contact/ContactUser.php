@@ -42,7 +42,7 @@ class ContactUser extends TLServerMessage implements MessageWithUserId
     {
         try {
             $status = $this->getTlMessage()->getNode('status');
-        } /** @noinspection PhpRedundantCatchClauseInspection */ catch (TGException $e){
+        } /** @noinspection PhpRedundantCatchClauseInspection */ catch (TGException $e) {
             return null;
         }
 
@@ -68,8 +68,8 @@ class ContactUser extends TLServerMessage implements MessageWithUserId
             }
 
             throw new TGException(TGException::ERR_DESERIALIZER_UNKNOWN_OBJECT);
-        } catch (TGException $e){
-            if($e->getCode() === TGException::ERR_TL_MESSAGE_FIELD_BAD_NODE) {
+        } catch (TGException $e) {
+            if ($e->getCode() === TGException::ERR_TL_MESSAGE_FIELD_BAD_NODE) {
                 return null;
             }
 

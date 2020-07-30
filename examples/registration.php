@@ -25,13 +25,13 @@ $performReg = static function (AccountRegistrar $reg) use ($phone, &$performReg)
 
         $reg->confirmPhoneWithSmsCode($code, static function (AuthKey $authKey) {
             echo 'AuthKey: '.$authKey->getSerializedAuthKey().PHP_EOL;
-            die();
+            exit();
         });
     });
 
     try {
         $reg->pollMessages();
-    } catch(MigrateException $e) {
+    } catch (MigrateException $e) {
         $reg->terminate();
         if ($e->getDc()) {
             echo "restarting with DC {$e->getDcId()}".PHP_EOL;

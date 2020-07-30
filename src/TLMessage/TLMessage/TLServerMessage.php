@@ -51,7 +51,7 @@ abstract class TLServerMessage
      */
     protected function throwIfIncorrectType(AnonymousMessage $anonymousMessage): void
     {
-        if(!static::isIt($anonymousMessage)) {
+        if (!static::isIt($anonymousMessage)) {
             $msg = $anonymousMessage->getType().' instead of '.static::class.' class';
             if (RpcError::isIt($anonymousMessage)) {
                 $msg .= ' with error '.$anonymousMessage->getValue('error_message');

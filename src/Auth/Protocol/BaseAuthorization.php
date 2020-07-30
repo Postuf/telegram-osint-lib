@@ -159,10 +159,10 @@ abstract class BaseAuthorization implements Authorization
         $this->socketContainer->getResponseAsync($request, function ($response) use ($cb) {
             $pqResponse = new ResPQ($response);
 
-            if(strcmp($pqResponse->getClientNonce(), $this->oldClientNonce) !== 0) {
+            if (strcmp($pqResponse->getClientNonce(), $this->oldClientNonce) !== 0) {
                 throw new TGException(TGException::ERR_AUTH_INCORRECT_CLIENT_NONCE);
             }
-            if(strlen($pqResponse->getServerNonce()) !== 16) {
+            if (strlen($pqResponse->getServerNonce()) !== 16) {
                 throw new TGException(TGException::ERR_AUTH_INCORRECT_SERVER_NONCE);
             }
             $this->obtainedServerNonce = $pqResponse->getServerNonce();
@@ -201,10 +201,10 @@ abstract class BaseAuthorization implements Authorization
         $this->socketContainer->getResponseAsync($request, function (AnonymousMessage $response) use ($cb) {
             $dhResponse = new DHReq($response);
 
-            if(strcmp($dhResponse->getClientNonce(), $this->oldClientNonce) !== 0) {
+            if (strcmp($dhResponse->getClientNonce(), $this->oldClientNonce) !== 0) {
                 throw new TGException(TGException::ERR_AUTH_INCORRECT_CLIENT_NONCE);
             }
-            if(strcmp($dhResponse->getServerNonce(), $this->obtainedServerNonce) !== 0) {
+            if (strcmp($dhResponse->getServerNonce(), $this->obtainedServerNonce) !== 0) {
                 throw new TGException(TGException::ERR_AUTH_INCORRECT_SERVER_NONCE);
             }
             $cb($dhResponse->getEncryptedAnswer());
@@ -319,19 +319,19 @@ abstract class BaseAuthorization implements Authorization
         $this->socketContainer->getResponseAsync($request, function ($response) use ($cb, $dhParams, $b) {
             $dh_params_answer = new DHGenOk($response);
 
-            if(strcmp($dh_params_answer->getClientNonce(), $this->oldClientNonce) !== 0) {
+            if (strcmp($dh_params_answer->getClientNonce(), $this->oldClientNonce) !== 0) {
                 throw new TGException(TGException::ERR_AUTH_INCORRECT_CLIENT_NONCE);
             }
-            if(strcmp($dh_params_answer->getServerNonce(), $this->obtainedServerNonce) !== 0) {
+            if (strcmp($dh_params_answer->getServerNonce(), $this->obtainedServerNonce) !== 0) {
                 throw new TGException(TGException::ERR_AUTH_INCORRECT_SERVER_NONCE);
             }
             $initialServerSalt = substr($this->newClientNonce, 0, 8) ^ substr($this->obtainedServerNonce, 0, 8);
             $authKey = $this->powMod->powMod($dhParams->getGA(), $b, $dhParams->getDhPrime());
 
-            if(strlen($authKey) !== 256) {
+            if (strlen($authKey) !== 256) {
                 throw new TGException(TGException::ERR_AUTH_KEY_BAD_LENGTH, bin2hex($authKey));
             }
-            if(strlen($initialServerSalt) !== 8) {
+            if (strlen($initialServerSalt) !== 8) {
                 throw new TGException(TGException::ERR_AUTH_SALT_BAD_LENGTH, bin2hex($initialServerSalt));
             }
             $cb(new AuthParams($authKey, $initialServerSalt));

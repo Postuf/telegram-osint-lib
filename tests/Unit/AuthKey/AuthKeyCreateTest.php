@@ -44,11 +44,11 @@ class AuthKeyCreateTest extends TestCase implements MessageListener
      */
     public function onMessage(AnonymousMessage $message): void
     {
-        if($message->getType() === 'msg_container') {
+        if ($message->getType() === 'msg_container') {
             $message = $message->getNodes('messages')[0];
         }
 
-        if($message->getType() === 'new_session_created') {
+        if ($message->getType() === 'new_session_created') {
             $this->sessionCreated = true;
         }
     }

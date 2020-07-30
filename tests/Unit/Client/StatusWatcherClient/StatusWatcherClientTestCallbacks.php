@@ -28,7 +28,7 @@ class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
     public function onUserOnline(User $user, int $expires): void
     {
         $phone = $user->getPhone();
-        if(isset($this->onlineRecords[$phone])) {
+        if (isset($this->onlineRecords[$phone])) {
             $this->onlineRecords[$phone]++;
         } else {
             $this->onlineRecords[$phone] = 1;
@@ -45,7 +45,7 @@ class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
     public function onUserOffline(User $user, int $wasOnline, bool $inaccurate = false): void
     {
         $phone = $user->getPhone();
-        if(isset($this->offlineRecords[$phone])) {
+        if (isset($this->offlineRecords[$phone])) {
             $this->offlineRecords[$phone]++;
         } else {
             $this->offlineRecords[$phone] = 1;
@@ -68,7 +68,7 @@ class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
     public function onUserHidStatus(User $user, HiddenStatus $hiddenStatus): void
     {
         $phone = $user->getPhone();
-        if(isset($this->hidRecords[$phone])) {
+        if (isset($this->hidRecords[$phone])) {
             $this->hidRecords[$phone]++;
         } else {
             $this->hidRecords[$phone] = 1;

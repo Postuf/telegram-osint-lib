@@ -18,7 +18,8 @@ class GeoChannelModel extends ChannelModel
         $this->lon = $lon;
     }
 
-    public static function of(ChannelModel $model, float $lat, float $lon): self {
+    public static function of(ChannelModel $model, float $lat, float $lon): self
+    {
         return new self(
             $model->id,
             $model->accessHash,

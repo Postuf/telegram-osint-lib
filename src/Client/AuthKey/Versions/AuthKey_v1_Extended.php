@@ -34,10 +34,10 @@ class AuthKey_v1_Extended implements AuthKey
     {
         $authKeyItems = explode(':', $authKey);
 
-        if(count($authKeyItems) !== 2) {
+        if (count($authKeyItems) !== 2) {
             throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
         }
-        if(strlen(base64_decode($authKeyItems[1])) !== 256 + 8) {
+        if (strlen(base64_decode($authKeyItems[1])) !== 256 + 8) {
             throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
         }
     }

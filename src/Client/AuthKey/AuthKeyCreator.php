@@ -25,27 +25,27 @@ class AuthKeyCreator
      */
     public static function createFromString(string $serializedAuthKey)
     {
-        if(self::is_AuthKey_v2_Authorized($serializedAuthKey)) {
+        if (self::is_AuthKey_v2_Authorized($serializedAuthKey)) {
             return new AuthKey_v2_Authorized($serializedAuthKey);
         }
 
-        if(self::is_AuthKey_v2_Phone($serializedAuthKey)) {
+        if (self::is_AuthKey_v2_Phone($serializedAuthKey)) {
             return new AuthKey_v2_Phone($serializedAuthKey);
         }
 
-        if(self::is_AuthKey_v2($serializedAuthKey)) {
+        if (self::is_AuthKey_v2($serializedAuthKey)) {
             return new AuthKey_v2($serializedAuthKey);
         }
 
-        if(self::is_AuthKey_v1_Extended($serializedAuthKey)) {
+        if (self::is_AuthKey_v1_Extended($serializedAuthKey)) {
             return new AuthKey_v1_Extended($serializedAuthKey);
         }
 
-        if(self::is_AuthKey_v1_Simple($serializedAuthKey)) {
+        if (self::is_AuthKey_v1_Simple($serializedAuthKey)) {
             return new AuthKey_v1_Simple($serializedAuthKey);
         }
 
-        if(self::is_AuthKey_v0_RawB64($serializedAuthKey)) {
+        if (self::is_AuthKey_v0_RawB64($serializedAuthKey)) {
             return new AuthKey_v0_RawB64($serializedAuthKey);
         }
 
@@ -66,8 +66,7 @@ class AuthKeyCreator
         /* @noinspection PhpUnusedParameterInspection */
         string $initialSalt,
         DataCentre $associatedWithDC
-    ): AuthKey
-    {
+    ): AuthKey {
         return AuthKey_v2::serialize($authKey, $associatedWithDC);
     }
 
@@ -83,7 +82,7 @@ class AuthKeyCreator
     {
         // there is no point in supporting different authKey versions,
         // because this lib will use the only one eventually
-        if(!($authKey instanceof AuthKey_v2)) {
+        if (!($authKey instanceof AuthKey_v2)) {
             throw new TGException(TGException::ERR_AUTH_KEY_NOT_SUPPORTED);
         }
 
@@ -92,11 +91,11 @@ class AuthKeyCreator
 
     private static function is_AuthKey_v2_Authorized(string $serialized): bool
     {
-        try{
+        try {
             new AuthKey_v2_Authorized($serialized);
 
             return true;
-        }catch (TGException $exception){
+        } catch (TGException $exception) {
         }
 
         return false;
@@ -104,11 +103,11 @@ class AuthKeyCreator
 
     private static function is_AuthKey_v2_Phone(string $serialized): bool
     {
-        try{
+        try {
             new AuthKey_v2_Phone($serialized);
 
             return true;
-        }catch (TGException $exception){
+        } catch (TGException $exception) {
         }
 
         return false;
@@ -116,11 +115,11 @@ class AuthKeyCreator
 
     private static function is_AuthKey_v2(string $serialized): bool
     {
-        try{
+        try {
             new AuthKey_v2($serialized);
 
             return true;
-        }catch (TGException $exception){
+        } catch (TGException $exception) {
         }
 
         return false;
@@ -128,11 +127,11 @@ class AuthKeyCreator
 
     private static function is_AuthKey_v1_Extended(string $serialized): bool
     {
-        try{
+        try {
             new AuthKey_v1_Extended($serialized);
 
             return true;
-        }catch (TGException $exception){
+        } catch (TGException $exception) {
         }
 
         return false;
@@ -140,11 +139,11 @@ class AuthKeyCreator
 
     private static function is_AuthKey_v1_Simple(string $serialized): bool
     {
-        try{
+        try {
             new AuthKey_v1_Simple($serialized);
 
             return true;
-        }catch (TGException $exception){
+        } catch (TGException $exception) {
         }
 
         return false;
@@ -152,11 +151,11 @@ class AuthKeyCreator
 
     private static function is_AuthKey_v0_RawB64(string $serialized): bool
     {
-        try{
+        try {
             new AuthKey_v0_RawB64($serialized);
 
             return true;
-        }catch (TGException $exception){
+        } catch (TGException $exception) {
         }
 
         return false;
