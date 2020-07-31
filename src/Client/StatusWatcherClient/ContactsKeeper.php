@@ -118,10 +118,16 @@ class ContactsKeeper
     /**
      * @param string   $userName
      * @param callable $onComplete function(bool)
+     *
+     * @throws TGException
      */
     public function addUser(string $userName, callable $onComplete): void
     {
-        $this->client->getConnection()->getResponseAsync(
+        $connection = $this->client->getConnection();
+        if (!$connection) {
+            throw new TGException(TGException::ERR_LOGIC_CONNECTION_NOT_READY);
+        }
+        $connection->getResponseAsync(
             new contacts_search($userName, 5),
             function (AnonymousMessage $message) use ($userName, $onComplete) {
                 $users = (new ContactsFound($message))->getUsers();
@@ -154,7 +160,11 @@ class ContactsKeeper
                         $this->onContactsAdded([$contact]);
                         $onComplete(true);
                     } else {
-                        $this->client->getConnection()->getResponseAsync(
+                        $connection = $this->client->getConnection();
+                        if (!$connection) {
+                            throw new TGException(TGException::ERR_LOGIC_CONNECTION_NOT_READY);
+                        }
+                        $connection->getResponseAsync(
                             new add_contact($id, $hash),
                             function (AnonymousMessage $message) use ($onComplete) {
                                 $users = (new Updates($message))->getUsers();
@@ -391,6 +401,8 @@ class ContactsKeeper
 
     /**
      * @param callable $onComplete function()
+     *
+     * @throws TGException
      */
     public function cleanContacts(callable $onComplete): void
     {
@@ -399,7 +411,11 @@ class ContactsKeeper
         }
 
         // reset contacts
-        $this->client->getConnection()->getResponseAsync(
+        $connection = $this->client->getConnection();
+        if (!$connection) {
+            throw new TGException(TGException::ERR_LOGIC_CONNECTION_NOT_READY);
+        }
+        $connection->getResponseAsync(
             new reset_saved_contacts(),
             function (/* @noinspection PhpUnusedParameterInspection */ AnonymousMessage $message) use ($onComplete) {
                 $this->delContacts($this->contacts, $onComplete);
@@ -586,6 +602,8 @@ class ContactsKeeper
      * @param array    $numbers
      * @param callable $onComplete
      *
+     * @throws TGException
+     *
      * @return void
      */
     private function importContactsInPortions(array $numbers, callable $onComplete): void
@@ -609,7 +627,11 @@ class ContactsKeeper
                 }
             };
 
-            $this->client->getConnection()->getResponseAsync($request, $callback);
+            $connection = $this->client->getConnection();
+            if (!$connection) {
+                throw new TGException(TGException::ERR_LOGIC_CONNECTION_NOT_READY);
+            }
+            $connection->getResponseAsync($request, $callback);
         }
     }
 }

@@ -108,9 +108,12 @@ class TGException extends Exception
     public const ERR_PROXY_AUTH_FAILED                                                = 1006000;
     public const ERR_PROXY_LONG_STEP                                                  = 1007000;
 
+    // misc errors
     public const ERR_CRYPTO_INVALID                                                   = 1100000;
-
     public const ERR_JSON_ERROR                                                       = 1200000;
+
+    // logic errors
+    public const ERR_LOGIC_CONNECTION_NOT_READY                                       = 1300000;
 
     /**
      * TGException constructor.

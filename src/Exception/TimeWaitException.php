@@ -5,8 +5,7 @@ namespace TelegramOSINT\Exception;
 
 class TimeWaitException extends TGException
 {
-    /** @var int */
-    private int $waitTime;
+    private int $waitTimeSeconds;
 
     /**
      * @param int $code
@@ -16,11 +15,11 @@ class TimeWaitException extends TGException
     public function __construct(int $code = 0, $clarification = "", int $waitTime = 0)
     {
         parent::__construct($code, $clarification);
-        $this->waitTime = $waitTime;
+        $this->waitTimeSeconds = $waitTime;
     }
 
-    public function getWaitTime(): int
+    public function getWaitTimeSeconds(): int
     {
-        return $this->waitTime;
+        return $this->waitTimeSeconds;
     }
 }

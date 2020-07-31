@@ -10,6 +10,7 @@ use TelegramOSINT\Auth\AES\PhpSecLibAES;
 use TelegramOSINT\Client\AuthKey\AuthKey;
 use TelegramOSINT\Exception\MigrateException;
 use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\Exception\TimeWaitException;
 use TelegramOSINT\Logger\ClientDebugLogger;
 use TelegramOSINT\Logger\NullLogger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
@@ -345,7 +346,11 @@ class EncryptedSocketMessenger extends TgSocketMessenger
             $result = $rpcResult->getResult();
 
             if (RpcError::isIt($result)) {
-                $this->analyzeRpcError(new RpcError($result));
+                $this->analyzeRpcError(new RpcError($result), $this->sentMessages[$msgRequestId] ?? null);
+            }
+
+            if (isset($this->sentMessages[$msgRequestId])) {
+                unset($this->sentMessages[$msgRequestId]);
             }
 
             if (isset($this->rpcMessages[$msgRequestId])) {
@@ -384,11 +389,14 @@ class EncryptedSocketMessenger extends TgSocketMessenger
     }
 
     /**
-     * @param RpcError $rpcError
+     * @param RpcError             $rpcError
+     * @param TLClientMessage|null $requestMessage
      *
+     * @throws MigrateException
      * @throws TGException
+     * @throws TimeWaitException
      */
-    private function analyzeRpcError(RpcError $rpcError): void
+    private function analyzeRpcError(RpcError $rpcError, ?TLClientMessage $requestMessage = null): void
     {
         $parts = explode(':', $this->authKeyObj->getSerializedAuthKey(), 2);
         $userId = $parts[0];
@@ -414,7 +422,11 @@ class EncryptedSocketMessenger extends TgSocketMessenger
             );
         }
         if ($rpcError->isFloodError()) {
-            throw new TGException(TGException::ERR_MSG_FLOOD, (new FloodWait($rpcError))->getWaitTimeSec());
+            throw new TimeWaitException(
+                TGException::ERR_MSG_FLOOD,
+                $requestMessage ? $requestMessage->getName() : '',
+                (new FloodWait($rpcError))->getWaitTimeSec()
+            );
         }
         if ($rpcError->isUserDeactivated()) {
             throw new TGException(TGException::ERR_MSG_USER_BANNED, "User $userId banned");
