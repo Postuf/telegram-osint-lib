@@ -523,6 +523,9 @@ class ContactsKeeperTest extends TestCase
         $this->expectException(TimeWaitException::class);
         $this->keeper->delUsers(['aaa'], static function () {
         });
+
+        $e = new TimeWaitException(0, '', 1);
+        self::assertEquals(1, $e->getWaitTimeSeconds());
     }
 
     /**
