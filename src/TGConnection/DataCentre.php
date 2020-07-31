@@ -7,11 +7,11 @@ use TelegramOSINT\LibConfig;
 class DataCentre
 {
     /** @var string */
-    private $dcIp;
+    private string $dcIp;
     /** @var int */
-    private $dcId;
+    private int $dcId;
     /** @var int */
-    private $dcPort;
+    private int $dcPort;
 
     /**
      * @param string $dcIp

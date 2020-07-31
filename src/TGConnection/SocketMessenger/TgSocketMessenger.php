@@ -11,12 +11,9 @@ use TelegramOSINT\TGConnection\Socket\Socket;
 abstract class TgSocketMessenger extends BaseSocketMessenger
 {
     protected const HEADER_LENGTH_BYTES = 4;
-    /**
-     * @var Socket
-     */
-    protected $socket;
+    protected Socket $socket;
     /** @var ReadState|null */
-    private $readState;
+    private ?ReadState $readState = null;
 
     public function __construct(Socket $socket)
     {

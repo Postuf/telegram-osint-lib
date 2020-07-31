@@ -7,13 +7,13 @@ namespace TelegramOSINT\Client\InfoObtainingClient\Models;
 class MessageModel
 {
     /** @var int */
-    private $id;
+    private int $id;
     /** @var string */
-    private $text;
+    private string $text;
     /** @var int */
-    private $fromId;
+    private int $fromId;
     /** @var int */
-    private $date;
+    private int $date;
 
     public function __construct(
         int $id,

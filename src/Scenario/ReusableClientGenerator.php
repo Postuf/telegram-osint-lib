@@ -11,11 +11,11 @@ use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherClient;
 class ReusableClientGenerator extends ClientGenerator
 {
     /** @var InfoClient */
-    private $instance;
+    private ?InfoClient $instance = null;
     /** @var StatusWatcherClient */
-    private $watcherInstance;
+    private ?StatusWatcherClient $watcherInstance = null;
     /** @var ClientGeneratorInterface */
-    private $clientGenerator;
+    private ?ClientGeneratorInterface $clientGenerator;
 
     public function __construct(?ClientGeneratorInterface $clientGenerator = null)
     {

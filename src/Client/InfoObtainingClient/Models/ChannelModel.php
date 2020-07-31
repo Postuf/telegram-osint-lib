@@ -15,13 +15,13 @@ class ChannelModel
     }
 
     /** @var int */
-    public $id;
+    public int $id;
     /** @var int */
-    public $accessHash;
+    public int $accessHash;
     /** @var string */
-    public $title;
+    public string $title;
     /** @var string|null */
-    public $username;
+    public ?string $username;
 
     public function getGroupId(): GroupId
     {

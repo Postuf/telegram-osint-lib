@@ -36,10 +36,7 @@ use TelegramOSINT\Tools\Proxy;
 
 abstract class BaseAuthorization implements Authorization
 {
-    /**
-     * @var DataCentre
-     */
-    private $dc;
+    private DataCentre $dc;
     /**
      * @var SocketMessenger
      */
@@ -52,10 +49,7 @@ abstract class BaseAuthorization implements Authorization
      * @var string
      */
     private $newClientNonce;
-    /**
-     * @var string
-     */
-    private $obtainedServerNonce;
+    private string $obtainedServerNonce;
     /**
      * @var RSA
      */
@@ -68,14 +62,8 @@ abstract class BaseAuthorization implements Authorization
      * @var PowMod
      */
     private $powMod;
-    /**
-     * @var string
-     */
-    private $tmpAesKey;
-    /**
-     * @var string
-     */
-    private $tmpAesIV;
+    private string $tmpAesKey;
+    private string $tmpAesIV;
 
     /**
      * @param DataCentre $dc    DC AuthKey must be generated on

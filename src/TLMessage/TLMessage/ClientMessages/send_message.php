@@ -15,9 +15,9 @@ class send_message implements TLClientMessage
     private const CONSTRUCTOR = 1376532592; // 0x520c3870
 
     /** @var input_peer */
-    private $inputPeer;
+    private input_peer $inputPeer;
     /** @var string */
-    private $message;
+    private string $message;
 
     public function __construct(input_peer $inputPeer, string $message)
     {

@@ -12,17 +12,17 @@ use TelegramOSINT\Scenario\Models\GroupRequest;
 class SearchUserScenario extends InfoClientScenario
 {
     /** @var string[] */
-    private $groupnames;
+    private array $groupnames;
     /** @var string[] */
-    private $groupnamesById = [];
+    private array $groupnamesById = [];
     /** @var string */
-    private $username;
+    private string $username;
     /** @var int[] */
-    private $resolvedIds = [];
+    private array $resolvedIds = [];
     /** @var int[] */
-    private $resolvedHashes = [];
+    private array $resolvedHashes = [];
     /** @var int */
-    private $userId;
+    private int $userId;
     /** @var callable|null function(int, string) */
     private $handler;
 

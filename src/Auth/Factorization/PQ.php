@@ -7,9 +7,9 @@ namespace TelegramOSINT\Auth\Factorization;
 class PQ
 {
     /** @var int */
-    private $p;
+    private int $p;
     /** @var int */
-    private $q;
+    private int $q;
 
     public function __construct(int $p, int $q)
     {

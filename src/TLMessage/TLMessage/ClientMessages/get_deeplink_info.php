@@ -15,7 +15,7 @@ class get_deeplink_info implements TLClientMessage
     private const CONSTRUCTOR = 1072547679; // 0x3fedc75f
 
     /** @var string */
-    private $path;
+    private string $path;
 
     public function __construct(string $path)
     {

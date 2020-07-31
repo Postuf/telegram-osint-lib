@@ -9,7 +9,7 @@ class Logger
     /**
      * @var ClientDebugLogger
      */
-    private static $logger;
+    private static ?ClientDebugLogger $logger = null;
 
     private const DEBUG_LABELS = [
         'Read_Message_Binary',

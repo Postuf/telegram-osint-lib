@@ -12,14 +12,8 @@ class input_user implements TLClientMessage
 {
     public const CONSTRUCTOR = -668391402; // 0xd8292816
 
-    /**
-     * @var int
-     */
-    private $userId;
-    /**
-     * @var int
-     */
-    private $accessHash;
+    private int $userId;
+    private int $accessHash;
 
     /**
      * @param int $userId

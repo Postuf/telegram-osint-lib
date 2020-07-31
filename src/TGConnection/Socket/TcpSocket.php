@@ -10,10 +10,7 @@ use TelegramOSINT\TGConnection\DataCentre;
  */
 class TcpSocket implements Socket
 {
-    /**
-     * @var DataCentre
-     */
-    private $dc;
+    private DataCentre $dc;
     /**
      * @var resource
      */
@@ -21,7 +18,7 @@ class TcpSocket implements Socket
     /**
      * @var bool
      */
-    private $isTerminated = false;
+    private bool $isTerminated = false;
     /** @var callable|null */
     private $cb;
 

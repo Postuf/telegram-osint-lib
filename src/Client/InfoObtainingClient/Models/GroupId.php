@@ -7,9 +7,9 @@ namespace TelegramOSINT\Client\InfoObtainingClient\Models;
 class GroupId
 {
     /** @var int */
-    private $groupId;
+    private int $groupId;
     /** @var int */
-    private $accessHash;
+    private int $accessHash;
 
     public function __construct(int $groupId, int $accessHash)
     {

@@ -15,9 +15,9 @@ class get_full_channel implements TLClientMessage
     public const CONSTRUCTOR = 141781513; // 0x8736a09
 
     /** @var int */
-    private $channelId;
+    private int $channelId;
     /** @var int */
-    private $accessHash;
+    private int $accessHash;
 
     public function __construct(int $channelId, int $accessHash)
     {

@@ -16,9 +16,9 @@ use TelegramOSINT\Tools\Proxy;
 class ClientGenerator implements ClientGeneratorInterface
 {
     /** @var string */
-    private $envName;
+    private string $envName;
     /** @var Proxy|null */
-    protected $proxy;
+    protected ?Proxy $proxy;
     /** @var ClientDebugLogger|null */
     protected $logger;
 

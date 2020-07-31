@@ -11,30 +11,12 @@ class req_dh_params implements TLClientMessage
 {
     public const CONSTRUCTOR = 0xD712E4BE;
 
-    /**
-     * @var int
-     */
-    private $p;
-    /**
-     * @var int
-     */
-    private $q;
-    /**
-     * @var string
-     */
-    private $oldClientNonce;
-    /**
-     * @var string
-     */
-    private $serverNonce;
-    /**
-     * @var int
-     */
-    private $serverCertFingerPrint;
-    /**
-     * @var string
-     */
-    private $encryptedData;
+    private int $p;
+    private int $q;
+    private string $oldClientNonce;
+    private string $serverNonce;
+    private int $serverCertFingerPrint;
+    private string $encryptedData;
 
     /**
      * req_dh_params constructor.

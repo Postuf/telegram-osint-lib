@@ -15,9 +15,9 @@ class contacts_get_located implements TLClientMessage
     private const CONSTRUCTOR = 171270230; // 0x0a356056;
 
     /** @var float */
-    private $lat;
+    private float $lat;
     /** @var float */
-    private $lon;
+    private float $lon;
 
     public function __construct(float $lat, float $lon)
     {

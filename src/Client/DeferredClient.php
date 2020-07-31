@@ -21,7 +21,7 @@ abstract class DeferredClient
     }
 
     /** @var array */
-    private $deferredQueue = [];
+    private array $deferredQueue = [];
 
     public function defer(callable $cb, int $timeOffset = 0): void
     {

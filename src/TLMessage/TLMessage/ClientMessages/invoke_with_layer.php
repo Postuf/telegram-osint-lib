@@ -11,14 +11,8 @@ class invoke_with_layer implements TLClientMessage
 {
     public const CONSTRUCTOR = 0xda9b0d0d;
 
-    /**
-     * @var int
-     */
-    private $layerVersion;
-    /**
-     * @var TLClientMessage
-     */
-    private $query;
+    private int $layerVersion;
+    private TLClientMessage $query;
 
     /**
      * @param int             $layerVersion

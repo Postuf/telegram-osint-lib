@@ -16,22 +16,10 @@ use Throwable;
  */
 class AuthKey_v2_Authorized implements AuthorizedAuthKey
 {
-    /**
-     * @var string
-     */
-    private $serialized;
-    /**
-     * @var string
-     */
-    private $phone;
-    /**
-     * @var AccountInfo
-     */
-    private $account;
-    /**
-     * @var AuthKey_v2
-     */
-    private $innerAuthKey;
+    private string $serialized;
+    private string $phone;
+    private AccountInfo $account;
+    private AuthKey_v2 $innerAuthKey;
 
     /**
      * @param string $serializedAuthKey

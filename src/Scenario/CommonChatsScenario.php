@@ -21,19 +21,19 @@ class CommonChatsScenario extends InfoClientScenario
     /** @var callable|null function(int, string) */
     private $handler;
     /** @var string[] */
-    private $groupnames = [];
+    private array $groupnames = [];
     /** @var array */
-    private $groupMap;
+    private array $groupMap;
     /** @var string[] */
-    private $interests;
+    private array $interests;
     /** @var string[] */
-    private $commonChats = [];
+    private array $commonChats = [];
     /** @var string */
-    private $phone;
+    private string $phone;
     /** @var array */
-    private $resolvedGroups = [];
+    private array $resolvedGroups = [];
     /** @var CacheMap */
-    private $resolveCache;
+    private CacheMap $resolveCache;
 
     /**
      * @param ClientGeneratorInterface $clientGenerator

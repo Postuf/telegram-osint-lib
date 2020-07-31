@@ -49,7 +49,7 @@ class ContactsKeeperTest extends TestCase
     /** @var SocketMessenger|MockObject */
     private $socketMessengerMock;
     /** @var ContactsKeeper */
-    private $keeper;
+    private ContactsKeeper $keeper;
 
     protected function setUp(): void
     {

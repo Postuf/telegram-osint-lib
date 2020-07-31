@@ -11,22 +11,10 @@ class client_dh_inner_data implements TLClientMessage
 {
     private const CONSTRUCTOR = 0x6643b654;
 
-    /**
-     * @var string
-     */
-    private $oldClientNonce;
-    /**
-     * @var string
-     */
-    private $serverNonce;
-    /**
-     * @var int
-     */
-    private $retryId;
-    /**
-     * @var string
-     */
-    private $g_b;
+    private string $oldClientNonce;
+    private string $serverNonce;
+    private int $retryId;
+    private string $g_b;
 
     /**
      * @param  $oldClientNonce

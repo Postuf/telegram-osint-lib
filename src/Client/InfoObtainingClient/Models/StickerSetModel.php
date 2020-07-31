@@ -9,9 +9,9 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Stickers\StickerSet;
 class StickerSetModel
 {
     /** @var int */
-    public $id;
+    public int $id;
     /** @var int */
-    public $accessHash;
+    public int $accessHash;
 
     public function __construct(int $id, int $accessHash)
     {

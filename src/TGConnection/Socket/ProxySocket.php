@@ -17,22 +17,16 @@ class ProxySocket implements Socket
      * @var resource
      */
     protected $socksSocket;
-    /**
-     * @var DataCentre
-     */
-    protected $dc;
-    /**
-     * @var Proxy
-     */
-    protected $proxy;
+    protected DataCentre $dc;
+    protected Proxy $proxy;
     /**
      * @var bool
      */
-    private $isTerminated = false;
+    private bool $isTerminated = false;
     /** @var callable|null */
     protected $cbOnConnected;
     /** @var Socks5Socket */
-    private $socketObject;
+    private Socks5Socket $socketObject;
 
     /**
      * @param Proxy      $proxy

@@ -14,7 +14,7 @@ class json_object_value_number extends json_object_value_abstract
     private const CONSTRUCTOR = 736157604; // 0x2be0dfa4
 
     /** @var float */
-    private $value;
+    private float $value;
 
     public function __construct(float $value)
     {

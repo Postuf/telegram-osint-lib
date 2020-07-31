@@ -14,7 +14,6 @@ class UserSelfTest extends TestCase
 {
     private function getObjectWithChatPhoto(): AnonymousMessageMock
     {
-        /* @noinspection PhpUnhandledExceptionInspection */
         return new AnonymousMessageMock([
             '_'           => 'userSelf',
             'flags'       => 8292,
@@ -47,7 +46,6 @@ class UserSelfTest extends TestCase
 
     private function getObjectWithUserProfilePhoto(): AnonymousMessageMock
     {
-        /* @noinspection PhpUnhandledExceptionInspection */
         return new AnonymousMessageMock([
             '_'           => 'userSelf',
             'flags'       => 8292,

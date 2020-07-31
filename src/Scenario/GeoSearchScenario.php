@@ -15,13 +15,13 @@ class GeoSearchScenario extends InfoClientScenario
     private const DECIMALS = 6;
 
     /** @var array */
-    private $points;
+    private array $points;
     /** @var callable|null */
     private $onChatReady;
     /** @var int */
-    private $limit;
+    private int $limit;
     /** @var int */
-    private $counter;
+    private int $counter;
 
     /**
      * @param array                         $points

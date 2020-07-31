@@ -11,13 +11,13 @@ use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherCallbacks;
 class StatusWatcherClientTestCallbacks implements StatusWatcherCallbacks
 {
     /** @var int[] */
-    private $onlineRecords = [];
+    private array $onlineRecords = [];
     /** @var int[] */
-    private $offlineRecords = [];
+    private array $offlineRecords = [];
     /** @var int[] */
-    private $hidRecords = [];
+    private array $hidRecords = [];
     /** @var int[] */
-    private $inaccurate = [];
+    private array $inaccurate = [];
 
     /**
      * @param User $user

@@ -7,15 +7,15 @@ namespace TelegramOSINT\Client\InfoObtainingClient\Models;
 class FileModel
 {
     /** @var int */
-    private $id;
+    private int $id;
     /** @var int */
-    private $accessHash;
+    private int $accessHash;
     /** @var string binary */
-    private $fileReference;
+    private string $fileReference;
     /** @var string */
-    private $sizeId;
+    private string $sizeId;
     /** @var int */
-    private $dcId;
+    private int $dcId;
 
     public function __construct(
         int $id,

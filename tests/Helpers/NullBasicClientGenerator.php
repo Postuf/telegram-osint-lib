@@ -11,7 +11,7 @@ use TelegramOSINT\Tools\Proxy;
 class NullBasicClientGenerator implements BasicClientGeneratorInterface
 {
     /** @var array */
-    private $traceArray;
+    private array $traceArray;
 
     public function __construct(array $traceArray)
     {

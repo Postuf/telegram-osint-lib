@@ -12,9 +12,9 @@ use TelegramOSINT\Tools\Proxy;
 class StaticGenerator implements ClientGeneratorInterface
 {
     /** @var string */
-    private $authKey;
+    private string $authKey;
     /** @var Proxy|null */
-    private $proxy;
+    private ?Proxy $proxy;
 
     public function __construct(string $authKey, ?Proxy $proxy = null)
     {

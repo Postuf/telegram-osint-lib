@@ -14,15 +14,15 @@ class MonitorNumbersToFile implements PresenceMonitoringCallbacks
     /**
      * @var string[]
      * */
-    private $lines = [];
+    private array $lines = [];
     /**
      * @var int[]
      * */
-    private $statuses = [];
+    private array $statuses = [];
     /**
      * @var string
      * */
-    private $fileName;
+    private string $fileName;
 
     public function __construct(string $fileName)
     {

@@ -15,7 +15,7 @@ class ping implements TLClientMessage
     /**
      * @var string
      */
-    private $pingId;
+    private ?string $pingId;
 
     /**
      * @param string|null $pingId

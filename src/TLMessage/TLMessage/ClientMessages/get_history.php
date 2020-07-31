@@ -15,15 +15,15 @@ class get_history implements TLClientMessage
     private const CONSTRUCTOR = -591691168; // 0xdcbb8260
 
     /** @var int */
-    private $chatId;
+    private int $chatId;
     /** @var int */
-    private $limit;
+    private int $limit;
     /** @var int */
-    private $since;
+    private int $since;
     /** @var int */
-    private $maxId;
+    private int $maxId;
     /** @var int */
-    private $accessHash;
+    private int $accessHash;
 
     public function __construct(int $chatId, int $limit = 1000, int $since = 0, int $maxId = 0, int $accessHash = 0)
     {

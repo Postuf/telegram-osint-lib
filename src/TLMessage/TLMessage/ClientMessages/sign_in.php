@@ -14,18 +14,9 @@ class sign_in implements TLClientMessage
 {
     public const CONSTRUCTOR = -1126886015; // 0xbcd51581
 
-    /**
-     * @var string
-     */
-    private $phone;
-    /**
-     * @var string
-     */
-    private $phoneHash;
-    /**
-     * @var string
-     */
-    private $smsCode;
+    private string $phone;
+    private string $phoneHash;
+    private string $smsCode;
 
     /**
      * sign_in constructor.

@@ -29,15 +29,9 @@ class OwnAnonymousMessage implements AnonymousMessage, JsonSerializable
 
     private const INTERNAL_TYPE_FIELD = '_';
 
-    /**
-     * @var array
-     */
-    private $object;
+    private array $object;
 
-    /**
-     * @var string
-     */
-    private $type;
+    private string $type;
 
     /**
      * @param array $deserializedByOwnArray

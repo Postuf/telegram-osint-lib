@@ -20,11 +20,11 @@ class import_contacts implements TLClientMessage
     /**
      * @var string[]
      */
-    private $phones;
+    private array $phones;
     /**
      * @var int
      */
-    private static $clientId = 0;
+    private static int $clientId = 0;
 
     /**
      * @param array $phones

@@ -12,34 +12,13 @@ class p_q_inner_data_dc implements TLClientMessage
 {
     private const CONSTRUCTOR = 0xA9F55F95;
 
-    /**
-     * @var int
-     */
-    private $pq;
-    /**
-     * @var int
-     */
-    private $p;
-    /**
-     * @var int
-     */
-    private $q;
-    /**
-     * @var string
-     */
-    private $oldClientNonce;
-    /**
-     * @var string
-     */
-    private $serverNonce;
-    /**
-     * @var string
-     */
-    private $newClientNonce;
-    /**
-     * @var int
-     */
-    private $dcId;
+    private int $pq;
+    private int $p;
+    private int $q;
+    private string $oldClientNonce;
+    private string $serverNonce;
+    private string $newClientNonce;
+    private int $dcId;
 
     /**
      * @param int    $pq

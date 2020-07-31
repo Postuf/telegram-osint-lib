@@ -5,11 +5,11 @@ namespace TelegramOSINT\Client\StatusWatcherClient\Models;
 class User
 {
     /** @var string|null */
-    private $phone;
+    private ?string $phone;
     /** @var string|null */
-    private $username;
+    private ?string $username;
     /** @var int|null */
-    private $userId;
+    private ?int $userId;
 
     public function __construct(?string $phone, ?string $username, ?int $userId = null)
     {

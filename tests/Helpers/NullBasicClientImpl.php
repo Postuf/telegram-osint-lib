@@ -14,8 +14,8 @@ use TelegramOSINT\Tools\Proxy;
 class NullBasicClientImpl extends BasicClientImpl
 {
     /** @var array */
-    private $traceArray;
-    private $socketMessenger;
+    private array $traceArray;
+    private ?SocketMessenger $socketMessenger = null;
 
     public function __construct(array $traceArray)
     {

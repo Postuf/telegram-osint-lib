@@ -26,15 +26,15 @@ class BasicClientImpl implements BasicClient, MessageListener
     /**
      * @var SocketMessenger
      */
-    private $connection;
+    private ?SocketMessenger $connection = null;
     /**
      * @var bool
      */
-    private $isLoggedIn = false;
+    private bool $isLoggedIn = false;
     /**
      * @var int
      */
-    private $lastPingTime = 0;
+    private int $lastPingTime = 0;
     /**
      * @var int
      */
@@ -42,15 +42,15 @@ class BasicClientImpl implements BasicClient, MessageListener
     /**
      * @var MessageListener
      */
-    private $messageHandler;
+    private ?MessageListener $messageHandler = null;
     /** @var AuthKey|null */
-    private $authKey;
+    private ?AuthKey $authKey;
     /** @var Socket|null */
-    private $socket;
+    private ?Socket $socket;
     /** @var int seconds */
-    private $proxyTimeout;
+    private int $proxyTimeout;
     /** @var ClientDebugLogger|null */
-    private $logger;
+    private ?ClientDebugLogger $logger;
 
     public function __construct(
         int $proxyTimeout = LibConfig::CONN_SOCKET_PROXY_TIMEOUT_SEC,

@@ -19,9 +19,9 @@ use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 class ContactUser extends TLServerMessage implements MessageWithUserId
 {
     /** @var string|null */
-    private $phone;
+    private ?string $phone;
     /** @var string|null */
-    private $username;
+    private ?string $username;
 
     /**
      * @param AnonymousMessage $tlMessage

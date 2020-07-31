@@ -16,9 +16,9 @@ class StatusWatcherClientMock extends StatusWatcherClient
     /**
      * @var int
      */
-    private $isUserExpirationChecks = 0;
+    private int $isUserExpirationChecks = 0;
     /** @var BasicClient|null */
-    private $curClient;
+    private ?BasicClient $curClient;
 
     public function __construct(
         StatusWatcherCallbacks $callbacks,

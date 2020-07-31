@@ -29,26 +29,20 @@ class StatusWatcherScenario implements StatusWatcherCallbacks, ClientDebugLogger
     private const INITIAL_POLL_CYCLE_COUNT = 10;
     private const SLEEP_MICRO_SECONDS = 50000;
 
-    /**
-     * @var StatusWatcherClient
-     */
-    private $client;
-    /**
-     * @var string
-     */
-    private $authKey;
+    private StatusWatcherClient $client;
+    private string $authKey;
     /**
      * @var Proxy
      */
-    private $proxy;
+    private ?Proxy $proxy;
     /** @var string[] */
-    private $numbers;
+    private array $numbers;
     /** @var string[] */
-    private $users;
+    private array $users;
     /** @var int */
-    private $stopAfter;
+    private int $stopAfter;
     /** @var ClientDebugLogger|null */
-    private $logger;
+    private ?ClientDebugLogger $logger;
     /** @var Clock */
     private $clock;
 

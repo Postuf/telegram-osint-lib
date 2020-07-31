@@ -52,40 +52,28 @@ use TelegramOSINT\Tools\Proxy;
 
 class RegistrationFromTgApp implements RegisterInterface, MessageListener
 {
-    /**
-     * @var AuthKey
-     */
-    private $blankAuthKey;
-    /**
-     * @var SocketMessenger
-     */
-    private $socketMessenger;
+    private AuthKey $blankAuthKey;
+    private SocketMessenger $socketMessenger;
     /**
      * @var AccountInfo
      */
-    private $accountInfo;
+    private ?AccountInfo $accountInfo;
     /**
      * @var Proxy
      */
-    private $proxy;
-    /**
-     * @var string
-     */
-    private $phone;
-    /**
-     * @var string
-     */
-    private $phoneHash;
+    private ?Proxy $proxy;
+    private string $phone;
+    private string $phoneHash;
     /**
      * @var bool
      */
-    private $isSmsRequested = false;
+    private bool $isSmsRequested = false;
     /** @var Logger */
     private $logger;
     /** @var DataCentre */
-    private $dataCentre;
+    private DataCentre $dataCentre;
     /** @var BaseAuthorization|null */
-    private $baseAuth;
+    private ?BaseAuthorization $baseAuth;
 
     /**
      * @param Proxy|null             $proxy

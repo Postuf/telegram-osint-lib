@@ -7,7 +7,7 @@ namespace TelegramOSINT\Tools;
 class CacheMap implements Cache
 {
     /** @var string */
-    private $filename;
+    private string $filename;
     /** @var array */
     private $map = [];
 

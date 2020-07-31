@@ -8,10 +8,7 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Rpc\RpcError;
 
 abstract class TLServerMessage
 {
-    /**
-     * @var AnonymousMessage
-     */
-    private $tlMessage;
+    private AnonymousMessage $tlMessage;
 
     /**
      * TLServerMessage constructor.

@@ -15,10 +15,7 @@ class get_langpack implements TLClientMessage
 {
     public const CONSTRUCTOR = -1699363442; // 0x9AB5C58E
 
-    /**
-     * @var string
-     */
-    private $langCode;
+    private string $langCode;
 
     /**
      * @param string $langCode

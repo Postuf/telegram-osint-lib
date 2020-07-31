@@ -12,13 +12,13 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ResolvedPeer;
 class UserResolveScenario extends InfoClientScenario
 {
     /** @var string */
-    private $username;
+    private string $username;
     /** @var int|null */
-    private $userId;
+    private ?int $userId;
     /** @var callable */
     private $cb;
     /** @var bool */
-    private $standalone;
+    private bool $standalone;
 
     /**
      * @param string                        $username

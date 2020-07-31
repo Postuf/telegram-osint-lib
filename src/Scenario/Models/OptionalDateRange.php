@@ -7,9 +7,9 @@ namespace TelegramOSINT\Scenario\Models;
 class OptionalDateRange
 {
     /** @var int|null */
-    private $since;
+    private ?int $since;
     /** @var int|null */
-    private $to;
+    private ?int $to;
 
     public function __construct(?int $since = null, ?int $to = null)
     {

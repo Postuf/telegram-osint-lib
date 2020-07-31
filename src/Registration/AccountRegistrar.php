@@ -37,6 +37,9 @@ class AccountRegistrar implements RegisterInterface
         );
     }
 
+    /**
+     * @throws TGException
+     */
     public function pollMessages(): void
     {
         $this->reg->pollMessages();

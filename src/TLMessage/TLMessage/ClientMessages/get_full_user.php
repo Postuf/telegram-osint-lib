@@ -15,18 +15,12 @@ class get_full_user implements TLClientMessage
     public const CONSTRUCTOR = -902781519; // 0xCA30A5B1
     /** @see https://core.telegram.org/type/InputUser */
     public const CONSTRUCTOR_INPUT_USER = -668391402; // 0xD8292816
-    /**
-     * @var int
-     */
-    private $userId;
-    /**
-     * @var int
-     */
-    private $accessHash;
+    private int $userId;
+    private int $accessHash;
     /** @var int|null */
-    private $realUserId;
+    private ?int $realUserId;
     /** @var int|null */
-    private $msgId;
+    private ?int $msgId;
 
     /**
      * @param int      $userId

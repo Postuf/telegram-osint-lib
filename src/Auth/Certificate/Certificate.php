@@ -4,14 +4,8 @@ namespace TelegramOSINT\Auth\Certificate;
 
 class Certificate
 {
-    /**
-     * @var string
-     */
-    private $publicKey;
-    /**
-     * @var int
-     */
-    private $fingerPrint;
+    private string $publicKey;
+    private int $fingerPrint;
 
     /**
      * @param int    $fingerPrint
