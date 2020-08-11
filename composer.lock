@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ff6abc177fdc2a28bfd033b3f48bb95e",
+    "content-hash": "584777e47ab46880564e48c30a4f8c21",
     "packages": [
         {
             "name": "phpseclib/phpseclib",
@@ -124,13 +124,83 @@
                     "SocksProxyAsync\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "description": "Lightweight asynchronous socks proxy for PHP",
             "homepage": "https://github.com/Postuf/SocksProxyAsync",
+            "support": {
+                "source": "https://github.com/Postuf/SocksProxyAsync/tree/v0.1.18",
+                "issues": "https://github.com/Postuf/SocksProxyAsync/issues"
+            },
             "time": "2020-06-12T10:12:33+00:00"
+        },
+        {
+            "name": "salsify/json-streaming-parser",
+            "version": "v8.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/salsify/jsonstreamingparser.git",
+                "reference": "4ae5394136a037e09402ba8b48dbf4e20475e69d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/salsify/jsonstreamingparser/zipball/4ae5394136a037e09402ba8b48dbf4e20475e69d",
+                "reference": "4ae5394136a037e09402ba8b48dbf4e20475e69d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ctype": "*",
+                "ext-mbstring": "*",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "ext-json": "*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "8.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JsonStreamingParser\\": "src",
+                    "JsonStreamingParser\\Test\\": "tests"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rob Gonzalez",
+                    "email": "rob@salsify.com",
+                    "homepage": "http://salsify.com/"
+                },
+                {
+                    "name": "Maxim Gnatenko",
+                    "email": "mgnatenko@gmail.com"
+                },
+                {
+                    "name": "Max Grigorian",
+                    "email": "maxakawizard@gmail.com",
+                    "homepage": "http://wizardcat.com/"
+                },
+                {
+                    "name": "ThePanz",
+                    "email": "thepanz@gmail.com"
+                }
+            ],
+            "description": "A streaming parser for JSON in PHP.",
+            "homepage": "https://github.com/salsify/jsonstreamingparser",
+            "keywords": [
+                "json",
+                "parser",
+                "streaming"
+            ],
+            "time": "2020-05-22T20:10:04+00:00"
         }
     ],
     "packages-dev": [

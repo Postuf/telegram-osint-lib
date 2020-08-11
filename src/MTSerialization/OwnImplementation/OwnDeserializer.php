@@ -2,7 +2,10 @@
 
 namespace TelegramOSINT\MTSerialization\OwnImplementation;
 
+use Exception;
 use JsonException;
+use JsonStreamingParser\Listener\InMemoryListener;
+use JsonStreamingParser\Parser;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\MTSerialization\MTDeserializer;
@@ -22,37 +25,37 @@ class OwnDeserializer implements MTDeserializer
     public function __construct()
     {
         if (!self::$mapLoaded) {
-            $this->extendMap(file_get_contents(__DIR__.'/maps/official.json'));
-            $this->extendMap(file_get_contents(__DIR__.'/maps/tg_app_old.json'));
-            $this->extendMap(file_get_contents(__DIR__.'/maps/tg_app.json'));
-            $this->extendMap(file_get_contents(__DIR__.'/maps/unclassified.json'));
-            $this->extendMap(file_get_contents(__DIR__.'/maps/layer_82.json'));
-            $this->extendMap(file_get_contents(__DIR__.'/maps/layer_92.json'));
-            $this->extendMap(file_get_contents(__DIR__.'/maps/layer_96.json'));
-            $this->extendMap(file_get_contents(__DIR__.'/maps/layer_97.json'));
-            $this->extendMap(file_get_contents(__DIR__.'/maps/layer_98.json'));
-            $this->extendMap(file_get_contents(__DIR__.'/maps/layer_101.json'));
-            $this->extendMap(file_get_contents(__DIR__.'/maps/layer_104.json'));
-            $this->extendMap(file_get_contents(__DIR__.'/maps/layer_105.json'));
-            $this->extendMap(file_get_contents(__DIR__.'/maps/layer_108.json'));
-            $this->extendMap(file_get_contents(__DIR__.'/maps/layer_109.json'));
-            $this->extendMap(file_get_contents(__DIR__.'/maps/layer_111.json'));
-            $this->extendMap(file_get_contents(__DIR__.'/maps/layer_112.json'));
-            $this->extendMap(file_get_contents(__DIR__.'/maps/layer_113.json'));
-            $this->extendMap(file_get_contents(__DIR__.'/maps/layer_114.json'));
-            $this->extendMap(file_get_contents(__DIR__.'/maps/layer_116.json'));
-            $this->extendMap(file_get_contents(__DIR__.'/maps/channelFullOldFormatted.json'));
+            $this->extendMap(__DIR__.'/maps/official.json');
+            $this->extendMap(__DIR__.'/maps/tg_app_old.json');
+            $this->extendMap(__DIR__.'/maps/tg_app.json');
+            $this->extendMap(__DIR__.'/maps/unclassified.json');
+            $this->extendMap(__DIR__.'/maps/layer_82.json');
+            $this->extendMap(__DIR__.'/maps/layer_92.json');
+            $this->extendMap(__DIR__.'/maps/layer_96.json');
+            $this->extendMap(__DIR__.'/maps/layer_97.json');
+            $this->extendMap(__DIR__.'/maps/layer_98.json');
+            $this->extendMap(__DIR__.'/maps/layer_101.json');
+            $this->extendMap(__DIR__.'/maps/layer_104.json');
+            $this->extendMap(__DIR__.'/maps/layer_105.json');
+            $this->extendMap(__DIR__.'/maps/layer_108.json');
+            $this->extendMap(__DIR__.'/maps/layer_109.json');
+            $this->extendMap(__DIR__.'/maps/layer_111.json');
+            $this->extendMap(__DIR__.'/maps/layer_112.json');
+            $this->extendMap(__DIR__.'/maps/layer_113.json');
+            $this->extendMap(__DIR__.'/maps/layer_114.json');
+            $this->extendMap(__DIR__.'/maps/layer_116.json');
+            $this->extendMap(__DIR__.'/maps/channelFullOldFormatted.json');
             self::$mapLoaded = true;
         }
     }
 
     /**
-     * @param string $mapContents
+     * @param string $filename
      */
-    protected function extendMap(string $mapContents): void
+    protected function extendMap(string $filename): void
     {
         $entities = [];
-        foreach ($this->decodeMap($mapContents) as $scope => $_entities) {
+        foreach ($this->decodeMap($filename) as $scope => $_entities) {
             foreach ($_entities as $_entity) {
                 $entities[] = $_entity;
             }
@@ -71,17 +74,23 @@ class OwnDeserializer implements MTDeserializer
     }
 
     /**
-     * @param string $map
+     * @param string $filename
      *
      * @return array
      */
-    private function decodeMap(string $map): array
+    private function decodeMap(string $filename): array
     {
+        $listener = new InMemoryListener();
+        $stream = fopen($filename, 'rb');
         try {
-            return json_decode($map, true, 512, JSON_THROW_ON_ERROR);
-        } catch (JsonException $e) {
+            $parser = new Parser($stream, $listener);
+            $parser->parse();
+            fclose($stream);
+        } catch (Exception $e) {
+            fclose($stream);
             return [];
         }
+        return $listener->getJson();
     }
 
     /**
