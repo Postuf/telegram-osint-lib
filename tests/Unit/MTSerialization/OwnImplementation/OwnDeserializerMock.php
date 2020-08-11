@@ -16,7 +16,8 @@ class OwnDeserializerMock extends OwnDeserializer
 
     private function extendMapWithTestMocks(): void
     {
-        $this->extendMap('{
+        $name = tempnam('/tmp', 'odm');
+        file_put_contents($name, '{
             "constructors": [
                 {
                     "id": "-1999999999",
@@ -52,5 +53,6 @@ class OwnDeserializerMock extends OwnDeserializer
             ],
             "methods": []
         }');
+        $this->extendMap($name);
     }
 }
