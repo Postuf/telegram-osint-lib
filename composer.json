@@ -17,7 +17,7 @@
         "ext-sockets": "*",
         "ext-xml": "*",
         "ext-zlib": "*",
-        "postuf/socks-proxy-async": "0.1.18",
+        "postuf/socks-proxy-async": "^0.1.19",
         "salsify/json-streaming-parser": "^8.2"
     },
     "autoload": {
