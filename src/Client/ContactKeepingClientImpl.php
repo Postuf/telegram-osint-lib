@@ -44,6 +44,8 @@ abstract class ContactKeepingClientImpl extends DeferredClient implements Contac
     /**
      * @param string   $userName
      * @param callable $onComplete function(bool)
+     *
+     * @throws TGException
      */
     public function addUser(string $userName, callable $onComplete): void
     {
