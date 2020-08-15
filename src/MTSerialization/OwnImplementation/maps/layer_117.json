@@ -1,0 +1,60 @@
+{
+    "constructors": [
+        {
+            "id": 1667228533,
+            "predicate": "phoneConnectionWebrtc",
+            "params": [
+                {
+                    "name": "flags",
+                    "type": "#"
+                },
+                {
+                    "name": "turn",
+                    "type": "flags.0?true"
+                },
+                {
+                    "name": "stun",
+                    "type": "flags.1?true"
+                },
+                {
+                    "name": "id",
+                    "type": "long"
+                },
+                {
+                    "name": "ip",
+                    "type": "string"
+                },
+                {
+                    "name": "ipv6",
+                    "type": "string"
+                },
+                {
+                    "name": "port",
+                    "type": "int"
+                },
+                {
+                    "name": "username",
+                    "type": "string"
+                },
+                {
+                    "name": "password",
+                    "type": "string"
+                }
+            ],
+            "type": "PhoneConnection"
+        }
+    ],
+    "methods": [
+        {
+            "id": 1926525996,
+            "method": "photos.updateProfilePhoto",
+            "params": [
+                {
+                    "name": "id",
+                    "type": "InputPhoto"
+                }
+            ],
+            "type": "photos.Photo"
+        }
+    ]
+}
