@@ -325,7 +325,7 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
             $userName = $user->getUsername();
 
             if (!empty($phone)) {
-                $this->contactsKeeper->updatePhone($user->getUserId(), $user->getPhone());
+                $this->contactsKeeper->updatePhone($user->getUserId(), (string) $user->getPhone());
             }
             $this->userCallbacks->onUserPhoneChange(new User($phoneOld, $userName, $user->getUserId()), $phone);
         });
