@@ -181,6 +181,8 @@ class ContactsKeeper
     /**
      * @param array    $userNames
      * @param callable $onComplete function()
+     *
+     * @throws TGException
      */
     public function delUsers(array $userNames, callable $onComplete): void
     {
@@ -193,6 +195,8 @@ class ContactsKeeper
      * @param string[] $numbers
      * @param string[] $userNames
      * @param callable $onComplete function()
+     *
+     * @throws TGException
      */
     public function delNumbersAndUsers(array $numbers, array $userNames, callable $onComplete): void
     {
@@ -334,6 +338,8 @@ class ContactsKeeper
     /**
      * @param array    $numbers
      * @param callable $onComplete function()
+     *
+     * @throws TGException
      */
     public function delNumbers(array $numbers, callable $onComplete): void
     {
@@ -504,7 +510,7 @@ class ContactsKeeper
             foreach ($this->contactsLoadedQueue as $pendingCallback) {
                 try {
                     $pendingCallback($this->contacts);
-                } /* @noinspection PhpRedundantCatchClauseInspection */ catch (TGException $e) {
+                } catch (TGException $e) {
                     $errors[] = $e;
                 }
             }

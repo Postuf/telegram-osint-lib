@@ -77,7 +77,7 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
 
     /**
      * @param AuthKey       $authKey
-     * @param Proxy         $proxy
+     * @param Proxy|null    $proxy
      * @param callable|null $cb      function()
      *
      * @throws TGException
@@ -117,11 +117,17 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
         }
     }
 
+    /**
+     * @throws TGException
+     */
     public function onPeriodAvailable(): void
     {
         $this->checkOnlineStatusesExpired();
     }
 
+    /**
+     * @throws TGException
+     */
     protected function checkOnlineStatusesExpired(): void
     {
         foreach ($this->currentlyOnlineUsers as $userId => $expires) {
@@ -232,6 +238,8 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
      * @param int  $userId
      * @param int  $wasOnline
      * @param bool $inaccurate
+     *
+     * @throws TGException
      */
     public function onUserOffline(int $userId, int $wasOnline, bool $inaccurate = false): void
     {
@@ -265,6 +273,8 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
     /**
      * @param int          $userId
      * @param HiddenStatus $hiddenStatusState
+     *
+     * @throws TGException
      */
     public function onUserHidStatus(int $userId, HiddenStatus $hiddenStatusState): void
     {
@@ -325,7 +335,7 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
             $userName = $user->getUsername();
 
             if (!empty($phone)) {
-                $this->contactsKeeper->updatePhone($user->getUserId(), $user->getPhone());
+                $this->contactsKeeper->updatePhone($user->getUserId(), (string) $user->getPhone());
             }
             $this->userCallbacks->onUserPhoneChange(new User($phoneOld, $userName, $user->getUserId()), $phone);
         });
