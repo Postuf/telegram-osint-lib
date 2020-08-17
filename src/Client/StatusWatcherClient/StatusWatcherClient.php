@@ -29,7 +29,7 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
     StatusWatcherCallbacksMiddleware,
     MessageListener
 {
-    private const RELOAD_CONTACTS_EVERY_SECONDS = 20;
+    private const RELOAD_CONTACTS_EVERY_SECONDS = 30;
 
     private StatusWatcherAnalyzer $messageAnalyzer;
     private StatusWatcherCallbacks $userCallbacks;
