@@ -53,13 +53,13 @@ use TelegramOSINT\Tools\Proxy;
 class RegistrationFromTgApp implements RegisterInterface, MessageListener
 {
     private AuthKey $blankAuthKey;
-    private SocketMessenger $socketMessenger;
+    private ?SocketMessenger $socketMessenger = null;
     /**
-     * @var AccountInfo
+     * @var AccountInfo|null
      */
     private ?AccountInfo $accountInfo;
     /**
-     * @var Proxy
+     * @var Proxy|null
      */
     private ?Proxy $proxy;
     private string $phone;
