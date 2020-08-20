@@ -15,6 +15,7 @@ use TelegramOSINT\Auth\RSA\PhpSecLibRSA;
 use TelegramOSINT\Auth\RSA\RSA;
 use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
 use TelegramOSINT\Exception\TGException;
+use TelegramOSINT\Logger\ClientDebugLogger;
 use TelegramOSINT\Logger\Logger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\MTSerialization\OwnImplementation\OwnDeserializer;
@@ -66,12 +67,13 @@ abstract class BaseAuthorization implements Authorization
     private string $tmpAesIV;
 
     /**
-     * @param DataCentre $dc    DC AuthKey must be generated on
+     * @param DataCentre $dc DC AuthKey must be generated on
      * @param Proxy|null $proxy
      *
+     * @param ClientDebugLogger|null $logger
      * @throws TGException
      */
-    public function __construct(DataCentre $dc, ?Proxy $proxy = null)
+    public function __construct(DataCentre $dc, ?Proxy $proxy = null, ?ClientDebugLogger $logger = null)
     {
         $cb = static function () {
         };
@@ -80,7 +82,7 @@ abstract class BaseAuthorization implements Authorization
             : new TcpSocket($dc, $cb);
 
         $this->dc = $dc;
-        $this->socketContainer = new NotEncryptedSocketMessenger($socket);
+        $this->socketContainer = new NotEncryptedSocketMessenger($socket, $logger);
 
         $this->rsa = new PhpSecLibRSA();
         $this->aes = new PhpSecLibAES();

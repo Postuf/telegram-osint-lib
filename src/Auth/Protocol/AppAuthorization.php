@@ -2,6 +2,7 @@
 
 namespace TelegramOSINT\Auth\Protocol;
 
+use TelegramOSINT\Logger\ClientDebugLogger;
 use TelegramOSINT\TGConnection\DataCentre;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\p_q_inner_data_dc;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
@@ -15,10 +16,10 @@ class AppAuthorization extends BaseAuthorization
     /** @var int */
     private int $dcId;
 
-    public function __construct(DataCentre $dc, ?Proxy $proxy = null)
+    public function __construct(DataCentre $dc, ?Proxy $proxy = null, ?ClientDebugLogger $logger = null)
     {
         $this->dcId = $dc->getDcId();
-        parent::__construct($dc, $proxy);
+        parent::__construct($dc, $proxy, $logger);
     }
 
     /**
