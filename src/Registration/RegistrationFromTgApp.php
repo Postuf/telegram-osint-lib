@@ -180,7 +180,7 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
      */
     private function requestBlankAuthKey(callable $cb): void
     {
-        $this->baseAuth = new AppAuthorization($this->dataCentre);
+        $this->baseAuth = new AppAuthorization($this->dataCentre, $this->proxy, $this->logger);
         $this->baseAuth->createAuthKey($cb);
     }
 
