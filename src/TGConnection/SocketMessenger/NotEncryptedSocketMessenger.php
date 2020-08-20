@@ -6,7 +6,7 @@ use LogicException;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\LibConfig;
 use TelegramOSINT\Logger\ClientDebugLogger;
-use TelegramOSINT\Logger\Logger;
+use TelegramOSINT\Logger\DefaultLogger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\MTSerialization\MTDeserializer;
 use TelegramOSINT\MTSerialization\OwnImplementation\OwnDeserializer;
@@ -26,8 +26,7 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
      * @var MTDeserializer
      */
     private $deserializer;
-    /** @var ClientDebugLogger|null */
-    private ?ClientDebugLogger $logger;
+    private ClientDebugLogger $logger;
     /** @var AnonymousMessage|null */
     private ?AnonymousMessage $config;
     private array $callbackQueue = [];
@@ -43,16 +42,12 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
         $this->outerHeaderWrapper = new OuterHeaderWrapper();
         $this->msgIdGenerator = new MessageIdGenerator();
         $this->deserializer = new OwnDeserializer();
-        $this->logger = $logger;
+        $this->logger = $logger ?? new DefaultLogger();
     }
 
     private function log(string $code, string $message): void
     {
-        if ($this->logger) {
-            $this->logger->debugLibLog($code, $message);
-        } else {
-            Logger::log($code, $message);
-        }
+        $this->logger->debugLibLog($code, $message);
     }
 
     /**
