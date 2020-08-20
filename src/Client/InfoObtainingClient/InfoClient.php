@@ -103,7 +103,7 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
 
     /**
      * @param AuthKey       $authKey
-     * @param Proxy         $proxy
+     * @param Proxy|null    $proxy
      * @param callable|null $cb      function()
      *
      * @return void

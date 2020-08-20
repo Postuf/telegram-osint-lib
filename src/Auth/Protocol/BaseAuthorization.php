@@ -15,7 +15,8 @@ use TelegramOSINT\Auth\RSA\PhpSecLibRSA;
 use TelegramOSINT\Auth\RSA\RSA;
 use TelegramOSINT\Client\AuthKey\AuthKeyCreator;
 use TelegramOSINT\Exception\TGException;
-use TelegramOSINT\Logger\Logger;
+use TelegramOSINT\Logger\ClientDebugLogger;
+use TelegramOSINT\Logger\DefaultLogger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\MTSerialization\OwnImplementation\OwnDeserializer;
 use TelegramOSINT\TGConnection\DataCentre;
@@ -64,14 +65,17 @@ abstract class BaseAuthorization implements Authorization
     private $powMod;
     private string $tmpAesKey;
     private string $tmpAesIV;
+    /** @var ClientDebugLogger */
+    private $logger;
 
     /**
-     * @param DataCentre $dc    DC AuthKey must be generated on
-     * @param Proxy|null $proxy
+     * @param DataCentre             $dc     DC AuthKey must be generated on
+     * @param Proxy|null             $proxy
+     * @param ClientDebugLogger|null $logger
      *
      * @throws TGException
      */
-    public function __construct(DataCentre $dc, ?Proxy $proxy = null)
+    public function __construct(DataCentre $dc, ?Proxy $proxy = null, ?ClientDebugLogger $logger = null)
     {
         $cb = static function () {
         };
@@ -80,11 +84,12 @@ abstract class BaseAuthorization implements Authorization
             : new TcpSocket($dc, $cb);
 
         $this->dc = $dc;
-        $this->socketContainer = new NotEncryptedSocketMessenger($socket);
+        $this->socketContainer = new NotEncryptedSocketMessenger($socket, $logger);
 
         $this->rsa = new PhpSecLibRSA();
         $this->aes = new PhpSecLibAES();
         $this->powMod = new PhpSecLibPowMod();
+        $this->logger = $logger ?? new DefaultLogger();
 
         /** @noinspection CryptographicallySecureRandomnessInspection */
         $this->oldClientNonce = openssl_random_pseudo_bytes(16, $strong);
@@ -211,7 +216,7 @@ abstract class BaseAuthorization implements Authorization
         foreach ($receivedFingerPrints as $fingerPrint) {
             $certificate = Certificate::getCertificateByFingerPrint($fingerPrint);
             if ($certificate) {
-                Logger::log('Selected fingerprint', $fingerPrint);
+                $this->logger->debugLibLog('Selected fingerprint', (string) $fingerPrint);
 
                 return $certificate;
             }
@@ -232,7 +237,7 @@ abstract class BaseAuthorization implements Authorization
      */
     private function findPrimes(int $pq): PQ
     {
-        Logger::log('Factorize', $pq);
+        $this->logger->debugLibLog('Factorize', (string) $pq);
 
         return (new GmpFactorizer())->factorize($pq);
     }
