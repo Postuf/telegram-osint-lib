@@ -305,9 +305,6 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
     {
     }
 
-    /**
-     * @throws TGException
-     */
     public function pollMessages(): void
     {
         while (true) {
@@ -318,6 +315,7 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
             if ($this->baseAuth) {
                 $this->baseAuth->poll();
             }
+            usleep(50000);
         }
     }
 
