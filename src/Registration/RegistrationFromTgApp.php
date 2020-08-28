@@ -305,11 +305,9 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
     {
     }
 
-    /**
-     * @throws TGException
-     */
-    public function pollMessages(): void
+    public function pollMessages(int $timeoutSeconds = 60): void
     {
+        $timeStart = time();
         while (true) {
             if ($this->socketMessenger) {
                 /** @noinspection UnusedFunctionResultInspection */
@@ -317,6 +315,10 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
             }
             if ($this->baseAuth) {
                 $this->baseAuth->poll();
+            }
+            usleep(50000);
+            if (time() - $timeStart > $timeoutSeconds) {
+                break;
             }
         }
     }
