@@ -241,7 +241,7 @@ class ContactsKeeper
     {
         $importedUsers = new ImportedContacts($message);
         $this->updateImportedPhones($importedUsers, $importResult);
-        $this->updateRetryContacts($importedUsers, $importResult);
+        $this->updateRetryContacts($request, $importedUsers, $importResult);
         $this->onContactsAdded($importedUsers->getImportedUsers());
         $this->checkReplacedContacts($request, $importedUsers, $importResult);
     }
@@ -259,10 +259,24 @@ class ContactsKeeper
         }
     }
 
-    private function updateRetryContacts(ImportedContacts $imported, ImportResult $importResult): void
-    {
-        foreach ($imported->getRetryContacts() as $retryContact) {
-            $importResult->retryContacts[] = $retryContact;
+    /**
+     * @param import_contacts  $request
+     * @param ImportedContacts $imported
+     * @param ImportResult     $importResult
+     *
+     * @throws TGException
+     */
+    private function updateRetryContacts(
+        import_contacts $request,
+        ImportedContacts $imported,
+        ImportResult $importResult
+    ): void {
+        if (count($imported->getRetryContacts()) > 0) {
+            $importedPhones = [];
+            foreach ($imported->getImportedUsers() as $importedUser) {
+                $importedPhones[] = $importedUser->getPhone();
+            }
+            $importResult->retryContacts = array_values(array_diff($request->getPhones(), $importedPhones));
         }
     }
 

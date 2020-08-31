@@ -208,7 +208,7 @@ class ContactsKeeperTest extends TestCase
         self::assertCount(0, $returnedUsers);
 
         $this->keeper->addNumbers($numbers, static function (ImportResult $result) {
-            self::assertEquals([1124], $result->retryContacts);
+            self::assertEquals(['456'], $result->retryContacts);
         });
 
         $this->processCalls($calls);

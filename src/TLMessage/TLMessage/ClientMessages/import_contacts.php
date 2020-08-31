@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection ContractViolationInspection */
+
 declare(strict_types=1);
 
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
@@ -35,6 +37,14 @@ class import_contacts implements TLClientMessage
             self::$clientId++;
             $this->phones[self::$clientId] = [self::$clientId, $this->transformPhone($phone)];
         }
+    }
+
+    public function getPhones(): array
+    {
+        return array_values(array_map(
+            static function (string $item) { return str_replace('+', '', $item); },
+            array_column($this->phones, 1)
+        ));
     }
 
     /**
