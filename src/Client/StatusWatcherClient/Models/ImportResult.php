@@ -8,6 +8,6 @@ class ImportResult
     public array $importedPhones = [];
     /** @var string[] */
     public array $replacedPhones = [];
-    /** @var int[] */
+    /** @var string[] */
     public array $retryContacts = [];
 }
