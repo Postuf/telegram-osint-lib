@@ -146,7 +146,78 @@ class ContactsKeeperTest extends TestCase
     }
 
     /**
+     * Check that retry_contacts are returned
+     *
+     * @throws TGException
+     */
+    public function test_contacts_retry(): void
+    {
+        $numbers = ['123', '456'];
+        $runCount = 0;
+        $calls = [];
+        $responseCb = static function (
+            TLClientMessage $message,
+            callable $onAsyncResponse
+        ) use (&$runCount, &$calls) {
+            if ($message instanceof import_contacts) {
+                $runCount++;
+                $result = new AnonymousMessageMock([
+                    '_'        => self::NODE_CONTACTS_IMPORTED_CONTACTS,
+                    'imported' => [
+                        [
+                            '_'         => self::NODE_IMPORTED_CONTACT,
+                            'user_id'   => 1,
+                            'client_id' => 1123,
+                        ],
+                    ],
+                    'users' => [
+                        [
+                            '_'     => 'user',
+                            'id'    => 1,
+                            'phone' => '123',
+                        ],
+                    ],
+                    'retry_contacts' => [
+                        1124,
+                    ],
+                ]);
+            } elseif ($message instanceof get_contacts) {
+                $result = new AnonymousMessageMock([
+                    '_'     => self::NODE_CONTACTS_CONTACTS,
+                    'users' => [
+                    ],
+                ]);
+            } else {
+                $result = new AnonymousMessageMock([
+                    '_' => 'error',
+                ]);
+            }
+            $calls[] = [$onAsyncResponse, $result];
+        };
+        $this->socketMessengerMock
+            ->method(self::METHOD_GET_RESPONSE_ASYNC)
+            ->willReturnCallback($responseCb);
+
+        $returnedUsers = [];
+        $this->keeper->getUserByPhone('123', static function ($user) use (&$returnedUsers) {
+            if ($user) {
+                $returnedUsers[] = $user;
+            }
+        });
+        $this->processCalls($calls);
+        self::assertCount(0, $returnedUsers);
+
+        $this->keeper->addNumbers($numbers, static function (ImportResult $result) {
+            self::assertEquals(['456'], $result->retryContacts);
+        });
+
+        $this->processCalls($calls);
+    }
+
+    /**
      * Check that contact is added by username
+     *
+     * @throws TGException
      */
     public function test_contacts_add_username(): void
     {
@@ -209,6 +280,8 @@ class ContactsKeeperTest extends TestCase
 
     /**
      * Check that contact can be deleted by phone
+     *
+     * @throws TGException
      */
     public function test_contacts_del(): void
     {
@@ -293,6 +366,8 @@ class ContactsKeeperTest extends TestCase
 
     /**
      * Check that contact can be deleted by username
+     *
+     * @throws TGException
      */
     public function test_contacts_del_username(): void
     {
@@ -330,6 +405,8 @@ class ContactsKeeperTest extends TestCase
 
     /**
      * Check that contact can be deleted by new phone after phone update
+     *
+     * @throws TGException
      */
     public function test_contacts_update_phone(): void
     {
@@ -368,6 +445,8 @@ class ContactsKeeperTest extends TestCase
 
     /**
      * Check that contact can be deleted by new username after username update
+     *
+     * @throws TGException
      */
     public function test_contacts_update_username(): void
     {
@@ -406,6 +485,8 @@ class ContactsKeeperTest extends TestCase
 
     /**
      * Check that deleting contact both by phone number and username deletes it once
+     *
+     * @throws TGException
      */
     public function test_contacts_del_username_and_number(): void
     {
@@ -500,6 +581,8 @@ class ContactsKeeperTest extends TestCase
 
     /**
      * Check that deleting contacts in several consequent calls leads to exception
+     *
+     * @throws TGException
      */
     public function test_contacts_del_frequent(): void
     {
