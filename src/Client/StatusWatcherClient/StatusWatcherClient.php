@@ -223,7 +223,7 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
                 $userName = $user->getUsername();
 
                 if ($phone || $userName) {
-                    $this->userCallbacks->onUserOnline(new User($phone, $userName), $expires);
+                    $this->userCallbacks->onUserOnline(new User($phone, $userName, $userId), $expires);
                 } else {
                     throw new TGException(
                         TGException::ERR_ASSERT_UPDATE_USER_UNIDENTIFIED,
@@ -259,7 +259,7 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
                 $userName = $user->getUsername();
 
                 if ($phone || $userName) {
-                    $this->userCallbacks->onUserOffline(new User($phone, $userName), $wasOnline, $inaccurate);
+                    $this->userCallbacks->onUserOffline(new User($phone, $userName, $userId), $wasOnline, $inaccurate);
                 } else {
                     throw new TGException(
                         TGException::ERR_ASSERT_UPDATE_USER_UNIDENTIFIED,
@@ -291,7 +291,7 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
             $userName = $user->getUsername();
 
             if ($phone || $userName) {
-                $this->userCallbacks->onUserHidStatus(new User($phone, $userName), $hiddenStatusState);
+                $this->userCallbacks->onUserHidStatus(new User($phone, $userName, $userId), $hiddenStatusState);
             } else {
                 throw new TGException(
                     TGException::ERR_ASSERT_UPDATE_USER_UNIDENTIFIED,
