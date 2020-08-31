@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "34fa4798926c1b0a7fac4a83eeb720e8",
+    "content-hash": "94aa47a190d94161fb68cd644e3161a1",
     "packages": [
         {
             "name": "phpseclib/phpseclib",
@@ -100,16 +100,16 @@
         },
         {
             "name": "postuf/socks-proxy-async",
-            "version": "v0.2.0",
+            "version": "v0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Postuf/SocksProxyAsync.git",
-                "reference": "90aec868d4eaf6f0c8dcc1f0513c80f8d2540c91"
+                "reference": "3e73b58c6eaadcd562b6f2b07027609f799ce64a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Postuf/SocksProxyAsync/zipball/90aec868d4eaf6f0c8dcc1f0513c80f8d2540c91",
-                "reference": "90aec868d4eaf6f0c8dcc1f0513c80f8d2540c91",
+                "url": "https://api.github.com/repos/Postuf/SocksProxyAsync/zipball/3e73b58c6eaadcd562b6f2b07027609f799ce64a",
+                "reference": "3e73b58c6eaadcd562b6f2b07027609f799ce64a",
                 "shasum": ""
             },
             "require": {
@@ -131,7 +131,7 @@
             ],
             "description": "Lightweight asynchronous socks proxy for PHP",
             "homepage": "https://github.com/Postuf/SocksProxyAsync",
-            "time": "2020-08-28T11:04:42+00:00"
+            "time": "2020-08-31T12:30:23+00:00"
         },
         {
             "name": "salsify/json-streaming-parser",
