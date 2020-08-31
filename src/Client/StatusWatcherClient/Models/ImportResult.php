@@ -4,8 +4,10 @@ namespace TelegramOSINT\Client\StatusWatcherClient\Models;
 
 class ImportResult
 {
-    /** @var array */
+    /** @var string[] */
     public array $importedPhones = [];
-    /** @var array */
+    /** @var string[] */
     public array $replacedPhones = [];
+    /** @var int[] */
+    public array $retryContacts = [];
 }

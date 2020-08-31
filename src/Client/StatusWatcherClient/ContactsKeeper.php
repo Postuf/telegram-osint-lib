@@ -38,7 +38,6 @@ class ContactsKeeper
      * as FLOOD. In order to prevent this, there is an artificial limitation left.
      */
     private const FLOOD_FREQUENCY_LIMIT_SEC = 3;
-    private const WAIT_TIME_ON_IMPORT_LIMIT_EXCEEDED = 600;
 
     private BasicClient $client;
     /**
@@ -242,10 +241,9 @@ class ContactsKeeper
     {
         $importedUsers = new ImportedContacts($message);
         $this->updateImportedPhones($importedUsers, $importResult);
+        $this->updateRetryContacts($importedUsers, $importResult);
         $this->onContactsAdded($importedUsers->getImportedUsers());
         $this->checkReplacedContacts($request, $importedUsers, $importResult);
-        // checks
-        $this->checkLimitsExceeded($importedUsers);
     }
 
     /**
@@ -258,6 +256,13 @@ class ContactsKeeper
     {
         foreach ($imported->getImportedUsers() as $importedUser) {
             $importResult->importedPhones[] = $importedUser->getPhone();
+        }
+    }
+
+    private function updateRetryContacts(ImportedContacts $imported, ImportResult $importResult): void
+    {
+        foreach ($imported->getRetryContacts() as $retryContact) {
+            $importResult->retryContacts[] = $retryContact;
         }
     }
 
@@ -315,23 +320,6 @@ class ContactsKeeper
             if ($expectedPhone !== false && $actualPhone !== false && (int) $expectedPhone !== (int) $actualPhone) {
                 $importResult->replacedPhones[] = $actualPhone;
             }
-        }
-    }
-
-    /**
-     * @param ImportedContacts $results
-     *
-     * @throws TimeWaitException
-     */
-    private function checkLimitsExceeded(ImportedContacts $results): void
-    {
-        $retryCount = count($results->getRetryContacts());
-        if ($retryCount > 0) {
-            throw new TimeWaitException(
-                TGException::ERR_MSG_IMPORT_CONTACTS_LIMIT_EXCEEDED,
-                'Count: '.$retryCount,
-                self::WAIT_TIME_ON_IMPORT_LIMIT_EXCEEDED
-            );
         }
     }
 
