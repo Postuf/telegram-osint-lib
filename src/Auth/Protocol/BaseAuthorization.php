@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\Auth\Protocol;
 
 use TelegramOSINT\Auth\AES\AES;
@@ -103,17 +105,14 @@ abstract class BaseAuthorization implements Authorization
         }
     }
 
-    /**
-     * @param int    $pq
-     * @param int    $p
-     * @param int    $q
-     * @param string $oldClientNonce
-     * @param string $serverNonce
-     * @param string $newClientNonce
-     *
-     * @return TLClientMessage
-     */
-    abstract protected function getPqInnerDataMessage($pq, $p, $q, $oldClientNonce, $serverNonce, $newClientNonce): TLClientMessage;
+    abstract protected function getPqInnerDataMessage(
+        int $pq,
+        int $p,
+        int $q,
+        string $oldClientNonce,
+        string $serverNonce,
+        string $newClientNonce
+    ): TLClientMessage;
 
     /**
      * @param callable $onAuthKeyReady function(AuthKey $authKey)

@@ -15,12 +15,7 @@ class OuterHeaderWrapper
      */
     private int $in_seq_no = 0;
 
-    /**
-     * @param string $binaryPayload
-     *
-     * @return string
-     */
-    public function wrap($binaryPayload): string
+    public function wrap(string $binaryPayload): string
     {
         $wrapped = $this->wrapPayloadWithSeqCounterAndCRC($binaryPayload);
         $this->out_seq_no++;
@@ -35,7 +30,7 @@ class OuterHeaderWrapper
      *
      * @return false|string
      */
-    public function unwrap($binaryPayload)
+    public function unwrap(string $binaryPayload): string
     {
         $length_value = substr($binaryPayload, 0, 4);
         $length = unpack('I', $length_value)[1];
@@ -59,15 +54,10 @@ class OuterHeaderWrapper
             throw new TGException(TGException::ERR_TL_CONTAINER_BAD_CRC32);
         }
 
-        return $payload;
+        return (string) $payload;
     }
 
-    /**
-     * @param string $payload
-     *
-     * @return string
-     */
-    private function wrapPayloadWithSeqCounterAndCRC($payload): string
+    private function wrapPayloadWithSeqCounterAndCRC(string $payload): string
     {
         $length = strlen($payload) + 12; /* размер пакета(+12B:
                     4 - размер,
@@ -77,7 +67,7 @@ class OuterHeaderWrapper
         //размер пакета и порядковый номер запроса добавляется в начало
         $payload = pack('II', $length, $this->out_seq_no).$payload;
 
-        //контролная сумма добавляется в конец
+        //контрольная сумма добавляется в конец
         $crc32 = hexdec(hash('crc32b', $payload));
         $payload .= pack('I', $crc32);
 
