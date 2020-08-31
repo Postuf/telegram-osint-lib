@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\Client\AuthKey\Versions;
 
 use JsonException;
@@ -32,7 +34,7 @@ class AuthKey_v2 implements AuthKey
      *
      * @throws TGException
      */
-    private function checkSerializedAuthKey($authKey): void
+    private function checkSerializedAuthKey(string $authKey): void
     {
         try {
             $authKeyParts = explode(':', $authKey);
@@ -46,7 +48,8 @@ class AuthKey_v2 implements AuthKey
             if (strlen(base64_decode($authKeyParts[0])) !== 256) {
                 throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
             }
-            if (!@hex2bin($authKeyParts[1]) || !json_decode(@hex2bin($authKeyParts[1]), true, 512, JSON_THROW_ON_ERROR)) {
+            if (!@hex2bin($authKeyParts[1])
+                || !json_decode(@hex2bin($authKeyParts[1]), true, 512, JSON_THROW_ON_ERROR)) {
                 throw new TGException(TGException::ERR_AUTH_KEY_BAD_FORMAT);
             }
         } catch (TGException $tge) {

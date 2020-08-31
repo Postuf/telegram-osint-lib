@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\TGConnection\SocketMessenger;
 
 use LogicException;
@@ -104,7 +106,7 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
      *
      * @return false|string
      */
-    private function decodePayload($payload)
+    private function decodePayload(string $payload): string
     {
         $auth_key_id = unpack('V', substr($payload, 0, 8))[1];
 
@@ -114,7 +116,7 @@ class NotEncryptedSocketMessenger extends TgSocketMessenger
         }
         $message_data_length = unpack('V', substr($payload, 16, 4))[1];
 
-        return substr($payload, 20, $message_data_length);
+        return (string) substr($payload, 20, $message_data_length);
     }
 
     /**

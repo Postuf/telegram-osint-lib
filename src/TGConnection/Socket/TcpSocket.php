@@ -51,7 +51,7 @@ class TcpSocket implements Socket
      *
      * @return resource
      */
-    protected function getSocketResource($ip, $port)
+    protected function getSocketResource(string $ip, int $port)
     {
         return @stream_socket_client('tcp://'.$ip.':'.$port, $errno, $errStr);
     }

@@ -22,8 +22,11 @@ class ClientGenerator implements ClientGeneratorInterface
     /** @var ClientDebugLogger|null */
     protected $logger;
 
-    public function __construct(string $envName = LibConfig::ENV_AUTHKEY, ?Proxy $proxy = null, ?ClientDebugLogger $logger = null)
-    {
+    public function __construct(
+        string $envName = LibConfig::ENV_AUTHKEY,
+        ?Proxy $proxy = null,
+        ?ClientDebugLogger $logger = null
+    ) {
         $this->envName = $envName;
         $this->proxy = $proxy;
         $this->logger = $logger ?? new DefaultLogger();

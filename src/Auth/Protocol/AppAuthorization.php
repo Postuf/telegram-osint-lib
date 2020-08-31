@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TelegramOSINT\Auth\Protocol;
 
 use TelegramOSINT\Logger\ClientDebugLogger;
@@ -22,18 +24,14 @@ class AppAuthorization extends BaseAuthorization
         parent::__construct($dc, $proxy, $logger);
     }
 
-    /**
-     * @param int    $pq
-     * @param int    $p
-     * @param int    $q
-     * @param string $oldClientNonce
-     * @param string $serverNonce
-     * @param string $newClientNonce
-     *
-     * @return TLClientMessage
-     */
-    protected function getPqInnerDataMessage($pq, $p, $q, $oldClientNonce, $serverNonce, $newClientNonce): TLClientMessage
-    {
+    protected function getPqInnerDataMessage(
+        int $pq,
+        int $p,
+        int $q,
+        string $oldClientNonce,
+        string $serverNonce,
+        string $newClientNonce
+    ): TLClientMessage {
         return new p_q_inner_data_dc($pq, $p, $q, $oldClientNonce, $serverNonce, $newClientNonce, $this->dcId);
     }
 }

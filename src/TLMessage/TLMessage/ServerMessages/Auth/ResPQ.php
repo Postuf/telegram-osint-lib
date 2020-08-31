@@ -29,15 +29,11 @@ class ResPQ extends TLServerMessage
         return $this->getTlMessage()->getValue('server_nonce');
     }
 
-    /**
-     * @noinspection PhpUnused
-     * @noinspection UnknownInspectionInspection
-     */
     public function getPQ(): int
     {
         $pqBin = $this->getTlMessage()->getValue('pq');
 
-        return unpack('J', $pqBin)[1];
+        return (int) unpack('J', $pqBin)[1];
     }
 
     public function getFingerprints(): array

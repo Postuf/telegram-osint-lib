@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection TypoSafeNamingInspection */
+
 declare(strict_types=1);
 
 namespace TelegramOSINT\Auth\Factorization;
@@ -19,18 +21,12 @@ class PQ
         assert($this->p <= $this->q);
     }
 
-    /**
-     * @return mixed
-     */
-    public function getP()
+    public function getP(): int
     {
         return $this->p;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getQ()
+    public function getQ(): int
     {
         return $this->q;
     }

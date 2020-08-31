@@ -1,5 +1,9 @@
 <?php
 
+/** @noinspection TypoSafeNamingInspection */
+
+declare(strict_types=1);
+
 namespace TelegramOSINT\TGConnection;
 
 use TelegramOSINT\LibConfig;
@@ -13,12 +17,7 @@ class DataCentre
     /** @var int */
     private int $dcPort;
 
-    /**
-     * @param string $dcIp
-     * @param int    $dcId
-     * @param int    $dcPort
-     */
-    public function __construct($dcIp, $dcId, $dcPort)
+    public function __construct(string $dcIp, int $dcId, int $dcPort)
     {
         $this->dcIp = $dcIp;
         $this->dcId = $dcId;
