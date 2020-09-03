@@ -154,24 +154,19 @@ class ContactsKeeper
                     return;
                 }
 
-                $this->getUserById($id, function ($contact) use ($id, $hash, $onComplete) {
-                    if ($contact) {
-                        $this->onContactsAdded([$contact]);
-                        $onComplete(true);
-                    } else {
-                        $connection = $this->client->getConnection();
-                        if (!$connection) {
-                            throw new TGException(TGException::ERR_LOGIC_CONNECTION_NOT_READY);
-                        }
-                        $connection->getResponseAsync(
-                            new add_contact($id, $hash),
-                            function (AnonymousMessage $message) use ($onComplete) {
-                                $users = (new Updates($message))->getUsers();
-                                $this->onContactsAdded($users);
-                                $onComplete(true);
-                            }
-                        );
+                $this->getUserById($id, function () use ($id, $hash, $onComplete) {
+                    $connection = $this->client->getConnection();
+                    if (!$connection) {
+                        throw new TGException(TGException::ERR_LOGIC_CONNECTION_NOT_READY);
                     }
+                    $connection->getResponseAsync(
+                        new add_contact($id, $hash),
+                        function (AnonymousMessage $message) use ($onComplete) {
+                            $users = (new Updates($message))->getUsers();
+                            $this->onContactsAdded($users);
+                            $onComplete(true);
+                        }
+                    );
                 });
             }
         );
@@ -201,7 +196,7 @@ class ContactsKeeper
     {
         $this->getUsersByPhones($numbers, function (array $contacts) use ($userNames, $onComplete) {
             // if all current contacts to be deleted
-            if (count($contacts) === count($this->contacts)) {
+            if (count($userNames) === 0 && count($contacts) === count($this->contacts)) {
                 $this->cleanContacts($onComplete);
             } else {
                 $this->getUsersByUsernames($userNames, function ($contactsUsers) use ($contacts, $onComplete) {
