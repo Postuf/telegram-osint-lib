@@ -44,4 +44,9 @@ class BasicClientGenerator implements BasicClientGeneratorInterface
     {
         return $this->proxy;
     }
+
+    public function getLogger(): ClientDebugLogger
+    {
+        return $this->logger;
+    }
 }

@@ -623,7 +623,7 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
         if ($cachedAuthKeySerialized !== null) {
             $cb(AuthKeyCreator::createFromString($cachedAuthKeySerialized));
         } else {
-            $auth = new AppAuthorization($dc, $this->proxy);
+            $auth = new AppAuthorization($dc, $this->proxy, $this->generator->getLogger());
             $this->notEncryptedClients[] = $auth;
             $lastIndex = array_key_last($this->notEncryptedClients);
             $auth->createAuthKey(function (AuthKey $authKey) use ($cb, $lastIndex, $cacheKey) {
