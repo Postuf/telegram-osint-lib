@@ -9,6 +9,9 @@ const ARG_PREDICATE = 'PREDICATE';
 const ARG_RAW = '--raw';
 const ARG_DEBUG = '--debug';
 
+const MAX_POSITIVE_INT = 2147483647;
+const INT_SUBTRACT = 0x100000000;
+
 if (!isset($argv[1])) {
     fprintf(STDERR, "please specify input file name/dir (old)\n");
     exit(1);
@@ -49,9 +52,15 @@ function getJson($filename)
     $methodsById = [];
     foreach ($constructors as $constructor) {
         $constructor['filename'] = $filename;
+        if ($constructor['id'] > MAX_POSITIVE_INT) {
+            $constructor['id'] -= INT_SUBTRACT;
+        }
         $constructorsById[$constructor['id']] = $constructor;
     }
     foreach ($methods as $method) {
+        if ($method['id'] > MAX_POSITIVE_INT) {
+            $method['id'] -= INT_SUBTRACT;
+        }
         $methodsById[$method['id']] = $method;
     }
     asort($constructorsById);
