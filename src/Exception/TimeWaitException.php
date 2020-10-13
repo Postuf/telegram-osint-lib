@@ -14,7 +14,7 @@ class TimeWaitException extends TGException
      */
     public function __construct(int $code = 0, $clarification = "", int $waitTime = 0)
     {
-        parent::__construct($code, $clarification);
+        parent::__construct($code, $clarification . ' _wait_ ' . $waitTime);
         $this->waitTimeSeconds = $waitTime;
     }
 
