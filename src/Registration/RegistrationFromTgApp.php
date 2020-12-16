@@ -22,6 +22,7 @@ use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
 use TelegramOSINT\TGConnection\SocketMessenger\SocketMessenger;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_blocked_contacts;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_config;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_contact_signup_notification;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_contacts;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_dialogs;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_faved_stickers;
@@ -31,6 +32,7 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_langpack;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_languages;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_notify_settings;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_pinned_dialogs;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_promodata;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_state;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_statuses;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_terms_of_service_update;
@@ -199,7 +201,10 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
             throw new TGException(TGException::ERR_REG_REQUEST_SMS_CODE_FIRST);
         }
         $this->signInFailed($smsCode, function () use ($onAuthKeyReady, $reReg) {
+
+            // pretend typing first name and last name
             sleep(5);
+
             if (!$reReg) {
                 $this->signUp(function () use ($onAuthKeyReady) {
                     $this->performLoginWorkFlow(function () use ($onAuthKeyReady) {
@@ -232,10 +237,12 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
     {
         $this->socketMessenger->getResponseConsecutive([
             new get_config(),
+            new get_promodata(),
             new update_status(true),
             new get_terms_of_service_update(),
             new get_notify_settings(new input_notify_chats()),
             new get_notify_settings(new input_notify_users()),
+            new get_contact_signup_notification(),
             new get_invite_text(),
             new get_pinned_dialogs(),
             new get_state(),
@@ -310,9 +317,8 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
      *
      * @throws TGException
      */
-    public function pollMessages(int $timeoutSeconds = 60): void
+    public function pollMessages(): void
     {
-        $timeStart = time();
         while (true) {
             if ($this->socketMessenger) {
                 /** @noinspection UnusedFunctionResultInspection */
@@ -322,9 +328,6 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
                 $this->baseAuth->poll();
             }
             usleep(50000);
-            if (time() - $timeStart > $timeoutSeconds) {
-                break;
-            }
         }
     }
 

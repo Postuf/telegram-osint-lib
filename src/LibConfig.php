@@ -42,18 +42,17 @@ class LibConfig
     public const APP_API_HASH = '014b35b6184100b085b0d0572f9b5103';
     public const APP_API_ID = 4;
     public const APP_CERT_SHA256 = '49C1522548EBACD46CE322B6FD47F6092BB745D0F88082145CAF35E14DCC38E1';
-    public const APP_TZ_START = 0;
 
     /* ================================================================  Default client info */
 
     public const APP_DEFAULT_DEVICE_LANG_CODE = 'en-us';
     public const APP_DEFAULT_LANG_CODE = 'en';
-    public const APP_DEFAULT_VERSION = '7.1.0';
+    public const APP_DEFAULT_VERSION = '7.2.1';
     // see https://www.apkmirror.com/apk/telegram-fz-llc/telegram/telegram-6-0-1-release/
     // arm64-v8a for android 6+ has 5th digit always "7"
-    public const APP_DEFAULT_VERSION_CODE = '21037';
+    public const APP_DEFAULT_VERSION_CODE = '21397';
     public const APP_DEFAULT_LANG_PACK = 'android';
-    public const APP_DEFAULT_TL_LAYER_VERSION = 119;
+    public const APP_DEFAULT_TL_LAYER_VERSION = 120;
 
     public const ENV_AUTHKEY = 'BOT'; // env variable for authkey path
 }
