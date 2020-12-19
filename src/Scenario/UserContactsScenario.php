@@ -90,7 +90,10 @@ class UserContactsScenario extends InfoClientScenario implements ContactsScenari
         $this->callQueue[] = function () use ($numbers, $withPhoto, $largePhoto) {
             $rememberedContacts = [];
             $this->infoClient->reloadContacts($numbers, $this->usernames, function (ImportResult $result) use (
-                                                &$rememberedContacts, $withPhoto, $largePhoto) {
+                &$rememberedContacts,
+                $withPhoto,
+                $largePhoto
+            ) {
                 foreach ($result->importedPhones as $importedPhone) {
                     $this->infoClient->getContactByPhone($importedPhone, static function (ContactUser $user) use (&$rememberedContacts) {
                         $rememberedContacts[] = $user;

@@ -404,7 +404,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
             throw new MigrateException(
                 $dcId,
                 TGException::ERR_MSG_NETWORK_MIGRATE,
-                "reconnection to another DataCenter needed",
+                'reconnection to another DataCenter needed',
                 $this->selectDC($dcId)
             );
         }
@@ -414,7 +414,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
             throw new MigrateException(
                 $dcId,
                 TGException::ERR_MSG_PHONE_MIGRATE,
-                "phone already used in another DataCenter: ".$rpcError->getErrorString(),
+                'phone already used in another DataCenter: '.$rpcError->getErrorString(),
                 $this->selectDC($dcId)
             );
         }
@@ -426,19 +426,19 @@ class EncryptedSocketMessenger extends TgSocketMessenger
             );
         }
         if ($rpcError->isUserDeactivated()) {
-            throw new TGException(TGException::ERR_MSG_USER_BANNED, "User banned");
+            throw new TGException(TGException::ERR_MSG_USER_BANNED, 'User banned');
         }
         if ($rpcError->isAuthKeyUnregistered()) {
-            throw new TGException(TGException::ERR_MSG_USER_BANNED, "User unregistered");
+            throw new TGException(TGException::ERR_MSG_USER_BANNED, 'User unregistered');
         }
         if ($rpcError->isPhoneBanned()) {
-            throw new TGException(TGException::ERR_MSG_PHONE_BANNED, "User phone banned");
+            throw new TGException(TGException::ERR_MSG_PHONE_BANNED, 'User phone banned');
         }
         if ($rpcError->isAuthKeyDuplicated()) {
-            throw new TGException(TGException::ERR_MSG_BANNED_AUTHKEY_DUPLICATED, "relogin with phone number needed");
+            throw new TGException(TGException::ERR_MSG_BANNED_AUTHKEY_DUPLICATED, 'relogin with phone number needed');
         }
         if ($rpcError->isSessionRevoked()) {
-            throw new TGException(TGException::ERR_MSG_BANNED_SESSION_STOLEN, "bot stolen by revoking session");
+            throw new TGException(TGException::ERR_MSG_BANNED_SESSION_STOLEN, 'bot stolen by revoking session');
         }
     }
 
