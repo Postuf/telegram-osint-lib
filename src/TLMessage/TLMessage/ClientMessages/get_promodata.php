@@ -8,7 +8,7 @@ use TelegramOSINT\TLMessage\TLMessage\Packer;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 /**
- * @see https://core.telegram.org/method/help.getConfig
+ * @see https://core.telegram.org/method/help.getpromodata
  */
 class get_promodata implements TLClientMessage
 {
