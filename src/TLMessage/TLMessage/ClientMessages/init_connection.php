@@ -57,17 +57,27 @@ class init_connection implements TLClientMessage
 
     private function getParams(): json_object
     {
+        $device_token = new json_object_value(
+            'device_token',
+            new json_object_value_string('__FIREBASE_GENERATING_SINCE_'.time().'__')
+        );
         $data = new json_object_value(
             'data',
             new json_object_value_string(LibConfig::APP_CERT_SHA256)
         );
+        $installer = new json_object_value(
+            'installer',
+            new json_object_value_string('com.android.vending')
+        );
         $tz_offset = new json_object_value(
             'tz_offset',
-            new json_object_value_number(LibConfig::APP_TZ_START)
+            new json_object_value_number(0)
         );
 
         return new json_object([
+            $device_token,
             $data,
+            $installer,
             $tz_offset,
         ]);
     }
