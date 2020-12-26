@@ -114,6 +114,17 @@ abstract class ContactKeepingClientImpl extends DeferredClient implements Contac
     }
 
     /**
+     * @param callable $onComplete
+     *
+     * @throws TGException
+     */
+    public function getCurrentContacts(callable $onComplete): void
+    {
+        $this->throwIfNotLoggedIn(__METHOD__);
+        $this->contactsKeeper->getCurrentContacts($onComplete);
+    }
+
+    /**
      * @param string $message
      *
      * @throws TGException

@@ -19,6 +19,7 @@ use TelegramOSINT\Client\InfoObtainingClient\Models\GroupId;
 use TelegramOSINT\Client\InfoObtainingClient\Models\PictureModel;
 use TelegramOSINT\Client\InfoObtainingClient\Models\UserInfoModel;
 use TelegramOSINT\Client\InfoObtainingClient\Models\UserStatusModel;
+use TelegramOSINT\Client\StatusWatcherClient\Models\ImportResult;
 use TelegramOSINT\Client\UserInfoClient;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
@@ -301,8 +302,15 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
             if ($user instanceof ContactUser) {
                 $this->onContactReady($phone, $withPhoto, $largePhoto, $onComplete);
             } else {
-                $this->contactsKeeper->addNumbers([$phone], function () use ($phone, $withPhoto, $largePhoto, $onComplete) {
-                    $this->onContactReady($phone, $withPhoto, $largePhoto, $onComplete);
+                $this->contactsKeeper->addNumbers([$phone], function (ImportResult $result) use ($phone, $withPhoto, $largePhoto, $onComplete) {
+                    // check if failed because of network limits
+                    if(count($result->retryContacts) > 0 && strcmp($phone, $result->retryContacts[0]) == 0){
+                        $model = new UserInfoModel();
+                        $model->retry = true;
+                        $onComplete($model);
+                    } else {
+                        $this->onContactReady($phone, $withPhoto, $largePhoto, $onComplete);
+                    }
                 });
             }
         });

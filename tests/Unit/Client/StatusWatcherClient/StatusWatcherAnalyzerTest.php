@@ -26,10 +26,6 @@ class StatusWatcherAnalyzerTest extends TestCase
         parent::setUp();
         $this->callbacks = $this->createMock(StatusWatcherCallbacksMiddleware::class);
         $this->analyzer = new StatusWatcherAnalyzer($this->callbacks);
-        $user = new ContactUser(AnonymousMessageMock::getContact(1, '123'));
-        $this->callbacks
-            ->method('getCurrentContacts')
-            ->willReturn([$user]);
     }
 
     /**
