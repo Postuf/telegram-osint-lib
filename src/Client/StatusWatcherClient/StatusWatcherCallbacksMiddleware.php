@@ -3,7 +3,6 @@
 namespace TelegramOSINT\Client\StatusWatcherClient;
 
 use TelegramOSINT\Client\StatusWatcherClient\Models\HiddenStatus;
-use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\CurrentContacts;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
 

@@ -365,7 +365,7 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
          * assume, that we have missed native onUserNameChange-message from server,
          * in this case we still can re-check from in-memory contacts and replenish missed callback
          */
-        $this->getCurrentContacts(function($inMemoryContacts) use ($contacts) {
+        $this->getCurrentContacts(function ($inMemoryContacts) use ($contacts) {
             foreach ($contacts->getUsers() as $user) {
                 if (isset($inMemoryContacts[$user->getUserId()])
                     && $inMemoryContacts[$user->getUserId()]->getUsername() !== $user->getUsername()) {

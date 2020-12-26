@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherAnalyzer;
 use TelegramOSINT\Client\StatusWatcherClient\StatusWatcherCallbacksMiddleware;
 use TelegramOSINT\Exception\TGException;
-use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
 
 class StatusWatcherAnalyzerTest extends TestCase
 {
