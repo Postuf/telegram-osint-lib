@@ -30,7 +30,11 @@ $performReg = static function (AccountRegistrar $reg) use ($phone, &$performReg)
     });
 
     try {
-        $reg->pollMessages();
+        // expectation cycle
+        while (true) {
+            $reg->pollMessage();
+            usleep(50000);
+        }
     } catch (MigrateException $e) {
         $reg->terminate();
         if ($e->getDc()) {
