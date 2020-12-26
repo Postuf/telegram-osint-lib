@@ -313,8 +313,6 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
     }
 
     /**
-     * @param int $timeoutSeconds
-     *
      * @throws TGException
      */
     public function pollMessage(): void
