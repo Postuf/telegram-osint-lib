@@ -20,7 +20,7 @@ interface RegisterInterface
      */
     public function confirmPhoneWithSmsCode(string $smsCode, callable $onAuthKeyReady, bool $reReg = false): void;
 
-    public function pollMessages(): void;
+    public function pollMessage(): void;
 
     public function terminate(): void;
 }

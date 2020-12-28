@@ -38,13 +38,11 @@ class AccountRegistrar implements RegisterInterface
     }
 
     /**
-     * @param int $timeoutSeconds
-     *
      * @throws TGException
      */
-    public function pollMessages(): void
+    public function pollMessage(): void
     {
-        $this->reg->pollMessages();
+        $this->reg->pollMessage();
     }
 
     /**

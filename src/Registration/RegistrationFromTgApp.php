@@ -313,21 +313,16 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
     }
 
     /**
-     * @param int $timeoutSeconds
-     *
      * @throws TGException
      */
-    public function pollMessages(): void
+    public function pollMessage(): void
     {
-        while (true) {
-            if ($this->socketMessenger) {
-                /** @noinspection UnusedFunctionResultInspection */
-                $this->socketMessenger->readMessage();
-            }
-            if ($this->baseAuth) {
-                $this->baseAuth->poll();
-            }
-            usleep(50000);
+        if ($this->socketMessenger) {
+            /** @noinspection UnusedFunctionResultInspection */
+            $this->socketMessenger->readMessage();
+        }
+        if ($this->baseAuth) {
+            $this->baseAuth->poll();
         }
     }
 
