@@ -75,9 +75,4 @@ class StatusWatcherClientMock extends StatusWatcherClient
     public function onUserNameChange(int $userId, ?string $username): void
     {
     }
-
-    public function getCurrentContacts(): array
-    {
-        return [];
-    }
 }

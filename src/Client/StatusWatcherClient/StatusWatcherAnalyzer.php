@@ -49,7 +49,7 @@ class StatusWatcherAnalyzer implements Analyzer
         }
 
         if (CurrentContacts::isIt($message)) {
-            $this->analyzeCurrentStatuses($message);
+            $this->analyzeCurrentContacts($message);
         }
     }
 
@@ -118,17 +118,15 @@ class StatusWatcherAnalyzer implements Analyzer
      *
      * @throws TGException
      */
-    private function analyzeCurrentStatuses(AnonymousMessage $message): void
+    private function analyzeCurrentContacts(AnonymousMessage $message): void
     {
+        // statuses
         $contacts = new CurrentContacts($message);
-        $prevContacts = $this->notifier->getCurrentContacts();
         foreach ($contacts->getUsers() as $user) {
             $this->performStatusReaction($user->getUserId(), $user->getStatus(), true);
-            if (isset($prevContacts[$user->getUserId()])
-                && $prevContacts[$user->getUserId()]->getUsername() !== $user->getUsername()) {
-                $this->notifier->onUserNameChange($user->getUserId(), $user->getUsername());
-            }
         }
+        // report contacts
+        $this->notifier->onCurrentContacts($contacts);
     }
 
     /**

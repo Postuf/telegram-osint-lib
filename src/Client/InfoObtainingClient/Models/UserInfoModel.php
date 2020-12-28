@@ -5,6 +5,8 @@ namespace TelegramOSINT\Client\InfoObtainingClient\Models;
 class UserInfoModel
 {
     public int $id;
+    // whether model was or was not built due to network limits
+    public bool $retry = false;
     public int $accessHash;
     public ?string $username = null;
     public ?string $bio = null;

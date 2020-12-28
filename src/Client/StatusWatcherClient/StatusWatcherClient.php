@@ -19,6 +19,7 @@ use TelegramOSINT\Logger\ClientDebugLogger;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ContactUser;
+use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\CurrentContacts;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\Contact\ImportedContacts;
 use TelegramOSINT\Tools\Clock;
 use TelegramOSINT\Tools\Proxy;
@@ -357,11 +358,20 @@ class StatusWatcherClient extends ContactKeepingClientImpl implements
         });
     }
 
-    /**
-     * @return ContactUser[]
-     */
-    public function getCurrentContacts(): array
+    // TODO: must be covered with test
+    public function onCurrentContacts(CurrentContacts $contacts): void
     {
-        return $this->contactsKeeper->getContacts();
+        /*
+         * assume, that we have missed native onUserNameChange-message from server,
+         * in this case we still can re-check from in-memory contacts and replenish missed callback
+         */
+        $this->getCurrentContacts(function ($inMemoryContacts) use ($contacts) {
+            foreach ($contacts->getUsers() as $user) {
+                if (isset($inMemoryContacts[$user->getUserId()])
+                    && $inMemoryContacts[$user->getUserId()]->getUsername() !== $user->getUsername()) {
+                    $this->onUserNameChange($user->getUserId(), $user->getUsername());
+                }
+            }
+        });
     }
 }
