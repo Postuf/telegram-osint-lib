@@ -47,6 +47,7 @@ class OwnDeserializer implements MTDeserializer
             $this->extendMap(__DIR__.'/maps/layer_119.json');
             $this->extendMap(__DIR__.'/maps/layer_120.json');
             $this->extendMap(__DIR__.'/maps/layer_121.json');
+            $this->extendMap(__DIR__.'/maps/layer_123.json');
             $this->extendMap(__DIR__.'/maps/channelFullOldFormatted.json');
             self::$mapLoaded = true;
         }
