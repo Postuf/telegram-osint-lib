@@ -69,6 +69,10 @@ class init_connection implements TLClientMessage
             'installer',
             new json_object_value_string('com.android.vending')
         );
+        $package_id = new json_object_value(
+            'package_id',
+            new json_object_value_string(LibConfig::APP_PACKAGE_NAME)
+        );
         $tz_offset = new json_object_value(
             'tz_offset',
             new json_object_value_number(0)
@@ -78,6 +82,7 @@ class init_connection implements TLClientMessage
             $device_token,
             $data,
             $installer,
+            $package_id,
             $tz_offset,
         ]);
     }

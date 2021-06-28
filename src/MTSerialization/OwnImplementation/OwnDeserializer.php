@@ -23,6 +23,7 @@ class OwnDeserializer implements MTDeserializer
 
     public function __construct()
     {
+        /* TODO: optimize TL schema storage */
         if (!self::$mapLoaded) {
             $this->extendMap(__DIR__.'/maps/official.json');
             $this->extendMap(__DIR__.'/maps/tg_app_old.json');
@@ -48,6 +49,7 @@ class OwnDeserializer implements MTDeserializer
             $this->extendMap(__DIR__.'/maps/layer_120.json');
             $this->extendMap(__DIR__.'/maps/layer_121.json');
             $this->extendMap(__DIR__.'/maps/layer_123.json');
+            $this->extendMap(__DIR__.'/maps/layer_129.json');
             $this->extendMap(__DIR__.'/maps/channelFullOldFormatted.json');
             self::$mapLoaded = true;
         }

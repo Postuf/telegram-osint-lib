@@ -20,6 +20,7 @@ use TelegramOSINT\TGConnection\Socket\TcpSocket;
 use TelegramOSINT\TGConnection\SocketMessenger\EncryptedSocketMessenger;
 use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
 use TelegramOSINT\TGConnection\SocketMessenger\SocketMessenger;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_app_config;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_blocked_contacts;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_config;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_contact_signup_notification;
@@ -246,6 +247,7 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
             new get_invite_text(),
             new get_pinned_dialogs(),
             new get_state(),
+            new get_app_config(),
             new get_blocked_contacts(),
             new get_contacts(),
             new get_dialogs(),
