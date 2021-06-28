@@ -40,7 +40,7 @@ if (!$exact) {
             printDeserialized(substr($data, $i));
             break;
         } catch (TGException $e) {
-            echo $e->getMessage().PHP_EOL;
+            //echo $e->getMessage().PHP_EOL;
 
             if ($e->getCode() === TGException::ERR_DESERIALIZER_NOT_TOTAL_READ) {
                 preg_match('/([0-9a-zA-Z]+)$/', $e->getMessage(), $matches);
