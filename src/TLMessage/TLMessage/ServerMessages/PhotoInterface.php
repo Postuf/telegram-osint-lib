@@ -6,9 +6,6 @@ namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages;
 
 interface PhotoInterface
 {
-    public function getBigPhoto(): FileLocation;
-
-    public function getSmallPhoto(): FileLocation;
-
+    public function getPhotoId(): int;
     public function getDcId(): int;
 }

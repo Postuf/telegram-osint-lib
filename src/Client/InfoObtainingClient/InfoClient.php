@@ -376,7 +376,7 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
                 $username = $user->getUsername();
                 if (!empty($username)) {
                     $this->contactsKeeper->delNumbers([$phone], function () use ($username, $withPhoto, $largePhoto, $onComplete) {
-                        $this->getInfoByUsername($username, $withPhoto, $largePhoto, $onComplete);
+                         $this->getInfoByUsername($username, $withPhoto, $largePhoto, $onComplete);
                     });
                 } else {
                     $this->getFullUserInfo($user, $withPhoto, $largePhoto, $onComplete);
@@ -441,33 +441,15 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
             return;
         }
 
-        $photo = $largePhotos ?
-            $profilePhoto->getBigPhoto() :
-            $profilePhoto->getSmallPhoto();
-
-        $photoLocation = null;
-        $dcId = null;
-
-        if ($profilePhoto instanceof UserProfilePhoto && $profilePhoto->isV2()) {
-            $photoLocation = new input_peer_photofilelocation(
-                new input_peer_user(
-                    $user->getUserId(),
-                    $user->getAccessHash()
-                ),
-                $photo->getVolumeId(),
-                $photo->getLocalId(),
-                $largePhotos
-            );
-            $dcId = $profilePhoto->getDcId();
-        } else {
-            $photoLocation = new input_file_location(
-                $photo->getVolumeId(),
-                $photo->getLocalId(),
-                $photo->getSecret(),
-                $photo->getReference()
-            );
-            $dcId = $photo->getDcId();
-        }
+        $photoLocation = new input_peer_photofilelocation(
+            new input_peer_user(
+                $user->getUserId(),
+                $user->getAccessHash()
+            ),
+            $profilePhoto->getPhotoId(),
+            $largePhotos
+        );
+        $dcId = $profilePhoto->getDcId();
 
         $this->readPicture($photoLocation, $dcId, $onPictureLoaded);
     }
