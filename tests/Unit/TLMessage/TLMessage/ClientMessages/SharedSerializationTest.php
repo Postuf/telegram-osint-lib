@@ -10,10 +10,8 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\client_dh_inner_data;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\delete_contacts;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\export_authorization;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_config;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_file;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_statuses;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\import_authorization;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_file_location;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\msgs_ack;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\p_q_inner_data;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\ping;
@@ -63,14 +61,6 @@ class SharedSerializationTest extends TestCase
         );
     }
 
-    public function test_get_file_serialization(): void
-    {
-        self::assertEquals(
-            (new get_file(new input_file_location(23423423, 23534534, 345345345, ''), 5096, 4096))->toBinary(),
-            hex2bin('fc9a5ab101000000e1abdadfbf69650100000000c61b6701418d95140000000000000000e813000000100000')
-        );
-    }
-
     public function test_get_statuses_serialization(): void
     {
         self::assertEquals(
@@ -84,14 +74,6 @@ class SharedSerializationTest extends TestCase
         self::assertEquals(
             (new import_authorization(44234234, 'rewrwerewrrwerq34231'))->toBinary(),
             hex2bin('1396efe3faf5a202147265777277657265777272776572713334323331000000')
-        );
-    }
-
-    public function test_input_file_location_serialization(): void
-    {
-        self::assertEquals(
-            (new input_file_location(4353452345, 34532453245, 3453453245, ''))->toBinary(),
-            hex2bin('e1abdadf39697c03010000007d6b4b0abd83d7cd0000000000000000')
         );
     }
 

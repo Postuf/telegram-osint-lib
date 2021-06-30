@@ -11,33 +11,27 @@ use TelegramOSINT\TLMessage\TLMessage\Packer;
  */
 class input_peer_photofilelocation extends input_peer
 {
-    public const CONSTRUCTOR = 668375447; // 0x27D69997
+    public const CONSTRUCTOR = 925204121;
 
     private input_peer $location;
-    private int $volumeId;
-    private int $localId;
-    /**
-     * @var bool
-     */
-    private $bigPhoto;
+    private int $photoId;
+    private bool $bigPhoto;
 
     /**
      * @param input_peer $location
-     * @param int        $volumeId
-     * @param int        $localId
-     * @param int        $bigPhoto
+     * @param int        $photoId
+     * @param bool       $bigPhoto
      */
-    public function __construct(input_peer $location, int $volumeId, int $localId, int $bigPhoto)
+    public function __construct(input_peer $location, int $photoId, bool $bigPhoto)
     {
         $this->location = $location;
-        $this->volumeId = $volumeId;
-        $this->localId = $localId;
+        $this->photoId = $photoId;
         $this->bigPhoto = $bigPhoto;
     }
 
     public function getName(): string
     {
-        return 'input_peer_user';
+        return 'input_peer_photofilelocation';
     }
 
     public function toBinary(): string
@@ -48,7 +42,6 @@ class input_peer_photofilelocation extends input_peer
             Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packInt($flags).
             Packer::packBytes($this->location->toBinary()).
-            Packer::packLong($this->volumeId).
-            Packer::packInt($this->localId);
+            Packer::packLong($this->photoId);
     }
 }

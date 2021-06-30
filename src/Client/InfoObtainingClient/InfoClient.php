@@ -41,7 +41,6 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_history;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_participants;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\import_authorization;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_channel;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_file_location;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_peer_photofilelocation;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_peer_user;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_photofilelocation;
@@ -55,7 +54,6 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\DcConfigApp;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\ExportedAuthorization;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UploadedFile;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserFull;
-use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserProfilePhoto;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 use TelegramOSINT\Tools\BanInvalidator;
 use TelegramOSINT\Tools\Cache;
@@ -441,33 +439,15 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
             return;
         }
 
-        $photo = $largePhotos ?
-            $profilePhoto->getBigPhoto() :
-            $profilePhoto->getSmallPhoto();
-
-        $photoLocation = null;
-        $dcId = null;
-
-        if ($profilePhoto instanceof UserProfilePhoto && $profilePhoto->isV2()) {
-            $photoLocation = new input_peer_photofilelocation(
-                new input_peer_user(
-                    $user->getUserId(),
-                    $user->getAccessHash()
-                ),
-                $photo->getVolumeId(),
-                $photo->getLocalId(),
-                $largePhotos
-            );
-            $dcId = $profilePhoto->getDcId();
-        } else {
-            $photoLocation = new input_file_location(
-                $photo->getVolumeId(),
-                $photo->getLocalId(),
-                $photo->getSecret(),
-                $photo->getReference()
-            );
-            $dcId = $photo->getDcId();
-        }
+        $photoLocation = new input_peer_photofilelocation(
+            new input_peer_user(
+                $user->getUserId(),
+                $user->getAccessHash()
+            ),
+            $profilePhoto->getPhotoId(),
+            $largePhotos
+        );
+        $dcId = $profilePhoto->getDcId();
 
         $this->readPicture($photoLocation, $dcId, $onPictureLoaded);
     }
