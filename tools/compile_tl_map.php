@@ -16,17 +16,17 @@ function getMapNodes(string $filename, array &$map)
     }
 }
 
-$mapStore = __DIR__ . "/../src/MTSerialization/OwnImplementation/maps";
+$mapStore = __DIR__.'/../src/MTSerialization/OwnImplementation/maps';
 $maps = array_diff(
     scandir($mapStore),
-    array('.', '..')
-    );
+    ['.', '..']
+);
 $resultMap = [];
-foreach ($maps as $mapFile){
+foreach ($maps as $mapFile) {
     $map = getMapNodes($mapStore.'/'.$mapFile, $resultMap);
 }
 
 $resultMap['constructors'] = array_values($resultMap['constructors']);
 $resultMap['methods'] = array_values($resultMap['methods']);
 $compiled = json_encode($resultMap, JSON_PRETTY_PRINT);
-file_put_contents($mapStore . '/compiled.json', $compiled);
+file_put_contents($mapStore.'/compiled.json', $compiled);

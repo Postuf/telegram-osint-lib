@@ -2,10 +2,6 @@
 
 namespace TelegramOSINT\MTSerialization\OwnImplementation;
 
-use Exception;
-use JsonStreamingParser\Listener\InMemoryListener;
-use JsonStreamingParser\Parser;
-use SebastianBergmann\CodeCoverage\Report\PHP;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
 use TelegramOSINT\MTSerialization\MTDeserializer;

@@ -20,7 +20,7 @@ class input_peer_photofilelocation extends input_peer
     /**
      * @param input_peer $location
      * @param int        $photoId
-     * @param bool        $bigPhoto
+     * @param bool       $bigPhoto
      */
     public function __construct(input_peer $location, int $photoId, bool $bigPhoto)
     {

@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace TelegramOSINT\TLMessage\TLMessage\ServerMessages;
 
-use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\MTSerialization\AnonymousMessage;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_peer_photofilelocation;
 use TelegramOSINT\TLMessage\TLMessage\TLServerMessage;
 
 class UserProfilePhoto extends TLServerMessage implements PhotoInterface
@@ -35,5 +33,4 @@ class UserProfilePhoto extends TLServerMessage implements PhotoInterface
     {
         return $this->getTlMessage()->getValue('dc_id');
     }
-
 }

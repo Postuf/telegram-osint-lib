@@ -41,7 +41,6 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_history;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_participants;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\import_authorization;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_channel;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_file_location;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_peer_photofilelocation;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_peer_user;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_photofilelocation;
@@ -55,7 +54,6 @@ use TelegramOSINT\TLMessage\TLMessage\ServerMessages\DcConfigApp;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\ExportedAuthorization;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UploadedFile;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserFull;
-use TelegramOSINT\TLMessage\TLMessage\ServerMessages\UserProfilePhoto;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 use TelegramOSINT\Tools\BanInvalidator;
 use TelegramOSINT\Tools\Cache;
@@ -376,7 +374,7 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
                 $username = $user->getUsername();
                 if (!empty($username)) {
                     $this->contactsKeeper->delNumbers([$phone], function () use ($username, $withPhoto, $largePhoto, $onComplete) {
-                         $this->getInfoByUsername($username, $withPhoto, $largePhoto, $onComplete);
+                        $this->getInfoByUsername($username, $withPhoto, $largePhoto, $onComplete);
                     });
                 } else {
                     $this->getFullUserInfo($user, $withPhoto, $largePhoto, $onComplete);
