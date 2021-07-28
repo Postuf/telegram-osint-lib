@@ -45,9 +45,9 @@ class DeviceResource
     {
         $intVersion = strstr($currentSdkString, 'SDK') ?
             (int) explode(' ', $currentSdkString)[1] : (int) $currentSdkString;
-        $newVersion =  $intVersion < self::getMinSdkVersion() ?
+        $newVersion = $intVersion < self::getMinSdkVersion() ?
             self::getMinSdkVersion() + ($intVersion % (self::getMaxSdkVersion() - self::getMinSdkVersion() + 1)) : $intVersion;
-        
+
         return 'SDK '.$newVersion;
     }
 
