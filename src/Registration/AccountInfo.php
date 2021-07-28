@@ -124,7 +124,7 @@ class AccountInfo
 
     public function getAndroidSdkVersion(): string
     {
-        return $this->androidSdkVersion;
+        return DeviceResource::getUpdatedSdkVersion($this->androidSdkVersion);
     }
 
     public function getFirstName(): string
