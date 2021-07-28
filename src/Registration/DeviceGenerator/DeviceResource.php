@@ -16,10 +16,6 @@ class DeviceResource
      * @var string
      */
     private $model;
-    /**
-     * @var int
-     */
-    private $sdkVersion;
     /** @var array */
     private static $devices = [];
 
@@ -33,9 +29,6 @@ class DeviceResource
 
         $this->brand = $randomDevice['brand'];
         $this->model = $randomDevice['model'];
-
-        $sdks = $randomDevice['sdks'];
-        $this->sdkVersion = $sdks[array_rand($sdks)];
     }
 
     public function getDeviceString(): string
@@ -45,6 +38,25 @@ class DeviceResource
 
     public function getSdkString(): string
     {
-        return 'SDK '.$this->sdkVersion;
+        return 'SDK '.rand(self::getMinSdkVersion(), self::getMaxSdkVersion());
+    }
+
+    public static function getUpdatedSdkVersion($currentSdkString): string
+    {
+        $intVersion = strstr($currentSdkString, 'SDK') ?
+            (int)explode(' ', $currentSdkString)[1] : (int)$currentSdkString;
+        $newVersion =  $intVersion < self::getMinSdkVersion() ?
+            self::getMinSdkVersion() + ($intVersion % (self::getMaxSdkVersion() - self::getMinSdkVersion() + 1)) : $intVersion;
+        return 'SDK '.$newVersion;
+    }
+
+    public static function getMinSdkVersion(): int
+    {
+        return 26;
+    }
+
+    public static function getMaxSdkVersion(): int
+    {
+        return 30;
     }
 }

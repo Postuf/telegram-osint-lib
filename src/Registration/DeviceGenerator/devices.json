@@ -1,151 +1,4431 @@
 [
-
-    {
-        "brand": "samsung",
-        "sdks": [21,22,23,24,25,26,27],
-        "model": "GT-N8020"
-    },
-    {
-        "brand": "samsung",
-        "sdks": [21,22,23,24,25,26,27],
-        "model": "GT-N8000"
-    },
-
-
-    {
-        "brand": "samsung",
-        "sdks": [26,27],
-        "model": "SM-G9500"
-    },
-    {
-        "brand": "samsung",
-        "sdks": [26,27],
-        "model": "SM-G950A"
-    },
-    {
-        "brand": "samsung",
-        "sdks": [26,27],
-        "model": "SM-G950F"
-    },
-    {
-        "brand": "samsung",
-        "sdks": [26,27],
-        "model": "SM-G950FD"
-    },
-    {
-        "brand": "samsung",
-        "sdks": [26,27],
-        "model": "SM-G950N"
-    },
-    {
-        "brand": "samsung",
-        "sdks": [26,27],
-        "model": "SM-G950W"
-    },
-    {
-        "brand": "samsung",
-        "sdks": [26,27],
-        "model": "SM-G950U"
-    },
-
-
-    {
-        "brand": "samsung",
-        "sdks": [27],
-        "model": "SM-G960F"
-    },
-    {
-        "brand": "samsung",
-        "sdks": [27],
-        "model": "SM-G960N"
-    },
-    {
-        "brand": "samsung",
-        "sdks": [27],
-        "model": "SM-G9600"
-    },
-    {
-        "brand": "samsung",
-        "sdks": [27],
-        "model": "SM-G960W"
-    },
-    {
-        "brand": "samsung",
-        "sdks": [27],
-        "model": "SM-G960U"
-    },
-    {
-        "brand": "samsung",
-        "sdks": [27],
-        "model": "SM-G960U1"
-    },
-
-
-    {
-        "brand": "huawei",
-        "sdks": [27],
-        "model": "STF-AL00"
-    },
-    {
-        "brand": "huawei",
-        "sdks": [27],
-        "model": "STF-AL10"
-    },
-    {
-        "brand": "huawei",
-        "sdks": [27],
-        "model": "STF-L09"
-    },
-    {
-        "brand": "huawei",
-        "sdks": [27],
-        "model": "STF-TL10"
-    },
-    {
-        "brand": "huawei",
-        "sdks": [27],
-        "model": "ALP-AL00"
-    },
-    {
-        "brand": "huawei",
-        "sdks": [27],
-        "model": "ALP-L09"
-    },
-    {
-        "brand": "huawei",
-        "sdks": [27],
-        "model": "ALP-L29"
-    },
-    {
-        "brand": "huawei",
-        "sdks": [27],
-        "model": "ALP-TL00"
-    },
-    {
-        "brand": "huawei",
-        "sdks": [27],
-        "model": "BLA-A09"
-    },
-    {
-        "brand": "huawei",
-        "sdks": [27],
-        "model": "BLA-AL00"
-    },
-    {
-        "brand": "huawei",
-        "sdks": [27],
-        "model": "BLA-L09"
-    },
-    {
-        "brand": "huawei",
-        "sdks": [27],
-        "model": "BLA-L29"
-    },
-
-
-    {
-        "brand": "HTC",
-        "sdks": [27],
-        "model": "M10"
-    }
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 5A"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ACER",
+    "model": "ACER Z520"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A574BL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A577VL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A577VL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A577VL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A577VL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A577VL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A577VL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A577VL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A577VL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A577VL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A577VL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A577VL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A577VL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A577VL"
+  },
+  {
+    "brand": "TCL",
+    "model": "A577VL"
+  },
+  {
+    "brand": "samsung",
+    "model": "GT-I9000"
+  },
+  {
+    "brand": "NextBook",
+    "model": "NX16A10132SPS"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "QUAD-CORE A64 p3"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "QUAD-CORE T3 k2001-nwd"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "QUAD-CORE T3 k2001-nwd"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "QUAD-CORE T3 k2001-nwd"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "QUAD-CORE T3 k2001-nwd"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "QUAD-CORE T3 k2001-nwd"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "QUAD-CORE T3 p3"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "QUAD-CORE T3 p3"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "QUAD-CORE T3 p3"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "QUAD-CORE T3 p3"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "QUAD-CORE T3 p3"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "QUAD-CORE T3 p3"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "QUAD-CORE T3 p3"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "QUAD-CORE T3 p3"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "QUAD-CORE T3 p3"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "t3"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "t3"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "t3"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "t3"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "t3"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "t3"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "t3"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "t3"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "t3"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "t3"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "t3"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "UltraOcta-T8"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "UltraOcta-T8"
+  },
+  {
+    "brand": "Allwinner",
+    "model": "V96S"
+  },
+  {
+    "brand": "VOYO",
+    "model": "i8-Max"
+  },
+  {
+    "brand": "alps",
+    "model": "tk6757_66_n1"
+  },
+  {
+    "brand": "alps",
+    "model": "tk6757_66_n1"
+  },
+  {
+    "brand": "alps",
+    "model": "tk6757_66_n1"
+  },
+  {
+    "brand": "alps",
+    "model": "tk6757_66_n1"
+  },
+  {
+    "brand": "alps",
+    "model": "tk6757_66_n1"
+  },
+  {
+    "brand": "Amazon",
+    "model": "KFKAWI"
+  },
+  {
+    "brand": "Amazon",
+    "model": "KFKAWI"
+  },
+  {
+    "brand": "Amazon",
+    "model": "Kindle Fire HD (3rd Generation)"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "A95X-R1"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "Alvatech GT1"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "Alvatech GT1"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "Alvatech GT1"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "Alvatech GT1"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "C300"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "DIVISAT J-Link"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "H96 PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "H96 PRO+"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "H96 PRO+"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "H96 PRO+"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "H96 PRO+"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "H96_PRO_PLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "H96_PRO_STICK"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "IRON_Plus"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "K3"
+  },
+  {
+    "brand": "RKM",
+    "model": "RKM-MK22"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "M8S PRO L"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "MBOX"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "MBOX"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "p281"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "MXQ PRO+"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "MXQ PRO+ AI-Speaker"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "NEXBOX-A95X"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "NEXBOX-A95X"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "NEXBOX-A95X"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "Nexus M8S PRO L"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "Nexus M8S PRO+"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "R-Box Pro 3G"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "R-TV-BOX Pro"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "S95"
+  },
+  {
+    "brand": "Android",
+    "model": "SS6B7I_ME001"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95UPRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "H96 PRO+"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95Zmax"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "T95ZPLUS"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "TX3 Max"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "TX3 Mini"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "TX3 Mini"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "TX92"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "TX92"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "TX92"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "Vorke Z1"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "X92"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "X92_3GB"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "X92_3GB"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "X96-W"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "X96mini"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "X96mini"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "X96mini"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "X96mini"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "X96mini"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "X96mini"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "X96mini"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "X96mini"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "X96mini"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "X96mini"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "X96mini"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "TX3 Max"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "X9TPRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "Z69Plus"
+  },
+  {
+    "brand": "LOVE",
+    "model": "LOVE"
+  },
+  {
+    "brand": "CARBAYTA",
+    "model": "S119"
+  },
+  {
+    "brand": "ANS",
+    "model": "L50"
+  },
+  {
+    "brand": "ANS",
+    "model": "L50"
+  },
+  {
+    "brand": "ANS",
+    "model": "L50"
+  },
+  {
+    "brand": "ANS",
+    "model": "L50"
+  },
+  {
+    "brand": "ANS",
+    "model": "L50"
+  },
+  {
+    "brand": "ANS",
+    "model": "L50"
+  },
+  {
+    "brand": "ANS",
+    "model": "L50"
+  },
+  {
+    "brand": "ANS",
+    "model": "L50"
+  },
+  {
+    "brand": "ANS",
+    "model": "L50"
+  },
+  {
+    "brand": "ANS",
+    "model": "L50"
+  },
+  {
+    "brand": "ANS",
+    "model": "L50"
+  },
+  {
+    "brand": "ANS",
+    "model": "L50"
+  },
+  {
+    "brand": "ANS",
+    "model": "L50"
+  },
+  {
+    "brand": "ANS",
+    "model": "L50"
+  },
+  {
+    "brand": "ANS",
+    "model": "L50"
+  },
+  {
+    "brand": "ANS",
+    "model": "L50"
+  },
+  {
+    "brand": "ANS",
+    "model": "L50"
+  },
+  {
+    "brand": "ANS",
+    "model": "L50"
+  },
+  {
+    "brand": "ANS",
+    "model": "L50"
+  },
+  {
+    "brand": "ANS",
+    "model": "L50"
+  },
+  {
+    "brand": "ANS",
+    "model": "L50"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "ANS",
+    "model": "UL40"
+  },
+  {
+    "brand": "asus",
+    "model": "ASUS_Z00A"
+  },
+  {
+    "brand": "google",
+    "model": "MeMOPAD 10FHD Lte"
+  },
+  {
+    "brand": "google",
+    "model": "Nexus 7"
+  },
+  {
+    "brand": "Google",
+    "model": "Nexus 7 3G"
+  },
+  {
+    "brand": "asus",
+    "model": "Z00D"
+  },
+  {
+    "brand": "asus",
+    "model": "Z00D"
+  },
+  {
+    "brand": "asus",
+    "model": "ASUS_Z01BD"
+  },
+  {
+    "brand": "atvXperience",
+    "model": "atvXperience_v2H"
+  },
+  {
+    "brand": "atvXperience",
+    "model": "atvXperience_v2H"
+  },
+  {
+    "brand": "atvXperience",
+    "model": "atvXperience_v2H"
+  },
+  {
+    "brand": "Beelink",
+    "model": "Beelink GT1"
+  },
+  {
+    "brand": "Beelink",
+    "model": "Beelink GT1"
+  },
+  {
+    "brand": "Beelink",
+    "model": "Beelink GT1"
+  },
+  {
+    "brand": "Beelink",
+    "model": "Beelink GT1"
+  },
+  {
+    "brand": "Beelink",
+    "model": "Beelink GT1"
+  },
+  {
+    "brand": "Beelink",
+    "model": "Beelink GT1"
+  },
+  {
+    "brand": "Beelink",
+    "model": "Beelink GT1"
+  },
+  {
+    "brand": "Beelink",
+    "model": "Beelink GT1"
+  },
+  {
+    "brand": "Beelink",
+    "model": "Beelink GT1"
+  },
+  {
+    "brand": "Beelink",
+    "model": "Beelink GT1"
+  },
+  {
+    "brand": "Beelink",
+    "model": "Beelink GT1"
+  },
+  {
+    "brand": "Beelink",
+    "model": "Beelink GT1"
+  },
+  {
+    "brand": "Beelink",
+    "model": "Beelink GT1"
+  },
+  {
+    "brand": "Beelink",
+    "model": "Beelink GT1"
+  },
+  {
+    "brand": "Beelink",
+    "model": "Beelink GT1"
+  },
+  {
+    "brand": "Beelink",
+    "model": "Beelink GT1"
+  },
+  {
+    "brand": "Beelink",
+    "model": "Beelink GT1"
+  },
+  {
+    "brand": "Beelink",
+    "model": "Beelink GT1"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "W95"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "W95"
+  },
+  {
+    "brand": "Blackview",
+    "model": "P10000 Pro"
+  },
+  {
+    "brand": "BLU",
+    "model": "Vivo ONE"
+  },
+  {
+    "brand": "BLU",
+    "model": "Vivo XL"
+  },
+  {
+    "brand": "android",
+    "model": "KX20"
+  },
+  {
+    "brand": "bq",
+    "model": "Aquaris M5.5"
+  },
+  {
+    "brand": "bq",
+    "model": "Aquaris X5 Plus"
+  },
+  {
+    "brand": "bq",
+    "model": "Aquaris X5 Plus"
+  },
+  {
+    "brand": "CMCC",
+    "model": "M653"
+  },
+  {
+    "brand": "CMCC",
+    "model": "M653"
+  },
+  {
+    "brand": "SANSUI",
+    "model": " ETAB 902VP"
+  },
+  {
+    "brand": "OnePlus",
+    "model": "ONEPLUS A5000"
+  },
+  {
+    "brand": "Coolpad",
+    "model": "Coolpad 3632A"
+  },
+  {
+    "brand": "Coolpad",
+    "model": "Coolpad 3632A"
+  },
+  {
+    "brand": "Coolpad",
+    "model": "victor"
+  },
+  {
+    "brand": "Coolpad",
+    "model": "Cool1"
+  },
+  {
+    "brand": "DOOGEE",
+    "model": "BL12000 PRO"
+  },
+  {
+    "brand": "DOOGEE",
+    "model": "MIX"
+  },
+  {
+    "brand": "DOOGEE",
+    "model": "MIX"
+  },
+  {
+    "brand": "DOOGEE",
+    "model": "X5pro"
+  },
+  {
+    "brand": "doopro",
+    "model": "C1_Pro"
+  },
+  {
+    "brand": "doopro",
+    "model": "C1_Pro"
+  },
+  {
+    "brand": "Elephone",
+    "model": "S8"
+  },
+  {
+    "brand": "Elephone",
+    "model": "U"
+  },
+  {
+    "brand": "essential",
+    "model": "PH-1"
+  },
+  {
+    "brand": "Geniatech",
+    "model": "ATV495MAX"
+  },
+  {
+    "brand": "google",
+    "model": "Pixel XL"
+  },
+  {
+    "brand": "google",
+    "model": "Pixel XL"
+  },
+  {
+    "brand": "google",
+    "model": "Pixel XL"
+  },
+  {
+    "brand": "google",
+    "model": "Pixel XL"
+  },
+  {
+    "brand": "ollee",
+    "model": "T10HR2S"
+  },
+  {
+    "brand": "Nokia",
+    "model": "TA-1004"
+  },
+  {
+    "brand": "Nokia",
+    "model": "TA-1025"
+  },
+  {
+    "brand": "Nokia",
+    "model": "TA-1003"
+  },
+  {
+    "brand": "Unknown",
+    "model": "Heart"
+  },
+  {
+    "brand": "Nokia",
+    "model": "TA-1003"
+  },
+  {
+    "brand": "Nokia",
+    "model": "TA-1003"
+  },
+  {
+    "brand": "HOMTOM",
+    "model": "HT16"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "hx_s905x"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "hx_s905x"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "hx_s905x"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "hx_s905x"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "hx_s905x"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "hx_s905x"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "M16"
+  },
+  {
+    "brand": "QMobile",
+    "model": "Q Infinity"
+  },
+  {
+    "brand": "HP",
+    "model": "Touchpad"
+  },
+  {
+    "brand": "htc",
+    "model": "HTC U11 EYEs"
+  },
+  {
+    "brand": "htc",
+    "model": "2PZC5"
+  },
+  {
+    "brand": "htc",
+    "model": "HTC U11"
+  },
+  {
+    "brand": "Honor",
+    "model": "Che2-L11"
+  },
+  {
+    "brand": "Honor",
+    "model": "HONOR-8"
+  },
+  {
+    "brand": "Samsung",
+    "model": "SM-G930"
+  },
+  {
+    "brand": "honor",
+    "model": "hi6250"
+  },
+  {
+    "brand": "google",
+    "model": "Nexus 6P"
+  },
+  {
+    "brand": "google",
+    "model": "Nexus 6P"
+  },
+  {
+    "brand": "google",
+    "model": "Nexus 6P"
+  },
+  {
+    "brand": "google",
+    "model": "Nexus 6P"
+  },
+  {
+    "brand": "google",
+    "model": "Nexus 6P"
+  },
+  {
+    "brand": "Huawei",
+    "model": "Y5"
+  },
+  {
+    "brand": "Impression",
+    "model": "ImSmart A401"
+  },
+  {
+    "brand": "Infinix",
+    "model": "Infinix HOT 4"
+  },
+  {
+    "brand": "Intex",
+    "model": "Aqua_Ace"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "IRBIS",
+    "model": "TZ49"
+  },
+  {
+    "brand": "Jiayu",
+    "model": "S3"
+  },
+  {
+    "brand": "Jiayu",
+    "model": "S3"
+  },
+  {
+    "brand": "Jiayu",
+    "model": "S3"
+  },
+  {
+    "brand": "Khadas",
+    "model": "Vim"
+  },
+  {
+    "brand": "koobee",
+    "model": "koobee F2"
+  },
+  {
+    "brand": "LeEco",
+    "model": "LEX850"
+  },
+  {
+    "brand": "Lenovo",
+    "model": "A6000"
+  },
+  {
+    "brand": "Lenovo",
+    "model": "Lenovo A7010a48"
+  },
+  {
+    "brand": "Lenovo",
+    "model": "Lenovo A7010a48"
+  },
+  {
+    "brand": "Lenovo",
+    "model": "Lenovo A536"
+  },
+  {
+    "brand": "lenovo",
+    "model": "Lenovo K8 Note"
+  },
+  {
+    "brand": "Lenovo",
+    "model": "Lenovo TB-8504F"
+  },
+  {
+    "brand": "Lenovo",
+    "model": "Lenovo TB-8504F"
+  },
+  {
+    "brand": "Lenovo",
+    "model": "Lenovo TB-8504F"
+  },
+  {
+    "brand": "Lenovo",
+    "model": "Lenovo TB-8504X"
+  },
+  {
+    "brand": "Lenovo",
+    "model": "Lenovo TB-X704F"
+  },
+  {
+    "brand": "Lenovo",
+    "model": "Lenovo TB-X704L"
+  },
+  {
+    "brand": "Lenovo",
+    "model": "Lenovo YT-X703F"
+  },
+  {
+    "brand": "Lenovo",
+    "model": "TB-X704V"
+  },
+  {
+    "brand": "Lenovo",
+    "model": "Vibe K5"
+  },
+  {
+    "brand": "Lenovo",
+    "model": "Lenovo Z90"
+  },
+  {
+    "brand": "google",
+    "model": "Nexus 5X"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210VPP"
+  },
+  {
+    "brand": "lge",
+    "model": "LG K20 Plus"
+  },
+  {
+    "brand": "lge",
+    "model": "LG K20 Plus"
+  },
+  {
+    "brand": "lge",
+    "model": "LG K20 Plus"
+  },
+  {
+    "brand": "lge",
+    "model": "Lg Stylo 2 Plus"
+  },
+  {
+    "brand": "lge",
+    "model": "LG Stylo 3 Plus"
+  },
+  {
+    "brand": "lge",
+    "model": "w7"
+  },
+  {
+    "brand": "lge",
+    "model": "g2m"
+  },
+  {
+    "brand": "lge",
+    "model": "g2m"
+  },
+  {
+    "brand": "LGE",
+    "model": "LG-D802"
+  },
+  {
+    "brand": "LGE",
+    "model": "LG-D802"
+  },
+  {
+    "brand": "lge",
+    "model": "LG-D851"
+  },
+  {
+    "brand": "lge",
+    "model": "LG-H631"
+  },
+  {
+    "brand": "lge",
+    "model": "LG-H631"
+  },
+  {
+    "brand": "lge",
+    "model": "LG-H932"
+  },
+  {
+    "brand": "lge",
+    "model": "LG-H990"
+  },
+  {
+    "brand": "LGE",
+    "model": "LG-LS990"
+  },
+  {
+    "brand": "lge",
+    "model": "LG-SP200"
+  },
+  {
+    "brand": "lge",
+    "model": "LG-SP200"
+  },
+  {
+    "brand": "lge",
+    "model": "LG-SP200"
+  },
+  {
+    "brand": "lge",
+    "model": "LG-SP200"
+  },
+  {
+    "brand": "lge",
+    "model": "LG-SP200"
+  },
+  {
+    "brand": "lge",
+    "model": "LG-SP200"
+  },
+  {
+    "brand": "lge",
+    "model": "LG-SP200"
+  },
+  {
+    "brand": "lge",
+    "model": "LG-SP320"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210MA"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210MA"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210MA"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210MA"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210MA"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210MA"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210MA"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210MA"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210MA"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210MA"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210APM"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210APM"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210APM"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210APM"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210APM"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210CM"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210CM"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210CM"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210CM"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210CM"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210CM"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210CMR"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210MA"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210VPP"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210VPP"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210VPP"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210VPP"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210VPP"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210VPP"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X210VPP"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X410TK"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X410TK"
+  },
+  {
+    "brand": "lge",
+    "model": "LM-X410TK"
+  },
+  {
+    "brand": "lge",
+    "model": "LML413DL"
+  },
+  {
+    "brand": "google",
+    "model": "Nexus 4"
+  },
+  {
+    "brand": "google",
+    "model": "Nexus 5"
+  },
+  {
+    "brand": "GOOGLE",
+    "model": "Nexus 5"
+  },
+  {
+    "brand": "google",
+    "model": "Nexus 5X"
+  },
+  {
+    "brand": "google",
+    "model": "Nexus 5X"
+  },
+  {
+    "brand": "google",
+    "model": "Nexus 5X"
+  },
+  {
+    "brand": "Jabrbox",
+    "model": "H460"
+  },
+  {
+    "brand": "Jabrbox",
+    "model": "H460"
+  },
+  {
+    "brand": "Jabrbox",
+    "model": "H460"
+  },
+  {
+    "brand": "Jabrbox",
+    "model": "H460"
+  },
+  {
+    "brand": "Jabrbox",
+    "model": "H460"
+  },
+  {
+    "brand": "Jabrbox",
+    "model": "H460"
+  },
+  {
+    "brand": "samsung",
+    "model": "GT-N7105"
+  },
+  {
+    "brand": "Meizu",
+    "model": "M2 Note"
+  },
+  {
+    "brand": "Meizu",
+    "model": "M2 Note"
+  },
+  {
+    "brand": "Meizu",
+    "model": "M2Note"
+  },
+  {
+    "brand": "Meizu",
+    "model": "M6 Note"
+  },
+  {
+    "brand": "Meizu",
+    "model": "M6 Note"
+  },
+  {
+    "brand": "Meizu",
+    "model": "M6 Note"
+  },
+  {
+    "brand": "Meizu",
+    "model": "M6 Note"
+  },
+  {
+    "brand": "Meizu",
+    "model": "M6 Note"
+  },
+  {
+    "brand": "Meizu",
+    "model": "M6 Note"
+  },
+  {
+    "brand": "Meizu",
+    "model": "M6 Note"
+  },
+  {
+    "brand": "Meizu",
+    "model": "MX6"
+  },
+  {
+    "brand": "Meizu",
+    "model": "PRO 5"
+  },
+  {
+    "brand": "Meizu",
+    "model": "PRO 6"
+  },
+  {
+    "brand": "MICROMAX",
+    "model": "Pace_4G"
+  },
+  {
+    "brand": "Mobicel",
+    "model": "R9 LITE"
+  },
+  {
+    "brand": "Mobicel",
+    "model": "R9 LITE"
+  },
+  {
+    "brand": "Motorola",
+    "model": "lineage_osprey"
+  },
+  {
+    "brand": "Moto",
+    "model": "Moto C Plus"
+  },
+  {
+    "brand": "motorola",
+    "model": "Moto E4"
+  },
+  {
+    "brand": "Motorola",
+    "model": "Moto G Play"
+  },
+  {
+    "brand": "Motorola",
+    "model": "Moto G Play"
+  },
+  {
+    "brand": "Motorola",
+    "model": "lineage_athene"
+  },
+  {
+    "brand": "Motorola",
+    "model": "lineage_athene"
+  },
+  {
+    "brand": "Motorola",
+    "model": "viper_athene"
+  },
+  {
+    "brand": "Motorola",
+    "model": "MotoG3"
+  },
+  {
+    "brand": "google",
+    "model": "Nexus 6"
+  },
+  {
+    "brand": "google",
+    "model": "Nexus 6"
+  },
+  {
+    "brand": "Motorola",
+    "model": "aicp_surnia"
+  },
+  {
+    "brand": "Motorola",
+    "model": "lineage_lux"
+  },
+  {
+    "brand": "motorola",
+    "model": "XT1565"
+  },
+  {
+    "brand": "Multilaser",
+    "model": "M7SQC_Plus"
+  },
+  {
+    "brand": "Navon",
+    "model": "iQ7_2018"
+  },
+  {
+    "brand": "Navon",
+    "model": "iQ7_2018"
+  },
+  {
+    "brand": "Navon",
+    "model": "Vision_Tab_10"
+  },
+  {
+    "brand": "Navon",
+    "model": "Vision_Tab_7"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "Beelink GT1"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "Beelink GT1"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "MINI M8S PRO"
+  },
+  {
+    "brand": "NOA",
+    "model": "NOA H10le"
+  },
+  {
+    "brand": "oneplus",
+    "model": "A0001"
+  },
+  {
+    "brand": "oneplus",
+    "model": "A0001"
+  },
+  {
+    "brand": "oneplus",
+    "model": "A0001"
+  },
+  {
+    "brand": "ONEPLUS",
+    "model": "A0001"
+  },
+  {
+    "brand": "OnePlus",
+    "model": "ONEPLUS A5000"
+  },
+  {
+    "brand": "OnePlus",
+    "model": "ONEPLUS A5000"
+  },
+  {
+    "brand": "OPPO",
+    "model": "OPPO CPH1723"
+  },
+  {
+    "brand": "OPPO",
+    "model": "OPPO CPH1723"
+  },
+  {
+    "brand": "OPPO",
+    "model": "OPPO CPH1723"
+  },
+  {
+    "brand": "OPPO",
+    "model": "OPPO CPH1723"
+  },
+  {
+    "brand": "OPPO",
+    "model": "OPPO CPH1723"
+  },
+  {
+    "brand": "OPPO",
+    "model": "OPPO CPH1723"
+  },
+  {
+    "brand": "OPPO",
+    "model": "OPPO CPH1723"
+  },
+  {
+    "brand": "OPPO",
+    "model": "OPPO CPH1723"
+  },
+  {
+    "brand": "OPPO",
+    "model": "OPPO CPH1723"
+  },
+  {
+    "brand": "OPPO",
+    "model": "OPPO CPH1723"
+  },
+  {
+    "brand": "OPPO",
+    "model": "OPPO A83js"
+  },
+  {
+    "brand": "OPPO",
+    "model": "OPPO A83js"
+  },
+  {
+    "brand": "OPPO",
+    "model": "OPPO A83js"
+  },
+  {
+    "brand": "OPPO",
+    "model": "OPPO A83js"
+  },
+  {
+    "brand": "OPPO",
+    "model": "CPH1801"
+  },
+  {
+    "brand": "OPPO",
+    "model": "CPH1801"
+  },
+  {
+    "brand": "OPPO",
+    "model": "OPPO R11s"
+  },
+  {
+    "brand": "OPPO",
+    "model": "R7sf"
+  },
+  {
+    "brand": "OUKITEL",
+    "model": "K6"
+  },
+  {
+    "brand": "OUKITEL",
+    "model": "K6"
+  },
+  {
+    "brand": "Oysters",
+    "model": "Oysters t72ha 3g"
+  },
+  {
+    "brand": "FREETEL",
+    "model": "FTU18A00"
+  },
+  {
+    "brand": "POLAROID",
+    "model": "MIDI163PDE"
+  },
+  {
+    "brand": "positivo",
+    "model": "Positivo BGH W750"
+  },
+  {
+    "brand": "Prestigio",
+    "model": "Prestigio PSP7501DUO"
+  },
+  {
+    "brand": "QMobile",
+    "model": "Q Infinity"
+  },
+  {
+    "brand": "QMobile",
+    "model": "Q Infinity"
+  },
+  {
+    "brand": "Doogee",
+    "model": "Doogee X5 Max Pro"
+  },
+  {
+    "brand": "Android",
+    "model": "sdm660 for arm64"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z557BL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "RCA",
+    "model": "RCT6973W43R"
+  },
+  {
+    "brand": "RCA",
+    "model": "RCT6973W43R"
+  },
+  {
+    "brand": "RCA",
+    "model": "RCT6973W43R"
+  },
+  {
+    "brand": "RCA",
+    "model": "RCT6973W43R"
+  },
+  {
+    "brand": "RCA",
+    "model": "RCT6973W43R"
+  },
+  {
+    "brand": "Android",
+    "model": "Kingbox"
+  },
+  {
+    "brand": "Android",
+    "model": "Kingbox"
+  },
+  {
+    "brand": "Android",
+    "model": "Leelbox"
+  },
+  {
+    "brand": "Android",
+    "model": "px3"
+  },
+  {
+    "brand": "Android",
+    "model": "px3"
+  },
+  {
+    "brand": "Android",
+    "model": "px3"
+  },
+  {
+    "brand": "Android",
+    "model": "px3"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MI MAX 2"
+  },
+  {
+    "brand": "Android",
+    "model": "Kingbox"
+  },
+  {
+    "brand": "Android",
+    "model": "rk3288"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T385"
+  },
+  {
+    "brand": "google",
+    "model": "PIXEL 2 XL"
+  },
+  {
+    "brand": "samsung",
+    "model": "GT-I9000"
+  },
+  {
+    "brand": "samsung",
+    "model": "GT-I9060I"
+  },
+  {
+    "brand": "Samsung",
+    "model": "GT-I9100"
+  },
+  {
+    "brand": "samsung",
+    "model": "lineage_serranoltexx"
+  },
+  {
+    "brand": "samsung",
+    "model": "lineage_serranoltexx"
+  },
+  {
+    "brand": "samsung",
+    "model": "lineage_serranoltexx"
+  },
+  {
+    "brand": "samsung",
+    "model": "GT-I9295"
+  },
+  {
+    "brand": "samsung",
+    "model": "GT-I9300"
+  },
+  {
+    "brand": "samsung",
+    "model": "GT-I9300"
+  },
+  {
+    "brand": "samsung",
+    "model": "GT-I9300"
+  },
+  {
+    "brand": "samsung",
+    "model": "GT-I9300"
+  },
+  {
+    "brand": "samsung",
+    "model": "GT-I9300"
+  },
+  {
+    "brand": "samsung",
+    "model": "GT-I9301I"
+  },
+  {
+    "brand": "samsung",
+    "model": "GT-I9505"
+  },
+  {
+    "brand": "samsung",
+    "model": "GT-I9505"
+  },
+  {
+    "brand": "samsung",
+    "model": "GT-I9505"
+  },
+  {
+    "brand": "samsung",
+    "model": "GT-I9515"
+  },
+  {
+    "brand": "Samsung",
+    "model": "GT-N7000"
+  },
+  {
+    "brand": "Samsung",
+    "model": "GT-N7000"
+  },
+  {
+    "brand": "samsung",
+    "model": "GT-N7100"
+  },
+  {
+    "brand": "Google",
+    "model": "Nexus 10"
+  },
+  {
+    "brand": "samsung",
+    "model": "SAMSUNG-SM-J320A"
+  },
+  {
+    "brand": "samsung",
+    "model": "SAMSUNG-SM-J320A"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-A500F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-A500F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-A530N"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-A7100"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-A730F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-A730F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-A910F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-C710F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-C710F"
+  },
+  {
+    "brand": "samsung",
+    "model": "kltechn"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-G900H"
+  },
+  {
+    "brand": "samsung",
+    "model": "klte"
+  },
+  {
+    "brand": "Samsung",
+    "model": "SM-G920F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-G935F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-G955F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J250F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J250F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J250F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J250F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J250F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J250F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J250F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J250F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J250F"
+  },
+  {
+    "brand": "Verizon",
+    "model": "SM-J320V"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J500F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J510FN"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J510FN"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J510FN"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J510FN"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J510FN"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J510FN"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J510FN"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J510H"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J510H"
+  },
+  {
+    "brand": "samsung",
+    "model": "G550FY"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J700P"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J700T"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J700T1"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J700T1"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J700T1"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J710FN"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J730F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-N900"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-N900"
+  },
+  {
+    "brand": "samsung",
+    "model": "hlte"
+  },
+  {
+    "brand": "samsung",
+    "model": "hlte"
+  },
+  {
+    "brand": "samsung",
+    "model": "hltetmo"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-N910C"
+  },
+  {
+    "brand": "Verizon",
+    "model": "SM-N910V"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-J510FN"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-N950F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-N950F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-N950F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-N950F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-N950F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-N950F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-N950F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-N950F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-N950N"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-N950U"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-N950U"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-N950U"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-N950U"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-N950U"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-N950U"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-N950U"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-P600"
+  },
+  {
+    "brand": "samsung",
+    "model": "GT-I9505"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T217S"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T320"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T350"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T350"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T350"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T350"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T350"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T350"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T350"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T350"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T355Y"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T355Y"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T355Y"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T377R4"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T377T"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T377W"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T380"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T380"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T390"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T550"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T555"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T560NU"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-T561"
+  },
+  {
+    "brand": "Verizon",
+    "model": "SM-T567V"
+  },
+  {
+    "brand": "samsung",
+    "model": "SPH-L600"
+  },
+  {
+    "brand": "SHARP",
+    "model": "FS8010"
+  },
+  {
+    "brand": "Sony",
+    "model": "E6653"
+  },
+  {
+    "brand": "Sony",
+    "model": "E6653"
+  },
+  {
+    "brand": "Sony",
+    "model": "E6653"
+  },
+  {
+    "brand": "Sony",
+    "model": "E6653"
+  },
+  {
+    "brand": "Sony",
+    "model": "E6653"
+  },
+  {
+    "brand": "Sony",
+    "model": "E6853"
+  },
+  {
+    "brand": "Sony",
+    "model": "Xperia Z"
+  },
+  {
+    "brand": "SYMPHONY",
+    "model": "SYMPHONY P6 Pro"
+  },
+  {
+    "brand": "Coolpad",
+    "model": "REVVLPLUS C3701A"
+  },
+  {
+    "brand": "TCL",
+    "model": "9024W"
+  },
+  {
+    "brand": "TCL",
+    "model": "9024W"
+  },
+  {
+    "brand": "TCL",
+    "model": "idol3"
+  },
+  {
+    "brand": "TECNO",
+    "model": "TECNO-J8"
+  },
+  {
+    "brand": "UGOOS",
+    "model": "UGOOS-UT3"
+  },
+  {
+    "brand": "Ulefone",
+    "model": "Gemini Pro"
+  },
+  {
+    "brand": "Ulefone",
+    "model": "Gemini Pro"
+  },
+  {
+    "brand": "Ulefone",
+    "model": "Metal"
+  },
+  {
+    "brand": "ulefone",
+    "model": "Power 3S"
+  },
+  {
+    "brand": "ulefone",
+    "model": "Power 3S"
+  },
+  {
+    "brand": "ulefone",
+    "model": "Power_3"
+  },
+  {
+    "brand": "UMI",
+    "model": "IronPro"
+  },
+  {
+    "brand": "UMIDIGI",
+    "model": "Z"
+  },
+  {
+    "brand": "UMIDIGI",
+    "model": "Z"
+  },
+  {
+    "brand": "UMIDIGI",
+    "model": "Z"
+  },
+  {
+    "brand": "ANS",
+    "model": "TW801"
+  },
+  {
+    "brand": "ANS",
+    "model": "TW801"
+  },
+  {
+    "brand": "ANS",
+    "model": "TW801"
+  },
+  {
+    "brand": "ANS",
+    "model": "TW801"
+  },
+  {
+    "brand": "ANS",
+    "model": "TW801"
+  },
+  {
+    "brand": "ANS",
+    "model": "TW801"
+  },
+  {
+    "brand": "vernee",
+    "model": "X"
+  },
+  {
+    "brand": "Vertex",
+    "model": "Impress_Tor"
+  },
+  {
+    "brand": "Vertex",
+    "model": "Impress_Tor"
+  },
+  {
+    "brand": "vivo",
+    "model": "vivo 1716"
+  },
+  {
+    "brand": "vivo",
+    "model": "vivo"
+  },
+  {
+    "brand": "vivo",
+    "model": "vivo"
+  },
+  {
+    "brand": "vivo",
+    "model": "vivo"
+  },
+  {
+    "brand": "vivo",
+    "model": "vivo"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "KIII PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "KM8PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "KM8PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "KM8PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "KM8PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "KM8PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "KM8PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "KM8PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "KM8PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "KM8PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "KM8PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "KM8PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "KM8PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "KM8PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "KM8PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "KM8PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "KM8PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "KM8PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "M8S PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "M8S PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "M8S PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "M8S PRO"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "M8S PRO L"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "M8S PRO W"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "TEH-500"
+  },
+  {
+    "brand": "Amlogic",
+    "model": "VONTAR Z8 Arc"
+  },
+  {
+    "brand": "WIKO",
+    "model": "View"
+  },
+  {
+    "brand": "WIKO",
+    "model": "View"
+  },
+  {
+    "brand": "WIKO",
+    "model": "View"
+  },
+  {
+    "brand": "Wileyfox",
+    "model": "Wileyfox Storm"
+  },
+  {
+    "brand": "Wileyfox",
+    "model": "Wileyfox Storm"
+  },
+  {
+    "brand": "Wileyfox",
+    "model": "Wileyfox Swift"
+  },
+  {
+    "brand": "Wileyfox",
+    "model": "Wileyfox Swift"
+  },
+  {
+    "brand": "Wileyfox",
+    "model": "Wileyfox Swift"
+  },
+  {
+    "brand": "Wileyfox",
+    "model": "Wileyfox Swift"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "HM NOTE 1LTE"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "song"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MI 5s"
+  },
+  {
+    "brand": "xiaomi",
+    "model": "MI 5X"
+  },
+  {
+    "brand": "xiaomi",
+    "model": "MI 5X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MI 6"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MI 6"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MI 6"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MI 6"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MI 6"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MI 6"
+  },
+  {
+    "brand": "xiaomi",
+    "model": "Mi A1"
+  },
+  {
+    "brand": "xiaomi",
+    "model": "Mi A1"
+  },
+  {
+    "brand": "xiaomi",
+    "model": "Mi A1"
+  },
+  {
+    "brand": "xiaomi",
+    "model": "Mi A1"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MI MAX 2"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MI MAX 2"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MI MAX 2"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MI MAX 2"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MI MAX 2"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MI MAX 2"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MI MAX 2"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Mi Note 3"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Mi Note 3"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MIBOX3"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MIBOX3"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MIBOX3"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MIBOX3"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MIBOX3"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MIBOX3"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MIBOX3"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MIBOX3"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MIBOX3"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MIBOX3"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "MIBOX3"
+  },
+  {
+    "brand": "PoisonATV_V4.5",
+    "model": "PoisonATV_V4.5"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 3"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 3"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4 Prime"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4A"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4A"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4A"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4A"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4A"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4A"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4A"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4A"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4A"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 4X"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 5"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 5"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 5"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 5"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 5"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 5"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 5"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 5"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 5"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 5"
+  },
+  {
+    "brand": "xiaomi",
+    "model": "Redmi 5 Plus"
+  },
+  {
+    "brand": "xiaomi",
+    "model": "Redmi 5 Plus"
+  },
+  {
+    "brand": "xiaomi",
+    "model": "Redmi 5 Plus"
+  },
+  {
+    "brand": "xiaomi",
+    "model": "Redmi 5 Plus"
+  },
+  {
+    "brand": "xiaomi",
+    "model": "Redmi 5 Plus"
+  },
+  {
+    "brand": "xiaomi",
+    "model": "Redmi 5 Plus"
+  },
+  {
+    "brand": "xiaomi",
+    "model": "Redmi 5 Plus"
+  },
+  {
+    "brand": "xiaomi",
+    "model": "Redmi 5 Plus"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 5A"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 5A"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 5A"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 5A"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 5A"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi 5A"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi Note 3"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi Note 3"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi Note 3"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi Note 3"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi Note 4"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi Note 4"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi Note 4"
+  },
+  {
+    "brand": "Xiaomi",
+    "model": "Redmi Note 4"
+  },
+  {
+    "brand": "xiaomi",
+    "model": "Redmi 5 Plus"
+  },
+  {
+    "brand": "xiaomi",
+    "model": "Redmi Note 5A"
+  },
+  {
+    "brand": "xiaomi",
+    "model": "Redmi Note 5A"
+  },
+  {
+    "brand": "NextBook",
+    "model": "NX16A8116KP"
+  },
+  {
+    "brand": "Coolpad",
+    "model": "REVVLPLUS C3701A"
+  },
+  {
+    "brand": "Coolpad",
+    "model": "REVVLPLUS C3701A"
+  },
+  {
+    "brand": "Coolpad",
+    "model": "REVVLPLUS C3701A"
+  },
+  {
+    "brand": "Coolpad",
+    "model": "REVVLPLUS C3701A"
+  },
+  {
+    "brand": "Coolpad",
+    "model": "REVVLPLUS C3701A"
+  },
+  {
+    "brand": "Coolpad",
+    "model": "REVVLPLUS C3701A"
+  },
+  {
+    "brand": "Coolpad",
+    "model": "REVVLPLUS C3701A"
+  },
+  {
+    "brand": "Coolpad",
+    "model": "REVVLPLUS C3701A"
+  },
+  {
+    "brand": "Coolpad",
+    "model": "REVVLPLUS C3701A"
+  },
+  {
+    "brand": "Coolpad",
+    "model": "REVVLPLUS C3701A"
+  },
+  {
+    "brand": "Coolpad",
+    "model": "REVVLPLUS C3701A"
+  },
+  {
+    "brand": "Coolpad",
+    "model": "REVVLPLUS C3701A"
+  },
+  {
+    "brand": "Coolpad",
+    "model": "REVVLPLUS C3701A"
+  },
+  {
+    "brand": "Coolpad",
+    "model": "REVVLPLUS C3701A"
+  },
+  {
+    "brand": "Coolpad",
+    "model": "REVVLPLUS C3701A"
+  },
+  {
+    "brand": "Coolpad",
+    "model": "REVVLPLUS C3701A"
+  },
+  {
+    "brand": "ZTE",
+    "model": "ZTE BLADE A0605"
+  },
+  {
+    "brand": "ZTE",
+    "model": "ZTE BLADE A0620"
+  },
+  {
+    "brand": "ZTE",
+    "model": "ZTE BLADE A0620"
+  },
+  {
+    "brand": "ZTE",
+    "model": "ZTE BLADE A0620"
+  },
+  {
+    "brand": "ZTE",
+    "model": "K81"
+  },
+  {
+    "brand": "ZTE",
+    "model": "K81"
+  },
+  {
+    "brand": "ZTE",
+    "model": "K81"
+  },
+  {
+    "brand": "ZTE",
+    "model": "K88"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N818S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N818S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N818S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N818S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N818S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N818S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N818S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N818S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N818S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N818S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N818S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N818S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N818S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N818S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N818S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N818S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N818S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N818S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N9137"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N9137"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N9137"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N9517"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N9560"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N9560"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N9560"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N9560"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N9560"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N9560"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N9560"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N9560"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N9560"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N9560"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N9560"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N9560"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N9560"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N9560"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N9560"
+  },
+  {
+    "brand": "ZTE",
+    "model": "N9560"
+  },
+  {
+    "brand": "ZTE",
+    "model": "ZTE T620G"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z3001S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z3001S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z3001S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z3001S"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z557BL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z557BL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z557BL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z557BL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z557BL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z557BL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z557BL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z557BL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z557BL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z557BL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z557BL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z557BL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z557BL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z557BL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z557BL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z557BL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z557BL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z557BL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z557BL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z558VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z719DL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z719DL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z719DL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z719DL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z719DL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z719DL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z835"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z835"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z835"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z835"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z835"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z835"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z835"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z835"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z835"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z835"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z835"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z835"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z835"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z835"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z835"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z835"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z835"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z839"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z839"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z839"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z839"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z839"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z839"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z839"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z839"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z839"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z839"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z839"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z839"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z839"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z851M"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z851M"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z851M"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z851M"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z851M"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z855"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z855"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z855"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z899VL"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z965"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z965"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z971"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z971"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z971"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z971"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z971"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z971"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z971"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z971"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z971"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z971"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z971"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z971"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z982"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z983"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z983"
+  },
+  {
+    "brand": "ZTE",
+    "model": "Z983"
+  },
+  {
+    "brand": "ZUK",
+    "model": "ZUK Z1"
+  },
+  {
+    "brand": "samsung",
+    "model": "GT-N8020"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-G9500"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-G950A"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-G950F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-G950FD"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-G950N"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-G950W"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-G950U"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-G960F"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-G960N"
+  },
+  {
+    "checked": 1,
+    "brand": "samsung",
+    "model": "SM-G9600"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-G960W"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-G960U"
+  },
+  {
+    "brand": "samsung",
+    "model": "SM-G960U1"
+  },
+  {
+    "brand": "huawei",
+    "model": "STF-AL00"
+  },
+  {
+    "brand": "huawei",
+    "model": "STF-AL10"
+  },
+  {
+    "brand": "huawei",
+    "model": "STF-L09"
+  },
+  {
+    "brand": "huawei",
+    "model": "STF-TL10"
+  },
+  {
+    "brand": "huawei",
+    "model": "ALP-AL00"
+  },
+  {
+    "brand": "huawei",
+    "model": "ALP-L09"
+  },
+  {
+    "brand": "huawei",
+    "model": "ALP-L29"
+  },
+  {
+    "brand": "huawei",
+    "model": "ALP-TL00"
+  },
+  {
+    "brand": "huawei",
+    "model": "BLA-A09"
+  },
+  {
+    "brand": "huawei",
+    "model": "BLA-AL00"
+  },
+  {
+    "brand": "huawei",
+    "model": "BLA-L09"
+  },
+  {
+    "brand": "huawei",
+    "model": "BLA-L29"
+  },
+  {
+    "brand": "HTC",
+    "model": "M10"
+  }
 ]

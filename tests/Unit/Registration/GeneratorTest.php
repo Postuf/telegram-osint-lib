@@ -23,4 +23,11 @@ class GeneratorTest extends TestCase
         self::assertSame(strpos($generator->getSdkString(), 'SDK'), 0);
         self::assertNotSame($generator->getDeviceString(), '');
     }
+
+    public function test_android_version_substitution(): void
+    {
+        self::assertSame('SDK 27', DeviceResource::getUpdatedSdkVersion('SDK 21'));
+        self::assertSame('SDK 30', DeviceResource::getUpdatedSdkVersion('SDK 30'));
+        self::assertSame('SDK 26', DeviceResource::getUpdatedSdkVersion('SDK 20'));
+    }
 }

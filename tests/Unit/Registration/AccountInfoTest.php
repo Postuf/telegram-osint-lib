@@ -7,6 +7,7 @@ namespace Unit\Registration;
 use PHPUnit\Framework\TestCase;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\Registration\AccountInfo;
+use TelegramOSINT\Registration\DeviceGenerator\DeviceResource;
 
 class AccountInfoTest extends TestCase
 {
@@ -33,7 +34,7 @@ TAG
         );
         $unserializedAccountInfo = AccountInfo::deserializeFromJson($accountInfo->serializeToJson());
         self::assertEquals('x1', $unserializedAccountInfo->getDevice());
-        self::assertEquals('x2', $unserializedAccountInfo->getAndroidSdkVersion());
+        self::assertEquals('SDK '.DeviceResource::getMinSdkVersion(), $unserializedAccountInfo->getAndroidSdkVersion());
         self::assertEquals('x3', $unserializedAccountInfo->getFirstName());
         self::assertEquals('x4', $unserializedAccountInfo->getLastName());
         self::assertEquals('x5', $unserializedAccountInfo->getDeviceLang());
