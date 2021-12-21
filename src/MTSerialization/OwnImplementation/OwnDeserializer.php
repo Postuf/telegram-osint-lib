@@ -311,7 +311,7 @@ class OwnDeserializer implements MTDeserializer
         $type = $matches[1];
 
         $id = $this->readId();
-        if ($id !== 0x1cb5c415) {
+        if ($id !== 0x1CB5C415) {
             throw new TGException(TGException::ERR_DESERIALIZER_VECTOR_EXPECTED, 'vector expected! got: '.$id);
         }
 

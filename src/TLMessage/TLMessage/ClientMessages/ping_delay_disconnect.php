@@ -10,7 +10,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class ping_delay_disconnect implements TLClientMessage
 {
-    private const CONSTRUCTOR = 0xf3427b8c;
+    private const CONSTRUCTOR = 0xF3427B8C;
 
     /**
      * @var string
