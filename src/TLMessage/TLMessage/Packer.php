@@ -48,7 +48,7 @@ class Packer
      */
     public static function packBool(bool $value): string
     {
-        return self::packInt($value ? 0x997275b5 : 0xbc799737);
+        return self::packInt($value ? 0x997275B5 : 0xBC799737);
     }
 
     /**

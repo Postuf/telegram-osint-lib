@@ -18,7 +18,7 @@ class UserFull extends TLServerMessage
      */
     public static function isIt(AnonymousMessage $tlMessage): bool
     {
-        return self::checkType($tlMessage, 'userFull');
+        return self::checkType($tlMessage, 'users.userFull');
     }
 
     /**
@@ -28,18 +28,18 @@ class UserFull extends TLServerMessage
      */
     public function getUser(): ContactUser
     {
-        $user = $this->getTlMessage()->getNode('user');
+        $user = $this->getTlMessage()->getNodes('users')[0];
 
         return new ContactUser($user);
     }
 
     public function getAbout(): ?string
     {
-        return $this->getTlMessage()->getValue('about');
+        return $this->getTlMessage()->getNode('full_user')->getValue('about');
     }
 
     public function getCommonChatsCount(): int
     {
-        return $this->getTlMessage()->getValue('common_chats_count');
+        return $this->getTlMessage()->getNode('full_user')->getValue('common_chats_count');
     }
 }

@@ -9,7 +9,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class client_dh_inner_data implements TLClientMessage
 {
-    private const CONSTRUCTOR = 0x6643b654;
+    private const CONSTRUCTOR = 0x6643B654;
 
     private string $oldClientNonce;
     private string $serverNonce;
@@ -17,7 +17,7 @@ class client_dh_inner_data implements TLClientMessage
     private string $g_b;
 
     /**
-     * @param  $oldClientNonce
+     * @param string $oldClientNonce
      * @param string $serverNonce
      * @param int    $retry_id
      * @param string $g_b
