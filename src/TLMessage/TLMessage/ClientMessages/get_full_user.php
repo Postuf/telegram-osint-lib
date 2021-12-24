@@ -43,7 +43,8 @@ class get_full_user implements TLClientMessage
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).
-            ($this->msgId
+            (
+                $this->msgId
                 ? (new input_user_from_message($this->userId, $this->accessHash, $this->msgId, $this->realUserId))->toBinary()
                 : (new input_user($this->userId, $this->accessHash))->toBinary()
             );
