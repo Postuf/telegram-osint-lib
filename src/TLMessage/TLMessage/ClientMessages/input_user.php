@@ -10,7 +10,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 /** @see https://core.telegram.org/constructor/inputUser */
 class input_user implements TLClientMessage
 {
-    public const CONSTRUCTOR = -668391402; // 0xd8292816
+    public const CONSTRUCTOR = 4061223110;
 
     private int $userId;
     private int $accessHash;
@@ -34,7 +34,7 @@ class input_user implements TLClientMessage
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).
-            Packer::packInt($this->userId).
+            Packer::packLong($this->userId).
             Packer::packLong($this->accessHash);
     }
 }

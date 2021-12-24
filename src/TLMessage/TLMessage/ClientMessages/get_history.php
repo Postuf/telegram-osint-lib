@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_history implements TLClientMessage
 {
-    private const CONSTRUCTOR = -591691168; // 0xdcbb8260
+    private const CONSTRUCTOR = 1143203525;
 
     /** @var int */
     private int $chatId;
@@ -53,6 +53,6 @@ class get_history implements TLClientMessage
             Packer::packInt($this->limit). // limit
             Packer::packInt(0). // max_id
             Packer::packInt(0). // min_id
-            Packer::packInt(0); // hash
+            Packer::packLong(0); // hash
     }
 }

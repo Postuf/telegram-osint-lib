@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class input_user_from_message implements TLClientMessage
 {
-    private const CONSTRUCTOR = 756118935; // 0x2d117597
+    private const CONSTRUCTOR = 497305826;
 
     /** @var int */
     private int $channelId;
@@ -41,6 +41,6 @@ class input_user_from_message implements TLClientMessage
         return Packer::packConstructor(self::CONSTRUCTOR).
             (new input_peer_channel($this->channelId, $this->accessHash))->toBinary().
             Packer::packInt($this->msgId).
-            Packer::packInt($this->userId);
+            Packer::packLong($this->userId);
     }
 }

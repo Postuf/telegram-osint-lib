@@ -12,9 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_full_user implements TLClientMessage
 {
-    public const CONSTRUCTOR = -902781519; // 0xCA30A5B1
-    /** @see https://core.telegram.org/type/InputUser */
-    public const CONSTRUCTOR_INPUT_USER = -668391402; // 0xD8292816
+    public const CONSTRUCTOR = 3054459160;
     private int $userId;
     private int $accessHash;
     /** @var int|null */
@@ -46,12 +44,8 @@ class get_full_user implements TLClientMessage
         return
             Packer::packConstructor(self::CONSTRUCTOR).
             ($this->msgId
-                ? (
-                    (new input_user_from_message($this->userId, $this->accessHash, $this->msgId, $this->realUserId))->toBinary()
-                ) : (
-                    Packer::packConstructor(self::CONSTRUCTOR_INPUT_USER).
-                Packer::packInt($this->userId).
-                Packer::packLong($this->accessHash)
-                ));
+                ? (new input_user_from_message($this->userId, $this->accessHash, $this->msgId, $this->realUserId))->toBinary()
+                : (new input_user($this->userId, $this->accessHash))->toBinary()
+            );
     }
 }

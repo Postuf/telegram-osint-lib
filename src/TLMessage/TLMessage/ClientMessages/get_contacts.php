@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_contacts implements TLClientMessage
 {
-    private const CONSTRUCTOR = -1071414113; // 0xC023849F
+    private const CONSTRUCTOR = 1574346258; // 0xC023849F
 
     public function getName(): string
     {
@@ -21,10 +21,10 @@ class get_contacts implements TLClientMessage
 
     public function toBinary(): string
     {
-        $contactsHash = '';
+        $contactsHash = 0;
 
         return
             Packer::packConstructor(self::CONSTRUCTOR).
-            Packer::packString($contactsHash);
+            Packer::packLong($contactsHash);
     }
 }

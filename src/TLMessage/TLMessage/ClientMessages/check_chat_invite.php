@@ -16,7 +16,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class check_chat_invite implements TLClientMessage
 {
-    private const CONSTRUCTOR = 1051570619; // 0x3eadb1bb
+    private const CONSTRUCTOR = 1051570619;
 
     /** @var string */
     private string $hash;

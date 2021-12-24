@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_featured_stickers implements TLClientMessage
 {
-    public const CONSTRUCTOR = 766298703; // 0x2DACCA4F
+    public const CONSTRUCTOR = 1685588756;
 
     public function getName(): string
     {
@@ -23,6 +23,6 @@ class get_featured_stickers implements TLClientMessage
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).
-            Packer::packInt(0);
+            Packer::packLong(0);
     }
 }

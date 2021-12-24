@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_common_chats implements TLClientMessage
 {
-    private const CONSTRUCTOR = 218777796; // 0xd0a48c4
+    private const CONSTRUCTOR = 3826032900;
 
     /** @var int */
     private int $user_id;
@@ -41,7 +41,7 @@ class get_common_chats implements TLClientMessage
         return
             Packer::packConstructor(self::CONSTRUCTOR).
             (new input_user($this->user_id, $this->accessHash))->toBinary().
-            Packer::packInt($this->max_id).
+            Packer::packLong($this->max_id).
             Packer::packInt($this->limit);
     }
 }

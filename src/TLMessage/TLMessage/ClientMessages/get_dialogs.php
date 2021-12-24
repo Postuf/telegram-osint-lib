@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_dialogs implements TLClientMessage
 {
-    private const CONSTRUCTOR = -1594999949; // 0xA0EE3B73
+    private const CONSTRUCTOR = 2700397391;
 
     public function getName(): string
     {
@@ -29,6 +29,6 @@ class get_dialogs implements TLClientMessage
             Packer::packInt(0).
             Packer::packBytes((new input_peer_empty())->toBinary()).
             Packer::packInt(100).
-            Packer::packInt(0);
+            Packer::packLong(0);
     }
 }

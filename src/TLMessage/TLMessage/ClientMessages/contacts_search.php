@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class contacts_search implements TLClientMessage
 {
-    private const CONSTRUCTOR = 301470424; // 0x11F812D8
+    private const CONSTRUCTOR = 301470424;
 
     private const DEFAULT_APP_LIMIT = 50;
 

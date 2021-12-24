@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_participants implements TLClientMessage
 {
-    private const CONSTRUCTOR = 306054633; // 0x123e05e9
+    private const CONSTRUCTOR = 2010044880;
     private const LIMIT = 100;
 
     /** @var int */
@@ -43,6 +43,6 @@ class get_participants implements TLClientMessage
                 : new channel_participants_filter())->toBinary().
             Packer::packInt($this->offset).
             Packer::packInt(self::LIMIT).
-            Packer::packInt(0); // hash
+            Packer::packLong(0); // hash
     }
 }

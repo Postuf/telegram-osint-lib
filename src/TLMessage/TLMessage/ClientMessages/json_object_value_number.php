@@ -11,7 +11,7 @@ use TelegramOSINT\TLMessage\TLMessage\Packer;
  */
 class json_object_value_number extends json_object_value_abstract
 {
-    private const CONSTRUCTOR = 736157604; // 0x2be0dfa4
+    private const CONSTRUCTOR = 736157604;
 
     /** @var float */
     private float $value;

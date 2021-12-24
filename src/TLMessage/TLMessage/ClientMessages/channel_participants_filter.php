@@ -9,9 +9,9 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class channel_participants_filter implements TLClientMessage
 {
-    public const PARTICIPANTS_RECENT = -566281095; // 0xde3f3c79
-    public const PARTICIPANTS_SEARCH = 106343499; // 0x0656ac4b
-    public const PARTICIPANTS_ADMINS = -1268741783; // 0xb4608969
+    public const PARTICIPANTS_RECENT = 3728686201;
+    public const PARTICIPANTS_SEARCH = 106343499;
+    public const PARTICIPANTS_ADMINS = 3026225513;
 
     /** @var int */
     private int $constructor;
