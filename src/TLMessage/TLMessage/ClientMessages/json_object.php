@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class json_object implements TLClientMessage
 {
-    private const CONSTRUCTOR = -1715350371; // 99c1d49d
+    private const CONSTRUCTOR = 2579616925;
 
     /** @var array */
     private array $objects;

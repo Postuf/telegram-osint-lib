@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class import_authorization implements TLClientMessage
 {
-    public const CONSTRUCTOR = -470837741; // 0xE3EF9613
+    public const CONSTRUCTOR = 2776268205;
 
     private int $userId;
     private string $keyBytes;
@@ -38,7 +38,7 @@ class import_authorization implements TLClientMessage
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).
-            Packer::packInt($this->userId).
+            Packer::packLong($this->userId).
             Packer::packString($this->keyBytes);
     }
 }

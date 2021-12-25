@@ -9,7 +9,7 @@ use TelegramOSINT\TLMessage\TLMessage\Packer;
 /** @see https://core.telegram.org/constructor/inputPeerUser */
 class input_peer_user extends input_peer
 {
-    public const CONSTRUCTOR = 2072935910; // 0x7B8E7DE6
+    public const CONSTRUCTOR = 3723011404;
 
     private int $userId;
     private int $accessHash;
@@ -33,7 +33,7 @@ class input_peer_user extends input_peer
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).
-            Packer::packInt($this->userId).
+            Packer::packLong($this->userId).
             Packer::packLong($this->accessHash);
     }
 }

@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_deeplink_info implements TLClientMessage
 {
-    private const CONSTRUCTOR = 1072547679; // 0x3fedc75f
+    private const CONSTRUCTOR = 1072547679;
 
     /** @var string */
     private string $path;

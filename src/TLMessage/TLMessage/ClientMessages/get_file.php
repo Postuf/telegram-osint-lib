@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_file implements TLClientMessage
 {
-    public const CONSTRUCTOR = -1319462148; // 0xB15A9AFC
+    public const CONSTRUCTOR = 2975505148;
 
     private TLClientMessage $fileLocation;
     private int $offset;

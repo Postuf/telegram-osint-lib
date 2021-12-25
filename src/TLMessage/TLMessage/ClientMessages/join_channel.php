@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class join_channel implements TLClientMessage
 {
-    public const CONSTRUCTOR = 615851205; //0x24b524c5
+    public const CONSTRUCTOR = 615851205;
 
     /** @var int */
     private int $chatId;

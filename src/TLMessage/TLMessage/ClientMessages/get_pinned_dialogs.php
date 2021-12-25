@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_pinned_dialogs implements TLClientMessage
 {
-    public const CONSTRUCTOR = -692498958; // 0xD6B94DF2
+    public const CONSTRUCTOR = 3602468338;
 
     public function getName(): string
     {

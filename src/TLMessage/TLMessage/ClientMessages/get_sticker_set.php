@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_sticker_set implements TLClientMessage
 {
-    private const CONSTRUCTOR = 639215886; // 0x2619a90e
+    private const CONSTRUCTOR = 3365989492;
 
     private input_sticker_set $sticker;
 
@@ -29,6 +29,7 @@ class get_sticker_set implements TLClientMessage
     public function toBinary(): string
     {
         return Packer::packConstructor(self::CONSTRUCTOR).
-            $this->sticker->toBinary();
+            $this->sticker->toBinary().
+            Packer::packInt(0);
     }
 }

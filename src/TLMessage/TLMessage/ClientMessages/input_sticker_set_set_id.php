@@ -11,7 +11,7 @@ use TelegramOSINT\TLMessage\TLMessage\Packer;
  */
 class input_sticker_set_set_id implements input_sticker_set
 {
-    private const CONSTRUCTOR = -1645763991; // 0x9de7a269
+    private const CONSTRUCTOR = -1645763991;
 
     /** @var int */
     private int $id;

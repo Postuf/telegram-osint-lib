@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_contact_signup_notification implements TLClientMessage
 {
-    private const CONSTRUCTOR = -1626880216;
+    private const CONSTRUCTOR = 2668087080;
 
     public function getName(): string
     {

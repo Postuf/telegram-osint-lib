@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_promodata implements TLClientMessage
 {
-    private const CONSTRUCTOR = -1063816159;
+    private const CONSTRUCTOR = 3231151137;
 
     public function getName(): string
     {
