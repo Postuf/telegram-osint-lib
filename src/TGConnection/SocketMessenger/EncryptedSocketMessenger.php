@@ -282,7 +282,7 @@ class EncryptedSocketMessenger extends TgSocketMessenger
         $seq_no = substr($decryptedPayload, 24, self::HEADER_LENGTH_BYTES);
         $seq_no = unpack('I', $seq_no);
 
-        if ($seq_no % 2 === 1) {
+        if ($seq_no !== false && count($seq_no) % 2 === 1) {
             $this->acknowledgeReceipt($msg_id);
         }
 
