@@ -818,9 +818,9 @@
             "record-timestamp": 1580469473.997280
         },
         {
-            "record-type": "userFull",
+            "record-type": "users.userFull",
             "message": {
-                "_": "userFull",
+                "_": "users.userFull",
                 "flags": 22,
                 "blocked": false,
                 "phone_calls_available": true,
@@ -866,6 +866,100 @@
                     },
                     "status": {
                         "_": "userStatusRecently"
+                    },
+                    "bot_info_version": null,
+                    "restriction_reason": null,
+                    "bot_inline_placeholder": null,
+                    "lang_code": null
+                },
+                "users": [{
+                    "_": "user",
+                    "flags": 111,
+                    "self": false,
+                    "contact": false,
+                    "mutual_contact": false,
+                    "deleted": false,
+                    "bot": false,
+                    "bot_chat_history": false,
+                    "bot_nochats": false,
+                    "verified": false,
+                    "restricted": false,
+                    "min": false,
+                    "bot_inline_geo": false,
+                    "support": false,
+                    "scam": false,
+                    "id": 187706841,
+                    "access_hash": -6221453458086716019,
+                    "first_name": "As",
+                    "last_name": "Encrypt3d",
+                    "username": "AseN_17",
+                    "phone": null,
+                    "photo": {
+                        "_": "userProfilePhoto",
+                        "photo_id": 806194743786710955,
+                        "photo_small": {
+                            "_": "fileLocationToBeDeprecated",
+                            "volume_id": 225517222,
+                            "local_id": 141372
+                        },
+                        "photo_big": {
+                            "_": "fileLocationToBeDeprecated",
+                            "volume_id": 225517222,
+                            "local_id": 141374
+                        },
+                        "dc_id": 2
+                    },
+                    "status": {
+                        "_": "userStatusOffline",
+                        "was_online": 1580464425
+                    },
+                    "bot_info_version": null,
+                    "restriction_reason": null,
+                    "bot_inline_placeholder": null,
+                    "lang_code": null
+                }],
+                "full_user": {
+                    "_": "user",
+                    "flags": 111,
+                    "self": false,
+                    "contact": false,
+                    "mutual_contact": false,
+                    "deleted": false,
+                    "bot": false,
+                    "bot_chat_history": false,
+                    "bot_nochats": false,
+                    "verified": false,
+                    "restricted": false,
+                    "min": false,
+                    "bot_inline_geo": false,
+                    "support": false,
+                    "scam": false,
+                    "id": 187706841,
+                    "about": "\u0412\u0430\u0448 \u0413\u0438\u0434 \u0432 \u041f\u0430\u0442\u0442\u0430\u0439\u0435\ud83c\udfd6\u2600\ufe0f",
+                    "access_hash": -6221453458086716019,
+                    "common_chats_count": 2,
+                    "first_name": "As",
+                    "last_name": "Encrypt3d",
+                    "username": "AseN_17",
+                    "phone": null,
+                    "photo": {
+                        "_": "userProfilePhoto",
+                        "photo_id": 806194743786710955,
+                        "photo_small": {
+                            "_": "fileLocationToBeDeprecated",
+                            "volume_id": 225517222,
+                            "local_id": 141372
+                        },
+                        "photo_big": {
+                            "_": "fileLocationToBeDeprecated",
+                            "volume_id": 225517222,
+                            "local_id": 141374
+                        },
+                        "dc_id": 2
+                    },
+                    "status": {
+                        "_": "userStatusOffline",
+                        "was_online": 1580464425
                     },
                     "bot_info_version": null,
                     "restriction_reason": null,

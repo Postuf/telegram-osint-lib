@@ -35,13 +35,13 @@ class UserContactsTest extends TestCase
 
                 switch ($model->phone) {
                     case '79857877977':
-                        $this->assertEquals('Andrey', $model->firstName);
+                        $this->assertEquals('As', $model->firstName);
                         break;
                     case '79859947294':
-                        $this->assertEquals('Ирина', $model->firstName);
+                        $this->assertEquals('As', $model->firstName);
                         break;
                     case '79867241777':
-                        $this->assertEquals('S$', $model->firstName);
+                        $this->assertEquals('As', $model->firstName);
                         break;
                     default:
                         break;
