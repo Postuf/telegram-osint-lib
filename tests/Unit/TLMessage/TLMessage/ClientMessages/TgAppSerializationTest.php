@@ -21,7 +21,7 @@ class TgAppSerializationTest extends TestCase
     {
         self::assertEquals(
             (new get_contacts())->toBinary(),
-            hex2bin('9f8423c000000000')
+            hex2bin('129ed65d0000000000000000')
         );
     }
 

@@ -41,7 +41,7 @@ class SharedSerializationTest extends TestCase
 
         self::assertEquals(
             $delContacts->toBinary(),
-            hex2bin('000e6a0915c4b51c03000000162829d8e68600002c9aea0c08000000162829d8865e0100c9499bf815000000162829d8283301009869dcca0e000000')
+            hex2bin('000e6a0915c4b51c03000000c65811f2e6860000000000002c9aea0c08000000c65811f2865e010000000000c9499bf815000000c65811f228330100000000009869dcca0e000000')
         );
     }
 
@@ -73,7 +73,7 @@ class SharedSerializationTest extends TestCase
     {
         self::assertEquals(
             (new import_authorization(44234234, 'rewrwerewrrwerq34231'))->toBinary(),
-            hex2bin('1396efe3faf5a202147265777277657265777272776572713334323331000000')
+            hex2bin('ad7d7aa5faf5a20200000000147265777277657265777272776572713334323331000000')
         );
     }
 
