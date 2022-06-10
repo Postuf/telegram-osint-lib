@@ -27,7 +27,7 @@ class get_full_channel implements TLClientMessage
 
     public function getName(): string
     {
-        return 'get_full_chat';
+        return 'get_full_channel';
     }
 
     public function toBinary(): string

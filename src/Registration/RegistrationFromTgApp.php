@@ -248,7 +248,6 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
             new get_pinned_dialogs(),
             new get_state(),
             new get_app_config(),
-            new get_blocked_contacts(),
             new get_contacts(),
             new get_dialogs(),
             new get_faved_stickers(),

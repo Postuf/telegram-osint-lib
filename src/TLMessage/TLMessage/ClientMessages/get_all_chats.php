@@ -14,7 +14,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_all_chats implements TLClientMessage
 {
-    private const CONSTRUCTOR = -341307408; // 0xeba80ff0
+    private const CONSTRUCTOR = 2271179966;
 
     /** @var int[] */
     private array $exceptIds;
