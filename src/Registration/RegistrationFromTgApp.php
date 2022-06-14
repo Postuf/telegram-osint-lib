@@ -21,7 +21,6 @@ use TelegramOSINT\TGConnection\SocketMessenger\EncryptedSocketMessenger;
 use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
 use TelegramOSINT\TGConnection\SocketMessenger\SocketMessenger;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_app_config;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_blocked_contacts;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_config;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_contact_signup_notification;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_contacts;
