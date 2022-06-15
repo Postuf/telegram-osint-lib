@@ -29,7 +29,7 @@ class TgAppSerializationTest extends TestCase
     {
         self::assertEquals(
             (new get_langpack('ru'))->toBinary(),
-            hex2bin('8ec5b59a02727500')
+            hex2bin('0a33f2f207616e64726f696402727500')
         );
     }
 
@@ -37,7 +37,7 @@ class TgAppSerializationTest extends TestCase
     {
         self::assertEquals(
             (new get_languages())->toBinary(),
-            hex2bin('7dd50f80')
+            hex2bin('8f97c64207616e64726f6964')
         );
     }
 
