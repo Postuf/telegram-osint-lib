@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 
+use TelegramOSINT\LibConfig;
 use TelegramOSINT\TLMessage\TLMessage\Packer;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
@@ -12,7 +13,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_languages implements TLClientMessage
 {
-    public const CONSTRUCTOR = -2146445955; // 0x800FD57D
+    public const CONSTRUCTOR = 1120311183;
 
     public function getName(): string
     {
@@ -21,6 +22,7 @@ class get_languages implements TLClientMessage
 
     public function toBinary(): string
     {
-        return Packer::packConstructor(self::CONSTRUCTOR);
+        return Packer::packConstructor(self::CONSTRUCTOR).
+            Packer::packString(LibConfig::APP_DEFAULT_LANG_PACK);
     }
 }

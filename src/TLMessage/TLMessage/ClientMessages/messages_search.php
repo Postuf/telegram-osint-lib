@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class messages_search implements TLClientMessage
 {
-    private const CONSTRUCTOR = -2045448344; //0x8614ef68
+    private const CONSTRUCTOR = 2700978018;
 
     /** @var int */
     private int $chatId;
@@ -59,6 +59,6 @@ class messages_search implements TLClientMessage
             Packer::packInt($this->limit). //limit
             Packer::packInt(0). //max_id
             Packer::packInt(0). //min_id
-            Packer::packInt(0); //hash
+            Packer::packLong(0); //hash
     }
 }
