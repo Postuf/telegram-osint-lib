@@ -6,7 +6,9 @@
 
 ## Description
 
-Telegram API from official mobile client.
+A lot of Telegram API libraries around, but none of them demonstrates how to execute complex scenarios like draining all photos from channels, monitor users presence or register new account. This projects aims to correct situation: now you can easily create new scenarios and one-click execute existing ones.
+
+Using Telegram API from official Android client.
 
 ## Rationale
 
