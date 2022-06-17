@@ -1,6 +1,6 @@
 <?php
 
-const OUTPUT_FILE = "compiled.json";
+const OUTPUT_FILE = 'compiled.json';
 
 function getMapNodes(string $filename, array &$map)
 {
@@ -20,7 +20,7 @@ function getMapNodes(string $filename, array &$map)
 
 $mapStore = __DIR__.'/../src/MTSerialization/OwnImplementation/maps';
 // delete previous compiled file
-@unlink($mapStore.'/'.OUTPUT_FILE, );
+@unlink($mapStore.'/'.OUTPUT_FILE);
 
 $maps = array_diff(
     scandir($mapStore),
@@ -43,7 +43,7 @@ foreach ($maps as $mapFile) {
 }
 
 if (sizeof($maps) !== (sizeof($compiledLayerFiles) + sizeof($simpleLayerFiles))) {
-    throw new Exception("Found files with invalid names in layer dir");
+    throw new Exception('Found files with invalid names in layer dir');
 }
 
 krsort($compiledLayerFiles);
