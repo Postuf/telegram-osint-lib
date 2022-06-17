@@ -1,5 +1,7 @@
 <?php
 
+const OUTPUT_FILE = "compiled.json";
+
 function getMapNodes(string $filename, array &$map)
 {
     $raw_entities = json_decode(file_get_contents($filename), true);
@@ -17,6 +19,9 @@ function getMapNodes(string $filename, array &$map)
 }
 
 $mapStore = __DIR__.'/../src/MTSerialization/OwnImplementation/maps';
+// delete previous compiled file
+@unlink($mapStore.'/'.OUTPUT_FILE, );
+
 $maps = array_diff(
     scandir($mapStore),
     ['.', '..']
@@ -64,4 +69,4 @@ foreach ($simpleLayerFiles as $layer => $mapFile) {
 $resultMap['constructors'] = array_values($resultMap['constructors']);
 $resultMap['methods'] = array_values($resultMap['methods']);
 $compiled = json_encode($resultMap, JSON_PRETTY_PRINT);
-file_put_contents($mapStore.'/compiled.json', $compiled);
+file_put_contents($mapStore.'/'.OUTPUT_FILE, $compiled);
