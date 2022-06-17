@@ -38,7 +38,6 @@ foreach ($maps as $mapFile) {
 krsort($compiledLayerFiles);
 ksort($simpleLayerFiles);
 
-
 $resultMap = ['constructors' => [], 'methods' => []];
 $lastLayer = 0;
 // last compiled layer file is the most recent
