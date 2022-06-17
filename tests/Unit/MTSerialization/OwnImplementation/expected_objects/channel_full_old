@@ -4,7 +4,7 @@
     "result": {
         "_": "messages.chatFull",
         "full_chat": {
-            "_": "channelFullOld",
+            "_": "channelFull",
             "flags": 1,
             "can_view_participants": false,
             "can_set_username": false,
@@ -20,8 +20,9 @@
             "read_outbox_max_id": 0,
             "unread_count": 0,
             "chat_photo": {
-                "_": "photo_layer82",
+                "_": "photo",
                 "flags": 0,
+                "has_stickers": false,
                 "id": 802041501821544882,
                 "access_hash": -5089009436958643848,
                 "date": 1555498775,
@@ -90,7 +91,7 @@
         },
         "chats": [
             {
-                "_": "channelLayer92",
+                "_": "channel",
                 "flags": 8292,
                 "creator": false,
                 "left": true,
@@ -107,7 +108,7 @@
                 "title": "ProfitGate - \u044d\u043a\u043e\u043d\u043e\u043c\u0438\u043a\u0430, \u0442\u0440\u0435\u0439\u0434\u0438\u043d\u0433, \u0438\u043d\u0432\u0435\u0441\u0442\u0438\u0446\u0438\u0438",
                 "username": "ProfitGate",
                 "photo": {
-                    "_": "chatPhotoOld",
+                    "_": "chatPhoto",
                     "photo_small": {
                         "_": "fileLocation",
                         "dc_id": 2,

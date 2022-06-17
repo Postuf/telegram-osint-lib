@@ -171,14 +171,15 @@ class OwnDeserializer implements MTDeserializer
         $isObjectArgOptional = $this->isObjectArgOptional($objectArg);
 
         if ($isObjectArgOptional) {
-            if (!array_key_exists('flags', $bundle)) {
+            $flagFieldName = explode('.', $objectArg['type'])[0];
+            if (!array_key_exists($flagFieldName, $bundle)) {
                 throw new TGException(
                     TGException::ERR_DESERIALIZER_FIELD_BIT_MASK_NOT_PROVIDED,
                     print_r($bundle, true)
                 );
             }
 
-            $objectArgValue = $this->readOptionalField($objectArg, $bundle['flags']);
+            $objectArgValue = $this->readOptionalField($objectArg, $bundle[$flagFieldName]);
         } else {
             $objectArgValue = $this->readTypedField($objectArg['type']);
         }
@@ -194,7 +195,12 @@ class OwnDeserializer implements MTDeserializer
      */
     private function isObjectArgOptional(array $arg): bool
     {
-        return strpos($arg['type'], 'flags') === 0;
+        $flag = explode('.', $arg['type'])[0];
+        if (strpos($arg['type'], 'flags') !== 0) {
+            return false;
+        }
+        // is equals "flags" or "flagsXXX" , where XXX is number
+        return strlen($flag) === 5 || ctype_digit(substr($flag, 5));
     }
 
     /**

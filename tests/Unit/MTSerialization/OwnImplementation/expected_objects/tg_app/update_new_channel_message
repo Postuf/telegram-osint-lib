@@ -44,6 +44,19 @@
                 {
                     "_": "user",
                     "flags": 1048642,
+                    "self": false,
+                    "contact": false,
+                    "mutual_contact": false,
+                    "deleted": false,
+                    "bot": false,
+                    "bot_chat_history": false,
+                    "bot_nochats": false,
+                    "verified": false,
+                    "restricted": false,
+                    "min": true,
+                    "bot_inline_geo": false,
+                    "support": false,
+                    "scam": false,
                     "id": 676188259,
                     "access_hash": null,
                     "first_name": "Penansa",
@@ -62,7 +75,7 @@
             ],
             "chats": [
                 {
-                    "_": "channelLayer92",
+                    "_": "channel",
                     "flags": 5440,
                     "creator": false,
                     "left": false,
@@ -79,7 +92,7 @@
                     "title": "Wendy Chat",
                     "username": "WendyChat",
                     "photo": {
-                        "_": "chatPhotoOld",
+                        "_": "chatPhoto",
                         "photo_small": {
                             "_": "fileLocation",
                             "dc_id": 2,
@@ -143,6 +156,19 @@
                 {
                     "_": "user",
                     "flags": 1048642,
+                    "self": false,
+                    "contact": false,
+                    "mutual_contact": false,
+                    "deleted": false,
+                    "bot": false,
+                    "bot_chat_history": false,
+                    "bot_nochats": false,
+                    "verified": false,
+                    "restricted": false,
+                    "min": true,
+                    "bot_inline_geo": false,
+                    "support": false,
+                    "scam": false,
                     "id": 619302827,
                     "access_hash": null,
                     "first_name": "Raynar",
@@ -161,7 +187,7 @@
             ],
             "chats": [
                 {
-                    "_": "channelLayer92",
+                    "_": "channel",
                     "flags": 5440,
                     "creator": false,
                     "left": false,
@@ -178,7 +204,7 @@
                     "title": "Wendy Chat",
                     "username": "WendyChat",
                     "photo": {
-                        "_": "chatPhotoOld",
+                        "_": "chatPhoto",
                         "photo_small": {
                             "_": "fileLocation",
                             "dc_id": 2,

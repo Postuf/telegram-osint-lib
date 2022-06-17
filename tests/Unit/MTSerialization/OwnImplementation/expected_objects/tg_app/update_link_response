@@ -2,13 +2,13 @@
     "_": "updates",
     "updates": [
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 399574953,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         }
     ],
@@ -16,6 +16,19 @@
         {
             "_": "user",
             "flags": 2143,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 399574953,
             "access_hash": -2038093646811617831,
             "first_name": "name_6594301811",

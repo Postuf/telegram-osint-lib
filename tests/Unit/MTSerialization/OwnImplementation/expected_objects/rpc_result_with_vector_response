@@ -6,17 +6,17 @@
         "0": {
             "_": "contactStatus",
             "user_id": 162782547,
-            "was_online": 0
+            "expires": 0
         },
         "1": {
             "_": "contactStatus",
             "user_id": 187706841,
-            "was_online": 1525358496
+            "expires": 1525358496
         },
         "2": {
             "_": "contactStatus",
             "user_id": 509288493,
-            "was_online": 1515852372
+            "expires": 1515852372
         }
     }
 }

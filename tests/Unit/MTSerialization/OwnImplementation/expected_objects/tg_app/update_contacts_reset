@@ -5,243 +5,243 @@
             "_": "updateContactsReset"
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 172317399,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 606533814,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 457504692,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 202362101,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 163150144,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 279981353,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 168445865,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 333744069,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 317333656,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 456839458,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 141963220,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 271485855,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 462316496,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 566275713,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 223482623,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 369232173,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 421668987,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 585178262,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 379304166,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 364974005,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 194360308,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 167933533,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 610227778,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         },
         {
-            "_": "contacts.updateContactLink",
+            "_": "updateContactLink",
             "user_id": 37855327,
             "my_link": {
-                "_": "contacts.myLinkContact"
+                "_": "contactLinkContact"
             },
             "foreign_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkUnknown"
             }
         }
     ],
@@ -249,6 +249,19 @@
         {
             "_": "user",
             "flags": 2135,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 172317399,
             "access_hash": 231645308636446921,
             "first_name": "name_79165975628",
@@ -268,6 +281,19 @@
         {
             "_": "user",
             "flags": 2135,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 606533814,
             "access_hash": 4526755987977514420,
             "first_name": "name_919986661505",
@@ -287,6 +313,19 @@
         {
             "_": "user",
             "flags": 2135,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 457504692,
             "access_hash": -1602995401655006354,
             "first_name": "name_6584990343",
@@ -306,6 +345,19 @@
         {
             "_": "user",
             "flags": 2167,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 202362101,
             "access_hash": 3584809362420885333,
             "first_name": "name_9647519984092",
@@ -313,7 +365,7 @@
             "username": null,
             "phone": "9647519984092",
             "photo": {
-                "_": "userProfilePhoto_v1",
+                "_": "userProfilePhoto",
                 "photo_id": 869138606201087918,
                 "photo_small": {
                     "_": "fileLocation",
@@ -342,6 +394,19 @@
         {
             "_": "user",
             "flags": 2135,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 163150144,
             "access_hash": -2769026390669720435,
             "first_name": "name_31621650238",
@@ -361,6 +426,19 @@
         {
             "_": "user",
             "flags": 2167,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 279981353,
             "access_hash": -4620823781267163912,
             "first_name": "name_50253850014",
@@ -368,7 +446,7 @@
             "username": null,
             "phone": "50253850014",
             "photo": {
-                "_": "userProfilePhoto_v1",
+                "_": "userProfilePhoto",
                 "photo_id": 1202510755081070505,
                 "photo_small": {
                     "_": "fileLocation",
@@ -397,6 +475,19 @@
         {
             "_": "user",
             "flags": 2175,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 168445865,
             "access_hash": -4952351031455440116,
             "first_name": "name_79160653055",
@@ -404,7 +495,7 @@
             "username": "inwady",
             "phone": "79160653055",
             "photo": {
-                "_": "userProfilePhoto_v1",
+                "_": "userProfilePhoto",
                 "photo_id": 723469481777670546,
                 "photo_small": {
                     "_": "fileLocation",
@@ -432,6 +523,19 @@
         {
             "_": "user",
             "flags": 2143,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 333744069,
             "access_hash": 8932879267568481042,
             "first_name": "name_79169050502",
@@ -451,6 +555,19 @@
         {
             "_": "user",
             "flags": 2135,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 317333656,
             "access_hash": -5992710280384006026,
             "first_name": "name_79260775861",
@@ -470,6 +587,19 @@
         {
             "_": "user",
             "flags": 2167,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 456839458,
             "access_hash": -805850552580801251,
             "first_name": "name_79264291377",
@@ -477,7 +607,7 @@
             "username": null,
             "phone": "79264291377",
             "photo": {
-                "_": "userProfilePhoto_v1",
+                "_": "userProfilePhoto",
                 "photo_id": 1962110532088604586,
                 "photo_small": {
                     "_": "fileLocation",
@@ -506,6 +636,19 @@
         {
             "_": "user",
             "flags": 2135,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 141963220,
             "access_hash": 8465663899759738664,
             "first_name": "name_79265815193",
@@ -524,6 +667,19 @@
         {
             "_": "user",
             "flags": 2175,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 271485855,
             "access_hash": 2222482920826813532,
             "first_name": "name_79854541929",
@@ -531,7 +687,7 @@
             "username": "ilyasem",
             "phone": "79854541929",
             "photo": {
-                "_": "userProfilePhoto_v1",
+                "_": "userProfilePhoto",
                 "photo_id": 1166022869007837109,
                 "photo_small": {
                     "_": "fileLocation",
@@ -559,6 +715,19 @@
         {
             "_": "user",
             "flags": 2135,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 462316496,
             "access_hash": 1195590064425740390,
             "first_name": "name_79855396403",
@@ -578,6 +747,19 @@
         {
             "_": "user",
             "flags": 2135,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 566275713,
             "access_hash": -1746887834002157312,
             "first_name": "name_27730794290",
@@ -597,6 +779,19 @@
         {
             "_": "user",
             "flags": 2175,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 223482623,
             "access_hash": 1910551997341765599,
             "first_name": "name_79687794824",
@@ -604,7 +799,7 @@
             "username": "yungs35",
             "phone": "79687794824",
             "photo": {
-                "_": "userProfilePhoto_v1",
+                "_": "userProfilePhoto",
                 "photo_id": 959850557465536436,
                 "photo_small": {
                     "_": "fileLocation",
@@ -633,6 +828,19 @@
         {
             "_": "user",
             "flags": 2167,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 369232173,
             "access_hash": 1315284439914354506,
             "first_name": "name_79689264469",
@@ -640,7 +848,7 @@
             "username": null,
             "phone": "79689264469",
             "photo": {
-                "_": "userProfilePhoto_v1",
+                "_": "userProfilePhoto",
                 "photo_id": 1585840108122253225,
                 "photo_small": {
                     "_": "fileLocation",
@@ -668,6 +876,19 @@
         {
             "_": "user",
             "flags": 2135,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 421668987,
             "access_hash": 1492796180756778410,
             "first_name": "name_79055233255",
@@ -687,6 +908,19 @@
         {
             "_": "user",
             "flags": 2135,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 585178262,
             "access_hash": 6161173104450006235,
             "first_name": "name_79096832112",
@@ -706,6 +940,19 @@
         {
             "_": "user",
             "flags": 2167,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 379304166,
             "access_hash": -1544628050471252760,
             "first_name": "name_79129950250",
@@ -713,7 +960,7 @@
             "username": null,
             "phone": "79129950250",
             "photo": {
-                "_": "userProfilePhoto_v1",
+                "_": "userProfilePhoto",
                 "photo_id": 1629098988662794154,
                 "photo_small": {
                     "_": "fileLocation",
@@ -742,6 +989,19 @@
         {
             "_": "user",
             "flags": 2135,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 364974005,
             "access_hash": 2718901463240669064,
             "first_name": "name_79150159302",
@@ -761,6 +1021,19 @@
         {
             "_": "user",
             "flags": 2175,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 194360308,
             "access_hash": 2735445474950080343,
             "first_name": "name_79150421088",
@@ -768,7 +1041,7 @@
             "username": "MartinovichIvan",
             "phone": "79150421088",
             "photo": {
-                "_": "userProfilePhoto_v1",
+                "_": "userProfilePhoto",
                 "photo_id": 834771166956726185,
                 "photo_small": {
                     "_": "fileLocation",
@@ -797,6 +1070,19 @@
         {
             "_": "user",
             "flags": 2175,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 167933533,
             "access_hash": -3828431349989708427,
             "first_name": "name_79269873316",
@@ -804,7 +1090,7 @@
             "username": "drakylar",
             "phone": "79269873316",
             "photo": {
-                "_": "userProfilePhoto_v1",
+                "_": "userProfilePhoto",
                 "photo_id": 721269032592975785,
                 "photo_small": {
                     "_": "fileLocation",
@@ -833,6 +1119,19 @@
         {
             "_": "user",
             "flags": 2135,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 610227778,
             "access_hash": 6217225003869853682,
             "first_name": "name_79277167630",
@@ -852,6 +1151,19 @@
         {
             "_": "user",
             "flags": 2175,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 37855327,
             "access_hash": 519937095461067733,
             "first_name": "name_79636930473",
@@ -859,7 +1171,7 @@
             "username": "kargui",
             "phone": "79636930473",
             "photo": {
-                "_": "userProfilePhoto_v1",
+                "_": "userProfilePhoto",
                 "photo_id": 162587391900624910,
                 "photo_small": {
                     "_": "fileLocation",

@@ -10,6 +10,19 @@
         "user": {
             "_": "user",
             "flags": 2143,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 267228757,
             "access_hash": 3604736181447093608,
             "first_name": "Razid",
@@ -28,16 +41,29 @@
         },
         "about": null,
         "link": {
-            "_": "contactsLink",
-            "foreign_link": {
-                "_": "contacts.myLinkContact"
-            },
+            "_": "contacts.link",
             "my_link": {
-                "_": "contacts.myLinkUnKnown"
+                "_": "contactLinkContact"
+            },
+            "foreign_link": {
+                "_": "contactLinkUnknown"
             },
             "user": {
                 "_": "user",
                 "flags": 2143,
+                "self": false,
+                "contact": true,
+                "mutual_contact": false,
+                "deleted": false,
+                "bot": false,
+                "bot_chat_history": false,
+                "bot_nochats": false,
+                "verified": false,
+                "restricted": false,
+                "min": false,
+                "bot_inline_geo": false,
+                "support": false,
+                "scam": false,
                 "id": 267228757,
                 "access_hash": 3604736181447093608,
                 "first_name": "Razid",

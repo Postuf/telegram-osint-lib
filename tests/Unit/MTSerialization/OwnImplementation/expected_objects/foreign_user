@@ -200,15 +200,15 @@
             "last_name": "Quaresma",
             "access_hash": -281962407813275508,
             "photo": {
-                "_": "userProfilePhotos",
-                "small": {
+                "_": "userProfilePhoto",
+                "photo_small": {
                     "_": "fileLocation",
                     "dc_id": 1,
                     "volume_id": 803716385,
                     "local_id": 68099,
                     "secret": -4754841058138479564
                 },
-                "large": {
+                "photo_big": {
                     "_": "fileLocation",
                     "dc_id": 1,
                     "volume_id": 803716385,
@@ -229,15 +229,15 @@
             "access_hash": 3709874894621685691,
             "phone": "966500285955",
             "photo": {
-                "_": "userProfilePhotos",
-                "small": {
+                "_": "userProfilePhoto",
+                "photo_small": {
                     "_": "fileLocation",
                     "dc_id": 4,
                     "volume_id": 430527061,
                     "local_id": 242311,
                     "secret": -6295294842947780421
                 },
-                "large": {
+                "photo_big": {
                     "_": "fileLocation",
                     "dc_id": 4,
                     "volume_id": 430527061,
@@ -257,15 +257,15 @@
             "last_name": "Shaposhnikov",
             "access_hash": -1793424349275254126,
             "photo": {
-                "_": "userProfilePhotos",
-                "small": {
+                "_": "userProfilePhoto",
+                "photo_small": {
                     "_": "fileLocation",
                     "dc_id": 2,
                     "volume_id": 713234168,
                     "local_id": 68852,
                     "secret": 2758988933971117405
                 },
-                "large": {
+                "photo_big": {
                     "_": "fileLocation",
                     "dc_id": 2,
                     "volume_id": 713234168,
@@ -285,15 +285,15 @@
             "last_name": "Encrypt3d",
             "access_hash": -336604542049677193,
             "photo": {
-                "_": "userProfilePhotos",
-                "small": {
+                "_": "userProfilePhoto",
+                "photo_small": {
                     "_": "fileLocation",
                     "dc_id": 2,
                     "volume_id": 225517222,
                     "local_id": 141372,
                     "secret": 4952891847968332097
                 },
-                "large": {
+                "photo_big": {
                     "_": "fileLocation",
                     "dc_id": 2,
                     "volume_id": 225517222,
@@ -343,15 +343,15 @@
             "last_name": "\u041a\u043e\u0440\u044e\u043a\u0438\u043d\u0430",
             "access_hash": 6672128188199634328,
             "photo": {
-                "_": "userProfilePhotos",
-                "small": {
+                "_": "userProfilePhoto",
+                "photo_small": {
                     "_": "fileLocation",
                     "dc_id": 2,
                     "volume_id": 223033536,
                     "local_id": 1145489,
                     "secret": -1135161863790876454
                 },
-                "large": {
+                "photo_big": {
                     "_": "fileLocation",
                     "dc_id": 2,
                     "volume_id": 223033536,
@@ -372,15 +372,15 @@
             "access_hash": -8173494166746965789,
             "phone": "966580990257",
             "photo": {
-                "_": "userProfilePhotos",
-                "small": {
+                "_": "userProfilePhoto",
+                "photo_small": {
                     "_": "fileLocation",
                     "dc_id": 4,
                     "volume_id": 435809524,
                     "local_id": 219485,
                     "secret": -2068271209075381306
                 },
-                "large": {
+                "photo_big": {
                     "_": "fileLocation",
                     "dc_id": 4,
                     "volume_id": 435809524,
@@ -401,15 +401,15 @@
             "access_hash": 9034090341355905822,
             "phone": "491776961972",
             "photo": {
-                "_": "userProfilePhotos",
-                "small": {
+                "_": "userProfilePhoto",
+                "photo_small": {
                     "_": "fileLocation",
                     "dc_id": 2,
                     "volume_id": 246227544,
                     "local_id": 64228,
                     "secret": -6063352109703134161
                 },
-                "large": {
+                "photo_big": {
                     "_": "fileLocation",
                     "dc_id": 2,
                     "volume_id": 246227544,
@@ -445,15 +445,15 @@
             "access_hash": 8620527086488934538,
             "phone": "251919405022",
             "photo": {
-                "_": "userProfilePhotos",
-                "small": {
+                "_": "userProfilePhoto",
+                "photo_small": {
                     "_": "fileLocation",
                     "dc_id": 4,
                     "volume_id": 445729826,
                     "local_id": 132923,
                     "secret": -819429616673031223
                 },
-                "large": {
+                "photo_big": {
                     "_": "fileLocation",
                     "dc_id": 4,
                     "volume_id": 445729826,
@@ -488,15 +488,15 @@
             "last_name": "",
             "access_hash": 811769673514439236,
             "photo": {
-                "_": "userProfilePhotos",
-                "small": {
+                "_": "userProfilePhoto",
+                "photo_small": {
                     "_": "fileLocation",
                     "dc_id": 4,
                     "volume_id": 445203652,
                     "local_id": 112637,
                     "secret": -4946028166977996360
                 },
-                "large": {
+                "photo_big": {
                     "_": "fileLocation",
                     "dc_id": 4,
                     "volume_id": 445203652,
@@ -531,15 +531,15 @@
             "last_name": "Aljobri",
             "access_hash": 8325236215085061328,
             "photo": {
-                "_": "userProfilePhotos",
-                "small": {
+                "_": "userProfilePhoto",
+                "photo_small": {
                     "_": "fileLocation",
                     "dc_id": 4,
                     "volume_id": 445516556,
                     "local_id": 39770,
                     "secret": 3580011332392477396
                 },
-                "large": {
+                "photo_big": {
                     "_": "fileLocation",
                     "dc_id": 4,
                     "volume_id": 445516556,
@@ -587,15 +587,15 @@
             "access_hash": -4940754106373755909,
             "phone": "79256801535",
             "photo": {
-                "_": "userProfilePhotos",
-                "small": {
+                "_": "userProfilePhoto",
+                "photo_small": {
                     "_": "fileLocation",
                     "dc_id": 2,
                     "volume_id": 246225815,
                     "local_id": 39195,
                     "secret": 9108374241179711981
                 },
-                "large": {
+                "photo_big": {
                     "_": "fileLocation",
                     "dc_id": 2,
                     "volume_id": 246225815,
@@ -616,15 +616,15 @@
             "access_hash": -8961277681074142001,
             "phone": "989387980042",
             "photo": {
-                "_": "userProfilePhotos",
-                "small": {
+                "_": "userProfilePhoto",
+                "photo_small": {
                     "_": "fileLocation",
                     "dc_id": 4,
                     "volume_id": 445517698,
                     "local_id": 324734,
                     "secret": 3997371871889575836
                 },
-                "large": {
+                "photo_big": {
                     "_": "fileLocation",
                     "dc_id": 4,
                     "volume_id": 445517698,

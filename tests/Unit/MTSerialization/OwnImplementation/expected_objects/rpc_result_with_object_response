@@ -19,15 +19,15 @@
                 "access_hash": -7228335473907974088,
                 "phone": "79255677627",
                 "photo": {
-                    "_": "userProfilePhotos",
-                    "small": {
+                    "_": "userProfilePhoto",
+                    "photo_small": {
                         "_": "fileLocation",
                         "dc_id": 2,
                         "volume_id": 245006913,
                         "local_id": 37570,
                         "secret": -2725963226938452134
                     },
-                    "large": {
+                    "photo_big": {
                         "_": "fileLocation",
                         "dc_id": 2,
                         "volume_id": 245006913,

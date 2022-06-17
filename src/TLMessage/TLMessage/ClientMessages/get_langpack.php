@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 
+use TelegramOSINT\LibConfig;
 use TelegramOSINT\TLMessage\TLMessage\Packer;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
@@ -13,7 +14,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_langpack implements TLClientMessage
 {
-    public const CONSTRUCTOR = -1699363442; // 0x9AB5C58E
+    public const CONSTRUCTOR = 4075959050;
 
     private string $langCode;
 
@@ -34,6 +35,7 @@ class get_langpack implements TLClientMessage
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).
+            Packer::packString(LibConfig::APP_DEFAULT_LANG_PACK).
             Packer::packString($this->langCode);
     }
 }

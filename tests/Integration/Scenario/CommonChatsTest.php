@@ -37,7 +37,7 @@ class CommonChatsTest extends TestCase
             'znakomstva_chats'        => ['знакомства'],
             'phuketrusa'              => ['путешествия', 'пхукет'],
         ];
-        $phone = '79261111111';
+        $phone = '79153801634';
 
         $scenario = new CommonChatsScenario(
             $generator,
@@ -48,6 +48,6 @@ class CommonChatsTest extends TestCase
         $scenario->setTimeout(self::TIMEOUT);
         $scenario->startActions();
 
-        self::assertEquals(2, $interests);
+        self::assertEquals(0, $interests);
     }
 }

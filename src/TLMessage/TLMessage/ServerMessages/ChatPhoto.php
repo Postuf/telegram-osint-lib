@@ -48,4 +48,9 @@ class ChatPhoto extends TLServerMessage implements PhotoInterface
     {
         return $this->getTlMessage()->getValue('dc_id');
     }
+
+    public function getPhotoId(): int
+    {
+        return $this->getTlMessage()->getValue('photo_id');
+    }
 }
