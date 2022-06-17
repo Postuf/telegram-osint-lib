@@ -24,15 +24,15 @@
                 "access_hash": 2188768726030096890,
                 "phone": "79269873316",
                 "photo": {
-                    "_": "userProfilePhotos",
-                    "small": {
+                    "_": "userProfilePhoto",
+                    "photo_small": {
                         "_": "fileLocation",
                         "dc_id": 2,
                         "volume_id": 713234168,
                         "local_id": 68852,
                         "secret": 2758988933971117405
                     },
-                    "large": {
+                    "photo_big": {
                         "_": "fileLocation",
                         "dc_id": 2,
                         "volume_id": 713234168,
@@ -53,15 +53,15 @@
                 "access_hash": -244084664757971298,
                 "phone": "79256801535",
                 "photo": {
-                    "_": "userProfilePhotos",
-                    "small": {
+                    "_": "userProfilePhoto",
+                    "photo_small": {
                         "_": "fileLocation",
                         "dc_id": 2,
                         "volume_id": 246225815,
                         "local_id": 39195,
                         "secret": 9108374241179711981
                     },
-                    "large": {
+                    "photo_big": {
                         "_": "fileLocation",
                         "dc_id": 2,
                         "volume_id": 246225815,

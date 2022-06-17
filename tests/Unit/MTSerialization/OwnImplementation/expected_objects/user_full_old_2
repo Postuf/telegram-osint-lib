@@ -7,6 +7,19 @@
     "user": {
         "_": "user",
         "flags": 2167,
+        "self": false,
+        "contact": true,
+        "mutual_contact": false,
+        "deleted": false,
+        "bot": false,
+        "bot_chat_history": false,
+        "bot_nochats": false,
+        "verified": false,
+        "restricted": false,
+        "min": false,
+        "bot_inline_geo": false,
+        "support": false,
+        "scam": false,
         "id": 744390308,
         "access_hash": 353578476147164659,
         "first_name": "Rezzani",
@@ -14,7 +27,7 @@
         "username": null,
         "phone": "79153801634",
         "photo": {
-            "_": "userProfilePhoto_v1",
+            "_": "userProfilePhoto",
             "photo_id": 3197132028775606185,
             "photo_small": {
                 "_": "fileLocation",
@@ -41,16 +54,29 @@
     },
     "about": null,
     "link": {
-        "_": "contactsLink",
-        "foreign_link": {
-            "_": "contacts.myLinkContact"
-        },
+        "_": "contacts.link",
         "my_link": {
-            "_": "contacts.myLinkUnKnown"
+            "_": "contactLinkContact"
+        },
+        "foreign_link": {
+            "_": "contactLinkUnknown"
         },
         "user": {
             "_": "user",
             "flags": 2167,
+            "self": false,
+            "contact": true,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 744390308,
             "access_hash": 353578476147164659,
             "first_name": "Rezzani",
@@ -58,7 +84,7 @@
             "username": null,
             "phone": "79153801634",
             "photo": {
-                "_": "userProfilePhoto_v1",
+                "_": "userProfilePhoto",
                 "photo_id": 3197132028775606185,
                 "photo_small": {
                     "_": "fileLocation",
@@ -85,8 +111,9 @@
         }
     },
     "profile_photo": {
-        "_": "photo_layer82",
+        "_": "photo",
         "flags": 0,
+        "has_stickers": false,
         "id": 3197132028775606185,
         "access_hash": -4210978894311817061,
         "date": 1556047658,

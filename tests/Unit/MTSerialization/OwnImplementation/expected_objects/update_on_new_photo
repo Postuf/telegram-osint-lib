@@ -4,15 +4,15 @@
         "_": "updateUserPhoto",
         "user_id": 152318699,
         "photo": {
-            "_": "userProfilePhotos",
-            "small": {
+            "_": "userProfilePhoto",
+            "photo_small": {
                 "_": "fileLocation",
                 "dc_id": 4,
                 "volume_id": 446629238,
                 "local_id": 77293,
                 "secret": -3715976868399447060
             },
-            "large": {
+            "photo_big": {
                 "_": "fileLocation",
                 "dc_id": 4,
                 "volume_id": 446629238,

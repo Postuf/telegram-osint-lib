@@ -1,6 +1,7 @@
 {
     "_": "auth.sentCode",
     "flags": 14,
+    "phone_registered": false,
     "type": {
         "_": "auth.sentCodeTypeSms",
         "length": 5

@@ -45,7 +45,7 @@
     ],
     "chats": [
         {
-            "_": "channelLayer92",
+            "_": "channel",
             "flags": 139364,
             "creator": false,
             "left": true,
@@ -62,7 +62,7 @@
             "title": "\u041c\u0415\u0422\u041e\u0414 \u0424\u041e\u0420\u26bd\ufe0f",
             "username": "pusher_dallas",
             "photo": {
-                "_": "chatPhotoOld",
+                "_": "chatPhoto",
                 "photo_small": {
                     "_": "fileLocation",
                     "dc_id": 2,
@@ -86,7 +86,7 @@
             "participants_count": 2300
         },
         {
-            "_": "channelLayer92",
+            "_": "channel",
             "flags": 140612,
             "creator": false,
             "left": true,
@@ -103,7 +103,7 @@
             "title": "NEW\ud83c\udfc5PUSH Dx24H LIKES ONLY\ud83c\udfc5",
             "username": "newpush24hlikes",
             "photo": {
-                "_": "chatPhotoOld",
+                "_": "chatPhoto",
                 "photo_small": {
                     "_": "fileLocation",
                     "dc_id": 4,
@@ -127,7 +127,7 @@
             "participants_count": 17705
         },
         {
-            "_": "channelLayer92",
+            "_": "channel",
             "flags": 140612,
             "creator": false,
             "left": true,
@@ -144,7 +144,7 @@
             "title": "NEW\ud83c\udfc5PUSH Dx20 L&C\ud83c\udfc5",
             "username": "PUSHDx20",
             "photo": {
-                "_": "chatPhotoOld",
+                "_": "chatPhoto",
                 "photo_small": {
                     "_": "fileLocation",
                     "dc_id": 5,
@@ -168,7 +168,7 @@
             "participants_count": 14671
         },
         {
-            "_": "channelLayer92",
+            "_": "channel",
             "flags": 140612,
             "creator": false,
             "left": true,
@@ -185,7 +185,7 @@
             "title": "NEW\ud83c\udfc5PUSH Dx15 L&C\ud83c\udfc5",
             "username": "PUSHDx15",
             "photo": {
-                "_": "chatPhotoOld",
+                "_": "chatPhoto",
                 "photo_small": {
                     "_": "fileLocation",
                     "dc_id": 5,
@@ -209,7 +209,7 @@
             "participants_count": 13291
         },
         {
-            "_": "channelLayer92",
+            "_": "channel",
             "flags": 140612,
             "creator": false,
             "left": true,
@@ -226,7 +226,7 @@
             "title": "NEW\ud83c\udfc5PUSH Dx10 L&C\ud83c\udfc5",
             "username": "pushgroupdx10new",
             "photo": {
-                "_": "chatPhotoOld",
+                "_": "chatPhoto",
                 "photo_small": {
                     "_": "fileLocation",
                     "dc_id": 5,
@@ -250,7 +250,7 @@
             "participants_count": 9808
         },
         {
-            "_": "channelLayer92",
+            "_": "channel",
             "flags": 140612,
             "creator": false,
             "left": true,
@@ -267,7 +267,7 @@
             "title": "\u2744\ufe0f\ud83c\udfc5PUSH | Dx24H | LIKES ONLY 2",
             "username": "newsmartpush24hgroup",
             "photo": {
-                "_": "chatPhotoOld",
+                "_": "chatPhoto",
                 "photo_small": {
                     "_": "fileLocation",
                     "dc_id": 4,
@@ -291,7 +291,7 @@
             "participants_count": 4229
         },
         {
-            "_": "channelLayer92",
+            "_": "channel",
             "flags": 139364,
             "creator": false,
             "left": true,
@@ -308,7 +308,7 @@
             "title": "\u062f\u0648\u0631\u0647\u0645\u06cc \u067e\u0648\u0634",
             "username": "dorhami_push",
             "photo": {
-                "_": "chatPhotoOld",
+                "_": "chatPhoto",
                 "photo_small": {
                     "_": "fileLocation",
                     "dc_id": 4,
@@ -336,6 +336,19 @@
         {
             "_": "user",
             "flags": 107,
+            "self": false,
+            "contact": false,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 378175025,
             "access_hash": -7688006554193857069,
             "first_name": "Denis",
@@ -343,7 +356,7 @@
             "username": "d_push",
             "phone": null,
             "photo": {
-                "_": "userProfilePhoto_v1",
+                "_": "userProfilePhoto",
                 "photo_id": 1624249364995221417,
                 "photo_small": {
                     "_": "fileLocation",
@@ -372,6 +385,19 @@
         {
             "_": "user",
             "flags": 107,
+            "self": false,
+            "contact": false,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 96203125,
             "access_hash": 8851537361721427444,
             "first_name": "Pusha D",
@@ -379,7 +405,7 @@
             "username": "Pusha_d",
             "phone": null,
             "photo": {
-                "_": "userProfilePhoto_v1",
+                "_": "userProfilePhoto",
                 "photo_id": 413189276104243588,
                 "photo_small": {
                     "_": "fileLocation",
@@ -408,6 +434,19 @@
         {
             "_": "user",
             "flags": 43,
+            "self": false,
+            "contact": false,
+            "mutual_contact": false,
+            "deleted": false,
+            "bot": false,
+            "bot_chat_history": false,
+            "bot_nochats": false,
+            "verified": false,
+            "restricted": false,
+            "min": false,
+            "bot_inline_geo": false,
+            "support": false,
+            "scam": false,
             "id": 743638586,
             "access_hash": -4284810783561305005,
             "first_name": "\u4e8c\u72d7",
@@ -415,7 +454,7 @@
             "username": "Dog_push",
             "phone": null,
             "photo": {
-                "_": "userProfilePhoto_v1",
+                "_": "userProfilePhoto",
                 "photo_id": 3193903407369922483,
                 "photo_small": {
                     "_": "fileLocation",
