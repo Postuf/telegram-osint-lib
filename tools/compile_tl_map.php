@@ -23,6 +23,7 @@ $maps = array_diff(
 );
 
 // find layer_compiled_XXX.json with max layer and sort simple layer files (layer_XXX.json) by version
+// TlObject can change fields without change TL id
 $compiledLayerFiles = [];
 $simpleLayerFiles = [];
 foreach ($maps as $mapFile) {
