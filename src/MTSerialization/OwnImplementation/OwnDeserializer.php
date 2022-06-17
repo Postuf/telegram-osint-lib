@@ -196,7 +196,7 @@ class OwnDeserializer implements MTDeserializer
     private function isObjectArgOptional(array $arg): bool
     {
         $flag = explode('.', $arg['type'])[0];
-        if(strpos($arg['type'], 'flags') !== 0) {
+        if (strpos($arg['type'], 'flags') !== 0) {
             return false;
         }
         // is equals "flags" or "flagsXXX" , where XXX is number
