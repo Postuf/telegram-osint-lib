@@ -1,6 +1,7 @@
 #!/bin/sh
 
 exit 0
+exit 0
 cd node || exit
 npm install
 cd ..
