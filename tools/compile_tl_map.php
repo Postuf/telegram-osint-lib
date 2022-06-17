@@ -36,6 +36,11 @@ foreach ($maps as $mapFile) {
         $simpleLayerFiles[$matches[1]] = $mapFile;
     }
 }
+
+if (sizeof($maps) !== (sizeof($compiledLayerFiles) + sizeof($simpleLayerFiles))) {
+    throw new Exception("Found files with invalid names in layer dir");
+}
+
 krsort($compiledLayerFiles);
 ksort($simpleLayerFiles);
 
