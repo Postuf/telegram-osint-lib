@@ -2,7 +2,7 @@
 
 const OUTPUT_FILE = 'compiled.json';
 
-function getMapNodes(string $filename, array &$map)
+function getMapNodes(string $filename, array &$map, ?int $lastLayer=null)
 {
     $raw_entities = json_decode(file_get_contents($filename), true);
     $constructors = $raw_entities['constructors'];
@@ -10,10 +10,16 @@ function getMapNodes(string $filename, array &$map)
 
     foreach ($constructors as $constructor) {
         $id = hexdec(str_ireplace('ffffffff', '', dechex($constructor['id'])));
+        if($lastLayer) {
+            $constructor['last_layer'] = intval($lastLayer);
+        }
         $map['constructors'][$id] = $constructor;
     }
     foreach ($methods as $method) {
         $id = hexdec(str_ireplace('ffffffff', '', dechex($method['id'])));
+        if($lastLayer) {
+            $method['last_layer'] = intval($lastLayer);
+        }
         $map['methods'][$id] = $method;
     }
 }
@@ -61,7 +67,7 @@ foreach ($compiledLayerFiles as $layer => $mapFile) {
 // process simple layer files greater than last compiled layer
 foreach ($simpleLayerFiles as $layer => $mapFile) {
     if ($layer > $lastLayer) {
-        getMapNodes($mapStore.'/'.$mapFile, $resultMap);
+        getMapNodes($mapStore.'/'.$mapFile, $resultMap, $layer);
         echo "Layer $layer\n";
     }
 }
