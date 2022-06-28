@@ -10,7 +10,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 /** @see https://core.telegram.org/constructor/inputGeoPoint */
 class geo_point implements TLClientMessage
 {
-    private const CONSTRUCTOR = -206066487; // 0xf3b7acc9
+    private const CONSTRUCTOR = 1210199983; // 0x48222faf
 
     /** @var float */
     private float $lat;
@@ -30,9 +30,10 @@ class geo_point implements TLClientMessage
 
     public function toBinary(): string
     {
+        $flags = Packer::packInt(0);
         $l1 = Packer::packDouble($this->lat);
         $l2 = Packer::packDouble($this->lon);
 
-        return Packer::packConstructor(self::CONSTRUCTOR).$l1.$l2;
+        return Packer::packConstructor(self::CONSTRUCTOR).$flags.$l1.$l2;
     }
 }

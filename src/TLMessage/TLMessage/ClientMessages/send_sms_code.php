@@ -13,7 +13,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class send_sms_code implements TLClientMessage
 {
-    private const CONSTRUCTOR = -1502141361; // 0xA677244F
+    private const CONSTRUCTOR = 2792825935; // 0xA677244F
 
     private string $phone;
 

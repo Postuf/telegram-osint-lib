@@ -11,17 +11,17 @@ class input_peer_channel extends input_peer
 {
     public const CONSTRUCTOR = 666680316;
 
-    private int $chatId;
+    private int $channelId;
     /** @var int */
     private int $accessHash;
 
     /**
-     * @param int $chatId
+     * @param int $channelId
      * @param int $accessHash
      */
-    public function __construct(int $chatId, int $accessHash)
+    public function __construct(int $channelId, int $accessHash)
     {
-        $this->chatId = $chatId;
+        $this->channelId = $channelId;
         $this->accessHash = $accessHash;
     }
 
@@ -34,7 +34,7 @@ class input_peer_channel extends input_peer
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).
-            Packer::packLong($this->chatId).
+            Packer::packLong($this->channelId).
             Packer::packLong($this->accessHash);
     }
 }

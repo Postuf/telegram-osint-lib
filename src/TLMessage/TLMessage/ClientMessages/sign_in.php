@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class sign_in implements TLClientMessage
 {
-    public const CONSTRUCTOR = -1126886015; // 0xbcd51581
+    public const CONSTRUCTOR = 3168081281; // 0xbcd51581
 
     private string $phone;
     private string $phoneHash;

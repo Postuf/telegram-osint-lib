@@ -23,7 +23,7 @@ class get_file implements TLClientMessage
      * @param int             $offset
      * @param int             $limit
      */
-    public function __construct(TLClientMessage $fileLocation, $offset, $limit)
+    public function __construct(TLClientMessage $fileLocation, int $offset, int $limit)
     {
         $this->fileLocation = $fileLocation;
         $this->offset = $offset;
@@ -39,7 +39,7 @@ class get_file implements TLClientMessage
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).
-            Packer::packInt(0b1). //precise
+            Packer::packInt(0b1). // flags, precise = true
             Packer::packBytes($this->fileLocation->toBinary()).
             Packer::packInt($this->offset).
             Packer::packInt($this->limit);

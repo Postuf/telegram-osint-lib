@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class contacts_get_located implements TLClientMessage
 {
-    private const CONSTRUCTOR = 171270230; // 0x0a356056;
+    private const CONSTRUCTOR = 3544759364; // 0xd348bc44;
 
     /** @var float */
     private float $lat;
@@ -33,6 +33,7 @@ class contacts_get_located implements TLClientMessage
     public function toBinary(): string
     {
         return Packer::packConstructor(self::CONSTRUCTOR).
+            Packer::packInt(0).
             (new geo_point($this->lat, $this->lon))->toBinary();
     }
 }
