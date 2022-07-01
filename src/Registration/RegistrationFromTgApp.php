@@ -20,26 +20,35 @@ use TelegramOSINT\TGConnection\Socket\TcpSocket;
 use TelegramOSINT\TGConnection\SocketMessenger\EncryptedSocketMessenger;
 use TelegramOSINT\TGConnection\SocketMessenger\MessageListener;
 use TelegramOSINT\TGConnection\SocketMessenger\SocketMessenger;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_all_drafts;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_app_config;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_attach_menu_bots;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_available_reactions;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_config;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_contact_signup_notification;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_contacts;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_dialog_filters;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_dialogs;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_faved_stickers;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_featured_stickers;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_full_user;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_invite_text;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_langpack;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_languages;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_notify_settings;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_pinned_dialogs;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_premium_proto;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_promodata;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_state;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_statuses;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_terms_of_service_update;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_themes;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_top_peers;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\init_connection;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_notify_broadcasts;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_notify_chats;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_notify_users;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_user_self;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\invoke_with_layer;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\send_sms_code;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\sign_in;
@@ -242,16 +251,24 @@ class RegistrationFromTgApp implements RegisterInterface, MessageListener
             new get_terms_of_service_update(),
             new get_notify_settings(new input_notify_chats()),
             new get_notify_settings(new input_notify_users()),
+            new get_notify_settings(new input_notify_broadcasts()),
             new get_contact_signup_notification(),
             new get_invite_text(),
             new get_pinned_dialogs(),
+            new get_premium_proto(),
             new get_state(),
             new get_app_config(),
+            new get_themes(),
+            new get_available_reactions(),
+            new get_attach_menu_bots(),
+            new get_full_user(new input_user_self()),
             new get_contacts(),
             new get_dialogs(),
             new get_faved_stickers(),
             new get_featured_stickers(),
             new get_top_peers(),
+            new get_dialog_filters(),
+            new get_all_drafts(),
             new get_statuses(),
         ], $cb);
     }
