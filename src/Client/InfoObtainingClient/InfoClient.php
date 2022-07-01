@@ -44,6 +44,8 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_channel;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_peer_photofilelocation;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_peer_user;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_photofilelocation;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_user;
+use TelegramOSINT\TLMessage\TLMessage\ClientMessages\input_user_from_message;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\join_channel;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\messages_search;
 use TelegramOSINT\TLMessage\TLMessage\ServerMessages\AuthorizationSelfUser;
@@ -244,7 +246,7 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
      */
     public function getFullUser(GroupId $id, int $msgId, int $userId, callable $onComplete): void
     {
-        $request = new get_full_user($id->getId(), $id->getAccessHash(), $msgId, $userId);
+        $request = new get_full_user(new input_user_from_message($id->getId(), $id->getAccessHash(), $msgId, $userId));
         $cbUnpacker = static function (AnonymousMessage $msg) use ($onComplete) {
             if (UserFull::isIt($msg)) {
                 $onComplete(null);
@@ -350,7 +352,7 @@ class InfoClient extends ContactKeepingClientImpl implements InfoObtainingClient
      */
     public function getFullUserInfo(ContactUser $user, bool $withPhoto, bool $largePhoto, callable $onComplete): void
     {
-        $fullUserRequest = new get_full_user($user->getUserId(), $user->getAccessHash());
+        $fullUserRequest = new get_full_user(new input_user($user->getUserId(), $user->getAccessHash()));
         $this->basicClient->getConnection()->getResponseAsync($fullUserRequest, function (AnonymousMessage $message) use ($withPhoto, $largePhoto, $onComplete) {
             $userFull = new UserFull($message);
             $this->buildUserInfoModel($userFull->getUser(), $withPhoto, $largePhoto, function (UserInfoModel $model) use ($onComplete, $userFull) {
