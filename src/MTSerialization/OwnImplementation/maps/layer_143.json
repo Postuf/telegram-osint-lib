@@ -7743,363 +7743,6 @@
             "type": "stats.MessageStats"
         },
         {
-            "id": 85337187,
-            "method": "resPQ",
-            "params": [
-                {
-                    "name": "nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "server_nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "pq",
-                    "type": "string"
-                },
-                {
-                    "name": "server_public_key_fingerprints",
-                    "type": "Vector<long>"
-                }
-            ],
-            "type": "ResPQ"
-        },
-        {
-            "id": 2211011308,
-            "method": "p_q_inner_data",
-            "params": [
-                {
-                    "name": "pq",
-                    "type": "string"
-                },
-                {
-                    "name": "p",
-                    "type": "string"
-                },
-                {
-                    "name": "q",
-                    "type": "string"
-                },
-                {
-                    "name": "nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "server_nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "new_nonce",
-                    "type": "int256"
-                }
-            ],
-            "type": "P_Q_inner_data"
-        },
-        {
-            "id": 2851430293,
-            "method": "p_q_inner_data_dc",
-            "params": [
-                {
-                    "name": "pq",
-                    "type": "string"
-                },
-                {
-                    "name": "p",
-                    "type": "string"
-                },
-                {
-                    "name": "q",
-                    "type": "string"
-                },
-                {
-                    "name": "nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "server_nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "new_nonce",
-                    "type": "int256"
-                },
-                {
-                    "name": "dc",
-                    "type": "int"
-                }
-            ],
-            "type": "P_Q_inner_data"
-        },
-        {
-            "id": 1013613780,
-            "method": "p_q_inner_data_temp",
-            "params": [
-                {
-                    "name": "pq",
-                    "type": "string"
-                },
-                {
-                    "name": "p",
-                    "type": "string"
-                },
-                {
-                    "name": "q",
-                    "type": "string"
-                },
-                {
-                    "name": "nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "server_nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "new_nonce",
-                    "type": "int256"
-                },
-                {
-                    "name": "expires_in",
-                    "type": "int"
-                }
-            ],
-            "type": "P_Q_inner_data"
-        },
-        {
-            "id": 1459478408,
-            "method": "p_q_inner_data_temp_dc",
-            "params": [
-                {
-                    "name": "pq",
-                    "type": "string"
-                },
-                {
-                    "name": "p",
-                    "type": "string"
-                },
-                {
-                    "name": "q",
-                    "type": "string"
-                },
-                {
-                    "name": "nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "server_nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "new_nonce",
-                    "type": "int256"
-                },
-                {
-                    "name": "dc",
-                    "type": "int"
-                },
-                {
-                    "name": "expires_in",
-                    "type": "int"
-                }
-            ],
-            "type": "P_Q_inner_data"
-        },
-        {
-            "id": 1973679973,
-            "method": "bind_auth_key_inner",
-            "params": [
-                {
-                    "name": "nonce",
-                    "type": "long"
-                },
-                {
-                    "name": "temp_auth_key_id",
-                    "type": "long"
-                },
-                {
-                    "name": "perm_auth_key_id",
-                    "type": "long"
-                },
-                {
-                    "name": "temp_session_id",
-                    "type": "long"
-                },
-                {
-                    "name": "expires_at",
-                    "type": "int"
-                }
-            ],
-            "type": "BindAuthKeyInner"
-        },
-        {
-            "id": 2043348061,
-            "method": "server_DH_params_fail",
-            "params": [
-                {
-                    "name": "nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "server_nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "new_nonce_hash",
-                    "type": "int128"
-                }
-            ],
-            "type": "Server_DH_Params"
-        },
-        {
-            "id": 3504867164,
-            "method": "server_DH_params_ok",
-            "params": [
-                {
-                    "name": "nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "server_nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "encrypted_answer",
-                    "type": "string"
-                }
-            ],
-            "type": "Server_DH_Params"
-        },
-        {
-            "id": 3045658042,
-            "method": "server_DH_inner_data",
-            "params": [
-                {
-                    "name": "nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "server_nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "g",
-                    "type": "int"
-                },
-                {
-                    "name": "dh_prime",
-                    "type": "string"
-                },
-                {
-                    "name": "g_a",
-                    "type": "string"
-                },
-                {
-                    "name": "server_time",
-                    "type": "int"
-                }
-            ],
-            "type": "Server_DH_inner_data"
-        },
-        {
-            "id": 1715713620,
-            "method": "client_DH_inner_data",
-            "params": [
-                {
-                    "name": "nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "server_nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "retry_id",
-                    "type": "long"
-                },
-                {
-                    "name": "g_b",
-                    "type": "string"
-                }
-            ],
-            "type": "Client_DH_Inner_Data"
-        },
-        {
-            "id": 1003222836,
-            "method": "dh_gen_ok",
-            "params": [
-                {
-                    "name": "nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "server_nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "new_nonce_hash1",
-                    "type": "int128"
-                }
-            ],
-            "type": "Set_client_DH_params_answer"
-        },
-        {
-            "id": 1188831161,
-            "method": "dh_gen_retry",
-            "params": [
-                {
-                    "name": "nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "server_nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "new_nonce_hash2",
-                    "type": "int128"
-                }
-            ],
-            "type": "Set_client_DH_params_answer"
-        },
-        {
-            "id": 2795351554,
-            "method": "dh_gen_fail",
-            "params": [
-                {
-                    "name": "nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "server_nonce",
-                    "type": "int128"
-                },
-                {
-                    "name": "new_nonce_hash3",
-                    "type": "int128"
-                }
-            ],
-            "type": "Set_client_DH_params_answer"
-        },
-        {
-            "id": 4133544404,
-            "method": "destroy_auth_key_ok",
-            "params": [],
-            "type": "DestroyAuthKeyRes"
-        },
-        {
-            "id": 178201177,
-            "method": "destroy_auth_key_none",
-            "params": [],
-            "type": "DestroyAuthKeyRes"
-        },
-        {
-            "id": 3926956819,
-            "method": "destroy_auth_key_fail",
-            "params": [],
-            "type": "DestroyAuthKeyRes"
-        },
-        {
             "id": 1615239032,
             "method": "req_pq",
             "params": [
@@ -26661,6 +26304,363 @@
                 }
             ],
             "type": "help.PremiumPromo"
+        },
+        {
+            "id": 85337187,
+            "predicate": "resPQ",
+            "params": [
+                {
+                    "name": "nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "server_nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "pq",
+                    "type": "string"
+                },
+                {
+                    "name": "server_public_key_fingerprints",
+                    "type": "Vector<long>"
+                }
+            ],
+            "type": "ResPQ"
+        },
+        {
+            "id": 2211011308,
+            "predicate": "p_q_inner_data",
+            "params": [
+                {
+                    "name": "pq",
+                    "type": "string"
+                },
+                {
+                    "name": "p",
+                    "type": "string"
+                },
+                {
+                    "name": "q",
+                    "type": "string"
+                },
+                {
+                    "name": "nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "server_nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "new_nonce",
+                    "type": "int256"
+                }
+            ],
+            "type": "P_Q_inner_data"
+        },
+        {
+            "id": 2851430293,
+            "predicate": "p_q_inner_data_dc",
+            "params": [
+                {
+                    "name": "pq",
+                    "type": "string"
+                },
+                {
+                    "name": "p",
+                    "type": "string"
+                },
+                {
+                    "name": "q",
+                    "type": "string"
+                },
+                {
+                    "name": "nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "server_nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "new_nonce",
+                    "type": "int256"
+                },
+                {
+                    "name": "dc",
+                    "type": "int"
+                }
+            ],
+            "type": "P_Q_inner_data"
+        },
+        {
+            "id": 1013613780,
+            "predicate": "p_q_inner_data_temp",
+            "params": [
+                {
+                    "name": "pq",
+                    "type": "string"
+                },
+                {
+                    "name": "p",
+                    "type": "string"
+                },
+                {
+                    "name": "q",
+                    "type": "string"
+                },
+                {
+                    "name": "nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "server_nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "new_nonce",
+                    "type": "int256"
+                },
+                {
+                    "name": "expires_in",
+                    "type": "int"
+                }
+            ],
+            "type": "P_Q_inner_data"
+        },
+        {
+            "id": 1459478408,
+            "predicate": "p_q_inner_data_temp_dc",
+            "params": [
+                {
+                    "name": "pq",
+                    "type": "string"
+                },
+                {
+                    "name": "p",
+                    "type": "string"
+                },
+                {
+                    "name": "q",
+                    "type": "string"
+                },
+                {
+                    "name": "nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "server_nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "new_nonce",
+                    "type": "int256"
+                },
+                {
+                    "name": "dc",
+                    "type": "int"
+                },
+                {
+                    "name": "expires_in",
+                    "type": "int"
+                }
+            ],
+            "type": "P_Q_inner_data"
+        },
+        {
+            "id": 1973679973,
+            "predicate": "bind_auth_key_inner",
+            "params": [
+                {
+                    "name": "nonce",
+                    "type": "long"
+                },
+                {
+                    "name": "temp_auth_key_id",
+                    "type": "long"
+                },
+                {
+                    "name": "perm_auth_key_id",
+                    "type": "long"
+                },
+                {
+                    "name": "temp_session_id",
+                    "type": "long"
+                },
+                {
+                    "name": "expires_at",
+                    "type": "int"
+                }
+            ],
+            "type": "BindAuthKeyInner"
+        },
+        {
+            "id": 2043348061,
+            "predicate": "server_DH_params_fail",
+            "params": [
+                {
+                    "name": "nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "server_nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "new_nonce_hash",
+                    "type": "int128"
+                }
+            ],
+            "type": "Server_DH_Params"
+        },
+        {
+            "id": 3504867164,
+            "predicate": "server_DH_params_ok",
+            "params": [
+                {
+                    "name": "nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "server_nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "encrypted_answer",
+                    "type": "string"
+                }
+            ],
+            "type": "Server_DH_Params"
+        },
+        {
+            "id": 3045658042,
+            "predicate": "server_DH_inner_data",
+            "params": [
+                {
+                    "name": "nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "server_nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "g",
+                    "type": "int"
+                },
+                {
+                    "name": "dh_prime",
+                    "type": "string"
+                },
+                {
+                    "name": "g_a",
+                    "type": "string"
+                },
+                {
+                    "name": "server_time",
+                    "type": "int"
+                }
+            ],
+            "type": "Server_DH_inner_data"
+        },
+        {
+            "id": 1715713620,
+            "predicate": "client_DH_inner_data",
+            "params": [
+                {
+                    "name": "nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "server_nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "retry_id",
+                    "type": "long"
+                },
+                {
+                    "name": "g_b",
+                    "type": "string"
+                }
+            ],
+            "type": "Client_DH_Inner_Data"
+        },
+        {
+            "id": 1003222836,
+            "predicate": "dh_gen_ok",
+            "params": [
+                {
+                    "name": "nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "server_nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "new_nonce_hash1",
+                    "type": "int128"
+                }
+            ],
+            "type": "Set_client_DH_params_answer"
+        },
+        {
+            "id": 1188831161,
+            "predicate": "dh_gen_retry",
+            "params": [
+                {
+                    "name": "nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "server_nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "new_nonce_hash2",
+                    "type": "int128"
+                }
+            ],
+            "type": "Set_client_DH_params_answer"
+        },
+        {
+            "id": 2795351554,
+            "predicate": "dh_gen_fail",
+            "params": [
+                {
+                    "name": "nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "server_nonce",
+                    "type": "int128"
+                },
+                {
+                    "name": "new_nonce_hash3",
+                    "type": "int128"
+                }
+            ],
+            "type": "Set_client_DH_params_answer"
+        },
+        {
+            "id": 4133544404,
+            "predicate": "destroy_auth_key_ok",
+            "params": [],
+            "type": "DestroyAuthKeyRes"
+        },
+        {
+            "id": 178201177,
+            "predicate": "destroy_auth_key_none",
+            "params": [],
+            "type": "DestroyAuthKeyRes"
+        },
+        {
+            "id": 3926956819,
+            "predicate": "destroy_auth_key_fail",
+            "params": [],
+            "type": "DestroyAuthKeyRes"
         },
         {
             "id": 1658238041,
