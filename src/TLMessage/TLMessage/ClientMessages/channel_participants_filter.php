@@ -20,7 +20,6 @@ class channel_participants_filter implements TLClientMessage
 
     public const PARTICIPANTS_MENTIONS = 3763035371;
 
-
     /** @var int */
     private int $constructor;
     /** @var string|null */
