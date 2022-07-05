@@ -18660,9 +18660,17 @@
             "type": "messages.FeaturedStickers"
         },
         {
-            "id": 2227184400,
+            "id": 3191351558,
             "predicate": "messages.featuredStickers",
             "params": [
+                {
+                    "name": "flags",
+                    "type": "#"
+                },
+                {
+                    "name": "premium",
+                    "type": "flags.0?true"
+                },
                 {
                     "name": "hash",
                     "type": "long"

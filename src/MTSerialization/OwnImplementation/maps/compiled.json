@@ -44334,7 +44334,8 @@
                 }
             ],
             "type": "messages.FeaturedStickers",
-            "last_layer": 143
+            "first_layer": 133,
+            "last_layer": 140
         },
         {
             "id": 2295561302,
@@ -48380,6 +48381,38 @@
                 }
             ],
             "type": "BotInfo",
+            "last_layer": 143
+        },
+        {
+            "id": 3191351558,
+            "predicate": "messages.featuredStickers",
+            "params": [
+                {
+                    "name": "flags",
+                    "type": "#"
+                },
+                {
+                    "name": "premium",
+                    "type": "flags.0?true"
+                },
+                {
+                    "name": "hash",
+                    "type": "long"
+                },
+                {
+                    "name": "count",
+                    "type": "int"
+                },
+                {
+                    "name": "sets",
+                    "type": "Vector<StickerSetCovered>"
+                },
+                {
+                    "name": "unread",
+                    "type": "Vector<long>"
+                }
+            ],
+            "type": "messages.FeaturedStickers",
             "last_layer": 143
         },
         {
