@@ -14,8 +14,7 @@ class get_full_user implements TLClientMessage
 {
     public const CONSTRUCTOR = 3054459160;
     private input_user_common $inputUser;
-
-
+    
     public function __construct(input_user_common $inputUser)
     {
         $this->inputUser = $inputUser;

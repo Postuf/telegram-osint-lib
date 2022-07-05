@@ -31,6 +31,5 @@ class send_sms_code_settings implements TLClientMessage
         return
             Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packInt($flags);
-
     }
 }

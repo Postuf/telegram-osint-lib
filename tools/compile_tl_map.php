@@ -2,7 +2,7 @@
 
 const OUTPUT_FILE = 'compiled.json';
 
-function getMapNodes(string $filename, array &$map, ?int $lastLayer=null)
+function getMapNodes(string $filename, array &$map, ?int $lastLayer = null)
 {
     $raw_entities = json_decode(file_get_contents($filename), true);
     $constructors = $raw_entities['constructors'];
@@ -10,14 +10,14 @@ function getMapNodes(string $filename, array &$map, ?int $lastLayer=null)
 
     foreach ($constructors as $constructor) {
         $id = hexdec(str_ireplace('ffffffff', '', dechex($constructor['id'])));
-        if($lastLayer) {
+        if ($lastLayer) {
             $constructor['last_layer'] = intval($lastLayer);
         }
         $map['constructors'][$id] = $constructor;
     }
     foreach ($methods as $method) {
         $id = hexdec(str_ireplace('ffffffff', '', dechex($method['id'])));
-        if($lastLayer) {
+        if ($lastLayer) {
             $method['last_layer'] = intval($lastLayer);
         }
         $map['methods'][$id] = $method;

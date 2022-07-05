@@ -58,8 +58,7 @@ class channel_participants_filter implements TLClientMessage
             if ($flags & 2) {
                 $binary .= Packer::packInt($this->topMsgId);
             }
-        }
-        elseif (!in_array($this->constructor, [self::PARTICIPANTS_RECENT, self::PARTICIPANTS_ADMINS, self::PARTICIPANTS_BOTS])) {
+        } elseif (!in_array($this->constructor, [self::PARTICIPANTS_RECENT, self::PARTICIPANTS_ADMINS, self::PARTICIPANTS_BOTS])) {
             $binary .= Packer::packString($this->query);
         }
 

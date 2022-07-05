@@ -49,7 +49,7 @@ class register_device_push implements TLClientMessage
      */
     public function toBinary(): string
     {
-            return
+        return
                 Packer::packConstructor(self::CONSTRUCTOR).
                 Packer::packInt(0). // flags , no_muted=false
                 Packer::packInt(2). // token_type, 2 - FCM (firebase token for google firebase)
