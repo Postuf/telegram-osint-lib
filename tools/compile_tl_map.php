@@ -12,6 +12,8 @@ function getMapNodes(string $filename, array &$map, ?int $lastLayer = null)
         $id = hexdec(str_ireplace('ffffffff', '', dechex($constructor['id'])));
         if ($lastLayer) {
             $constructor['last_layer'] = intval($lastLayer);
+            $constructor['first_layer'] = isset($map['constructors'][$id]) ?
+                intval($map['constructors'][$id]['first_layer']) : $lastLayer;
         }
         $map['constructors'][$id] = $constructor;
     }
@@ -19,6 +21,8 @@ function getMapNodes(string $filename, array &$map, ?int $lastLayer = null)
         $id = hexdec(str_ireplace('ffffffff', '', dechex($method['id'])));
         if ($lastLayer) {
             $method['last_layer'] = intval($lastLayer);
+            $method['first_layer'] = isset($map['methods'][$id]) ?
+                intval($map['methods'][$id]['first_layer']) : $lastLayer;
         }
         $map['methods'][$id] = $method;
     }
