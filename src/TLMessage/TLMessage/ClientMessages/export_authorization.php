@@ -21,11 +21,11 @@ class export_authorization implements TLClientMessage
     /**
      * export_authorization constructor.
      *
-     * @param int $foreignDdIc
+     * @param int $foreignDcId
      */
-    public function __construct(int $foreignDdIc)
+    public function __construct(int $foreignDcId)
     {
-        $this->foreignDcId = $foreignDdIc;
+        $this->foreignDcId = $foreignDcId;
     }
 
     public function getName(): string

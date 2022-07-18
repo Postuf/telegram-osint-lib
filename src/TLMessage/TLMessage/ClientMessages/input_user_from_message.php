@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 
 use TelegramOSINT\TLMessage\TLMessage\Packer;
-use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 /**
  * @see https://core.telegram.org/type/InputUser
  */
-class input_user_from_message implements TLClientMessage
+class input_user_from_message extends input_user_common
 {
     private const CONSTRUCTOR = 497305826;
 

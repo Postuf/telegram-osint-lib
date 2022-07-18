@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class send_sms_code_settings implements TLClientMessage
 {
-    private const CONSTRUCTOR = -557924733; // 0xDEBEBE83
+    private const CONSTRUCTOR = 2321836482; // 0x8a6469c2
 
     public function getName(): string
     {
@@ -21,11 +21,15 @@ class send_sms_code_settings implements TLClientMessage
 
     public function toBinary(): string
     {
-        // include sms-token in sms text
-        $bitMask = 16;
+        // allow_flashcall = false
+        // current_number = false
+        // allow_app_hash = true, include sms-token in sms text
+        // allow_missed_call = false
+        // logout_tokens = false
+        $flags = 0b00010000;
 
         return
             Packer::packConstructor(self::CONSTRUCTOR).
-            Packer::packInt($bitMask);
+            Packer::packInt($flags);
     }
 }

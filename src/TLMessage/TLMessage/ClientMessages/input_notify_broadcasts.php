@@ -7,14 +7,14 @@ namespace TelegramOSINT\TLMessage\TLMessage\ClientMessages;
 use TelegramOSINT\TLMessage\TLMessage\Packer;
 use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
-/** @see https://core.telegram.org/method/contacts.resetSaved */
-class reset_saved_contacts implements TLClientMessage
+/** @see https://core.telegram.org/constructor/inputNotifyBroadcasts */
+class input_notify_broadcasts implements TLClientMessage
 {
-    public const CONSTRUCTOR = 2274703345; // 0x879537f1
+    public const CONSTRUCTOR = 2983951486;
 
     public function getName(): string
     {
-        return 'reset_saved';
+        return 'input_notify_broadcasts';
     }
 
     public function toBinary(): string

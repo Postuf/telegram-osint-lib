@@ -35,7 +35,7 @@ class get_all_chats implements TLClientMessage
     private function getElementGenerator(): callable
     {
         return static function ($exceptId) {
-            return Packer::packInt((int) $exceptId);
+            return Packer::packLong((int) $exceptId);
         };
     }
 

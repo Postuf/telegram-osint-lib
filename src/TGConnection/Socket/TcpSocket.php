@@ -109,8 +109,8 @@ class TcpSocket implements Socket
     {
         if ($this->cb) {
             $cb = $this->cb;
-            $cb();
             $this->cb = null;
+            $cb();
         }
     }
 

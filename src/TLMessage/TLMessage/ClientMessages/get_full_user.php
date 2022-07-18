@@ -13,25 +13,11 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 class get_full_user implements TLClientMessage
 {
     public const CONSTRUCTOR = 3054459160;
-    private int $userId;
-    private int $accessHash;
-    /** @var int|null */
-    private ?int $realUserId;
-    /** @var int|null */
-    private ?int $msgId;
+    private input_user_common $inputUser;
 
-    /**
-     * @param int      $userId
-     * @param int      $accessHash
-     * @param int|null $msgId      if this is passed, $userId and $accessHash are interpreted as
-     * @param int|null $realUserId
-     */
-    public function __construct(int $userId, int $accessHash, ?int $msgId = null, ?int $realUserId = null)
+    public function __construct(input_user_common $inputUser)
     {
-        $this->userId = $userId;
-        $this->accessHash = $accessHash;
-        $this->msgId = $msgId;
-        $this->realUserId = $realUserId;
+        $this->inputUser = $inputUser;
     }
 
     public function getName(): string
@@ -43,10 +29,6 @@ class get_full_user implements TLClientMessage
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).
-            (
-                $this->msgId
-                ? (new input_user_from_message($this->userId, $this->accessHash, $this->msgId, $this->realUserId))->toBinary()
-                : (new input_user($this->userId, $this->accessHash))->toBinary()
-            );
+            $this->inputUser->toBinary();
     }
 }
