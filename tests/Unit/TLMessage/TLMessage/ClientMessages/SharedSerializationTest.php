@@ -128,7 +128,7 @@ class SharedSerializationTest extends TestCase
     public function test_sign_in_serialization(): void
     {
         self::assertEquals(
-            '8115d5bc09393338343332393035000011323334373935747968737075676872657700000533343533340000',
+            '51a9528d0100000009393338343332393035000011323334373935747968737075676872657700000533343533340000',
             bin2hex((new sign_in('938432905', '234795tyhspughrew', '34534'))->toBinary())
         );
     }
