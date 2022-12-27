@@ -21,6 +21,15 @@ class UpdateUserName extends TLServerMessage
 
     public function getUsername(): string
     {
-        return $this->getTlMessage()->getValue('username');
+        // for compatibility with old object version
+        if ($this->getTlMessage()->hasNode('username')) {
+            return $this->getTlMessage()->getValue('username');
+        }
+        // from layer 148
+        $userNames = $this->getTlMessage()->getNodes('usernames');
+        if (empty($userNames)) {
+            return '';
+        }
+        return $userNames[0]->getValue('username');
     }
 }

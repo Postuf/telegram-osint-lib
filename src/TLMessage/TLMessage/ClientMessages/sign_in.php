@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class sign_in implements TLClientMessage
 {
-    public const CONSTRUCTOR = 3168081281; // 0xbcd51581
+    public const CONSTRUCTOR = 2371004753; // 0x8d52a951
 
     private string $phone;
     private string $phoneHash;
@@ -41,6 +41,7 @@ class sign_in implements TLClientMessage
     {
         return
             Packer::packConstructor(self::CONSTRUCTOR).
+            Packer::packInt(0b1). // phone_code = true, email_verification = false
             Packer::packString($this->phone).
             Packer::packString($this->phoneHash).
             Packer::packString($this->smsCode);
