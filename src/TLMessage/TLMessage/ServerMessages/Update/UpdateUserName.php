@@ -30,6 +30,7 @@ class UpdateUserName extends TLServerMessage
         if (empty($userNames)) {
             return '';
         }
+
         return $userNames[0]->getValue('username');
     }
 }
