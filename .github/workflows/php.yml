@@ -43,4 +43,4 @@ jobs:
     - name: Upload codecov
       uses: codecov/codecov-action@v3
       with:
-        files: ./coverage.xml
+        files: ./tests/coverage.xml
