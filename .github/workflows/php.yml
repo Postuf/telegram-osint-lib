@@ -41,5 +41,9 @@ jobs:
       run: ./run-tests.sh
 
     - name: Run codecov
-      shell: bash
-      run: bash <(curl -s https://codecov.io/bash)
+      uses: codecov/codecov-action@v3
+      with:
+        name: codecov-umbrella
+        env_vars: OS,PHP
+        flags: unittests
+
