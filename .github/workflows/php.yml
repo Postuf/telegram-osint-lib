@@ -40,10 +40,7 @@ jobs:
       shell: bash
       run: ./run-tests.sh
 
-    - name: Run codecov
+    - name: Upload codecov
       uses: codecov/codecov-action@v3
       with:
-        name: codecov-umbrella
-        env_vars: OS,PHP
-        flags: unittests
-
+        files: ./coverage.xml
