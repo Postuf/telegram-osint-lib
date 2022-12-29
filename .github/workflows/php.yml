@@ -42,7 +42,7 @@ jobs:
 
     - name: Echo coverage
       shell: bash
-      run: echo ./tests/coverage.xml
+      run: cat ./tests/coverage.xml
 
     - name: Upload codecov
       uses: codecov/codecov-action@v3
