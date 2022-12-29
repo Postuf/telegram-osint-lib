@@ -40,9 +40,11 @@ jobs:
       shell: bash
       run: ./run-tests.sh
 
-    - name: Upload codecov
-      uses: codecov/codecov-action@v3
+    - name: Echo coverage
       shell: bash
       run: echo ./tests/coverage.xml
+
+    - name: Upload codecov
+      uses: codecov/codecov-action@v3
       with:
         files: ./tests/coverage.xml
