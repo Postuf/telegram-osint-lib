@@ -40,6 +40,16 @@ jobs:
       shell: bash
       run: ./run-tests.sh
 
+    - name: PHPUnit Tests
+      uses: php-actions/phpunit@v3
+      env:
+        XDEBUG_MODE: coverage
+      with:
+        bootstrap: ./vendor/autoload.php
+        configuration: ./tests/phpunit.config.xml
+        php_extensions: xdebug
+        args: tests --coverage-clover ./tests/coverage.xml
+
     - name: Echo coverage
       shell: bash
       run: cat ./tests/coverage.xml
