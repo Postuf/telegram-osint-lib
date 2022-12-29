@@ -40,21 +40,6 @@ jobs:
       shell: bash
       run: ./run-tests.sh
 
-    - name: PHPUnit Tests
-      uses: php-actions/phpunit@v3
-      env:
-        XDEBUG_MODE: coverage
-      with:
-        bootstrap: ./vendor/autoload.php
-        configuration: ./tests/phpunit.config.xml
-        php_extensions: xdebug
-        args: tests --coverage-clover ./tests/coverage.xml
-
-    - name: Echo coverage
+    - name: Run codecov
       shell: bash
-      run: cat ./tests/coverage.xml
-
-    - name: Upload codecov
-      uses: codecov/codecov-action@v3
-      with:
-        files: ./tests/coverage.xml
+      run: bash <(curl -s https://codecov.io/bash)
