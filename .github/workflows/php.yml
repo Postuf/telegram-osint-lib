@@ -42,5 +42,7 @@ jobs:
 
     - name: Upload codecov
       uses: codecov/codecov-action@v3
+      shell: bash
+      run: echo ./tests/coverage.xml
       with:
         files: ./tests/coverage.xml
