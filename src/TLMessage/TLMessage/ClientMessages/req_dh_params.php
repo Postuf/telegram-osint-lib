@@ -9,7 +9,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class req_dh_params implements TLClientMessage
 {
-    public const CONSTRUCTOR = 0xD712E4BE;
+    public const CONSTRUCTOR = 3608339646;
 
     private int $p;
     private int $q;

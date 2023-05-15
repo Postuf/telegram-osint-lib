@@ -48,13 +48,13 @@ class LibConfig
 
     public const APP_DEFAULT_DEVICE_LANG_CODE = 'en-us';
     public const APP_DEFAULT_LANG_CODE = 'en';
-    public const APP_DEFAULT_VERSION = '9.9.2';
+    public const APP_DEFAULT_VERSION = '9.6.5';
     // see https://www.apkmirror.com/apk/telegram-fz-llc/telegram/telegram-8-8-0-release/
     // universal for android 6+ has 5th digit always "2"
-    public const APP_DEFAULT_VERSION_CODE = '29652';
+    public const APP_DEFAULT_VERSION_CODE = '33562';
     public const APP_DEFAULT_LANG_PACK = 'android';
     // https://schema.horner.tj
-    public const APP_DEFAULT_TL_LAYER_VERSION = 150;
+    public const APP_DEFAULT_TL_LAYER_VERSION = 158;
 
     public const ENV_AUTHKEY = 'BOT'; // env variable for authkey path
 }

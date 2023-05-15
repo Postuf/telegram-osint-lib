@@ -100,8 +100,11 @@ class TcpSocket implements Socket
 
     public function terminate(): void
     {
-        @stream_socket_shutdown($this->socket, STREAM_SHUT_RDWR);
-        @socket_close($this->socket);
+        if ($this->socket) {
+            @stream_socket_shutdown($this->socket, STREAM_SHUT_RDWR);
+            @fclose($this->socket);
+        }
+        $this->socket = null;
         $this->isTerminated = true;
     }
 

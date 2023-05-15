@@ -10,7 +10,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class ping implements TLClientMessage
 {
-    private const CONSTRUCTOR = 0x7ABE77EC;
+    private const CONSTRUCTOR = 2059302892;
 
     /**
      * @var string

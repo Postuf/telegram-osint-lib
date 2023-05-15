@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class set_client_dh_params implements TLClientMessage
 {
-    public const CONSTRUCTOR = 0xF5045F1F;
+    public const CONSTRUCTOR = 4110704415;
 
     private string $oldClientNonce;
     private string $serverNonce;

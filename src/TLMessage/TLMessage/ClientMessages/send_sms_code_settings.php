@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class send_sms_code_settings implements TLClientMessage
 {
-    private const CONSTRUCTOR = 2321836482; // 0x8a6469c2
+    private const CONSTRUCTOR = 2904898936; // 0x8a6469c2
 
     public function getName(): string
     {
