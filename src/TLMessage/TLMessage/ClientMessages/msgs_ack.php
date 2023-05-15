@@ -9,7 +9,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 
 class msgs_ack implements TLClientMessage
 {
-    private const CONSTRUCTOR = 0x62D6B459;
+    private const CONSTRUCTOR = 1658238041;
 
     /**
      * @param array $msgIds

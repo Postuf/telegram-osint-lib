@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class p_q_inner_data implements TLClientMessage
 {
-    private const CONSTRUCTOR = 0x83C95AEC;
+    private const CONSTRUCTOR = 2211011308;
 
     private int $pq;
     private int $p;

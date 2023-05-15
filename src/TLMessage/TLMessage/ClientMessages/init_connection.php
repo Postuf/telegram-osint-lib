@@ -77,6 +77,10 @@ class init_connection implements TLClientMessage
             'tz_offset',
             new json_object_value_number(0)
         );
+        $perf_cat = new json_object_value(
+            'perf_cat',
+            new json_object_value_number(4)
+        );
 
         return new json_object([
             $device_token,
@@ -84,6 +88,7 @@ class init_connection implements TLClientMessage
             $installer,
             $package_id,
             $tz_offset,
+            $perf_cat
         ]);
     }
 }

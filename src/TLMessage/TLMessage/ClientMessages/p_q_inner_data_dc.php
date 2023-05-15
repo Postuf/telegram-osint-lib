@@ -10,7 +10,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
 /** @see https://tl.telethon.dev/constructors/p_q_inner_data_dc.html */
 class p_q_inner_data_dc implements TLClientMessage
 {
-    private const CONSTRUCTOR = 0xA9F55F95;
+    private const CONSTRUCTOR = 2851430293;
 
     private int $pq;
     private int $p;
