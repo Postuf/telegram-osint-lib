@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class send_message implements TLClientMessage
 {
-    private const CONSTRUCTOR = 482476935;
+    private const CONSTRUCTOR = 671943023;
 
     /** @var input_peer */
     private input_peer $inputPeer;

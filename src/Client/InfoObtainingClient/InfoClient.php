@@ -30,7 +30,6 @@ use TelegramOSINT\TLMessage\TLMessage\ClientMessages\contacts_get_located;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\contacts_resolve_username;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\contacts_search;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\export_authorization;
-use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_all_chats;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_common_chats;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_config;
 use TelegramOSINT\TLMessage\TLMessage\ClientMessages\get_file;

@@ -53,11 +53,11 @@ class DeviceResource
 
     public static function getMinSdkVersion(): int
     {
-        return 26;
+        return 28;
     }
 
     public static function getMaxSdkVersion(): int
     {
-        return 30;
+        return 34;
     }
 }

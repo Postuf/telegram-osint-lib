@@ -3,6 +3,7 @@
 namespace TelegramOSINT\Registration;
 
 use JsonException;
+use TelegramOSINT\Client\AuthKey\AuthorizedAuthKey;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\LibConfig;
 use TelegramOSINT\Registration\DeviceGenerator\DeviceResource;
@@ -60,6 +61,15 @@ class AccountInfo
         $acc->layerVersion = LibConfig::APP_DEFAULT_TL_LAYER_VERSION;
 
         return $acc;
+    }
+
+    public static function generateFromAuthKey(AuthorizedAuthKey $authKey): self
+    {
+        $base = self::generate();
+        $base->device = $authKey->getAccountInfo()->getDevice();
+        $base->firstName = $authKey->getAccountInfo()->firstName;
+        $base->lastName = $authKey->getAccountInfo()->lastName;
+        return $base;
     }
 
     /**

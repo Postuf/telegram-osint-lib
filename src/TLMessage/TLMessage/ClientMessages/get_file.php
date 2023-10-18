@@ -12,7 +12,7 @@ use TelegramOSINT\TLMessage\TLMessage\TLClientMessage;
  */
 class get_file implements TLClientMessage
 {
-    public const CONSTRUCTOR = 2975505148;
+    public const CONSTRUCTOR = 3193124286;
 
     private TLClientMessage $fileLocation;
     private int $offset;
@@ -32,7 +32,7 @@ class get_file implements TLClientMessage
 
     public function getName(): string
     {
-        return 'get_file';
+        return 'upload.getFile';
     }
 
     public function toBinary(): string
@@ -41,7 +41,7 @@ class get_file implements TLClientMessage
             Packer::packConstructor(self::CONSTRUCTOR).
             Packer::packInt(0b1). // flags, precise = true
             Packer::packBytes($this->fileLocation->toBinary()).
-            Packer::packInt($this->offset).
+            Packer::packLong($this->offset).
             Packer::packInt($this->limit);
     }
 }
