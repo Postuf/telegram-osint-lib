@@ -3,6 +3,7 @@
 namespace TelegramOSINT\Client\BasicClient;
 
 use TelegramOSINT\Client\AuthKey\AuthKey;
+use TelegramOSINT\Client\AuthKey\AuthorizedAuthKey;
 use TelegramOSINT\Exception\TGException;
 use TelegramOSINT\LibConfig;
 use TelegramOSINT\Logger\ClientDebugLogger;
@@ -126,7 +127,11 @@ class BasicClientImpl implements BasicClient, MessageListener
 
     private function bumpProtocolVersion(): void
     {
-        $initConnection = new init_connection(AccountInfo::generate(), new get_config());
+        $accountInfo = $this->authKey instanceof AuthorizedAuthKey ?
+            AccountInfo::generateFromAuthKey($this->authKey) :
+            AccountInfo::generate();
+
+        $initConnection = new init_connection($accountInfo, new get_config());
         $requestWithLayer = new invoke_with_layer(LibConfig::APP_DEFAULT_TL_LAYER_VERSION, $initConnection);
         /** @noinspection NullPointerExceptionInspection */
         $this->getConnection()->getResponseAsync($requestWithLayer, static function (AnonymousMessage $response) {});
